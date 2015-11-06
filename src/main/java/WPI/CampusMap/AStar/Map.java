@@ -1,6 +1,9 @@
 package WPI.CampusMap.AStar;
 
+import java.awt.print.Book;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 public class Map {
 
@@ -57,7 +60,31 @@ public class Map {
 		frontier.add(new Node(start, null, 0));
 
 		while (!frontier.isEmpty()) {
+			Collections.sort(frontier, new Comparator<Node>() {
+				public int compare(Node n1, Node n2) {
+					if (n1.getCumulativeDist() < n2.getCumulativeDist()) {
+						return -1;
+					} else if (n1.getCumulativeDist() > n2.getCumulativeDist()) {
+						return 1;
+					} else {
+						return 0;
+					}
+				}
+			});
 
+			explored.add(frontier.get(0));
+			frontier.remove(0);
 		}
+
+		return new Path(null);
+	}
+
+	public static void main(String[] args) {
+		String file = "hi";
+		Point[] map = new Point[1];
+		map[0] = new Point(null, file, 0);
+		Map test = new Map(file, map);
+
+		test.astar(new Point(null, file, 0), new Point(null, file, 0));
 	}
 }

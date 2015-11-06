@@ -11,6 +11,7 @@ public class Node {
 	public Node(Point point, Node parent, float cumulativeDist) {
 		this.point = point;
 		this.parent = parent;
+		this.cumulativeDist = cumulativeDist;
 	}
 
 	public Point getPoint() {
