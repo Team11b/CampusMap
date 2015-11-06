@@ -1,22 +1,41 @@
 package WPI.CampusMap.AStar;
 
+import java.util.ArrayList;
+
 public class Path {
 
-	private Node path;
+	private ArrayList<Node> path;
 
-	public Path(Node path) {
+	public Path(ArrayList<Node> path) {
 		this.path = path;
+	}
+	
+	public boolean addNode(Node node){
+		return path.add(node);
 	}
 
 	public Path getTurns() {
-		return new Path(null); // TODO: getTurns()
+		ArrayList<Node> temp = new ArrayList<Node>();
+		Node first = path.get(0);
+		Node last = path.get(path.size());
+
+		temp.add(first);
+		for (int i = 1; i < path.size(); i++) {
+			
+		}
+		
+		return null;
+	}
+	
+	public Coord getNodePointCoord(Node node){
+		return node.getPoint().getCoord();
 	}
 
-	public Node getPath() {
+	public ArrayList<Node> getPath() {
 		return path;
 	}
 
-	public void setPath(Node path) {
+	public void setPath(ArrayList<Node> path) {
 		this.path = path;
 	}
 
