@@ -33,7 +33,24 @@ public class App
 			putValue(SHORT_DESCRIPTION, "Some short description");
 		}
 		public void actionPerformed(ActionEvent e) {
-			System.out.println(e);
+			switch(e.getActionCommand()){
+				case "Email":
+					System.out.println("Send an Email!");
+					break;
+				case "Map":
+					System.out.println("Map");
+					break;
+				case "Edit":
+					System.out.println("Edit");
+					break;
+				case "Get Directions":
+					System.out.println("Get Directions");
+					break;
+				case "Print":
+					System.out.println("Print");
+					break;
+				default:
+			}
 		}
 	}
 		
@@ -50,15 +67,17 @@ public class App
     	mainPanel.setLayout(null);
     	
     	JButton btnMap = new JButton("Map");
+    	btnMap.addActionListener(actionHandler);
     	btnMap.setBounds(402, 5, 75, 29);
     	mainPanel.add(btnMap);
     	
     	JButton btnEdit = new JButton("Edit");
+    	btnEdit.addActionListener(actionHandler);
     	btnEdit.setBounds(464, 5, 75, 29);
     	mainPanel.add(btnEdit);
     	
     	JButton btnGetDirections = new JButton("Get Directions");
-    	btnGetDirections.addActionListener(new SwingAction());
+    	btnGetDirections.addActionListener(actionHandler);
     	btnGetDirections.setBounds(399, 520, 134, 29);
     	mainPanel.add(btnGetDirections);
     	
@@ -118,6 +137,7 @@ public class App
     	directionsPanel.add(btnEmail);
     	
     	JButton btnPrint = new JButton("Print");
+    	btnPrint.addActionListener(actionHandler);
     	btnPrint.setBounds(114, 520, 117, 29);
     	directionsPanel.add(btnPrint);
     	
