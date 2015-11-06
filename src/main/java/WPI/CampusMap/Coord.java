@@ -6,12 +6,11 @@ public class Coord {
 
 	public Coord(float x, float y) {
 		this.x = x;
-		this.x = y;
+		this.y = y;
 	}
 
 	public float distance(Coord p1, Coord p2) {
-		return (float) Math.sqrt(Math.pow(2, p2.getY() + p1.getY()) + Math.pow(2, p2.getX() + p1.getX()));
-
+		return (float) Math.sqrt(Math.pow(p2.getY() - p1.getY(), 2) + Math.pow(p2.getX() - p1.getX(), 2));
 	}
 
 	public float getX() {
