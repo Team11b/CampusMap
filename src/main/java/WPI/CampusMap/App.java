@@ -8,6 +8,9 @@ import javax.swing.JToggleButton;
 import javax.swing.JButton;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
+
+import com.sun.javafx.geom.Rectangle;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
@@ -148,7 +151,7 @@ public class App
     	//separator.setBounds(100, 100, 174, 246);
     	frame.getContentPane().add(separator);
     	
-    	frame.setSize(800, 600);
+    	frame.setSize(1280, 720);
     	frame.setVisible(true);
    
     }
