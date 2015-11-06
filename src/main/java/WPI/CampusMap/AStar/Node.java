@@ -5,6 +5,8 @@ public class Node {
 	private Node parent;
 	private int heuristic = 0;
 	private float cumulativeDist;
+	
+	public static final int stdH = 0;
 
 	public Node(Point point, Node parent, float cumulativeDist) {
 		this.point = point;
