@@ -27,9 +27,20 @@ import javax.swing.ImageIcon;
  */
 public class App 
 {
+	private static class SwingAction extends AbstractAction {
+		public SwingAction() {
+			putValue(NAME, "SwingAction");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+		public void actionPerformed(ActionEvent e) {
+			System.out.println(e);
+		}
+	}
 		
     public static void main( String[] args )
     {
+    	SwingAction actionHandler = new App.SwingAction();
+    	
     	final JFrame frame = new JFrame("Path Finder");
     	frame.getContentPane().setLayout(null);
     	
@@ -47,6 +58,7 @@ public class App
     	mainPanel.add(btnEdit);
     	
     	JButton btnGetDirections = new JButton("Get Directions");
+    	btnGetDirections.addActionListener(new SwingAction());
     	btnGetDirections.setBounds(399, 520, 134, 29);
     	mainPanel.add(btnGetDirections);
     	
@@ -101,6 +113,7 @@ public class App
     	directionsPanel.add(lblDirections);
     	
     	JButton btnEmail = new JButton("Email");
+    	btnEmail.addActionListener(actionHandler);
     	btnEmail.setBounds(0, 520, 117, 29);
     	directionsPanel.add(btnEmail);
     	
@@ -117,15 +130,6 @@ public class App
     	
     	frame.setSize(800, 600);
     	frame.setVisible(true);
-
-        
+   
     }
-	private class SwingAction extends AbstractAction {
-		public SwingAction() {
-			putValue(NAME, "SwingAction");
-			putValue(SHORT_DESCRIPTION, "Some short description");
-		}
-		public void actionPerformed(ActionEvent e) {
-		}
-	}
 }
