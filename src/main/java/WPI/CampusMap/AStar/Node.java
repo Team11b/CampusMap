@@ -4,8 +4,9 @@ public class Node {
 	private Point point;
 	private Node parent;
 	private int heuristic = 0;
+	private float cumulativeDist;
 
-	public Node(Point point, Node parent) {
+	public Node(Point point, Node parent, float cumulativeDist) {
 		this.point = point;
 		this.parent = parent;
 	}
@@ -34,4 +35,13 @@ public class Node {
 		this.heuristic = heuristic;
 	}
 
+	public float getCumulativeDist() {
+		return cumulativeDist;
+	}
+
+	public void setCumulativeDist(float cumulativeDist) {
+		this.cumulativeDist = cumulativeDist;
+	}
+
+	 
 }
