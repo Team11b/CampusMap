@@ -10,6 +10,16 @@ import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+import java.awt.event.ActionEvent;
+
+import javax.imageio.ImageIO;
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.ImageIcon;
 
 /**
  * Hello world!
@@ -17,12 +27,13 @@ import java.awt.Dimension;
  */
 public class App 
 {
+		
     public static void main( String[] args )
     {
-    	JFrame frame = new JFrame("HelloWorldSwing");
+    	final JFrame frame = new JFrame("Path Finder");
     	frame.getContentPane().setLayout(null);
     	
-    	JPanel mainPanel = new JPanel();
+    	final JPanel mainPanel = new JPanel();
     	mainPanel.setBounds(6, 6, 539, 555);
     	frame.getContentPane().add(mainPanel);
     	mainPanel.setLayout(null);
@@ -40,10 +51,47 @@ public class App
     	mainPanel.add(btnGetDirections);
     	
     	JLabel lblMapviewGoesHere = new JLabel("MapView goes here.");
-    	lblMapviewGoesHere.setBounds(218, 286, 146, 16);
+    	lblMapviewGoesHere.setBounds(150, 44, 146, 16);
     	mainPanel.add(lblMapviewGoesHere);
     	
-    	JPanel directionsPanel = new JPanel();
+    	//load map    	
+        System.out.println(System.getProperty("user.dir"));
+
+    	//picture init code
+        BufferedImage myPicture = null;
+        try {
+			myPicture = ImageIO.read(new File("walkingmap.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} 
+    	final JLabel lblPicLabel = new JLabel(new ImageIcon(myPicture));
+    	lblPicLabel.setBounds(115, 86, 311, 389);
+    	mainPanel.add(lblPicLabel);
+    	lblPicLabel.setVisible(false);
+    	
+    	//map button code    	
+    	JButton btnLoadMap = new JButton("load map");
+    	btnLoadMap.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent arg0) 
+    		{
+    	        if(lblPicLabel.isVisible()== true)
+    	        {
+    	        	lblPicLabel.setVisible(false);
+    	        }
+    	        else
+    	        {
+    	        	lblPicLabel.setVisible(true);
+    	        }
+    		}
+    	});
+    	btnLoadMap.setBounds(179, 7, 117, 25);
+    	mainPanel.add(btnLoadMap);
+    	
+    	
+		
+		
+		JPanel directionsPanel = new JPanel();
     	directionsPanel.setBounds(557, 6, 237, 555);
     	frame.getContentPane().add(directionsPanel);
     	directionsPanel.setLayout(null);
@@ -72,4 +120,12 @@ public class App
 
         
     }
+	private class SwingAction extends AbstractAction {
+		public SwingAction() {
+			putValue(NAME, "SwingAction");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+		public void actionPerformed(ActionEvent e) {
+		}
+	}
 }
