@@ -1,5 +1,7 @@
 package WPI.CampusMap.AStar;
 
+import java.util.ArrayList;
+
 public class Point {
 	private Coord coord;
 	private String type;
@@ -55,4 +57,16 @@ public class Point {
 		this.neighbors = neighbors;
 	}
 
+	public Point[] getValidNeighbors() {
+		Point[] neigh = this.getNeighbors();
+		ArrayList<Point> trim = new ArrayList<Point>();
+
+		for (int i = 0; i < neigh.length; i++) {
+			if (!(neigh[i].getType().equalsIgnoreCase(Point.WALL))) {
+				trim.add(neigh[i]);
+			}
+		}
+
+		return (Point[]) trim.toArray();
+	}
 }
