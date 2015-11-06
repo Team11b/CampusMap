@@ -1,4 +1,4 @@
-package WPI.CampusMap;
+package WPI.CampusMap.AStar;
 
 public class Coord {
 	private float x;
