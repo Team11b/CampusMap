@@ -5,13 +5,15 @@ public class Node {
 	private Node parent;
 	private int heuristic = 0;
 	private float cumulativeDist;
+	private float immediateCost;
 	
 	public static final int stdH = 0;
 
-	public Node(Point point, Node parent, float cumulativeDist) {
+	public Node(Point point, Node parent, float cumulativeDist, float immediateCost) {
 		this.point = point;
 		this.parent = parent;
 		this.cumulativeDist = cumulativeDist;
+		this.immediateCost = immediateCost;
 	}
 
 	public Point getPoint() {
@@ -46,5 +48,11 @@ public class Node {
 		this.cumulativeDist = cumulativeDist;
 	}
 
-	 
+	public float getImmediateCost() {
+		return this.immediateCost;
+	}
+	
+	public void setImmediateCost(float immediateCost) {
+		this.immediateCost = immediateCost;
+	}
 }
