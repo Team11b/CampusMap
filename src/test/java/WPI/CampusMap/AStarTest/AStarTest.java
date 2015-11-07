@@ -45,9 +45,12 @@ public class AStarTest extends TestCase {
 		Coord cOne = new Coord(1, 1);
 		Coord cTwo = new Coord(1, 1);
 		Coord cThree = new Coord(2, 1);
-		
+		Coord cFour = new Coord(1, 2);
+
 		assertTrue(cOne.equals(cTwo));
-		
+
 		assertFalse(cOne.equals(cThree));
+		
+		assertFalse(cOne.equals(cFour));
 	}
 }
