@@ -21,8 +21,8 @@ public class Point {
 		this.neighbors = new Point[8];
 	}
 
-	public float distance(Point p1, Point p2) {
-		return p1.coord.distance(p1.coord, p2.coord);
+	public float distance(Point other) {
+		return this.coord.distance(other.getCoord());
 	}
 
 	public Coord getCoord() {
@@ -57,6 +57,11 @@ public class Point {
 		this.neighbors = neighbors;
 	}
 
+	/**
+	 * returns a list of all neighbors of this point which are valid locations
+	 * a valid location is any Point which does not have a type of wall
+	 * @return an array of any neighbor points which do not have a type wall
+	 */
 	public Point[] getValidNeighbors() {
 		Point[] neigh = this.getNeighbors();
 		ArrayList<Point> trim = new ArrayList<Point>();
@@ -68,5 +73,9 @@ public class Point {
 		}
 
 		return (Point[]) trim.toArray();
+	}
+	
+	public boolean equals(Point other) {
+		return (this.coord.equals(other.coord));
 	}
 }
