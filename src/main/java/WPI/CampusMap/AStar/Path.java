@@ -10,6 +10,10 @@ public class Path {
 		this.path = path;
 	}
 	
+	public Path() {
+		this.path = new ArrayList<Node>();
+	}
+	
 	public boolean addNode(Node node){
 		return path.add(node);
 	}

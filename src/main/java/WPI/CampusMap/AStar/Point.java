@@ -5,7 +5,7 @@ import java.util.ArrayList;
 public class Point {
 	private Coord coord;
 	private String type;
-	private int id;
+	private String id;
 	private Point[] neighbors;
 
 	public static final String WALL = "wall";
@@ -14,7 +14,7 @@ public class Point {
 	public static final String HALLWAY = "hallway";
 	public static final String ELEVATOR = "elevator";
 
-	public Point(Coord coord, String type, int id) {
+	public Point(Coord coord, String type, String id) {
 		this.coord = coord;
 		this.type = type;
 		this.id = id;
@@ -41,11 +41,11 @@ public class Point {
 		this.type = type;
 	}
 
-	public int getId() {
+	public String getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(String id) {
 		this.id = id;
 	}
 
@@ -58,8 +58,9 @@ public class Point {
 	}
 
 	/**
-	 * returns a list of all neighbors of this point which are valid locations
-	 * a valid location is any Point which does not have a type of wall
+	 * returns a list of all neighbors of this point which are valid locations a
+	 * valid location is any Point which does not have a type of wall
+	 * 
 	 * @return an array of any neighbor points which do not have a type wall
 	 */
 	public Point[] getValidNeighbors() {
@@ -74,8 +75,14 @@ public class Point {
 
 		return (Point[]) trim.toArray();
 	}
-	
-	public boolean equals(Point other) {
-		return (this.coord.equals(other.coord));
+
+	@Override
+	public boolean equals(Object other) {
+		boolean result = false;
+		if (other instanceof Point) {
+			Point that = (Point) other;
+			result = (this.getCoord().equals(that.getCoord()));
+		}
+		return result;
 	}
 }

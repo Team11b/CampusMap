@@ -86,7 +86,7 @@ public class Map {
 			explored.add(frontier.get(0));
 			frontier.remove(0);
 			
-			if (explored.get(explored.size() - 1).getPoint().equals(goal))) {
+			if (explored.get(explored.size() - 1).getPoint().equals(goal)) {
 				goalFound = true;
 			}
 
@@ -115,9 +115,9 @@ public class Map {
 	public static void main(String[] args) {
 		String file = "hi";
 		Point[] map = new Point[1];
-		map[0] = new Point(null, file, 0);
+		map[0] = new Point(null, file, "alpha");
 		Map test = new Map(file, map);
 
-		test.astar(new Point(null, file, 0), new Point(null, file, 0));
+		test.astar(new Point(null, file, "beta"), new Point(null, file, "gamma"));
 	}
 }
