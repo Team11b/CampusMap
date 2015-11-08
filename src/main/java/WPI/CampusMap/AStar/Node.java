@@ -3,7 +3,7 @@ package WPI.CampusMap.AStar;
 /**
  * 
  * @author Jacob Zizmor
- * @author Max
+ * @author Max Stenke 
  *
  */
 public class Node {

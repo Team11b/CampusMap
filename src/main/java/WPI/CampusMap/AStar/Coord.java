@@ -2,7 +2,7 @@ package WPI.CampusMap.AStar;
 
 /**
  * 
- * @author Max
+ * @author Max Stenke
  *
  */
 public class Coord {

@@ -5,7 +5,7 @@ import java.util.Collections;
 
 /**
  * 
- * @author Max
+ * @author Max Stenke
  *
  */
 public class Path {
@@ -61,6 +61,7 @@ public class Path {
 						&& (getNodePointCoord(path.get(i)).getX() == getNodePointCoord(path.get(i - 1)).getX())) {
 					System.out.println("Abridge one node vertical");
 					continue;
+					// check if next point is on the same level as i - 1 and i + 1
 				} else if ((getNodePointCoord(path.get(i)).getY() == getNodePointCoord(path.get(i + 1)).getY())
 						&& (getNodePointCoord(path.get(i)).getY() == getNodePointCoord(path.get(i - 1)).getY())) {
 					System.out.println("Abridge one node horizontal");
@@ -92,13 +93,16 @@ public class Path {
 	public static void main(String[] args) {
 		ArrayList<Node> turns = new ArrayList<Node>();
 		turns.add(new Node(new Point(new Coord(0, 0), null, null), null));
-		turns.add(new Node(new Point(new Coord(1, 0), null, null), null));
-		turns.add(new Node(new Point(new Coord(2, 0), null, null), null));
-		turns.add(new Node(new Point(new Coord(3, 0), null, null), null));
+		turns.add(new Node(new Point(new Coord(0, 1), null, null), null));
+		turns.add(new Node(new Point(new Coord(0, 2), null, null), null));
+		turns.add(new Node(new Point(new Coord(0, 3), null, null), null));
+		turns.add(new Node(new Point(new Coord(1, 3), null, null), null));
+		turns.add(new Node(new Point(new Coord(2, 3), null, null), null));
+		turns.add(new Node(new Point(new Coord(3, 2), null, null), null));
 		turns.add(new Node(new Point(new Coord(4, 1), null, null), null));
+		turns.add(new Node(new Point(new Coord(5, 0), null, null), null));
+		turns.add(new Node(new Point(new Coord(5, 1), null, null), null));
 		turns.add(new Node(new Point(new Coord(5, 2), null, null), null));
-		turns.add(new Node(new Point(new Coord(6, 2), null, null), null));
-		turns.add(new Node(new Point(new Coord(6, 3), null, null), null));
 		turns.add(new Node(new Point(new Coord(5, 3), null, null), null));
 		Path path = new Path(turns);
 		path.pathToString(path);

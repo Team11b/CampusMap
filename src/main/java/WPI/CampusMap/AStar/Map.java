@@ -7,7 +7,7 @@ import java.util.Comparator;
 /**
  * 
  * @author Jacob Zizmor
- * @author Max
+ * @author Max Stenke
  *
  */
 public class Map {

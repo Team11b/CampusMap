@@ -4,32 +4,51 @@ import java.util.ArrayList;
 
 /**
  * 
- * @author Max
+ * @author Max Stenke
  *
  */
 public class Point {
 	private Coord coord;
 	private String type;
 	private String id;
-	private Point[] neighbors;
+	private Point[] neighborsP;
+	private String[] neighborsID;
 
-	public static final String WALL = "wall"; /** Standard type of wall */
-	public static final String DOOR = "door"; /** Standard type of door */
-	public static final String STAIRS = "stairs"; /** Standard type of stairs */
-	public static final String HALLWAY = "hallway"; /** Standard type of hallway */
-	public static final String ELEVATOR = "elevator"; /** Standard type of elevator */
+	public static final String WALL = "wall";
+	/** Standard type of wall */
+	public static final String DOOR = "door";
+	/** Standard type of door */
+	public static final String STAIRS = "stairs";
+	/** Standard type of stairs */
+	public static final String HALLWAY = "hallway";
+	/** Standard type of hallway */
+	public static final String ELEVATOR = "elevator";
+	/** Standard type of elevator */
 
 	/**
 	 * Constructor
-	 * @param coord Coordinate of point
-	 * @param type Point type using public constants
-	 * @param id ID of point
+	 * 
+	 * @param coord
+	 *            Coordinate of point
+	 * @param type
+	 *            Point type using public constants
+	 * @param id
+	 *            ID of point
 	 */
 	public Point(Coord coord, String type, String id) {
 		this.coord = coord;
 		this.type = type;
 		this.id = id;
-		this.neighbors = new Point[8];
+		this.neighborsP = new Point[8];
+		this.neighborsID = getNeighborsIDs(neighborsP);
+	}
+
+	private String[] getNeighborsIDs(Point[] object) {
+		String[] temp = new String[8];
+		for (int i = 0; i < object.length; i++) {
+			temp[i] = object[i].getId();
+		}
+		return temp;
 	}
 
 	public float distance(Point other) {
@@ -60,12 +79,20 @@ public class Point {
 		this.id = id;
 	}
 
-	public Point[] getNeighbors() {
-		return neighbors;
+	public Point[] getNeighborsP() {
+		return neighborsP;
 	}
 
-	public void setNeighbors(Point[] neighbors) {
-		this.neighbors = neighbors;
+	public void setNeighborsP(Point[] neighborsP) {
+		this.neighborsP = neighborsP;
+	}
+
+	public String[] getNeighborsID() {
+		return neighborsID;
+	}
+
+	public void setNeighborsID(String[] neighborsID) {
+		this.neighborsID = neighborsID;
 	}
 
 	/**
@@ -75,7 +102,7 @@ public class Point {
 	 * @return an array of any neighbor points which do not have a type wall
 	 */
 	public Point[] getValidNeighbors() {
-		Point[] neigh = this.getNeighbors();
+		Point[] neigh = this.getNeighborsP();
 		ArrayList<Point> trim = new ArrayList<Point>();
 
 		for (int i = 0; i < neigh.length; i++) {
