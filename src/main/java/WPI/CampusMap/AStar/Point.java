@@ -2,18 +2,29 @@ package WPI.CampusMap.AStar;
 
 import java.util.ArrayList;
 
+/**
+ * 
+ * @author Max
+ *
+ */
 public class Point {
 	private Coord coord;
 	private String type;
 	private String id;
 	private Point[] neighbors;
 
-	public static final String WALL = "wall";
-	public static final String DOOR = "door";
-	public static final String STAIRS = "stairs";
-	public static final String HALLWAY = "hallway";
-	public static final String ELEVATOR = "elevator";
+	public static final String WALL = "wall"; /** Standard type of wall */
+	public static final String DOOR = "door"; /** Standard type of door */
+	public static final String STAIRS = "stairs"; /** Standard type of stairs */
+	public static final String HALLWAY = "hallway"; /** Standard type of hallway */
+	public static final String ELEVATOR = "elevator"; /** Standard type of elevator */
 
+	/**
+	 * Constructor
+	 * @param coord Coordinate of point
+	 * @param type Point type using public constants
+	 * @param id ID of point
+	 */
 	public Point(Coord coord, String type, String id) {
 		this.coord = coord;
 		this.type = type;

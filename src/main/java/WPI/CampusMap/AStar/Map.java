@@ -4,19 +4,38 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
+/**
+ * 
+ * @author Jacob Zizmor
+ * @author Max
+ *
+ */
 public class Map {
 
 	private String png;
 	private String xml;
 	private Point[] map;
 
+	/**
+	 * Map constructor
+	 * @param png File name of the image for this map
+	 * @param xml File name of the XML of points for this map
+	 */
 	public Map(String png, String xml) {
 		this.png = png;
 		this.xml = xml;
 	}
 
 	public String getPng() {
-		return png;
+		return this.png;
+	}
+	
+	public String getXML() {
+		return this.xml;
+	}
+	
+	public void setXML(String xml) {
+		this.xml = xml;
 	}
 
 	public void setPng(String png) {
@@ -24,7 +43,7 @@ public class Map {
 	}
 
 	public Point[] getMap() {
-		return map;
+		return this.map;
 	}
 
 	public void setMap(Point[] map) {

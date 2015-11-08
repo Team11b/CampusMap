@@ -1,5 +1,11 @@
 package WPI.CampusMap.AStar;
 
+/**
+ * 
+ * @author Jacob Zizmor
+ * @author Max
+ *
+ */
 public class Node {
 	private Point point;
 	private Node parent;
@@ -7,8 +13,16 @@ public class Node {
 	private float cumulativeDist;
 	private float currentScore;
 	
+	/**
+	 * Standard heuristic for all regular Nodes
+	 */
 	public static final int stdH = 0;
 
+	/**
+	 * Constructor. Sets cumulative distance and the most recent distance for each Node based upon the parent.
+	 * @param point Point to base this Node on
+	 * @param parent Parent Node
+	 */
 	public Node(Point point, Node parent) {
 		this.point = point;
 		this.parent = parent;
