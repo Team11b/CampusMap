@@ -1,9 +1,19 @@
 package WPI.CampusMap.AStar;
 
+/**
+ * 
+ * @author Max
+ *
+ */
 public class Coord {
 	private float x;
 	private float y;
 
+	/**
+	 * Constructor
+	 * @param x X-Coordinate
+	 * @param y Y-Coordinate
+	 */
 	public Coord(float x, float y) {
 		this.x = x;
 		this.y = y;

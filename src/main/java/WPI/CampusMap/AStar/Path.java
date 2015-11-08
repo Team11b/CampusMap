@@ -3,14 +3,26 @@ package WPI.CampusMap.AStar;
 import java.util.ArrayList;
 import java.util.Collections;
 
+/**
+ * 
+ * @author Max
+ *
+ */
 public class Path {
 
 	private ArrayList<Node> path;
 
+	/**
+	 * Constructor with pre-defined ArrayList of Nodes
+	 * @param path pre-defined ArrayList of Nodes
+	 */
 	public Path(ArrayList<Node> path) {
 		this.path = path;
 	}
 	
+	/**
+	 * Constructor with no previous Nodes
+	 */
 	public Path() {
 		this.path = new ArrayList<Node>();
 	}
@@ -20,12 +32,17 @@ public class Path {
 	}
 	
 	/**
-	 * Reverses the ArrayList<Node> of this Path
+	 * Reverses the ArrayList of this Path
 	 */
 	public void reverse() {
 		Collections.reverse(this.path);
 	}
 
+	/**
+	 * Parses the current path of Nodes and returns a new Path with only the start, goal, and any Nodes
+	 * that result in a change of direction
+	 * @return abridged list of Nodes
+	 */
 	public Path getTurns() {
 		ArrayList<Node> temp = new ArrayList<Node>();
 		Node first = path.get(0);
