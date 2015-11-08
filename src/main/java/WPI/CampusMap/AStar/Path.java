@@ -35,20 +35,22 @@ public class Path {
 	public Path getTurns() {
 		ArrayList<Node> temp = new ArrayList<Node>();
 		Node first = path.get(0);
+		Node last = path.get(path.size() -1 );
 
 		temp.add(first);
-		for (int i = 1; i < path.size(); i++) {
-			if (path.get(i + 1) != null) {
+		for (int i = 1; i < path.size() - 1; i++) {
+			System.out.println(i);
+			if (i != path.size()) {
 				// big chunk of if statements start
 				// check if next point is on the same level as i - 1 and i + 1
 				if ((getNodePointCoord(path.get(i)).getX() == getNodePointCoord(path.get(i + 1)).getX())
 						&& (getNodePointCoord(path.get(i)).getX() == getNodePointCoord(path.get(i - 1)).getX())) {
-					System.out.println("Abridge one node horizontal");
-					break;
+					System.out.println("Abridge one node vertical");
+					continue;
 				} else if ((getNodePointCoord(path.get(i)).getY() == getNodePointCoord(path.get(i + 1)).getY())
 						&& (getNodePointCoord(path.get(i)).getY() == getNodePointCoord(path.get(i - 1)).getY())) {
-					System.out.println("Abridge one node vertical");
-					break;
+					System.out.println("Abridge one node horizontal");
+					continue;
 				} else {
 					Coord deltaBefore = new Coord(
 							Math.abs(getNodePointCoord(path.get(i)).getX() - getNodePointCoord(path.get(i - 1)).getX()),
@@ -59,17 +61,18 @@ public class Path {
 							Math.abs(
 									getNodePointCoord(path.get(i)).getY() - getNodePointCoord(path.get(i + 1)).getY()));
 					if ((deltaBefore.getX() == deltaAfter.getX()) && (deltaBefore.getY() == deltaAfter.getY())) {
-						System.out.println("Abridge one node vertical");
-						break;
+						System.out.println("Abridge one node diagonal");
+						continue;
 					}
 				}
+				temp.add(path.get(i));
 				// big chunk of if statements start
 			} else {
 				temp.add(path.get(i));
 			}
 		}
-
-		return null;
+		temp.add(last);
+		return new Path(temp);
 	}
 
 	public static void main(String[] args) {
@@ -85,7 +88,9 @@ public class Path {
 		turns.add(new Node(new Point(new Coord(5, 3), null, null), null));
 		Path path = new Path(turns);
 		path.pathToString(path);
+		System.out.println("after get truns");
 		path.pathToString(path.getTurns());
+
 	}
 
 	public Coord getNodePointCoord(Node node) {
@@ -102,8 +107,8 @@ public class Path {
 
 	public void pathToString(Path path) {
 		for (int i = 0; i < path.getPath().size(); i++) {
-			System.out.print("(" + path.getPath().get(i).getPoint().getCoord().getX() + ","
-					+ path.getPath().get(i).getPoint().getCoord().getX() + ")");
+			System.out.println("(" + path.getPath().get(i).getPoint().getCoord().getX() + ","
+					+ path.getPath().get(i).getPoint().getCoord().getY() + ")");
 		}
 	}
 
