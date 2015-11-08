@@ -12,7 +12,14 @@ public class Node {
 	public Node(Point point, Node parent) {
 		this.point = point;
 		this.parent = parent;
-		this.cumulativeDist = this.parent.cumulativeDist + this.parent.getPoint().distance(this.point);
+		
+		if (this.parent == null) {
+			this.cumulativeDist = 0;
+		}
+		else {
+			this.cumulativeDist = this.parent.cumulativeDist + this.parent.getPoint().distance(this.point);	
+		}
+
 		this.currentScore = this.cumulativeDist + Node.stdH;
 	}
 
