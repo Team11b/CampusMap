@@ -1,6 +1,7 @@
 package WPI.CampusMap.AStar;
 
 import java.util.ArrayList;
+import java.util.Collections;
 
 public class Path {
 
@@ -16,6 +17,10 @@ public class Path {
 	
 	public boolean addNode(Node node){
 		return path.add(node);
+	}
+	
+	public void reverse() {
+		Collections.reverse(this.path);
 	}
 
 	public Path getTurns() {
