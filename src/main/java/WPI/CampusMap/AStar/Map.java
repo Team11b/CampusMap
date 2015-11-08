@@ -3,6 +3,7 @@ package WPI.CampusMap.AStar;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 public class Map {
 
@@ -41,7 +42,7 @@ public class Map {
 	 *            the goal Point
 	 * @return a Path of points or null if either the start or goal is invalid
 	 */
-	public Path astar(Point start, Point goal) {		
+	public Path astar(Point start, Point goal) {
 		// checks to see if either the start or goal is a wall
 		if (start.getType() == Point.WALL) {
 			System.out.println("Invalid start point.");
@@ -52,16 +53,19 @@ public class Map {
 		}
 
 		boolean goalFound = false;
-		
+
 		// Instantiate frontier and explored lists
 		ArrayList<Node> frontier = new ArrayList<Node>();
 		ArrayList<Node> explored = new ArrayList<Node>();
-		
+
 		// Instantiate path
 		Path returnPath = new Path();
 
+		Node tempNode = new Node(start, null);
+		int otherIndex = -1;
+
 		// add start to frontier as a Node
-		frontier.add(new Node(start, null, 0));
+		frontier.add(new Node(start, null));
 
 		while ((!frontier.isEmpty()) && (!(goalFound))) {
 
@@ -85,31 +89,63 @@ public class Map {
 			// remove that Node from the frontier
 			explored.add(frontier.get(0));
 			frontier.remove(0);
-			
+
 			if (explored.get(explored.size() - 1).getPoint().equals(goal)) {
 				goalFound = true;
 			}
 
 			if (!(goalFound)) {
-				// get the valid neighbors from the last Node on the explored list
+				// get the valid neighbors from the last Node on the explored
+				// list
 				Point[] neigh = explored.get(explored.size() - 1).getPoint().getValidNeighbors();
 
 				for (int j = 0; j < neigh.length; j++) {
-					frontier.add(new Node(neigh[j], explored.get(explored.size() - 1),
-							explored.get(explored.size() - 1).getCumulativeDist()
-									+ explored.get(explored.size() - 1).getPoint().distance(neigh[j])));
+					tempNode = new Node(neigh[j], explored.get(explored.size() - 1));
+					// check if Node is in Explored
+					otherIndex = Map.getIndex(tempNode, explored);
+
+					if (otherIndex != -1) {
+						otherIndex = Map.getIndex(tempNode, frontier);
+						if (otherIndex == -1) {
+							frontier.add(new Node(neigh[j], explored.get(explored.size() - 1)));
+						} else {
+							if (tempNode.getCurrentScore() < frontier.get(otherIndex).getCurrentScore()) {
+								frontier.set(otherIndex, new Node(neigh[j], explored.get(explored.size() - 1)));
+							}
+						}
+					}
 				}
 			}
 		}
-		
+
 		// form the path
-		Node tempNode = explored.get(explored.size() - 1);
-		while (!(tempNode.getPoint().equals(start))) {
+		tempNode = explored.get(explored.size() - 1);
+		while (tempNode.getPoint() != null) {
 			returnPath.addNode(tempNode);
 			tempNode = tempNode.getParent();
 		}
-
+		
+		returnPath.reverse();		
 		return returnPath;
+	}
+
+	/**
+	 * Gets the index of a specific Node in a list of Nodes, based upon the
+	 * Point
+	 * 
+	 * @param aNode
+	 *            the Node to search for
+	 * @param LoN
+	 *            the list of Nodes to search in
+	 * @return the index of the existing Node, -1 if not found
+	 */
+	private static int getIndex(Node aNode, ArrayList<Node> LoN) {
+		for (int j = 0; j < LoN.size(); j++) {
+			if (LoN.get(j).getPoint() == aNode.getPoint()) {
+				return j;
+			}
+		}
+		return -1;
 	}
 
 	public static void main(String[] args) {
