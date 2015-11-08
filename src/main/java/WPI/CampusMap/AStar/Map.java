@@ -3,16 +3,16 @@ package WPI.CampusMap.AStar;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 
 public class Map {
 
 	private String png;
+	private String xml;
 	private Point[] map;
 
-	public Map(String png, Point[] map) {
+	public Map(String png, String xml) {
 		this.png = png;
-		this.map = map;
+		this.xml = xml;
 	}
 
 	public String getPng() {
@@ -149,11 +149,5 @@ public class Map {
 	}
 
 	public static void main(String[] args) {
-		String file = "hi";
-		Point[] map = new Point[1];
-		map[0] = new Point(null, file, "alpha");
-		Map test = new Map(file, map);
-
-		test.astar(new Point(null, file, "beta"), new Point(null, file, "gamma"));
 	}
 }
