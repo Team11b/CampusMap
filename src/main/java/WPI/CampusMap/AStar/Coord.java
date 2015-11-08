@@ -9,10 +9,13 @@ public class Coord {
 		this.y = y;
 	}
 
+	/**
+	 * Determines the Cartesian distance between two points
+	 * @param other the Coord to get the distance to
+	 * @return the distance
+	 */
 	public float distance(Coord other) {
-		return Math.abs(
-				(float) (Math.sqrt(Math.pow(2, other.getY() + this.getY()) + Math.pow(2, other.getX() + this.getX()))));
-
+		return (float)(Math.abs(Math.sqrt(Math.pow((other.getX() - this.getX()),2) + Math.pow((other.getY() - this.getY()),2))));
 	}
 
 	public float getX() {
@@ -42,12 +45,7 @@ public class Coord {
 		}
 		return result;
 	}
-	
+
 	public static void main(String[] args) {
-		Coord cTwo = new Coord(1, 1);
-		Coord cThree = new Coord(2, 1);
-		
-		boolean test = cTwo.equals(cThree);
-		System.out.println(test);
 	}
 }

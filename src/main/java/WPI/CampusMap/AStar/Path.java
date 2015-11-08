@@ -19,6 +19,9 @@ public class Path {
 		return path.add(node);
 	}
 	
+	/**
+	 * Reverses the ArrayList<Node> of this Path
+	 */
 	public void reverse() {
 		Collections.reverse(this.path);
 	}
