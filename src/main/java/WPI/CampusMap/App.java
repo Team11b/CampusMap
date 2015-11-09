@@ -30,6 +30,26 @@ import javax.swing.ImageIcon;
  */
 public class App 
 {
+	
+	private static void sendEmail(){
+		
+	}
+	
+	private static void getAndDisplayDirections(){
+		
+	}
+	
+	private static void printDirections(){
+		
+	}
+	
+	private static void displayMapView(){
+		
+	}
+
+	private static void displayEditView(){
+	
+	}
 	private static class SwingAction extends AbstractAction {
 		public SwingAction() {
 			putValue(NAME, "SwingAction");
@@ -38,18 +58,23 @@ public class App
 		public void actionPerformed(ActionEvent e) {
 			switch(e.getActionCommand()){
 				case "Email":
+					sendEmail();
 					System.out.println("Send an Email!");
 					break;
 				case "Map":
 					System.out.println("Map");
+					displayMapView();
 					break;
 				case "Edit":
 					System.out.println("Edit");
+					displayEditView();
 					break;
 				case "Get Directions":
+					getAndDisplayDirections();
 					System.out.println("Get Directions");
 					break;
 				case "Print":
+					printDirections();
 					System.out.println("Print");
 					break;
 				default:
