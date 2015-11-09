@@ -30,26 +30,47 @@ import javax.swing.ImageIcon;
  */
 public class App 
 {
-	
+	/**
+	 * Presents a view that allows the user to enter an email address 
+	 * and send an email with the walking directions.
+	 */
 	private static void sendEmail(){
 		
 	}
 	
+	/**
+	 * Calculates the walking path and displays the directions.
+	 */
 	private static void getAndDisplayDirections(){
 		
 	}
 	
+	/**
+	 * Prints the walking directions.
+	 */
 	private static void printDirections(){
 		
 	}
 	
+	/**
+	 * Switches the current view to the "MAP" view.
+	 */
 	private static void displayMapView(){
 		
 	}
 
+	/**
+	 * Switches the current view to the "EDIT" view.
+	 */
 	private static void displayEditView(){
 	
 	}
+	
+	/**
+	 * This class handles all Swing actions from the user interface.
+	 * @author Will
+	 *
+	 */
 	private static class SwingAction extends AbstractAction {
 		public SwingAction() {
 			putValue(NAME, "SwingAction");
