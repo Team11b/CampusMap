@@ -5,14 +5,17 @@ package WPI.CampusMap.AStar;
  * @author Max Stenke
  *
  */
-public class POI {
+public class POI extends Point {
 	private Map linkedMap;
-	
+
 	/**
 	 * Point of Interest constructor
-	 * @param linkedMap additional Map this POI connects to
+	 * 
+	 * @param linkedMap
+	 *            additional Map this POI connects to
 	 */
-	public POI(Map linkedMap){
+	public POI(Coord coord, String type, String id, Map linkedMap) {
+		super(coord, type, id);
 		this.linkedMap = linkedMap;
 	}
 
@@ -23,6 +26,5 @@ public class POI {
 	public void setLinkedMap(Map linkedMap) {
 		this.linkedMap = linkedMap;
 	}
-	
-	
+
 }
