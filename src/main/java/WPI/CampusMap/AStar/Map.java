@@ -1,13 +1,24 @@
 package WPI.CampusMap.AStar;
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.ArrayList;
+
 import java.util.Collections;
 import java.util.Comparator;
+
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamConstants;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 
 /**
  * 
  * @author Jacob Zizmor
  * @author Max Stenke
+ * @author Will Craft
  *
  */
 public class Map {
@@ -169,4 +180,63 @@ public class Map {
 
 	public static void main(String[] args) {
 	}
+	
+	/**
+	 * Function to take an xml file as input and output an array of points.
+	 * 
+	 * @param filename name of XML file
+	 * @return Array of all points in the file
+	 * @throws XMLStreamException 
+	 * @throws FileNotFoundException
+	 */
+	private Point[] parseXML(String filename) throws XMLStreamException, FileNotFoundException{
+		Point[] pointList= null;
+		Point currPoint = null;
+		Coord tempCoord = null;
+		String tagContent = null;
+		int pos = 0;
+		XMLInputFactory factory = XMLInputFactory.newInstance();
+		File testFile = new File(filename);
+		InputStream test = new FileInputStream(testFile);
+		
+		XMLStreamReader reader = factory.createXMLStreamReader(test);
+		
+		while(reader.hasNext()){
+			int event = reader.next();
+			switch(event){
+			case XMLStreamConstants.START_ELEMENT:
+				if("point".equals(reader.getLocalName())){
+					currPoint = new Point();
+					tempCoord = new Coord(Float.parseFloat(reader.getAttributeValue(0)),Float.parseFloat(reader.getAttributeValue(1)));
+				}
+				if("points".equals(reader.getLocalName())){
+					pointList = new Point[Integer.parseInt(reader.getAttributeValue(0))];
+				}
+				break;
+			case XMLStreamConstants.CHARACTERS:
+				tagContent = reader.getText().trim();
+			break;
+			case XMLStreamConstants.END_ELEMENT:
+				switch(reader.getLocalName()){
+				case "point":
+					currPoint.setCoord(tempCoord);
+					pointList[pos] = currPoint;
+					pos++;
+					//System.out.println(currPoint.getId() + currPoint.getType() + currPoint.getCoord().getX() + currPoint.getCoord().getY());
+					break;
+				case "type":
+					currPoint.setType(tagContent);
+					break;
+				case "id":
+					currPoint.setId(tagContent);
+					break;
+				}
+				break;
+			}
+			
+		}
+		return pointList;
+	}
+
 }
+
