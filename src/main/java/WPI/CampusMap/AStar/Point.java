@@ -42,6 +42,9 @@ public class Point {
 		this.neighborsP = new Point[8];
 		this.neighborsID = getNeighborsIDs(neighborsP);
 	}
+	
+	public Point(){
+	}
 
 	private String[] getNeighborsIDs(Point[] object) {
 		String[] temp = new String[8];
