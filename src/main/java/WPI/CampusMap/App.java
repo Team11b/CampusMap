@@ -8,11 +8,17 @@ import javax.swing.JToggleButton;
 import javax.swing.JButton;
 import javax.swing.JSeparator;
 import javax.swing.SwingConstants;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
+import javax.swing.text.StyledDocument;
 
-import com.sun.javafx.geom.Rectangle;
+//import com.sun.javafx.geom.Rectangle;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Image;
 import java.awt.event.ActionListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
@@ -22,13 +28,16 @@ import java.awt.event.ActionEvent;
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
+import javax.swing.JFormattedTextField;
+import javax.swing.JTextPane;
 
 /**
  * Hello world!
  *
  */
-public class App 
+public class App
 {
 	/**
 	 * Presents a view that allows the user to enter an email address 
@@ -63,6 +72,9 @@ public class App
 	 * Switches the current view to the "EDIT" view.
 	 */
 	private static void displayEditView(){
+		//somehow main needs to share edit properties of controls
+		//Put in edit mode and change button to save
+		//btnEdit.setText("Save.");
 	
 	}
 	
@@ -88,10 +100,10 @@ public class App
 					break;
 				case "Edit":
 					System.out.println("Edit");
-					displayEditView();
+					displayEditView();					
 					break;
 				case "Get Directions":
-					getAndDisplayDirections();
+					getAndDisplayDirections();					 
 					System.out.println("Get Directions");
 					break;
 				case "Print":
@@ -111,32 +123,30 @@ public class App
     	frame.getContentPane().setLayout(null);
     	
     	final JPanel mainPanel = new JPanel();
-    	mainPanel.setBounds(6, 6, 539, 555);
+    	mainPanel.setBounds(1, 6, 1018, 664);
     	frame.getContentPane().add(mainPanel);
     	mainPanel.setLayout(null);
     	
     	JButton btnMap = new JButton("Map");
     	btnMap.addActionListener(actionHandler);
-    	btnMap.setBounds(402, 5, 75, 29);
+    	btnMap.setBounds(838, 5, 75, 29);
     	mainPanel.add(btnMap);
     	
-    	JButton btnEdit = new JButton("Edit");
+    	final JButton btnEdit = new JButton("Edit");
     	btnEdit.addActionListener(actionHandler);
-    	btnEdit.setBounds(464, 5, 75, 29);
+    	btnEdit.setBounds(925, 5, 75, 29);
     	mainPanel.add(btnEdit);
     	
     	JButton btnGetDirections = new JButton("Get Directions");
     	btnGetDirections.addActionListener(actionHandler);
-    	btnGetDirections.setBounds(399, 520, 134, 29);
+    	btnGetDirections.setBounds(860, 623, 146, 29);
     	mainPanel.add(btnGetDirections);
     	
-    	JLabel lblMapviewGoesHere = new JLabel("MapView goes here.");
-    	lblMapviewGoesHere.setBounds(150, 44, 146, 16);
+    	JLabel lblMapviewGoesHere = new JLabel("Map Title goes here");
+    	lblMapviewGoesHere.setBounds(155, 18, 146, 16);
     	mainPanel.add(lblMapviewGoesHere);
     	
-    	//load map    	
-        System.out.println(System.getProperty("user.dir"));
-
+    	//load map
     	//picture init code
         BufferedImage myPicture = null;
         try {
@@ -144,11 +154,34 @@ public class App
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
-		} 
-    	final JLabel lblPicLabel = new JLabel(new ImageIcon(myPicture));
-    	lblPicLabel.setBounds(115, 86, 311, 389);
+		}
+        
+        //debug statements
+        System.out.println(System.getProperty("user.dir"));
+        System.out.println(myPicture.getWidth());
+        System.out.println(myPicture.getHeight());
+        
+        //calculate how bit to make label and image itself
+    	int height = 565;
+    	double ratio = ((double)myPicture.getWidth()/myPicture.getHeight());
+    	Double width = (ratio * (double)565);
+    	int w2 = width.intValue();
+    	System.out.println(ratio);
+    	
+    	ImageIcon img = new ImageIcon(myPicture.getScaledInstance(w2, height, Image.SCALE_SMOOTH));    	
+    	final JLabel lblPicLabel = new JLabel(img);    			
+    	lblPicLabel.setBounds(12, 43, w2, height); //width 988
     	mainPanel.add(lblPicLabel);
     	lblPicLabel.setVisible(false);
+    	
+    	final JPanel directionsPanel = new JPanel();
+    	directionsPanel.setBounds(1031, 6, 237, 664);
+    	frame.getContentPane().add(directionsPanel);
+    	directionsPanel.setLayout(null);
+    	
+    	final JTextPane txtDirections = new JTextPane();
+    	txtDirections.setBounds(16, 51, 215, 558);
+    	directionsPanel.add(txtDirections);
     	
     	//map button code    	
     	JButton btnLoadMap = new JButton("load map");
@@ -162,33 +195,52 @@ public class App
     	        else
     	        {
     	        	lblPicLabel.setVisible(true);
+    	        	
+
+    	        	//huge shit show but demonstrates using a Jtextpane with an icon. this is how to do directions
+    	            Icon icon = new ImageIcon("left.png");
+    	            JLabel label = new JLabel(icon);
+    	            StyleContext context = new StyleContext(); 
+    	            Style labelStyle = context.getStyle(StyleContext.DEFAULT_STYLE);
+    	            StyleConstants.setComponent(labelStyle, label);   	        	   	        	
+    	        	StyledDocument doc = txtDirections.getStyledDocument();    	        	
+    	            //Style def = StyleContext.getDefaultStyleContext().getStyle( StyleContext.DEFAULT_STYLE );
+    	            //Style regular = doc.addStyle( "regular", def );
+    	        	try {
+    	        		doc.insertString(0, "Start of text\n", null );
+    	        		doc.insertString(doc.getLength(), "Ignored", labelStyle);
+					} catch (BadLocationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
     	        }
     		}
     	});
-    	btnLoadMap.setBounds(179, 7, 117, 25);
+    	btnLoadMap.setBounds(709, 5, 117, 29);
     	mainPanel.add(btnLoadMap);
     	
     	
 		
 		
-		JPanel directionsPanel = new JPanel();
-    	directionsPanel.setBounds(557, 6, 237, 555);
-    	frame.getContentPane().add(directionsPanel);
-    	directionsPanel.setLayout(null);
-    	
-    	JLabel lblDirections = new JLabel("Directions\ngo here");
-    	lblDirections.setBounds(6, 6, 225, 41);
-    	directionsPanel.add(lblDirections);
+		
     	
     	JButton btnEmail = new JButton("Email");
     	btnEmail.addActionListener(actionHandler);
-    	btnEmail.setBounds(0, 520, 117, 29);
+    	btnEmail.setBounds(0, 623, 117, 29);
     	directionsPanel.add(btnEmail);
     	
     	JButton btnPrint = new JButton("Print");
     	btnPrint.addActionListener(actionHandler);
-    	btnPrint.setBounds(114, 520, 117, 29);
+    	btnPrint.setBounds(114, 623, 117, 29);
     	directionsPanel.add(btnPrint);
+    	
+    	JLabel lblDirections = new JLabel("Directions\ngo here");
+    	lblDirections.setBounds(6, 12, 225, 41);
+    	directionsPanel.add(lblDirections);
+    	
+    	
+    	
+    	
     	
     	JSeparator separator = new JSeparator();
     	separator.setBackground(Color.RED);
