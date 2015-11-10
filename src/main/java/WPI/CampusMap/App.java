@@ -39,6 +39,19 @@ import javax.swing.JTextPane;
  */
 public class App
 {
+	private static JButton btnMap = new JButton("Map");
+	
+	private static void switchMapButtonText(String newLabel){
+		btnMap.setText(newLabel);
+		btnMap.setActionCommand("Map");
+	}
+	
+	/**
+	 * If true, the map view is displayed.
+	 * If false, the edit view is displayed.
+	 */
+	private static boolean inMapView = true;
+	
 	/**
 	 * Presents a view that allows the user to enter an email address 
 	 * and send an email with the walking directions.
@@ -95,12 +108,21 @@ public class App
 					System.out.println("Send an Email!");
 					break;
 				case "Map":
+					System.out.println(inMapView);
+					if(inMapView){
+						displayEditView();
+						switchMapButtonText("Edit");
+						inMapView = false;
+					}else{
+						displayMapView();
+						System.out.println("Be here");
+						switchMapButtonText("Map");
+						inMapView = true;
+					}
+					
+					
 					System.out.println("Map");
 					displayMapView();
-					break;
-				case "Edit":
-					System.out.println("Edit");
-					displayEditView();					
 					break;
 				case "Get Directions":
 					getAndDisplayDirections();					 
@@ -127,15 +149,9 @@ public class App
     	frame.getContentPane().add(mainPanel);
     	mainPanel.setLayout(null);
     	
-    	JButton btnMap = new JButton("Map");
     	btnMap.addActionListener(actionHandler);
     	btnMap.setBounds(838, 5, 75, 29);
     	mainPanel.add(btnMap);
-    	
-    	final JButton btnEdit = new JButton("Edit");
-    	btnEdit.addActionListener(actionHandler);
-    	btnEdit.setBounds(925, 5, 75, 29);
-    	mainPanel.add(btnEdit);
     	
     	JButton btnGetDirections = new JButton("Get Directions");
     	btnGetDirections.addActionListener(actionHandler);
