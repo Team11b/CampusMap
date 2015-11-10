@@ -32,9 +32,10 @@ public class Map {
 	 * @param png File name of the image for this map
 	 * @param xml File name of the XML of points for this map
 	 */
-	public Map(String png, String xml) {
+	public Map(String png, String xml) throws FileNotFoundException,XMLStreamException{
 		this.png = png;
 		this.xml = xml;
+		parseXML(xml);
 	}
 
 	public String getPng() {
@@ -194,6 +195,8 @@ public class Map {
 		Point currPoint = null;
 		Coord tempCoord = null;
 		String tagContent = null;
+		String[] tempNeigh = null;
+		int nCount = 0;
 		int pos = 0;
 		XMLInputFactory factory = XMLInputFactory.newInstance();
 		File testFile = new File(filename);
@@ -205,12 +208,17 @@ public class Map {
 			int event = reader.next();
 			switch(event){
 			case XMLStreamConstants.START_ELEMENT:
-				if("point".equals(reader.getLocalName())){
+				if("Node".equals(reader.getLocalName())){
 					currPoint = new Point();
-					tempCoord = new Coord(Float.parseFloat(reader.getAttributeValue(0)),Float.parseFloat(reader.getAttributeValue(1)));
+					tempNeigh = new String[8];
+					nCount = 0;
+					currPoint.setId(reader.getAttributeValue(0));
+					tempCoord = new Coord(Float.parseFloat(reader.getAttributeValue(1)),Float.parseFloat(reader.getAttributeValue(2)));
 				}
-				if("points".equals(reader.getLocalName())){
-					pointList = new Point[Integer.parseInt(reader.getAttributeValue(0))];
+				if("Map".equals(reader.getLocalName())){
+					pointList = new Point[100];//Temporary max value until a max is determined or we add point count to the XMl
+					//Integer.parseInt(reader.getAttributeValue(0))];
+					setPng(reader.getAttributeValue(0));
 				}
 				break;
 			case XMLStreamConstants.CHARACTERS:
@@ -218,17 +226,18 @@ public class Map {
 			break;
 			case XMLStreamConstants.END_ELEMENT:
 				switch(reader.getLocalName()){
-				case "point":
+				case "Node":
 					currPoint.setCoord(tempCoord);
 					pointList[pos] = currPoint;
-					pos++;
-					//System.out.println(currPoint.getId() + currPoint.getType() + currPoint.getCoord().getX() + currPoint.getCoord().getY());
+					currPoint.setNeighborsID(tempNeigh);
+					pos++; 
 					break;
 				case "type":
 					currPoint.setType(tagContent);
 					break;
-				case "id":
-					currPoint.setId(tagContent);
+				case "Connection":
+					tempNeigh[nCount] = tagContent;
+					nCount++;
 					break;
 				}
 				break;
