@@ -92,11 +92,6 @@ public class AppUIObject {
     	frame.getContentPane().add(mainPanel);
     	mainPanel.setLayout(null);
     	
-    	JButton btnGetDirections = new JButton("Route me");
-    	btnGetDirections.addActionListener(actionHandler);
-    	btnGetDirections.setBounds(894, 635, 112, 29);
-    	mainPanel.add(btnGetDirections);
-    	
     	final JLabel lblMapviewGoesHere = new JLabel("Map Title goes here");
     	lblMapviewGoesHere.setBounds(155, 0, 146, 16);
     	mainPanel.add(lblMapviewGoesHere);
@@ -105,7 +100,7 @@ public class AppUIObject {
     	//picture init code
         BufferedImage myPicture = null;
         try {
-			myPicture = ImageIO.read(new File("walkingmap.png"));
+			myPicture = ImageIO.read(new File("outside.png"));
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -135,11 +130,32 @@ public class AppUIObject {
     	directionsPanel.setLayout(null);
     	
     	final JTextPane txtDirections = new JTextPane();
-    	txtDirections.setBounds(16, 30, 215, 579);
+    	txtDirections.setBounds(26, 77, 215, 540);
     	directionsPanel.add(txtDirections);
+    	
+    	JButton btnEmail = new JButton("Email");
+    	btnEmail.addActionListener(actionHandler);
+    	btnEmail.setBounds(0, 635, 106, 29);
+    	directionsPanel.add(btnEmail);
+    	
+    	JButton btnPrint = new JButton("Print");
+    	btnPrint.addActionListener(actionHandler);
+    	btnPrint.setBounds(114, 635, 111, 29);
+    	directionsPanel.add(btnPrint);
+    	
+    	JLabel lblDirections = new JLabel("Directions:");
+    	lblDirections.setBounds(16, 36, 225, 29);
+    	directionsPanel.add(lblDirections);
     	
     	//map button code    	
     	JButton btnLoadMap = new JButton("Load");
+    	btnLoadMap.setBounds(16, 0, 75, 29);
+    	directionsPanel.add(btnLoadMap);
+    	
+    	JButton btnGetDirections = new JButton("Route me");
+    	btnGetDirections.setBounds(113, 0, 101, 29);
+    	directionsPanel.add(btnGetDirections);
+    	btnGetDirections.addActionListener(actionHandler);
     	btnLoadMap.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent arg0) 
     		{
@@ -171,22 +187,6 @@ public class AppUIObject {
     	        }
     		}
     	});
-    	btnLoadMap.setBounds(931, 2, 75, 29);
-    	mainPanel.add(btnLoadMap);
-    	
-    	JButton btnEmail = new JButton("Email");
-    	btnEmail.addActionListener(actionHandler);
-    	btnEmail.setBounds(0, 635, 106, 29);
-    	directionsPanel.add(btnEmail);
-    	
-    	JButton btnPrint = new JButton("Print");
-    	btnPrint.addActionListener(actionHandler);
-    	btnPrint.setBounds(114, 635, 111, 29);
-    	directionsPanel.add(btnPrint);
-    	
-    	JLabel lblDirections = new JLabel("Directions:");
-    	lblDirections.setBounds(16, 0, 225, 41);
-    	directionsPanel.add(lblDirections);
     	
     	JSeparator separator = new JSeparator();
     	separator.setBackground(Color.RED);
