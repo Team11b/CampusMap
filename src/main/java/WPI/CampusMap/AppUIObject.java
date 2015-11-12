@@ -5,6 +5,8 @@ import java.awt.Dimension;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -126,12 +128,47 @@ public class AppUIObject {
     	mainPanel.add(lblScale);
     	lblScale.setVisible(true);
     	
+    	MouseListener mouseClick = new MouseListener() {
+			
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+				System.out.println("X: " + e.getX() + " Y: " + e.getY());
+			}
+		};
+    	
     	final JLabel lblPicLabel = new JLabel(img);    			
     	lblPicLabel.setBounds(5, 0, w2, height); //width 988
     	mainPanel.add(lblPicLabel);
     	lblPicLabel.setVisible(false);
+    	lblPicLabel.addMouseListener(mouseClick);
     	
-    	
+    	System.out.println("Image Size X: " + lblPicLabel.getSize().getWidth() + " Y: " + lblPicLabel.getSize().getHeight());
     	
     	final JPanel directionsPanel = new JPanel();
     	directionsPanel.setBounds(1031, 6, 237, 664);
