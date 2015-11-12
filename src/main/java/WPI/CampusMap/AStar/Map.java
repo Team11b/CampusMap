@@ -35,7 +35,7 @@ public class Map {
 	public Map(String png, String xml) throws FileNotFoundException,XMLStreamException{
 		this.png = png;
 		this.xml = xml;
-		parseXML(xml);
+		this.map = parseXML(xml);
 	}
 
 	public String getPng() {
@@ -185,7 +185,7 @@ public class Map {
 	/**
 	 * Function to take an xml file as input and output an array of points.
 	 * 
-	 * @param filename name of XML file
+	 * @param filename Relative file path of XML file
 	 * @return Array of all points in the file
 	 * @throws XMLStreamException 
 	 * @throws FileNotFoundException
