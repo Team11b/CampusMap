@@ -40,21 +40,15 @@ public class XMLParseTest {
 	public void testMapCreation() throws FileNotFoundException,XMLStreamException {
 		Map testMap = new Map("","XML/AK.xml");
 		Point[] points = testMap.getMap();
-		System.out.println(points.length);
 		for(Point point:points){
-			if(point != null){
-				System.out.printf("Point ID: %s\n", point.getId());
-				System.out.printf("X: %f, Y: %f\n", point.getCoord().getX(), point.getCoord().getX());
-				System.out.printf("Type: %s\n", point.getType());
-				String[] neighborID = point.getNeighborsID();
-				for(String id:neighborID){
-					System.out.printf("Neighbor: %s\n", id);
-				}
-				System.out.println();
-			}else{
-				break;
-				
+			System.out.printf("Point ID: %s\n", point.getId());
+			System.out.printf("X: %f, Y: %f\n", point.getCoord().getX(), point.getCoord().getX());
+			System.out.printf("Type: %s\n", point.getType());
+			String[] neighborID = point.getNeighborsID();
+			for(String id:neighborID){
+				System.out.printf("Neighbor: %s\n", id);
 			}
+			System.out.println();
 		}
 	}
 }

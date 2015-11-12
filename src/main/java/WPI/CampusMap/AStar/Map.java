@@ -191,13 +191,17 @@ public class Map {
 	 * @throws FileNotFoundException
 	 */
 	private Point[] parseXML(String filename) throws XMLStreamException, FileNotFoundException{
-		Point[] pointList= null;
+		Point[] pointList= new Point[1];
 		Point currPoint = null;
 		Coord tempCoord = null;
 		String tagContent = null;
-		String[] tempNeigh = null;
-		int nCount = 0;
-		int pos = 0;
+		String[] neighList = new String[1];
+//		int nCount = 0;
+//		int pos = 0;
+		
+		ArrayList<Point> pointAList = new ArrayList<Point>();
+		ArrayList<String> neighAList = new ArrayList<String>();
+		
 		XMLInputFactory factory = XMLInputFactory.newInstance();
 		File testFile = new File(filename);
 		InputStream test = new FileInputStream(testFile);
@@ -210,13 +214,13 @@ public class Map {
 			case XMLStreamConstants.START_ELEMENT:
 				if("Node".equals(reader.getLocalName())){
 					currPoint = new Point();
-					tempNeigh = new String[8];
-					nCount = 0;
+//					neighList = new String[8];
+//					nCount = 0;
 					currPoint.setId(reader.getAttributeValue(0));
 					tempCoord = new Coord(Float.parseFloat(reader.getAttributeValue(1)),Float.parseFloat(reader.getAttributeValue(2)));
 				}
 				if("Map".equals(reader.getLocalName())){
-					pointList = new Point[100];//Temporary max value until a max is determined or we add point count to the XMl
+//					pointList = new Point[100];//Temporary max value until a max is determined or we add point count to the XMl
 					//Integer.parseInt(reader.getAttributeValue(0))];
 					setPng(reader.getAttributeValue(0));
 				}
@@ -228,23 +232,25 @@ public class Map {
 				switch(reader.getLocalName()){
 				case "Node":
 					currPoint.setCoord(tempCoord);
-					pointList[pos] = currPoint;
-					currPoint.setNeighborsID(tempNeigh);
-					pos++; 
+//					pointList[pos] = currPoint;
+					pointAList.add(currPoint);
+					currPoint.setNeighborsID(neighAList.toArray(neighList));
+//					pos++; 
 					break;
 				case "type":
 					currPoint.setType(tagContent);
 					break;
 				case "Connection":
-					tempNeigh[nCount] = tagContent;
-					nCount++;
+					neighAList.add(tagContent);
+//					neighList[nCount] = tagContent;
+//					nCount++;
 					break;
 				}
 				break;
 			}
 			
 		}
-		return pointList;
+		return pointAList.toArray(pointList);
 	}
 
 }
