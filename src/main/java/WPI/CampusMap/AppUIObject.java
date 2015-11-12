@@ -92,9 +92,10 @@ public class AppUIObject {
     	frame.getContentPane().add(mainPanel);
     	mainPanel.setLayout(null);
     	
-    	final JLabel lblMapviewGoesHere = new JLabel("Map Title goes here");
-    	lblMapviewGoesHere.setBounds(155, 0, 146, 16);
+    	final JLabel lblMapviewGoesHere = new JLabel("");
+    	lblMapviewGoesHere.setBounds(166, 12, 146, 16);
     	mainPanel.add(lblMapviewGoesHere);
+    	lblMapviewGoesHere.setVisible(true);
     	
     	//load map
     	//picture init code
@@ -119,10 +120,18 @@ public class AppUIObject {
     	System.out.println(ratio);
     	
     	final ImageIcon img = new ImageIcon(myPicture.getScaledInstance(w2, height, Image.SCALE_SMOOTH));    	
+    	
+    	final JLabel lblScale = new JLabel("");
+    	lblScale.setBounds(872, 12, 146, 16);
+    	mainPanel.add(lblScale);
+    	lblScale.setVisible(true);
+    	
     	final JLabel lblPicLabel = new JLabel(img);    			
     	lblPicLabel.setBounds(5, 0, w2, height); //width 988
     	mainPanel.add(lblPicLabel);
     	lblPicLabel.setVisible(false);
+    	
+    	
     	
     	final JPanel directionsPanel = new JPanel();
     	directionsPanel.setBounds(1031, 6, 237, 664);
@@ -130,7 +139,7 @@ public class AppUIObject {
     	directionsPanel.setLayout(null);
     	
     	final JTextPane txtDirections = new JTextPane();
-    	txtDirections.setBounds(26, 77, 215, 540);
+    	txtDirections.setBounds(26, 99, 215, 518);
     	directionsPanel.add(txtDirections);
     	
     	JButton btnEmail = new JButton("Email");
@@ -144,30 +153,71 @@ public class AppUIObject {
     	directionsPanel.add(btnPrint);
     	
     	JLabel lblDirections = new JLabel("Directions:");
-    	lblDirections.setBounds(16, 36, 225, 29);
+    	lblDirections.setBounds(26, 73, 80, 25);
     	directionsPanel.add(lblDirections);
+    	
+    	final JButton btnGetDirections = new JButton("Route me");
+    	btnGetDirections.setBounds(87, 0, 101, 29);
+    	directionsPanel.add(btnGetDirections);
+    	btnGetDirections.addActionListener(actionHandler);
+    	
+    	final JButton btnNode = new JButton("Place Node");
+    	btnNode.setBounds(114, 2, 127, 25);
+    	directionsPanel.add(btnNode);
+    	btnNode.setVisible(false);
+    	
+    	final JButton btnDelNode = new JButton("Delete Node");
+    	btnDelNode.setBounds(114, 41, 127, 25);
+    	directionsPanel.add(btnDelNode);
+    	btnDelNode.setVisible(false);
+    	
+    	//Dev Mode
+    	final JButton btnDevMode = new JButton("Dev Mode");
+    	btnDevMode.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent arg0) {
+    			if(btnDevMode.getText() == "Dev Mode"){
+    			    frame.setTitle("Dev Mode");
+    			    btnDevMode.setText("User Mode");
+    			    btnGetDirections.setVisible(false);
+    			    btnNode.setVisible(true);
+    			    btnDelNode.setVisible(true);
+    			}
+    			else{
+    			    frame.setTitle("Path Finder");
+    			    btnDevMode.setText("Dev Mode");
+    			    btnGetDirections.setVisible(true);
+    			    btnNode.setVisible(false);
+    			    btnDelNode.setVisible(false);
+    			}
+    		}
+    	});
+    	btnDevMode.setBounds(0, 41, 106, 25);
+    	directionsPanel.add(btnDevMode);
     	
     	//map button code    	
     	JButton btnLoadMap = new JButton("Load");
-    	btnLoadMap.setBounds(16, 0, 75, 29);
-    	directionsPanel.add(btnLoadMap);
+    	btnLoadMap.setBounds(0, 0, 75, 29);
+    	directionsPanel.add(btnLoadMap);	
     	
-    	JButton btnGetDirections = new JButton("Route me");
-    	btnGetDirections.setBounds(113, 0, 101, 29);
-    	directionsPanel.add(btnGetDirections);
-    	btnGetDirections.addActionListener(actionHandler);
     	btnLoadMap.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent arg0) 
     		{
     	        if(lblPicLabel.isVisible()== true)
     	        {
     	        	lblPicLabel.setVisible(false);
+    	        	lblMapviewGoesHere.setVisible(false);
+    	        	lblScale.setVisible(false);
     	        }
     	        else
     	        {
-    	        	lblPicLabel.setVisible(true);
     	        	
+    	        	lblScale.setVisible(true);    	        	
+    	        	lblPicLabel.setVisible(true);
+    	        	lblMapviewGoesHere.setVisible(true);
     	        	lblMapviewGoesHere.setText("Walking map");
+    	        	lblScale.setText("Scale: 1 inch : 100 ft");
+    	        	
+    	        	
     	        	//huge shit show but demonstrates using a Jtextpane with an icon. this is how to do directions
     	            Icon icon = new ImageIcon("left.png");
     	            JLabel label = new JLabel(icon);
@@ -195,6 +245,7 @@ public class AppUIObject {
     	//separator.setBounds(100, 100, 174, 246);
     	frame.getContentPane().add(separator);
     	
+    	   	
     	frame.setSize(1280, 720);
     	frame.setVisible(true);
 	}
