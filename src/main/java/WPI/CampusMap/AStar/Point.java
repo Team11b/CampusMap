@@ -49,7 +49,9 @@ public class Point {
 	private String[] getNeighborsIDs(Point[] object) {
 		String[] temp = new String[8];
 		for (int i = 0; i < object.length; i++) {
-			temp[i] = object[i].getId();
+			if(temp[i] != null){
+				temp[i] = object[i].getId();
+			}
 		}
 		return temp;
 	}
