@@ -111,12 +111,12 @@ public class Point {
 		ArrayList<Point> trim = new ArrayList<Point>();
 
 		for (int i = 0; i < neigh.length; i++) {
-			if (!(neigh[i].getType().equalsIgnoreCase(Point.WALL))) {
+			if (neigh[i].getType() == null||!(neigh[i].getType().equalsIgnoreCase(Point.WALL))) {
 				trim.add(neigh[i]);
 			}
 		}
 
-		return (Point[]) trim.toArray();
+		return trim.toArray(new Point[0]);
 	}
 
 	@Override
