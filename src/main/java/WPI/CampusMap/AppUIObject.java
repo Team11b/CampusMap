@@ -1,0 +1,293 @@
+package WPI.CampusMap;
+
+import java.awt.Color;
+import java.awt.Dimension;
+import java.awt.Image;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
+import javax.swing.AbstractAction;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.JSeparator;
+import javax.swing.JTextPane;
+import javax.swing.SwingConstants;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyleContext;
+import javax.swing.text.StyledDocument;
+
+//TODO: Select edges button
+//TODO: Place path button
+//TODO: Save button.
+
+public class AppUIObject {
+
+	/**
+	 * Presents a view that allows the user to enter an email address 
+	 * and send an email with the walking directions.
+	 */
+	private static void sendEmail(){
+		
+	}
+	
+	/**
+	 * Calculates the walking path and displays the directions.
+	 */
+	private static void getAndDisplayDirections(){
+		
+	}
+	
+	/**
+	 * Prints the walking directions.
+	 */
+	private static void printDirections(){
+		
+	}
+	
+	/**
+	 * This class handles all Swing actions from the user interface.
+	 * @author Will
+	 *
+	 */
+	@SuppressWarnings("serial")
+	private static class SwingAction extends AbstractAction {
+		public SwingAction() {
+			putValue(NAME, "SwingAction");
+			putValue(SHORT_DESCRIPTION, "Some short description");
+		}
+		public void actionPerformed(ActionEvent e) {
+			switch(e.getActionCommand()){
+				case "Email":
+					sendEmail();
+					System.out.println("Send an Email!");
+					break;
+				case "Route me":
+					getAndDisplayDirections();					 
+					System.out.println("Get Directions");
+					break;
+				case "Print":
+					printDirections();
+					System.out.println("Print");
+					break;
+				default:
+			}
+		}
+	}
+	
+	public AppUIObject(){
+		
+		SwingAction actionHandler = new SwingAction();
+    	
+    	final JFrame frame = new JFrame("Path Finder");
+    	frame.getContentPane().setLayout(null);
+    	
+    	final JPanel mainPanel = new JPanel();
+    	mainPanel.setBounds(1, 6, 1018, 664);
+    	frame.getContentPane().add(mainPanel);
+    	mainPanel.setLayout(null);
+    	
+    	final JLabel lblMapviewGoesHere = new JLabel("");
+    	lblMapviewGoesHere.setBounds(166, 12, 146, 16);
+    	mainPanel.add(lblMapviewGoesHere);
+    	lblMapviewGoesHere.setVisible(true);
+    	
+    	//load map
+    	//picture init code
+        BufferedImage myPicture = null;
+        try {
+			myPicture = ImageIO.read(new File("outside.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+        
+        //debug statements
+        System.out.println(System.getProperty("user.dir"));
+        System.out.println(myPicture.getWidth());
+        System.out.println(myPicture.getHeight());
+        
+        //calculate how bit to make label and image itself
+    	int height = 700; //700
+    	double ratio = ((double)myPicture.getWidth()/myPicture.getHeight());
+    	Double width = (ratio * (double)700);
+    	int w2 = width.intValue();
+    	System.out.println(ratio);
+    	
+    	final ImageIcon img = new ImageIcon(myPicture.getScaledInstance(w2, height, Image.SCALE_SMOOTH));    	
+    	
+    	final JLabel lblScale = new JLabel("");
+    	lblScale.setBounds(872, 12, 146, 16);
+    	mainPanel.add(lblScale);
+    	lblScale.setVisible(true);
+    	
+    	MouseListener mouseClick = new MouseListener() {
+			
+			@Override
+			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+				System.out.println("X: " + e.getX() + " Y: " + e.getY());
+			}
+
+			@Override
+			public void mousePressed(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseReleased(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseEntered(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+
+			@Override
+			public void mouseExited(MouseEvent e) {
+				// TODO Auto-generated method stub
+				
+			}
+		};
+    	
+    	final JLabel lblPicLabel = new JLabel(img);    			
+    	lblPicLabel.setBounds(5, 0, w2, height); //width 988
+    	mainPanel.add(lblPicLabel);
+    	lblPicLabel.setVisible(false);
+    	lblPicLabel.addMouseListener(mouseClick);
+    	
+    	System.out.println("Image Size X: " + lblPicLabel.getSize().getWidth() + " Y: " + lblPicLabel.getSize().getHeight());
+    	
+    	final JPanel directionsPanel = new JPanel();
+    	directionsPanel.setBounds(1031, 6, 237, 664);
+    	frame.getContentPane().add(directionsPanel);
+    	directionsPanel.setLayout(null);
+    	
+    	final JTextPane txtDirections = new JTextPane();
+    	txtDirections.setBounds(26, 99, 215, 518);
+    	directionsPanel.add(txtDirections);
+    	
+    	JButton btnEmail = new JButton("Email");
+    	btnEmail.addActionListener(actionHandler);
+    	btnEmail.setBounds(0, 635, 106, 29);
+    	directionsPanel.add(btnEmail);
+    	
+    	JButton btnPrint = new JButton("Print");
+    	btnPrint.addActionListener(actionHandler);
+    	btnPrint.setBounds(114, 635, 111, 29);
+    	directionsPanel.add(btnPrint);
+    	
+    	JLabel lblDirections = new JLabel("Directions:");
+    	lblDirections.setBounds(26, 73, 80, 25);
+    	directionsPanel.add(lblDirections);
+    	
+    	final JButton btnGetDirections = new JButton("Route me");
+    	btnGetDirections.setBounds(87, 0, 101, 29);
+    	directionsPanel.add(btnGetDirections);
+    	btnGetDirections.addActionListener(actionHandler);
+    	
+    	final JButton btnNode = new JButton("Place Node");
+    	btnNode.setBounds(114, 2, 127, 25);
+    	directionsPanel.add(btnNode);
+    	btnNode.setVisible(false);
+    	
+    	final JButton btnDelNode = new JButton("Delete Node");
+    	btnDelNode.setBounds(114, 41, 127, 25);
+    	directionsPanel.add(btnDelNode);
+    	btnDelNode.setVisible(false);
+    	
+    	//Dev Mode
+    	final JButton btnDevMode = new JButton("Dev Mode");
+    	btnDevMode.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent arg0) {
+    			if(btnDevMode.getText() == "Dev Mode"){
+    			    frame.setTitle("Dev Mode");
+    			    btnDevMode.setText("User Mode");
+    			    btnGetDirections.setVisible(false);
+    			    btnNode.setVisible(true);
+    			    btnDelNode.setVisible(true);
+    			}
+    			else{
+    			    frame.setTitle("Path Finder");
+    			    btnDevMode.setText("Dev Mode");
+    			    btnGetDirections.setVisible(true);
+    			    btnNode.setVisible(false);
+    			    btnDelNode.setVisible(false);
+    			}
+    		}
+    	});
+    	btnDevMode.setBounds(0, 41, 106, 25);
+    	directionsPanel.add(btnDevMode);
+    	
+    	//map button code    	
+    	JButton btnLoadMap = new JButton("Load");
+    	btnLoadMap.setBounds(0, 0, 75, 29);
+    	directionsPanel.add(btnLoadMap);	
+    	
+    	btnLoadMap.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent arg0) 
+    		{
+    	        if(lblPicLabel.isVisible()== true)
+    	        {
+    	        	lblPicLabel.setVisible(false);
+    	        	lblMapviewGoesHere.setVisible(false);
+    	        	lblScale.setVisible(false);
+    	        }
+    	        else
+    	        {
+    	        	
+    	        	lblScale.setVisible(true);    	        	
+    	        	lblPicLabel.setVisible(true);
+    	        	lblMapviewGoesHere.setVisible(true);
+    	        	lblMapviewGoesHere.setText("Walking map");
+    	        	lblScale.setText("Scale: 1 inch : 100 ft");
+    	        	
+    	        	
+    	        	//huge shit show but demonstrates using a Jtextpane with an icon. this is how to do directions
+    	            Icon icon = new ImageIcon("left.png");
+    	            JLabel label = new JLabel(icon);
+    	            StyleContext context = new StyleContext(); 
+    	            Style labelStyle = context.getStyle(StyleContext.DEFAULT_STYLE);
+    	            StyleConstants.setComponent(labelStyle, label);   	        	   	        	
+    	        	StyledDocument doc = txtDirections.getStyledDocument();    	        	
+    	            //Style def = StyleContext.getDefaultStyleContext().getStyle( StyleContext.DEFAULT_STYLE );
+    	            //Style regular = doc.addStyle( "regular", def );
+    	        	try {
+    	        		doc.insertString(0, "Start of text\n", null );
+    	        		doc.insertString(doc.getLength(), "Ignored", labelStyle);
+					} catch (BadLocationException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
+    	        }
+    		}
+    	});
+    	
+    	JSeparator separator = new JSeparator();
+    	separator.setBackground(Color.RED);
+    	separator.setOrientation(SwingConstants.VERTICAL);
+    	separator.setPreferredSize(new Dimension(50,10));
+    	//separator.setBounds(100, 100, 174, 246);
+    	frame.getContentPane().add(separator);
+    	
+    	   	
+    	frame.setSize(1280, 720);
+    	frame.setVisible(true);
+	}
+}
