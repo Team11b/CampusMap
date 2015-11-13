@@ -28,6 +28,10 @@ import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 
+//TODO: Select edges button
+//TODO: Place path button
+//TODO: Save button.
+
 public class AppUIObject {
 
 	/**
@@ -131,34 +135,34 @@ public class AppUIObject {
     	MouseListener mouseClick = new MouseListener() {
 			
 			@Override
-			public void mouseReleased(MouseEvent e) {
+			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
 				
+				System.out.println("X: " + e.getX() + " Y: " + e.getY());
 			}
-			
+
 			@Override
 			public void mousePressed(MouseEvent e) {
 				// TODO Auto-generated method stub
 				
 			}
-			
+
 			@Override
-			public void mouseExited(MouseEvent e) {
+			public void mouseReleased(MouseEvent e) {
 				// TODO Auto-generated method stub
 				
 			}
-			
+
 			@Override
 			public void mouseEntered(MouseEvent e) {
 				// TODO Auto-generated method stub
 				
 			}
-			
+
 			@Override
-			public void mouseClicked(MouseEvent e) {
+			public void mouseExited(MouseEvent e) {
 				// TODO Auto-generated method stub
 				
-				System.out.println("X: " + e.getX() + " Y: " + e.getY());
 			}
 		};
     	
