@@ -5,9 +5,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.util.ArrayList;
-
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
@@ -36,6 +37,7 @@ public class Map {
 		this.png = png;
 		this.xml = xml;
 		this.map = parseXML(xml);
+		
 	}
 
 	public String getPng() {
@@ -117,7 +119,7 @@ public class Map {
 
 			// add the Node at the top of the frontier and add it to the
 			// explored list
-			// remove that Node from the frontier
+			// remove that Node from the frontier			
 			explored.add(frontier.get(0));
 			frontier.remove(0);
 
@@ -129,13 +131,12 @@ public class Map {
 				// get the valid neighbors from the last Node on the explored
 				// list
 				Point[] neigh = explored.get(explored.size() - 1).getPoint().getValidNeighbors();
-
 				for (int j = 0; j < neigh.length; j++) {
 					tempNode = new Node(neigh[j], explored.get(explored.size() - 1));
 					// check if Node is in Explored
 					otherIndex = Map.getIndex(tempNode, explored);
-
-					if (otherIndex != -1) {
+//					if (otherIndex != -1) {
+					if (otherIndex == -1){
 						otherIndex = Map.getIndex(tempNode, frontier);
 						if (otherIndex == -1) {
 							frontier.add(new Node(neigh[j], explored.get(explored.size() - 1)));
@@ -151,7 +152,7 @@ public class Map {
 
 		// form the path
 		tempNode = explored.get(explored.size() - 1);
-		while (tempNode.getPoint() != null) {
+		while (tempNode != null && tempNode.getPoint() != null) {
 			returnPath.addNode(tempNode);
 			tempNode = tempNode.getParent();
 		}
@@ -191,11 +192,11 @@ public class Map {
 	 * @throws FileNotFoundException
 	 */
 	private Point[] parseXML(String filename) throws XMLStreamException, FileNotFoundException{
-		Point[] pointList= new Point[1];
+//		Point[] pointList= new Point[1];
 		Point currPoint = null;
 		Coord tempCoord = null;
 		String tagContent = null;
-		String[] neighList = new String[1];
+//		String[] neighList = new String[1];
 //		int nCount = 0;
 //		int pos = 0;
 		
@@ -216,6 +217,7 @@ public class Map {
 					currPoint = new Point();
 //					neighList = new String[8];
 //					nCount = 0;
+					neighAList = new ArrayList<String>();
 					currPoint.setId(reader.getAttributeValue(0));
 					tempCoord = new Coord(Float.parseFloat(reader.getAttributeValue(1)),Float.parseFloat(reader.getAttributeValue(2)));
 				}
@@ -234,7 +236,7 @@ public class Map {
 					currPoint.setCoord(tempCoord);
 //					pointList[pos] = currPoint;
 					pointAList.add(currPoint);
-					currPoint.setNeighborsID(neighAList.toArray(neighList));
+					currPoint.setNeighborsID(neighAList.toArray(new String[0]));
 //					pos++; 
 					break;
 				case "type":
@@ -250,7 +252,23 @@ public class Map {
 			}
 			
 		}
-		return pointAList.toArray(pointList);
+		
+		//goes through the points and gets the point objects associated with the neighbor ids and assigns them as neighbors
+		for(Point point: pointAList){
+			List<String> neighborIDs = Arrays.asList(point.getNeighborsID());
+			Point[] neighbors = new Point[neighborIDs.size()]; 
+			int i=0;
+			for(Point searchPoint: pointAList){
+//				System.out.printf("Point ID: %s\n", searchPoint.getId());
+				if(neighborIDs.contains(searchPoint.getId())){
+					neighbors[i] = searchPoint;
+					i++;
+				}
+				if(i>neighbors.length) break;
+			}
+			point.setNeighborsP(neighbors);
+		}
+		return pointAList.toArray(new Point[0]);
 	}
 
 }

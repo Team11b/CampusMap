@@ -11,7 +11,7 @@ import WPI.CampusMap.AStar.Node;
 import WPI.CampusMap.AStar.Path;
 import WPI.CampusMap.AStar.Point;
 
-public class AStarTest4 {
+public class NodePathTest {
 	static Coord cOne, cTwo, cThree, cFour;
 	static Point one, two, three;
 	static Node nOne, nTwo, nThree;
