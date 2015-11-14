@@ -18,7 +18,7 @@ public class AStarTest {
 
 	@Test
 	public void testAStar() throws FileNotFoundException,XMLStreamException {
-		Map testMap = new Map(0,"","XML/5x5Test.xml");
+		Map testMap = new Map(0, "5x5Test.png","XML/5x5Test.xml");
 		Point start,goal;
 		start = testMap.getMap()[4];
 		goal = testMap.getMap()[16];
