@@ -24,20 +24,41 @@ import javax.xml.stream.XMLStreamReader;
  */
 public class Map {
 
+	private int scale;
+	private String name;
 	private String png;
 	private String xml;
 	private Point[] map;
 
 	/**
 	 * Map constructor
+	 * @param scale Scale of this map
 	 * @param png File name of the image for this map
 	 * @param xml File name of the XML of points for this map
 	 */
-	public Map(String png, String xml) throws FileNotFoundException,XMLStreamException{
+	public Map(int scale, String png, String xml) throws FileNotFoundException,XMLStreamException{
+		this.scale = scale;
+		this.name = png.substring(0, png.length()-4);
 		this.png = png;
 		this.xml = xml;
 		this.map = parseXML(xml);
 		
+	}
+	
+	public int getScale() {
+		return this.scale;
+	}
+	
+	public void setScale(int scale) {
+		this.scale = scale;
+	}
+	
+	public String getName() {
+		return this.name;
+	}
+	
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getPng() {
