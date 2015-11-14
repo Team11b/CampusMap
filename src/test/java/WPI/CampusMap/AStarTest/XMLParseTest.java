@@ -21,25 +21,25 @@ public class XMLParseTest {
 
 	@Test
 	public void testOpenXML() throws FileNotFoundException,XMLStreamException {
-		Map testMap = new Map("","XML/AK.xml");
+		Map testMap = new Map(0,"","XML/AK.xml");
 	}
 
 	@Test
 	public void testOpenXMLFileNotFound() throws FileNotFoundException,XMLStreamException {
 	    exception.expect(FileNotFoundException.class);
-	    Map testMap = new Map("","blah.xml");
+	    Map testMap = new Map(0,"","blah.xml");
 	}
 	
 	@Test
 	public void testInvalidXML() throws FileNotFoundException,XMLStreamException {
 	    exception.expect(XMLStreamException.class);
-	    Map testMap = new Map("","XML/borked.xml");
+	    Map testMap = new Map(0,"","XML/borked.xml");
 	}
 	
 
 	@Test //need better test after stuff
 	public void testMapCreation() throws FileNotFoundException,XMLStreamException {
-		Map testMap = new Map("","XML/AK.xml");
+		Map testMap = new Map(0,"","XML/AK.xml");
 		Point[] points = testMap.getMap();
 
 		System.out.printf("Number of points: %d\n", points.length);
