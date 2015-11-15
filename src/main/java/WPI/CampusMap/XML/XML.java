@@ -62,7 +62,6 @@ public class XML {
 	public static void writePoints(Map map, ArrayList<Point> arrayList) {
 		try {
 			System.out.println(arrayList.size());
-			
 			System.setOut(dummyStream);
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
