@@ -66,16 +66,16 @@ public class XMLWriteTest {
 		assertTrue(Arrays.asList(points[4].getNeighborsID()).contains("86ee014d-3e62-44f7-86e1-70a865afe51c"));
 		
 		//Delete testMap
-//		Path path = Paths.get("XML\\AKTest.xml");
-//		try {
-//		    Files.delete(path);
-//		}catch (NoSuchFileException x) {
-//		    System.err.format("%s: no such" + " file or directory%n", path);
-//		} catch (DirectoryNotEmptyException x) {
-//		    System.err.format("%s not empty%n", path);
-//		} catch (IOException x) {
-//		    // File permission problems are caught here.
-//		    System.err.println(x);
+		Path path = Paths.get("XML\\AKTest.xml");
+		try {
+		    Files.delete(path);
+		}catch (NoSuchFileException x) {
+		    System.err.format("%s: no such" + " file or directory%n", path);
+		} catch (DirectoryNotEmptyException x) {
+		    System.err.format("%s not empty%n", path);
+		} catch (IOException x) {
+		    // File permission problems are caught here.
+		    System.err.println(x);
 //		}
 	}
 
