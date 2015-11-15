@@ -13,7 +13,7 @@ public class XMLTest {
 	
 	@Test
 	public void testWriteXML() throws FileNotFoundException, XMLStreamException {
-		Map map = new Map(0, "testOutput.png", "XML/AK.xml");
+		Map map = new Map("XML/AK.xml");
 		XML.writePoints(map, map.getMap());
 	}
 	

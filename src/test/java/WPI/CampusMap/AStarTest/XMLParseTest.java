@@ -23,7 +23,7 @@ public class XMLParseTest {
 
 	@Test
 	public void testOpenXML() throws FileNotFoundException,XMLStreamException {
-		Map testMap = new Map(0,"AK.png","XML/AK.xml");
+		Map testMap = new Map("XML/AK.xml");
 		Point[] points = testMap.getMap();
 		
 		//checking points
@@ -65,12 +65,12 @@ public class XMLParseTest {
 	@Test
 	public void testOpenXMLFileNotFound() throws FileNotFoundException,XMLStreamException {
 	    exception.expect(FileNotFoundException.class);
-	    Map testMap = new Map(0,"blah.png","blah.xml");
+	    Map testMap = new Map("blah.xml");
 	}
 	
 	@Test
 	public void testInvalidXML() throws FileNotFoundException,XMLStreamException {
 	    exception.expect(XMLStreamException.class);
-	    Map testMap = new Map(0,"borked.png","XML/borked.xml");
+	    Map testMap = new Map("XML/borked.xml");
 	}
 }

@@ -2,6 +2,7 @@ package WPI.CampusMap;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -27,6 +28,9 @@ import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
 import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
+import javax.xml.stream.XMLStreamException;
+
+import WPI.CampusMap.AStar.Map;
 
 //TODO: Select edges button
 //TODO: Place path button
@@ -34,6 +38,8 @@ import javax.swing.text.StyledDocument;
 
 public class AppUIObject {
 
+	private static Map map;
+	
 	/**
 	 * Presents a view that allows the user to enter an email address 
 	 * and send an email with the walking directions.
@@ -54,6 +60,11 @@ public class AppUIObject {
 	 */
 	private static void printDirections(){
 		
+	}
+	
+	private static void loadMap(String mapName) throws XMLStreamException{
+		Map newMap = new Map(mapName);
+		map = newMap;
 	}
 	
 	/**
@@ -116,16 +127,7 @@ public class AppUIObject {
         //debug statements
         System.out.println(System.getProperty("user.dir"));
         System.out.println(myPicture.getWidth());
-        System.out.println(myPicture.getHeight());
-        
-        //calculate how bit to make label and image itself
-    	int height = 700; //700
-    	double ratio = ((double)myPicture.getWidth()/myPicture.getHeight());
-    	Double width = (ratio * (double)700);
-    	int w2 = width.intValue();
-    	System.out.println(ratio);
-    	
-    	final ImageIcon img = new ImageIcon(myPicture.getScaledInstance(w2, height, Image.SCALE_SMOOTH));    	
+        System.out.println(myPicture.getHeight());    	
     	
     	final JLabel lblScale = new JLabel("");
     	lblScale.setBounds(872, 12, 146, 16);
@@ -166,8 +168,7 @@ public class AppUIObject {
 			}
 		};
     	
-    	final JLabel lblPicLabel = new JLabel(img);    			
-    	lblPicLabel.setBounds(5, 0, w2, height); //width 988
+    	final JLabel lblPicLabel = new JLabel();
     	mainPanel.add(lblPicLabel);
     	lblPicLabel.setVisible(false);
     	lblPicLabel.addMouseListener(mouseClick);
@@ -243,6 +244,13 @@ public class AppUIObject {
     	btnLoadMap.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent arg0) 
     		{
+    			try {
+					loadMap("outside.xml");
+				} catch (XMLStreamException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+    			
     	        if(lblPicLabel.isVisible()== true)
     	        {
     	        	lblPicLabel.setVisible(false);
@@ -254,6 +262,8 @@ public class AppUIObject {
     	        	
     	        	lblScale.setVisible(true);    	        	
     	        	lblPicLabel.setVisible(true);
+    	        	lblPicLabel.setIcon(map.getLoadedImage());
+    	        	lblPicLabel.setBounds(5, 5, 1000, 660);
     	        	lblMapviewGoesHere.setVisible(true);
     	        	lblMapviewGoesHere.setText("Walking map");
     	        	lblScale.setText("Scale: 1 inch : 100 ft");

@@ -1,8 +1,11 @@
 package WPI.CampusMap.AStar;
 
+import java.awt.Image;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,6 +13,8 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.xml.stream.XMLInputFactory;
 import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
@@ -29,20 +34,20 @@ public class Map {
 	private String png;
 	private String xml;
 	private Point[] map;
-
-	/**
-	 * Map constructor
-	 * @param scale Scale of this map
-	 * @param png File name of the image for this map
-	 * @param xml File name of the XML of points for this map
-	 */
-	public Map(int scale, String png, String xml) throws FileNotFoundException,XMLStreamException{
-		this.scale = scale;
-		this.name = png.substring(0, png.length()-4);
-		this.png = png;
+	private ImageIcon loadedImage;
+	
+	public Map(String xml) throws XMLStreamException{
+		this.scale = 100;
+		this.name = xml.substring(0, xml.length()-4);
+		this.png = name + ".png";
 		this.xml = xml;
-		this.map = parseXML(xml);
-		
+		parseXML(xml);
+		try {
+			loadImage();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 	}
 	
 	public int getScale() {
@@ -83,6 +88,38 @@ public class Map {
 
 	public void setMap(Point[] map) {
 		this.map = map;
+	}
+	
+	public ImageIcon getLoadedImage() {
+		return loadedImage;
+	}
+
+	public void setLoadedImage(ImageIcon loadedImage) {
+		this.loadedImage = loadedImage;
+	}
+
+	public Point getPoint(String id)
+	{
+		for(Point p : map)
+		{
+			if(p.getId() == id)
+				return p;
+		}
+		
+		return null;
+	}
+	
+	/**
+	 * Converst screen space coords to world space coords.
+	 * @param screenSpace The coords in screen space
+	 * @return The coords in world space.
+	 */
+	public Coord screenToWorldSpace(Coord screenSpace)
+	{
+		float x = screenSpace.getX() / (float)loadedImage.getIconWidth() * (float)scale;
+		float y = screenSpace.getY() / (float)loadedImage.getIconHeight() * (float)scale;
+		
+		return new Coord(x, y);
 	}
 
 	/**
@@ -200,9 +237,6 @@ public class Map {
 		}
 		return -1;
 	}
-
-	public static void main(String[] args) {
-	}
 	
 	/**
 	 * Function to take an xml file as input and output an array of points.
@@ -212,7 +246,7 @@ public class Map {
 	 * @throws XMLStreamException 
 	 * @throws FileNotFoundException
 	 */
-	private Point[] parseXML(String filename) throws XMLStreamException, FileNotFoundException{
+	private void parseXML(String filename) throws XMLStreamException{
 		Point currPoint = null;
 		Coord tempCoord = null;
 		String tagContent = null;
@@ -222,7 +256,18 @@ public class Map {
 		
 		XMLInputFactory factory = XMLInputFactory.newInstance();
 		File testFile = new File(filename);
-		InputStream test = new FileInputStream(testFile);
+		
+		
+		InputStream test = null;
+		try 
+		{
+			test = new FileInputStream(testFile);
+		} 
+		catch (FileNotFoundException e) 
+		{
+			map = new Point[0];
+			return;
+		}
 		
 		XMLStreamReader reader = factory.createXMLStreamReader(test);
 		
@@ -230,14 +275,18 @@ public class Map {
 			int event = reader.next();
 			switch(event){
 			case XMLStreamConstants.START_ELEMENT:
-				if("Node".equals(reader.getLocalName())){
+				if("Node".equals(reader.getLocalName()))
+				{
 					currPoint = new Point();
 					neighAList = new ArrayList<String>();
 					currPoint.setId(reader.getAttributeValue(0));
 					tempCoord = new Coord(Float.parseFloat(reader.getAttributeValue(1)),Float.parseFloat(reader.getAttributeValue(2)));
 				}
-				if("Map".equals(reader.getLocalName())){
+				if("Map".equals(reader.getLocalName()))
+				{
 					setPng(reader.getAttributeValue(0));
+					setScale(Integer.parseInt(reader.getAttributeValue(1)));
+					setName(reader.getAttributeValue(2));
 				}
 				break;
 			case XMLStreamConstants.CHARACTERS:
@@ -277,7 +326,13 @@ public class Map {
 			}
 			point.setNeighborsP(neighbors);
 		}
-		return pointAList.toArray(new Point[0]);
+		map = pointAList.toArray(new Point[0]);
+	}
+	
+	private void loadImage() throws IOException
+	{
+		BufferedImage buffer = ImageIO.read(new File(png));
+		loadedImage = new ImageIcon(buffer.getScaledInstance(1000, 660, Image.SCALE_SMOOTH));//TODO: do not scale, but rather have graphics draw
 	}
 
 }
