@@ -42,6 +42,7 @@ public class Map {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+		map = XML.parseXML(this);
 	}
 	
 	public int getScale() {

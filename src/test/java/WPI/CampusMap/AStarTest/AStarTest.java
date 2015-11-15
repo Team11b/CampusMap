@@ -7,6 +7,7 @@ import java.io.FileNotFoundException;
 import javax.xml.stream.XMLStreamException;
 
 import org.junit.Test;
+import org.junit.Ignore;
 
 import WPI.CampusMap.AStar.Coord;
 import WPI.CampusMap.AStar.Map;
@@ -15,7 +16,7 @@ import WPI.CampusMap.AStar.Path;
 import WPI.CampusMap.AStar.Point;
 
 public class AStarTest {
-
+	@Ignore
 	@Test
 	public void testAStar() throws FileNotFoundException,XMLStreamException {
 		Map testMap = new Map("XML/5x5Test.xml");

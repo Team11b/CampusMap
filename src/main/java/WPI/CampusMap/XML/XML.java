@@ -61,6 +61,8 @@ public class XML {
 	 */
 	public static void writePoints(Map map, ArrayList<Point> arrayList) {
 		try {
+			System.out.println(arrayList.size());
+			
 			System.setOut(dummyStream);
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -70,13 +72,14 @@ public class XML {
 
 			rootElement.setAttribute("imageFile", map.getPng());
 			rootElement.setAttribute("scale", Integer.toString(map.getScale()));
-
+			
 			ArrayList<Point> sortedPoints = new ArrayList<Point>();
-			Collections.sort(sortedPoints, new Comparator<Point>() {
+			arrayList.sort(new Comparator<Point>() {
 				public int compare(Point p1, Point p2) {
 					return p1.getId().compareTo(p2.getId());
 				}
 			});
+			sortedPoints=arrayList;
 
 			Element newElement;
 			Element subElement;
