@@ -35,6 +35,8 @@ public class Map {
 	 * @param scale Scale of this map
 	 * @param png File name of the image for this map
 	 * @param xml File name of the XML of points for this map
+	 * @throws FileNotFoundException
+	 * @throws XMLStreamException
 	 */
 	public Map(int scale, String png, String xml) throws FileNotFoundException,XMLStreamException{
 		this.scale = scale;
