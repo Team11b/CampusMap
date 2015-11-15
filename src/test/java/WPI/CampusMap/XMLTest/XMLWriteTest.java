@@ -76,7 +76,7 @@ public class XMLWriteTest {
 		} catch (IOException x) {
 		    // File permission problems are caught here.
 		    System.err.println(x);
-//		}
+		}
 	}
 
 }
