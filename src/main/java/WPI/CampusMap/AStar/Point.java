@@ -122,9 +122,13 @@ public class Point {
 	
 	public void removeNeighbor(Point point) {
 		// TODO Auto-generated method stub
-		ArrayList<String> neighbors = (ArrayList<String>) Arrays.asList(this.getNeighborsID());
-		neighbors.remove(id);
+		ArrayList<String> neighbors = new ArrayList<String>(Arrays.asList(this.getNeighborsID()));
+		neighbors.remove(point.id);
+		this.setNeighborsID(neighbors.toArray(new String[0]));
 		
+		ArrayList<Point> neighborsP = new ArrayList<Point>(Arrays.asList(this.getNeighborsP()));
+		neighbors.remove(point);
+		this.setNeighborsP(neighborsP.toArray(new Point[0]));
 	}
 
 	@Override
