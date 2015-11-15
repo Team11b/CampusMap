@@ -20,8 +20,8 @@ public class AStarTest {
 	public void testAStar() throws FileNotFoundException,XMLStreamException {
 		Map testMap = new Map("XML/5x5Test.xml");
 		Point start,goal;
-		start = testMap.getMap()[4];
-		goal = testMap.getMap()[16];
+		start = testMap.getMap().get(4);
+		goal = testMap.getMap().get(16);
 		
 		Path path = testMap.astar(start, goal);
 		System.out.printf("Start: X: %f, Y: %f\n", start.getCoord().getX(), start.getCoord().getY());

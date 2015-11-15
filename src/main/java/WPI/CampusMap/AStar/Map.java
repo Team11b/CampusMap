@@ -3,22 +3,16 @@ package WPI.CampusMap.AStar;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
-import java.util.List;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
-import javax.xml.stream.XMLInputFactory;
-import javax.xml.stream.XMLStreamConstants;
 import javax.xml.stream.XMLStreamException;
-import javax.xml.stream.XMLStreamReader;
+
+import WPI.CampusMap.XML.XML;
 
 /**
  * 
@@ -33,19 +27,19 @@ public class Map {
 	private String name;
 	private String png;
 	private String xml;
-	private Point[] map;
+	private ArrayList<Point> map;
 	private ImageIcon loadedImage;
 	
 	public Map(String xml) throws XMLStreamException{
 		this.scale = 100;
 		this.name = xml.substring(0, xml.length()-4);
-		this.png = name + ".png";
+//		this.png = name + ".png";
+		this.png = "left.png";
 		this.xml = xml;
-		parseXML(xml);
+		XML.parseXML(this);
 		try {
 			loadImage();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 	}
@@ -82,11 +76,11 @@ public class Map {
 		this.png = png;
 	}
 
-	public Point[] getMap() {
+	public ArrayList<Point> getMap() {
 		return this.map;
 	}
 
-	public void setMap(Point[] map) {
+	public void setMap(ArrayList<Point> map) {
 		this.map = map;
 	}
 	
@@ -236,97 +230,6 @@ public class Map {
 			}
 		}
 		return -1;
-	}
-	
-	/**
-	 * Function to take an xml file as input and output an array of points.
-	 * 
-	 * @param filename Relative file path of XML file
-	 * @return Array of all points in the file
-	 * @throws XMLStreamException 
-	 * @throws FileNotFoundException
-	 */
-	private void parseXML(String filename) throws XMLStreamException{
-		Point currPoint = null;
-		Coord tempCoord = null;
-		String tagContent = null;
-		
-		ArrayList<Point> pointAList = new ArrayList<Point>();
-		ArrayList<String> neighAList = new ArrayList<String>();
-		
-		XMLInputFactory factory = XMLInputFactory.newInstance();
-		File testFile = new File(filename);
-		
-		
-		InputStream test = null;
-		try 
-		{
-			test = new FileInputStream(testFile);
-		} 
-		catch (FileNotFoundException e) 
-		{
-			map = new Point[0];
-			return;
-		}
-		
-		XMLStreamReader reader = factory.createXMLStreamReader(test);
-		
-		while(reader.hasNext()){
-			int event = reader.next();
-			switch(event){
-			case XMLStreamConstants.START_ELEMENT:
-				if("Node".equals(reader.getLocalName()))
-				{
-					currPoint = new Point();
-					neighAList = new ArrayList<String>();
-					currPoint.setId(reader.getAttributeValue(0));
-					tempCoord = new Coord(Float.parseFloat(reader.getAttributeValue(1)),Float.parseFloat(reader.getAttributeValue(2)));
-				}
-				if("Map".equals(reader.getLocalName()))
-				{
-					setPng(reader.getAttributeValue(0));
-					setScale(Integer.parseInt(reader.getAttributeValue(1)));
-					setName(reader.getAttributeValue(2));
-				}
-				break;
-			case XMLStreamConstants.CHARACTERS:
-				tagContent = reader.getText().trim();
-			break;
-			case XMLStreamConstants.END_ELEMENT:
-				switch(reader.getLocalName()){
-				case "Node":
-					currPoint.setCoord(tempCoord);
-					pointAList.add(currPoint);
-					currPoint.setNeighborsID(neighAList.toArray(new String[0]));
-//					pos++; 
-					break;
-				case "type":
-					currPoint.setType(tagContent);
-					break;
-				case "Connection":
-					neighAList.add(tagContent);
-					break;
-				}
-				break;
-			}
-			
-		}
-		
-		//goes through the points and gets the point objects associated with the neighbor ids and assigns them as neighbors
-		for(Point point: pointAList){
-			List<String> neighborIDs = Arrays.asList(point.getNeighborsID());
-			Point[] neighbors = new Point[neighborIDs.size()]; 
-			int i=0;
-			for(Point searchPoint: pointAList){
-				if(neighborIDs.contains(searchPoint.getId())){
-					neighbors[i] = searchPoint;
-					i++;
-				}
-				if(i>neighbors.length) break;
-			}
-			point.setNeighborsP(neighbors);
-		}
-		map = pointAList.toArray(new Point[0]);
 	}
 	
 	private void loadImage() throws IOException

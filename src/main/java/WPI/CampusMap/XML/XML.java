@@ -1,15 +1,23 @@
 package WPI.CampusMap.XML;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.List;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.stream.XMLInputFactory;
+import javax.xml.stream.XMLStreamConstants;
+import javax.xml.stream.XMLStreamException;
+import javax.xml.stream.XMLStreamReader;
 import javax.xml.transform.Transformer;
 import javax.xml.transform.TransformerFactory;
 import javax.xml.transform.dom.DOMSource;
@@ -18,6 +26,7 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
+import WPI.CampusMap.AStar.Coord;
 import WPI.CampusMap.AStar.Map;
 import WPI.CampusMap.AStar.Point;
 
@@ -43,14 +52,14 @@ public class XML {
 	 * 
 	 * @param map
 	 *            the map to record information from
-	 * @param points
+	 * @param arrayList
 	 *            an array of Points to record information
 	 * @see <a href=
 	 *      "http://www.tutorialspoint.com/java_xml/java_dom_create_document.htm">
 	 *      http://www.tutorialspoint.com/java_xml/java_dom_create_document.htm
 	 *      </a>
 	 */
-	public static void writePoints(Map map, Point[] points) {
+	public static void writePoints(Map map, ArrayList<Point> arrayList) {
 		try {
 			System.setOut(dummyStream);
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -62,7 +71,7 @@ public class XML {
 			rootElement.setAttribute("imageFile", map.getPng());
 			rootElement.setAttribute("scale", Integer.toString(map.getScale()));
 
-			ArrayList<Point> sortedPoints = new ArrayList<Point>(Arrays.asList(points));
+			ArrayList<Point> sortedPoints = new ArrayList<Point>();
 			Collections.sort(sortedPoints, new Comparator<Point>() {
 				public int compare(Point p1, Point p2) {
 					return p1.getId().compareTo(p2.getId());
@@ -71,7 +80,7 @@ public class XML {
 
 			Element newElement;
 			Element subElement;
-			for (int j = 0; j < points.length; j++) {
+			for (int j = 0; j < arrayList.size(); j++) {
 				newElement = doc.createElement("Point");
 				rootElement.appendChild(newElement);
 				newElement.setAttribute("nodeID", sortedPoints.get(j).getId());
@@ -115,5 +124,92 @@ public class XML {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+	
+	/**
+	 * Function to take an xml file as input and output an array of points.
+	 * 
+	 * @param filename Relative file path of XML file
+	 * @return Array of all points in the file
+	 * @throws XMLStreamException 
+	 * @throws FileNotFoundException
+	 */
+	public static ArrayList<Point> parseXML(Map map) throws XMLStreamException{
+		Point currPoint = null;
+		Coord tempCoord = null;
+		String tagContent = null;
+		
+		ArrayList<Point> pointAList = new ArrayList<Point>();
+		ArrayList<String> neighAList = new ArrayList<String>();
+		
+		XMLInputFactory factory = XMLInputFactory.newInstance();
+		File testFile = new File(map.getXML());
+		
+		
+		InputStream test = null;
+		try 
+		{
+			test = new FileInputStream(testFile);
+		} 
+		catch (FileNotFoundException e) 
+		{
+			return null;
+		}
+		
+		XMLStreamReader reader = factory.createXMLStreamReader(test);
+		
+		while(reader.hasNext()){
+			int event = reader.next();
+			switch(event){
+			case XMLStreamConstants.START_ELEMENT:
+				if("Node".equals(reader.getLocalName()))
+				{
+					currPoint = new Point();
+					neighAList = new ArrayList<String>();
+					currPoint.setId(reader.getAttributeValue(0));
+					tempCoord = new Coord(Float.parseFloat(reader.getAttributeValue(1)),Float.parseFloat(reader.getAttributeValue(2)));
+				}
+				if("Map".equals(reader.getLocalName()))
+				{
+					map.setScale(Integer.parseInt(reader.getAttributeValue(1)));
+				}
+				break;
+			case XMLStreamConstants.CHARACTERS:
+				tagContent = reader.getText().trim();
+			break;
+			case XMLStreamConstants.END_ELEMENT:
+				switch(reader.getLocalName()){
+				case "Node":
+					currPoint.setCoord(tempCoord);
+					pointAList.add(currPoint);
+					currPoint.setNeighborsID(neighAList.toArray(new String[0]));
+					break;
+				case "type":
+					currPoint.setType(tagContent);
+					break;
+				case "Connection":
+					neighAList.add(tagContent);
+					break;
+				}
+				break;
+			}
+			
+		}
+		
+		//goes through the points and gets the point objects associated with the neighbor ids and assigns them as neighbors
+		for(Point point: pointAList){
+			List<String> neighborIDs = Arrays.asList(point.getNeighborsID());
+			Point[] neighbors = new Point[neighborIDs.size()]; 
+			int i=0;
+			for(Point searchPoint: pointAList){
+				if(neighborIDs.contains(searchPoint.getId())){
+					neighbors[i] = searchPoint;
+					i++;
+				}
+				if(i>neighbors.length) break;
+			}
+			point.setNeighborsP(neighbors);
+		}
+		return pointAList;
 	}
 }
