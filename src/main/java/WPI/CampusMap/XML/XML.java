@@ -50,8 +50,9 @@ public class XML {
 	 *      http://www.tutorialspoint.com/java_xml/java_dom_create_document.htm
 	 *      </a>
 	 */
-	public static void writePoints(Map map, Point[] points) {
+	public static void writePoints(Map map) {
 		try {
+			Point[] points = map.getMap();
 			System.setOut(dummyStream);
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
