@@ -186,12 +186,12 @@ public class AppUIObject {
     	
     	JButton btnEmail = new JButton("Email");
     	btnEmail.addActionListener(actionHandler);
-    	btnEmail.setBounds(0, 635, 106, 29);
+    	btnEmail.setBounds(26, 629, 106, 29);
     	directionsPanel.add(btnEmail);
     	
     	JButton btnPrint = new JButton("Print");
     	btnPrint.addActionListener(actionHandler);
-    	btnPrint.setBounds(114, 635, 111, 29);
+    	btnPrint.setBounds(130, 629, 111, 29);
     	directionsPanel.add(btnPrint);
     	
     	JLabel lblDirections = new JLabel("Directions:");
@@ -233,7 +233,7 @@ public class AppUIObject {
     			}
     		}
     	});
-    	btnDevMode.setBounds(0, 41, 106, 25);
+    	btnDevMode.setBounds(10, 41, 106, 25);
     	directionsPanel.add(btnDevMode);
     	
     	//map button code    	
