@@ -15,8 +15,8 @@ public class POI extends Point {
 	 *            Coordinates of the Point of interest
 	 * @param type
 	 *            Type of Point
-	 * @param linkedMap
-	 *            ID of Point
+	 * @param id
+	 * 			  ID of Point
 	 * @param linkedMap
 	 *            additional Map this POI connects to
 	 */
