@@ -1,6 +1,7 @@
 package WPI.CampusMap.AStar;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 
 /**
  * 
@@ -117,6 +118,13 @@ public class Point {
 		}
 
 		return trim.toArray(new Point[0]);
+	}
+	
+	public void removeNeighbor(Point point) {
+		// TODO Auto-generated method stub
+		ArrayList<String> neighbors = (ArrayList<String>) Arrays.asList(this.getNeighborsID());
+		neighbors.remove(id);
+		
 	}
 
 	@Override

@@ -232,6 +232,66 @@ public class Map {
 		}
 		return -1;
 	}
+	/**
+	 * Removes the point with the given ID from the map array, and from the neighbor arrays of
+	 * all points on the map
+	 * 
+	 * @param id  The ID of the string to be removed
+	 */
+	private void removePoint(String id){
+		for(Point point: map){
+			if(point.getId().equals(id)){
+				String[] neighbors = point.getNeighborsID();
+				for(int i = 0; 1 < neighbors.length;i++){
+					for(Point pointN: map){
+						if(pointN.getId().equals(neighbors[i])){
+							pointN.removeNeighbor(point);
+						}
+					}
+				}
+			}
+		}
+	}
+	
+	/**
+	 * Removes the point with the given id from an array of points if one is found
+	 * 
+	 * @param points  The array to remove the point from
+	 * @param id  The ID of the point being removed
+	 * @return  The modified array
+	 */
+	public Point[] removePointArray(Point[] points,String id){
+		for(int i = 0;i<points.length;i++){
+			if(points[i].getId().equals(id)){
+				for(;i<points.length - 1;i++){
+					points[i] = points[i+1];
+				}
+				i++;
+				points[i] = null;
+			}
+		}
+		return points;
+	}
+	
+	/**
+	 * Removes the string equal to id from the array if it is found
+	 * 
+	 * @param array The array to remove the string from
+	 * @param id  The id to remove from the array
+	 * @return  The modified array
+	 */
+	public String[] removeStringArray(String[] array,String id){
+		for(int i = 0;i<array.length;i++){
+			if(array[i].equals(id)){
+				for(;i<array.length - 1;i++){
+					array[i] = array[i+1];
+				}
+				i++;
+				array[i] = null;
+			}
+		}
+		return array;
+	}
 	
 	private void loadImage() throws IOException
 	{
