@@ -59,11 +59,10 @@ public class XML {
 	 *      http://www.tutorialspoint.com/java_xml/java_dom_create_document.htm
 	 *      </a>
 	 */
-
 	public static void writePoints(Map map, ArrayList<Point> arrayList) {
 		try {
 			System.out.println(arrayList.size());
-
+			
 			System.setOut(dummyStream);
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -85,7 +84,7 @@ public class XML {
 			Element newElement;
 			Element subElement;
 			for (int j = 0; j < arrayList.size(); j++) {
-				newElement = doc.createElement("Point");
+				newElement = doc.createElement("Node");
 				rootElement.appendChild(newElement);
 				newElement.setAttribute("nodeID", sortedPoints.get(j).getId());
 				newElement.setAttribute("x", Double.toString(sortedPoints.get(j).getCoord().getX()));
@@ -182,6 +181,7 @@ public class XML {
 				tagContent = reader.getText().trim();
 			break;
 			case XMLStreamConstants.END_ELEMENT:
+				
 				switch(reader.getLocalName()){
 				case "Node":
 					currPoint.setCoord(tempCoord);
