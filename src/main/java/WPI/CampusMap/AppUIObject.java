@@ -339,6 +339,12 @@ public class AppUIObject {
 				deleteMode = !deleteMode;
 				System.out.println("Delete Mode");
 				break;
+			case "Add Edge":
+				System.out.println("Add Edge");
+				break;
+			case "Remove Edge":
+				System.out.println("Remove Edge");
+				break;
 			default:
 			}
 		}
@@ -475,6 +481,9 @@ public class AppUIObject {
 			}
 
 		});
+		
+		btnAddEdge.addActionListener(actionHandler);
+		btnRemoveEdge.addActionListener(actionHandler);
 
 		mainPanel.setBounds(1, 6, 1018, 664);
 		frame.getContentPane().add(mainPanel);
