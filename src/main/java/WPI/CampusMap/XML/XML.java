@@ -28,7 +28,7 @@ import WPI.CampusMap.AStar.Map;
 import WPI.CampusMap.AStar.Point;
 
 public class XML {
-	public static final String filePath = "XML\\";
+	public static final String filePath = "XML/";
 	public static final String fileEnd = ".xml";
 
 	public static PrintStream originalStream = System.out;
