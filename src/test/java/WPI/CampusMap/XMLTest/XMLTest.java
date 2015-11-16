@@ -63,24 +63,24 @@ public class XMLTest {
 		
 		//checking neighbors for zeroth point
 		assertTrue(points.get(0).getNeighborsID().contains("b9e43a3e-c47d-4f7b-b63c-f874c94f4cde"));
-		assertTrue(Arrays.asList(points.get(0).getNeighborsID()).contains("b9e43a3e-c47d-4f7b-b63c-f874c94f4cde"));
-		assertTrue(Arrays.asList(points.get(0).getNeighborsID()).contains("86ee014d-3e62-44f7-86e1-70a865afe51c"));
-		assertTrue(Arrays.asList(points.get(0).getNeighborsID()).contains("8c45166a-15fc-41b9-8a7a-e27e7d1c9cd1"));
+		assertTrue(points.get(0).getNeighborsID().contains("b9e43a3e-c47d-4f7b-b63c-f874c94f4cde"));
+		assertTrue(points.get(0).getNeighborsID().contains("86ee014d-3e62-44f7-86e1-70a865afe51c"));
+		assertTrue(points.get(0).getNeighborsID().contains("8c45166a-15fc-41b9-8a7a-e27e7d1c9cd1"));
 
 		//checking neighbors for first point
-		assertTrue(Arrays.asList(points.get(1).getNeighborsID()).contains("8c45166a-15fc-41b9-8a7a-e27e7d1c9cd1"));
+		assertTrue(points.get(1).getNeighborsID().contains("8c45166a-15fc-41b9-8a7a-e27e7d1c9cd1"));
 
 		//checking neighbors for second point
-		assertTrue(Arrays.asList(points.get(2).getNeighborsID()).contains("b9e43a3e-c47d-4f7b-b63c-f874c94f4cde"));
-		assertTrue(Arrays.asList(points.get(2).getNeighborsID()).contains("1fe6c8ad-437c-4666-b66b-c83cf9bf1e48"));
+		assertTrue(points.get(2).getNeighborsID().contains("b9e43a3e-c47d-4f7b-b63c-f874c94f4cde"));
+		assertTrue(points.get(2).getNeighborsID().contains("1fe6c8ad-437c-4666-b66b-c83cf9bf1e48"));
 
 		//checking neighbors for second point
-		assertTrue(Arrays.asList(points.get(3).getNeighborsID()).contains("1fe6c8ad-437c-4666-b66b-c83cf9bf1e48"));
-		assertTrue(Arrays.asList(points.get(3).getNeighborsID()).contains("67573704-c76e-4356-a80e-b03142cf8af6"));
+		assertTrue(points.get(3).getNeighborsID().contains("1fe6c8ad-437c-4666-b66b-c83cf9bf1e48"));
+		assertTrue(points.get(3).getNeighborsID().contains("67573704-c76e-4356-a80e-b03142cf8af6"));
 		
 		//checking neighbors for fourth point
-		assertTrue(Arrays.asList(points.get(4).getNeighborsID()).contains("1fe6c8ad-437c-4666-b66b-c83cf9bf1e48"));
-		assertTrue(Arrays.asList(points.get(4).getNeighborsID()).contains("86ee014d-3e62-44f7-86e1-70a865afe51c"));
+		assertTrue(points.get(4).getNeighborsID().contains("1fe6c8ad-437c-4666-b66b-c83cf9bf1e48"));
+		assertTrue(points.get(4).getNeighborsID().contains("86ee014d-3e62-44f7-86e1-70a865afe51c"));
 	}
 
 }
