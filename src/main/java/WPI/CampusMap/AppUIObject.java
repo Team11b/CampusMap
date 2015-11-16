@@ -43,9 +43,189 @@ import javax.swing.JComboBox;
 
 public class AppUIObject {
 
+	//UI Elements
+	final JFrame frame = new JFrame("Path Finder");
+	final JPanel mainPanel = new JPanel();
+	final JLabel lblMapviewGoesHere = new JLabel("");
+	final JLabel lblScale = new JLabel("");
+	final JLabel lblPicLabel = new JLabel();
+	final JPanel directionsPanel = new JPanel();
+	final JButton btnEmail = new JButton("Email");
+	final JButton btnPrint = new JButton("Print");
+	final JLabel lblDirections = new JLabel("Directions:");
+	final JButton btnGetDirections = new JButton("Route me");
+	final JButton btnNode = new JButton("Place Mode");
+	final JButton btnDelNode = new JButton("Delete Mode");
+	JLabel lblMapColon = new JLabel("Map:");
+	final JButton btnDevMode = new JButton("Dev Mode");
+	String[] mapStrings = { "Select a map", "outside", "left", "test", "walkingmap"};
+	final JComboBox mapDropDown = new JComboBox(mapStrings);    	
+	final StringBuilder mapName = new StringBuilder();
+	MouseListener mouseClick;
+	
+	
 	private static Map map;
 	
 	private static Point selectedPoint;
+	
+	/**
+	 * Re-draws all UI elements. Call after the map has changed.
+	 */
+	public void reDrawUI(){
+		SwingAction actionHandler = new SwingAction();
+    	
+    	lblMapviewGoesHere.setBounds(166, 12, 146, 16);
+    	mainPanel.add(lblMapviewGoesHere);
+    	lblMapviewGoesHere.setVisible(true);    	
+    	
+        
+        //debug statements
+        System.out.println(System.getProperty("user.dir"));     	
+    	
+    	
+    	lblScale.setBounds(781, 12, 225, 16);
+    	mainPanel.add(lblScale);
+    	lblScale.setVisible(true);
+    	
+    	mainPanel.add(lblPicLabel);
+    	lblPicLabel.setVisible(false);
+    	lblPicLabel.addMouseListener(mouseClick);
+    	
+    	System.out.println("Image Size X: " + lblPicLabel.getSize().getWidth() + " Y: " + lblPicLabel.getSize().getHeight());
+    	
+    	
+    	directionsPanel.setBounds(1031, 6, 237, 664);
+    	frame.getContentPane().add(directionsPanel);
+    	directionsPanel.setLayout(null);
+    	
+    	final JTextPane txtDirections = new JTextPane();
+    	txtDirections.setBounds(26, 99, 215, 518);
+    	directionsPanel.add(txtDirections);
+    	
+    	
+    	btnEmail.addActionListener(actionHandler);
+    	btnEmail.setBounds(26, 629, 106, 29);
+    	directionsPanel.add(btnEmail);
+    	
+    	
+    	btnPrint.addActionListener(actionHandler);
+    	btnPrint.setBounds(130, 629, 111, 29);
+    	directionsPanel.add(btnPrint);
+    	
+    	
+    	lblDirections.setBounds(26, 73, 80, 25);
+    	directionsPanel.add(lblDirections);
+    	
+    	
+    	btnGetDirections.setBounds(86, 32, 101, 29);
+    	directionsPanel.add(btnGetDirections);
+    	btnGetDirections.addActionListener(actionHandler);
+    	
+    	
+    	btnNode.setBounds(114, 34, 127, 25);
+    	directionsPanel.add(btnNode);
+    	btnNode.setVisible(false);
+    	
+    	btnDelNode.setBounds(114, 73, 127, 25);
+    	directionsPanel.add(btnDelNode);
+    	btnDelNode.setVisible(false);
+    	
+    	lblMapColon.setBounds(12, 1, 70, 15);
+    	directionsPanel.add(lblMapColon);
+    	
+    	//Dev Mode
+    	btnDevMode.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent arg0) {
+    			if(btnDevMode.getText() == "Dev Mode"){
+    			    frame.setTitle("Dev Mode");
+    			    btnDevMode.setText("User Mode");
+    			    btnGetDirections.setVisible(false);
+    			    btnNode.setVisible(true);
+    			    btnDelNode.setVisible(true);
+    			}
+    			else{
+    			    frame.setTitle("Path Finder");
+    			    btnDevMode.setText("Dev Mode");
+    			    btnGetDirections.setVisible(true);
+    			    btnNode.setVisible(false);
+    			    btnDelNode.setVisible(false);
+    			}
+    		}
+    	});
+    	btnDevMode.setBounds(5, 73, 21, 25);
+    	directionsPanel.add(btnDevMode);
+    	
+    	//Drop down for map selection
+    	mapDropDown.setBounds(49, -4, 176, 24);
+    	directionsPanel.add(mapDropDown);
+    	mapDropDown.setSelectedIndex(0);    	
+    	
+    	mapDropDown.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) 
+		{
+			
+			mapName.append((String)mapDropDown.getSelectedItem());
+			try {
+ 				String path = mapName.toString() + ".xml";
+				loadMap(path);
+			} catch (XMLStreamException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+ 			
+ 			//reset the StringBuilder
+ 			mapName.setLength(0);
+ 			
+ 	        //Display the map finally
+        	lblScale.setVisible(true);    	        	
+        	lblPicLabel.setVisible(true);
+        	lblPicLabel.setIcon(map.getLoadedImage());
+        	lblPicLabel.setBounds(5, 5, 1000, 660);
+        	lblMapviewGoesHere.setVisible(true);
+        	
+        	int scale = map.getScale();        	
+        	if(scale != -1){
+        		lblMapviewGoesHere.setText(map.getName());
+        		lblScale.setText("Scale:" + scale + " inches per ft");
+        	}
+        	else
+        	{
+        		lblMapviewGoesHere.setText("");
+        		lblScale.setText("");
+        	}
+        	
+        	
+        	//huge shit show but demonstrates using a Jtextpane with an icon. this is how to do directions
+            Icon icon = new ImageIcon("left.png");
+            JLabel label = new JLabel(icon);
+            StyleContext context = new StyleContext(); 
+            Style labelStyle = context.getStyle(StyleContext.DEFAULT_STYLE);
+            StyleConstants.setComponent(labelStyle, label);   	        	   	        	
+        	StyledDocument doc = txtDirections.getStyledDocument();    	        	
+            //Style def = StyleContext.getDefaultStyleContext().getStyle( StyleContext.DEFAULT_STYLE );
+            //Style regular = doc.addStyle( "regular", def );
+        	try {
+        		doc.insertString(0, "Start of text\n", null );
+        		doc.insertString(doc.getLength(), "Ignored", labelStyle);
+			} catch (BadLocationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+ 	       
+ 		}    		       
+		
+	});
+    	    	
+    	JSeparator separator = new JSeparator();
+    	separator.setBackground(Color.RED);
+    	separator.setOrientation(SwingConstants.VERTICAL);
+    	separator.setPreferredSize(new Dimension(50,10));
+    	//separator.setBounds(100, 100, 174, 246);
+    	frame.getContentPane().add(separator);
+    	   	
+    	frame.setSize(1280, 720);
+    	frame.setVisible(true);
+	}
 	
 	/**
 	 * Presents a view that allows the user to enter an email address 
@@ -180,32 +360,8 @@ public class AppUIObject {
 	}
 	
 	public AppUIObject(){
-		
-		SwingAction actionHandler = new SwingAction();
     	
-    	final JFrame frame = new JFrame("Path Finder");
-    	frame.getContentPane().setLayout(null);
-    	
-    	final JPanel mainPanel = new JPanel();
-    	mainPanel.setBounds(1, 6, 1018, 664);
-    	frame.getContentPane().add(mainPanel);
-    	mainPanel.setLayout(null);
-    	
-    	final JLabel lblMapviewGoesHere = new JLabel("");
-    	lblMapviewGoesHere.setBounds(166, 12, 146, 16);
-    	mainPanel.add(lblMapviewGoesHere);
-    	lblMapviewGoesHere.setVisible(true);    	
-    	
-        
-        //debug statements
-        System.out.println(System.getProperty("user.dir"));     	
-    	
-    	final JLabel lblScale = new JLabel("");
-    	lblScale.setBounds(781, 12, 225, 16);
-    	mainPanel.add(lblScale);
-    	lblScale.setVisible(true);
-    	
-    	MouseListener mouseClick = new MouseListener() {
+    	mouseClick = new MouseListener() {
 			
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -239,151 +395,12 @@ public class AppUIObject {
 			}
 		};
     	
-    	final JLabel lblPicLabel = new JLabel();
-    	mainPanel.add(lblPicLabel);
-    	lblPicLabel.setVisible(false);
-    	lblPicLabel.addMouseListener(mouseClick);
+		frame.getContentPane().setLayout(null);
     	
-    	System.out.println("Image Size X: " + lblPicLabel.getSize().getWidth() + " Y: " + lblPicLabel.getSize().getHeight());
     	
-    	final JPanel directionsPanel = new JPanel();
-    	directionsPanel.setBounds(1031, 6, 237, 664);
-    	frame.getContentPane().add(directionsPanel);
-    	directionsPanel.setLayout(null);
-    	
-    	final JTextPane txtDirections = new JTextPane();
-    	txtDirections.setBounds(26, 99, 215, 518);
-    	directionsPanel.add(txtDirections);
-    	
-    	JButton btnEmail = new JButton("Email");
-    	btnEmail.addActionListener(actionHandler);
-    	btnEmail.setBounds(26, 629, 106, 29);
-    	directionsPanel.add(btnEmail);
-    	
-    	JButton btnPrint = new JButton("Print");
-    	btnPrint.addActionListener(actionHandler);
-    	btnPrint.setBounds(130, 629, 111, 29);
-    	directionsPanel.add(btnPrint);
-    	
-    	JLabel lblDirections = new JLabel("Directions:");
-    	lblDirections.setBounds(26, 73, 80, 25);
-    	directionsPanel.add(lblDirections);
-    	
-    	final JButton btnGetDirections = new JButton("Route me");
-    	btnGetDirections.setBounds(86, 32, 101, 29);
-    	directionsPanel.add(btnGetDirections);
-    	btnGetDirections.addActionListener(actionHandler);
-    	
-    	final JButton btnNode = new JButton("Place Mode");
-    	btnNode.setBounds(114, 34, 127, 25);
-    	directionsPanel.add(btnNode);
-    	btnNode.setVisible(false);
-    	
-    	final JButton btnDelNode = new JButton("Delete Mode");
-    	btnDelNode.setBounds(114, 73, 127, 25);
-    	directionsPanel.add(btnDelNode);
-    	btnDelNode.setVisible(false);
-    	
-    	JLabel lblMapColon = new JLabel("Map:");
-    	lblMapColon.setBounds(12, 1, 70, 15);
-    	directionsPanel.add(lblMapColon);
-    	
-    	//Dev Mode
-    	final JButton btnDevMode = new JButton("Dev Mode");
-    	btnDevMode.addActionListener(new ActionListener() {
-    		public void actionPerformed(ActionEvent arg0) {
-    			if(btnDevMode.getText() == "Dev Mode"){
-    			    frame.setTitle("Dev Mode");
-    			    btnDevMode.setText("User Mode");
-    			    btnGetDirections.setVisible(false);
-    			    btnNode.setVisible(true);
-    			    btnDelNode.setVisible(true);
-    			}
-    			else{
-    			    frame.setTitle("Path Finder");
-    			    btnDevMode.setText("Dev Mode");
-    			    btnGetDirections.setVisible(true);
-    			    btnNode.setVisible(false);
-    			    btnDelNode.setVisible(false);
-    			}
-    		}
-    	});
-    	btnDevMode.setBounds(5, 73, 21, 25);
-    	directionsPanel.add(btnDevMode);
-    	
-    	//Drop down for map selection
-    	String[] mapStrings = { "Select a map", "outside", "left", "test", "walkingmap"};
-    	final JComboBox mapDropDown = new JComboBox(mapStrings);    	
-    	final StringBuilder mapName = new StringBuilder();
-    	mapDropDown.setBounds(49, -4, 176, 24);
-    	directionsPanel.add(mapDropDown);
-    	mapDropDown.setSelectedIndex(0);    	
-    	
-    	mapDropDown.addActionListener(new ActionListener() {
-		public void actionPerformed(ActionEvent arg0) 
-		{
-			
-			mapName.append((String)mapDropDown.getSelectedItem());
-			try {
- 				String path = mapName.toString() + ".xml";
-				loadMap(path);
-			} catch (XMLStreamException e1) {
-				// TODO Auto-generated catch block
-				e1.printStackTrace();
-			}
- 			
- 			//reset the StringBuilder
- 			mapName.setLength(0);
- 			
- 	        //Display the map finally
-        	lblScale.setVisible(true);    	        	
-        	lblPicLabel.setVisible(true);
-        	lblPicLabel.setIcon(map.getLoadedImage());
-        	lblPicLabel.setBounds(5, 5, 1000, 660);
-        	lblMapviewGoesHere.setVisible(true);
-        	
-        	int scale = map.getScale();        	
-        	if(scale != -1){
-        		lblMapviewGoesHere.setText(map.getName());
-        		lblScale.setText("Scale:" + scale + " inches per ft");
-        	}
-        	else
-        	{
-        		lblMapviewGoesHere.setText("");
-        		lblScale.setText("");
-        	}
-        	
-        	
-        	//huge shit show but demonstrates using a Jtextpane with an icon. this is how to do directions
-            Icon icon = new ImageIcon("left.png");
-            JLabel label = new JLabel(icon);
-            StyleContext context = new StyleContext(); 
-            Style labelStyle = context.getStyle(StyleContext.DEFAULT_STYLE);
-            StyleConstants.setComponent(labelStyle, label);   	        	   	        	
-        	StyledDocument doc = txtDirections.getStyledDocument();    	        	
-            //Style def = StyleContext.getDefaultStyleContext().getStyle( StyleContext.DEFAULT_STYLE );
-            //Style regular = doc.addStyle( "regular", def );
-        	try {
-        		doc.insertString(0, "Start of text\n", null );
-        		doc.insertString(doc.getLength(), "Ignored", labelStyle);
-			} catch (BadLocationException e) {
-				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
- 	       
- 		}    		       
-		
-	});
-    	    	
-    	JSeparator separator = new JSeparator();
-    	separator.setBackground(Color.RED);
-    	separator.setOrientation(SwingConstants.VERTICAL);
-    	separator.setPreferredSize(new Dimension(50,10));
-    	//separator.setBounds(100, 100, 174, 246);
-    	frame.getContentPane().add(separator);
-    	
-    	   	
-    	frame.setSize(1280, 720);
-    	frame.setVisible(true);
+    	mainPanel.setBounds(1, 6, 1018, 664);
+    	frame.getContentPane().add(mainPanel);
+    	mainPanel.setLayout(null);
+		reDrawUI();
 	}
 }
