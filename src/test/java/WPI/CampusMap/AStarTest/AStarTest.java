@@ -16,13 +16,12 @@ import WPI.CampusMap.AStar.Path;
 import WPI.CampusMap.AStar.Point;
 
 public class AStarTest {
-	@Ignore
 	@Test
 	public void testAStar() throws FileNotFoundException,XMLStreamException {
 		Map testMap = new Map("XML/5x5Test.xml");
 		Point start,goal;
-		start = testMap.getMap().get(4);
-		goal = testMap.getMap().get(16);
+		start = testMap.getPoint("4");
+		goal = testMap.getPoint("12");
 		
 		Path path = testMap.astar(start, goal);
 		System.out.printf("Start: X: %f, Y: %f\n", start.getCoord().getX(), start.getCoord().getY());

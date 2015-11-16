@@ -127,6 +127,11 @@ public class Point {
 		return trim;
 	}
 
+	/**
+	 * Removes Point from list of neighbors.
+	 * @param point point to be removed
+	 * @return True if successfully removed, False if not removed
+	 */
 	public boolean removeNeighbor(Point point) {
 		try {
 			this.neighborsID.remove(point.id);

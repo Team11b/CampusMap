@@ -171,7 +171,7 @@ public class Map {
 	{
 		for(Point p : map)
 		{
-			if(p.getId() == id)
+			if(p.getId().equals(id))
 				return p;
 		}
 		
@@ -311,25 +311,22 @@ public class Map {
 	 * all points on the map
 	 * 
 	 * @param id  The ID of the string to be removed
+	 * @return True if point is successfully removed, False if specified point does note exist
 	 */
-	public void removePoint(String id){
+	public boolean removePoint(String id){
 		for(Point point: map){
 			if(point.getId().equals(id)){
-				ArrayList<String> neighbors = point.getNeighborsID();
-				boolean removed = false;
-				for(int i = 0; 1 < neighbors.size() && !removed;i++){
-					for(Point pointN: map){
-						if(pointN.getId().equals(neighbors.get(i))){
-							pointN.removeNeighbor(point);
-							removed= true;
-							break;
-						}
-					}
+				ArrayList<Point> neighbors = point.getNeighborsP();
+				for(Point pointN: neighbors){
+					pointN.removeNeighbor(point);
 				}
+				point.setNeighborsID(new ArrayList<String>());
+				point.setNeighborsP(new ArrayList<Point>());
 				map.remove(point);
-				break;
+				return true;
 			}
 		}
+		return false;
 	}
 	
 	private void loadImage() throws IOException
@@ -376,6 +373,12 @@ public class Map {
 		return false;
 	}
 	
+	/**
+	 * Removes an edge between two Points
+	 * @param point the first Point
+	 * @param other the second Point
+	 * @return true if the edge was removed, false if one Points doesn't exist or if the edge does not exist
+	 */
 	public boolean removeEdge(Point point, Point other) {
 		if (this.map.contains(point) && (this.map.contains(other))) {
 			boolean remover = point.removeNeighbor(other);
