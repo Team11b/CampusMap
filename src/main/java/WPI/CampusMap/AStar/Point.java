@@ -59,6 +59,11 @@ public class Point {
 	// return temp;
 	// }
 
+	/**
+	 * Gets the distance between two points.
+	 * @param other The other point to get the distance too.
+	 * @return The discane to the other point.
+	 */
 	public float distance(Point other) {
 		return this.coord.distance(other.getCoord());
 	}

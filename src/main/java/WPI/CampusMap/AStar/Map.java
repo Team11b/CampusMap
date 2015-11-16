@@ -15,6 +15,7 @@ import javax.xml.stream.XMLStreamException;
 import WPI.CampusMap.XML.XML;
 
 /**
+ * Represents a single map/area.
  * 
  * @author Jacob Zizmor
  * @author Max Stenke
@@ -30,6 +31,12 @@ public class Map {
 	private ArrayList<Point> map;
 	private ImageIcon loadedImage;
 	
+	/**
+	 * Creates a map from an xml file.
+	 * Default values are used if the xml cannot be parsed.
+	 * @param xml The xml file to create the map from.
+	 * @throws XMLStreamException Thrown if there is an error parsing the xml file.
+	 */
 	public Map(String xml) throws XMLStreamException{
 		this.scale = 100;
 		this.name = xml.substring(0, xml.length()-4);
@@ -46,7 +53,7 @@ public class Map {
 	}
 	
 	/**
-	 * Overloaded constructor for a new map
+	 * Creates a new default map.
 	 */
 	public Map(){
 		this.scale = 0;
@@ -56,54 +63,104 @@ public class Map {
 		this.map = new ArrayList<Point>();
 	}
 	
+	/**
+	 * Get the scale from inches to feet.
+	 * @return The scale from inches to feet.
+	 */
 	public int getScale() {
 		return this.scale;
 	}
 	
+	/**
+	 * Set the scale from inches to feet.
+	 * @param scale The inches to feet scale.
+	 */
 	public void setScale(int scale) {
 		this.scale = scale;
 	}
 	
+	/**
+	 * Gets the name of this map.
+	 * @return The name of this map.
+	 */
 	public String getName() {
 		return this.name;
 	}
 	
+	/**
+	 * Sets the name of the map.
+	 * @param name The new name of the map.
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
 
+	/**
+	 * Gets the png file that this map should use.
+	 * @return The png file name that this map should use.
+	 */
 	public String getPng() {
 		return this.png;
 	}
 	
+	/**
+	 * Gets the xml file that this map should use.
+	 * @return The xml file name that this map should use.
+	 */
 	public String getXML() {
 		return this.xml;
 	}
 	
+	/**
+	 * Sets the xml file that this map should use.
+	 * @param xml The xml file name that this map should use.
+	 */
 	public void setXML(String xml) {
 		this.xml = xml;
 	}
 
+	/**
+	 * Sets the png file that this map should use.
+	 * @param png The png file name that this map should use.
+	 */
 	public void setPng(String png) {
 		this.png = png;
 	}
 
+	/**
+	 * Gets the points that make up this map.
+	 * @return An array list of the points that make up this map.
+	 */
 	public ArrayList<Point> getMap() {
 		return this.map;
 	}
 
+	/**
+	 * Sets the points that make up this map.
+	 * @param map The array list that will be the new points for this map.
+	 */
 	public void setMap(ArrayList<Point> map) {
 		this.map = map;
 	}
 	
+	/**
+	 * Gets the loaded image of the map png to display.
+	 * @return The loaded image to display for this map.
+	 */
 	public ImageIcon getLoadedImage() {
 		return loadedImage;
 	}
 
+	//Benny: I don't think we need a setter for this, only the map should be changing the loaded image.
 	public void setLoadedImage(ImageIcon loadedImage) {
 		this.loadedImage = loadedImage;
 	}
 
+	/**
+	 * Gets a point from the map.
+	 * @param id The id of the point to get.
+	 * @return The point with the id.
+	 */
 	public Point getPoint(String id)
 	{
 		for(Point p : map)
