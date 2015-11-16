@@ -44,26 +44,25 @@ import javax.swing.JComboBox;
 public class AppUIObject {
 
 	//UI Elements
-	final JFrame frame = new JFrame("Path Finder");
-	final JPanel mainPanel = new JPanel();
-	final JLabel lblMapviewGoesHere = new JLabel("");
-	final JLabel lblScale = new JLabel("");
-	final JLabel lblPicLabel = new JLabel();
-	final JPanel directionsPanel = new JPanel();
-	final JButton btnEmail = new JButton("Email");
-	final JButton btnPrint = new JButton("Print");
-	final JLabel lblDirections = new JLabel("Directions:");
-	final JButton btnGetDirections = new JButton("Route me");
-	final JButton btnNode = new JButton("Place Mode");
-	final JButton btnDelNode = new JButton("Delete Mode");
-	JLabel lblMapColon = new JLabel("Map:");
-	final JButton btnDevMode = new JButton("Dev Mode");
-	String[] mapStrings = { "Select a map", "outside", "left", "test", "walkingmap"};
-	final JComboBox mapDropDown = new JComboBox(mapStrings);    	
-	final StringBuilder mapName = new StringBuilder();
-	MouseListener mouseClick;
-	
-	
+	private final JFrame frame = new JFrame("Path Finder");
+	private final JPanel mainPanel = new JPanel();
+	private final JLabel lblMapviewGoesHere = new JLabel("");
+	private final JLabel lblScale = new JLabel("");
+	private final JLabel lblPicLabel = new JLabel();
+	private final JPanel directionsPanel = new JPanel();
+	private final JButton btnEmail = new JButton("Email");
+	private final JButton btnPrint = new JButton("Print");
+	private final JLabel lblDirections = new JLabel("Directions:");
+	private final JButton btnGetDirections = new JButton("Route me");
+	private final JButton btnNode = new JButton("Place Mode");
+	private final JButton btnDelNode = new JButton("Delete Mode");
+	private final JLabel lblMapColon = new JLabel("Map:");
+	private final JButton btnDevMode = new JButton("Dev Mode");
+	private String[] mapStrings = { "Select a map", "outside", "left", "test", "walkingmap"};
+	private final JComboBox mapDropDown = new JComboBox(mapStrings);    	
+	private final StringBuilder mapName = new StringBuilder();
+	private MouseListener mouseClick;
+
 	private static Map map;
 	
 	private static Point selectedPoint;
@@ -78,10 +77,8 @@ public class AppUIObject {
     	mainPanel.add(lblMapviewGoesHere);
     	lblMapviewGoesHere.setVisible(true);    	
     	
-        
         //debug statements
         System.out.println(System.getProperty("user.dir"));     	
-    	
     	
     	lblScale.setBounds(781, 12, 225, 16);
     	mainPanel.add(lblScale);
@@ -93,7 +90,6 @@ public class AppUIObject {
     	
     	System.out.println("Image Size X: " + lblPicLabel.getSize().getWidth() + " Y: " + lblPicLabel.getSize().getHeight());
     	
-    	
     	directionsPanel.setBounds(1031, 6, 237, 664);
     	frame.getContentPane().add(directionsPanel);
     	directionsPanel.setLayout(null);
@@ -102,25 +98,20 @@ public class AppUIObject {
     	txtDirections.setBounds(26, 99, 215, 518);
     	directionsPanel.add(txtDirections);
     	
-    	
     	btnEmail.addActionListener(actionHandler);
     	btnEmail.setBounds(26, 629, 106, 29);
     	directionsPanel.add(btnEmail);
-    	
     	
     	btnPrint.addActionListener(actionHandler);
     	btnPrint.setBounds(130, 629, 111, 29);
     	directionsPanel.add(btnPrint);
     	
-    	
     	lblDirections.setBounds(26, 73, 80, 25);
     	directionsPanel.add(lblDirections);
-    	
     	
     	btnGetDirections.setBounds(86, 32, 101, 29);
     	directionsPanel.add(btnGetDirections);
     	btnGetDirections.addActionListener(actionHandler);
-    	
     	
     	btnNode.setBounds(114, 34, 127, 25);
     	directionsPanel.add(btnNode);
