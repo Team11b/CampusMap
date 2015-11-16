@@ -73,7 +73,7 @@ public class AppUIObject {
 	private MouseListener mouseClick;
 	private final SwingAction actionHandler = new SwingAction();
 
-	private static Map map;
+	private static Map currentMap;
 
 	private static Point selectedPoint;
 
@@ -213,7 +213,7 @@ public class AppUIObject {
 	private void loadMap(String mapName) throws XMLStreamException {
 		System.out.println("UI: " + mapName);
 		Map newMap = new Map(mapName);
-		map = newMap;
+		currentMap = newMap;
 		reDrawUI();
 	}
 
@@ -226,10 +226,11 @@ public class AppUIObject {
 	 */
 	private static Point createPointOnMap(MouseEvent e) {
 		Coord screenCoord = new Coord(e.getX(), e.getY());
-		Coord mapCoord = map.screenToWorldSpace(screenCoord);
+
+		Coord mapCoord = currentMap.screenToWorldSpace(screenCoord);
 
 		Point newPoint = new Point(mapCoord, "", UUID.randomUUID().toString());
-		map.addPoint(newPoint);
+		currentMap.addPoint(newPoint);
 
 		return newPoint;
 	}
@@ -243,9 +244,10 @@ public class AppUIObject {
 	 */
 	private static boolean selectPointOnMap(MouseEvent e) {
 		Coord screenCoord = new Coord(e.getX(), e.getY());
-		Coord mapCoord = map.screenToWorldSpace(screenCoord);
 
-		ArrayList<Point> points = map.getMap();
+		Coord mapCoord = currentMap.screenToWorldSpace(screenCoord);
+
+		ArrayList<Point> points = currentMap.getMap();
 
 		Point closestPoint = null;
 		float closestDistance = Float.MAX_VALUE;
@@ -288,7 +290,7 @@ public class AppUIObject {
 		if (!selectPointOnMap(e))
 			return false;
 
-		map.addEdge(lastSelected, selectedPoint);
+		currentMap.addEdge(lastSelected, selectedPoint);
 
 		return true;
 	}
@@ -375,103 +377,99 @@ public class AppUIObject {
 
 		frame.getContentPane().setLayout(null);
 
-    	
-		//Dev Mode
-    	btnDevMode.addActionListener(new ActionListener() {
-    		public void actionPerformed(ActionEvent arg0) {
-    			if(btnDevMode.getText() == "Dev Mode"){
-    			    frame.setTitle("Dev Mode");
-    			    btnDevMode.setText("User mode");
-    			    btnGetDirections.setVisible(false);
-    			    btnNode.setVisible(true);
-    			    btnDelNode.setVisible(true);
-    			    btnSave.setVisible(true);
-    			}
-    			else{
-    			    frame.setTitle("Path Finder");
-    			    btnDevMode.setText("Dev Mode");
-    			    deleteMode = !deleteMode;
-    			    placeMode = !placeMode;
-    			    btnGetDirections.setVisible(true);
-    			    btnNode.setVisible(false);
-    			    btnDelNode.setVisible(false);
-    			    btnSave.setVisible(false);
-    			}
-    		}
-    	});
-    	
-    	btnEmail.addActionListener(actionHandler);
-    	btnPrint.addActionListener(actionHandler);
-    	btnGetDirections.addActionListener(actionHandler);
-    	btnNode.addActionListener(actionHandler);
-    	btnDelNode.addActionListener(actionHandler);
-    	
-    	btnSave.addActionListener(new ActionListener() {
-    		public void actionPerformed(ActionEvent e) {
-    			XML.writePoints(map, map.getMap());
-    		}
-    	});
-    	
-    	mapDropDown.addActionListener(new ActionListener() {
-    		public void actionPerformed(ActionEvent arg0) 
-    		{
-    			
-    			mapName.append((String)mapDropDown.getSelectedItem());
-    			try {
-//     				String path = mapName.toString() + ".xml";
-    				String path = mapName.toString();
-    				loadMap(path);
-    			} catch (XMLStreamException e1) {
-    				// TODO Auto-generated catch block
-    				e1.printStackTrace();
-    			}
-     			
-     			//reset the StringBuilder
-     			mapName.setLength(0);
-     			
-     	        //Display the map finally
-            	lblScale.setVisible(true);    	        	
-            	lblPicLabel.setVisible(true);
-            	lblPicLabel.setIcon(map.getLoadedImage());
-            	lblPicLabel.setBounds(5, 5, 1000, 660);
-            	lblMapviewGoesHere.setVisible(true);
-            	
-            	int scale = map.getScale();        	
-            	if(scale != -1){
-            		lblMapviewGoesHere.setText(map.getName());
-            		lblScale.setText("Scale: " + scale + " inches per ft");
-            	}
-            	else
-            	{
-            		lblMapviewGoesHere.setText("");
-            		lblScale.setText("");
-            	}
-            	
-            	
-            	//huge shit show but demonstrates using a Jtextpane with an icon. this is how to do directions
-                Icon icon = new ImageIcon("left.png");
-                JLabel label = new JLabel(icon);
-                StyleContext context = new StyleContext(); 
-                Style labelStyle = context.getStyle(StyleContext.DEFAULT_STYLE);
-                StyleConstants.setComponent(labelStyle, label);   	        	   	        	
-            	StyledDocument doc = txtDirections.getStyledDocument();    	        	
-                //Style def = StyleContext.getDefaultStyleContext().getStyle( StyleContext.DEFAULT_STYLE );
-                //Style regular = doc.addStyle( "regular", def );
-            	try {
-            		doc.insertString(0, "Start of text\n", null );
-            		doc.insertString(doc.getLength(), "Ignored", labelStyle);
-    			} catch (BadLocationException e) {
-    				// TODO Auto-generated catch block
-    				e.printStackTrace();
-    			}
-     	       
-     		}    		       
-    		
-    	});
-    	
-    	mainPanel.setBounds(1, 6, 1018, 664);
-    	frame.getContentPane().add(mainPanel);
-    	mainPanel.setLayout(null);
+		// Dev Mode
+		btnDevMode.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+				if (btnDevMode.getText() == "Dev Mode") {
+					frame.setTitle("Dev Mode");
+					btnDevMode.setText("User mode");
+					btnGetDirections.setVisible(false);
+					btnNode.setVisible(true);
+					btnDelNode.setVisible(true);
+					btnSave.setVisible(true);
+				} else {
+					frame.setTitle("Path Finder");
+					btnDevMode.setText("Dev Mode");
+					deleteMode = !deleteMode;
+					placeMode = !placeMode;
+					btnGetDirections.setVisible(true);
+					btnNode.setVisible(false);
+					btnDelNode.setVisible(false);
+					btnSave.setVisible(false);
+				}
+			}
+		});
+
+		btnEmail.addActionListener(actionHandler);
+		btnPrint.addActionListener(actionHandler);
+		btnGetDirections.addActionListener(actionHandler);
+		btnNode.addActionListener(actionHandler);
+		btnDelNode.addActionListener(actionHandler);
+
+		btnSave.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				XML.writePoints(currentMap, currentMap.getMap());
+			}
+		});
+
+		mapDropDown.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent arg0) {
+
+				mapName.append((String) mapDropDown.getSelectedItem());
+				try {
+					// String path = mapName.toString() + ".xml";
+					String path = mapName.toString();
+					loadMap(path);
+				} catch (XMLStreamException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+
+				// reset the StringBuilder
+				mapName.setLength(0);
+
+				// Display the map finally
+				lblScale.setVisible(true);
+				lblPicLabel.setVisible(true);
+				lblPicLabel.setIcon(currentMap.getLoadedImage());
+				lblPicLabel.setBounds(5, 5, 1000, 660);
+				lblMapviewGoesHere.setVisible(true);
+
+				int scale = currentMap.getScale();
+				if (scale != -1) {
+					lblMapviewGoesHere.setText(currentMap.getName());
+					lblScale.setText("Scale: " + scale + " inches per ft");
+				} else {
+					lblMapviewGoesHere.setText("");
+					lblScale.setText("");
+				}
+
+				// huge shit show but demonstrates using a Jtextpane with an
+				// icon. this is how to do directions
+				Icon icon = new ImageIcon("left.png");
+				JLabel label = new JLabel(icon);
+				StyleContext context = new StyleContext();
+				Style labelStyle = context.getStyle(StyleContext.DEFAULT_STYLE);
+				StyleConstants.setComponent(labelStyle, label);
+				StyledDocument doc = txtDirections.getStyledDocument();
+				// Style def = StyleContext.getDefaultStyleContext().getStyle(
+				// StyleContext.DEFAULT_STYLE );
+				// Style regular = doc.addStyle( "regular", def );
+				try {
+					doc.insertString(0, "Start of text\n", null);
+					doc.insertString(doc.getLength(), "Ignored", labelStyle);
+				} catch (BadLocationException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+			}
+
+		});
+
+		mainPanel.setBounds(1, 6, 1018, 664);
+		frame.getContentPane().add(mainPanel);
+		mainPanel.setLayout(null);
 		reDrawUI();
 	}
 }
