@@ -62,6 +62,7 @@ public class XMLTest {
 		assertEquals(new Coord((float)-71.77567,(float)-100.9346), points.get(4).getCoord());
 		
 		//checking neighbors for zeroth point
+		assertTrue(points.get(0).getNeighborsID().contains("b9e43a3e-c47d-4f7b-b63c-f874c94f4cde"));
 		assertTrue(Arrays.asList(points.get(0).getNeighborsID()).contains("b9e43a3e-c47d-4f7b-b63c-f874c94f4cde"));
 		assertTrue(Arrays.asList(points.get(0).getNeighborsID()).contains("86ee014d-3e62-44f7-86e1-70a865afe51c"));
 		assertTrue(Arrays.asList(points.get(0).getNeighborsID()).contains("8c45166a-15fc-41b9-8a7a-e27e7d1c9cd1"));

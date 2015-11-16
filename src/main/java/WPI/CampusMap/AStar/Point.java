@@ -12,8 +12,8 @@ public class Point {
 	private Coord coord;
 	private String type;
 	private String id;
-	private Point[] neighborsP;
-	private String[] neighborsID;
+	private ArrayList<Point> neighborsP;
+	private ArrayList<String> neighborsID;
 
 	public static final String WALL = "wall";
 	/** Standard type of wall */
@@ -40,22 +40,24 @@ public class Point {
 		this.coord = coord;
 		this.type = type;
 		this.id = id;
-		this.neighborsP = new Point[8];
-		this.neighborsID = getNeighborsIDs(neighborsP);
-	}
-	
-	public Point(){
+		this.neighborsP = new ArrayList<Point>();
+//		 this.neighborsID = getNeighborsIDs(neighborsP);
+		this.neighborsID = new ArrayList<String>();
 	}
 
-	private String[] getNeighborsIDs(Point[] object) {
-		String[] temp = new String[8];
-		for (int i = 0; i < object.length; i++) {
-			if(temp[i] != null){
-				temp[i] = object[i].getId();
-			}
-		}
-		return temp;
+	public Point() {
+
 	}
+
+	// private ArrayList<String> getNeighborsIDs(Point[] object) {
+	// ArrayList<String> ids = new ArrayList<String>();
+	// for (int i = 0; i < object.length; i++) {
+	// if(temp[i] != null){
+	// temp[i] = object[i].getId();
+	// }
+	// }
+	// return temp;
+	// }
 
 	public float distance(Point other) {
 		return this.coord.distance(other.getCoord());
@@ -85,19 +87,19 @@ public class Point {
 		this.id = id;
 	}
 
-	public Point[] getNeighborsP() {
+	public ArrayList<Point> getNeighborsP() {
 		return neighborsP;
 	}
 
-	public void setNeighborsP(Point[] neighborsP) {
+	public void setNeighborsP(ArrayList<Point> neighborsP) {
 		this.neighborsP = neighborsP;
 	}
 
-	public String[] getNeighborsID() {
+	public ArrayList<String> getNeighborsID() {
 		return neighborsID;
 	}
 
-	public void setNeighborsID(String[] neighborsID) {
+	public void setNeighborsID(ArrayList<String> neighborsID) {
 		this.neighborsID = neighborsID;
 	}
 
@@ -107,28 +109,51 @@ public class Point {
 	 * 
 	 * @return an array of any neighbor points which do not have a type wall
 	 */
-	public Point[] getValidNeighbors() {
-		Point[] neigh = this.getNeighborsP();
+	public ArrayList<Point> getValidNeighbors() {
+		ArrayList<Point> neigh = this.getNeighborsP();
 		ArrayList<Point> trim = new ArrayList<Point>();
 
-		for (int i = 0; i < neigh.length; i++) {
-			if (neigh[i].getType() == null||!(neigh[i].getType().equalsIgnoreCase(Point.WALL))) {
-				trim.add(neigh[i]);
+		for (int i = 0; i < neigh.size(); i++) {
+			if (neigh.get(i).getType() == null || !(neigh.get(i).getType().equalsIgnoreCase(Point.WALL))) {
+				trim.add(neigh.get(i));
 			}
 		}
 
-		return trim.toArray(new Point[0]);
+		return trim;
 	}
-	
-	public void removeNeighbor(Point point) {
-		// TODO Auto-generated method stub
-		ArrayList<String> neighbors = new ArrayList<String>(Arrays.asList(this.getNeighborsID()));
-		neighbors.remove(point.id);
-		this.setNeighborsID(neighbors.toArray(new String[0]));
-		
-		ArrayList<Point> neighborsP = new ArrayList<Point>(Arrays.asList(this.getNeighborsP()));
-		neighbors.remove(point);
-		this.setNeighborsP(neighborsP.toArray(new Point[0]));
+
+	public boolean removeNeighbor(Point point) {
+		try {
+			this.neighborsID.remove(point.id);
+		} catch (NullPointerException e) {
+			return false;
+		}
+
+		try {
+			this.neighborsP.remove(point);
+			return true;
+		} catch (NullPointerException e) {
+			return false;
+		}
+	}
+
+	/**
+	 * adds a neighbor to this point
+	 * 
+	 * @param point
+	 *            the new Point to add
+	 * @return true if the neighbor was added, false if the neighbor already
+	 *         exists
+	 */
+	public boolean addNeighbor(Point point) {
+		for (int j = 0; j < this.getNeighborsID().size(); j++) {
+			if (this.getNeighborsID().get(j).equals(point.getId())) {
+				return false;
+			}
+		}
+		this.neighborsID.add(point.getId());
+		this.neighborsP.add(point);
+		return true;
 	}
 
 	@Override

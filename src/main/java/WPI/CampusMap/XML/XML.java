@@ -90,8 +90,7 @@ public class XML {
 				newElement.setAttribute("x", Double.toString(sortedPoints.get(j).getCoord().getX()));
 				newElement.setAttribute("y", Double.toString(sortedPoints.get(j).getCoord().getY()));
 
-				ArrayList<String> sortedConn = new ArrayList<String>(
-						Arrays.asList(sortedPoints.get(j).getNeighborsID()));
+				ArrayList<String> sortedConn = new ArrayList<String>();
 				Collections.sort(sortedConn, new Comparator<String>() {
 					public int compare(String s1, String s2) {
 						return s1.compareTo(s2);
@@ -186,7 +185,7 @@ public class XML {
 				case "Node":
 					currPoint.setCoord(tempCoord);
 					pointAList.add(currPoint);
-					currPoint.setNeighborsID(neighAList.toArray(new String[0]));
+					currPoint.setNeighborsID(neighAList);
 					break;
 				case "type":
 					currPoint.setType(tagContent);
@@ -202,15 +201,15 @@ public class XML {
 		
 		//goes through the points and gets the point objects associated with the neighbor ids and assigns them as neighbors
 		for(Point point: pointAList){
-			List<String> neighborIDs = Arrays.asList(point.getNeighborsID());
-			Point[] neighbors = new Point[neighborIDs.size()]; 
+			List<ArrayList<String>> neighborIDs = Arrays.asList(point.getNeighborsID());
+			ArrayList<Point> neighbors = new ArrayList<Point>(); 
 			int i=0;
 			for(Point searchPoint: pointAList){
 				if(neighborIDs.contains(searchPoint.getId())){
-					neighbors[i] = searchPoint;
+					neighbors.add(searchPoint);
 					i++;
 				}
-				if(i>neighbors.length) break;
+				if(i>neighbors.size()) break;
 			}
 			point.setNeighborsP(neighbors);
 		}

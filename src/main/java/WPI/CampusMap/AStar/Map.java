@@ -36,13 +36,24 @@ public class Map {
 //		this.png = name + ".png";
 		this.png = "left.png";
 		this.xml = xml;
-		XML.parseXML(this);
+//		XML.parseXML(this);
 		try {
 			loadImage();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		map = XML.parseXML(this);
+	}
+	
+	/**
+	 * Overloaded constructor for a new map
+	 */
+	public Map(){
+		this.scale = 0;
+		this.name = "new_map";
+		this.png = this.name.concat(".png");
+		this.xml = "XML/".concat(this.name).concat(".xml");
+		this.map = new ArrayList<Point>();
 	}
 	
 	public int getScale() {
@@ -183,19 +194,19 @@ public class Map {
 			if (!(goalFound)) {
 				// get the valid neighbors from the last Node on the explored
 				// list
-				Point[] neigh = explored.get(explored.size() - 1).getPoint().getValidNeighbors();
-				for (int j = 0; j < neigh.length; j++) {
-					tempNode = new Node(neigh[j], explored.get(explored.size() - 1));
+				ArrayList<Point> neigh = explored.get(explored.size() - 1).getPoint().getValidNeighbors();
+				for (int j = 0; j < neigh.size(); j++) {
+					tempNode = new Node(neigh.get(j), explored.get(explored.size() - 1));
 					// check if Node is in Explored
 					otherIndex = Map.getIndex(tempNode, explored);
 //					if (otherIndex != -1) {
 					if (otherIndex == -1){
 						otherIndex = Map.getIndex(tempNode, frontier);
 						if (otherIndex == -1) {
-							frontier.add(new Node(neigh[j], explored.get(explored.size() - 1)));
+							frontier.add(new Node(neigh.get(j), explored.get(explored.size() - 1)));
 						} else {
 							if (tempNode.getCurrentScore() < frontier.get(otherIndex).getCurrentScore()) {
-								frontier.set(otherIndex, new Node(neigh[j], explored.get(explored.size() - 1)));
+								frontier.set(otherIndex, new Node(neigh.get(j), explored.get(explored.size() - 1)));
 							}
 						}
 					}
@@ -241,11 +252,11 @@ public class Map {
 	public void removePoint(String id){
 		for(Point point: map){
 			if(point.getId().equals(id)){
-				String[] neighbors = point.getNeighborsID();
+				ArrayList<String> neighbors = point.getNeighborsID();
 				boolean removed = false;
-				for(int i = 0; 1 < neighbors.length && !removed;i++){
+				for(int i = 0; 1 < neighbors.size() && !removed;i++){
 					for(Point pointN: map){
-						if(pointN.getId().equals(neighbors[i])){
+						if(pointN.getId().equals(neighbors.get(i))){
 							pointN.removeNeighbor(point);
 							removed= true;
 							break;
@@ -263,6 +274,55 @@ public class Map {
 		BufferedImage buffer = ImageIO.read(new File(png));
 		loadedImage = new ImageIcon(buffer.getScaledInstance(1000, 660, Image.SCALE_SMOOTH));//TODO: do not scale, but rather have graphics draw
 	}
-
+	
+	/**
+	 * Adds a point to the map.
+	 * Does NOT connect the point to any other points.
+	 * @param point a new Point to add
+	 * @return true if the point was added, false if there already exists a point with the same ID
+	 */
+	public boolean addPoint(Point point) {
+		for(Point p: this.map) {
+			if (p.getId().equals(point.getId()))
+				return false;
+		}
+		this.map.add(point);
+		Collections.sort(this.map, new Comparator<Point>() {
+			public int compare(Point p1, Point p2) {
+				return p1.getId().compareTo(p2.getId());
+			}
+		});
+		return true;
+	}
+	
+	/**
+	 * Adds an edge between two Points
+	 * @param point the first Point
+	 * @param other the second Point
+	 * @return true if the edge was added, false if one Points doesn't exist or if the edge already exists
+	 */
+	public boolean addEdge(Point point, Point other) {
+		if (this.map.contains(point) && this.map.contains(other)) {
+			boolean adder = point.addNeighbor(other);
+			if (!(adder)) {
+				return false;
+			}
+			other.addNeighbor(point);
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean removeEdge(Point point, Point other) {
+		if (this.map.contains(point) && (this.map.contains(other))) {
+			boolean remover = point.removeNeighbor(other);
+			if (!(remover)) {
+				return false;
+			}
+			other.removeNeighbor(point);
+			return true;
+		}
+		return false;
+	}
 }
 
