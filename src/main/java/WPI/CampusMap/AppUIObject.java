@@ -121,12 +121,10 @@ public class AppUIObject {
 		btnNode.setBounds(0, 79, 127, 25);
 
 		directionsPanel.add(btnNode);
-		btnNode.setVisible(false);
 
 		btnDelNode.setBounds(0, 116, 127, 25);
 
 		directionsPanel.add(btnDelNode);
-		btnDelNode.setVisible(false);
 
 		lblDirections.setBounds(26, 153, 80, 25);
 		directionsPanel.add(lblDirections);
@@ -488,6 +486,8 @@ public class AppUIObject {
 		
 		btnAddEdge.setVisible(false);
 		btnRemoveEdge.setVisible(false);
+		btnNode.setVisible(false);
+		btnDelNode.setVisible(false);
 		
 		btnAddEdge.addActionListener(actionHandler);
 		btnRemoveEdge.addActionListener(actionHandler);
