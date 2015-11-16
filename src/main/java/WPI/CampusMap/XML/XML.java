@@ -61,7 +61,6 @@ public class XML {
 	 */
 	public static void writePoints(Map map, ArrayList<Point> arrayList) {
 		try {
-			System.out.println(arrayList.size());
 			
 			System.setOut(dummyStream);
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
@@ -90,8 +89,8 @@ public class XML {
 				newElement.setAttribute("x", Double.toString(sortedPoints.get(j).getCoord().getX()));
 				newElement.setAttribute("y", Double.toString(sortedPoints.get(j).getCoord().getY()));
 
-				ArrayList<String> sortedConn = new ArrayList<String>();
-				Collections.sort(sortedConn, new Comparator<String>() {
+				ArrayList<String> sortedConn = sortedPoints.get(j).getNeighborsID();
+				sortedConn.sort(new Comparator<String>() {
 					public int compare(String s1, String s2) {
 						return s1.compareTo(s2);
 					}
