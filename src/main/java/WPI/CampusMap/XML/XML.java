@@ -153,8 +153,8 @@ public class XML {
 			test = new FileInputStream(testFile);
 		} 
 		catch (FileNotFoundException e) 
-		{
-			return null;
+		{	
+			return new ArrayList<Point>();
 		}
 		
 		XMLStreamReader reader = factory.createXMLStreamReader(test);
@@ -211,6 +211,7 @@ public class XML {
 				if(i>neighborIDs.size()) break;
 			}
 		}
+		
 		return pointAList;
 	}
 }
