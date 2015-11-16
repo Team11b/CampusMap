@@ -402,12 +402,16 @@ public class AppUIObject {
 					btnNode.setVisible(true);
 					btnDelNode.setVisible(true);
 					btnSave.setVisible(true);
+					btnAddEdge.setVisible(true);
+					btnRemoveEdge.setVisible(true);
 				} else {
 					frame.setTitle("Path Finder");
 					btnDevMode.setText("Dev Mode");
 					deleteMode = !deleteMode;
 					placeMode = !placeMode;
 					btnGetDirections.setVisible(true);
+					btnAddEdge.setVisible(false);
+					btnRemoveEdge.setVisible(false);
 					btnNode.setVisible(false);
 					btnDelNode.setVisible(false);
 					btnSave.setVisible(false);
@@ -481,6 +485,9 @@ public class AppUIObject {
 			}
 
 		});
+		
+		btnAddEdge.setVisible(false);
+		btnRemoveEdge.setVisible(false);
 		
 		btnAddEdge.addActionListener(actionHandler);
 		btnRemoveEdge.addActionListener(actionHandler);
