@@ -367,7 +367,7 @@ public class AppUIObject {
     		public void actionPerformed(ActionEvent arg0) {
     			if(btnDevMode.getText() == "Dev Mode"){
     			    frame.setTitle("Dev Mode");
-    			    btnDevMode.setText("Usr mode");
+    			    btnDevMode.setText("User mode");
     			    btnGetDirections.setVisible(false);
     			    btnNode.setVisible(true);
     			    btnDelNode.setVisible(true);
