@@ -1,13 +1,10 @@
 package WPI.CampusMap.AStarTest;
 
-import static org.junit.Assert.*;
-
 import java.io.FileNotFoundException;
 
 import javax.xml.stream.XMLStreamException;
 
 import org.junit.Test;
-import org.junit.Ignore;
 
 import WPI.CampusMap.AStar.Coord;
 import WPI.CampusMap.AStar.Map;

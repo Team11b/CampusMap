@@ -1,9 +1,9 @@
 package WPI.CampusMap.AStarTest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 
 import javax.xml.stream.XMLStreamException;
 
