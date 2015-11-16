@@ -10,6 +10,7 @@ import java.util.Collections;
  */
 public class Path {
 
+	private static final float PATHTOLERANCE = (float) 0.1;
 	private ArrayList<Node> path;
 
 	/**
@@ -81,25 +82,64 @@ public class Path {
 		return new Path(temp);
 	}
 
-	public static void main(String[] args) {
-		ArrayList<Node> turns = new ArrayList<Node>();
-		turns.add(new Node(new Point(new Coord(0, 0), null, null), null));
-		turns.add(new Node(new Point(new Coord(0, 1), null, null), null));
-		turns.add(new Node(new Point(new Coord(0, 2), null, null), null));
-		turns.add(new Node(new Point(new Coord(0, 3), null, null), null));
-		turns.add(new Node(new Point(new Coord(1, 3), null, null), null));
-		turns.add(new Node(new Point(new Coord(2, 3), null, null), null));
-		turns.add(new Node(new Point(new Coord(3, 2), null, null), null));
-		turns.add(new Node(new Point(new Coord(4, 1), null, null), null));
-		turns.add(new Node(new Point(new Coord(5, 0), null, null), null));
-		turns.add(new Node(new Point(new Coord(5, 1), null, null), null));
-		turns.add(new Node(new Point(new Coord(5, 2), null, null), null));
-		turns.add(new Node(new Point(new Coord(5, 3), null, null), null));
-		Path path = new Path(turns);
-		path.pathToString(path);
-		System.out.println("after get truns");
-		path.pathToString(path.getTurns());
+	private boolean checkHorizontal(Point before, Point current, Point after) {
+		float dif1 = Math.abs(current.getCoord().getX() - before.getCoord().getX());
+		float dif2 = Math.abs(current.getCoord().getX() - after.getCoord().getX());
+		if (current.getCoord().getX() == after.getCoord().getX()
+				&& current.getCoord().getX() == before.getCoord().getX()) {
+			return true;
+		} else if (dif1 <= current.getCoord().getX() * PATHTOLERANCE
+				&& dif2 <= current.getCoord().getX() * PATHTOLERANCE) {
+			return true;
+		}
 
+		return false;
+	}
+
+	private boolean checkVertical(Point before, Point current, Point after) {
+		float dif1 = Math.abs(current.getCoord().getY() - before.getCoord().getY());
+		float dif2 = Math.abs(current.getCoord().getY() - after.getCoord().getY());
+		if (current.getCoord().getY() == after.getCoord().getY()
+				&& current.getCoord().getY() == before.getCoord().getY()) {
+			return true;
+		} else if (dif1 <= current.getCoord().getY() * PATHTOLERANCE
+				&& dif2 <= current.getCoord().getY() * PATHTOLERANCE) {
+			return true;
+		}
+
+		return false;
+	}
+
+	private boolean checkDiagonal(Point before, Point current, Point after) {
+		Coord deltaBefore = new Coord(Math.abs(current.getCoord().getX() - before.getCoord().getX()),
+				Math.abs(current.getCoord().getY() - before.getCoord().getY()));
+		Coord deltaAfter = new Coord(Math.abs(current.getCoord().getX() - after.getCoord().getX()),
+				Math.abs(current.getCoord().getY() - after.getCoord().getY()));
+
+		if ((deltaBefore.getX() == deltaAfter.getX()) && (deltaBefore.getY() == deltaAfter.getY())
+				|| deltaBefore.getX() >= deltaAfter.getX() * (1 - PATHTOLERANCE)
+						&& deltaBefore.getX() <= deltaAfter.getX() * (1 + PATHTOLERANCE)
+						&& deltaBefore.getY() >= deltaAfter.getY() * (1 - PATHTOLERANCE)
+						&& deltaBefore.getY() <= deltaAfter.getY() * (1 + PATHTOLERANCE)) {
+			return true;
+		}
+
+		return false;
+	}
+
+	/**
+	 * Calculates the angle betwee to points
+	 * 
+	 * @param point1
+	 *            Point 1
+	 * @param point2
+	 *            Point 2
+	 * @return returns the angle.
+	 */
+
+	public float getAngle(Point point1, Point point2) {
+		return (float) ((float) Math.atan((point2.getCoord().getY() - point1.getCoord().getY())
+				/ (point2.getCoord().getX() - point1.getCoord().getX())) * 180 / Math.PI);
 	}
 
 	public Coord getNodePointCoord(Node node) {
