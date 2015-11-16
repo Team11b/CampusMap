@@ -58,7 +58,7 @@ public class AppUIObject {
 	private final JButton btnDevMode = new JButton("Dev Mode");
 	private final JButton btnSave = new JButton("Save");    	
 	private final JTextPane txtDirections = new JTextPane();
-	private String[] mapStrings = {"AK-0"};
+	private String[] mapStrings = {"Atwater_Kent-0"};
 	private final JComboBox mapDropDown = new JComboBox(mapStrings);    	
 	private final StringBuilder mapName = new StringBuilder();
 	private MouseListener mouseClick;
