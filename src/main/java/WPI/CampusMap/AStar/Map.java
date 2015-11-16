@@ -262,7 +262,6 @@ public class Map {
 					tempNode = new Node(neigh.get(j), explored.get(explored.size() - 1));
 					// check if Node is in Explored
 					otherIndex = Map.getIndex(tempNode, explored);
-//					if (otherIndex != -1) {
 					if (otherIndex == -1){
 						otherIndex = Map.getIndex(tempNode, frontier);
 						if (otherIndex == -1) {

@@ -156,13 +156,12 @@ public class Point {
 	 *         exists
 	 */
 	public boolean addNeighbor(Point point) {
-		for (int j = 0; j < this.getNeighborsID().size(); j++) {
-			if (this.getNeighborsID().get(j).equals(point.getId())) {
-				return false;
-			}
+		if(!this.getNeighborsID().contains(point.getId())){
+			this.neighborsID.add(point.getId());
 		}
-		this.neighborsID.add(point.getId());
-		this.neighborsP.add(point);
+		if(!this.getNeighborsP().contains(point)){
+			this.neighborsP.add(point);
+		}
 		return true;
 	}
 

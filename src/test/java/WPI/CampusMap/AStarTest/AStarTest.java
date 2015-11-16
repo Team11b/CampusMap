@@ -29,7 +29,7 @@ public class AStarTest {
 		System.out.printf("Number of steps: %d\n",path.getPath().size());
 		for(Node node: path.getPath()){
 			Coord coord =node.getPoint().getCoord();
-			System.out.printf("X: %f, Y: %f\n",coord.getX(), coord.getY());
+			System.out.printf("ID: %s, X: %f, Y: %f\n", node.getPoint().getId(), coord.getX(), coord.getY());
 		}
 	}
 

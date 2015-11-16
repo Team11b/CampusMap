@@ -61,6 +61,7 @@ public class AppUIObject {
 	private final JButton btnDelNode = new JButton("Delete Mode");
 	private final JLabel lblMapColon = new JLabel("Map:");
 	private final JButton btnDevMode = new JButton("Dev Mode");
+	private final JButton btnSave = new JButton("Save");    	
 	private final JTextPane txtDirections = new JTextPane();
 	private String[] mapStrings = { "Select a map", "outside", "left", "test", "walkingmap"};
 	private final JComboBox mapDropDown = new JComboBox(mapStrings);    	
@@ -97,7 +98,7 @@ public class AppUIObject {
     	frame.getContentPane().add(directionsPanel);
     	directionsPanel.setLayout(null);
     	
-    	txtDirections.setBounds(26, 154, 215, 463);
+    	txtDirections.setBounds(26, 117, 215, 500);
     	directionsPanel.add(txtDirections);
     	
     	btnEmail.setBounds(26, 629, 106, 29);
@@ -106,33 +107,37 @@ public class AppUIObject {
     	btnPrint.setBounds(130, 629, 111, 29);
     	directionsPanel.add(btnPrint);
     	
-    	lblDirections.setBounds(26, 117, 80, 25);
-    	directionsPanel.add(lblDirections);
-    	
-    	btnGetDirections.setBounds(26, 32, 101, 29);
+    	btnGetDirections.setBounds(42, 28, 157, 36);
     	directionsPanel.add(btnGetDirections);
     	
     	
-    	btnNode.setBounds(114, 34, 127, 25);
+    	btnNode.setBounds(0, 28, 127, 25);
     	
     	directionsPanel.add(btnNode);
     	btnNode.setVisible(false);
     	
-    	btnDelNode.setBounds(114, 73, 127, 25);
+    	btnDelNode.setBounds(0, 76, 127, 25);
     	
     	directionsPanel.add(btnDelNode);
     	btnDelNode.setVisible(false);
     	
+    	lblDirections.setBounds(26, 80, 80, 25);
+    	directionsPanel.add(lblDirections);
+    	
     	lblMapColon.setBounds(12, 1, 70, 15);
     	directionsPanel.add(lblMapColon);
     	
-    	btnDevMode.setBounds(26, 73, 92, 25);
+    	btnDevMode.setBounds(135, 76, 106, 25);
     	directionsPanel.add(btnDevMode);
     	
     	//Drop down for map selection
     	mapDropDown.setBounds(49, -4, 176, 24);
     	directionsPanel.add(mapDropDown);
     	mapDropDown.setSelectedIndex(0);    	
+    	
+    	btnSave.setBounds(140, 28, 101, 25);
+    	directionsPanel.add(btnSave);
+    	btnSave.setVisible(false);
     	    	
     	JSeparator separator = new JSeparator();
     	separator.setBackground(Color.RED);
@@ -333,10 +338,11 @@ public class AppUIObject {
     		public void actionPerformed(ActionEvent arg0) {
     			if(btnDevMode.getText() == "Dev Mode"){
     			    frame.setTitle("Dev Mode");
-    			    btnDevMode.setText("User Mode");
+    			    btnDevMode.setText("Usr mode");
     			    btnGetDirections.setVisible(false);
     			    btnNode.setVisible(true);
     			    btnDelNode.setVisible(true);
+    			    btnSave.setVisible(true);
     			}
     			else{
     			    frame.setTitle("Path Finder");
@@ -346,6 +352,7 @@ public class AppUIObject {
     			    btnGetDirections.setVisible(true);
     			    btnNode.setVisible(false);
     			    btnDelNode.setVisible(false);
+    			    btnSave.setVisible(false);
     			}
     		}
     	});
@@ -355,6 +362,12 @@ public class AppUIObject {
     	btnGetDirections.addActionListener(actionHandler);
     	btnNode.addActionListener(actionHandler);
     	btnDelNode.addActionListener(actionHandler);
+    	
+    	btnSave.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) {
+    			
+    		}
+    	});
     	
     	mapDropDown.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent arg0) 
@@ -382,7 +395,7 @@ public class AppUIObject {
             	int scale = map.getScale();        	
             	if(scale != -1){
             		lblMapviewGoesHere.setText(map.getName());
-            		lblScale.setText("Scale:" + scale + " inches per ft");
+            		lblScale.setText("Scale: " + scale + " inches per ft");
             	}
             	else
             	{
