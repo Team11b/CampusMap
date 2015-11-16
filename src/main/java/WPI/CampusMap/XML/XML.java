@@ -70,8 +70,6 @@ public class XML {
 			rootElement.setAttribute("scale", Integer.toString(map.getScale()));
 			
 			ArrayList<Point> sortedPoints = new ArrayList<Point>();
-			//won't compile for me Gavin 11-16 error:
-			// The method Sort(new Comparator<Point>(){}) is undefined for the type ArrayList<Point>
 			
 			arrayList.sort(new Comparator<Point>() {
 				public int compare(Point p1, Point p2) {
@@ -153,8 +151,8 @@ public class XML {
 			test = new FileInputStream(testFile);
 		} 
 		catch (FileNotFoundException e) 
-		{
-			return null;
+		{	
+			return new ArrayList<Point>();
 		}
 		
 		XMLStreamReader reader = factory.createXMLStreamReader(test);
@@ -211,6 +209,7 @@ public class XML {
 				if(i>neighborIDs.size()) break;
 			}
 		}
+		
 		return pointAList;
 	}
 }
