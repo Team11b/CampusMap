@@ -35,6 +35,7 @@ import javax.xml.stream.XMLStreamException;
 import WPI.CampusMap.AStar.Coord;
 import WPI.CampusMap.AStar.Map;
 import WPI.CampusMap.AStar.Point;
+import javax.swing.JComboBox;
 
 //TODO: Select edges button
 //TODO: Place path button
@@ -193,25 +194,14 @@ public class AppUIObject {
     	final JLabel lblMapviewGoesHere = new JLabel("");
     	lblMapviewGoesHere.setBounds(166, 12, 146, 16);
     	mainPanel.add(lblMapviewGoesHere);
-    	lblMapviewGoesHere.setVisible(true);
+    	lblMapviewGoesHere.setVisible(true);    	
     	
-    	//load map
-    	//picture init code
-        BufferedImage myPicture = null;
-        try {
-			myPicture = ImageIO.read(new File("outside.png"));
-		} catch (IOException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
         
         //debug statements
-        System.out.println(System.getProperty("user.dir"));
-        System.out.println(myPicture.getWidth());
-        System.out.println(myPicture.getHeight());    	
+        System.out.println(System.getProperty("user.dir"));     	
     	
     	final JLabel lblScale = new JLabel("");
-    	lblScale.setBounds(872, 12, 146, 16);
+    	lblScale.setBounds(781, 12, 225, 16);
     	mainPanel.add(lblScale);
     	lblScale.setVisible(true);
     	
@@ -280,19 +270,23 @@ public class AppUIObject {
     	directionsPanel.add(lblDirections);
     	
     	final JButton btnGetDirections = new JButton("Route me");
-    	btnGetDirections.setBounds(87, 0, 101, 29);
+    	btnGetDirections.setBounds(86, 32, 101, 29);
     	directionsPanel.add(btnGetDirections);
     	btnGetDirections.addActionListener(actionHandler);
     	
-    	final JButton btnNode = new JButton("Place Node");
-    	btnNode.setBounds(114, 2, 127, 25);
+    	final JButton btnNode = new JButton("Place Mode");
+    	btnNode.setBounds(114, 34, 127, 25);
     	directionsPanel.add(btnNode);
     	btnNode.setVisible(false);
     	
-    	final JButton btnDelNode = new JButton("Delete Node");
-    	btnDelNode.setBounds(114, 41, 127, 25);
+    	final JButton btnDelNode = new JButton("Delete Mode");
+    	btnDelNode.setBounds(114, 73, 127, 25);
     	directionsPanel.add(btnDelNode);
     	btnDelNode.setVisible(false);
+    	
+    	JLabel lblMapColon = new JLabel("Map:");
+    	lblMapColon.setBounds(12, 1, 70, 15);
+    	directionsPanel.add(lblMapColon);
     	
     	//Dev Mode
     	final JButton btnDevMode = new JButton("Dev Mode");
@@ -314,62 +308,73 @@ public class AppUIObject {
     			}
     		}
     	});
-    	btnDevMode.setBounds(10, 41, 106, 25);
+    	btnDevMode.setBounds(5, 73, 21, 25);
     	directionsPanel.add(btnDevMode);
     	
-    	//map button code    	
-    	JButton btnLoadMap = new JButton("Load");
-    	btnLoadMap.setBounds(0, 0, 75, 29);
-    	directionsPanel.add(btnLoadMap);	
+    	//Drop down for map selection
+    	String[] mapStrings = { "Select a map", "outside", "left", "test", "walkingmap"};
+    	final JComboBox mapDropDown = new JComboBox(mapStrings);    	
+    	final StringBuilder mapName = new StringBuilder();
+    	mapDropDown.setBounds(49, -4, 176, 24);
+    	directionsPanel.add(mapDropDown);
+    	mapDropDown.setSelectedIndex(0);    	
     	
-    	btnLoadMap.addActionListener(new ActionListener() {
-    		public void actionPerformed(ActionEvent arg0) 
-    		{
-    			try {
-					loadMap("outside.xml");
-				} catch (XMLStreamException e1) {
-					// TODO Auto-generated catch block
-					e1.printStackTrace();
-				}
-    			
-    	        if(lblPicLabel.isVisible()== true)
-    	        {
-    	        	lblPicLabel.setVisible(false);
-    	        	lblMapviewGoesHere.setVisible(false);
-    	        	lblScale.setVisible(false);
-    	        }
-    	        else
-    	        {
-    	        	
-    	        	lblScale.setVisible(true);    	        	
-    	        	lblPicLabel.setVisible(true);
-    	        	lblPicLabel.setIcon(map.getLoadedImage());
-    	        	lblPicLabel.setBounds(5, 5, 1000, 660);
-    	        	lblMapviewGoesHere.setVisible(true);
-    	        	lblMapviewGoesHere.setText("Walking map");
-    	        	lblScale.setText("Scale: 1 inch : 100 ft");
-    	        	
-    	        	
-    	        	//huge shit show but demonstrates using a Jtextpane with an icon. this is how to do directions
-    	            Icon icon = new ImageIcon("left.png");
-    	            JLabel label = new JLabel(icon);
-    	            StyleContext context = new StyleContext(); 
-    	            Style labelStyle = context.getStyle(StyleContext.DEFAULT_STYLE);
-    	            StyleConstants.setComponent(labelStyle, label);   	        	   	        	
-    	        	StyledDocument doc = txtDirections.getStyledDocument();    	        	
-    	            //Style def = StyleContext.getDefaultStyleContext().getStyle( StyleContext.DEFAULT_STYLE );
-    	            //Style regular = doc.addStyle( "regular", def );
-    	        	try {
-    	        		doc.insertString(0, "Start of text\n", null );
-    	        		doc.insertString(doc.getLength(), "Ignored", labelStyle);
-					} catch (BadLocationException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-    	        }
-    		}
-    	});
-    	
+    	mapDropDown.addActionListener(new ActionListener() {
+		public void actionPerformed(ActionEvent arg0) 
+		{
+			
+			mapName.append((String)mapDropDown.getSelectedItem());
+			try {
+ 				String path = mapName.toString() + ".xml";
+				loadMap(path);
+			} catch (XMLStreamException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}
+ 			
+ 			//reset the StringBuilder
+ 			mapName.setLength(0);
+ 			
+ 	        //Display the map finally
+        	lblScale.setVisible(true);    	        	
+        	lblPicLabel.setVisible(true);
+        	lblPicLabel.setIcon(map.getLoadedImage());
+        	lblPicLabel.setBounds(5, 5, 1000, 660);
+        	lblMapviewGoesHere.setVisible(true);
+        	
+        	int scale = map.getScale();
+        	if(scale != -1){
+        		lblMapviewGoesHere.setText(map.getName());
+        		lblScale.setText("Scale:" + map.getScale() + " inches per ft");
+        	}
+        	else
+        	{
+        		lblMapviewGoesHere.setText("");
+        		lblScale.setText("");
+        	}
+        	
+        	
+        	//huge shit show but demonstrates using a Jtextpane with an icon. this is how to do directions
+            Icon icon = new ImageIcon("left.png");
+            JLabel label = new JLabel(icon);
+            StyleContext context = new StyleContext(); 
+            Style labelStyle = context.getStyle(StyleContext.DEFAULT_STYLE);
+            StyleConstants.setComponent(labelStyle, label);   	        	   	        	
+        	StyledDocument doc = txtDirections.getStyledDocument();    	        	
+            //Style def = StyleContext.getDefaultStyleContext().getStyle( StyleContext.DEFAULT_STYLE );
+            //Style regular = doc.addStyle( "regular", def );
+        	try {
+        		doc.insertString(0, "Start of text\n", null );
+        		doc.insertString(doc.getLength(), "Ignored", labelStyle);
+			} catch (BadLocationException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+ 	       
+ 		}    		       
+		
+	});
+    	    	
     	JSeparator separator = new JSeparator();
     	separator.setBackground(Color.RED);
     	separator.setOrientation(SwingConstants.VERTICAL);

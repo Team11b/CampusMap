@@ -40,16 +40,21 @@ public class Map {
 	public Map(String xml) throws XMLStreamException{
 		this.scale = 100;
 		this.name = xml.substring(0, xml.length()-4);
-//		this.png = name + ".png";
-		this.png = "left.png";
+		this.png = name + ".png";		
 		this.xml = xml;
 //		XML.parseXML(this);
+		
+		if(this.name != "Select a map"){
 		try {
 			loadImage();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 		map = XML.parseXML(this);
+		}
+		else{
+			this.scale = -1; //it is THE fake map, we could do cool xml parsing for the fake map if needed
+		}
 	}
 	
 	/**
