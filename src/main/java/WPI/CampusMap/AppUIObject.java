@@ -31,6 +31,7 @@ import WPI.CampusMap.AStar.Coord;
 import WPI.CampusMap.AStar.Map;
 import WPI.CampusMap.AStar.Path;
 import WPI.CampusMap.AStar.Point;
+import WPI.CampusMap.XML.XML;
 
 //TODO: Select edges button
 //TODO: Place path button
@@ -395,7 +396,7 @@ public class AppUIObject {
     	
     	btnSave.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
-    			
+    			XML.writePoints(map, map.getMap());
     		}
     	});
     	
