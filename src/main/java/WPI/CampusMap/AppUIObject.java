@@ -95,7 +95,7 @@ public class AppUIObject {
     	directionsPanel.setLayout(null);
     	
     	final JTextPane txtDirections = new JTextPane();
-    	txtDirections.setBounds(26, 99, 215, 518);
+    	txtDirections.setBounds(26, 154, 215, 463);
     	directionsPanel.add(txtDirections);
     	
     	btnEmail.addActionListener(actionHandler);
@@ -106,10 +106,10 @@ public class AppUIObject {
     	btnPrint.setBounds(130, 629, 111, 29);
     	directionsPanel.add(btnPrint);
     	
-    	lblDirections.setBounds(26, 73, 80, 25);
+    	lblDirections.setBounds(26, 117, 80, 25);
     	directionsPanel.add(lblDirections);
     	
-    	btnGetDirections.setBounds(86, 32, 101, 29);
+    	btnGetDirections.setBounds(26, 32, 101, 29);
     	directionsPanel.add(btnGetDirections);
     	btnGetDirections.addActionListener(actionHandler);
     	
@@ -124,26 +124,7 @@ public class AppUIObject {
     	lblMapColon.setBounds(12, 1, 70, 15);
     	directionsPanel.add(lblMapColon);
     	
-    	//Dev Mode
-    	btnDevMode.addActionListener(new ActionListener() {
-    		public void actionPerformed(ActionEvent arg0) {
-    			if(btnDevMode.getText() == "Dev Mode"){
-    			    frame.setTitle("Dev Mode");
-    			    btnDevMode.setText("User Mode");
-    			    btnGetDirections.setVisible(false);
-    			    btnNode.setVisible(true);
-    			    btnDelNode.setVisible(true);
-    			}
-    			else{
-    			    frame.setTitle("Path Finder");
-    			    btnDevMode.setText("Dev Mode");
-    			    btnGetDirections.setVisible(true);
-    			    btnNode.setVisible(false);
-    			    btnDelNode.setVisible(false);
-    			}
-    		}
-    	});
-    	btnDevMode.setBounds(5, 73, 21, 25);
+    	btnDevMode.setBounds(26, 73, 92, 25);
     	directionsPanel.add(btnDevMode);
     	
     	//Drop down for map selection
@@ -240,9 +221,10 @@ public class AppUIObject {
 		
 	}
 	
-	private static void loadMap(String mapName) throws XMLStreamException{
+	private void loadMap(String mapName) throws XMLStreamException{
 		Map newMap = new Map(mapName);
 		map = newMap;
+		reDrawUI();
 	}
 	
 	/**
@@ -388,6 +370,25 @@ public class AppUIObject {
     	
 		frame.getContentPane().setLayout(null);
     	
+		//Dev Mode
+    	btnDevMode.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent arg0) {
+    			if(btnDevMode.getText() == "Dev Mode"){
+    			    frame.setTitle("Dev Mode");
+    			    btnDevMode.setText("User Mode");
+    			    btnGetDirections.setVisible(false);
+    			    btnNode.setVisible(true);
+    			    btnDelNode.setVisible(true);
+    			}
+    			else{
+    			    frame.setTitle("Path Finder");
+    			    btnDevMode.setText("Dev Mode");
+    			    btnGetDirections.setVisible(true);
+    			    btnNode.setVisible(false);
+    			    btnDelNode.setVisible(false);
+    			}
+    		}
+    	});
     	
     	mainPanel.setBounds(1, 6, 1018, 664);
     	frame.getContentPane().add(mainPanel);
