@@ -108,7 +108,6 @@ public class Path {
 		path.pathToString(path);
 		System.out.println("after get truns");
 		path.pathToString(path.getTurns());
-
 	}
 
 	public Coord getNodePointCoord(Node node) {
