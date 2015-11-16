@@ -58,7 +58,7 @@ public class AppUIObject {
 	private final JButton btnDevMode = new JButton("Dev Mode");
 	private final JButton btnSave = new JButton("Save");    	
 	private final JTextPane txtDirections = new JTextPane();
-	private String[] mapStrings = { "Select a map", "outside", "left", "test", "walkingmap"};
+	private String[] mapStrings = {"AK-0"};
 	private final JComboBox mapDropDown = new JComboBox(mapStrings);    	
 	private final StringBuilder mapName = new StringBuilder();
 	private MouseListener mouseClick;
@@ -202,6 +202,7 @@ public class AppUIObject {
 	}
 	
 	private void loadMap(String mapName) throws XMLStreamException{
+		System.out.println("UI: " + mapName);
 		Map newMap = new Map(mapName);
 		map = newMap;
 		reDrawUI();
@@ -404,7 +405,8 @@ public class AppUIObject {
     			
     			mapName.append((String)mapDropDown.getSelectedItem());
     			try {
-     				String path = mapName.toString() + ".xml";
+//     				String path = mapName.toString() + ".xml";
+    				String path = mapName.toString();
     				loadMap(path);
     			} catch (XMLStreamException e1) {
     				// TODO Auto-generated catch block

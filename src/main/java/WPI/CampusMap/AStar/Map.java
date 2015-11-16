@@ -32,70 +32,81 @@ public class Map {
 	private ImageIcon loadedImage;
 	
 	/**
-	 * Creates a map from an xml file.
-	 * Default values are used if the xml cannot be parsed.
-	 * @param xml The xml file to create the map from.
-	 * @throws XMLStreamException Thrown if there is an error parsing the xml file.
+	 * Creates a map from an xml file. Default values are used if the xml cannot
+	 * be parsed.
+	 * 
+	 * @param xml
+	 *            The xml file to create the map from.
+	 * @throws XMLStreamException
+	 *             Thrown if there is an error parsing the xml file.
 	 */
-	public Map(String xml) throws XMLStreamException{
+	public Map(String name) throws XMLStreamException {
 		this.scale = 100;
-		this.name = xml.substring(0, xml.length()-4);
-		this.png = name + ".png";		
-		this.xml = xml;
-//		XML.parseXML(this);
-		
-		if(this.name.equals("Select a map")){
-			this.scale = -1; //it is THE fake map, we could do cool xml parsing for the fake map if needed			
-		}
-		else{			
+		this.name = name;
+		System.out.println("Constructor: " + xml);
+		System.out.println("name:" + this.name);
+		this.png = "maps/" + name + ".png";
+		this.xml = "XML/" + xml + ".xml";
+		// XML.parseXML(this);
+
+		if (this.name.equals("Select a map")) {
+			this.scale = -1; // it is THE fake map, we could do cool xml parsing
+								// for the fake map if needed
+		} else {
 			try {
 				loadImage();
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
 			map = XML.parseXML(this);
-			
+
 		}
 	}
-	
+
 	/**
 	 * Creates a new default map.
 	 */
-	public Map(){
+	public Map() {
 		this.scale = 0;
 		this.name = "new_map";
 		this.png = this.name.concat(".png");
 		this.xml = "XML/".concat(this.name).concat(".xml");
 		this.map = new ArrayList<Point>();
 	}
-	
+
 	/**
 	 * Get the scale from inches to feet.
+	 * 
 	 * @return The scale from inches to feet.
 	 */
 	public int getScale() {
 		return this.scale;
 	}
-	
+
 	/**
 	 * Set the scale from inches to feet.
-	 * @param scale The inches to feet scale.
+	 * 
+	 * @param scale
+	 *            The inches to feet scale.
 	 */
 	public void setScale(int scale) {
 		this.scale = scale;
 	}
-	
+
 	/**
 	 * Gets the name of this map.
+	 * 
 	 * @return The name of this map.
 	 */
 	public String getName() {
 		return this.name;
 	}
-	
+
 	/**
 	 * Sets the name of the map.
-	 * @param name The new name of the map.
+	 * 
+	 * @param name
+	 *            The new name of the map.
 	 */
 	public void setName(String name) {
 		this.name = name;
@@ -103,23 +114,27 @@ public class Map {
 
 	/**
 	 * Gets the png file that this map should use.
+	 * 
 	 * @return The png file name that this map should use.
 	 */
 	public String getPng() {
 		return this.png;
 	}
-	
+
 	/**
 	 * Gets the xml file that this map should use.
+	 * 
 	 * @return The xml file name that this map should use.
 	 */
 	public String getXML() {
 		return this.xml;
 	}
-	
+
 	/**
 	 * Sets the xml file that this map should use.
-	 * @param xml The xml file name that this map should use.
+	 * 
+	 * @param xml
+	 *            The xml file name that this map should use.
 	 */
 	public void setXML(String xml) {
 		this.xml = xml;
@@ -127,7 +142,9 @@ public class Map {
 
 	/**
 	 * Sets the png file that this map should use.
-	 * @param png The png file name that this map should use.
+	 * 
+	 * @param png
+	 *            The png file name that this map should use.
 	 */
 	public void setPng(String png) {
 		this.png = png;
@@ -135,6 +152,7 @@ public class Map {
 
 	/**
 	 * Gets the points that make up this map.
+	 * 
 	 * @return An array list of the points that make up this map.
 	 */
 	public ArrayList<Point> getMap() {
@@ -143,51 +161,56 @@ public class Map {
 
 	/**
 	 * Sets the points that make up this map.
-	 * @param map The array list that will be the new points for this map.
+	 * 
+	 * @param map
+	 *            The array list that will be the new points for this map.
 	 */
 	public void setMap(ArrayList<Point> map) {
 		this.map = map;
 	}
-	
+
 	/**
 	 * Gets the loaded image of the map png to display.
+	 * 
 	 * @return The loaded image to display for this map.
 	 */
 	public ImageIcon getLoadedImage() {
 		return loadedImage;
 	}
 
-	//Benny: I don't think we need a setter for this, only the map should be changing the loaded image.
+	// Benny: I don't think we need a setter for this, only the map should be
+	// changing the loaded image.
 	public void setLoadedImage(ImageIcon loadedImage) {
 		this.loadedImage = loadedImage;
 	}
 
 	/**
 	 * Gets a point from the map.
-	 * @param id The id of the point to get.
+	 * 
+	 * @param id
+	 *            The id of the point to get.
 	 * @return The point with the id.
 	 */
-	public Point getPoint(String id)
-	{
-		for(Point p : map)
-		{
-			if(p.getId().equals(id))
+	public Point getPoint(String id) {
+		for (Point p : map) {
+			if (p.getId().equals(id))
 				return p;
 		}
-		
+
 		return null;
 	}
-	
+
 	/**
 	 * Converst screen space coords to world space coords.
-	 * @param screenSpace The coords in screen space
+	 * 
+	 * @param screenSpace
+	 *            The coords in screen space
 	 * @return The coords in world space.
 	 */
-	public Coord screenToWorldSpace(Coord screenSpace)
-	{
-		float x = screenSpace.getX() / (float)loadedImage.getIconWidth() * (float)scale;
-		float y = screenSpace.getY() / (float)loadedImage.getIconHeight() * (float)scale;
-		
+	public Coord screenToWorldSpace(Coord screenSpace) {
+		float x = screenSpace.getX() / (float) loadedImage.getIconWidth() * (float) scale;
+		float y = screenSpace.getY() / (float) loadedImage.getIconHeight() * (float) scale;
+
 		return new Coord(x, y);
 	}
 
@@ -246,7 +269,7 @@ public class Map {
 
 			// add the Node at the top of the frontier and add it to the
 			// explored list
-			// remove that Node from the frontier			
+			// remove that Node from the frontier
 			explored.add(frontier.get(0));
 			frontier.remove(0);
 
@@ -262,7 +285,7 @@ public class Map {
 					tempNode = new Node(neigh.get(j), explored.get(explored.size() - 1));
 					// check if Node is in Explored
 					otherIndex = Map.getIndex(tempNode, explored);
-					if (otherIndex == -1){
+					if (otherIndex == -1) {
 						otherIndex = Map.getIndex(tempNode, frontier);
 						if (otherIndex == -1) {
 							frontier.add(new Node(neigh.get(j), explored.get(explored.size() - 1)));
@@ -282,8 +305,8 @@ public class Map {
 			returnPath.addNode(tempNode);
 			tempNode = tempNode.getParent();
 		}
-		
-		returnPath.reverse();		
+
+		returnPath.reverse();
 		return returnPath;
 	}
 
@@ -305,18 +328,21 @@ public class Map {
 		}
 		return -1;
 	}
+
 	/**
-	 * Removes the point with the given ID from the map array, and from the neighbor arrays of
-	 * all points on the map
+	 * Removes the point with the given ID from the map array, and from the
+	 * neighbor arrays of all points on the map
 	 * 
-	 * @param id  The ID of the string to be removed
-	 * @return True if point is successfully removed, False if specified point does note exist
+	 * @param id
+	 *            The ID of the string to be removed
+	 * @return True if point is successfully removed, False if specified point
+	 *         does note exist
 	 */
-	public boolean removePoint(String id){
-		for(Point point: map){
-			if(point.getId().equals(id)){
+	public boolean removePoint(String id) {
+		for (Point point : map) {
+			if (point.getId().equals(id)) {
 				ArrayList<Point> neighbors = point.getNeighborsP();
-				for(Point pointN: neighbors){
+				for (Point pointN : neighbors) {
 					pointN.removeNeighbor(point);
 				}
 				point.setNeighborsID(new ArrayList<String>());
@@ -327,21 +353,31 @@ public class Map {
 		}
 		return false;
 	}
-	
-	private void loadImage() throws IOException
-	{
+
+	private void loadImage() throws IOException {
+		System.out.println(png);
 		BufferedImage buffer = ImageIO.read(new File(png));
-		loadedImage = new ImageIcon(buffer.getScaledInstance(1000, 660, Image.SCALE_SMOOTH));//TODO: do not scale, but rather have graphics draw
+		loadedImage = new ImageIcon(buffer.getScaledInstance(1000, 660, Image.SCALE_SMOOTH));// TODO:
+																								// do
+																								// not
+																								// scale,
+																								// but
+																								// rather
+																								// have
+																								// graphics
+																								// draw
 	}
-	
+
 	/**
-	 * Adds a point to the map.
-	 * Does NOT connect the point to any other points.
-	 * @param point a new Point to add
-	 * @return true if the point was added, false if there already exists a point with the same ID
+	 * Adds a point to the map. Does NOT connect the point to any other points.
+	 * 
+	 * @param point
+	 *            a new Point to add
+	 * @return true if the point was added, false if there already exists a
+	 *         point with the same ID
 	 */
 	public boolean addPoint(Point point) {
-		for(Point p: this.map) {
+		for (Point p : this.map) {
 			if (p.getId().equals(point.getId()))
 				return false;
 		}
@@ -353,12 +389,16 @@ public class Map {
 		});
 		return true;
 	}
-	
+
 	/**
 	 * Adds an edge between two Points
-	 * @param point the first Point
-	 * @param other the second Point
-	 * @return true if the edge was added, false if one Points doesn't exist or if the edge already exists
+	 * 
+	 * @param point
+	 *            the first Point
+	 * @param other
+	 *            the second Point
+	 * @return true if the edge was added, false if one Points doesn't exist or
+	 *         if the edge already exists
 	 */
 	public boolean addEdge(Point point, Point other) {
 		if (this.map.contains(point) && this.map.contains(other)) {
@@ -371,12 +411,16 @@ public class Map {
 		}
 		return false;
 	}
-	
+
 	/**
 	 * Removes an edge between two Points
-	 * @param point the first Point
-	 * @param other the second Point
-	 * @return true if the edge was removed, false if one Points doesn't exist or if the edge does not exist
+	 * 
+	 * @param point
+	 *            the first Point
+	 * @param other
+	 *            the second Point
+	 * @return true if the edge was removed, false if one Points doesn't exist
+	 *         or if the edge does not exist
 	 */
 	public boolean removeEdge(Point point, Point other) {
 		if (this.map.contains(point) && (this.map.contains(other))) {
@@ -390,4 +434,3 @@ public class Map {
 		return false;
 	}
 }
-
