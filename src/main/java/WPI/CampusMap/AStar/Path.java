@@ -55,33 +55,24 @@ public class Path {
 		for (int i = 1; i < path.size() - 1; i++) {
 			System.out.println(i);
 			if (i != path.size()) {
-				// big chunk of if statements start
 				// check if next point is on the same level as i - 1 and i + 1
-				if ((getNodePointCoord(path.get(i)).getX() == getNodePointCoord(path.get(i + 1)).getX())
-						&& (getNodePointCoord(path.get(i)).getX() == getNodePointCoord(path.get(i - 1)).getX())) {
-					System.out.println("Abridge one node vertical");
-					continue;
-					// check if next point is on the same level as i - 1 and i + 1
-				} else if ((getNodePointCoord(path.get(i)).getY() == getNodePointCoord(path.get(i + 1)).getY())
-						&& (getNodePointCoord(path.get(i)).getY() == getNodePointCoord(path.get(i - 1)).getY())) {
+				if (checkHorizontal(path.get(i - 1).getPoint(), path.get(i).getPoint(), path.get(i + 1).getPoint())) {
 					System.out.println("Abridge one node horizontal");
 					continue;
+					// check if next point is on the same level as i - 1 and i +
+					// 1
+				} else
+					if (checkVertical(path.get(i - 1).getPoint(), path.get(i).getPoint(), path.get(i + 1).getPoint())) {
+					System.out.println("Abridge one node vertical");
+					continue;
 				} else {
-					Coord deltaBefore = new Coord(
-							Math.abs(getNodePointCoord(path.get(i)).getX() - getNodePointCoord(path.get(i - 1)).getX()),
-							Math.abs(
-									getNodePointCoord(path.get(i)).getY() - getNodePointCoord(path.get(i - 1)).getY()));
-					Coord deltaAfter = new Coord(
-							Math.abs(getNodePointCoord(path.get(i)).getX() - getNodePointCoord(path.get(i + 1)).getX()),
-							Math.abs(
-									getNodePointCoord(path.get(i)).getY() - getNodePointCoord(path.get(i + 1)).getY()));
-					if ((deltaBefore.getX() == deltaAfter.getX()) && (deltaBefore.getY() == deltaAfter.getY())) {
+
+					if (checkDiagonal(path.get(i - 1).getPoint(), path.get(i).getPoint(), path.get(i + 1).getPoint())) {
 						System.out.println("Abridge one node diagonal");
 						continue;
 					}
 				}
 				temp.add(path.get(i));
-				// big chunk of if statements start
 			} else {
 				temp.add(path.get(i));
 			}
