@@ -93,11 +93,13 @@ public class XML {
 				newElement.setAttribute("y", Double.toString(sortedPoints.get(j).getCoord().getY()));
 
 				ArrayList<String> sortedConn = sortedPoints.get(j).getNeighborsID();
-				sortedConn.sort(new Comparator<String>() {
+				//won't compile for me Gavin 11-16
+				//error: The method sort(new Comparator<String>(){}) is undefined for the type ArrayList<String>
+				/*sortedConn.sort(new Comparator<String>() {
 					public int compare(String s1, String s2) {
 						return s1.compareTo(s2);
 					}
-				});
+				});*/
 
 				for (int k = 0; k < sortedConn.size(); k++) {
 					subElement = doc.createElement("Connection");

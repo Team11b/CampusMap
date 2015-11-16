@@ -342,10 +342,10 @@ public class AppUIObject {
         	lblPicLabel.setBounds(5, 5, 1000, 660);
         	lblMapviewGoesHere.setVisible(true);
         	
-        	int scale = map.getScale();
+        	int scale = map.getScale();        	
         	if(scale != -1){
         		lblMapviewGoesHere.setText(map.getName());
-        		lblScale.setText("Scale:" + map.getScale() + " inches per ft");
+        		lblScale.setText("Scale:" + scale + " inches per ft");
         	}
         	else
         	{

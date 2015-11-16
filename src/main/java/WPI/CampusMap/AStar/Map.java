@@ -44,16 +44,17 @@ public class Map {
 		this.xml = xml;
 //		XML.parseXML(this);
 		
-		if(this.name != "Select a map"){
-		try {
-			loadImage();
-		} catch (IOException e) {
-			e.printStackTrace();
+		if(this.name.equals("Select a map")){
+			this.scale = -1; //it is THE fake map, we could do cool xml parsing for the fake map if needed			
 		}
-		map = XML.parseXML(this);
-		}
-		else{
-			this.scale = -1; //it is THE fake map, we could do cool xml parsing for the fake map if needed
+		else{			
+			try {
+				loadImage();
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			map = XML.parseXML(this);
+			
 		}
 	}
 	
