@@ -65,7 +65,7 @@ public class AppUIObject {
 	private MouseListener mouseClick;
 	private final SwingAction actionHandler = new SwingAction();
 
-	private static Map map;
+	private static Map currentMap;
 	
 	private static Point selectedPoint;
 	
@@ -205,7 +205,7 @@ public class AppUIObject {
 	private void loadMap(String mapName) throws XMLStreamException{
 		System.out.println("UI: " + mapName);
 		Map newMap = new Map(mapName);
-		map = newMap;
+		currentMap = newMap;
 		reDrawUI();
 	}
 	
@@ -217,10 +217,10 @@ public class AppUIObject {
 	private static Point createPointOnMap(MouseEvent e)
 	{
 		Coord screenCoord = new Coord(e.getX(), e.getY());
-		Coord mapCoord = map.screenToWorldSpace(screenCoord);
+		Coord mapCoord = currentMap.screenToWorldSpace(screenCoord);
 		
 		Point newPoint = new Point(mapCoord, "", UUID.randomUUID().toString());
-		map.addPoint(newPoint);
+		currentMap.addPoint(newPoint);
 		
 		return newPoint;
 	}
@@ -233,9 +233,9 @@ public class AppUIObject {
 	private static boolean selectPointOnMap(MouseEvent e)
 	{
 		Coord screenCoord = new Coord(e.getX(), e.getY());
-		Coord mapCoord = map.screenToWorldSpace(screenCoord);
+		Coord mapCoord = currentMap.screenToWorldSpace(screenCoord);
 		
-		ArrayList<Point> points = map.getMap();
+		ArrayList<Point> points = currentMap.getMap();
 		
 		Point closestPoint = null;
 		float closestDistance = Float.MAX_VALUE;
@@ -279,7 +279,7 @@ public class AppUIObject {
 		if(!selectPointOnMap(e))
 			return false;
 		
-		map.addEdge(lastSelected, selectedPoint);
+		currentMap.addEdge(lastSelected, selectedPoint);
 		
 		return true;
 	}
@@ -396,7 +396,7 @@ public class AppUIObject {
     	
     	btnSave.addActionListener(new ActionListener() {
     		public void actionPerformed(ActionEvent e) {
-    			XML.writePoints(map, map.getMap());
+    			XML.writePoints(currentMap, currentMap.getMap());
     		}
     	});
     	
@@ -420,13 +420,13 @@ public class AppUIObject {
      	        //Display the map finally
             	lblScale.setVisible(true);    	        	
             	lblPicLabel.setVisible(true);
-            	lblPicLabel.setIcon(map.getLoadedImage());
+            	lblPicLabel.setIcon(currentMap.getLoadedImage());
             	lblPicLabel.setBounds(5, 5, 1000, 660);
             	lblMapviewGoesHere.setVisible(true);
             	
-            	int scale = map.getScale();        	
+            	int scale = currentMap.getScale();        	
             	if(scale != -1){
-            		lblMapviewGoesHere.setText(map.getName());
+            		lblMapviewGoesHere.setText(currentMap.getName());
             		lblScale.setText("Scale: " + scale + " inches per ft");
             	}
             	else
