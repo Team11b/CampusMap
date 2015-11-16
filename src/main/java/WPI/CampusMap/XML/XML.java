@@ -76,11 +76,11 @@ public class XML {
 			//won't compile for me Gavin 11-16 error:
 			// The method Sort(new Comparator<Point>(){}) is undefined for the type ArrayList<Point>
 			
-			/*arrayList.sort(new Comparator<Point>() {
+			arrayList.sort(new Comparator<Point>() {
 				public int compare(Point p1, Point p2) {
 					return p1.getId().compareTo(p2.getId());
 				}
-			});*/
+			});
 			sortedPoints=arrayList;
 
 			Element newElement;
@@ -92,14 +92,12 @@ public class XML {
 				newElement.setAttribute("x", Double.toString(sortedPoints.get(j).getCoord().getX()));
 				newElement.setAttribute("y", Double.toString(sortedPoints.get(j).getCoord().getY()));
 
-				ArrayList<String> sortedConn = sortedPoints.get(j).getNeighborsID();
-				//won't compile for me Gavin 11-16
-				//error: The method sort(new Comparator<String>(){}) is undefined for the type ArrayList<String>
-				/*sortedConn.sort(new Comparator<String>() {
+				ArrayList<String> sortedConn = sortedPoints.get(j).getNeighborsID();				
+				sortedConn.sort(new Comparator<String>() {
 					public int compare(String s1, String s2) {
 						return s1.compareTo(s2);
 					}
-				});*/
+				});
 
 				for (int k = 0; k < sortedConn.size(); k++) {
 					subElement = doc.createElement("Connection");
