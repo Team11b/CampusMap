@@ -11,6 +11,8 @@ import java.awt.event.MouseListener;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.UUID;
 
 import javax.imageio.ImageIO;
 import javax.swing.AbstractAction;
@@ -30,7 +32,9 @@ import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 import javax.xml.stream.XMLStreamException;
 
+import WPI.CampusMap.AStar.Coord;
 import WPI.CampusMap.AStar.Map;
+import WPI.CampusMap.AStar.Point;
 
 //TODO: Select edges button
 //TODO: Place path button
@@ -39,6 +43,8 @@ import WPI.CampusMap.AStar.Map;
 public class AppUIObject {
 
 	private static Map map;
+	
+	private static Point selectedPoint;
 	
 	/**
 	 * Presents a view that allows the user to enter an email address 
@@ -65,6 +71,81 @@ public class AppUIObject {
 	private static void loadMap(String mapName) throws XMLStreamException{
 		Map newMap = new Map(mapName);
 		map = newMap;
+	}
+	
+	/**
+	 * Creates a point on the map at the mouse point.
+	 * @param e The mouse event to trigger the method.
+	 * @return The point that was created.
+	 */
+	private static Point createPointOnMap(MouseEvent e)
+	{
+		Coord screenCoord = new Coord(e.getX(), e.getY());
+		Coord mapCoord = map.screenToWorldSpace(screenCoord);
+		
+		Point newPoint = new Point(mapCoord, "", UUID.randomUUID().toString());
+		map.addPoint(newPoint);
+		
+		return newPoint;
+	}
+	
+	/**
+	 * Selects a point on the map.
+	 * @param e The mouse event to select a point from.
+	 * @return True if a point was selected, false otherwise.
+	 */
+	private static boolean selectPointOnMap(MouseEvent e)
+	{
+		Coord screenCoord = new Coord(e.getX(), e.getY());
+		Coord mapCoord = map.screenToWorldSpace(screenCoord);
+		
+		ArrayList<Point> points = map.getMap();
+		
+		Point closestPoint = null;
+		float closestDistance = Float.MAX_VALUE;
+		final float clickThreshold = 1.0f;
+		
+		for(Point p : points)
+		{
+			float distance = mapCoord.distance(p.getCoord());
+			
+			if(distance < clickThreshold && distance < closestDistance)
+			{
+				closestPoint = p;
+				closestDistance = distance;
+			}
+		}
+		
+		//No point selected
+		if(closestPoint == null)
+			return false;
+		
+		selectedPoint = closestPoint;
+		
+		return true;
+	}
+	
+	/**
+	 * If no point is selected then it selects a point.
+	 * If a point is selected already then it tries to select a new point and if successful it creates an edge between the two points.
+	 * @param e The mouse event to try and create an edge from.
+	 * @return True if an edge was created, false otherwise.
+	 */
+	private static boolean addEdgeOnMap(MouseEvent e)
+	{
+		if(selectedPoint == null)
+		{ 
+			selectPointOnMap(e);
+			return false;
+		}
+		
+		Point lastSelected = selectedPoint;
+		if(!selectPointOnMap(e))
+			return false;
+		
+		map.addEdge(lastSelected, selectedPoint);
+		
+		return true;
 	}
 	
 	/**
