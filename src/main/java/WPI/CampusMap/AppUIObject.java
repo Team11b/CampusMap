@@ -57,7 +57,9 @@ public class AppUIObject {
 	private final JButton btnDelNode = new JButton("Delete Mode");
 	private final JLabel lblMapColon = new JLabel("Map:");
 	private final JButton btnDevMode = new JButton("Dev Mode");
-	private final JButton btnSave = new JButton("Save");    	
+	private final JButton btnSave = new JButton("Save");  
+	private final JButton btnAddEdge = new JButton("Add Edge");
+	private final JButton btnRemoveEdge = new JButton("Remove Edge");
 	private final JTextPane txtDirections = new JTextPane();
 	private String[] mapStrings = {"Atwater_Kent-0"};
 	private final JComboBox mapDropDown = new JComboBox(mapStrings);    	
@@ -94,7 +96,7 @@ public class AppUIObject {
     	frame.getContentPane().add(directionsPanel);
     	directionsPanel.setLayout(null);
     	
-    	txtDirections.setBounds(26, 117, 215, 500);
+    	txtDirections.setBounds(26, 190, 215, 427);
     	directionsPanel.add(txtDirections);
     	
     	btnEmail.setBounds(26, 629, 106, 29);
@@ -103,28 +105,16 @@ public class AppUIObject {
     	btnPrint.setBounds(130, 629, 111, 29);
     	directionsPanel.add(btnPrint);
     	
-    	btnGetDirections.setBounds(42, 28, 157, 36);
-    	directionsPanel.add(btnGetDirections);
-    	
-    	
-    	btnNode.setBounds(0, 28, 127, 25);
-    	
-    	directionsPanel.add(btnNode);
-    	btnNode.setVisible(false);
-    	
-    	btnDelNode.setBounds(0, 76, 127, 25);
+    	btnDelNode.setBounds(114, 78, 127, 25);
     	
     	directionsPanel.add(btnDelNode);
     	btnDelNode.setVisible(false);
     	
-    	lblDirections.setBounds(26, 80, 80, 25);
+    	lblDirections.setBounds(26, 153, 80, 25);
     	directionsPanel.add(lblDirections);
     	
     	lblMapColon.setBounds(12, 1, 70, 15);
     	directionsPanel.add(lblMapColon);
-    	
-    	btnDevMode.setBounds(135, 76, 106, 25);
-    	directionsPanel.add(btnDevMode);
     	
     	//Drop down for map selection
     	mapDropDown.setBounds(49, -4, 176, 24);
@@ -133,6 +123,19 @@ public class AppUIObject {
     	
     	btnSave.setBounds(140, 28, 101, 25);
     	directionsPanel.add(btnSave);
+    	
+    	btnAddEdge.addActionListener(new ActionListener() {
+    		public void actionPerformed(ActionEvent e) {
+    		}
+    	});
+    	btnAddEdge.setBounds(10, 102, 122, 29);
+    	directionsPanel.add(btnAddEdge);
+    	
+    	btnRemoveEdge.setBounds(124, 102, 117, 29);
+    	directionsPanel.add(btnRemoveEdge);
+    	btnNode.setBounds(6, 78, 127, 25);
+    	directionsPanel.add(btnNode);
+    	btnNode.setVisible(false);
     	btnSave.setVisible(false);
     	    	
     	JSeparator separator = new JSeparator();
@@ -317,6 +320,12 @@ public class AppUIObject {
 					deleteMode = !deleteMode;
 					System.out.println("Delete Mode");
 					break;
+				case "Add Edge":
+					System.out.println("Add edge");
+					break;
+				case "Remove Edge":
+					System.out.println("Remove edge");
+					break;
 				default:
 			}
 		}
@@ -363,6 +372,8 @@ public class AppUIObject {
 		};
     	
 		frame.getContentPane().setLayout(null);
+    	btnDevMode.setBounds(130, 53, 106, 25);
+    	directionsPanel.add(btnDevMode);
     	
 		//Dev Mode
     	btnDevMode.addActionListener(new ActionListener() {
@@ -374,6 +385,8 @@ public class AppUIObject {
     			    btnNode.setVisible(true);
     			    btnDelNode.setVisible(true);
     			    btnSave.setVisible(true);
+    			    btnAddEdge.setVisible(true);
+    			    btnRemoveEdge.setVisible(true);
     			}
     			else{
     			    frame.setTitle("Path Finder");
@@ -384,12 +397,18 @@ public class AppUIObject {
     			    btnNode.setVisible(false);
     			    btnDelNode.setVisible(false);
     			    btnSave.setVisible(false);
+    			    btnAddEdge.setVisible(false);
+    			    btnRemoveEdge.setVisible(false);
     			}
     		}
     	});
     	
     	btnEmail.addActionListener(actionHandler);
     	btnPrint.addActionListener(actionHandler);
+    	btnRemoveEdge.addActionListener(actionHandler);
+    	btnAddEdge.addActionListener(actionHandler);
+    	btnGetDirections.setBounds(10, 28, 111, 36);
+    	directionsPanel.add(btnGetDirections);
     	btnGetDirections.addActionListener(actionHandler);
     	btnNode.addActionListener(actionHandler);
     	btnDelNode.addActionListener(actionHandler);
