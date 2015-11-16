@@ -43,6 +43,9 @@ import javax.swing.JComboBox;
 
 public class AppUIObject {
 
+	private boolean placeMode = false;
+	private boolean deleteMode = false;
+	
 	//UI Elements
 	private final JFrame frame = new JFrame("Path Finder");
 	private final JPanel mainPanel = new JPanel();
@@ -114,10 +117,12 @@ public class AppUIObject {
     	btnGetDirections.addActionListener(actionHandler);
     	
     	btnNode.setBounds(114, 34, 127, 25);
+    	btnNode.addActionListener(actionHandler);
     	directionsPanel.add(btnNode);
     	btnNode.setVisible(false);
     	
     	btnDelNode.setBounds(114, 73, 127, 25);
+    	btnDelNode.addActionListener(actionHandler);
     	directionsPanel.add(btnDelNode);
     	btnDelNode.setVisible(false);
     	
@@ -326,6 +331,13 @@ public class AppUIObject {
 				case "Print":
 					printDirections();
 					System.out.println("Print");
+					break;
+				case "Place Mode":
+					
+					System.out.println("Place Mode");
+					break;
+				case "Delete Mode":
+					System.out.println("Delete Mode");
 					break;
 				default:
 			}
