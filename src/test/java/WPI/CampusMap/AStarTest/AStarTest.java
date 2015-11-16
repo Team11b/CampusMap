@@ -8,7 +8,6 @@ import java.util.ArrayList;
 import javax.xml.stream.XMLStreamException;
 
 import org.junit.Test;
-import org.junit.Ignore;
 
 import WPI.CampusMap.AStar.Coord;
 import WPI.CampusMap.AStar.Map;
