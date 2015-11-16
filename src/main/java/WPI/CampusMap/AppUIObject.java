@@ -34,6 +34,7 @@ import javax.xml.stream.XMLStreamException;
 
 import WPI.CampusMap.AStar.Coord;
 import WPI.CampusMap.AStar.Map;
+import WPI.CampusMap.AStar.Path;
 import WPI.CampusMap.AStar.Point;
 import javax.swing.JComboBox;
 
@@ -161,8 +162,42 @@ public class AppUIObject {
 	/**
 	 * Calculates the walking path and displays the directions.
 	 */
-	private static void getAndDisplayDirections(){
-		
+	private static String getAndDisplayDirections(Path path){
+		String route = "";
+		for (int i = 1; i < path.getPath().size(); i++) {
+			String turn = "";
+			String direction = "";
+			float dist = path.getPath().get(i).getPoint().distance(path.getPath().get(i - 1).getPoint());
+			float angle = path.getAngle(path.getPath().get(i - 1).getPoint(), path.getPath().get(i).getPoint());
+
+			route += path.getPath().get(i - 1).getPoint().toString() + " to "
+					+ path.getPath().get(i).getPoint().toString() + "";
+			if (path.getPath().get(i).getPoint().getCoord().getX() == path.getPath().get(i - 1).getPoint().getCoord()
+					.getX()
+					|| path.getPath().get(i).getPoint().getCoord().getY() == path.getPath().get(i - 1).getPoint()
+							.getCoord().getY()) {
+				route += "Walk " + dist + " feet straight on.\n";
+			} else {
+
+				if (path.getPath().get(i - 1).getPoint().getCoord().getX() < path.getPath().get(i).getPoint().getCoord()
+						.getX()) {
+					System.out.println(angle);
+					if (angle < 0)
+						turn = "left";
+					else
+						turn = "right";
+
+				}
+				if (Math.abs(angle) > 0 && Math.abs(angle) < 45) {
+					direction = "slightly";
+				} else if (Math.abs(angle) > 45 && Math.abs(angle) < 90) {
+					direction = "hard";
+				}
+				route += "Turn " + direction + " " + turn + " and walk " + dist + " feet\n";
+			}
+		}
+
+		return route;
 	}
 	
 	/**
@@ -271,7 +306,7 @@ public class AppUIObject {
 					System.out.println("Send an Email!");
 					break;
 				case "Route me":
-					getAndDisplayDirections();					 
+					getAndDisplayDirections(new Path());					 
 					System.out.println("Get Directions");
 					break;
 				case "Print":
