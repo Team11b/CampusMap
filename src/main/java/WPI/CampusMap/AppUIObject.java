@@ -320,6 +320,20 @@ public class AppUIObject {
 
 		return currentMap.removePoint(selectedPoint);
 	}
+    private static boolean removeEdgeOnMap(MouseEvent e) {
+        if (selectedPoint == null) {
+            selectPointOnMap(e);
+            return false;
+        }
+
+        Point lastSelected = selectedPoint;
+        if (!selectPointOnMap(e))
+            return false;
+
+        currentMap.removeEdge(lastSelected, selectedPoint);
+
+        return true;
+    }
 
 	/**
 	 * Selects a point on the map.
@@ -549,7 +563,8 @@ public class AppUIObject {
 					}
 					else
 					{
-						if(selectPointOnMap(e))
+//						if(selectPointOnMap(e))
+						if (removeEdgeOnMap(e))
 							reDrawUI();
 					}
 				}else
