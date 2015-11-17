@@ -98,7 +98,6 @@ public class AppUIObject {
 
 		mainPanel.add(lblPicLabel);
 		lblPicLabel.setVisible(false);
-		lblPicLabel.addMouseListener(mouseClick);
 
 		System.out.println(
 				"Image Size X: " + lblPicLabel.getSize().getWidth() + " Y: " + lblPicLabel.getSize().getHeight());
@@ -130,18 +129,18 @@ public class AppUIObject {
 		lblDirections.setBounds(26, 153, 80, 25);
 		directionsPanel.add(lblDirections);
 
-		lblMapColon.setBounds(12, 1, 70, 15);
+		lblMapColon.setBounds(6, 10, 70, 15);
 		directionsPanel.add(lblMapColon);
 
-		btnDevMode.setBounds(0, 28, 106, 25);
+		btnDevMode.setBounds(0, 42, 106, 25);
 		directionsPanel.add(btnDevMode);
 		
 		// Drop down for map selection
-	    mapDropDown.setBounds(49, -4, 176, 24);
+	    mapDropDown.setBounds(55, 6, 176, 24);
 	    directionsPanel.add(mapDropDown);
 		//mapDropDown.setSelectedIndex(0);
 
-		btnSave.setBounds(140, 28, 101, 25);
+		btnSave.setBounds(140, 42, 101, 25);
 		directionsPanel.add(btnSave);
 		btnRemoveEdge.setBounds(124, 116, 117, 29);
 		
@@ -499,6 +498,8 @@ public class AppUIObject {
 			}
 
 		});
+		
+		lblPicLabel.addMouseListener(mouseClick);
 		
 		btnEdgeMode.setVisible(false);
 		btnRemoveEdge.setVisible(false);
