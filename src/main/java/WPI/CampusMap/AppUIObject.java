@@ -78,7 +78,7 @@ public class AppUIObject {
 
 	private static Point selectedPoint;
 	private final JButton btnRemoveEdge = new JButton("Remove Edge");
-	private final JButton btnAddEdge = new JButton("Add Edge");
+	private final JButton btnEdgeMode = new JButton("Edge Mode");
 
 	/**
 	 * Re-draws all UI elements. Call after the map has changed.
@@ -145,9 +145,9 @@ public class AppUIObject {
 		btnRemoveEdge.setBounds(124, 116, 117, 29);
 		
 		directionsPanel.add(btnRemoveEdge);
-		btnAddEdge.setBounds(124, 76, 117, 29);
+		btnEdgeMode.setBounds(124, 76, 117, 29);
 		
-		directionsPanel.add(btnAddEdge);
+		directionsPanel.add(btnEdgeMode);
 		btnSave.setVisible(false);
 
 		JSeparator separator = new JSeparator();
@@ -337,8 +337,8 @@ public class AppUIObject {
 				deleteMode = !deleteMode;
 				System.out.println("Delete Mode");
 				break;
-			case "Add Edge":
-				System.out.println("Add Edge");
+			case "Edge Mode":
+				System.out.println("Edge Mode");
 				break;
 			case "Remove Edge":
 				System.out.println("Remove Edge");
@@ -400,7 +400,7 @@ public class AppUIObject {
 					btnNode.setVisible(true);
 					btnDelNode.setVisible(true);
 					btnSave.setVisible(true);
-					btnAddEdge.setVisible(true);
+					btnEdgeMode.setVisible(true);
 					btnRemoveEdge.setVisible(true);
 				} else {
 					frame.setTitle("Path Finder");
@@ -408,7 +408,7 @@ public class AppUIObject {
 					deleteMode = !deleteMode;
 					placeMode = !placeMode;
 					btnGetDirections.setVisible(true);
-					btnAddEdge.setVisible(false);
+					btnEdgeMode.setVisible(false);
 					btnRemoveEdge.setVisible(false);
 					btnNode.setVisible(false);
 					btnDelNode.setVisible(false);
@@ -484,12 +484,12 @@ public class AppUIObject {
 
 		});
 		
-		btnAddEdge.setVisible(false);
+		btnEdgeMode.setVisible(false);
 		btnRemoveEdge.setVisible(false);
 		btnNode.setVisible(false);
 		btnDelNode.setVisible(false);
 		
-		btnAddEdge.addActionListener(actionHandler);
+		btnEdgeMode.addActionListener(actionHandler);
 		btnRemoveEdge.addActionListener(actionHandler);
 
 		mainPanel.setBounds(1, 6, 1018, 664);
