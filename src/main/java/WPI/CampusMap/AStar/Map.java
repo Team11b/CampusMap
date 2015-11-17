@@ -313,7 +313,8 @@ public class Map {
 						otherIndex = Map.getIndex(tempNode, frontier);
 						if (otherIndex == -1) {
 							frontier.add(new Node(neigh.get(j), explored.get(explored.size() - 1)));
-							frontier.get(frontier.size()-1).setCumulativeDist(explored.get(explored.size()-1).getCumulativeDist() +frontier.get(frontier.size() - 1).getHeuristic());
+							frontier.get(frontier.size()-1).setCumulativeDist(explored.get(explored.size()-1).getCumulativeDist() + frontier.get(frontier.size() - 1).getPoint().distance(explored.get(explored.size() - 1).getPoint()));
+							frontier.get(frontier.size() - 1).setCurrentScore(frontier.get(frontier.size() - 1).getCumulativeDist() + frontier.get(frontier.size() - 1).getHeuristic());
 						} else {
 							if (tempNode.getCurrentScore() < frontier.get(otherIndex).getCurrentScore()) {
 								frontier.set(otherIndex, new Node(neigh.get(j), explored.get(explored.size() - 1)));

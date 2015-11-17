@@ -72,7 +72,6 @@ public class AStarTest {
 		Path path = testMap2.astar(start, goal);
 		ArrayList<Node> pathNodes = path.getPath();
 		
-		System.out.println(pathNodes.get(1).getPoint().getCoord().getY());
 		assertEquals(path.getPath().size(),9);
 		assertEquals(pathNodes.get(0).getPoint().getId(),"4");
 		assertEquals(pathNodes.get(1).getPoint().getId(),"3");
