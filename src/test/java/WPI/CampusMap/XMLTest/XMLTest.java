@@ -25,10 +25,10 @@ public class XMLTest {
 
 	@Test
 	public void testWriteXML() throws FileNotFoundException,XMLStreamException {
-		Map testMap = new Map("XML/AK.xml");
+		Map testMap = new Map("AK");
 		testMap.setName("AKTest");
 		XML.writePoints(testMap, testMap.getMap());
-		testMap = new Map("XML/AKTest.xml");
+		testMap = new Map("AKTest");
 		
 		//Delete AKTest
 		Path path = Paths.get("XML\\AKTest.xml");

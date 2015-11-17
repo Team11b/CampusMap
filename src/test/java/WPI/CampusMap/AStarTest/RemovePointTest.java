@@ -17,7 +17,7 @@ public class RemovePointTest {
 
 	@Test
 	public void test() throws XMLStreamException {
-		Map testMap = new Map("XML/AK.xml");
+		Map testMap = new Map("AK");
 		testMap.removePoint("b9e43a3e-c47d-4f7b-b63c-f874c94f4cde");
 		
 		ArrayList<Point> points = testMap.getMap();
