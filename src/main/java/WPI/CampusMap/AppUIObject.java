@@ -478,7 +478,9 @@ public class AppUIObject {
 				}
 				if(deleteMode){
 					System.out.println("You deleted X: " + e.getX() + " Y: " + e.getY());
-				}else{
+				}
+
+				if(!edgeMode && !deleteMode && !placeMode){
 					selectPointOnMap(e);
 					System.out.println("You clicked X: " + e.getX() + " Y: " + e.getY());
 				}
