@@ -179,7 +179,7 @@ public class AppUIObject {
 	private final JFrame frame = new JFrame("Path Finder");
 	private final JPanel mainPanel = new JPanel();
 	private final JLabel lblMapviewGoesHere = new JLabel("");
-	private final JLabel lblScale = new JLabel("");
+	private final JLabel lblScale = new JLabel("Scale: ");
 	private final MapPanel mapPanel = new MapPanel();
 	private final JPanel directionsPanel = new JPanel();
 	private final JButton btnEmail = new JButton("Email");
@@ -463,22 +463,8 @@ public class AppUIObject {
 
 	public AppUIObject() {
 
-		lblMapviewGoesHere.setBounds(12, 12, 146, 16);
-		mainPanel.add(lblMapviewGoesHere);
-		lblMapviewGoesHere.setVisible(true);
-		
-		txtScale = new JTextField();
-		txtScale.setBounds(814, 9, 130, 19);
-		mainPanel.add(txtScale);
-		txtScale.setColumns(10);
-		txtScale.setVisible(false);
-
 		// debug statements
 		System.out.println(System.getProperty("user.dir"));
-
-		lblScale.setBounds(781, 12, 225, 16);
-		mainPanel.add(lblScale);
-		lblScale.setVisible(true);
 
 		mainPanel.add(mapPanel);
 		mapPanel.setVisible(false);
@@ -554,23 +540,18 @@ public class AppUIObject {
 				{
 					if (placeMode) {
 						System.out.println("Placing point on Map X: " + e.getX() + " Y: " + e.getY());
-						if (createPointOnMap(e) != null)
-							reDrawUI();
+						createPointOnMap(e);
 					} else if (edgeMode) {
 						System.out.println("You added edge X: " + e.getX() + " Y: " + e.getY());
-						if (addEdgeOnMap(e))
-							reDrawUI();
+						addEdgeOnMap(e);
 					} else if (deleteMode) {
 						System.out.println("You deleted X: " + e.getX() + " Y: " + e.getY());
-						if(deletePointOnMap(e)){
-							reDrawUI();
-						}
+						deletePointOnMap(e);
 					}
 					else
 					{
 //						if(selectPointOnMap(e))
-						if (removeEdgeOnMap(e))
-							reDrawUI();
+						removeEdgeOnMap(e);
 					}
 				}else
 				{
@@ -579,7 +560,6 @@ public class AppUIObject {
 						if(selectPointOnMap(e))
 						{
 							startPoint = selectedPoint;
-							reDrawUI();
 						}
 					}
 					else if(endPoint == null)
@@ -587,11 +567,12 @@ public class AppUIObject {
 						if(selectPointOnMap(e))
 						{
 							endPoint = selectedPoint;
-							reDrawUI();
 						}
 					}
 					System.out.println("You clicked X: " + e.getX() + " Y: " + e.getY());
 				}
+				
+				reDrawUI();
 			}
 
 			@Override
@@ -731,8 +712,23 @@ public class AppUIObject {
 		
 		btnEdgeMode.addActionListener(actionHandler);
 		btnRemoveEdge.addActionListener(actionHandler);
+		lblMapviewGoesHere.setBounds(446, 0, 327, 16);
+		frame.getContentPane().add(lblMapviewGoesHere);
+		lblMapviewGoesHere.setVisible(true);
+		lblMapviewGoesHere.setVisible(true);
+		lblMapviewGoesHere.setVisible(true);
+		
+		txtScale = new JTextField();
+		txtScale.setBounds(37, 0, 130, 19);
+		frame.getContentPane().add(txtScale);
+		txtScale.setColumns(10);
+		txtScale.setVisible(false);
+		lblScale.setBounds(0, 0, 221, 16);
+		frame.getContentPane().add(lblScale);
+		lblScale.setHorizontalAlignment(SwingConstants.LEFT);
+		lblScale.setVisible(true);
 
-		mainPanel.setBounds(1, 6, 1018, 664);
+		mainPanel.setBounds(1, 15, 1018, 664);
 		frame.getContentPane().add(mainPanel);
 		mainPanel.setLayout(null);
 		
@@ -743,9 +739,7 @@ public class AppUIObject {
 			e1.printStackTrace();
 		}
 		mapPanel.setVisible(true);
-		lblMapviewGoesHere.setVisible(true);
 		mapPanel.setBounds(5, 5, 1000, 660);
-		lblMapviewGoesHere.setVisible(true);
 
 		int scale = currentMap.getScale();
 		if (scale != -1) {
