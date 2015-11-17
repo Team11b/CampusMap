@@ -386,9 +386,14 @@ public class AppUIObject {
 
 		Point lastSelected = selectedPoint;
 		if (!selectPointOnMap(e))
+		{
+			selectedPoint = lastSelected;
 			return false;
+		}
 
 		currentMap.addEdge(lastSelected, selectedPoint);
+		
+		selectedPoint = null;
 
 		return true;
 	}
