@@ -583,11 +583,12 @@ public class AppUIObject {
 						startPoint = null;
 						endPoint = null;
 						
+						//clean up route
+						currentRoute = null;
+						btnGetDirections.setEnabled(false);
+						
 						if(selectPointOnMap(e))
-						{
-							//clean up route
-							currentRoute = null;
-							btnGetDirections.setEnabled(false);
+						{						
 							
 							startPoint = selectedPoint;
 						}
@@ -646,6 +647,7 @@ public class AppUIObject {
 					deleteMode = !deleteMode;
 					placeMode = !placeMode;
 					btnGetDirections.setVisible(true);
+					btnGetDirections.setEnabled(false);
 					btnEdgeMode.setVisible(false);
 					btnRemoveEdge.setVisible(false);
 					btnNode.setVisible(false);
