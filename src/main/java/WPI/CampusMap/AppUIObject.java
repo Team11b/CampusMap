@@ -381,7 +381,11 @@ public class AppUIObject {
 				System.out.println("Send an Email!");
 				break;
 			case "Route me":
-				getAndDisplayDirections(new Path());
+				Path path = new Path();
+				path.addNode(new Node(startPoint, null));
+				path.addNode(new Node(endPoint, null));
+				System.out.println(getAndDisplayDirections(path));
+				
 				System.out.println("Get Directions");
 				break;
 			case "Print":
