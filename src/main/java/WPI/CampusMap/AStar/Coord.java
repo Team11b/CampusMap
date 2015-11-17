@@ -55,7 +55,9 @@ public class Coord {
 		}
 		return result;
 	}
-
-	public static void main(String[] args) {
+	
+	@Override
+	public String toString() {
+		return "{X: " + x + ",Y:" + y + "}";
 	}
 }
