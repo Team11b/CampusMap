@@ -202,7 +202,7 @@ public class AppUIObject {
 			"Higgins_House_and_garage-5", "Project_Center_1st_floor_renovations_2013",
 			"Project_Center_1st_floor_renovationsRoomNumbers2014", "Project_Center-0", "Project_Center-1",
 			"Stratton_Hall-0", "Stratton_Hall-1", "Stratton_Hall-2", "Stratton_Hall-3" };
-	private final JComboBox mapDropDown = new JComboBox(mapStrings);
+	private final JComboBox<String> mapDropDown = new JComboBox<String>(mapStrings);
 	private final StringBuilder mapName = new StringBuilder();
 	private MouseListener mouseClick;
 	private final SwingAction actionHandler = new SwingAction();
