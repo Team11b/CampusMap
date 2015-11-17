@@ -128,7 +128,7 @@ public class Path {
 	}
 
 	/**
-	 * Calculates the angle betwee to points
+	 * Calculates the angle between to points
 	 * 
 	 * @param point1
 	 *            Point 1

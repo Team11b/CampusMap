@@ -378,21 +378,6 @@ public class AppUIObject {
 		return true;
 	}
 	
-	private static boolean removeEdgeOnMap(MouseEvent e) {
-		if (selectedPoint == null) {
-			selectPointOnMap(e);
-			return false;
-		}
-
-		Point lastSelected = selectedPoint;
-		if (!selectPointOnMap(e))
-			return false;
-
-		currentMap.removeEdge(lastSelected, selectedPoint);
-
-		return true;
-	}
-	
 	/**
 	 * This class handles all Swing actions from the user interface.
 	 * 
@@ -413,7 +398,10 @@ public class AppUIObject {
 				System.out.println("Send an Email!");
 				break;
 			case "Route me":
-				getAndDisplayDirections(new Path());
+				Path path = new Path();
+				path.addNode(new Node(startPoint, null));
+				path.addNode(new Node(endPoint, null));
+				System.out.println(getAndDisplayDirections(path));
 				System.out.println("Get Directions");
 				break;
 			case "Print":
@@ -534,6 +522,7 @@ public class AppUIObject {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
+				// TODO Auto-generated method stub
 				if(devMode)
 				{
 					if (placeMode) {
@@ -552,7 +541,7 @@ public class AppUIObject {
 					}
 					else
 					{
-						if (removeEdgeOnMap(e))
+						if(selectPointOnMap(e))
 							reDrawUI();
 					}
 				}else
