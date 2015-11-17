@@ -551,6 +551,7 @@ public class AppUIObject {
 				currentMap.setScale(Integer.parseInt(txtScale.getText()));
 				System.out.println("SAVING!");
 				XML.writePoints(currentMap, currentMap.getMap());
+				lblScale.setText("Scale: " + currentMap.getScale() + " inches per ft");
 			}
 		});
 
