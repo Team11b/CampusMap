@@ -324,6 +324,21 @@ public class AppUIObject {
 		return true;
 	}
 	
+	private static boolean removeEdgeOnMap(MouseEvent e) {
+		if (selectedPoint == null) {
+			selectPointOnMap(e);
+			return false;
+		}
+
+		Point lastSelected = selectedPoint;
+		if (!selectPointOnMap(e))
+			return false;
+
+		currentMap.removeEdge(lastSelected, selectedPoint);
+
+		return true;
+	}
+	
 	/**
 	 * This class handles all Swing actions from the user interface.
 	 * 
@@ -482,8 +497,9 @@ public class AppUIObject {
 					System.out.println("You deleted X: " + e.getX() + " Y: " + e.getY());
 				}
 				}else{
-					if(selectPointOnMap(e))
+					if (removeEdgeOnMap(e))
 						reDrawUI();
+//					if(selectPointOnMap(e))
 					System.out.println("You clicked X: " + e.getX() + " Y: " + e.getY());
 				}
 			}
