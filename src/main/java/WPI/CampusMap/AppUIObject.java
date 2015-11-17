@@ -127,7 +127,7 @@ public class AppUIObject {
 		
 		private void drawPath(Path path, Graphics2D graphics)
 		{
-			graphics.setColor(Color.red);
+			graphics.setColor(new Color(255, 0, 255));
 			graphics.setStroke(new BasicStroke(3));
 			
 			ArrayList<Node> nodes = path.getPath();
@@ -494,6 +494,7 @@ public class AppUIObject {
 
 		btnGetDirections.setBounds(53, 89, 157, 36);
 		directionsPanel.add(btnGetDirections);
+		btnGetDirections.setEnabled(false);
 
 		btnNode.setBounds(0, 79, 127, 25);
 
@@ -574,6 +575,7 @@ public class AppUIObject {
 						if(selectPointOnMap(e))
 						{
 							endPoint = selectedPoint;
+							btnGetDirections.setEnabled(true);
 						}
 					}
 					else
@@ -581,8 +583,13 @@ public class AppUIObject {
 						startPoint = null;
 						endPoint = null;
 						
+						//clean up route
+						currentRoute = null;
+						btnGetDirections.setEnabled(false);
+						
 						if(selectPointOnMap(e))
-						{
+						{						
+							
 							startPoint = selectedPoint;
 						}
 					}
@@ -640,6 +647,7 @@ public class AppUIObject {
 					deleteMode = !deleteMode;
 					placeMode = !placeMode;
 					btnGetDirections.setVisible(true);
+					btnGetDirections.setEnabled(false);
 					btnEdgeMode.setVisible(false);
 					btnRemoveEdge.setVisible(false);
 					btnNode.setVisible(false);
