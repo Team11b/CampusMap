@@ -494,6 +494,7 @@ public class AppUIObject {
 
 		btnGetDirections.setBounds(53, 89, 157, 36);
 		directionsPanel.add(btnGetDirections);
+		btnGetDirections.setEnabled(false);
 
 		btnNode.setBounds(0, 79, 127, 25);
 
@@ -574,6 +575,7 @@ public class AppUIObject {
 						if(selectPointOnMap(e))
 						{
 							endPoint = selectedPoint;
+							btnGetDirections.setEnabled(true);
 						}
 					}
 					else
@@ -583,6 +585,10 @@ public class AppUIObject {
 						
 						if(selectPointOnMap(e))
 						{
+							//clean up route
+							currentRoute = null;
+							btnGetDirections.setEnabled(false);
+							
 							startPoint = selectedPoint;
 						}
 					}
