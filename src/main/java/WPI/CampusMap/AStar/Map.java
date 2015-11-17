@@ -440,6 +440,9 @@ public class Map {
 	 *         if the edge already exists
 	 */
 	public boolean addEdge(Point point, Point other) {
+		if (point.equals(other)) {
+			return false;
+		}
 		if (this.map.contains(point) && this.map.contains(other)) {
 			boolean adder = point.addNeighbor(other);
 			if (!(adder)) {

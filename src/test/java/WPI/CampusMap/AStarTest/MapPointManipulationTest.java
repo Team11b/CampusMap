@@ -70,5 +70,12 @@ public class MapPointManipulationTest {
 
 		assertFalse(testMap.removePoint("PointThree"));
 	}
+	
+	@Test
+	public void test2() {
+		Map testMap = new Map();
+		Point p1 = new Point(new Coord(0,0), "t", "55");
+		assertFalse(testMap.addEdge(p1, p1));
+	}
 
 }
