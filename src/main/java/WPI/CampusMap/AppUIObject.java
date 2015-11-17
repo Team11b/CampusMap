@@ -32,6 +32,7 @@ import WPI.CampusMap.AStar.Map;
 import WPI.CampusMap.AStar.Path;
 import WPI.CampusMap.AStar.Point;
 import WPI.CampusMap.XML.XML;
+import javax.swing.JTextField;
 
 //TODO: Select edges button
 //TODO: Place path button
@@ -80,6 +81,7 @@ public class AppUIObject {
 	private static Point selectedPoint;
 	private final JButton btnRemoveEdge = new JButton("Remove Edge");
 	private final JButton btnEdgeMode = new JButton("Edge Mode");
+	private JTextField txtScale;
 
 	/**
 	 * Re-draws all UI elements. Call after the map has changed.
@@ -287,6 +289,12 @@ public class AppUIObject {
 		lblMapviewGoesHere.setBounds(12, 12, 146, 16);
 		mainPanel.add(lblMapviewGoesHere);
 		lblMapviewGoesHere.setVisible(true);
+		
+		txtScale = new JTextField();
+		txtScale.setBounds(823, 12, 123, 19);
+		mainPanel.add(txtScale);
+		txtScale.setColumns(10);
+		txtScale.setVisible(false);
 
 		// debug statements
 		System.out.println(System.getProperty("user.dir"));
@@ -419,6 +427,7 @@ public class AppUIObject {
 					btnSave.setVisible(true);
 					btnEdgeMode.setVisible(true);
 					btnRemoveEdge.setVisible(true);
+					txtScale.setVisible(true);
 				} else {
 					frame.setTitle("Path Finder");
 					btnDevMode.setText("Dev Mode");
@@ -430,6 +439,7 @@ public class AppUIObject {
 					btnNode.setVisible(false);
 					btnDelNode.setVisible(false);
 					btnSave.setVisible(false);
+					txtScale.setVisible(false);
 				}
 			}
 		});
@@ -442,6 +452,7 @@ public class AppUIObject {
 
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				currentMap.setScale(Integer.parseInt(txtScale.toString()));
 				XML.writePoints(currentMap, currentMap.getMap());
 			}
 		});
@@ -473,6 +484,8 @@ public class AppUIObject {
 				if (scale != -1) {
 					lblMapviewGoesHere.setText(currentMap.getName());
 					lblScale.setText("Scale: " + scale + " inches per ft");
+					txtScale.setText(Integer.toString(scale));
+					
 				} else {
 					lblMapviewGoesHere.setText("");
 					lblScale.setText("");
@@ -513,7 +526,8 @@ public class AppUIObject {
 
 		mainPanel.setBounds(1, 6, 1018, 664);
 		frame.getContentPane().add(mainPanel);
-		mainPanel.setLayout(null);
+		mainPanel.setLayout(null);		
+		
 		reDrawUI();
 	}
 }
