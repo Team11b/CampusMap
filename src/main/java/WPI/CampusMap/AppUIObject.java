@@ -85,80 +85,7 @@ public class AppUIObject {
 	 * Re-draws all UI elements. Call after the map has changed.
 	 */
 	public void reDrawUI() {
-		lblMapviewGoesHere.setBounds(12, 12, 146, 16);
-		mainPanel.add(lblMapviewGoesHere);
-		lblMapviewGoesHere.setVisible(true);
-
-		// debug statements
-		System.out.println(System.getProperty("user.dir"));
-
-		lblScale.setBounds(781, 12, 225, 16);
-		mainPanel.add(lblScale);
-		lblScale.setVisible(true);
-
-		mainPanel.add(lblPicLabel);
-		lblPicLabel.setVisible(false);
-
-		System.out.println(
-				"Image Size X: " + lblPicLabel.getSize().getWidth() + " Y: " + lblPicLabel.getSize().getHeight());
-
-		directionsPanel.setBounds(1031, 6, 237, 664);
-		frame.getContentPane().add(directionsPanel);
-		directionsPanel.setLayout(null);
-
-		txtDirections.setBounds(26, 183, 215, 434);
-		directionsPanel.add(txtDirections);
-
-		btnEmail.setBounds(26, 629, 106, 29);
-		directionsPanel.add(btnEmail);
-
-		btnPrint.setBounds(130, 629, 111, 29);
-		directionsPanel.add(btnPrint);
-
-		btnGetDirections.setBounds(53, 89, 157, 36);
-		directionsPanel.add(btnGetDirections);
-
-		btnNode.setBounds(0, 79, 127, 25);
-
-		directionsPanel.add(btnNode);
-
-		btnDelNode.setBounds(0, 116, 127, 25);
-
-		directionsPanel.add(btnDelNode);
-
-		lblDirections.setBounds(26, 153, 80, 25);
-		directionsPanel.add(lblDirections);
-
-		lblMapColon.setBounds(6, 10, 70, 15);
-		directionsPanel.add(lblMapColon);
-
-		btnDevMode.setBounds(0, 42, 106, 25);
-		directionsPanel.add(btnDevMode);
 		
-		// Drop down for map selection
-	    mapDropDown.setBounds(55, 6, 176, 24);
-	    directionsPanel.add(mapDropDown);
-		//mapDropDown.setSelectedIndex(0);
-
-		btnSave.setBounds(140, 42, 101, 25);
-		directionsPanel.add(btnSave);
-		btnRemoveEdge.setBounds(124, 116, 117, 29);
-		
-		directionsPanel.add(btnRemoveEdge);
-		btnEdgeMode.setBounds(124, 76, 117, 29);
-		
-		directionsPanel.add(btnEdgeMode);
-		btnSave.setVisible(false);
-
-		JSeparator separator = new JSeparator();
-		separator.setBackground(Color.RED);
-		separator.setOrientation(SwingConstants.VERTICAL);
-		separator.setPreferredSize(new Dimension(50, 10));
-		// separator.setBounds(100, 100, 174, 246);
-		frame.getContentPane().add(separator);
-
-		frame.setSize(1280, 720);
-		frame.setVisible(true);
 	}
 
 	/**
@@ -357,6 +284,81 @@ public class AppUIObject {
 
 	public AppUIObject() {
 
+		lblMapviewGoesHere.setBounds(12, 12, 146, 16);
+		mainPanel.add(lblMapviewGoesHere);
+		lblMapviewGoesHere.setVisible(true);
+
+		// debug statements
+		System.out.println(System.getProperty("user.dir"));
+
+		lblScale.setBounds(781, 12, 225, 16);
+		mainPanel.add(lblScale);
+		lblScale.setVisible(true);
+
+		mainPanel.add(lblPicLabel);
+		lblPicLabel.setVisible(false);
+
+		System.out.println(
+				"Image Size X: " + lblPicLabel.getSize().getWidth() + " Y: " + lblPicLabel.getSize().getHeight());
+
+		directionsPanel.setBounds(1031, 6, 237, 664);
+		frame.getContentPane().add(directionsPanel);
+		directionsPanel.setLayout(null);
+
+		txtDirections.setBounds(26, 183, 215, 434);
+		directionsPanel.add(txtDirections);
+
+		btnEmail.setBounds(26, 629, 106, 29);
+		directionsPanel.add(btnEmail);
+
+		btnPrint.setBounds(130, 629, 111, 29);
+		directionsPanel.add(btnPrint);
+
+		btnGetDirections.setBounds(53, 89, 157, 36);
+		directionsPanel.add(btnGetDirections);
+
+		btnNode.setBounds(0, 79, 127, 25);
+
+		directionsPanel.add(btnNode);
+
+		btnDelNode.setBounds(0, 116, 127, 25);
+
+		directionsPanel.add(btnDelNode);
+
+		lblDirections.setBounds(26, 153, 80, 25);
+		directionsPanel.add(lblDirections);
+
+		lblMapColon.setBounds(6, 10, 70, 15);
+		directionsPanel.add(lblMapColon);
+
+		btnDevMode.setBounds(0, 42, 106, 25);
+		directionsPanel.add(btnDevMode);
+		
+		// Drop down for map selection
+	    mapDropDown.setBounds(55, 6, 176, 24);
+	    directionsPanel.add(mapDropDown);
+		//mapDropDown.setSelectedIndex(0);
+
+		btnSave.setBounds(140, 42, 101, 25);
+		directionsPanel.add(btnSave);
+		btnRemoveEdge.setBounds(124, 116, 117, 29);
+		
+		directionsPanel.add(btnRemoveEdge);
+		btnEdgeMode.setBounds(124, 76, 117, 29);
+		
+		directionsPanel.add(btnEdgeMode);
+		btnSave.setVisible(false);
+
+		JSeparator separator = new JSeparator();
+		separator.setBackground(Color.RED);
+		separator.setOrientation(SwingConstants.VERTICAL);
+		separator.setPreferredSize(new Dimension(50, 10));
+		// separator.setBounds(100, 100, 174, 246);
+		frame.getContentPane().add(separator);
+
+		frame.setSize(1280, 720);
+		frame.setVisible(true);
+		
 		mouseClick = new MouseListener() {
 
 			@Override
@@ -403,7 +405,7 @@ public class AppUIObject {
 			}
 		};
 
-		frame.getContentPane().setLayout(null);
+		frame.getContentPane().setLayout(null);;;;;
 
 		// Dev Mode
 		btnDevMode.addActionListener(new ActionListener() {
