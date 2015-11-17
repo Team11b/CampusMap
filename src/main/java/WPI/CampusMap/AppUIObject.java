@@ -576,6 +576,16 @@ public class AppUIObject {
 							endPoint = selectedPoint;
 						}
 					}
+					else
+					{
+						startPoint = null;
+						endPoint = null;
+						
+						if(selectPointOnMap(e))
+						{
+							startPoint = selectedPoint;
+						}
+					}
 					System.out.println("You clicked X: " + e.getX() + " Y: " + e.getY());
 				}
 				
