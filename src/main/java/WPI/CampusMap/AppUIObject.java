@@ -648,6 +648,10 @@ public class AppUIObject {
 					txtScale.setVisible(false);
 				}
 				reDrawUI();
+				selectedPoint = null;
+				startPoint = null;
+				endPoint = null;
+				currentRoute = null;
 			}
 		});
 
@@ -669,7 +673,13 @@ public class AppUIObject {
 
 		mapDropDown.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-
+				//cleanup
+				reDrawUI();
+				selectedPoint = null;
+				startPoint = null;
+				endPoint = null;
+				currentRoute = null;
+				
 				mapName.append((String) mapDropDown.getSelectedItem());
 				try {
 					// String path = mapName.toString() + ".xml";
@@ -768,7 +778,7 @@ public class AppUIObject {
 		} else {
 			lblMapviewGoesHere.setText("");
 			lblScale.setText("");
-		}
-		reDrawUI();
+		}		
+		reDrawUI();		
 	}
 }
