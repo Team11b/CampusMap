@@ -2,13 +2,13 @@ package WPI.CampusMap;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.UUID;
@@ -36,6 +36,7 @@ import WPI.CampusMap.AStar.Map;
 import WPI.CampusMap.AStar.Path;
 import WPI.CampusMap.AStar.Point;
 import WPI.CampusMap.XML.XML;
+import javax.swing.JTextField;
 
 //TODO: Select edges button
 //TODO: Place path button
@@ -43,6 +44,101 @@ import WPI.CampusMap.XML.XML;
 
 public class AppUIObject {
 
+	class MapPanel extends JPanel
+	{
+		@Override
+		public void paint(Graphics g) 
+		{
+			super.paint(g);
+			
+			drawMap((Graphics2D)g);
+		}
+		
+		private void drawPoint(Point p, Graphics2D graphics)
+		{
+			graphics.setColor(selectedPoint == p ? Color.red : Color.yellow);
+			
+			Coord screenCoord = currentMap.worldToScreenSpace(p.getCoord());
+			
+			final float size = 5.0f;
+			final float halfSize = size * 0.5f;
+			
+			Coord truePosition = new Coord(screenCoord.getX() - halfSize, screenCoord.getY() + halfSize);
+			
+			graphics.drawOval((int)truePosition.getX(), (int)truePosition.getY(), (int)size, (int)size);
+		}
+		
+		private void drawEdges(Point p, Hashtable<Point, HashSet<Point>> drawnPoints, Graphics2D graphics)
+		{
+			graphics.setColor(Color.gray);
+			
+			ArrayList<Point> neighbors = p.getValidNeighbors();
+			
+			HashSet<Point> skipPoints = drawnPoints.get(p);
+			if(skipPoints == null)
+			{
+				skipPoints = new HashSet<>();
+				drawnPoints.put(p, skipPoints);
+			}
+			
+			for(Point n : neighbors)
+			{
+				if(skipPoints.contains(n))
+					continue;
+				
+				HashSet<Point> neighborPoints = drawnPoints.get(n);
+				if(neighborPoints != null)
+				{
+					if(neighborPoints.contains(p))
+						continue;
+				}
+				else
+				{
+					drawnPoints.put(n, neighborPoints = new HashSet<>());
+				}
+				
+				neighborPoints.add(p);
+				skipPoints.add(n);
+				
+				Coord screenStart = currentMap.worldToScreenSpace(p.getCoord());
+				Coord screenStop = currentMap.worldToScreenSpace(n.getCoord());
+				
+				graphics.drawLine((int)screenStart.getX(), (int)screenStart.getY(), (int)screenStop.getX(), (int)screenStop.getY());
+			}
+		}
+		
+		private void drawPath(Path path, Graphics2D graphics)
+		{
+			
+		}
+		
+		private void drawMap(Graphics2D graphics)
+		{
+			graphics.clearRect(0,  0,  getWidth(), getHeight());
+			
+			if(currentMap == null)
+				return;
+			
+			graphics.setColor(Color.white);
+			graphics.drawImage(currentMap.getLoadedImage().getImage(), 0, 0, getWidth(), getHeight(), null);
+			
+			ArrayList<Point> points = currentMap.getMap();
+			
+			for(Point p : points)
+			{
+				drawPoint(p, graphics);
+			}
+			
+			Hashtable<Point, HashSet<Point>> drawnPoints = new Hashtable<>();
+			for(Point p : points)
+			{
+				drawEdges(p, drawnPoints, graphics);
+			}
+			
+			
+		}
+	}
+	
 	private boolean placeMode = false;
 	private boolean deleteMode = false;	
 	private boolean edgeMode = false;
@@ -52,7 +148,7 @@ public class AppUIObject {
 	private final JPanel mainPanel = new JPanel();
 	private final JLabel lblMapviewGoesHere = new JLabel("");
 	private final JLabel lblScale = new JLabel("");
-	private final JLabel lblPicLabel = new JLabel();
+	private final MapPanel mapPanel = new MapPanel();
 	private final JPanel directionsPanel = new JPanel();
 	private final JButton btnEmail = new JButton("Email");
 	private final JButton btnPrint = new JButton("Print");
@@ -84,12 +180,13 @@ public class AppUIObject {
 	private static Point selectedPoint;
 	private final JButton btnRemoveEdge = new JButton("Remove Edge");
 	private final JButton btnEdgeMode = new JButton("Edge Mode");
+	private JTextField txtScale;
 
 	/**
 	 * Re-draws all UI elements. Call after the map has changed.
 	 */
 	public void reDrawUI() {
-		
+		mapPanel.repaint();
 	}
 
 	/**
@@ -233,91 +330,6 @@ public class AppUIObject {
 		return true;
 	}
 	
-	private void drawPoint(Point p)
-	{
-		Graphics2D graphics = (Graphics2D) lblPicLabel.getGraphics();
-		
-		graphics.setColor(selectedPoint == p ? Color.red : Color.yellow);
-		
-		Coord screenCoord = currentMap.worldToScreenSpace(p.getCoord());
-		
-		final float size = 5.0f;
-		final float halfSize = size * 0.5f;
-		
-		Coord truePosition = new Coord(screenCoord.getX() - halfSize, screenCoord.getY() + halfSize);
-		
-		graphics.drawOval((int)truePosition.getX(), (int)truePosition.getY(), (int)size, (int)size);
-	}
-	
-	private void drawEdges(Point p, Hashtable<Point, HashSet<Point>> drawnPoints)
-	{
-		Graphics2D graphics = (Graphics2D)lblPicLabel.getGraphics();
-		graphics.setColor(Color.gray);
-		
-		ArrayList<Point> neighbors = p.getValidNeighbors();
-		
-		HashSet<Point> skipPoints = drawnPoints.get(p);
-		if(skipPoints == null)
-		{
-			skipPoints = new HashSet<>();
-			drawnPoints.put(p, skipPoints);
-		}
-		
-		for(Point n : neighbors)
-		{
-			if(skipPoints.contains(n))
-				continue;
-			
-			HashSet<Point> neighborPoints = drawnPoints.get(n);
-			if(neighborPoints != null)
-			{
-				if(neighborPoints.contains(p))
-					continue;
-			}
-			else
-			{
-				drawnPoints.put(n, neighborPoints = new HashSet<>());
-			}
-			
-			neighborPoints.add(p);
-			skipPoints.add(n);
-			
-			Coord screenStart = currentMap.worldToScreenSpace(p.getCoord());
-			Coord screenStop = currentMap.worldToScreenSpace(n.getCoord());
-			
-			graphics.drawLine((int)screenStart.getX(), (int)screenStart.getY(), (int)screenStop.getX(), (int)screenStop.getY());
-		}
-	}
-	
-	private void DrawPath(Path path)
-	{
-		
-	}
-	
-	private void drawMap()
-	{
-		Graphics2D graphics = (Graphics2D)lblPicLabel.getGraphics();
-		graphics.clearRect(0,  0,  lblPicLabel.getWidth(), lblPicLabel.getHeight());
-		
-		graphics.setColor(Color.white);
-		graphics.drawImage(currentMap.getLoadedImage().getImage(), 0, 0, lblPicLabel.getWidth(), lblPicLabel.getHeight(), null);
-		
-		ArrayList<Point> points = currentMap.getMap();
-		
-		for(Point p : points)
-		{
-			drawPoint(p);
-		}
-		
-		Hashtable<Point, HashSet<Point>> drawnPoints = new Hashtable<>();
-		for(Point p : points)
-		{
-			drawEdges(p, drawnPoints);
-		}
-		
-		
-	}
-	
 	/**
 	 * This class handles all Swing actions from the user interface.
 	 * 
@@ -376,6 +388,12 @@ public class AppUIObject {
 		lblMapviewGoesHere.setBounds(12, 12, 146, 16);
 		mainPanel.add(lblMapviewGoesHere);
 		lblMapviewGoesHere.setVisible(true);
+		
+		txtScale = new JTextField();
+		txtScale.setBounds(823, 12, 123, 19);
+		mainPanel.add(txtScale);
+		txtScale.setColumns(10);
+		txtScale.setVisible(false);
 
 		// debug statements
 		System.out.println(System.getProperty("user.dir"));
@@ -384,11 +402,11 @@ public class AppUIObject {
 		mainPanel.add(lblScale);
 		lblScale.setVisible(true);
 
-		mainPanel.add(lblPicLabel);
-		lblPicLabel.setVisible(false);
+		mainPanel.add(mapPanel);
+		mapPanel.setVisible(false);
 
 		System.out.println(
-				"Image Size X: " + lblPicLabel.getSize().getWidth() + " Y: " + lblPicLabel.getSize().getHeight());
+				"Image Size X: " + mapPanel.getSize().getWidth() + " Y: " + mapPanel.getSize().getHeight());
 
 		directionsPanel.setBounds(1031, 6, 237, 664);
 		frame.getContentPane().add(directionsPanel);
@@ -508,6 +526,7 @@ public class AppUIObject {
 					btnSave.setVisible(true);
 					btnEdgeMode.setVisible(true);
 					btnRemoveEdge.setVisible(true);
+					txtScale.setVisible(true);
 				} else {
 					frame.setTitle("Path Finder");
 					btnDevMode.setText("Dev Mode");
@@ -519,6 +538,7 @@ public class AppUIObject {
 					btnNode.setVisible(false);
 					btnDelNode.setVisible(false);
 					btnSave.setVisible(false);
+					txtScale.setVisible(false);
 				}
 			}
 		});
@@ -531,6 +551,8 @@ public class AppUIObject {
 
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				System.out.println(txtScale.getText());
+				currentMap.setScale(Integer.parseInt(txtScale.getText()));
 				System.out.println("SAVING!");
 				XML.writePoints(currentMap, currentMap.getMap());
 			}
@@ -554,15 +576,17 @@ public class AppUIObject {
 
 				// Display the map finally
 				lblScale.setVisible(true);
-				lblPicLabel.setVisible(true);
-				lblPicLabel.setIcon(currentMap.getLoadedImage());
-				lblPicLabel.setBounds(5, 5, 1000, 660);
+				mapPanel.setVisible(true);
+				//lblPicLabel.setIcon(currentMap.getLoadedImage());
+				mapPanel.setBounds(5, 5, 1000, 660);
 				lblMapviewGoesHere.setVisible(true);
 
 				int scale = currentMap.getScale();
 				if (scale != -1) {
 					lblMapviewGoesHere.setText(currentMap.getName());
 					lblScale.setText("Scale: " + scale + " inches per ft");
+					txtScale.setText(Integer.toString(scale));
+					
 				} else {
 					lblMapviewGoesHere.setText("");
 					lblScale.setText("");
@@ -588,7 +612,7 @@ public class AppUIObject {
 			}
 		});
 		
-		lblPicLabel.addMouseListener(mouseClick);
+		mapPanel.addMouseListener(mouseClick);
 		
 		btnEdgeMode.setVisible(false);
 		btnRemoveEdge.setVisible(false);
@@ -600,7 +624,8 @@ public class AppUIObject {
 
 		mainPanel.setBounds(1, 6, 1018, 664);
 		frame.getContentPane().add(mainPanel);
-		mainPanel.setLayout(null);
+		mainPanel.setLayout(null);		
+		
 		reDrawUI();
 	}
 }

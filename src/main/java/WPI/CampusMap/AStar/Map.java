@@ -59,6 +59,7 @@ public class Map {
 				e.printStackTrace();
 			}
 			map = XML.parseXML(this);
+			System.out.println("map scale" + this.scale);
 
 		}
 	}
