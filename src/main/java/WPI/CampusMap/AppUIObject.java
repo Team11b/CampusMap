@@ -386,9 +386,14 @@ public class AppUIObject {
 
 		Point lastSelected = selectedPoint;
 		if (!selectPointOnMap(e))
+		{
+			selectedPoint = lastSelected;
 			return false;
+		}
 
 		currentMap.addEdge(lastSelected, selectedPoint);
+		
+		selectedPoint = null;
 
 		return true;
 	}
@@ -535,23 +540,18 @@ public class AppUIObject {
 				{
 					if (placeMode) {
 						System.out.println("Placing point on Map X: " + e.getX() + " Y: " + e.getY());
-						if (createPointOnMap(e) != null)
-							reDrawUI();
+						createPointOnMap(e);
 					} else if (edgeMode) {
 						System.out.println("You added edge X: " + e.getX() + " Y: " + e.getY());
-						if (addEdgeOnMap(e))
-							reDrawUI();
+						addEdgeOnMap(e);
 					} else if (deleteMode) {
 						System.out.println("You deleted X: " + e.getX() + " Y: " + e.getY());
-						if(deletePointOnMap(e)){
-							reDrawUI();
-						}
+						deletePointOnMap(e);
 					}
 					else
 					{
 //						if(selectPointOnMap(e))
-						if (removeEdgeOnMap(e))
-							reDrawUI();
+						removeEdgeOnMap(e);
 					}
 				}else
 				{
@@ -560,7 +560,6 @@ public class AppUIObject {
 						if(selectPointOnMap(e))
 						{
 							startPoint = selectedPoint;
-							reDrawUI();
 						}
 					}
 					else if(endPoint == null)
@@ -568,11 +567,12 @@ public class AppUIObject {
 						if(selectPointOnMap(e))
 						{
 							endPoint = selectedPoint;
-							reDrawUI();
 						}
 					}
 					System.out.println("You clicked X: " + e.getX() + " Y: " + e.getY());
 				}
+				
+				reDrawUI();
 			}
 
 			@Override
