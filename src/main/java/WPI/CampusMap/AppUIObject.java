@@ -40,7 +40,8 @@ import WPI.CampusMap.XML.XML;
 public class AppUIObject {
 
 	private boolean placeMode = false;
-	private boolean deleteMode = false;
+	private boolean deleteMode = false;	
+	private boolean edgeMode = false;
 
 	// UI Elements
 	private final JFrame frame = new JFrame("Path Finder");
@@ -60,7 +61,7 @@ public class AppUIObject {
 	private final JButton btnSave = new JButton("Save");
 	
 	private final JTextPane txtDirections = new JTextPane();
-	private String[] mapStrings = { "Atwater_Kent-0", "Atwater_Kent-1", "Atwater_Kent-2", "Atwater_Kent-3",
+	private String[] mapStrings = { "Select a map", "Atwater_Kent-0", "Atwater_Kent-1", "Atwater_Kent-2", "Atwater_Kent-3",
 			"Boynton_Hall_3rd_floor_renovations-0", "Boynton_Hall_3rd_floor_renovations-1", "Boynton_Hall-0",
 			"Boynton_Hall-1", "Boynton_Hall-2", "Boynton_Hall-3", "Campus_Center-0", "Campus_Center-1",
 			"Campus_Center-2", "Gordon_Library-0", "Gordon_Library-1", "Gordon_Library-2", "Gordon_Library-3",
@@ -78,89 +79,13 @@ public class AppUIObject {
 
 	private static Point selectedPoint;
 	private final JButton btnRemoveEdge = new JButton("Remove Edge");
-	private final JButton btnAddEdge = new JButton("Add Edge");
+	private final JButton btnEdgeMode = new JButton("Edge Mode");
 
 	/**
 	 * Re-draws all UI elements. Call after the map has changed.
 	 */
 	public void reDrawUI() {
-		lblMapviewGoesHere.setBounds(166, 12, 146, 16);
-		mainPanel.add(lblMapviewGoesHere);
-		lblMapviewGoesHere.setVisible(true);
-
-		// debug statements
-		System.out.println(System.getProperty("user.dir"));
-
-		lblScale.setBounds(781, 12, 225, 16);
-		mainPanel.add(lblScale);
-		lblScale.setVisible(true);
-
-		mainPanel.add(lblPicLabel);
-		lblPicLabel.setVisible(false);
-		lblPicLabel.addMouseListener(mouseClick);
-
-		System.out.println(
-				"Image Size X: " + lblPicLabel.getSize().getWidth() + " Y: " + lblPicLabel.getSize().getHeight());
-
-		directionsPanel.setBounds(1031, 6, 237, 664);
-		frame.getContentPane().add(directionsPanel);
-		directionsPanel.setLayout(null);
-
-		txtDirections.setBounds(26, 183, 215, 434);
-		directionsPanel.add(txtDirections);
-
-		btnEmail.setBounds(26, 629, 106, 29);
-		directionsPanel.add(btnEmail);
-
-		btnPrint.setBounds(130, 629, 111, 29);
-		directionsPanel.add(btnPrint);
-
-		btnGetDirections.setBounds(53, 89, 157, 36);
-		directionsPanel.add(btnGetDirections);
-
-		btnNode.setBounds(0, 79, 127, 25);
-
-		directionsPanel.add(btnNode);
-		btnNode.setVisible(false);
-
-		btnDelNode.setBounds(0, 116, 127, 25);
-
-		directionsPanel.add(btnDelNode);
-		btnDelNode.setVisible(false);
-
-		lblDirections.setBounds(26, 153, 80, 25);
-		directionsPanel.add(lblDirections);
-
-		lblMapColon.setBounds(12, 1, 70, 15);
-		directionsPanel.add(lblMapColon);
-
-		btnDevMode.setBounds(0, 28, 106, 25);
-		directionsPanel.add(btnDevMode);
-
-		// Drop down for map selection
-		mapDropDown.setBounds(49, -4, 176, 24);
-		directionsPanel.add(mapDropDown);
-		mapDropDown.setSelectedIndex(0);
-
-		btnSave.setBounds(140, 28, 101, 25);
-		directionsPanel.add(btnSave);
-		btnRemoveEdge.setBounds(124, 116, 117, 29);
 		
-		directionsPanel.add(btnRemoveEdge);
-		btnAddEdge.setBounds(124, 76, 117, 29);
-		
-		directionsPanel.add(btnAddEdge);
-		btnSave.setVisible(false);
-
-		JSeparator separator = new JSeparator();
-		separator.setBackground(Color.RED);
-		separator.setOrientation(SwingConstants.VERTICAL);
-		separator.setPreferredSize(new Dimension(50, 10));
-		// separator.setBounds(100, 100, 174, 246);
-		frame.getContentPane().add(separator);
-
-		frame.setSize(1280, 720);
-		frame.setVisible(true);
 	}
 
 	/**
@@ -333,14 +258,21 @@ public class AppUIObject {
 				break;
 			case "Place Mode":
 				placeMode = !placeMode;
+				edgeMode = false;
+				deleteMode = false;
 				System.out.println("Place Mode");
 				break;
 			case "Delete Mode":
 				deleteMode = !deleteMode;
+				placeMode = false;
+				edgeMode = false;
 				System.out.println("Delete Mode");
 				break;
-			case "Add Edge":
-				System.out.println("Add Edge");
+			case "Edge Mode":
+				edgeMode = !edgeMode;
+				placeMode = false;
+				deleteMode = false;
+				System.out.println("Edge Mode");
 				break;
 			case "Remove Edge":
 				System.out.println("Remove Edge");
@@ -352,6 +284,81 @@ public class AppUIObject {
 
 	public AppUIObject() {
 
+		lblMapviewGoesHere.setBounds(12, 12, 146, 16);
+		mainPanel.add(lblMapviewGoesHere);
+		lblMapviewGoesHere.setVisible(true);
+
+		// debug statements
+		System.out.println(System.getProperty("user.dir"));
+
+		lblScale.setBounds(781, 12, 225, 16);
+		mainPanel.add(lblScale);
+		lblScale.setVisible(true);
+
+		mainPanel.add(lblPicLabel);
+		lblPicLabel.setVisible(false);
+
+		System.out.println(
+				"Image Size X: " + lblPicLabel.getSize().getWidth() + " Y: " + lblPicLabel.getSize().getHeight());
+
+		directionsPanel.setBounds(1031, 6, 237, 664);
+		frame.getContentPane().add(directionsPanel);
+		directionsPanel.setLayout(null);
+
+		txtDirections.setBounds(26, 183, 215, 434);
+		directionsPanel.add(txtDirections);
+
+		btnEmail.setBounds(26, 629, 106, 29);
+		directionsPanel.add(btnEmail);
+
+		btnPrint.setBounds(130, 629, 111, 29);
+		directionsPanel.add(btnPrint);
+
+		btnGetDirections.setBounds(53, 89, 157, 36);
+		directionsPanel.add(btnGetDirections);
+
+		btnNode.setBounds(0, 79, 127, 25);
+
+		directionsPanel.add(btnNode);
+
+		btnDelNode.setBounds(0, 116, 127, 25);
+
+		directionsPanel.add(btnDelNode);
+
+		lblDirections.setBounds(26, 153, 80, 25);
+		directionsPanel.add(lblDirections);
+
+		lblMapColon.setBounds(6, 10, 70, 15);
+		directionsPanel.add(lblMapColon);
+
+		btnDevMode.setBounds(0, 42, 106, 25);
+		directionsPanel.add(btnDevMode);
+		
+		// Drop down for map selection
+	    mapDropDown.setBounds(55, 6, 176, 24);
+	    directionsPanel.add(mapDropDown);
+		//mapDropDown.setSelectedIndex(0);
+
+		btnSave.setBounds(140, 42, 101, 25);
+		directionsPanel.add(btnSave);
+		btnRemoveEdge.setBounds(124, 116, 117, 29);
+		
+		directionsPanel.add(btnRemoveEdge);
+		btnEdgeMode.setBounds(124, 76, 117, 29);
+		
+		directionsPanel.add(btnEdgeMode);
+		btnSave.setVisible(false);
+
+		JSeparator separator = new JSeparator();
+		separator.setBackground(Color.RED);
+		separator.setOrientation(SwingConstants.VERTICAL);
+		separator.setPreferredSize(new Dimension(50, 10));
+		// separator.setBounds(100, 100, 174, 246);
+		frame.getContentPane().add(separator);
+
+		frame.setSize(1280, 720);
+		frame.setVisible(true);
+		
 		mouseClick = new MouseListener() {
 
 			@Override
@@ -360,7 +367,15 @@ public class AppUIObject {
 				if (placeMode) {
 					System.out.println("Placing point on Map X: " + e.getX() + " Y: " + e.getY());
 					createPointOnMap(e);
-				} else {
+				} 
+				
+				if(edgeMode){
+					System.out.println("You added edge X: " + e.getX() + " Y: " + e.getY());
+					addEdgeOnMap(e);
+				}
+				if(deleteMode){
+					System.out.println("You deleted X: " + e.getX() + " Y: " + e.getY());
+				}else{
 					System.out.println("You clicked X: " + e.getX() + " Y: " + e.getY());
 				}
 			}
@@ -402,7 +417,7 @@ public class AppUIObject {
 					btnNode.setVisible(true);
 					btnDelNode.setVisible(true);
 					btnSave.setVisible(true);
-					btnAddEdge.setVisible(true);
+					btnEdgeMode.setVisible(true);
 					btnRemoveEdge.setVisible(true);
 				} else {
 					frame.setTitle("Path Finder");
@@ -410,7 +425,7 @@ public class AppUIObject {
 					deleteMode = !deleteMode;
 					placeMode = !placeMode;
 					btnGetDirections.setVisible(true);
-					btnAddEdge.setVisible(false);
+					btnEdgeMode.setVisible(false);
 					btnRemoveEdge.setVisible(false);
 					btnNode.setVisible(false);
 					btnDelNode.setVisible(false);
@@ -427,6 +442,7 @@ public class AppUIObject {
 
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				System.out.println("SAVING!");
 				XML.writePoints(currentMap, currentMap.getMap());
 			}
 		});
@@ -463,8 +479,7 @@ public class AppUIObject {
 					lblScale.setText("");
 				}
 
-				// huge shit show but demonstrates using a Jtextpane with an
-				// icon. this is how to do directions
+				//This is how to do directions
 				Icon icon = new ImageIcon("left.png");
 				JLabel label = new JLabel(icon);
 				StyleContext context = new StyleContext();
@@ -475,21 +490,23 @@ public class AppUIObject {
 				// StyleContext.DEFAULT_STYLE );
 				// Style regular = doc.addStyle( "regular", def );
 				try {
-					doc.insertString(0, "Start of text\n", null);
-					doc.insertString(doc.getLength(), "Ignored", labelStyle);
+					doc.insertString(0, "Turn-by-turn directions coming soon!\n", null);
+					//doc.insertString(doc.getLength(), "Ignored", labelStyle);
 				} catch (BadLocationException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
 			}
-
 		});
 		
-		btnAddEdge.setVisible(false);
-		btnRemoveEdge.setVisible(false);
+		lblPicLabel.addMouseListener(mouseClick);
 		
-		btnAddEdge.addActionListener(actionHandler);
+		btnEdgeMode.setVisible(false);
+		btnRemoveEdge.setVisible(false);
+		btnNode.setVisible(false);
+		btnDelNode.setVisible(false);
+		
+		btnEdgeMode.addActionListener(actionHandler);
 		btnRemoveEdge.addActionListener(actionHandler);
 
 		mainPanel.setBounds(1, 6, 1018, 664);
