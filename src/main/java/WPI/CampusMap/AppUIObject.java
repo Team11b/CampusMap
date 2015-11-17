@@ -340,7 +340,7 @@ public class AppUIObject {
             return false;
 
         currentMap.removeEdge(lastSelected, selectedPoint);
-
+        selectedPoint = null;
         return true;
     }
 
