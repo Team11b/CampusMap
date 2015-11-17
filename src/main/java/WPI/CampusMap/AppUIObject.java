@@ -8,7 +8,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.UUID;
@@ -36,10 +35,6 @@ import WPI.CampusMap.AStar.Map;
 import WPI.CampusMap.AStar.Path;
 import WPI.CampusMap.AStar.Point;
 import WPI.CampusMap.XML.XML;
-
-//TODO: Select edges button
-//TODO: Place path button
-//TODO: Save button.
 
 public class AppUIObject {
 
