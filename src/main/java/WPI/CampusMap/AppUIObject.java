@@ -33,6 +33,7 @@ import javax.xml.stream.XMLStreamException;
 
 import WPI.CampusMap.AStar.Coord;
 import WPI.CampusMap.AStar.Map;
+import WPI.CampusMap.AStar.Node;
 import WPI.CampusMap.AStar.Path;
 import WPI.CampusMap.AStar.Point;
 import WPI.CampusMap.XML.XML;
@@ -52,7 +53,22 @@ public class AppUIObject {
 		
 		private void drawPoint(Point p, Graphics2D graphics)
 		{
-			graphics.setColor(selectedPoint == p ? Color.yellow : Color.red);
+			if(startPoint == p && !devMode)
+			{
+				graphics.setColor(Color.green);
+			}
+			else if(endPoint == p && !devMode)
+			{
+				graphics.setColor(Color.blue);
+			}
+			else if(selectedPoint == p && devMode)
+			{
+				graphics.setColor(Color.yellow);
+			}
+			else
+			{
+				graphics.setColor(Color.red);
+			}
 			
 			Coord screenCoord = currentMap.worldToScreenSpace(p.getCoord());
 			
@@ -105,7 +121,22 @@ public class AppUIObject {
 		
 		private void drawPath(Path path, Graphics2D graphics)
 		{
+			graphics.setColor(Color.cyan);
 			
+			ArrayList<Node> nodes = new ArrayList<>();
+			for(int i = 1; i < nodes.size(); i++)
+			{
+				int before = i - 1;
+				
+				Node currentNode = nodes.get(i);
+				Node beforeNode = nodes.get(before);
+				
+				Coord startScreen = currentMap.worldToScreenSpace(beforeNode.getPoint().getCoord());
+				Coord endScreen = currentMap.worldToScreenSpace(currentNode.getPoint().getCoord());
+				
+				graphics.drawLine((int)startScreen.getX(), (int)startScreen.getY(), (int)endScreen.getX(), (int)endScreen.getY());
+				
+			}
 		}
 		
 		private void drawMap(Graphics2D graphics)
@@ -120,24 +151,28 @@ public class AppUIObject {
 			
 			ArrayList<Point> points = currentMap.getMap();
 			
-			for(Point p : points)
-			{
-				drawPoint(p, graphics);
-			}
-			
 			Hashtable<Point, HashSet<Point>> drawnPoints = new Hashtable<>();
 			for(Point p : points)
 			{
 				drawEdges(p, drawnPoints, graphics);
 			}
 			
+			for(Point p : points)
+			{
+				drawPoint(p, graphics);
+			}
 			
+			if(currentRoute != null && devMode)
+			{
+				drawPath(currentRoute, graphics);
+			}
 		}
 	}
 	
 	private boolean placeMode = false;
 	private boolean deleteMode = false;	
 	private boolean edgeMode = false;
+	private boolean devMode = false;
 
 	// UI Elements
 	private final JFrame frame = new JFrame("Path Finder");
@@ -172,8 +207,10 @@ public class AppUIObject {
 	private final SwingAction actionHandler = new SwingAction();
 
 	private static Map currentMap;
+	private static Path currentRoute;
 
 	private static Point selectedPoint;
+	private static Point startPoint, endPoint;
 	private final JButton btnRemoveEdge = new JButton("Remove Edge");
 	private final JButton btnEdgeMode = new JButton("Edge Mode");
 	private JTextField txtScale;
@@ -341,6 +378,21 @@ public class AppUIObject {
 		return true;
 	}
 	
+	private static boolean removeEdgeOnMap(MouseEvent e) {
+		if (selectedPoint == null) {
+			selectPointOnMap(e);
+			return false;
+		}
+
+		Point lastSelected = selectedPoint;
+		if (!selectPointOnMap(e))
+			return false;
+
+		currentMap.removeEdge(lastSelected, selectedPoint);
+
+		return true;
+	}
+	
 	/**
 	 * This class handles all Swing actions from the user interface.
 	 * 
@@ -401,7 +453,7 @@ public class AppUIObject {
 		lblMapviewGoesHere.setVisible(true);
 		
 		txtScale = new JTextField();
-		txtScale.setBounds(823, 12, 123, 19);
+		txtScale.setBounds(814, 9, 130, 19);
 		mainPanel.add(txtScale);
 		txtScale.setColumns(10);
 		txtScale.setVisible(false);
@@ -455,7 +507,7 @@ public class AppUIObject {
 		// Drop down for map selection
 	    mapDropDown.setBounds(55, 6, 176, 24);
 	    directionsPanel.add(mapDropDown);
-		mapDropDown.setSelectedIndex(1);
+		mapDropDown.setSelectedIndex(0);
 
 		btnSave.setBounds(140, 42, 101, 25);
 		directionsPanel.add(btnSave);
@@ -482,26 +534,45 @@ public class AppUIObject {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
-				if (placeMode) {
-					System.out.println("Placing point on Map X: " + e.getX() + " Y: " + e.getY());
-					if(createPointOnMap(e) != null)
-						reDrawUI();
-				}
-				else if(edgeMode){
-					System.out.println("You added edge X: " + e.getX() + " Y: " + e.getY());
-					if(addEdgeOnMap(e))
-						reDrawUI();
-				}
-				else if(deleteMode){
-					System.out.println("You deleted X: " + e.getX() + " Y: " + e.getY());
-					if(deletePointOnMap(e)){
-						reDrawUI();
+				if(devMode)
+				{
+					if (placeMode) {
+						System.out.println("Placing point on Map X: " + e.getX() + " Y: " + e.getY());
+						if (createPointOnMap(e) != null)
+							reDrawUI();
+					} else if (edgeMode) {
+						System.out.println("You added edge X: " + e.getX() + " Y: " + e.getY());
+						if (addEdgeOnMap(e))
+							reDrawUI();
+					} else if (deleteMode) {
+						System.out.println("You deleted X: " + e.getX() + " Y: " + e.getY());
+						if(deletePointOnMap(e)){
+							reDrawUI();
+						}
 					}
-				}
-				else{
-					if(selectPointOnMap(e))
-						reDrawUI();
+					else
+					{
+						if (removeEdgeOnMap(e))
+							reDrawUI();
+					}
+				}else
+				{
+					if(startPoint == null)
+					{
+						if(selectPointOnMap(e))
+						{
+							startPoint = selectedPoint;
+							reDrawUI();
+						}
+					}
+					else if(endPoint == null)
+					{
+						if(selectPointOnMap(e))
+						{
+							endPoint = selectedPoint;
+							reDrawUI();
+						}
+					}
 					System.out.println("You clicked X: " + e.getX() + " Y: " + e.getY());
 				}
 			}
@@ -536,9 +607,10 @@ public class AppUIObject {
 		// Dev Mode
 		btnDevMode.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (btnDevMode.getText() == "Dev Mode") {
+				if (!devMode) {
 					frame.setTitle("Dev Mode");
 					btnDevMode.setText("User mode");
+					devMode = true;
 					btnGetDirections.setVisible(false);
 					btnNode.setVisible(true);
 					btnDelNode.setVisible(true);
@@ -547,6 +619,7 @@ public class AppUIObject {
 					btnRemoveEdge.setVisible(true);
 					txtScale.setVisible(true);
 				} else {
+					devMode = false;
 					frame.setTitle("Path Finder");
 					btnDevMode.setText("Dev Mode");
 					deleteMode = !deleteMode;
@@ -644,8 +717,29 @@ public class AppUIObject {
 
 		mainPanel.setBounds(1, 6, 1018, 664);
 		frame.getContentPane().add(mainPanel);
-		mainPanel.setLayout(null);		
+		mainPanel.setLayout(null);
 		
+		try {
+			loadMap(mapStrings[0]);
+		} catch (XMLStreamException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		mapPanel.setVisible(true);
+		lblMapviewGoesHere.setVisible(true);
+		mapPanel.setBounds(5, 5, 1000, 660);
+		lblMapviewGoesHere.setVisible(true);
+
+		int scale = currentMap.getScale();
+		if (scale != -1) {
+			lblMapviewGoesHere.setText(currentMap.getName());
+			lblScale.setText("Scale: " + scale + " inches per ft");
+			txtScale.setText(Integer.toString(scale));
+			
+		} else {
+			lblMapviewGoesHere.setText("");
+			lblScale.setText("");
+		}
 		reDrawUI();
 	}
 }
