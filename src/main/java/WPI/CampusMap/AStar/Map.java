@@ -90,8 +90,22 @@ public class Map {
 	 * @param scale
 	 *            The inches to feet scale.
 	 */
-	public void setScale(int scale) {
+	public void setScale(int scale)
+	{
+		int oldScale = this.scale;
 		this.scale = scale;
+		
+		float ratio = (float)scale / (float)oldScale;
+		
+		if(map != null)
+		{
+			for(Point p : map)
+			{
+				Coord oldCoord = p.getCoord();
+				oldCoord.setX(oldCoord.getX() / ratio);
+				oldCoord.setY(oldCoord.getY() / ratio);
+			}
+		}
 	}
 
 	/**
