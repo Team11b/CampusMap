@@ -466,6 +466,8 @@ public class AppUIObject {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
+				if(btnDevMode.getText() != "Dev Mode"){
+				
 				if (placeMode) {
 					System.out.println("Placing point on Map X: " + e.getX() + " Y: " + e.getY());
 					if(createPointOnMap(e) != null)
@@ -479,7 +481,7 @@ public class AppUIObject {
 				else if(deleteMode){
 					System.out.println("You deleted X: " + e.getX() + " Y: " + e.getY());
 				}
-				else{
+				}else{
 					if(selectPointOnMap(e))
 						reDrawUI();
 					System.out.println("You clicked X: " + e.getX() + " Y: " + e.getY());
