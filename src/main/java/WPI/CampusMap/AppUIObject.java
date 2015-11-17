@@ -631,6 +631,27 @@ public class AppUIObject {
 		frame.getContentPane().add(mainPanel);
 		mainPanel.setLayout(null);		
 		
+		try {
+			loadMap(mapStrings[0]);
+		} catch (XMLStreamException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		mapPanel.setVisible(true);
+		lblMapviewGoesHere.setVisible(true);
+		mapPanel.setBounds(5, 5, 1000, 660);
+		lblMapviewGoesHere.setVisible(true);
+
+		int scale = currentMap.getScale();
+		if (scale != -1) {
+			lblMapviewGoesHere.setText(currentMap.getName());
+			lblScale.setText("Scale: " + scale + " inches per ft");
+			txtScale.setText(Integer.toString(scale));
+			
+		} else {
+			lblMapviewGoesHere.setText("");
+			lblScale.setText("");
+		}
 		reDrawUI();
 	}
 }
