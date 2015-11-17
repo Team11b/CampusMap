@@ -201,10 +201,9 @@ public class Map {
 	}
 
 	/**
-	 * Converst screen space coords to world space coords.
+	 * Converts screen space coords to world space coords.
 	 * 
-	 * @param screenSpace
-	 *            The coords in screen space
+	 * @param screenSpace The coords in screen space
 	 * @return The coords in world space.
 	 */
 	public Coord screenToWorldSpace(Coord screenSpace) {
@@ -218,6 +217,25 @@ public class Map {
 		float feetY = inchesY / scale;
 
 		return new Coord(feetX, feetY);
+	}
+	
+	/**
+	 * Converts world space to screen space.
+	 * @param worldSpace The world space coords to convert.
+	 * @return The screen space coords.
+	 */
+	public Coord worldToScreenSpace(Coord worldSpace)
+	{
+		float inchesX = worldSpace.getX() * scale;
+		float inchesY = worldSpace.getY() * scale;
+		
+		float imageX = inchesX * 72.0f;
+		float imageY = inchesY * 72.0f;
+		
+		float screenX = imageX / (float)loadedImage.getIconWidth() * 1000.0f;
+		float screenY = imageX / (float)loadedImage.getIconWidth() * 660.0f;
+		
+		return new Coord(screenX, screenY);
 	}
 
 	/**
