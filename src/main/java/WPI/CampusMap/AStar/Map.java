@@ -201,17 +201,41 @@ public class Map {
 	}
 
 	/**
-	 * Converst screen space coords to world space coords.
+	 * Converts screen space coords to world space coords.
 	 * 
-	 * @param screenSpace
-	 *            The coords in screen space
+	 * @param screenSpace The coords in screen space
 	 * @return The coords in world space.
 	 */
 	public Coord screenToWorldSpace(Coord screenSpace) {
-		float x = screenSpace.getX() / (float) loadedImage.getIconWidth() * (float) scale;
-		float y = screenSpace.getY() / (float) loadedImage.getIconHeight() * (float) scale;
+		float imageX = screenSpace.getX() / 1000.0f * (float)loadedImage.getIconWidth();
+		float imageY = screenSpace.getY() / 660.0f * (float)loadedImage.getIconHeight();
+		
+		float inchesX = imageX / 72.0f;
+		float inchesY = imageY / 72.0f;
+		
+		float feetX = inchesX / scale;
+		float feetY = inchesY / scale;
 
-		return new Coord(x, y);
+		return new Coord(feetX, feetY);
+	}
+	
+	/**
+	 * Converts world space to screen space.
+	 * @param worldSpace The world space coords to convert.
+	 * @return The screen space coords.
+	 */
+	public Coord worldToScreenSpace(Coord worldSpace)
+	{
+		float inchesX = worldSpace.getX() * scale;
+		float inchesY = worldSpace.getY() * scale;
+		
+		float imageX = inchesX * 72.0f;
+		float imageY = inchesY * 72.0f;
+		
+		float screenX = imageX / (float)loadedImage.getIconWidth() * 1000.0f;
+		float screenY = imageX / (float)loadedImage.getIconWidth() * 660.0f;
+		
+		return new Coord(screenX, screenY);
 	}
 
 	/**
@@ -289,6 +313,7 @@ public class Map {
 						otherIndex = Map.getIndex(tempNode, frontier);
 						if (otherIndex == -1) {
 							frontier.add(new Node(neigh.get(j), explored.get(explored.size() - 1)));
+							frontier.get(frontier.size()-1).setCumulativeDist(explored.get(explored.size()-1).getCumulativeDist() +frontier.get(frontier.size() - 1).getHeuristic());
 						} else {
 							if (tempNode.getCurrentScore() < frontier.get(otherIndex).getCurrentScore()) {
 								frontier.set(otherIndex, new Node(neigh.get(j), explored.get(explored.size() - 1)));
