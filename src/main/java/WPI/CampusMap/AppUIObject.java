@@ -366,7 +366,15 @@ public class AppUIObject {
 				if (placeMode) {
 					System.out.println("Placing point on Map X: " + e.getX() + " Y: " + e.getY());
 					createPointOnMap(e);
-				} else {
+				} 
+				
+				if(edgeMode){
+					System.out.println("You added edge X: " + e.getX() + " Y: " + e.getY());
+					addEdgeOnMap(e);
+				}
+				if(deleteMode){
+					System.out.println("You deleted X: " + e.getX() + " Y: " + e.getY());
+				}else{
 					System.out.println("You clicked X: " + e.getX() + " Y: " + e.getY());
 				}
 			}
