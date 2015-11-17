@@ -262,8 +262,6 @@ public class AppUIObject {
 
 		Point newPoint = new Point(mapCoord, "", UUID.randomUUID().toString());
 		currentMap.addPoint(newPoint);
-		
-		reDrawUI();
 
 		return newPoint;
 	}
@@ -278,16 +276,14 @@ public class AppUIObject {
 	private static boolean selectPointOnMap(MouseEvent e) {
 		Coord screenCoord = new Coord(e.getX(), e.getY());
 
-		Coord mapCoord = currentMap.screenToWorldSpace(screenCoord);
-
 		ArrayList<Point> points = currentMap.getMap();
 
 		Point closestPoint = null;
 		float closestDistance = Float.MAX_VALUE;
-		final float clickThreshold = 1.0f;
+		final float clickThreshold = 5.0f;
 
 		for (Point p : points) {
-			float distance = mapCoord.distance(p.getCoord());
+			float distance = screenCoord.distance(currentMap.worldToScreenSpace(p.getCoord()));
 
 			if (distance < clickThreshold && distance < closestDistance) {
 				closestPoint = p;
@@ -472,19 +468,20 @@ public class AppUIObject {
 				// TODO Auto-generated method stub
 				if (placeMode) {
 					System.out.println("Placing point on Map X: " + e.getX() + " Y: " + e.getY());
-					createPointOnMap(e);
-				} 
-				
-				if(edgeMode){
-					System.out.println("You added edge X: " + e.getX() + " Y: " + e.getY());
-					addEdgeOnMap(e);
+					if(createPointOnMap(e) != null)
+						reDrawUI();
 				}
-				if(deleteMode){
+				else if(edgeMode){
+					System.out.println("You added edge X: " + e.getX() + " Y: " + e.getY());
+					if(addEdgeOnMap(e))
+						reDrawUI();
+				}
+				else if(deleteMode){
 					System.out.println("You deleted X: " + e.getX() + " Y: " + e.getY());
 				}
-
-				if(!edgeMode && !deleteMode && !placeMode){
-					selectPointOnMap(e);
+				else{
+					if(selectPointOnMap(e))
+						reDrawUI();
 					System.out.println("You clicked X: " + e.getX() + " Y: " + e.getY());
 				}
 			}
