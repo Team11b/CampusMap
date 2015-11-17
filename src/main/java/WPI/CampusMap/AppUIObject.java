@@ -33,6 +33,7 @@ import javax.xml.stream.XMLStreamException;
 
 import WPI.CampusMap.AStar.Coord;
 import WPI.CampusMap.AStar.Map;
+import WPI.CampusMap.AStar.Node;
 import WPI.CampusMap.AStar.Path;
 import WPI.CampusMap.AStar.Point;
 import WPI.CampusMap.XML.XML;
@@ -52,7 +53,22 @@ public class AppUIObject {
 		
 		private void drawPoint(Point p, Graphics2D graphics)
 		{
-			graphics.setColor(selectedPoint == p ? Color.yellow : Color.red);
+			if(startPoint == p)
+			{
+				graphics.setColor(Color.green);
+			}
+			else if(endPoint == p)
+			{
+				graphics.setColor(Color.blue);
+			}
+			else if(selectedPoint == p)
+			{
+				graphics.setColor(Color.yellow);
+			}
+			else
+			{
+				graphics.setColor(Color.red);
+			}
 			
 			Coord screenCoord = currentMap.worldToScreenSpace(p.getCoord());
 			
@@ -105,7 +121,22 @@ public class AppUIObject {
 		
 		private void drawPath(Path path, Graphics2D graphics)
 		{
+			graphics.setColor(Color.cyan);
 			
+			ArrayList<Node> nodes = new ArrayList<>();
+			for(int i = 1; i < nodes.size(); i++)
+			{
+				int before = i - 1;
+				
+				Node currentNode = nodes.get(i);
+				Node beforeNode = nodes.get(before);
+				
+				Coord startScreen = currentMap.worldToScreenSpace(beforeNode.getPoint().getCoord());
+				Coord endScreen = currentMap.worldToScreenSpace(currentNode.getPoint().getCoord());
+				
+				graphics.drawLine((int)startScreen.getX(), (int)startScreen.getY(), (int)endScreen.getX(), (int)endScreen.getY());
+				
+			}
 		}
 		
 		private void drawMap(Graphics2D graphics)
@@ -120,18 +151,21 @@ public class AppUIObject {
 			
 			ArrayList<Point> points = currentMap.getMap();
 			
-			for(Point p : points)
-			{
-				drawPoint(p, graphics);
-			}
-			
 			Hashtable<Point, HashSet<Point>> drawnPoints = new Hashtable<>();
 			for(Point p : points)
 			{
 				drawEdges(p, drawnPoints, graphics);
 			}
 			
+			for(Point p : points)
+			{
+				drawPoint(p, graphics);
+			}
 			
+			if(currentRoute != null)
+			{
+				drawPath(currentRoute, graphics);
+			}
 		}
 	}
 	
@@ -173,8 +207,10 @@ public class AppUIObject {
 	private final SwingAction actionHandler = new SwingAction();
 
 	private static Map currentMap;
+	private static Path currentRoute;
 
 	private static Point selectedPoint;
+	private static Point startPoint, endPoint;
 	private final JButton btnRemoveEdge = new JButton("Remove Edge");
 	private final JButton btnEdgeMode = new JButton("Edge Mode");
 	private JTextField txtScale;
@@ -629,7 +665,7 @@ public class AppUIObject {
 
 		mainPanel.setBounds(1, 6, 1018, 664);
 		frame.getContentPane().add(mainPanel);
-		mainPanel.setLayout(null);		
+		mainPanel.setLayout(null);
 		
 		try {
 			loadMap(mapStrings[0]);
