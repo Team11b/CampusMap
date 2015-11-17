@@ -52,16 +52,16 @@ public class AppUIObject {
 		
 		private void drawPoint(Point p, Graphics2D graphics)
 		{
-			graphics.setColor(selectedPoint == p ? Color.red : Color.yellow);
+			graphics.setColor(selectedPoint == p ? Color.yellow : Color.red);
 			
 			Coord screenCoord = currentMap.worldToScreenSpace(p.getCoord());
 			
-			final float size = 5.0f;
+			final float size = 10.0f;
 			final float halfSize = size * 0.5f;
 			
-			Coord truePosition = new Coord(screenCoord.getX() - halfSize, screenCoord.getY() + halfSize);
+			Coord truePosition = new Coord(screenCoord.getX() - halfSize, screenCoord.getY() - halfSize);
 			
-			graphics.drawOval((int)truePosition.getX(), (int)truePosition.getY(), (int)size, (int)size);
+			graphics.fillOval((int)truePosition.getX(), (int)truePosition.getY(), (int)size, (int)size);
 		}
 		
 		private void drawEdges(Point p, Hashtable<Point, HashSet<Point>> drawnPoints, Graphics2D graphics)
@@ -255,13 +255,15 @@ public class AppUIObject {
 	 *            The mouse event to trigger the method.
 	 * @return The point that was created.
 	 */
-	private static Point createPointOnMap(MouseEvent e) {
+	private Point createPointOnMap(MouseEvent e) {
 		Coord screenCoord = new Coord(e.getX(), e.getY());
 
 		Coord mapCoord = currentMap.screenToWorldSpace(screenCoord);
 
 		Point newPoint = new Point(mapCoord, "", UUID.randomUUID().toString());
 		currentMap.addPoint(newPoint);
+		
+		reDrawUI();
 
 		return newPoint;
 	}

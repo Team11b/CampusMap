@@ -234,7 +234,7 @@ public class Map {
 		float imageY = inchesY * 72.0f;
 		
 		float screenX = imageX / (float)loadedImage.getIconWidth() * 1000.0f;
-		float screenY = imageX / (float)loadedImage.getIconWidth() * 660.0f;
+		float screenY = imageY / (float)loadedImage.getIconHeight() * 660.0f;
 		
 		return new Coord(screenX, screenY);
 	}
