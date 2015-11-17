@@ -475,7 +475,7 @@ public class AppUIObject {
 		// Drop down for map selection
 	    mapDropDown.setBounds(55, 6, 176, 24);
 	    directionsPanel.add(mapDropDown);
-		mapDropDown.setSelectedIndex(1);
+		mapDropDown.setSelectedIndex(0);
 
 		btnSave.setBounds(140, 42, 101, 25);
 		directionsPanel.add(btnSave);
