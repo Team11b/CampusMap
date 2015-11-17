@@ -155,6 +155,8 @@ public class Point {
 	 *         exists
 	 */
 	public boolean addNeighbor(Point point) {
+		if(this.getNeighborsID().contains(point.getId())&&this.getNeighborsP().contains(point)) return false;
+		
 		if(!this.getNeighborsID().contains(point.getId())){
 			this.neighborsID.add(point.getId());
 		}
