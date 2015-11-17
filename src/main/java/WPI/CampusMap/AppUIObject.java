@@ -630,6 +630,7 @@ public class AppUIObject {
 					btnSave.setVisible(false);
 					txtScale.setVisible(false);
 				}
+				reDrawUI();
 			}
 		});
 
