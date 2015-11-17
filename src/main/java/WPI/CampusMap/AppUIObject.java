@@ -138,6 +138,7 @@ public class AppUIObject {
 	private boolean placeMode = false;
 	private boolean deleteMode = false;	
 	private boolean edgeMode = false;
+	private boolean devMode = false;
 
 	// UI Elements
 	private final JFrame frame = new JFrame("Path Finder");
@@ -384,7 +385,7 @@ public class AppUIObject {
 		lblMapviewGoesHere.setVisible(true);
 		
 		txtScale = new JTextField();
-		txtScale.setBounds(823, 12, 123, 19);
+		txtScale.setBounds(814, 9, 130, 19);
 		mainPanel.add(txtScale);
 		txtScale.setColumns(10);
 		txtScale.setVisible(false);
@@ -466,7 +467,7 @@ public class AppUIObject {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
-				if(btnDevMode.getText() != "Dev Mode"){
+				if(devMode){
 				
 				if (placeMode) {
 					System.out.println("Placing point on Map X: " + e.getX() + " Y: " + e.getY());
@@ -518,9 +519,10 @@ public class AppUIObject {
 		// Dev Mode
 		btnDevMode.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				if (btnDevMode.getText() == "Dev Mode") {
+				if (!devMode) {
 					frame.setTitle("Dev Mode");
 					btnDevMode.setText("User mode");
+					devMode = true;
 					btnGetDirections.setVisible(false);
 					btnNode.setVisible(true);
 					btnDelNode.setVisible(true);
@@ -529,6 +531,7 @@ public class AppUIObject {
 					btnRemoveEdge.setVisible(true);
 					txtScale.setVisible(true);
 				} else {
+					devMode = false;
 					frame.setTitle("Path Finder");
 					btnDevMode.setText("Dev Mode");
 					deleteMode = !deleteMode;
