@@ -1,9 +1,12 @@
 package WPI.CampusMap;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
+import java.awt.Shape;
+import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -83,6 +86,7 @@ public class AppUIObject {
 		private void drawEdges(Point p, Hashtable<Point, HashSet<Point>> drawnPoints, Graphics2D graphics)
 		{
 			graphics.setColor(Color.gray);
+			graphics.setStroke(new BasicStroke(2));
 			
 			ArrayList<Point> neighbors = p.getValidNeighbors();
 			
@@ -117,11 +121,14 @@ public class AppUIObject {
 				
 				graphics.drawLine((int)screenStart.getX(), (int)screenStart.getY(), (int)screenStop.getX(), (int)screenStop.getY());
 			}
+			
+			graphics.setStroke(new BasicStroke(1));
 		}
 		
 		private void drawPath(Path path, Graphics2D graphics)
 		{
 			graphics.setColor(Color.red);
+			graphics.setStroke(new BasicStroke(3));
 			
 			ArrayList<Node> nodes = path.getPath();
 			for(int i = 1; i < nodes.size(); i++)
@@ -137,6 +144,8 @@ public class AppUIObject {
 				graphics.drawLine((int)startScreen.getX(), (int)startScreen.getY(), (int)endScreen.getX(), (int)endScreen.getY());
 				
 			}
+			
+			graphics.setStroke(new BasicStroke(1));
 		}
 		
 		private void drawMap(Graphics2D graphics)
