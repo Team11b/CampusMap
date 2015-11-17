@@ -128,10 +128,9 @@ public class XML {
 	/**
 	 * Function to take an xml file as input and output an array of points.
 	 * 
-	 * @param filename Relative file path of XML file
+	 * @param map Map to parse XML for
 	 * @return Array of all points in the file
-	 * @throws XMLStreamException 
-	 * @throws FileNotFoundException
+	 * @throws XMLStreamException Thrown when XML files is improperly formated
 	 */
 	public static ArrayList<Point> parseXML(Map map) throws XMLStreamException{
 		Point currPoint = null;

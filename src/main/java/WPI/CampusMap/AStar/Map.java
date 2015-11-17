@@ -35,8 +35,8 @@ public class Map {
 	 * Creates a map from an xml file. Default values are used if the xml cannot
 	 * be parsed.
 	 * 
-	 * @param xml
-	 *            The xml file to create the map from.
+	 * @param name
+	 *            The name of the map to be created.
 	 * @throws XMLStreamException
 	 *             Thrown if there is an error parsing the xml file.
 	 */
@@ -361,7 +361,7 @@ public class Map {
 	 * neighbor arrays of all points on the map
 	 * 
 	 * @param id
-	 *            The ID of the string to be removed
+	 *            The ID of the point to be removed
 	 * @return True if point is successfully removed, False if specified point
 	 *         does note exist
 	 */
@@ -385,8 +385,8 @@ public class Map {
 	 * Removes the given point from the map array, and from the
 	 * neighbor arrays of all points on the map
 	 * 
-	 * @param id
-	 *            The ID of the string to be removed
+	 * @param point
+	 *            The point to be removed
 	 * @return True if point is successfully removed, False if specified point
 	 *         does note exist
 	 */
