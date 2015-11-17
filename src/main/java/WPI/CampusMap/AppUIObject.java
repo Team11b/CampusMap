@@ -121,9 +121,9 @@ public class AppUIObject {
 		
 		private void drawPath(Path path, Graphics2D graphics)
 		{
-			graphics.setColor(Color.cyan);
+			graphics.setColor(Color.red);
 			
-			ArrayList<Node> nodes = new ArrayList<>();
+			ArrayList<Node> nodes = path.getPath();
 			for(int i = 1; i < nodes.size(); i++)
 			{
 				int before = i - 1;
@@ -162,7 +162,7 @@ public class AppUIObject {
 				drawPoint(p, graphics);
 			}
 			
-			if(currentRoute != null && devMode)
+			if(currentRoute != null && !devMode)
 			{
 				drawPath(currentRoute, graphics);
 			}
@@ -418,11 +418,9 @@ public class AppUIObject {
 				System.out.println("Send an Email!");
 				break;
 			case "Route me":
-				Path path = new Path();
-				path.addNode(new Node(startPoint, null));
-				path.addNode(new Node(endPoint, null));
-				System.out.println(getAndDisplayDirections(path));
-				System.out.println("Get Directions");
+				Path path = currentMap.astar(startPoint, endPoint);
+				currentRoute = path;
+				reDrawUI();
 				break;
 			case "Print":
 				printDirections();
