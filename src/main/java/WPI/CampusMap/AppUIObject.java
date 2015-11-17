@@ -53,15 +53,15 @@ public class AppUIObject {
 		
 		private void drawPoint(Point p, Graphics2D graphics)
 		{
-			if(startPoint == p)
+			if(startPoint == p && !devMode)
 			{
 				graphics.setColor(Color.green);
 			}
-			else if(endPoint == p)
+			else if(endPoint == p && !devMode)
 			{
 				graphics.setColor(Color.blue);
 			}
-			else if(selectedPoint == p)
+			else if(selectedPoint == p && devMode)
 			{
 				graphics.setColor(Color.yellow);
 			}
@@ -162,7 +162,7 @@ public class AppUIObject {
 				drawPoint(p, graphics);
 			}
 			
-			if(currentRoute != null)
+			if(currentRoute != null && devMode)
 			{
 				drawPath(currentRoute, graphics);
 			}
@@ -503,24 +503,42 @@ public class AppUIObject {
 			@Override
 			public void mouseClicked(MouseEvent e) {
 				// TODO Auto-generated method stub
-				if(devMode){
-				
-				if (placeMode) {
-					System.out.println("Placing point on Map X: " + e.getX() + " Y: " + e.getY());
-					if(createPointOnMap(e) != null)
-						reDrawUI();
-				}
-				else if(edgeMode){
-					System.out.println("You added edge X: " + e.getX() + " Y: " + e.getY());
-					if(addEdgeOnMap(e))
-						reDrawUI();
-				}
-				else if(deleteMode){
-					System.out.println("You deleted X: " + e.getX() + " Y: " + e.getY());
-				}
-				}else{
-					if(selectPointOnMap(e))
-						reDrawUI();
+				if(devMode)
+				{
+					if (placeMode) {
+						System.out.println("Placing point on Map X: " + e.getX() + " Y: " + e.getY());
+						if (createPointOnMap(e) != null)
+							reDrawUI();
+					} else if (edgeMode) {
+						System.out.println("You added edge X: " + e.getX() + " Y: " + e.getY());
+						if (addEdgeOnMap(e))
+							reDrawUI();
+					} else if (deleteMode) {
+						System.out.println("You deleted X: " + e.getX() + " Y: " + e.getY());
+					}
+					else
+					{
+						if(selectPointOnMap(e))
+							reDrawUI();
+					}
+				}else
+				{
+					if(startPoint == null)
+					{
+						if(selectPointOnMap(e))
+						{
+							startPoint = selectedPoint;
+							reDrawUI();
+						}
+					}
+					else if(endPoint == null)
+					{
+						if(selectPointOnMap(e))
+						{
+							endPoint = selectedPoint;
+							reDrawUI();
+						}
+					}
 					System.out.println("You clicked X: " + e.getX() + " Y: " + e.getY());
 				}
 			}
