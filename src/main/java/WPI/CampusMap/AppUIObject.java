@@ -459,6 +459,7 @@ public class AppUIObject {
 		separator.setOrientation(SwingConstants.VERTICAL);
 		separator.setPreferredSize(new Dimension(50, 10));
 		// separator.setBounds(100, 100, 174, 246);
+		separator.setVisible(false);
 		frame.getContentPane().add(separator);
 
 		frame.setSize(1280, 720);
