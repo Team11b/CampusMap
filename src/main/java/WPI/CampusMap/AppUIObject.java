@@ -173,6 +173,7 @@ public class AppUIObject {
 	private boolean deleteMode = false;	
 	private boolean edgeMode = false;
 	private boolean devMode = false;
+	private boolean removeEdgeMode = false;
 
 	// UI Elements
 	private final JFrame frame = new JFrame("Path Finder");
@@ -412,21 +413,28 @@ public class AppUIObject {
 				placeMode = !placeMode;
 				edgeMode = false;
 				deleteMode = false;
+				removeEdgeMode = false;
 				System.out.println("Place Mode");
 				break;
 			case "Delete Mode":
 				deleteMode = !deleteMode;
 				placeMode = false;
 				edgeMode = false;
+				removeEdgeMode = false;
 				System.out.println("Delete Mode");
 				break;
 			case "Edge Mode":
 				edgeMode = !edgeMode;
 				placeMode = false;
 				deleteMode = false;
+				removeEdgeMode = false;
 				System.out.println("Edge Mode");
 				break;
 			case "Remove Edge":
+				removeEdgeMode = !removeEdgeMode;
+				edgeMode = false;
+				placeMode = false;
+				deleteMode = false;
 				System.out.println("Remove Edge");
 				break;
 			default:
