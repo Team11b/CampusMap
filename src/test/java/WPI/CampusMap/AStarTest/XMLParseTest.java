@@ -24,9 +24,10 @@ public class XMLParseTest {
 
 	@Test
 	public void testOpenXML() throws FileNotFoundException,XMLStreamException {
-		Map testMap = new Map("XML/AK.xml");
+		Map testMap = new Map("AK");
 		ArrayList<Point> points = testMap.getMap();
 		
+		assertEquals(20,testMap.getScale());
 		//checking points
 		assertEquals(5, points.size());
 		assertEquals("1fe6c8ad-437c-4666-b66b-c83cf9bf1e48", points.get(0).getId());
@@ -73,6 +74,6 @@ public class XMLParseTest {
 	@Test
 	public void testInvalidXML() throws FileNotFoundException,XMLStreamException {
 	    exception.expect(XMLStreamException.class);
-	    Map testMap = new Map("XML/borked.xml");
+	    Map testMap = new Map("borked");
 	}
 }

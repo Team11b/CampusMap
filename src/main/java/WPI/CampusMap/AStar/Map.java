@@ -43,10 +43,10 @@ public class Map {
 	public Map(String name) throws XMLStreamException {
 		this.scale = 100;
 		this.name = name;
-		System.out.println("Constructor: " + xml);
-		System.out.println("name:" + this.name);
+//		System.out.println("Constructor: " + this.name);
+//		System.out.println("name:" + this.name);
 		this.png = "maps/" + name + ".png";
-		this.xml = "XML/" + xml + ".xml";
+		this.xml = "XML/" + this.name + ".xml";
 		// XML.parseXML(this);
 
 		if (this.name.equals("Select a map")) {
@@ -59,6 +59,7 @@ public class Map {
 				e.printStackTrace();
 			}
 			map = XML.parseXML(this);
+			System.out.println("map scale" + this.scale);
 
 		}
 	}
@@ -313,7 +314,8 @@ public class Map {
 						otherIndex = Map.getIndex(tempNode, frontier);
 						if (otherIndex == -1) {
 							frontier.add(new Node(neigh.get(j), explored.get(explored.size() - 1)));
-							frontier.get(frontier.size()-1).setCumulativeDist(explored.get(explored.size()-1).getCumulativeDist() +frontier.get(frontier.size() - 1).getHeuristic());
+							frontier.get(frontier.size()-1).setCumulativeDist(explored.get(explored.size()-1).getCumulativeDist() + frontier.get(frontier.size() - 1).getPoint().distance(explored.get(explored.size() - 1).getPoint()));
+							frontier.get(frontier.size() - 1).setCurrentScore(frontier.get(frontier.size() - 1).getCumulativeDist() + frontier.get(frontier.size() - 1).getHeuristic());
 						} else {
 							if (tempNode.getCurrentScore() < frontier.get(otherIndex).getCurrentScore()) {
 								frontier.set(otherIndex, new Node(neigh.get(j), explored.get(explored.size() - 1)));
@@ -380,17 +382,9 @@ public class Map {
 	}
 
 	private void loadImage() throws IOException {
-		System.out.println(png);
+//		System.out.println(png);
 		BufferedImage buffer = ImageIO.read(new File(png));
-		loadedImage = new ImageIcon(buffer.getScaledInstance(1000, 660, Image.SCALE_SMOOTH));// TODO:
-																								// do
-																								// not
-																								// scale,
-																								// but
-																								// rather
-																								// have
-																								// graphics
-																								// draw
+		loadedImage = new ImageIcon(buffer.getScaledInstance(1000, 660, Image.SCALE_SMOOTH));// TODO:																					// draw
 	}
 
 	/**
