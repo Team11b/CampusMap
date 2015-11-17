@@ -361,6 +361,21 @@ public class AppUIObject {
 		return true;
 	}
 	
+	private static boolean removeEdgeOnMap(MouseEvent e) {
+		if (selectedPoint == null) {
+			selectPointOnMap(e);
+			return false;
+		}
+
+		Point lastSelected = selectedPoint;
+		if (!selectPointOnMap(e))
+			return false;
+
+		currentMap.removeEdge(lastSelected, selectedPoint);
+
+		return true;
+	}
+	
 	/**
 	 * This class handles all Swing actions from the user interface.
 	 * 
@@ -506,7 +521,6 @@ public class AppUIObject {
 
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
 				if(devMode)
 				{
 					if (placeMode) {
@@ -522,7 +536,7 @@ public class AppUIObject {
 					}
 					else
 					{
-						if(selectPointOnMap(e))
+						if (removeEdgeOnMap(e))
 							reDrawUI();
 					}
 				}else
