@@ -59,6 +59,7 @@ public class Map {
 				e.printStackTrace();
 			}
 			map = XML.parseXML(this);
+			System.out.println("map scale" + this.scale);
 
 		}
 	}
@@ -313,6 +314,7 @@ public class Map {
 						otherIndex = Map.getIndex(tempNode, frontier);
 						if (otherIndex == -1) {
 							frontier.add(new Node(neigh.get(j), explored.get(explored.size() - 1)));
+							frontier.get(frontier.size()-1).setCumulativeDist(explored.get(explored.size()-1).getCumulativeDist() +frontier.get(frontier.size() - 1).getHeuristic());
 						} else {
 							if (tempNode.getCurrentScore() < frontier.get(otherIndex).getCurrentScore()) {
 								frontier.set(otherIndex, new Node(neigh.get(j), explored.get(explored.size() - 1)));
