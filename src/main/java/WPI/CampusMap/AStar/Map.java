@@ -370,7 +370,7 @@ public class Map {
 			if (point.getId().equals(id)) {
 				ArrayList<Point> neighbors = point.getNeighborsP();
 				for (Point pointN : neighbors) {
-					pointN.removeNeighbor(point);
+					if(!pointN.removeNeighbor(point)) return false;
 				}
 				point.setNeighborsID(new ArrayList<String>());
 				point.setNeighborsP(new ArrayList<Point>());
@@ -379,6 +379,26 @@ public class Map {
 			}
 		}
 		return false;
+	}
+	
+	/**
+	 * Removes the given point from the map array, and from the
+	 * neighbor arrays of all points on the map
+	 * 
+	 * @param id
+	 *            The ID of the string to be removed
+	 * @return True if point is successfully removed, False if specified point
+	 *         does note exist
+	 */
+	public boolean removePoint(Point point) {
+		ArrayList<Point> neighbors = point.getNeighborsP();
+		for (Point pointN : neighbors) {
+			if(!pointN.removeNeighbor(point)) return false;
+		}
+		point.setNeighborsID(new ArrayList<String>());
+		point.setNeighborsP(new ArrayList<Point>());
+		map.remove(point);
+		return true;
 	}
 
 	private void loadImage() throws IOException {

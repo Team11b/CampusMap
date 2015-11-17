@@ -265,6 +265,23 @@ public class AppUIObject {
 
 		return newPoint;
 	}
+	
+	/**
+	 * Removes a point on the map at the mouse point.
+	 * 
+	 * @param e
+	 *            The mouse event to trigger the method.
+	 * @return The point that was created.
+	 */
+	private boolean deletePointOnMap(MouseEvent e) {
+		Coord screenCoord = new Coord(e.getX(), e.getY());
+
+		Coord mapCoord = currentMap.screenToWorldSpace(screenCoord);
+
+		selectPointOnMap(e);
+
+		return currentMap.removePoint(selectedPoint);
+	}
 
 	/**
 	 * Selects a point on the map.
@@ -478,6 +495,9 @@ public class AppUIObject {
 				}
 				else if(deleteMode){
 					System.out.println("You deleted X: " + e.getX() + " Y: " + e.getY());
+					if(deletePointOnMap(e)){
+						reDrawUI();
+					}
 				}
 				else{
 					if(selectPointOnMap(e))
