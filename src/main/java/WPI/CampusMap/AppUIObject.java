@@ -2,11 +2,15 @@ package WPI.CampusMap;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Hashtable;
 import java.util.UUID;
 
 import javax.swing.AbstractAction;
@@ -228,7 +232,92 @@ public class AppUIObject {
 
 		return true;
 	}
-
+	
+	private void drawPoint(Point p)
+	{
+		Graphics2D graphics = (Graphics2D) lblPicLabel.getGraphics();
+		
+		graphics.setColor(selectedPoint == p ? Color.red : Color.yellow);
+		
+		Coord screenCoord = currentMap.worldToScreenSpace(p.getCoord());
+		
+		final float size = 5.0f;
+		final float halfSize = size * 0.5f;
+		
+		Coord truePosition = new Coord(screenCoord.getX() - halfSize, screenCoord.getY() + halfSize);
+		
+		graphics.drawOval((int)truePosition.getX(), (int)truePosition.getY(), (int)size, (int)size);
+	}
+	
+	private void drawEdges(Point p, Hashtable<Point, HashSet<Point>> drawnPoints)
+	{
+		Graphics2D graphics = (Graphics2D)lblPicLabel.getGraphics();
+		graphics.setColor(Color.gray);
+		
+		ArrayList<Point> neighbors = p.getValidNeighbors();
+		
+		HashSet<Point> skipPoints = drawnPoints.get(p);
+		if(skipPoints == null)
+		{
+			skipPoints = new HashSet<>();
+			drawnPoints.put(p, skipPoints);
+		}
+		
+		for(Point n : neighbors)
+		{
+			if(skipPoints.contains(n))
+				continue;
+			
+			HashSet<Point> neighborPoints = drawnPoints.get(n);
+			if(neighborPoints != null)
+			{
+				if(neighborPoints.contains(p))
+					continue;
+			}
+			else
+			{
+				drawnPoints.put(n, neighborPoints = new HashSet<>());
+			}
+			
+			neighborPoints.add(p);
+			skipPoints.add(n);
+			
+			Coord screenStart = currentMap.worldToScreenSpace(p.getCoord());
+			Coord screenStop = currentMap.worldToScreenSpace(n.getCoord());
+			
+			graphics.drawLine((int)screenStart.getX(), (int)screenStart.getY(), (int)screenStop.getX(), (int)screenStop.getY());
+		}
+	}
+	
+	private void DrawPath(Path path)
+	{
+		
+	}
+	
+	private void drawMap()
+	{
+		Graphics2D graphics = (Graphics2D)lblPicLabel.getGraphics();
+		graphics.clearRect(0,  0,  lblPicLabel.getWidth(), lblPicLabel.getHeight());
+		
+		graphics.setColor(Color.white);
+		graphics.drawImage(currentMap.getLoadedImage().getImage(), 0, 0, lblPicLabel.getWidth(), lblPicLabel.getHeight(), null);
+		
+		ArrayList<Point> points = currentMap.getMap();
+		
+		for(Point p : points)
+		{
+			drawPoint(p);
+		}
+		
+		Hashtable<Point, HashSet<Point>> drawnPoints = new Hashtable<>();
+		for(Point p : points)
+		{
+			drawEdges(p, drawnPoints);
+		}
+		
+		
+	}
+	
 	/**
 	 * This class handles all Swing actions from the user interface.
 	 * 
