@@ -208,10 +208,16 @@ public class Map {
 	 * @return The coords in world space.
 	 */
 	public Coord screenToWorldSpace(Coord screenSpace) {
-		float x = screenSpace.getX() / (float) loadedImage.getIconWidth() * (float) scale;
-		float y = screenSpace.getY() / (float) loadedImage.getIconHeight() * (float) scale;
+		float imageX = screenSpace.getX() / 1000.0f * (float)loadedImage.getIconWidth();
+		float imageY = screenSpace.getY() / 660.0f * (float)loadedImage.getIconHeight();
+		
+		float inchesX = imageX / 72.0f;
+		float inchesY = imageY / 72.0f;
+		
+		float feetX = inchesX / scale;
+		float feetY = inchesY / scale;
 
-		return new Coord(x, y);
+		return new Coord(feetX, feetY);
 	}
 
 	/**
