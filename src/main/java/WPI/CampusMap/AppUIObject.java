@@ -405,7 +405,7 @@ public class AppUIObject {
 			}
 		};
 
-		frame.getContentPane().setLayout(null);;;;;
+		frame.getContentPane().setLayout(null);
 
 		// Dev Mode
 		btnDevMode.addActionListener(new ActionListener() {
@@ -442,6 +442,7 @@ public class AppUIObject {
 
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
+				System.out.println("SAVING!");
 				XML.writePoints(currentMap, currentMap.getMap());
 			}
 		});
@@ -478,8 +479,7 @@ public class AppUIObject {
 					lblScale.setText("");
 				}
 
-				// huge shit show but demonstrates using a Jtextpane with an
-				// icon. this is how to do directions
+				//This is how to do directions
 				Icon icon = new ImageIcon("left.png");
 				JLabel label = new JLabel(icon);
 				StyleContext context = new StyleContext();
@@ -490,15 +490,13 @@ public class AppUIObject {
 				// StyleContext.DEFAULT_STYLE );
 				// Style regular = doc.addStyle( "regular", def );
 				try {
-					doc.insertString(0, "Start of text\n", null);
-					doc.insertString(doc.getLength(), "Ignored", labelStyle);
+					doc.insertString(0, "Turn-by-turn directions coming soon!\n", null);
+					//doc.insertString(doc.getLength(), "Ignored", labelStyle);
 				} catch (BadLocationException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-
 			}
-
 		});
 		
 		lblPicLabel.addMouseListener(mouseClick);
