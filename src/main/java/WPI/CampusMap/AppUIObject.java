@@ -157,7 +157,7 @@ public class AppUIObject {
 	private final JButton btnSave = new JButton("Save");
 	
 	private final JTextPane txtDirections = new JTextPane();
-	private String[] mapStrings = { "Select a map", "Atwater_Kent-0", "Atwater_Kent-1", "Atwater_Kent-2", "Atwater_Kent-3",
+	private String[] mapStrings = { "Atwater_Kent-0", "Atwater_Kent-1", "Atwater_Kent-2", "Atwater_Kent-3",
 			"Boynton_Hall_3rd_floor_renovations-0", "Boynton_Hall_3rd_floor_renovations-1", "Boynton_Hall-0",
 			"Boynton_Hall-1", "Boynton_Hall-2", "Boynton_Hall-3", "Campus_Center-0", "Campus_Center-1",
 			"Campus_Center-2", "Gordon_Library-0", "Gordon_Library-1", "Gordon_Library-2", "Gordon_Library-3",
@@ -440,7 +440,7 @@ public class AppUIObject {
 		// Drop down for map selection
 	    mapDropDown.setBounds(55, 6, 176, 24);
 	    directionsPanel.add(mapDropDown);
-		//mapDropDown.setSelectedIndex(0);
+		mapDropDown.setSelectedIndex(1);
 
 		btnSave.setBounds(140, 42, 101, 25);
 		directionsPanel.add(btnSave);
