@@ -127,7 +127,7 @@ public class AppUIObject {
 		
 		private void drawPath(Path path, Graphics2D graphics)
 		{
-			graphics.setColor(Color.red);
+			graphics.setColor(Color.CYAN);
 			graphics.setStroke(new BasicStroke(3));
 			
 			ArrayList<Node> nodes = path.getPath();
