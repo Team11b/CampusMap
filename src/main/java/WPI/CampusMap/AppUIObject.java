@@ -47,6 +47,7 @@ public class AppUIObject {
 	class MapPanel extends JPanel
 	{
 		@Override
+		
 		public void paint(Graphics g) 
 		{
 			super.paint(g);
@@ -54,6 +55,11 @@ public class AppUIObject {
 			drawMap((Graphics2D)g);
 		}
 		
+		/** a method that draws points
+		 * 
+		 * @param p				Point To Draw
+		 * @param graphics		A graphics 2d object to do the drawing
+		 */
 		private void drawPoint(Point p, Graphics2D graphics)
 		{
 			if(startPoint == p && !devMode)
