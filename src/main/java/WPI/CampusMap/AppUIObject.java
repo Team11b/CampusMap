@@ -139,6 +139,11 @@ public class AppUIObject {
 			graphics.setStroke(new BasicStroke(1));
 		}
 		
+		/** drawPath takes a path and a graphics object and draws the path
+		 * 
+		 * @param path			path to be drawn
+		 * @param graphics		graphics object to do the drawing
+		 */
 		private void drawPath(Path path, Graphics2D graphics)
 		{
 			graphics.setColor(new Color(255, 0, 255));
@@ -162,6 +167,10 @@ public class AppUIObject {
 			graphics.setStroke(new BasicStroke(1));
 		}
 		
+		/** drawMap takes in a graphics object and uses it to draw the map
+		 * 
+		 * @param graphics 		graphics object to do the drawing
+		 */
 		private void drawMap(Graphics2D graphics)
 		{
 			graphics.clearRect(0,  0,  getWidth(), getHeight());
@@ -302,6 +311,11 @@ public class AppUIObject {
 
 	}
 
+	/** loadMap takes a mapName and loads it as the current map
+	 * 
+	 * @param mapName					map to load
+	 * @throws XMLStreamException	
+	 */
 	private void loadMap(String mapName) throws XMLStreamException {
 		System.out.println("UI: " + mapName);
 		Map newMap = new Map(mapName);
@@ -343,6 +357,12 @@ public class AppUIObject {
 
 		return currentMap.removePoint(selectedPoint);
 	}
+	
+	/** removeEdgeOnMap takes a mouse event e and removes the edge at that location
+	 * 
+	 * @param e		Mouse event used to find edge
+	 * @return
+	 */
     private static boolean removeEdgeOnMap(MouseEvent e) {
         if (selectedPoint == null) {
             selectPointOnMap(e);
