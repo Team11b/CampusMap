@@ -43,7 +43,10 @@ import WPI.CampusMap.XML.XML;
 import javax.swing.JTextField;
 
 public class AppUIObject {
-
+	
+	/**Map Panel Class
+	 * Contains the graphics and UI components of the app
+	 */
 	class MapPanel extends JPanel
 	{
 		@Override
@@ -54,6 +57,11 @@ public class AppUIObject {
 			drawMap((Graphics2D)g);
 		}
 		
+		/**drawPoint method intakes a point and a graphics object, and draws the point
+		 * 
+		 * @param p				Point to be drawn
+		 * @param graphics		graphics object to do the drawing
+		 */
 		private void drawPoint(Point p, Graphics2D graphics)
 		{
 			if(startPoint == p && !devMode)
@@ -83,6 +91,12 @@ public class AppUIObject {
 			graphics.fillOval((int)truePosition.getX(), (int)truePosition.getY(), (int)size, (int)size);
 		}
 		
+		/** drawEdges takes a point, hashtable of drawn points
+		 *  and a graphics object and draws the edges of point p
+		 * @param p					point to have edges drawn
+		 * @param drawnPoints		points to draw edges to
+		 * @param graphics			graphics object to do the drawing
+		 */
 		private void drawEdges(Point p, Hashtable<Point, HashSet<Point>> drawnPoints, Graphics2D graphics)
 		{
 			graphics.setColor(Color.gray);
