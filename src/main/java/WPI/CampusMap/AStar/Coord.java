@@ -45,6 +45,9 @@ public class Coord {
 	}
 
 	@Override
+	/**	overwritten equals method for comparing Coords
+	 * 
+	 */
 	public boolean equals(Object other) {
 		boolean result = false;
 		if (other instanceof Coord) {
@@ -57,6 +60,9 @@ public class Coord {
 	}
 	
 	@Override
+	/**
+	 * Converts a coord into a string format
+	 */
 	public String toString() {
 		return "{X: " + x + ",Y:" + y + "}";
 	}

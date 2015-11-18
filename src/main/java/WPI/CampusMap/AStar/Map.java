@@ -415,6 +415,10 @@ public class Map {
 		return true;
 	}
 
+	/**Loads an Image
+	 * 
+	 * @throws IOException exception thrown if failed
+	 */
 	private void loadImage() throws IOException {
 //		System.out.println(png);
 		BufferedImage buffer = ImageIO.read(new File(png));
