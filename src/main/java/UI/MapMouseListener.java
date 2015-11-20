@@ -15,38 +15,38 @@ public class MapMouseListener implements MouseListener {
 		if (uiObject.devMode) {
 			if (uiObject.placeMode) {
 				System.out.println("Placing point on Map X: " + e.getX() + " Y: " + e.getY());
-				AppUIObject.currentMap.createPointOnMap(e);
+				uiObject.mapPanel.currentMap.createPointOnMap(e);
 			} else if (uiObject.edgeMode) {
 				System.out.println("You added edge X: " + e.getX() + " Y: " + e.getY());
-				MapPanel.addEdgeOnMap(e);
+				uiObject.mapPanel.addEdgeOnMap(e);
 			} else if (uiObject.deleteMode) {
 				System.out.println("You deleted X: " + e.getX() + " Y: " + e.getY());
 				uiObject.mapPanel.deletePointOnMap(e);
 			} else {
 				// if(selectPointOnMap(e))
-				MapPanel.removeEdgeOnMap(e);
+				uiObject.mapPanel.removeEdgeOnMap(e);
 			}
 		} else {
-			if (AppUIObject.startPoint == null) {
-				if (MapPanel.selectPointOnMap(e)) {
-					AppUIObject.startPoint = AppUIObject.selectedPoint;
+			if (uiObject.mapPanel.startPoint == null) {
+				if (uiObject.mapPanel.selectPointOnMap(e)) {
+					uiObject.mapPanel.startPoint = uiObject.mapPanel.selectedPoint;
 				}
-			} else if (AppUIObject.endPoint == null) {
-				if (MapPanel.selectPointOnMap(e)) {
-					AppUIObject.endPoint = AppUIObject.selectedPoint;
+			} else if (uiObject.mapPanel.endPoint == null) {
+				if (uiObject.mapPanel.selectPointOnMap(e)) {
+					uiObject.mapPanel.endPoint = uiObject.mapPanel.selectedPoint;
 					uiObject.btnGetDirections.setEnabled(true);
 				}
 			} else {
-				AppUIObject.startPoint = null;
-				AppUIObject.endPoint = null;
+				uiObject.mapPanel.startPoint = null;
+				uiObject.mapPanel.endPoint = null;
 
 				// clean up route
-				AppUIObject.currentRoute = null;
+				uiObject.mapPanel.currentRoute = null;
 				uiObject.btnGetDirections.setEnabled(false);
 
-				if (MapPanel.selectPointOnMap(e)) {
+				if (uiObject.mapPanel.selectPointOnMap(e)) {
 
-					AppUIObject.startPoint = AppUIObject.selectedPoint;
+					uiObject.mapPanel.startPoint = uiObject.mapPanel.selectedPoint;
 				}
 			}
 			System.out.println("You clicked X: " + e.getX() + " Y: " + e.getY());

@@ -69,11 +69,6 @@ public class AppUIObject {
 	private MouseListener mouseClick;
 	private final SwingAction actionHandler = new SwingAction();
 
-	protected static Map currentMap;
-	protected static Path currentRoute;
-
-	protected static Point selectedPoint;
-	protected static Point startPoint, endPoint;
 	private final JButton btnRemoveEdge = new JButton("Remove Edge");
 	private final JButton btnEdgeMode = new JButton("Edge Mode");
 	private final JButton btnSubmit;
@@ -111,7 +106,7 @@ public class AppUIObject {
 	private void loadMap(String mapName) throws XMLStreamException {
 		System.out.println("UI: " + mapName);
 		Map newMap = new Map(mapName);
-		currentMap = newMap;
+		mapPanel.currentMap = newMap;
 		reDrawUI();
 	}
 	
@@ -135,8 +130,8 @@ public class AppUIObject {
 				System.out.println("Send an Email!");
 				break;
 			case "Route me":
-				Path path = currentMap.astar(startPoint, endPoint);
-				currentRoute = path;
+				Path path = mapPanel.currentMap.astar(mapPanel.startPoint, mapPanel.endPoint);
+				mapPanel.currentRoute = path;
 				reDrawUI();
 				break;
 			case "Print":
@@ -291,10 +286,10 @@ public class AppUIObject {
 					txtDirections.setText("");
 				}
 				reDrawUI();
-				selectedPoint = null;
-				startPoint = null;
-				endPoint = null;
-				currentRoute = null;
+				mapPanel.selectedPoint = null;
+				mapPanel.startPoint = null;
+				mapPanel.endPoint = null;
+				mapPanel.currentRoute = null;
 			}
 		});
 		//password for devmode code
@@ -327,10 +322,10 @@ public class AppUIObject {
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(txtScale.getText());
-				currentMap.setScale(Integer.parseInt(txtScale.getText()));
+				mapPanel.currentMap.setScale(Integer.parseInt(txtScale.getText()));
 				System.out.println("SAVING!");
-				XML.writePoints(currentMap, currentMap.getMap());
-				lblScale.setText("Scale: " + currentMap.getScale() + " inches per ft");
+				XML.writePoints(mapPanel.currentMap, mapPanel.currentMap.getMap());
+				lblScale.setText("Scale: " + mapPanel.currentMap.getScale() + " inches per ft");
 			}
 		});
 
@@ -338,10 +333,10 @@ public class AppUIObject {
 			public void actionPerformed(ActionEvent arg0) {
 				//cleanup
 				reDrawUI();
-				selectedPoint = null;
-				startPoint = null;
-				endPoint = null;
-				currentRoute = null;
+				mapPanel.selectedPoint = null;
+				mapPanel.startPoint = null;
+				mapPanel.endPoint = null;
+				mapPanel.currentRoute = null;
 				
 				mapName.append((String) mapDropDown.getSelectedItem());
 				try {
@@ -363,9 +358,9 @@ public class AppUIObject {
 				mapPanel.setBounds(5, 5, 1000, 660);
 				lblMapviewGoesHere.setVisible(true);
 
-				int scale = currentMap.getScale();
+				int scale = mapPanel.currentMap.getScale();
 				if (scale != -1) {
-					lblMapviewGoesHere.setText(currentMap.getName());
+					lblMapviewGoesHere.setText(mapPanel.currentMap.getName());
 					lblScale.setText("Scale: " + scale + " inches per ft");
 					txtScale.setText(Integer.toString(scale));
 					
@@ -432,9 +427,9 @@ public class AppUIObject {
 		mapPanel.setVisible(true);
 		mapPanel.setBounds(5, 5, 1000, 660);
 
-		int scale = currentMap.getScale();
+		int scale = mapPanel.currentMap.getScale();
 		if (scale != -1) {
-			lblMapviewGoesHere.setText(currentMap.getName());
+			lblMapviewGoesHere.setText(mapPanel.currentMap.getName());
 			lblScale.setText("Scale: " + scale + " inches per ft");
 			txtScale.setText(Integer.toString(scale));
 		} else {
