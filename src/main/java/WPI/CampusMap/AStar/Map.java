@@ -1,12 +1,14 @@
 package WPI.CampusMap.AStar;
 
 import java.awt.Image;
+import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.UUID;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -253,6 +255,24 @@ public class Map {
 		return new Coord(screenX, screenY);
 	}
 
+	/**
+	 * Creates a point on the map at the mouse point.
+	 * 
+	 * @param e
+	 *            The mouse event to trigger the method.
+	 * @return The point that was created.
+	 */
+	public Point createPointOnMap(MouseEvent e) {
+		Coord screenCoord = new Coord(e.getX(), e.getY());
+
+		Coord mapCoord = this.screenToWorldSpace(screenCoord);
+
+		Point newPoint = new Point(mapCoord, "", UUID.randomUUID().toString());
+		this.addPoint(newPoint);
+
+		return newPoint;
+	}
+	
 	/**
 	 * Creates a Path of points using the A* algorithm. Uses this map as a map.
 	 * Will return null if either the start or the goal is an invalid location,

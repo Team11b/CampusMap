@@ -1,4 +1,4 @@
-package WPI.CampusMap;
+package UI;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -43,158 +43,24 @@ import WPI.CampusMap.XML.XML;
 import javax.swing.JTextField;
 
 public class AppUIObject {
-
-	class MapPanel extends JPanel
-	{
-		@Override
-		public void paint(Graphics g) 
-		{
-			super.paint(g);
-			
-			drawMap((Graphics2D)g);
-		}
-		
-		private void drawPoint(Point p, Graphics2D graphics)
-		{
-			if(startPoint == p && !devMode)
-			{
-				graphics.setColor(Color.green);
-			}
-			else if(endPoint == p && !devMode)
-			{
-				graphics.setColor(Color.blue);
-			}
-			else if(selectedPoint == p && devMode)
-			{
-				graphics.setColor(Color.yellow);
-			}
-			else
-			{
-				graphics.setColor(Color.red);
-			}
-			
-			Coord screenCoord = currentMap.worldToScreenSpace(p.getCoord());
-			
-			final float size = 10.0f;
-			final float halfSize = size * 0.5f;
-			
-			Coord truePosition = new Coord(screenCoord.getX() - halfSize, screenCoord.getY() - halfSize);
-			
-			graphics.fillOval((int)truePosition.getX(), (int)truePosition.getY(), (int)size, (int)size);
-		}
-		
-		private void drawEdges(Point p, Hashtable<Point, HashSet<Point>> drawnPoints, Graphics2D graphics)
-		{
-			graphics.setColor(Color.gray);
-			graphics.setStroke(new BasicStroke(2));
-			
-			ArrayList<Point> neighbors = p.getValidNeighbors();
-			
-			HashSet<Point> skipPoints = drawnPoints.get(p);
-			if(skipPoints == null)
-			{
-				skipPoints = new HashSet<>();
-				drawnPoints.put(p, skipPoints);
-			}
-			
-			for(Point n : neighbors)
-			{
-				if(skipPoints.contains(n))
-					continue;
-				
-				HashSet<Point> neighborPoints = drawnPoints.get(n);
-				if(neighborPoints != null)
-				{
-					if(neighborPoints.contains(p))
-						continue;
-				}
-				else
-				{
-					drawnPoints.put(n, neighborPoints = new HashSet<>());
-				}
-				
-				neighborPoints.add(p);
-				skipPoints.add(n);
-				
-				Coord screenStart = currentMap.worldToScreenSpace(p.getCoord());
-				Coord screenStop = currentMap.worldToScreenSpace(n.getCoord());
-				
-				graphics.drawLine((int)screenStart.getX(), (int)screenStart.getY(), (int)screenStop.getX(), (int)screenStop.getY());
-			}
-			
-			graphics.setStroke(new BasicStroke(1));
-		}
-		
-		private void drawPath(Path path, Graphics2D graphics)
-		{
-			graphics.setColor(new Color(255, 0, 255));
-			graphics.setStroke(new BasicStroke(3));
-			
-			ArrayList<Node> nodes = path.getPath();
-			for(int i = 1; i < nodes.size(); i++)
-			{
-				int before = i - 1;
-				
-				Node currentNode = nodes.get(i);
-				Node beforeNode = nodes.get(before);
-				
-				Coord startScreen = currentMap.worldToScreenSpace(beforeNode.getPoint().getCoord());
-				Coord endScreen = currentMap.worldToScreenSpace(currentNode.getPoint().getCoord());
-				
-				graphics.drawLine((int)startScreen.getX(), (int)startScreen.getY(), (int)endScreen.getX(), (int)endScreen.getY());
-				
-			}
-			
-			graphics.setStroke(new BasicStroke(1));
-		}
-		
-		private void drawMap(Graphics2D graphics)
-		{
-			graphics.clearRect(0,  0,  getWidth(), getHeight());
-			
-			if(currentMap == null)
-				return;
-			
-			graphics.setColor(Color.white);
-			graphics.drawImage(currentMap.getLoadedImage().getImage(), 0, 0, getWidth(), getHeight(), null);
-			
-			ArrayList<Point> points = currentMap.getMap();
-			
-			Hashtable<Point, HashSet<Point>> drawnPoints = new Hashtable<>();
-			for(Point p : points)
-			{
-				drawEdges(p, drawnPoints, graphics);
-			}
-			
-			for(Point p : points)
-			{
-				drawPoint(p, graphics);
-			}
-			
-			if(currentRoute != null && !devMode)
-			{
-				drawPath(currentRoute, graphics);
-			}
-		}
-	}
 	
-	private boolean placeMode = false;
-	private boolean deleteMode = false;	
-	private boolean edgeMode = false;
-	private boolean devMode = false;
-	private boolean removeEdgeMode = false;
+	protected boolean placeMode = false;
+	protected boolean deleteMode = false;	
+	protected boolean edgeMode = false;
+	protected boolean devMode = false;
+	protected boolean removeEdgeMode = false;
 
 	// UI Elements
 	private final JFrame frame = new JFrame("Path Finder");
 	private final JPanel mainPanel = new JPanel();
 	private final JLabel lblMapviewGoesHere = new JLabel("");
 	private final JLabel lblScale = new JLabel("Scale: ");
-	private final MapPanel mapPanel = new MapPanel();
+	protected final MapPanel mapPanel = new MapPanel(this);
 	private final JPanel directionsPanel = new JPanel();
 	private final JButton btnEmail = new JButton("Email");
 	private final JButton btnPrint = new JButton("Print");
 	private final JLabel lblDirections = new JLabel("Directions:");
-	private final JButton btnGetDirections = new JButton("Route me");
+	protected final JButton btnGetDirections = new JButton("Route me");
 	private final JButton btnNode = new JButton("Place Mode");
 	private final JButton btnDelNode = new JButton("Delete Mode");
 	private final JLabel lblMapColon = new JLabel("Map:");
@@ -216,11 +82,11 @@ public class AppUIObject {
 	private MouseListener mouseClick;
 	private final SwingAction actionHandler = new SwingAction();
 
-	private static Map currentMap;
-	private static Path currentRoute;
+	protected static Map currentMap;
+	protected static Path currentRoute;
 
-	private static Point selectedPoint;
-	private static Point startPoint, endPoint;
+	protected static Point selectedPoint;
+	protected static Point startPoint, endPoint;
 	private final JButton btnRemoveEdge = new JButton("Remove Edge");
 	private final JButton btnEdgeMode = new JButton("Edge Mode");
 	private JTextField txtScale;
@@ -241,170 +107,22 @@ public class AppUIObject {
 	}
 
 	/**
-	 * Calculates the walking path and displays the directions.
-	 */
-	private static String getAndDisplayDirections(Path path) {
-		String route = "";
-		for (int i = 1; i < path.getPath().size(); i++) {
-			String turn = "";
-			String direction = "";
-			float dist = path.getPath().get(i).getPoint().distance(path.getPath().get(i - 1).getPoint());
-			float angle = path.getAngle(path.getPath().get(i - 1).getPoint(), path.getPath().get(i).getPoint());
-
-			route += path.getPath().get(i - 1).getPoint().toString() + " to "
-					+ path.getPath().get(i).getPoint().toString() + "";
-			if (path.getPath().get(i).getPoint().getCoord().getX() == path.getPath().get(i - 1).getPoint().getCoord()
-					.getX()
-					|| path.getPath().get(i).getPoint().getCoord().getY() == path.getPath().get(i - 1).getPoint()
-							.getCoord().getY()) {
-				route += "Walk " + dist + " feet straight on.\n";
-			} else {
-
-				if (path.getPath().get(i - 1).getPoint().getCoord().getX() < path.getPath().get(i).getPoint().getCoord()
-						.getX()) {
-					System.out.println(angle);
-					if (angle < 0)
-						turn = "left";
-					else
-						turn = "right";
-
-				}
-				if (Math.abs(angle) > 0 && Math.abs(angle) < 45) {
-					direction = "slightly";
-				} else if (Math.abs(angle) > 45 && Math.abs(angle) < 90) {
-					direction = "hard";
-				}
-				route += "Turn " + direction + " " + turn + " and walk " + dist + " feet\n";
-			}
-		}
-
-		return route;
-	}
-
-	/**
 	 * Prints the walking directions.
 	 */
 	private static void printDirections() {
 
 	}
 
+	/** loadMap takes a mapName and loads it as the current map
+	 * 
+	 * @param mapName					map to load
+	 * @throws XMLStreamException	
+	 */
 	private void loadMap(String mapName) throws XMLStreamException {
 		System.out.println("UI: " + mapName);
 		Map newMap = new Map(mapName);
 		currentMap = newMap;
 		reDrawUI();
-	}
-
-	/**
-	 * Creates a point on the map at the mouse point.
-	 * 
-	 * @param e
-	 *            The mouse event to trigger the method.
-	 * @return The point that was created.
-	 */
-	private Point createPointOnMap(MouseEvent e) {
-		Coord screenCoord = new Coord(e.getX(), e.getY());
-
-		Coord mapCoord = currentMap.screenToWorldSpace(screenCoord);
-
-		Point newPoint = new Point(mapCoord, "", UUID.randomUUID().toString());
-		currentMap.addPoint(newPoint);
-
-		return newPoint;
-	}
-	
-	/**
-	 * Removes a point on the map at the mouse point.
-	 * 
-	 * @param e
-	 *            The mouse event to trigger the method.
-	 * @return The point that was created.
-	 */
-	private boolean deletePointOnMap(MouseEvent e) {
-		Coord screenCoord = new Coord(e.getX(), e.getY());
-
-		Coord mapCoord = currentMap.screenToWorldSpace(screenCoord);
-
-		selectPointOnMap(e);
-
-		return currentMap.removePoint(selectedPoint);
-	}
-    private static boolean removeEdgeOnMap(MouseEvent e) {
-        if (selectedPoint == null) {
-            selectPointOnMap(e);
-            return false;
-        }
-
-        Point lastSelected = selectedPoint;
-        if (!selectPointOnMap(e))
-            return false;
-
-        currentMap.removeEdge(lastSelected, selectedPoint);
-        selectedPoint = null;
-        return true;
-    }
-
-	/**
-	 * Selects a point on the map.
-	 * 
-	 * @param e
-	 *            The mouse event to select a point from.
-	 * @return True if a point was selected, false otherwise.
-	 */
-	private static boolean selectPointOnMap(MouseEvent e) {
-		Coord screenCoord = new Coord(e.getX(), e.getY());
-
-		ArrayList<Point> points = currentMap.getMap();
-
-		Point closestPoint = null;
-		float closestDistance = Float.MAX_VALUE;
-		final float clickThreshold = 5.0f;
-
-		for (Point p : points) {
-			float distance = screenCoord.distance(currentMap.worldToScreenSpace(p.getCoord()));
-
-			if (distance < clickThreshold && distance < closestDistance) {
-				closestPoint = p;
-				closestDistance = distance;
-			}
-		}
-
-		// No point selected
-		if (closestPoint == null)
-			return false;
-
-		selectedPoint = closestPoint;
-
-		return true;
-	}
-
-	/**
-	 * If no point is selected then it selects a point. If a point is selected
-	 * already then it tries to select a new point and if successful it creates
-	 * an edge between the two points.
-	 * 
-	 * @param e
-	 *            The mouse event to try and create an edge from.
-	 * @return True if an edge was created, false otherwise.
-	 */
-	private static boolean addEdgeOnMap(MouseEvent e) {
-		if (selectedPoint == null) {
-			selectPointOnMap(e);
-			return false;
-		}
-
-		Point lastSelected = selectedPoint;
-		if (!selectPointOnMap(e))
-		{
-			selectedPoint = lastSelected;
-			return false;
-		}
-
-		currentMap.addEdge(lastSelected, selectedPoint);
-		
-		selectedPoint = null;
-
-		return true;
 	}
 	
 	/**
@@ -539,90 +257,7 @@ public class AppUIObject {
 		frame.setSize(1280, 720);
 		frame.setVisible(true);
 		
-		mouseClick = new MouseListener() {
-
-			@Override
-			public void mouseClicked(MouseEvent e) {
-				// TODO Auto-generated method stub
-				if(devMode)
-				{
-					if (placeMode) {
-						System.out.println("Placing point on Map X: " + e.getX() + " Y: " + e.getY());
-						createPointOnMap(e);
-					} else if (edgeMode) {
-						System.out.println("You added edge X: " + e.getX() + " Y: " + e.getY());
-						addEdgeOnMap(e);
-					} else if (deleteMode) {
-						System.out.println("You deleted X: " + e.getX() + " Y: " + e.getY());
-						deletePointOnMap(e);
-					}
-					else
-					{
-//						if(selectPointOnMap(e))
-						removeEdgeOnMap(e);
-					}
-				}else
-				{
-					if(startPoint == null)
-					{
-						if(selectPointOnMap(e))
-						{
-							startPoint = selectedPoint;
-						}
-					}
-					else if(endPoint == null)
-					{
-						if(selectPointOnMap(e))
-						{
-							endPoint = selectedPoint;
-							btnGetDirections.setEnabled(true);
-						}
-					}
-					else
-					{
-						startPoint = null;
-						endPoint = null;
-						
-						//clean up route
-						currentRoute = null;
-						btnGetDirections.setEnabled(false);
-						
-						if(selectPointOnMap(e))
-						{						
-							
-							startPoint = selectedPoint;
-						}
-					}
-					System.out.println("You clicked X: " + e.getX() + " Y: " + e.getY());
-				}
-				
-				reDrawUI();
-			}
-
-			@Override
-			public void mousePressed(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mouseReleased(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mouseEntered(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-
-			@Override
-			public void mouseExited(MouseEvent e) {
-				// TODO Auto-generated method stub
-
-			}
-		};
+		mouseClick = new MapMouseListener(this);
 
 		frame.getContentPane().setLayout(null);
 
@@ -782,7 +417,6 @@ public class AppUIObject {
 			lblMapviewGoesHere.setText(currentMap.getName());
 			lblScale.setText("Scale: " + scale + " inches per ft");
 			txtScale.setText(Integer.toString(scale));
-			
 		} else {
 			lblMapviewGoesHere.setText("");
 			lblScale.setText("");
