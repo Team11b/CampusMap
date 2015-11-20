@@ -2,7 +2,6 @@ package WPI.CampusMap;
 //import WPI.CampusMap.AppUIObject;
 //import com.sun.javafx.geom.Rectangle;
 
-import UI.AppUIObject;
 
 /**
  * App class containing the main
