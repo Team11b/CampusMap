@@ -41,9 +41,9 @@ import WPI.CampusMap.AStar.Path;
 import WPI.CampusMap.AStar.Point;
 import WPI.CampusMap.XML.XML;
 import javax.swing.JTextField;
+import javax.swing.JPasswordField;
 
 public class AppUIObject {
-	
 	protected boolean placeMode = false;
 	protected boolean deleteMode = false;	
 	protected boolean edgeMode = false;
@@ -89,7 +89,10 @@ public class AppUIObject {
 	protected static Point startPoint, endPoint;
 	private final JButton btnRemoveEdge = new JButton("Remove Edge");
 	private final JButton btnEdgeMode = new JButton("Edge Mode");
+	private final JButton btnSubmit;
 	private JTextField txtScale;
+	private JPasswordField txtDevPass;
+	
 
 	/**
 	 * Re-draws all UI elements. Call after the map has changed.
@@ -209,6 +212,16 @@ public class AppUIObject {
 
 		btnPrint.setBounds(130, 629, 111, 29);
 		directionsPanel.add(btnPrint);
+		
+		btnSubmit = new JButton("Submit");	
+		btnSubmit.setBounds(118, 79, 117, 25);
+		directionsPanel.add(btnSubmit);
+		btnSubmit.setVisible(false);
+		
+		txtDevPass = new JPasswordField();
+		txtDevPass.setBounds(0, 82, 111, 19);
+		directionsPanel.add(txtDevPass);
+		txtDevPass.setVisible(false);
 
 		btnGetDirections.setBounds(53, 89, 157, 36);
 		directionsPanel.add(btnGetDirections);
@@ -244,6 +257,7 @@ public class AppUIObject {
 		btnEdgeMode.setBounds(124, 76, 117, 29);
 		
 		directionsPanel.add(btnEdgeMode);
+		
 		btnSave.setVisible(false);
 
 		JSeparator separator = new JSeparator();
@@ -265,16 +279,12 @@ public class AppUIObject {
 		btnDevMode.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (!devMode) {
-					frame.setTitle("Dev Mode");
-					btnDevMode.setText("User mode");
-					devMode = true;
 					btnGetDirections.setVisible(false);
-					btnNode.setVisible(true);
-					btnDelNode.setVisible(true);
-					btnSave.setVisible(true);
-					btnEdgeMode.setVisible(true);
-					btnRemoveEdge.setVisible(true);
-					txtScale.setVisible(true);
+					txtDevPass.setVisible(true);
+					btnSubmit.setVisible(true);
+					txtDirections.setText("Enter the password and click submit!");
+					btnDevMode.setText("User mode");
+					devMode = true; //not actually true, but in order to switch without pass						
 				} else {
 					devMode = false;
 					frame.setTitle("Path Finder");
@@ -289,12 +299,35 @@ public class AppUIObject {
 					btnDelNode.setVisible(false);
 					btnSave.setVisible(false);
 					txtScale.setVisible(false);
+					txtDevPass.setVisible(false);
+					btnSubmit.setVisible(false);
+					txtDirections.setText("");
 				}
 				reDrawUI();
 				selectedPoint = null;
 				startPoint = null;
 				endPoint = null;
 				currentRoute = null;
+			}
+		});
+		//password for devmode code
+		btnSubmit.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(txtDevPass.getText().equals("0011")){
+					btnSubmit.setVisible(false);
+					txtDevPass.setVisible(false);
+					txtDevPass.setText("");
+					frame.setTitle("Dev Mode");									
+					btnNode.setVisible(true);
+					btnDelNode.setVisible(true);
+					btnSave.setVisible(true);
+					btnEdgeMode.setVisible(true);
+					btnRemoveEdge.setVisible(true);
+					txtScale.setVisible(true);
+				}
+				else{
+					txtDevPass.setText("");
+				}
 			}
 		});
 
