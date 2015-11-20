@@ -1,21 +1,10 @@
 package UI;
 
-import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Graphics2D;
-import java.awt.Shape;
-import java.awt.Stroke;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.Hashtable;
-import java.util.UUID;
-
 import javax.swing.AbstractAction;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -34,9 +23,7 @@ import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 import javax.xml.stream.XMLStreamException;
 
-import WPI.CampusMap.AStar.Coord;
 import WPI.CampusMap.AStar.Map;
-import WPI.CampusMap.AStar.Node;
 import WPI.CampusMap.AStar.Path;
 import WPI.CampusMap.AStar.Point;
 import WPI.CampusMap.XML.XML;
@@ -77,7 +64,7 @@ public class AppUIObject {
 			"Higgins_House_and_garage-5", "Project_Center_1st_floor_renovations_2013",
 			"Project_Center_1st_floor_renovationsRoomNumbers2014", "Project_Center-0", "Project_Center-1",
 			"Stratton_Hall-0", "Stratton_Hall-1", "Stratton_Hall-2", "Stratton_Hall-3" };
-	private final JComboBox mapDropDown = new JComboBox(mapStrings);
+	private final JComboBox<Object> mapDropDown = new JComboBox<Object>(mapStrings);
 	private final StringBuilder mapName = new StringBuilder();
 	private MouseListener mouseClick;
 	private final SwingAction actionHandler = new SwingAction();
@@ -313,7 +300,7 @@ public class AppUIObject {
 		//password for devmode code
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				if(txtDevPass.getText().equals("0011")){
+				if(String.valueOf(txtDevPass.getPassword()).equals("0011")){
 					btnSubmit.setVisible(false);
 					txtDevPass.setVisible(false);
 					txtDevPass.setText("");

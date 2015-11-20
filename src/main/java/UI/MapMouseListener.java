@@ -15,38 +15,38 @@ public class MapMouseListener implements MouseListener {
 		if (uiObject.devMode) {
 			if (uiObject.placeMode) {
 				System.out.println("Placing point on Map X: " + e.getX() + " Y: " + e.getY());
-				uiObject.currentMap.createPointOnMap(e);
+				AppUIObject.currentMap.createPointOnMap(e);
 			} else if (uiObject.edgeMode) {
 				System.out.println("You added edge X: " + e.getX() + " Y: " + e.getY());
-				uiObject.mapPanel.addEdgeOnMap(e);
+				MapPanel.addEdgeOnMap(e);
 			} else if (uiObject.deleteMode) {
 				System.out.println("You deleted X: " + e.getX() + " Y: " + e.getY());
 				uiObject.mapPanel.deletePointOnMap(e);
 			} else {
 				// if(selectPointOnMap(e))
-				uiObject.mapPanel.removeEdgeOnMap(e);
+				MapPanel.removeEdgeOnMap(e);
 			}
 		} else {
-			if (uiObject.startPoint == null) {
-				if (uiObject.mapPanel.selectPointOnMap(e)) {
-					uiObject.startPoint = uiObject.selectedPoint;
+			if (AppUIObject.startPoint == null) {
+				if (MapPanel.selectPointOnMap(e)) {
+					AppUIObject.startPoint = AppUIObject.selectedPoint;
 				}
-			} else if (uiObject.endPoint == null) {
-				if (uiObject.mapPanel.selectPointOnMap(e)) {
-					uiObject.endPoint = uiObject.selectedPoint;
+			} else if (AppUIObject.endPoint == null) {
+				if (MapPanel.selectPointOnMap(e)) {
+					AppUIObject.endPoint = AppUIObject.selectedPoint;
 					uiObject.btnGetDirections.setEnabled(true);
 				}
 			} else {
-				uiObject.startPoint = null;
-				uiObject.endPoint = null;
+				AppUIObject.startPoint = null;
+				AppUIObject.endPoint = null;
 
 				// clean up route
-				uiObject.currentRoute = null;
+				AppUIObject.currentRoute = null;
 				uiObject.btnGetDirections.setEnabled(false);
 
-				if (uiObject.mapPanel.selectPointOnMap(e)) {
+				if (MapPanel.selectPointOnMap(e)) {
 
-					uiObject.startPoint = uiObject.selectedPoint;
+					AppUIObject.startPoint = AppUIObject.selectedPoint;
 				}
 			}
 			System.out.println("You clicked X: " + e.getX() + " Y: " + e.getY());

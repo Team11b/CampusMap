@@ -19,6 +19,7 @@ import WPI.CampusMap.AStar.Point;
 /**Map Panel Class
  * Contains the graphics and UI components of the app
  */
+@SuppressWarnings("serial")
 class MapPanel extends JPanel{
 	private AppUIObject uiObject;
 	
@@ -45,11 +46,11 @@ class MapPanel extends JPanel{
 		{
 			graphics.setColor(Color.green);
 		}
-		else if(uiObject.endPoint == p && !uiObject.devMode)
+		else if(AppUIObject.endPoint == p && !uiObject.devMode)
 		{
 			graphics.setColor(Color.blue);
 		}
-		else if(uiObject.selectedPoint == p && uiObject.devMode)
+		else if(AppUIObject.selectedPoint == p && uiObject.devMode)
 		{
 			graphics.setColor(Color.yellow);
 		}
@@ -205,13 +206,11 @@ class MapPanel extends JPanel{
 	 * @return The point that was created.
 	 */
 	protected boolean deletePointOnMap(MouseEvent e) {
-		Coord screenCoord = new Coord(e.getX(), e.getY());
-
-		Coord mapCoord = uiObject.currentMap.screenToWorldSpace(screenCoord);
+		//Coord screenCoord = new Coord(e.getX(), e.getY());
+		//Coord mapCoord = AppUIObject.currentMap.screenToWorldSpace(screenCoord);
 
 		selectPointOnMap(e);
-
-		return uiObject.currentMap.removePoint(uiObject.selectedPoint);
+		return AppUIObject.currentMap.removePoint(AppUIObject.selectedPoint);
 	}
     
     /**
