@@ -3,24 +3,31 @@ package WPI.CampusMap.AStar;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import WPI.CampusMap.Backend.Coord;
+import WPI.CampusMap.Backend.Point;
+
 /**
  * 
  * @author Max Stenke
+ * @author Jacob Zizmor
  *
  */
 public class Path {
 
 	private static final float PATHTOLERANCE = (float) 0.1;
 	private ArrayList<Node> path;
+	private String mapName;
 
 	/**
 	 * Constructor with pre-defined ArrayList of Nodes
 	 * 
 	 * @param path
 	 *            pre-defined ArrayList of Nodes
+	 * @param mapName the name of the map this Path uses
 	 */
-	public Path(ArrayList<Node> path) {
+	public Path(ArrayList<Node> path, String mapName) {
 		this.path = path;
+		this.mapName = mapName;
 	}
 
 	/**
@@ -28,6 +35,14 @@ public class Path {
 	 */
 	public Path() {
 		this.path = new ArrayList<Node>();
+	}
+
+	public String getMapName() {
+		return mapName;
+	}
+
+	public void setMapName(String mapName) {
+		this.mapName = mapName;
 	}
 
 	public boolean addNode(Node node) {
@@ -79,7 +94,7 @@ public class Path {
 			}
 		}
 		temp.add(last);
-		return new Path(temp);
+		return new Path(temp, null);
 	}
 
 	private boolean checkHorizontal(Point before, Point current, Point after) {

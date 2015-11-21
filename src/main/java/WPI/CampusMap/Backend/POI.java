@@ -1,4 +1,4 @@
-package WPI.CampusMap.AStar;
+package WPI.CampusMap.Backend;
 
 /**
  * 

@@ -4,9 +4,9 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import WPI.CampusMap.AStar.Coord;
-import WPI.CampusMap.AStar.Map;
-import WPI.CampusMap.AStar.Point;
+import WPI.CampusMap.Backend.Coord;
+import WPI.CampusMap.Backend.Map;
+import WPI.CampusMap.Backend.Point;
 
 public class MapPointManipulationTest {
 

@@ -23,9 +23,9 @@ import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 import javax.xml.stream.XMLStreamException;
 
-import WPI.CampusMap.AStar.Map;
 import WPI.CampusMap.AStar.Path;
-import WPI.CampusMap.AStar.Point;
+import WPI.CampusMap.Backend.Map;
+import WPI.CampusMap.Backend.Point;
 import WPI.CampusMap.XML.XML;
 import javax.swing.JTextField;
 import javax.swing.JPasswordField;

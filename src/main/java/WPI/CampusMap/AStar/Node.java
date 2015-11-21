@@ -1,5 +1,7 @@
 package WPI.CampusMap.AStar;
 
+import WPI.CampusMap.Backend.Point;
+
 /**
  * 
  * @author Jacob Zizmor

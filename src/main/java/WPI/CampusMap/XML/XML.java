@@ -23,9 +23,9 @@ import javax.xml.transform.stream.StreamResult;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
-import WPI.CampusMap.AStar.Coord;
-import WPI.CampusMap.AStar.Map;
-import WPI.CampusMap.AStar.Point;
+import WPI.CampusMap.Backend.Coord;
+import WPI.CampusMap.Backend.Map;
+import WPI.CampusMap.Backend.Point;
 
 public class XML {
 	public static final String filePath = "XML/";

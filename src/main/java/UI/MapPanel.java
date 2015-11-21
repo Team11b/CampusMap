@@ -12,11 +12,11 @@ import java.util.Hashtable;
 import javax.swing.JPanel;
 import javax.xml.stream.XMLStreamException;
 
-import WPI.CampusMap.AStar.Coord;
-import WPI.CampusMap.AStar.Map;
 import WPI.CampusMap.AStar.Node;
 import WPI.CampusMap.AStar.Path;
-import WPI.CampusMap.AStar.Point;
+import WPI.CampusMap.Backend.Coord;
+import WPI.CampusMap.Backend.Map;
+import WPI.CampusMap.Backend.Point;
 
 /**
  * Map Panel Class Contains the graphics and UI components of the app

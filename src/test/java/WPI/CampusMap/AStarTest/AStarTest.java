@@ -10,11 +10,11 @@ import javax.xml.stream.XMLStreamException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import WPI.CampusMap.AStar.Coord;
-import WPI.CampusMap.AStar.Map;
 import WPI.CampusMap.AStar.Node;
 import WPI.CampusMap.AStar.Path;
-import WPI.CampusMap.AStar.Point;
+import WPI.CampusMap.Backend.Coord;
+import WPI.CampusMap.Backend.Map;
+import WPI.CampusMap.Backend.Point;
 
 public class AStarTest {
 	static Map testMap,testMap2;

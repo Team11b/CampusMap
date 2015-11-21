@@ -1,4 +1,4 @@
-package WPI.CampusMap.AStar;
+package WPI.CampusMap.Backend;
 
 import java.awt.Image;
 import java.awt.event.MouseEvent;
@@ -14,6 +14,8 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.xml.stream.XMLStreamException;
 
+import WPI.CampusMap.AStar.Node;
+import WPI.CampusMap.AStar.Path;
 import WPI.CampusMap.XML.XML;
 
 /**

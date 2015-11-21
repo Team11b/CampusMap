@@ -16,9 +16,9 @@ import javax.xml.stream.XMLStreamException;
 
 import org.junit.Test;
 
-import WPI.CampusMap.AStar.Coord;
-import WPI.CampusMap.AStar.Map;
-import WPI.CampusMap.AStar.Point;
+import WPI.CampusMap.Backend.Coord;
+import WPI.CampusMap.Backend.Map;
+import WPI.CampusMap.Backend.Point;
 import WPI.CampusMap.XML.XML;
 
 public class XMLTest {
