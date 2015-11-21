@@ -1,4 +1,4 @@
-package SerializationTest;
+package WPI.CampusMap.SerializationTest;
 
 import java.util.ArrayList;
 
