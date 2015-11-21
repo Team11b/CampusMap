@@ -334,6 +334,7 @@ public class Map {
 		}
 
 		returnPath.reverse();
+		returnPath.setScale(this.getScale());
 		return returnPath;
 	}
 
