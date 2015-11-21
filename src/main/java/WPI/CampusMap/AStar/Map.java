@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.UUID;
 
 import javax.imageio.ImageIO;
@@ -30,7 +31,7 @@ public class Map {
 	private String name;
 	private String png;
 	private String xml;
-	private ArrayList<Point> map;
+	private HashMap<String,Point> map;
 	private ImageIcon loadedImage;
 	
 	/**
@@ -74,7 +75,7 @@ public class Map {
 		this.name = "new_map";
 		this.png = this.name.concat(".png");
 		this.xml = "XML/".concat(this.name).concat(".xml");
-		this.map = new ArrayList<Point>();
+		this.map = new HashMap<String, Point>();
 	}
 
 	/**
@@ -101,9 +102,9 @@ public class Map {
 		
 		if(map != null)
 		{
-			for(Point p : map)
+			for(String key : map.keySet())
 			{
-				Coord oldCoord = p.getCoord();
+				Coord oldCoord = map.get(key).getCoord();
 				oldCoord.setX(oldCoord.getX() / ratio);
 				oldCoord.setY(oldCoord.getY() / ratio);
 			}
@@ -172,7 +173,7 @@ public class Map {
 	 * 
 	 * @return An array list of the points that make up this map.
 	 */
-	public ArrayList<Point> getMap() {
+	public HashMap<String, Point> getMap() {
 		return this.map;
 	}
 
@@ -182,7 +183,7 @@ public class Map {
 	 * @param map
 	 *            The array list that will be the new points for this map.
 	 */
-	public void setMap(ArrayList<Point> map) {
+	public void setMap(HashMap<String, Point> map) {
 		this.map = map;
 	}
 
@@ -209,12 +210,7 @@ public class Map {
 	 * @return The point with the id.
 	 */
 	public Point getPoint(String id) {
-		for (Point p : map) {
-			if (p.getId().equals(id))
-				return p;
-		}
-
-		return null;
+		return map.get(id);
 	}
 
 	/**
@@ -400,17 +396,16 @@ public class Map {
 	 *         does note exist
 	 */
 	public boolean removePoint(String id) {
-		for (Point point : map) {
-			if (point.getId().equals(id)) {
-				ArrayList<Point> neighbors = point.getNeighborsP();
-				for (Point pointN : neighbors) {
-					if(!pointN.removeNeighbor(point)) return false;
-				}
-				point.setNeighborsID(new ArrayList<String>());
-				point.setNeighborsP(new ArrayList<Point>());
-				map.remove(point);
-				return true;
+		Point point = map.get(id);
+		if (point != null) {
+			ArrayList<Point> neighbors = point.getNeighborsP();
+			for (Point pointN : neighbors) {
+				if(!pointN.removeNeighbor(point)) return false;
 			}
+			point.setNeighborsID(new ArrayList<String>());
+			point.setNeighborsP(new ArrayList<Point>());
+			map.remove(point);
+			return true;
 		}
 		return false;
 	}
@@ -450,16 +445,9 @@ public class Map {
 	 *         point with the same ID
 	 */
 	public boolean addPoint(Point point) {
-		for (Point p : this.map) {
-			if (p.getId().equals(point.getId()))
-				return false;
-		}
-		this.map.add(point);
-		Collections.sort(this.map, new Comparator<Point>() {
-			public int compare(Point p1, Point p2) {
-				return p1.getId().compareTo(p2.getId());
-			}
-		});
+		if(map.containsKey(point.getId())) return false;
+		
+		this.map.put(point.getId(),point);
 		return true;
 	}
 
@@ -477,7 +465,7 @@ public class Map {
 		if (point.equals(other)) {
 			return false;
 		}
-		if (this.map.contains(point) && this.map.contains(other)) {
+		if (this.map.containsKey(point.getId()) && this.map.containsKey(other.getId())) {
 			boolean adder = point.addNeighbor(other);
 			if (!(adder)) {
 				return false;
@@ -499,7 +487,7 @@ public class Map {
 	 *         or if the edge does not exist
 	 */
 	public boolean removeEdge(Point point, Point other) {
-		if (this.map.contains(point) && (this.map.contains(other))) {
+		if (this.map.containsKey(point) && (this.map.containsKey(other))) {
 			boolean remover = point.removeNeighbor(other);
 			if (!(remover)) {
 				return false;

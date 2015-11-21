@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.HashMap;
 
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -126,18 +127,19 @@ public class XML {
 	}
 	
 	/**
-	 * Function to take an xml file as input and output an array of points.
+	 * Function to take an xml file as input and output an HashMap of points.
 	 * 
 	 * @param map Map to parse XML for
-	 * @return Array of all points in the file
+	 * @return HashMap of all points in the file
 	 * @throws XMLStreamException Thrown when XML files is improperly formated
 	 */
-	public static ArrayList<Point> parseXML(Map map) throws XMLStreamException{
+	public static HashMap<String,Point> parseXML(Map map) throws XMLStreamException{
 		Point currPoint = null;
 		Coord tempCoord = null;
 		String tagContent = null;
 		
-		ArrayList<Point> pointAList = new ArrayList<Point>();
+		HashMap<String, Point> pointMap = new HashMap<String, Point>();
+		HashMap<String, ArrayList<String>> neighMap = new HashMap<String, ArrayList<String>>();
 		ArrayList<String> neighAList = new ArrayList<String>();
 		
 		XMLInputFactory factory = XMLInputFactory.newInstance();
@@ -151,7 +153,7 @@ public class XML {
 		} 
 		catch (FileNotFoundException e) 
 		{	
-			return new ArrayList<Point>();
+			return new HashMap<String, Point>();
 		}
 		
 		XMLStreamReader reader = factory.createXMLStreamReader(test);
@@ -180,9 +182,8 @@ public class XML {
 				switch(reader.getLocalName()){
 				case "Node":
 					currPoint.setCoord(tempCoord);
-					pointAList.add(currPoint);
-					currPoint.setNeighborsID(neighAList);
-					currPoint.setNeighborsP(new ArrayList<Point>());
+					pointMap.put(currPoint.getId(), currPoint);
+					neighMap.put(currPoint.getId(), neighAList);
 					break;
 				case "type":
 					currPoint.setType(tagContent);
@@ -197,18 +198,14 @@ public class XML {
 		}
 		
 		//goes through the points and gets the point objects associated with the neighbor ids and assigns them as neighbors
-		for(Point point: pointAList){
-			ArrayList<String> neighborIDs = point.getNeighborsID();
-			int i=0;
-			for(Point searchPoint: pointAList){
-				if(neighborIDs.contains(searchPoint.getId())){
-					point.addNeighbor(searchPoint);
-					i++;
-				}
-				if(i>neighborIDs.size()) break;
+		for(Point point: pointMap.values()){
+			ArrayList<String> neighborIDs = neighMap.get(point.getId());
+			for(String neighbor: neighborIDs){
+				pointMap.get(neighbor).addNeighbor(point);
+				neighMap.get(neighbor).remove(point);
 			}
 		}
 		
-		return pointAList;
+		return pointMap;
 	}
 }

@@ -1,6 +1,7 @@
 package WPI.CampusMap.AStar;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * 
@@ -11,8 +12,7 @@ public class Point {
 	private Coord coord;
 	private String type;
 	private String id;
-	private ArrayList<Point> neighborsP;
-	private ArrayList<String> neighborsID;
+	private HashMap<String, Point> neighbors;
 
 	public static final String WALL = "wall";
 	/** Standard type of wall */
@@ -39,9 +39,7 @@ public class Point {
 		this.coord = coord;
 		this.type = type;
 		this.id = id;
-		this.neighborsP = new ArrayList<Point>();
-//		 this.neighborsID = getNeighborsIDs(neighborsP);
-		this.neighborsID = new ArrayList<String>();
+		this.neighbors = new HashMap<String, Point>();
 	}
 
 	public Point() {
@@ -92,20 +90,16 @@ public class Point {
 	}
 
 	public ArrayList<Point> getNeighborsP() {
-		return neighborsP;
-	}
-
-	public void setNeighborsP(ArrayList<Point> neighborsP) {
-		this.neighborsP = neighborsP;
+		ArrayList<Point> tempAL = new ArrayList<Point>(neighbors.values());
+		return tempAL;
 	}
 
 	public ArrayList<String> getNeighborsID() {
-		return neighborsID;
+		ArrayList<String> tempAL =  new ArrayList<String>();
+		tempAL.addAll(neighbors.keySet());
+		return tempAL;
 	}
 
-	public void setNeighborsID(ArrayList<String> neighborsID) {
-		this.neighborsID = neighborsID;
-	}
 
 	/**
 	 * returns a list of all neighbors of this point which are valid locations a
@@ -133,17 +127,11 @@ public class Point {
 	 */
 	public boolean removeNeighbor(Point point) {
 		try {
-			this.neighborsID.remove(point.id);
+			this.neighbors.remove(point.id);
 		} catch (NullPointerException e) {
 			return false;
 		}
-
-		try {
-			this.neighborsP.remove(point);
-			return true;
-		} catch (NullPointerException e) {
-			return false;
-		}
+		return true;
 	}
 
 	/**
@@ -155,14 +143,10 @@ public class Point {
 	 *         exists
 	 */
 	public boolean addNeighbor(Point point) {
-		if(this.getNeighborsID().contains(point.getId())&&this.getNeighborsP().contains(point)) return false;
+		if(this.neighbors.containsValue(point)) return false;
 		
-		if(!this.getNeighborsID().contains(point.getId())){
-			this.neighborsID.add(point.getId());
-		}
-		if(!this.getNeighborsP().contains(point)){
-			this.neighborsP.add(point);
-		}
+		this.neighbors.put(point.getId(),point);
+		
 		return true;
 	}
 
