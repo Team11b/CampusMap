@@ -62,8 +62,8 @@ public class Path {
 					continue;
 					// check if next point is on the same level as i - 1 and i +
 					// 1
-				} else
-					if (checkVertical(path.get(i - 1).getPoint(), path.get(i).getPoint(), path.get(i + 1).getPoint())) {
+				} else if (checkVertical(path.get(i - 1).getPoint(), path.get(i).getPoint(),
+						path.get(i + 1).getPoint())) {
 					System.out.println("Abridge one node vertical");
 					continue;
 				} else {
@@ -82,35 +82,27 @@ public class Path {
 		return new Path(temp);
 	}
 
-	private boolean checkHorizontal(Point before, Point current, Point after) {
+	public boolean checkVertical(Point before, Point current, Point after) {
 		float dif1 = Math.abs(current.getCoord().getX() - before.getCoord().getX());
 		float dif2 = Math.abs(current.getCoord().getX() - after.getCoord().getX());
-		if (current.getCoord().getX() == after.getCoord().getX()
-				&& current.getCoord().getX() == before.getCoord().getX()) {
-			return true;
-		} else if (dif1 <= current.getCoord().getX() * PATHTOLERANCE
-				&& dif2 <= current.getCoord().getX() * PATHTOLERANCE) {
+		if (dif1 <= current.getCoord().getX() * PATHTOLERANCE && dif2 <= current.getCoord().getX() * PATHTOLERANCE) {
 			return true;
 		}
 
 		return false;
 	}
 
-	private boolean checkVertical(Point before, Point current, Point after) {
+	public boolean checkHorizontal(Point before, Point current, Point after) {
 		float dif1 = Math.abs(current.getCoord().getY() - before.getCoord().getY());
 		float dif2 = Math.abs(current.getCoord().getY() - after.getCoord().getY());
-		if (current.getCoord().getY() == after.getCoord().getY()
-				&& current.getCoord().getY() == before.getCoord().getY()) {
-			return true;
-		} else if (dif1 <= current.getCoord().getY() * PATHTOLERANCE
-				&& dif2 <= current.getCoord().getY() * PATHTOLERANCE) {
+		if (dif1 <= current.getCoord().getY() * PATHTOLERANCE && dif2 <= current.getCoord().getY() * PATHTOLERANCE) {
 			return true;
 		}
 
 		return false;
 	}
 
-	private boolean checkDiagonal(Point before, Point current, Point after) {
+	public boolean checkDiagonal(Point before, Point current, Point after) {
 		Coord deltaBefore = new Coord(Math.abs(current.getCoord().getX() - before.getCoord().getX()),
 				Math.abs(current.getCoord().getY() - before.getCoord().getY()));
 		Coord deltaAfter = new Coord(Math.abs(current.getCoord().getX() - after.getCoord().getX()),
@@ -125,6 +117,44 @@ public class Path {
 		}
 
 		return false;
+	}
+	
+	public String getAndDisplayDirections(Path path) {
+		String route = "";
+		for (int i = 1; i < path.getPath().size(); i++) {
+			String turn = "";
+			String direction = "";
+			float dist = path.getPath().get(i).getPoint().distance(path.getPath().get(i - 1).getPoint());
+			float angle = path.getAngle(path.getPath().get(i - 1).getPoint(), path.getPath().get(i).getPoint());
+
+			route += path.getPath().get(i - 1).getPoint().getCoord().toString() + " to "
+					+ path.getPath().get(i).getPoint().getCoord().toString() + "";
+			if (path.getPath().get(i).getPoint().getCoord().getX() == path.getPath().get(i - 1).getPoint().getCoord()
+					.getX()
+					|| path.getPath().get(i).getPoint().getCoord().getY() == path.getPath().get(i - 1).getPoint()
+							.getCoord().getY()) {
+				route += "Walk " + dist + " feet straight on.\n";
+			} else {
+
+				if (path.getPath().get(i - 1).getPoint().getCoord().getX() < path.getPath().get(i).getPoint().getCoord()
+						.getX()) {
+					System.out.println(angle);
+					if (angle < 0)
+						turn = "left";
+					else
+						turn = "right";
+
+				}
+				if (Math.abs(angle) > 0 && Math.abs(angle) < 45) {
+					direction = "slightly";
+				} else if (Math.abs(angle) > 45 && Math.abs(angle) < 90) {
+					direction = "hard";
+				}
+				route += "Turn " + direction + " " + turn + " and walk " + dist + " feet\n";
+			}
+		}
+
+		return route;
 	}
 
 	/**

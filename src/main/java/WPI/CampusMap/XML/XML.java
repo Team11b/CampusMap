@@ -67,7 +67,7 @@ public class XML {
 			doc.appendChild(rootElement);
 
 			rootElement.setAttribute("imageFile", map.getPng());
-			rootElement.setAttribute("scale", Integer.toString(map.getScale()));
+			rootElement.setAttribute("scale", Float.toString(map.getScale()));
 			
 			ArrayList<Point> sortedPoints = new ArrayList<Point>();
 			
@@ -170,7 +170,7 @@ public class XML {
 				}
 				if("Map".equals(reader.getLocalName()))
 				{
-					map.setScale(Integer.parseInt(reader.getAttributeValue(1)));
+					map.setScale(Float.parseFloat(reader.getAttributeValue(1)));
 				}
 				break;
 			case XMLStreamConstants.CHARACTERS:

@@ -253,43 +253,7 @@ public class AppUIObject {
 	/**
 	 * Calculates the walking path and displays the directions.
 	 */
-	private static String getAndDisplayDirections(Path path) {
-		String route = "";
-		for (int i = 1; i < path.getPath().size(); i++) {
-			String turn = "";
-			String direction = "";
-			float dist = path.getPath().get(i).getPoint().distance(path.getPath().get(i - 1).getPoint());
-			float angle = path.getAngle(path.getPath().get(i - 1).getPoint(), path.getPath().get(i).getPoint());
-
-			route += path.getPath().get(i - 1).getPoint().toString() + " to "
-					+ path.getPath().get(i).getPoint().toString() + "";
-			if (path.getPath().get(i).getPoint().getCoord().getX() == path.getPath().get(i - 1).getPoint().getCoord()
-					.getX()
-					|| path.getPath().get(i).getPoint().getCoord().getY() == path.getPath().get(i - 1).getPoint()
-							.getCoord().getY()) {
-				route += "Walk " + dist + " feet straight on.\n";
-			} else {
-
-				if (path.getPath().get(i - 1).getPoint().getCoord().getX() < path.getPath().get(i).getPoint().getCoord()
-						.getX()) {
-					System.out.println(angle);
-					if (angle < 0)
-						turn = "left";
-					else
-						turn = "right";
-
-				}
-				if (Math.abs(angle) > 0 && Math.abs(angle) < 45) {
-					direction = "slightly";
-				} else if (Math.abs(angle) > 45 && Math.abs(angle) < 90) {
-					direction = "hard";
-				}
-				route += "Turn " + direction + " " + turn + " and walk " + dist + " feet\n";
-			}
-		}
-
-		return route;
-	}
+	
 
 	/**
 	 * Prints the walking directions.
@@ -440,6 +404,8 @@ public class AppUIObject {
 				Path path = currentMap.astar(startPoint, endPoint);
 				currentRoute = path;
 				reDrawUI();
+				System.out.println(" ");
+				System.out.println(path.getAndDisplayDirections(path.getTurns()));
 				break;
 			case "Print":
 				printDirections();
@@ -712,7 +678,7 @@ public class AppUIObject {
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(txtScale.getText());
-				currentMap.setScale(Integer.parseInt(txtScale.getText()));
+				currentMap.setScale(Float.parseFloat(txtScale.getText()));
 				System.out.println("SAVING!");
 				XML.writePoints(currentMap, currentMap.getMap());
 				lblScale.setText("Scale: " + currentMap.getScale() + " inches per ft");
@@ -748,11 +714,11 @@ public class AppUIObject {
 				mapPanel.setBounds(5, 5, 1000, 660);
 				lblMapviewGoesHere.setVisible(true);
 
-				int scale = currentMap.getScale();
+				float scale = currentMap.getScale();
 				if (scale != -1) {
 					lblMapviewGoesHere.setText(currentMap.getName());
 					lblScale.setText("Scale: " + scale + " inches per ft");
-					txtScale.setText(Integer.toString(scale));
+					txtScale.setText(Float.toString(scale));
 					
 				} else {
 					lblMapviewGoesHere.setText("");
@@ -817,11 +783,11 @@ public class AppUIObject {
 		mapPanel.setVisible(true);
 		mapPanel.setBounds(5, 5, 1000, 660);
 
-		int scale = currentMap.getScale();
+		float scale = currentMap.getScale();
 		if (scale != -1) {
 			lblMapviewGoesHere.setText(currentMap.getName());
 			lblScale.setText("Scale: " + scale + " inches per ft");
-			txtScale.setText(Integer.toString(scale));
+			txtScale.setText(Float.toString(scale));
 			
 		} else {
 			lblMapviewGoesHere.setText("");
