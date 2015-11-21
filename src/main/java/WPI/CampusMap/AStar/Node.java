@@ -12,8 +12,8 @@ public class Node {
 	private Point point;
 	private Node parent;
 	private int heuristic = 0;
-	private float cumulativeDist;
-	private float currentScore;
+	private double cumulativeDist;
+	private double currentScore;
 	
 	/**
 	 * Standard heuristic for all regular Nodes
@@ -47,12 +47,12 @@ public class Node {
 		this.point = point;
 	}
 	
-	public float getCurrentScore() {
+	public double getCurrentScore() {
 		return this.currentScore;
 	}
 	
-	public void setCurrentScore(float currentScore) {
-		this.currentScore = currentScore;
+	public void setCurrentScore(double d) {
+		this.currentScore = d;
 	}
 
 	public Node getParent() {
@@ -71,11 +71,11 @@ public class Node {
 		this.heuristic = heuristic;
 	}
 
-	public float getCumulativeDist() {
+	public double getCumulativeDist() {
 		return cumulativeDist;
 	}
 
-	public void setCumulativeDist(float cumulativeDist) {
-		this.cumulativeDist = cumulativeDist;
+	public void setCumulativeDist(double d) {
+		this.cumulativeDist = d;
 	}
 }

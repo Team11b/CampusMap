@@ -1,12 +1,10 @@
 package WPI.CampusMap.AStar;
 
 import java.util.Comparator;
-import java.util.TreeSet;
-
-import Exceptions.FrontierEmpty;
+import java.util.PriorityQueue;
 
 public class Frontier<Item> {
-	private TreeSet<Item> tree;
+	private PriorityQueue<Item> pq;
 
 	public static final Comparator<Node> stdNodeComp = new Comparator<Node>() {
 		public int compare(Node n1, Node n2) {
@@ -20,40 +18,32 @@ public class Frontier<Item> {
 		}
 	};
 
-	public Frontier(Comparator comp) {
-		this.tree = new TreeSet<Item>(comp);
+	public Frontier(Comparator<Item> comp) {
+		this.pq = new PriorityQueue<Item>(comp);
 	}
 
-	public TreeSet<Item> getTree() {
-		return tree;
+	public PriorityQueue<Item> getPQ() {
+		return this.pq;
 	}
 
-	public void setTree(TreeSet<Item> tree) {
-		this.tree = tree;
+	public void setTree(PriorityQueue<Item> pq) {
+		this.pq = pq;
 	}
 
 	public void add(Item newItem) {
-		this.tree.add(newItem);
-		System.out.println(this.tree.size());
+		this.pq.add(newItem);
 	}
 
-	public Item getNext() throws FrontierEmpty {
-		if (!(this.tree.isEmpty())) {
-			Item temp = this.tree.first();
-
-			this.tree.remove(temp);
-			return temp;
-		} else {
-			throw new FrontierEmpty("Cannot get from an empty Frontier");
-		}
+	public Item getNext() {
+		return this.pq.poll();
 	}
 
 	public boolean isEmpty() {
-		return this.tree.isEmpty();
+		return this.pq.isEmpty();
 	}
 
 	public int size() {
-		return this.tree.size();
+		return this.pq.size();
 	}
 
 }
