@@ -226,14 +226,14 @@ public class Map {
 	 * @return The coords in world space.
 	 */
 	public Coord screenToWorldSpace(Coord screenSpace) {
-		float imageX = screenSpace.getX() / 1000.0f * (float)loadedImage.getIconWidth();
-		float imageY = screenSpace.getY() / 660.0f * (float)loadedImage.getIconHeight();
+		double imageX = screenSpace.getX() / 1000.0f * loadedImage.getIconWidth();
+		double imageY = screenSpace.getY() / 660.0f * loadedImage.getIconHeight();
 		
-		float inchesX = imageX / 72.0f;
-		float inchesY = imageY / 72.0f;
+		double inchesX = imageX / 72.0f;
+		double inchesY = imageY / 72.0f;
 		
-		float feetX = inchesX / scale;
-		float feetY = inchesY / scale;
+		double feetX = inchesX / scale;
+		double feetY = inchesY / scale;
 
 		return new Coord(feetX, feetY);
 	}
@@ -245,14 +245,14 @@ public class Map {
 	 */
 	public Coord worldToScreenSpace(Coord worldSpace)
 	{
-		float inchesX = worldSpace.getX() * scale;
-		float inchesY = worldSpace.getY() * scale;
+		double inchesX = worldSpace.getX() * scale;
+		double inchesY = worldSpace.getY() * scale;
 		
-		float imageX = inchesX * 72.0f;
-		float imageY = inchesY * 72.0f;
+		double imageX = inchesX * 72.0f;
+		double imageY = inchesY * 72.0f;
 		
-		float screenX = imageX / (float)loadedImage.getIconWidth() * 1000.0f;
-		float screenY = imageY / (float)loadedImage.getIconHeight() * 660.0f;
+		double screenX = imageX / loadedImage.getIconWidth() * 1000.0f;
+		double screenY = imageY / loadedImage.getIconHeight() * 660.0f;
 		
 		return new Coord(screenX, screenY);
 	}

@@ -1,4 +1,4 @@
-package WPI.CampusMap.AStarTest;
+package WPI.CampusMap.BackendTest;
 
 import static org.junit.Assert.*;
 

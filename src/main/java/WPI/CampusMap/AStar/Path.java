@@ -98,8 +98,8 @@ public class Path {
 	}
 
 	private boolean checkHorizontal(Point before, Point current, Point after) {
-		float dif1 = Math.abs(current.getCoord().getX() - before.getCoord().getX());
-		float dif2 = Math.abs(current.getCoord().getX() - after.getCoord().getX());
+		double dif1 = Math.abs(current.getCoord().getX() - before.getCoord().getX());
+		double dif2 = Math.abs(current.getCoord().getX() - after.getCoord().getX());
 		if (current.getCoord().getX() == after.getCoord().getX()
 				&& current.getCoord().getX() == before.getCoord().getX()) {
 			return true;
@@ -112,8 +112,8 @@ public class Path {
 	}
 
 	private boolean checkVertical(Point before, Point current, Point after) {
-		float dif1 = Math.abs(current.getCoord().getY() - before.getCoord().getY());
-		float dif2 = Math.abs(current.getCoord().getY() - after.getCoord().getY());
+		double dif1 = Math.abs(current.getCoord().getY() - before.getCoord().getY());
+		double dif2 = Math.abs(current.getCoord().getY() - after.getCoord().getY());
 		if (current.getCoord().getY() == after.getCoord().getY()
 				&& current.getCoord().getY() == before.getCoord().getY()) {
 			return true;

@@ -6,17 +6,17 @@ package WPI.CampusMap.Backend;
  *
  */
 public class Coord {
-	private float x;
-	private float y;
+	private double x;
+	private double y;
 
 	/**
 	 * Constructor
-	 * @param x X-Coordinate
-	 * @param y Y-Coordinate
+	 * @param d X-Coordinate
+	 * @param e Y-Coordinate
 	 */
-	public Coord(float x, float y) {
-		this.x = x;
-		this.y = y;
+	public Coord(double d, double e) {
+		this.x = d;
+		this.y = e;
 	}
 
 	/**
@@ -28,19 +28,19 @@ public class Coord {
 		return (float)(Math.abs(Math.sqrt(Math.pow((other.getX() - this.getX()),2) + Math.pow((other.getY() - this.getY()),2))));
 	}
 
-	public float getX() {
+	public double getX() {
 		return x;
 	}
 
-	public void setX(float x) {
+	public void setX(double x) {
 		this.x = x;
 	}
 
-	public float getY() {
+	public double getY() {
 		return y;
 	}
 
-	public void setY(float y) {
+	public void setY(double y) {
 		this.y = y;
 	}
 
