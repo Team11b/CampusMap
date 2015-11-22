@@ -12,7 +12,7 @@ public class Point {
 	private Coord coord;
 	private String type;
 	private String id;
-	private HashMap<String, Point> neighbors;
+	private HashMap<String, Point> neighbors = new HashMap<String, Point>();
 
 	public static final String WALL = "wall";
 	/** Standard type of wall */
@@ -44,17 +44,7 @@ public class Point {
 
 	public Point() {
 
-	}
-
-	// private ArrayList<String> getNeighborsIDs(Point[] object) {
-	// ArrayList<String> ids = new ArrayList<String>();
-	// for (int i = 0; i < object.length; i++) {
-	// if(temp[i] != null){
-	// temp[i] = object[i].getId();
-	// }
-	// }
-	// return temp;
-	// }
+	}	
 
 	/**
 	 * Gets the distance between two points.
@@ -126,16 +116,11 @@ public class Point {
 	 * @return True if successfully removed, False if not removed
 	 */
 	public boolean removeNeighbor(Point point) {
-		try {
-			this.neighbors.remove(point.id);
-		} catch (NullPointerException e) {
-			return false;
-		}
-		return true;
+		return this.neighbors.remove(point.id) != null;
 	}
 
 	/**
-	 * adds a neighbor to this point
+	 * Adds a neighbor to this point
 	 * 
 	 * @param point
 	 *            the new Point to add
@@ -148,6 +133,12 @@ public class Point {
 		this.neighbors.put(point.getId(),point);
 		
 		return true;
+	}
+	/**
+	 * Removes all the neighbors from this point
+	 */
+	public void removeAllNeighbors(){
+		this.neighbors.clear();
 	}
 
 	@Override

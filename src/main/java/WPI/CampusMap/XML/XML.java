@@ -57,9 +57,8 @@ public class XML {
 	 *      http://www.tutorialspoint.com/java_xml/java_dom_create_document.htm
 	 *      </a>
 	 */
-	public static void writePoints(Map map, ArrayList<Point> arrayList) {
+	public static void writePoints(Map map) {
 		try {
-			
 			System.setOut(dummyStream);
 			DocumentBuilderFactory dbFactory = DocumentBuilderFactory.newInstance();
 			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
@@ -70,18 +69,17 @@ public class XML {
 			rootElement.setAttribute("imageFile", map.getPng());
 			rootElement.setAttribute("scale", Integer.toString(map.getScale()));
 			
-			ArrayList<Point> sortedPoints = new ArrayList<Point>();
+			ArrayList<Point> sortedPoints = new ArrayList<Point>(map.getMap().values());
 			
-			arrayList.sort(new Comparator<Point>() {
+			sortedPoints.sort(new Comparator<Point>() {
 				public int compare(Point p1, Point p2) {
 					return p1.getId().compareTo(p2.getId());
 				}
 			});
-			sortedPoints=arrayList;
 
 			Element newElement;
 			Element subElement;
-			for (int j = 0; j < arrayList.size(); j++) {
+			for (int j = 0; j < sortedPoints.size(); j++) {
 				newElement = doc.createElement("Node");
 				rootElement.appendChild(newElement);
 				newElement.setAttribute("nodeID", sortedPoints.get(j).getId());

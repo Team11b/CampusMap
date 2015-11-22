@@ -62,8 +62,6 @@ public class Map {
 				e.printStackTrace();
 			}
 			map = XML.parseXML(this);
-			System.out.println("map scale" + this.scale);
-
 		}
 	}
 
@@ -102,9 +100,9 @@ public class Map {
 		
 		if(map != null)
 		{
-			for(String key : map.keySet())
+			for(Point point : map.values())
 			{
-				Coord oldCoord = map.get(key).getCoord();
+				Coord oldCoord = point.getCoord();
 				oldCoord.setX(oldCoord.getX() / ratio);
 				oldCoord.setY(oldCoord.getY() / ratio);
 			}
@@ -398,13 +396,11 @@ public class Map {
 	public boolean removePoint(String id) {
 		Point point = map.get(id);
 		if (point != null) {
-			ArrayList<Point> neighbors = point.getNeighborsP();
-			for (Point pointN : neighbors) {
+			for (Point pointN : point.getNeighborsP()) {
 				if(!pointN.removeNeighbor(point)) return false;
 			}
-			point.setNeighborsID(new ArrayList<String>());
-			point.setNeighborsP(new ArrayList<Point>());
-			map.remove(point);
+			point.removeAllNeighbors();
+			map.remove(point.getId());
 			return true;
 		}
 		return false;
@@ -424,8 +420,7 @@ public class Map {
 		for (Point pointN : neighbors) {
 			if(!pointN.removeNeighbor(point)) return false;
 		}
-		point.setNeighborsID(new ArrayList<String>());
-		point.setNeighborsP(new ArrayList<Point>());
+		point.removeAllNeighbors();
 		map.remove(point);
 		return true;
 	}
@@ -487,7 +482,7 @@ public class Map {
 	 *         or if the edge does not exist
 	 */
 	public boolean removeEdge(Point point, Point other) {
-		if (this.map.containsKey(point) && (this.map.containsKey(other))) {
+		if (this.map.containsKey(point.getId()) && (this.map.containsKey(other.getId()))) {
 			boolean remover = point.removeNeighbor(other);
 			if (!(remover)) {
 				return false;
