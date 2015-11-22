@@ -23,6 +23,7 @@ public class FrontierTest {
 	public static Node eta;
 	public static Node iota;
 
+	@Ignore
 	@BeforeClass
 	public static void beforeClass() {
 		testing = new Frontier(Frontier.stdNodeComp);

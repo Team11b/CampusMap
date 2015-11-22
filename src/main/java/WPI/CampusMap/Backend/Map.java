@@ -34,7 +34,7 @@ public class Map {
 	private String xml;
 	private ArrayList<Point> map;
 	private ImageIcon loadedImage;
-	
+
 	/**
 	 * Creates a map from an xml file. Default values are used if the xml cannot
 	 * be parsed.
@@ -47,8 +47,8 @@ public class Map {
 	public Map(String name) throws XMLStreamException {
 		this.scale = 100;
 		this.name = name;
-//		System.out.println("Constructor: " + this.name);
-//		System.out.println("name:" + this.name);
+		// System.out.println("Constructor: " + this.name);
+		// System.out.println("name:" + this.name);
 		this.png = "maps/" + name + ".png";
 		this.xml = "XML/" + this.name + ".xml";
 		// XML.parseXML(this);
@@ -63,8 +63,6 @@ public class Map {
 				e.printStackTrace();
 			}
 			map = XML.parseXML(this);
-			System.out.println("map scale" + this.scale);
-
 		}
 	}
 
@@ -94,17 +92,14 @@ public class Map {
 	 * @param scale
 	 *            The inches to feet scale.
 	 */
-	public void setScale(int scale)
-	{
+	public void setScale(int scale) {
 		int oldScale = this.scale;
 		this.scale = scale;
-		
-		float ratio = (float)scale / (float)oldScale;
-		
-		if(map != null)
-		{
-			for(Point p : map)
-			{
+
+		float ratio = (float) scale / (float) oldScale;
+
+		if (map != null) {
+			for (Point p : map) {
 				Coord oldCoord = p.getCoord();
 				oldCoord.setX(oldCoord.getX() / ratio);
 				oldCoord.setY(oldCoord.getY() / ratio);
@@ -222,38 +217,40 @@ public class Map {
 	/**
 	 * Converts screen space coords to world space coords.
 	 * 
-	 * @param screenSpace The coords in screen space
+	 * @param screenSpace
+	 *            The coords in screen space
 	 * @return The coords in world space.
 	 */
 	public Coord screenToWorldSpace(Coord screenSpace) {
 		double imageX = screenSpace.getX() / 1000.0f * loadedImage.getIconWidth();
 		double imageY = screenSpace.getY() / 660.0f * loadedImage.getIconHeight();
-		
+
 		double inchesX = imageX / 72.0f;
 		double inchesY = imageY / 72.0f;
-		
+
 		double feetX = inchesX / scale;
 		double feetY = inchesY / scale;
 
 		return new Coord(feetX, feetY);
 	}
-	
+
 	/**
 	 * Converts world space to screen space.
-	 * @param worldSpace The world space coords to convert.
+	 * 
+	 * @param worldSpace
+	 *            The world space coords to convert.
 	 * @return The screen space coords.
 	 */
-	public Coord worldToScreenSpace(Coord worldSpace)
-	{
+	public Coord worldToScreenSpace(Coord worldSpace) {
 		double inchesX = worldSpace.getX() * scale;
 		double inchesY = worldSpace.getY() * scale;
-		
+
 		double imageX = inchesX * 72.0f;
 		double imageY = inchesY * 72.0f;
-		
+
 		double screenX = imageX / loadedImage.getIconWidth() * 1000.0f;
 		double screenY = imageY / loadedImage.getIconHeight() * 660.0f;
-		
+
 		return new Coord(screenX, screenY);
 	}
 
@@ -274,7 +271,7 @@ public class Map {
 
 		return newPoint;
 	}
-	
+
 	/**
 	 * Creates a Path of points using the A* algorithm. Uses this map as a map.
 	 * Will return null if either the start or the goal is an invalid location,
@@ -350,8 +347,13 @@ public class Map {
 						otherIndex = Map.getIndex(tempNode, frontier);
 						if (otherIndex == -1) {
 							frontier.add(new Node(neigh.get(j), explored.get(explored.size() - 1)));
-							frontier.get(frontier.size()-1).setCumulativeDist(explored.get(explored.size()-1).getCumulativeDist() + frontier.get(frontier.size() - 1).getPoint().distance(explored.get(explored.size() - 1).getPoint()));
-							frontier.get(frontier.size() - 1).setCurrentScore(frontier.get(frontier.size() - 1).getCumulativeDist() + frontier.get(frontier.size() - 1).getHeuristic());
+							frontier.get(frontier.size() - 1)
+									.setCumulativeDist(explored.get(explored.size() - 1).getCumulativeDist()
+											+ frontier.get(frontier.size() - 1).getPoint()
+													.distance(explored.get(explored.size() - 1).getPoint()));
+							frontier.get(frontier.size() - 1)
+									.setCurrentScore(frontier.get(frontier.size() - 1).getCumulativeDist()
+											+ frontier.get(frontier.size() - 1).getHeuristic());
 						} else {
 							if (tempNode.getCurrentScore() < frontier.get(otherIndex).getCurrentScore()) {
 								frontier.set(otherIndex, new Node(neigh.get(j), explored.get(explored.size() - 1)));
@@ -406,7 +408,8 @@ public class Map {
 			if (point.getId().equals(id)) {
 				ArrayList<Point> neighbors = point.getNeighborsP();
 				for (Point pointN : neighbors) {
-					if(!pointN.removeNeighbor(point)) return false;
+					if (!pointN.removeNeighbor(point))
+						return false;
 				}
 				point.setNeighborsID(new ArrayList<String>());
 				point.setNeighborsP(new ArrayList<Point>());
@@ -416,10 +419,10 @@ public class Map {
 		}
 		return false;
 	}
-	
+
 	/**
-	 * Removes the given point from the map array, and from the
-	 * neighbor arrays of all points on the map
+	 * Removes the given point from the map array, and from the neighbor arrays
+	 * of all points on the map
 	 * 
 	 * @param point
 	 *            The point to be removed
@@ -429,7 +432,8 @@ public class Map {
 	public boolean removePoint(Point point) {
 		ArrayList<Point> neighbors = point.getNeighborsP();
 		for (Point pointN : neighbors) {
-			if(!pointN.removeNeighbor(point)) return false;
+			if (!pointN.removeNeighbor(point))
+				return false;
 		}
 		point.setNeighborsID(new ArrayList<String>());
 		point.setNeighborsP(new ArrayList<Point>());
@@ -438,9 +442,13 @@ public class Map {
 	}
 
 	private void loadImage() throws IOException {
-//		System.out.println(png);
-		BufferedImage buffer = ImageIO.read(new File(png));
-		loadedImage = new ImageIcon(buffer.getScaledInstance(1000, 660, Image.SCALE_SMOOTH));// TODO:																					// draw
+		try {
+			BufferedImage buffer = ImageIO.read(new File(png));
+			loadedImage = new ImageIcon(buffer.getScaledInstance(1000, 660, Image.SCALE_SMOOTH));
+		} catch (Exception e) {
+
+		}
+
 	}
 
 	/**
