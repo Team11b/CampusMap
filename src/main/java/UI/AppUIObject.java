@@ -5,6 +5,10 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.swing.AbstractAction;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -55,7 +59,7 @@ public class AppUIObject {
 	private final JButton btnSave = new JButton("Save");
 	
 	private final JTextPane txtDirections = new JTextPane();
-	private String[] mapStrings = { "Atwater_Kent-0", "Atwater_Kent-1", "Atwater_Kent-2", "Atwater_Kent-3",
+	/*private String[] mapStrings = { "Atwater_Kent-0", "Atwater_Kent-1", "Atwater_Kent-2", "Atwater_Kent-3",
 			"Boynton_Hall_3rd_floor_renovations-0", "Boynton_Hall_3rd_floor_renovations-1", "Boynton_Hall-0",
 			"Boynton_Hall-1", "Boynton_Hall-2", "Boynton_Hall-3", "Campus_Center-0", "Campus_Center-1",
 			"Campus_Center-2", "Gordon_Library-0", "Gordon_Library-1", "Gordon_Library-2", "Gordon_Library-3",
@@ -63,8 +67,10 @@ public class AppUIObject {
 			"Higgins_House_and_garage-2", "Higgins_House_and_garage-3", "Higgins_House_and_garage-4",
 			"Higgins_House_and_garage-5", "Project_Center_1st_floor_renovations_2013",
 			"Project_Center_1st_floor_renovationsRoomNumbers2014", "Project_Center-0", "Project_Center-1",
-			"Stratton_Hall-0", "Stratton_Hall-1", "Stratton_Hall-2", "Stratton_Hall-3" };
-	private final JComboBox<Object> mapDropDown = new JComboBox<Object>(mapStrings);
+			"Stratton_Hall-0", "Stratton_Hall-1", "Stratton_Hall-2", "Stratton_Hall-3" };*/
+	private final ArrayList mapXMLStrings = new ArrayList<String>();
+	private JComboBox<Object> mapDropDown;  //= new JComboBox<Object>(mapStrings);
+	private String[] mapStrings;
 	private final StringBuilder mapName = new StringBuilder();
 	private MouseListener mouseClick;
 	private final SwingAction actionHandler = new SwingAction();
@@ -81,6 +87,22 @@ public class AppUIObject {
 	 */
 	public void reDrawUI() {
 		mapPanel.repaint();
+	}
+	
+	public void resetDropDown(){
+		//get all the files in the directory
+		File[] listOfFiles = new File("maps/").listFiles();
+	    for (int i = 0; i < listOfFiles.length; i++) {
+	      if (listOfFiles[i].isFile()) {					        
+	        int ext = listOfFiles[i].getName().lastIndexOf(".png"); //snip extension     
+	        mapXMLStrings.add(listOfFiles[i].getName().substring(0, ext));	       	        
+	      } 
+	    }
+	    //put in alphabetical order and convert to string array
+	    mapXMLStrings.sort(null);
+	    mapStrings = new String[mapXMLStrings.size()];
+	    mapStrings = (String[]) mapXMLStrings.toArray(mapStrings); 
+	    mapDropDown = new JComboBox<Object>(mapStrings);	  
 	}
 
 	/**
@@ -227,6 +249,7 @@ public class AppUIObject {
 		directionsPanel.add(btnDevMode);
 		
 		// Drop down for map selection
+		resetDropDown();
 	    mapDropDown.setBounds(55, 6, 176, 24);
 	    directionsPanel.add(mapDropDown);
 		mapDropDown.setSelectedIndex(0);
@@ -286,6 +309,7 @@ public class AppUIObject {
 					txtDirections.setText("");
 				}
 				reDrawUI();
+				resetDropDown();
 				mapPanel.selectedPoint = null;
 				mapPanel.startPoint = null;
 				mapPanel.endPoint = null;
@@ -305,7 +329,8 @@ public class AppUIObject {
 					btnSave.setVisible(true);
 					btnEdgeMode.setVisible(true);
 					btnRemoveEdge.setVisible(true);
-					txtScale.setVisible(true);
+					txtScale.setVisible(true);					
+					
 				}
 				else{
 					txtDevPass.setText("");
