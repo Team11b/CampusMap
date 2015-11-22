@@ -20,6 +20,8 @@ public class Path {
 	 * 
 	 * @param path
 	 *            pre-defined ArrayList of Nodes
+	 * @param pathScale
+	 * 			  scale of the path
 	 */
 	public Path(ArrayList<Node> path, float pathScale) {
 		this.path = path;

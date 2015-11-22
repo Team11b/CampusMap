@@ -93,7 +93,7 @@ public class Map implements java.io.Serializable {
 	/**
 	 * Set the scale from inches to feet.
 	 * 
-	 * @param f
+	 * @param scale
 	 *            The inches to feet scale.
 	 */
 	public void setScale(float scale)

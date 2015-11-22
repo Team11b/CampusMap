@@ -25,7 +25,6 @@ import javax.xml.stream.XMLStreamException;
 
 import WPI.CampusMap.AStar.Map;
 import WPI.CampusMap.AStar.Path;
-import WPI.CampusMap.AStar.Point;
 import XML.XML;
 
 import javax.swing.JTextField;
