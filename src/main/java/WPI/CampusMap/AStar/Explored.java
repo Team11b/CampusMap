@@ -2,6 +2,11 @@ package WPI.CampusMap.AStar;
 
 import java.util.LinkedList;
 
+/**
+ * 
+ * @author Jacob Zizmor
+ *
+ */
 public class Explored {
 
 	private LinkedList<Node> explored;

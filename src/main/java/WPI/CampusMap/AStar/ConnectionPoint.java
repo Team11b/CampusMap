@@ -7,13 +7,14 @@ import WPI.CampusMap.Backend.Point;
 /**
  * 
  * @author Max Stenke
+ * @author Jacob Zizmor
  *
  */
 public class ConnectionPoint extends Point {
 	private Map linkedMap;
 
 	/**
-	 * Point of Interest constructor
+	 * ConnectionPoint constructor
 	 * 
 	 * @param coord
 	 *            Coordinates of the Point of interest
@@ -22,7 +23,7 @@ public class ConnectionPoint extends Point {
 	 * @param id
 	 * 			  ID of Point
 	 * @param linkedMap
-	 *            additional Map this POI connects to
+	 *            additional Map this ConnectionPoint connects to
 	 */
 	public ConnectionPoint(Coord coord, String type, String id, Map linkedMap) {
 		super(coord, type, id);

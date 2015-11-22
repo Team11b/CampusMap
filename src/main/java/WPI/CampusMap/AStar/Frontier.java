@@ -4,6 +4,11 @@ import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.TreeSet;
 
+/**
+ * 
+ * @author Jacob Zizmor
+ *
+ */
 public class Frontier {
 	private PriorityQueue<Node> pq;
 
