@@ -1,6 +1,5 @@
 package WPI.CampusMap.AStar;
 
-import WPI.CampusMap.Backend.Coord;
 import WPI.CampusMap.Backend.Point;
 
 /**
