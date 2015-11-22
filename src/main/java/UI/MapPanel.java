@@ -6,6 +6,7 @@ import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Hashtable;
 
@@ -175,14 +176,14 @@ class MapPanel extends JPanel {
 		graphics.setColor(Color.white);
 		graphics.drawImage(currentMap.getLoadedImage().getImage(), 0, 0, getWidth(), getHeight(), null);
 
-		ArrayList<Point> points = currentMap.getMap();
+		HashMap<String, Point> points = currentMap.getMap();
 
 		Hashtable<Point, HashSet<Point>> drawnPoints = new Hashtable<>();
-		for (Point p : points) {
+		for (Point p : points.values()) {
 			drawEdges(p, drawnPoints, graphics);
 		}
 
-		for (Point p : points) {
+		for (Point p : points.values()) {
 			drawPoint(p, graphics);
 		}
 
@@ -240,13 +241,13 @@ class MapPanel extends JPanel {
 	protected boolean selectPointOnMap(MouseEvent e) {
 		Coord screenCoord = new Coord(e.getX(), e.getY());
 
-		ArrayList<Point> points = currentMap.getMap();
+		HashMap<String, Point> points = currentMap.getMap();
 
 		Point closestPoint = null;
 		float closestDistance = Float.MAX_VALUE;
 		final float clickThreshold = 5.0f;
 
-		for (Point p : points) {
+		for (Point p : points.values()) {
 			float distance = screenCoord.distance(currentMap.worldToScreenSpace(p.getCoord()));
 
 			if (distance < clickThreshold && distance < closestDistance) {

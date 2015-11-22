@@ -21,9 +21,9 @@ public class MapPointManipulationTest {
 		testMap.addPoint(threeP);
 		
 		assertEquals(testMap.getMap().size(),3);
-		assertTrue(testMap.getMap().contains(oneP));
-		assertTrue(testMap.getMap().contains(twoP));
-		assertTrue(testMap.getMap().contains(threeP));
+		assertTrue(testMap.getMap().containsValue(oneP));
+		assertTrue(testMap.getMap().containsValue(twoP));
+		assertTrue(testMap.getMap().containsValue(threeP));
 
 		assertTrue(testMap.addEdge(testMap.getPoint("PointOne"), testMap.getPoint("PointTwo")));
 		assertTrue(testMap.addEdge(testMap.getPoint("PointThree"), testMap.getPoint("PointOne")));
@@ -68,7 +68,7 @@ public class MapPointManipulationTest {
 		assertFalse(threeP.getNeighborsP().contains(twoP));
 		assertFalse(threeP.getNeighborsP().contains(oneP));
 
-		assertFalse(testMap.removePoint("PointThree"));
+		assertTrue(testMap.removePoint(oneP));
 	}
 	
 	@Test
