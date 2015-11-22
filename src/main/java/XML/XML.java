@@ -171,7 +171,7 @@ public class XML {
 				{
 					map.setName(map.getXML().substring(4, map.getXML().length()-4));
 					map.setPng(reader.getAttributeValue(0));
-					map.setScale(Integer.parseInt(reader.getAttributeValue(1)));
+					map.setScale(Float.parseFloat(reader.getAttributeValue(1)));
 				}
 				break;
 			case XMLStreamConstants.CHARACTERS:
