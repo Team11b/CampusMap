@@ -24,8 +24,12 @@ import WPI.CampusMap.XML.XML;
  * @author Will Craft
  *
  */
-public class Map {
+public class Map implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3434772073791894710L;
 	private int scale;
 	private String name;
 	private String png;
