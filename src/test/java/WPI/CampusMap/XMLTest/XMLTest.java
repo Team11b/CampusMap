@@ -19,7 +19,7 @@ import org.junit.Test;
 import WPI.CampusMap.Backend.Coord;
 import WPI.CampusMap.Backend.Map;
 import WPI.CampusMap.Backend.Point;
-import XML.XML;
+import WPI.CampusMap.XML.XML;
 
 
 public class XMLTest {

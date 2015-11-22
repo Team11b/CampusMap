@@ -1,4 +1,4 @@
-package UI;
+package WPI.CampusMap.UI;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -12,11 +12,11 @@ import java.util.Hashtable;
 import javax.swing.JPanel;
 import javax.xml.stream.XMLStreamException;
 
-import WPI.CampusMap.AStar.Node;
-import WPI.CampusMap.AStar.Path;
 import WPI.CampusMap.Backend.Coord;
 import WPI.CampusMap.Backend.Map;
 import WPI.CampusMap.Backend.Point;
+import WPI.CampusMap.PathPlanning.AStar.Node;
+import WPI.CampusMap.PathPlanning.AStar.Path;
 
 /**
  * Map Panel Class Contains the graphics and UI components of the app

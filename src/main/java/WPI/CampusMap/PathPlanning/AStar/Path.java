@@ -1,4 +1,4 @@
-package WPI.CampusMap.AStar;
+package WPI.CampusMap.PathPlanning.AStar;
 
 import java.util.ArrayList;
 import java.util.Collections;

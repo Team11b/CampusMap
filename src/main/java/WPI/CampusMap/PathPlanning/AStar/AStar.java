@@ -1,4 +1,4 @@
-package WPI.CampusMap.AStar;
+package WPI.CampusMap.PathPlanning.AStar;
 
 import java.util.ArrayList;
 
@@ -26,7 +26,7 @@ public class AStar {
 	 *            the goal Point on amap
 	 * @return a path between start and goal
 	 */
-	public static Path _AStar(Point start, Point goal) {
+	public static Path single_AStar(Point start, Point goal) {
 		// checks to see if either the start or goal is a wall
 		if (start.getType() == Point.WALL) {
 			System.out.println("Invalid start point.");
@@ -105,10 +105,9 @@ public class AStar {
 	 *            the starting Point located on startMap
 	 * @param Goal
 	 *            the goal Point located on goalMap
-	 * @return an array of Paths where each Path is a complete Path across a
-	 *         single Map
+	 * @return a Path which spans multiple maps
 	 */
-	public Path[] _AStar(Map startMap, Map goalMap, Point start, Point Goal) {
+	public Path multi_AStar(Map startMap, Map goalMap, Point start, Point Goal) {
 		return null;
 	}
 

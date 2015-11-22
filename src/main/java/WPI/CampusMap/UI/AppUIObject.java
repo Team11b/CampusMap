@@ -1,4 +1,4 @@
-package UI;
+package WPI.CampusMap.UI;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -26,9 +26,9 @@ import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 import javax.xml.stream.XMLStreamException;
 
-import WPI.CampusMap.AStar.Path;
 import WPI.CampusMap.Backend.Map;
-import XML.XML;
+import WPI.CampusMap.PathPlanning.AStar.Path;
+import WPI.CampusMap.XML.XML;
 
 public class AppUIObject {
 	protected boolean placeMode = false;

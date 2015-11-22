@@ -1,4 +1,4 @@
-package Serialization;
+package WPI.CampusMap.Serialization;
 
 import java.io.File;
 import java.util.Arrays;
@@ -6,7 +6,7 @@ import java.util.Arrays;
 import javax.xml.stream.XMLStreamException;
 
 import WPI.CampusMap.Backend.Map;
-import XML.XML;
+import WPI.CampusMap.XML.XML;
 
 /**
  * 

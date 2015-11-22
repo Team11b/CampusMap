@@ -6,10 +6,10 @@ import static org.junit.Assert.assertTrue;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import WPI.CampusMap.AStar.Node;
-import WPI.CampusMap.AStar.Path;
 import WPI.CampusMap.Backend.Coord;
 import WPI.CampusMap.Backend.Point;
+import WPI.CampusMap.PathPlanning.AStar.Node;
+import WPI.CampusMap.PathPlanning.AStar.Path;
 
 public class NodePathTest {
 	static Coord cOne, cTwo, cThree, cFour;

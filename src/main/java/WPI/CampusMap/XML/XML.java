@@ -1,4 +1,4 @@
-package XML;
+package WPI.CampusMap.XML;
 
 import java.io.File;
 import java.io.FileInputStream;

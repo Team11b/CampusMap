@@ -14,9 +14,9 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.xml.stream.XMLStreamException;
 
-import WPI.CampusMap.AStar.Node;
-import WPI.CampusMap.AStar.Path;
-import XML.XML;
+import WPI.CampusMap.PathPlanning.AStar.Node;
+import WPI.CampusMap.PathPlanning.AStar.Path;
+import WPI.CampusMap.XML.XML;
 
 /**
  * Represents a single map/area.

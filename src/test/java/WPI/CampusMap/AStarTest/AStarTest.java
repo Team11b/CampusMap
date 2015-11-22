@@ -9,12 +9,12 @@ import javax.xml.stream.XMLStreamException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import WPI.CampusMap.AStar.AStar;
-import WPI.CampusMap.AStar.Node;
-import WPI.CampusMap.AStar.Path;
 import WPI.CampusMap.Backend.Map;
 import WPI.CampusMap.Backend.Point;
-import XML.XML;
+import WPI.CampusMap.PathPlanning.AStar.AStar;
+import WPI.CampusMap.PathPlanning.AStar.Node;
+import WPI.CampusMap.PathPlanning.AStar.Path;
+import WPI.CampusMap.XML.XML;
 
 public class AStarTest {
 	static Map testMap, testMap2;
@@ -33,7 +33,7 @@ public class AStarTest {
 		start = testMap.getPoint("4");
 		goal = testMap.getPoint("12");
 
-		Path path = AStar._AStar(start, goal);
+		Path path = AStar.single_AStar(start, goal);
 		ArrayList<Node> pathNodes = path.getPath();
 		assertEquals(path.getPath().size(), 7);
 		assertEquals(pathNodes.get(0).getPoint().getId(), "4");
@@ -51,7 +51,7 @@ public class AStarTest {
 		start = testMap.getPoint("4");
 		goal = testMap.getPoint("11");
 
-		Path path = AStar._AStar(start, goal);
+		Path path = AStar.single_AStar(start, goal);
 		ArrayList<Node> pathNodes = path.getPath();
 
 		assertEquals(path.getPath().size(), 8);
@@ -71,7 +71,7 @@ public class AStarTest {
 		start = testMap2.getPoint("4");
 		goal = testMap2.getPoint("12");
 
-		Path path = AStar._AStar(start, goal);
+		Path path = AStar.single_AStar(start, goal);
 		ArrayList<Node> pathNodes = path.getPath();
 
 		assertEquals(path.getPath().size(), 7);

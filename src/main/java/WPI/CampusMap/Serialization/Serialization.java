@@ -1,4 +1,4 @@
-package Serialization;
+package WPI.CampusMap.Serialization;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
