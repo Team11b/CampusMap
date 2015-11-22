@@ -273,6 +273,8 @@ public class AppUIObject {
 					btnDevMode.setText("Dev Mode");
 					deleteMode = !deleteMode;
 					placeMode = !placeMode;
+					lblDirections.setVisible(true);
+					txtDirections.setVisible(true);
 					btnGetDirections.setVisible(true);
 					btnGetDirections.setEnabled(false);
 					btnEdgeMode.setVisible(false);
@@ -298,6 +300,8 @@ public class AppUIObject {
 				if(String.valueOf(txtDevPass.getPassword()).equals("0011")){
 					btnSubmit.setVisible(false);
 					txtDevPass.setVisible(false);
+					txtDirections.setVisible(false);
+					lblDirections.setVisible(false);
 					txtDevPass.setText("");
 					frame.setTitle("Dev Mode");									
 					btnNode.setVisible(true);
