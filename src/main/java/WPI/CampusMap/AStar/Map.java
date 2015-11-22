@@ -14,7 +14,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.xml.stream.XMLStreamException;
 
-import WPI.CampusMap.XML.XML;
+import XML.XML;
 
 /**
  * Represents a single map/area.
@@ -24,8 +24,12 @@ import WPI.CampusMap.XML.XML;
  * @author Will Craft
  *
  */
-public class Map {
+public class Map implements java.io.Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 3434772073791894710L;
 	private float scale;
 	private String name;
 	private String png;

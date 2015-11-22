@@ -5,7 +5,7 @@ package WPI.CampusMap.AStar;
  * @author Max Stenke
  *
  */
-public class Coord {
+public class Coord implements java.io.Serializable {
 	private float x;
 	private float y;
 

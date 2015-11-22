@@ -7,7 +7,11 @@ import java.util.ArrayList;
  * @author Max Stenke
  *
  */
-public class Point {
+public class Point implements java.io.Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1262614340821579118L;
 	private Coord coord;
 	private String type;
 	private String id;
