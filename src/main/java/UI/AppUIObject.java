@@ -417,6 +417,7 @@ public class AppUIObject {
 		mainPanel.setBounds(1, 15, 1018, 664);
 		frame.getContentPane().add(mainPanel);
 		mainPanel.setLayout(null);
+		
 		try {
 			loadMap(mapStrings[0]);
 		} catch (XMLStreamException e1) {
