@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 import javax.xml.stream.XMLStreamException;
 
-import WPI.CampusMap.AStar.Map;
+import WPI.CampusMap.Backend.Map;
 import XML.XML;
 
 public class Converter {
