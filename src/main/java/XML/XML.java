@@ -1,4 +1,4 @@
-package WPI.CampusMap.XML;
+package XML;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -169,6 +169,8 @@ public class XML {
 				}
 				if("Map".equals(reader.getLocalName()))
 				{
+					map.setName(map.getXML().substring(4, map.getXML().length()-4));
+					map.setPng(reader.getAttributeValue(0));
 					map.setScale(Integer.parseInt(reader.getAttributeValue(1)));
 				}
 				break;

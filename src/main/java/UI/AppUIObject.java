@@ -5,6 +5,7 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+
 import javax.swing.AbstractAction;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -13,7 +14,9 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
+import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.text.BadLocationException;
@@ -25,10 +28,7 @@ import javax.xml.stream.XMLStreamException;
 
 import WPI.CampusMap.AStar.Path;
 import WPI.CampusMap.Backend.Map;
-import WPI.CampusMap.Backend.Point;
-import WPI.CampusMap.XML.XML;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
+import XML.XML;
 
 public class AppUIObject {
 	protected boolean placeMode = false;

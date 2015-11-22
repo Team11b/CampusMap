@@ -3,8 +3,8 @@ package WPI.CampusMap.Backend;
 /**
  * 
  * @author Max Stenke
- *
  */
+
 public class Coord {
 	private double x;
 	private double y;

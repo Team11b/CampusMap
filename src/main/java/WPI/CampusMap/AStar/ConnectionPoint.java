@@ -1,11 +1,15 @@
-package WPI.CampusMap.Backend;
+package WPI.CampusMap.AStar;
+
+import WPI.CampusMap.Backend.Coord;
+import WPI.CampusMap.Backend.Map;
+import WPI.CampusMap.Backend.Point;
 
 /**
  * 
  * @author Max Stenke
  *
  */
-public class POI extends Point {
+public class ConnectionPoint extends Point {
 	private Map linkedMap;
 
 	/**
@@ -20,7 +24,7 @@ public class POI extends Point {
 	 * @param linkedMap
 	 *            additional Map this POI connects to
 	 */
-	public POI(Coord coord, String type, String id, Map linkedMap) {
+	public ConnectionPoint(Coord coord, String type, String id, Map linkedMap) {
 		super(coord, type, id);
 		this.linkedMap = linkedMap;
 	}
@@ -31,16 +35,6 @@ public class POI extends Point {
 
 	public void setLinkedMap(Map linkedMap) {
 		this.linkedMap = linkedMap;
-	}
-	
-	@Override
-	public boolean equals(Object other) {
-		boolean result = false;
-		if (other instanceof POI) {
-			Point that = (POI) other;
-			result = (this.getCoord().equals(that.getCoord()));
-		}
-		return result;
 	}
 
 }
