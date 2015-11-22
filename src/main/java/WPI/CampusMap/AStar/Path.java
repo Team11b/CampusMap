@@ -81,6 +81,17 @@ public class Path {
 		return new Path(temp, this.pathScale);
 	}
 
+	/**
+	 * Check if a point is in a vertical line between two other points
+	 * 
+	 * @param before
+	 *            Point before the current point
+	 * @param current
+	 *            Current point
+	 * @param after
+	 *            Point after the current point
+	 * @return Returns true if it's vertical aligned otherwise false
+	 */
 	public boolean checkVertical(Point before, Point current, Point after) {
 		float dif1 = Math.abs(current.getCoord().getX() - before.getCoord().getX());
 		float dif2 = Math.abs(current.getCoord().getX() - after.getCoord().getX());
@@ -91,6 +102,17 @@ public class Path {
 		return false;
 	}
 
+	/**
+	 * Check if point is in a horizontal line between two other points
+	 * 
+	 * @param before
+	 *            Point before the current point
+	 * @param current
+	 *            Current point
+	 * @param after
+	 *            Point after the current point
+	 * @return Returns true if it's horizontal aligned otherwise false
+	 */
 	public boolean checkHorizontal(Point before, Point current, Point after) {
 		float dif1 = Math.abs(current.getCoord().getY() - before.getCoord().getY());
 		float dif2 = Math.abs(current.getCoord().getY() - after.getCoord().getY());
@@ -101,6 +123,17 @@ public class Path {
 		return false;
 	}
 
+	/**
+	 * Check if point is in a diagonal line between two other points
+	 * 
+	 * @param before
+	 *            Point before the current point
+	 * @param current
+	 *            Current point
+	 * @param after
+	 *            Point after the current point
+	 * @return Returns true if it's diagonal aligned otherwise false
+	 */
 	public boolean checkDiagonal(Point before, Point current, Point after) {
 
 		Coord slope = new Coord(Math.abs(current.getCoord().getX() - before.getCoord().getX()),
@@ -115,9 +148,16 @@ public class Path {
 		return false;
 	}
 
+	/**
+	 * Converts path into textual expression
+	 * 
+	 * @param path
+	 *            Path which needs to be converted
+	 * @return String which contains turns and distances
+	 */
 	public String getAndDisplayDirections(Path path) {
 		String route = "Start: " + path.getPath().get(0).getPoint().getCoord().toString() + "\n";
-		route += "Face "+ path.getPath().get(0).getPoint().getId()+ " and walk "
+		route += "Face " + path.getPath().get(0).getPoint().getId() + " and walk "
 				+ path.getPath().get(0).getPoint().distance(path.getPath().get(1).getPoint()) + "feet.\n";
 		for (int i = 1; i < path.getPath().size() - 1; i++) {
 			String turn = "";
@@ -126,14 +166,16 @@ public class Path {
 
 			float angleBefore = path.getAngle(path.getPath().get(i - 1).getPoint(), path.getPath().get(i).getPoint());
 			float angleAfter = path.getAngle(path.getPath().get(i).getPoint(), path.getPath().get(i + 1).getPoint());
-//			System.out.printf("Angle Before: %f, Angle After: %f \n", angleBefore, angleAfter);
+			// System.out.printf("Angle Before: %f, Angle After: %f \n",
+			// angleBefore, angleAfter);
 
 			route += path.getPath().get(i - 1).getPoint().getCoord().toString() + " to "
 					+ path.getPath().get(i).getPoint().getCoord().toString() + "";
 
 			int quad1 = (int) (((angleBefore < 0 ? 360 : 0) + angleBefore) / 90 + 1);
 			int quad2 = (int) (((angleAfter < 0 ? 360 : 0) + angleAfter) / 90 + 1);
-			//System.out.printf("Quad Before: %d, Quad After: %d \n", quad1, quad2);
+			// System.out.printf("Quad Before: %d, Quad After: %d \n", quad1,
+			// quad2);
 			if (quad1 == quad2)
 				if (angleAfter > angleBefore)
 					turn = "left";
