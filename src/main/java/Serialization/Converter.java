@@ -8,8 +8,13 @@ import javax.xml.stream.XMLStreamException;
 import WPI.CampusMap.Backend.Map;
 import XML.XML;
 
+/**
+ * 
+ * @author Jacob Zizmor
+ *
+ */
 public class Converter {
-	static String[] ignore = {"5x5Test.xml", "5x5Test2.xml", "AK.xml", "borked.xml", "testOutput.xml"};
+	public static String[] ignore = {"5x5Test.xml", "5x5Test2.xml", "AK.xml", "borked.xml", "testOutput.xml"};
 	
 	public static String[] getFileNames() {
 		File folder = new File("XML/");
