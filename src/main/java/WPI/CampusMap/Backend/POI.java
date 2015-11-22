@@ -32,5 +32,15 @@ public class POI extends Point {
 	public void setLinkedMap(Map linkedMap) {
 		this.linkedMap = linkedMap;
 	}
+	
+	@Override
+	public boolean equals(Object other) {
+		boolean result = false;
+		if (other instanceof POI) {
+			Point that = (POI) other;
+			result = (this.getCoord().equals(that.getCoord()));
+		}
+		return result;
+	}
 
 }
