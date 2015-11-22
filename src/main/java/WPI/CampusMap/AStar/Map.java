@@ -14,7 +14,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.xml.stream.XMLStreamException;
 
-import WPI.CampusMap.XML.XML;
+import XML.XML;
 
 /**
  * Represents a single map/area.

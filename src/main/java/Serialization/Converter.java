@@ -1,4 +1,4 @@
-package XMLtoSER;
+package Serialization;
 
 import java.io.File;
 import java.util.Arrays;
@@ -6,8 +6,7 @@ import java.util.Arrays;
 import javax.xml.stream.XMLStreamException;
 
 import WPI.CampusMap.AStar.Map;
-import WPI.CampusMap.Serialization.Serialization;
-import WPI.CampusMap.XML.XML;
+import XML.XML;
 
 public class Converter {
 	static String[] ignore = {"5x5Test.xml", "5x5Test2.xml", "AK.xml", "borked.xml", "testOutput.xml"};

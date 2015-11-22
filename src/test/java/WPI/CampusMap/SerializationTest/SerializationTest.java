@@ -4,10 +4,10 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
+import Serialization.Serialization;
 import WPI.CampusMap.AStar.Coord;
 import WPI.CampusMap.AStar.Map;
 import WPI.CampusMap.AStar.Point;
-import WPI.CampusMap.Serialization.Serialization;
 
 public class SerializationTest {
 
