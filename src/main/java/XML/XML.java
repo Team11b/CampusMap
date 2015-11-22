@@ -50,8 +50,6 @@ public class XML {
 	 * 
 	 * @param map
 	 *            the map to record information from
-	 * @param arrayList
-	 *            an array of Points to record information
 	 * @see <a href=
 	 *      "http://www.tutorialspoint.com/java_xml/java_dom_create_document.htm">
 	 *      http://www.tutorialspoint.com/java_xml/java_dom_create_document.htm

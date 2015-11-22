@@ -1,6 +1,5 @@
 package WPI.CampusMap.SerializationTest;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import org.junit.Test;
@@ -24,7 +23,7 @@ public class SerializationTest {
 
 		Map temp2 = Serialization.read(tempM.getName());
 		System.out.println("Output:\t\t\t" + temp2.getName() + "\t" + temp2.getMap().get("hiya").getCoord().getX());
-		System.out.println("Expected:\t\tnew_map\t1.1");
+		System.out.println("Expected:\t\tnew_map\t\t1.1");
 	}
 
 }

@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.xml.stream.XMLStreamException;
@@ -14,7 +13,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import WPI.CampusMap.AStar.Coord;
 import WPI.CampusMap.AStar.Map;
 import WPI.CampusMap.AStar.Point;
 

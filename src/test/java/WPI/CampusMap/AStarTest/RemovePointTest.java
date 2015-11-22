@@ -3,14 +3,12 @@ package WPI.CampusMap.AStarTest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.xml.stream.XMLStreamException;
 
 import org.junit.Test;
 
-import WPI.CampusMap.AStar.Coord;
 import WPI.CampusMap.AStar.Map;
 import WPI.CampusMap.AStar.Point;
 
