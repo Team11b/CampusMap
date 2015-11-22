@@ -175,4 +175,10 @@ public class Point {
 		}
 		return result;
 	}
+	
+	@Override
+	public String toString(){
+		return id;
+		
+	}
 }

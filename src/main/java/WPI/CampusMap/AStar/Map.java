@@ -26,7 +26,7 @@ import WPI.CampusMap.XML.XML;
  */
 public class Map {
 
-	private int scale;
+	private float scale;
 	private String name;
 	private String png;
 	private String xml;
@@ -82,19 +82,19 @@ public class Map {
 	 * 
 	 * @return The scale from inches to feet.
 	 */
-	public int getScale() {
+	public float getScale() {
 		return this.scale;
 	}
 
 	/**
 	 * Set the scale from inches to feet.
 	 * 
-	 * @param scale
+	 * @param f
 	 *            The inches to feet scale.
 	 */
-	public void setScale(int scale)
+	public void setScale(float scale)
 	{
-		int oldScale = this.scale;
+		float oldScale = this.scale;
 		this.scale = scale;
 		
 		float ratio = (float)scale / (float)oldScale;
@@ -368,6 +368,7 @@ public class Map {
 		}
 
 		returnPath.reverse();
+		returnPath.setScale(this.getScale());
 		return returnPath;
 	}
 

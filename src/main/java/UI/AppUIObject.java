@@ -358,11 +358,11 @@ public class AppUIObject {
 				mapPanel.setBounds(5, 5, 1000, 660);
 				lblMapviewGoesHere.setVisible(true);
 
-				int scale = mapPanel.currentMap.getScale();
+				float scale = mapPanel.currentMap.getScale();
 				if (scale != -1) {
 					lblMapviewGoesHere.setText(mapPanel.currentMap.getName());
 					lblScale.setText("Scale: " + scale + " inches per ft");
-					txtScale.setText(Integer.toString(scale));
+					txtScale.setText(Float.toString(scale));
 					
 				} else {
 					lblMapviewGoesHere.setText("");
@@ -427,11 +427,11 @@ public class AppUIObject {
 		mapPanel.setVisible(true);
 		mapPanel.setBounds(5, 5, 1000, 660);
 
-		int scale = mapPanel.currentMap.getScale();
+		float scale = mapPanel.currentMap.getScale();
 		if (scale != -1) {
 			lblMapviewGoesHere.setText(mapPanel.currentMap.getName());
 			lblScale.setText("Scale: " + scale + " inches per ft");
-			txtScale.setText(Integer.toString(scale));
+			txtScale.setText(Float.toString(scale));
 		} else {
 			lblMapviewGoesHere.setText("");
 			lblScale.setText("");
