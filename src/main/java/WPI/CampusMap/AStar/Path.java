@@ -58,24 +58,19 @@ public class Path {
 
 		temp.add(first);
 		for (int i = 1; i < path.size() - 1; i++) {
-//			System.out.println("Pathtolarence: " + pathtolarence);
-//			System.out.println("Before: " + path.get(i - 1).getPoint().getCoord().toString());
-//			System.out.println("Current: " + path.get(i).getPoint().getCoord().toString());
-//			System.out.println("After: " + path.get(i + 1).getPoint().getCoord().toString());
-			System.out.println(i);
 			// check if next point is on the same level as i - 1 and i + 1
 			if (checkHorizontal(path.get(i - 1).getPoint(), path.get(i).getPoint(), path.get(i + 1).getPoint())) {
-				System.out.println("Abridge one node horizontal");
+				// System.out.println("Abridge one node horizontal");
 				continue;
 				// check if next point is on the same level as i - 1 and i +
 				// 1
 			} else if (checkVertical(path.get(i - 1).getPoint(), path.get(i).getPoint(), path.get(i + 1).getPoint())) {
-				System.out.println("Abridge one node vertical");
+				// System.out.println("Abridge one node vertical");
 				continue;
 			} else {
 
 				if (checkDiagonal(path.get(i - 1).getPoint(), path.get(i).getPoint(), path.get(i + 1).getPoint())) {
-					System.out.println("Abridge one node diagonal");
+					// System.out.println("Abridge one node diagonal");
 					continue;
 				}
 			}
@@ -107,16 +102,13 @@ public class Path {
 	}
 
 	public boolean checkDiagonal(Point before, Point current, Point after) {
-		Coord deltaBefore = new Coord(Math.abs(current.getCoord().getX() - before.getCoord().getX()),
+
+		Coord slope = new Coord(Math.abs(current.getCoord().getX() - before.getCoord().getX()),
 				Math.abs(current.getCoord().getY() - before.getCoord().getY()));
 		Coord deltaAfter = new Coord(Math.abs(current.getCoord().getX() - after.getCoord().getX()),
 				Math.abs(current.getCoord().getY() - after.getCoord().getY()));
-
-		if ((deltaBefore.getX() == deltaAfter.getX()) && (deltaBefore.getY() == deltaAfter.getY())
-				|| deltaBefore.getX() >= deltaAfter.getX() + (1 - pathtolarence)
-						&& deltaBefore.getX() <= deltaAfter.getX() + (1 + pathtolarence)
-						&& deltaBefore.getY() >= deltaAfter.getY() + (1 - pathtolarence)
-						&& deltaBefore.getY() <= deltaAfter.getY() + (1 + pathtolarence)) {
+		float expectedY = slope.getY() / slope.getX() * deltaAfter.getX();
+		if (Math.abs(expectedY - deltaAfter.getY()) < pathtolarence) {
 			return true;
 		}
 
@@ -125,40 +117,40 @@ public class Path {
 
 	public String getAndDisplayDirections(Path path) {
 		String route = "Start: " + path.getPath().get(0).getPoint().getCoord().toString() + "\n";
+		route += "Face "+ path.getPath().get(0).getPoint().getId()+ " and walk "
+				+ path.getPath().get(0).getPoint().distance(path.getPath().get(1).getPoint()) + "feet.\n";
 		for (int i = 1; i < path.getPath().size() - 1; i++) {
 			String turn = "";
 			String direction = "";
 			float dist = path.getPath().get(i).getPoint().distance(path.getPath().get(i - 1).getPoint());
-			
+
 			float angleBefore = path.getAngle(path.getPath().get(i - 1).getPoint(), path.getPath().get(i).getPoint());
 			float angleAfter = path.getAngle(path.getPath().get(i).getPoint(), path.getPath().get(i + 1).getPoint());
-			System.out.printf("Angle Before: %f, Angle After: %f \n",angleBefore,angleAfter);
-			
+//			System.out.printf("Angle Before: %f, Angle After: %f \n", angleBefore, angleAfter);
 
 			route += path.getPath().get(i - 1).getPoint().getCoord().toString() + " to "
 					+ path.getPath().get(i).getPoint().getCoord().toString() + "";
 
-			int quad1 = (int) (((angleBefore < 0 ? 360 : 0 ) + angleBefore)/90 + 1);
-			int quad2 = (int) (((angleAfter < 0 ? 360 : 0 ) + angleAfter)/90 + 1);
-			System.out.printf("Quad Before: %d, Quad After: %d \n",quad1,quad2);
-			if(quad1 == quad2)
+			int quad1 = (int) (((angleBefore < 0 ? 360 : 0) + angleBefore) / 90 + 1);
+			int quad2 = (int) (((angleAfter < 0 ? 360 : 0) + angleAfter) / 90 + 1);
+			//System.out.printf("Quad Before: %d, Quad After: %d \n", quad1, quad2);
+			if (quad1 == quad2)
 				if (angleAfter > angleBefore)
 					turn = "left";
 				else
 					turn = "right";
-			else 
-				if(quad2 == (quad1 + 1) % 4)
-					turn = "left";
-				else 
-					turn = "right";
+			else if (quad2 == (quad1 + 1) % 4)
+				turn = "left";
+			else
+				turn = "right";
 			if (Math.abs(angleBefore - angleAfter) < 45) {
 				direction = "slightly ";
 			} else {
 				direction = "";
 			}
-			route += "Turn " + direction + turn + " and walk " + dist + " feet\n";
+			route += "Turn " + direction + turn + " and walk " + dist + " feet.\n";
 		}
-
+		route += "You are now at your destination.";
 		return route;
 	}
 
@@ -174,7 +166,7 @@ public class Path {
 
 	public float getAngle(Point point1, Point point2) {
 		return (float) (-(float) Math.atan2((point2.getCoord().getY() - point1.getCoord().getY()),
-				 (point2.getCoord().getX() - point1.getCoord().getX())) * 180 / Math.PI);
+				(point2.getCoord().getX() - point1.getCoord().getX())) * 180 / Math.PI);
 	}
 
 	public Coord getNodePointCoord(Node node) {
