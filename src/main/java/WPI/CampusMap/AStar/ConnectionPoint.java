@@ -5,7 +5,7 @@ package WPI.CampusMap.AStar;
  * @author Max Stenke
  *
  */
-public class POI extends Point {
+public class ConnectionPoint extends Point {
 	private Map linkedMap;
 
 	/**
@@ -20,7 +20,7 @@ public class POI extends Point {
 	 * @param linkedMap
 	 *            additional Map this POI connects to
 	 */
-	public POI(Coord coord, String type, String id, Map linkedMap) {
+	public ConnectionPoint(Coord coord, String type, String id, Map linkedMap) {
 		super(coord, type, id);
 		this.linkedMap = linkedMap;
 	}
