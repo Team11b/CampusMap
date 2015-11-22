@@ -16,17 +16,11 @@ import javax.xml.stream.XMLStreamException;
 
 import org.junit.Test;
 
-<<<<<<< HEAD
 import WPI.CampusMap.Backend.Coord;
 import WPI.CampusMap.Backend.Map;
 import WPI.CampusMap.Backend.Point;
-import WPI.CampusMap.XML.XML;
-=======
-import WPI.CampusMap.AStar.Coord;
-import WPI.CampusMap.AStar.Map;
-import WPI.CampusMap.AStar.Point;
 import XML.XML;
->>>>>>> dev
+
 
 public class XMLTest {
 

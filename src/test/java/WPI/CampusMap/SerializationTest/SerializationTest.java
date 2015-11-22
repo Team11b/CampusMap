@@ -5,9 +5,9 @@ import java.util.ArrayList;
 import org.junit.Test;
 
 import Serialization.Serialization;
-import WPI.CampusMap.AStar.Coord;
-import WPI.CampusMap.AStar.Map;
-import WPI.CampusMap.AStar.Point;
+import WPI.CampusMap.Backend.Coord;
+import WPI.CampusMap.Backend.Map;
+import WPI.CampusMap.Backend.Point;
 
 public class SerializationTest {
 

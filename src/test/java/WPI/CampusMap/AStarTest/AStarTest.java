@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import javax.xml.stream.XMLStreamException;
 
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import WPI.CampusMap.AStar.AStar;
@@ -15,7 +14,7 @@ import WPI.CampusMap.AStar.Node;
 import WPI.CampusMap.AStar.Path;
 import WPI.CampusMap.Backend.Map;
 import WPI.CampusMap.Backend.Point;
-import WPI.CampusMap.XML.XML;
+import XML.XML;
 
 public class AStarTest {
 	static Map testMap, testMap2;
