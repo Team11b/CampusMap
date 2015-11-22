@@ -25,7 +25,6 @@ import javax.xml.stream.XMLStreamException;
 
 import WPI.CampusMap.AStar.Map;
 import WPI.CampusMap.AStar.Path;
-import WPI.CampusMap.AStar.Point;
 import XML.XML;
 
 import javax.swing.JTextField;
@@ -325,7 +324,7 @@ public class AppUIObject {
 				System.out.println(txtScale.getText());
 				mapPanel.currentMap.setScale(Integer.parseInt(txtScale.getText()));
 				System.out.println("SAVING!");
-				XML.writePoints(mapPanel.currentMap, mapPanel.currentMap.getMap());
+				XML.writePoints(mapPanel.currentMap);
 				lblScale.setText("Scale: " + mapPanel.currentMap.getScale() + " inches per ft");
 			}
 		});

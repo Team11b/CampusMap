@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.UUID;
 
 import javax.imageio.ImageIO;
@@ -34,7 +35,7 @@ public class Map implements java.io.Serializable {
 	private String name;
 	private String png;
 	private String xml;
-	private ArrayList<Point> map;
+	private HashMap<String,Point> map;
 	private ImageIcon loadedImage;
 	
 	/**
@@ -65,8 +66,6 @@ public class Map implements java.io.Serializable {
 				e.printStackTrace();
 			}
 			map = XML.parseXML(this);
-			System.out.println("map scale" + this.scale);
-
 		}
 	}
 
@@ -78,7 +77,7 @@ public class Map implements java.io.Serializable {
 		this.name = "new_map";
 		this.png = this.name.concat(".png");
 		this.xml = "XML/".concat(this.name).concat(".xml");
-		this.map = new ArrayList<Point>();
+		this.map = new HashMap<String, Point>();
 	}
 
 	/**
@@ -93,7 +92,7 @@ public class Map implements java.io.Serializable {
 	/**
 	 * Set the scale from inches to feet.
 	 * 
-	 * @param f
+	 * @param scale
 	 *            The inches to feet scale.
 	 */
 	public void setScale(float scale)
@@ -105,9 +104,9 @@ public class Map implements java.io.Serializable {
 		
 		if(map != null)
 		{
-			for(Point p : map)
+			for(Point point : map.values())
 			{
-				Coord oldCoord = p.getCoord();
+				Coord oldCoord = point.getCoord();
 				oldCoord.setX(oldCoord.getX() / ratio);
 				oldCoord.setY(oldCoord.getY() / ratio);
 			}
@@ -176,7 +175,7 @@ public class Map implements java.io.Serializable {
 	 * 
 	 * @return An array list of the points that make up this map.
 	 */
-	public ArrayList<Point> getMap() {
+	public HashMap<String, Point> getMap() {
 		return this.map;
 	}
 
@@ -186,7 +185,7 @@ public class Map implements java.io.Serializable {
 	 * @param map
 	 *            The array list that will be the new points for this map.
 	 */
-	public void setMap(ArrayList<Point> map) {
+	public void setMap(HashMap<String, Point> map) {
 		this.map = map;
 	}
 
@@ -213,12 +212,7 @@ public class Map implements java.io.Serializable {
 	 * @return The point with the id.
 	 */
 	public Point getPoint(String id) {
-		for (Point p : map) {
-			if (p.getId().equals(id))
-				return p;
-		}
-
-		return null;
+		return map.get(id);
 	}
 
 	/**
@@ -405,17 +399,14 @@ public class Map implements java.io.Serializable {
 	 *         does note exist
 	 */
 	public boolean removePoint(String id) {
-		for (Point point : map) {
-			if (point.getId().equals(id)) {
-				ArrayList<Point> neighbors = point.getNeighborsP();
-				for (Point pointN : neighbors) {
-					if(!pointN.removeNeighbor(point)) return false;
-				}
-				point.setNeighborsID(new ArrayList<String>());
-				point.setNeighborsP(new ArrayList<Point>());
-				map.remove(point);
-				return true;
+		Point point = map.get(id);
+		if (point != null) {
+			for (Point pointN : point.getNeighborsP()) {
+				if(!pointN.removeNeighbor(point)) return false;
 			}
+			point.removeAllNeighbors();
+			map.remove(point.getId());
+			return true;
 		}
 		return false;
 	}
@@ -434,8 +425,7 @@ public class Map implements java.io.Serializable {
 		for (Point pointN : neighbors) {
 			if(!pointN.removeNeighbor(point)) return false;
 		}
-		point.setNeighborsID(new ArrayList<String>());
-		point.setNeighborsP(new ArrayList<Point>());
+		point.removeAllNeighbors();
 		map.remove(point);
 		return true;
 	}
@@ -455,16 +445,9 @@ public class Map implements java.io.Serializable {
 	 *         point with the same ID
 	 */
 	public boolean addPoint(Point point) {
-		for (Point p : this.map) {
-			if (p.getId().equals(point.getId()))
-				return false;
-		}
-		this.map.add(point);
-		Collections.sort(this.map, new Comparator<Point>() {
-			public int compare(Point p1, Point p2) {
-				return p1.getId().compareTo(p2.getId());
-			}
-		});
+		if(map.containsKey(point.getId())) return false;
+		
+		this.map.put(point.getId(),point);
 		return true;
 	}
 
@@ -482,7 +465,7 @@ public class Map implements java.io.Serializable {
 		if (point.equals(other)) {
 			return false;
 		}
-		if (this.map.contains(point) && this.map.contains(other)) {
+		if (this.map.containsKey(point.getId()) && this.map.containsKey(other.getId())) {
 			boolean adder = point.addNeighbor(other);
 			if (!(adder)) {
 				return false;
@@ -504,7 +487,7 @@ public class Map implements java.io.Serializable {
 	 *         or if the edge does not exist
 	 */
 	public boolean removeEdge(Point point, Point other) {
-		if (this.map.contains(point) && (this.map.contains(other))) {
+		if (this.map.containsKey(point.getId()) && (this.map.containsKey(other.getId()))) {
 			boolean remover = point.removeNeighbor(other);
 			if (!(remover)) {
 				return false;
