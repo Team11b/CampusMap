@@ -151,6 +151,7 @@ public class AStar {
 				if (explored.getLast().getPoint() instanceof ConnectionPoint) {
 					tempConn = (ConnectionPoint) (explored.getLast().getPoint());
 					tempConn.setConnMap(Map.getMap(tempConn.getLinkedMap()));
+					Map.addMap(tempConn.getConnMap());
 					tempConn.setConnPoint((ConnectionPoint) tempConn.getConnMap().getPoint(tempConn.getLinkedPoint()));
 
 					tempNode = new Node(tempConn, explored.getLast());
