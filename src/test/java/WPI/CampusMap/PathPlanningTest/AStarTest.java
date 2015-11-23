@@ -13,13 +13,17 @@ import WPI.CampusMap.Backend.Map;
 import WPI.CampusMap.Backend.Point;
 import WPI.CampusMap.PathPlanning.Node;
 import WPI.CampusMap.PathPlanning.Path;
+import WPI.CampusMap.PathPlanning.AStar.AStar;
+import WPI.CampusMap.XML.XML;
 
 public class AStarTest {
 	static Map testMap,testMap2;
 	@BeforeClass
 	public static void getMap() throws XMLStreamException{
-		 testMap = new Map("5x5Test");
-		 testMap2 = new Map("5x5Test2");
+		testMap = new Map("5x5Test");
+		testMap.setAllPoints(XML.parseXML(testMap));
+		testMap2 = new Map("5x5Test2");
+		testMap2.setAllPoints(XML.parseXML(testMap2));
 	}
 	
 	@Test
