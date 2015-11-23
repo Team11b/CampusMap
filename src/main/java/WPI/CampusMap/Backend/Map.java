@@ -33,11 +33,11 @@ public class Map implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 3434772073791894710L;
-	private int scale;
+	private float scale;
 	private String name;
 	private String png;
 	private String xml;
-	private ArrayList<Point> allPoints;
+	private HashMap<String, Point> allPoints;
 	private ImageIcon loadedImage;
 	private static HashMap<String, Map> allMaps = new HashMap<String, Map>();
 
@@ -68,6 +68,7 @@ public class Map implements java.io.Serializable {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
+
 			allPoints = XML.parseXML(this);
 		}
 	}
@@ -80,7 +81,8 @@ public class Map implements java.io.Serializable {
 		this.name = "new_map";
 		this.png = this.name.concat(".png");
 		this.xml = "XML/".concat(this.name).concat(".xml");
-		this.allPoints = new ArrayList<Point>();
+
+		this.allPoints = new HashMap<String, Point>();
 	}
 
 	/**
@@ -88,25 +90,26 @@ public class Map implements java.io.Serializable {
 	 * 
 	 * @return The scale from inches to feet.
 	 */
-	public int getScale() {
+	public float getScale() {
 		return this.scale;
 	}
 
 	/**
 	 * Set the scale from inches to feet.
 	 * 
-	 * @param scale
+	 * @param f
 	 *            The inches to feet scale.
 	 */
-	public void setScale(int scale) {
-		int oldScale = this.scale;
-		this.scale = scale;
+	public void setScale(float f) {
+		float oldScale = this.scale;
+		this.scale = f;
 
-		float ratio = (float) scale / (float) oldScale;
+		float ratio = (float) f / (float) oldScale;
 
-		if (allPoints != null) {
-			for (Point p : allPoints) {
-				Coord oldCoord = p.getCoord();
+		if (this.allPoints != null) {
+			String[] keys = (String[]) this.allPoints.keySet().toArray();
+			for (String p : keys) {
+				Coord oldCoord = this.allPoints.get(p).getCoord();
 				oldCoord.setX(oldCoord.getX() / ratio);
 				oldCoord.setY(oldCoord.getY() / ratio);
 			}
@@ -130,6 +133,24 @@ public class Map implements java.io.Serializable {
 	 */
 	public void setName(String name) {
 		this.name = name;
+	}
+	
+	/**
+	 * Creates a point on the map at the mouse point.
+	 * 
+	 * @param e
+	 *            The mouse event to trigger the method.
+	 * @return The point that was created.
+	 */
+	public Point createPointOnMap(MouseEvent e) {
+		Coord screenCoord = new Coord(e.getX(), e.getY());
+
+		Coord mapCoord = this.screenToWorldSpace(screenCoord);
+
+		Point newPoint = new Point(mapCoord, "", UUID.randomUUID().toString(), this.name);
+		this.addPoint(newPoint);
+
+		return newPoint;
 	}
 
 	/**
@@ -175,7 +196,7 @@ public class Map implements java.io.Serializable {
 	 * 
 	 * @return An array list of the points that make up this map.
 	 */
-	public ArrayList<Point> getAllPoints() {
+	public HashMap<String, Point> getAllPoints() {
 		return this.allPoints;
 	}
 
@@ -185,7 +206,7 @@ public class Map implements java.io.Serializable {
 	 * @param allPoints
 	 *            The array list that will be the new points for this map.
 	 */
-	public void setAllPoints(ArrayList<Point> ap) {
+	public void setAllPoints(HashMap<String, Point> ap) {
 		this.allPoints = ap;
 	}
 
@@ -219,16 +240,16 @@ public class Map implements java.io.Serializable {
 	public static void setAllMaps(HashMap<String, Map> allMaps) {
 		Map.allMaps = allMaps;
 	}
-	
+
 	public static Map getMap(String mapKey) {
 		return Map.allMaps.get(mapKey);
 	}
-	
+
 	public static boolean addMap(Map mapValue) {
 		if (!(Map.allMaps.containsKey(mapValue.getName()))) {
 			return false;
 		}
-		
+
 		Map.allMaps.put(mapValue.getName(), mapValue);
 		return true;
 	}
@@ -241,12 +262,7 @@ public class Map implements java.io.Serializable {
 	 * @return The point with the id.
 	 */
 	public Point getPoint(String id) {
-		for (Point p : allPoints) {
-			if (p.getId().equals(id))
-				return p;
-		}
-
-		return null;
+		return this.allPoints.get(id);
 	}
 
 	/**
@@ -290,24 +306,6 @@ public class Map implements java.io.Serializable {
 	}
 
 	/**
-	 * Creates a point on the map at the mouse point.
-	 * 
-	 * @param e
-	 *            The mouse event to trigger the method.
-	 * @return The point that was created.
-	 */
-	public Point createPointOnMap(MouseEvent e) {
-		Coord screenCoord = new Coord(e.getX(), e.getY());
-
-		Coord mapCoord = this.screenToWorldSpace(screenCoord);
-
-		Point newPoint = new Point(mapCoord, "", UUID.randomUUID().toString(), this.name);
-		this.addPoint(newPoint);
-
-		return newPoint;
-	}
-
-	/**
 	 * Gets the index of a specific Node in a list of Nodes, based upon the
 	 * Point
 	 * 
@@ -317,7 +315,7 @@ public class Map implements java.io.Serializable {
 	 *            the list of Nodes to search in
 	 * @return the index of the existing Node, -1 if not found
 	 */
-	//TODO may not be used
+	// TODO may not be used
 	private static int getIndex(Node aNode, ArrayList<Node> LoN) {
 		for (int j = 0; j < LoN.size(); j++) {
 			if (LoN.get(j).getPoint() == aNode.getPoint()) {
@@ -337,18 +335,15 @@ public class Map implements java.io.Serializable {
 	 *         does note exist
 	 */
 	public boolean removePoint(String id) {
-		for (Point point : allPoints) {
-			if (point.getId().equals(id)) {
-				ArrayList<Point> neighbors = point.getNeighborsP();
-				for (Point pointN : neighbors) {
-					if (!pointN.removeNeighbor(point))
-						return false;
-				}
-				point.setNeighborsID(new ArrayList<String>());
-				point.setNeighborsP(new ArrayList<Point>());
-				allPoints.remove(point);
-				return true;
+		Point point = this.allPoints.get(id);
+		if (point != null) {
+			for (Point pointN : point.getNeighborsP()) {
+				if (!pointN.removeNeighbor(point))
+					return false;
 			}
+			point.removeAllNeighbors();
+			this.allPoints.remove(point.getId());
+			return true;
 		}
 		return false;
 	}
@@ -368,9 +363,8 @@ public class Map implements java.io.Serializable {
 			if (!pointN.removeNeighbor(point))
 				return false;
 		}
-		point.setNeighborsID(new ArrayList<String>());
-		point.setNeighborsP(new ArrayList<Point>());
-		allPoints.remove(point);
+		point.removeAllNeighbors();
+		this.allPoints.remove(point);
 		return true;
 	}
 
@@ -392,16 +386,10 @@ public class Map implements java.io.Serializable {
 	 *         point with the same ID
 	 */
 	public boolean addPoint(Point point) {
-		for (Point p : this.allPoints) {
-			if (p.getId().equals(point.getId()))
-				return false;
-		}
-		this.allPoints.add(point);
-		Collections.sort(this.allPoints, new Comparator<Point>() {
-			public int compare(Point p1, Point p2) {
-				return p1.getId().compareTo(p2.getId());
-			}
-		});
+		if (this.allPoints.containsKey(point.getId()))
+			return false;
+
+		this.allPoints.put(point.getId(), point);
 		return true;
 	}
 
@@ -419,7 +407,7 @@ public class Map implements java.io.Serializable {
 		if (point.equals(other)) {
 			return false;
 		}
-		if (this.allPoints.contains(point) && this.allPoints.contains(other)) {
+		if (this.allPoints.containsKey(point.getId()) && this.allPoints.containsKey(other.getId())) {
 			boolean adder = point.addNeighbor(other);
 			if (!(adder)) {
 				return false;
@@ -441,7 +429,7 @@ public class Map implements java.io.Serializable {
 	 *         or if the edge does not exist
 	 */
 	public boolean removeEdge(Point point, Point other) {
-		if (this.allPoints.contains(point) && (this.allPoints.contains(other))) {
+		if (this.allPoints.containsKey(point.getId()) && (this.allPoints.containsKey(other.getId()))) {
 			boolean remover = point.removeNeighbor(other);
 			if (!(remover)) {
 				return false;
