@@ -28,7 +28,7 @@ public class XMLTest {
 	public void testWriteXML() throws FileNotFoundException,XMLStreamException {
 		Map testMap = new Map("AK");
 		testMap.setName("AKTest");
-		XML.writePoints(testMap, testMap.getMap());
+		XML.writePoints(testMap, testMap.getAllPoints());
 		testMap = new Map("AKTest");
 		
 		//Delete AKTest
@@ -44,7 +44,7 @@ public class XMLTest {
 		    System.err.println(x);
 		}
 		
-		ArrayList<Point> points = testMap.getMap();
+		ArrayList<Point> points = testMap.getAllPoints();
 		
 
 		//checking points

@@ -20,10 +20,10 @@ public class MapPointManipulationTest {
 		testMap.addPoint(twoP);
 		testMap.addPoint(threeP);
 		
-		assertEquals(testMap.getMap().size(),3);
-		assertTrue(testMap.getMap().contains(oneP));
-		assertTrue(testMap.getMap().contains(twoP));
-		assertTrue(testMap.getMap().contains(threeP));
+		assertEquals(testMap.getAllPoints().size(),3);
+		assertTrue(testMap.getAllPoints().contains(oneP));
+		assertTrue(testMap.getAllPoints().contains(twoP));
+		assertTrue(testMap.getAllPoints().contains(threeP));
 
 		assertTrue(testMap.addEdge(testMap.getPoint("PointOne"), testMap.getPoint("PointTwo")));
 		assertTrue(testMap.addEdge(testMap.getPoint("PointThree"), testMap.getPoint("PointOne")));

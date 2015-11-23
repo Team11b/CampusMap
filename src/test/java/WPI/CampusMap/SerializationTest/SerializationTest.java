@@ -17,12 +17,12 @@ public class SerializationTest {
 		tempM.setName("test_map");
 		ArrayList<Point> tempP = new ArrayList<Point>();
 		tempP.add(new Point(new Coord((float) 1.1, 0), "hiya", "id"));
-		tempM.setMap(tempP);
+		tempM.setAllPoints(tempP);
 
 		Serialization.write(tempM);
 
 		Map temp2 = Serialization.read(tempM.getName());
-		System.out.println("Output:\t\t\t" + temp2.getName() + "\t" + temp2.getMap().get(0).getCoord().getX());
+		System.out.println("Output:\t\t\t" + temp2.getName() + "\t" + temp2.getAllPoints().get(0).getCoord().getX());
 		System.out.println("Expected:\t\tnew_map\t1.1");
 	}
 

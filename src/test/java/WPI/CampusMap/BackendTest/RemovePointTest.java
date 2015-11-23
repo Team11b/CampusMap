@@ -20,7 +20,7 @@ public class RemovePointTest {
 		Map testMap = new Map("AK");
 		testMap.removePoint("b9e43a3e-c47d-4f7b-b63c-f874c94f4cde");
 		
-		ArrayList<Point> points = testMap.getMap();
+		ArrayList<Point> points = testMap.getAllPoints();
 		
 		//checking points
 		assertEquals(4, points.size());

@@ -22,9 +22,9 @@ public class AStarTest {
 	@BeforeClass
 	public static void getMap() throws XMLStreamException {
 		testMap = new Map("5x5Test");
-		testMap.setMap(XML.parseXML(testMap));
+		testMap.setAllPoints(XML.parseXML(testMap));
 		testMap2 = new Map("5x5Test2");
-		testMap2.setMap(XML.parseXML(testMap2));
+		testMap2.setAllPoints(XML.parseXML(testMap2));
 	}
 
 	@Test

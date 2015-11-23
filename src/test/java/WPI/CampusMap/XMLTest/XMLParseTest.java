@@ -25,7 +25,7 @@ public class XMLParseTest {
 	@Test
 	public void testOpenXML() throws FileNotFoundException,XMLStreamException {
 		Map testMap = new Map("AK");
-		ArrayList<Point> points = testMap.getMap();
+		ArrayList<Point> points = testMap.getAllPoints();
 		
 		assertEquals(20,testMap.getScale());
 		//checking points
