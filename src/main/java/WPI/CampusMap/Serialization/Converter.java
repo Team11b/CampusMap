@@ -38,7 +38,7 @@ public class Converter {
 				temp.setXML("XML/" + files[j]);
 				
 				try {
-					temp.setMap(XML.parseXML(temp));
+					temp.setAllPoints(XML.parseXML(temp));
 				} catch (XMLStreamException e) {
 					e.printStackTrace();
 				}

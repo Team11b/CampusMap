@@ -324,7 +324,7 @@ public class AppUIObject {
 				System.out.println(txtScale.getText());
 				mapPanel.currentMap.setScale(Integer.parseInt(txtScale.getText()));
 				System.out.println("SAVING!");
-				XML.writePoints(mapPanel.currentMap, mapPanel.currentMap.getMap());
+				XML.writePoints(mapPanel.currentMap, mapPanel.currentMap.getAllPoints());
 				lblScale.setText("Scale: " + mapPanel.currentMap.getScale() + " inches per ft");
 			}
 		});
