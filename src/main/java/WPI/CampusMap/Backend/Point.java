@@ -47,7 +47,7 @@ public class Point implements java.io.Serializable {
 		this.neighborsP = new ArrayList<Point>();
 //		 this.neighborsID = getNeighborsIDs(neighborsP);
 		this.neighborsID = new ArrayList<String>();
-		this.map = map;
+		this.setMap(map);
 	}
 
 	public Point() {
@@ -185,5 +185,13 @@ public class Point implements java.io.Serializable {
 	@Override
 	public String toString() {
 		return "" + this.getId() + "\t" + this.getCoord();
+	}
+
+	public String getMap() {
+		return map;
+	}
+
+	public void setMap(String map) {
+		this.map = map;
 	}
 }
