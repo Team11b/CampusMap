@@ -1,8 +1,7 @@
-package WPI.CampusMap.AStarTest;
+package WPI.CampusMap.PathPlanningTest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
-import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
 import javax.xml.stream.XMLStreamException;
@@ -10,11 +9,10 @@ import javax.xml.stream.XMLStreamException;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import WPI.CampusMap.AStar.Coord;
-import WPI.CampusMap.AStar.Map;
-import WPI.CampusMap.AStar.Node;
-import WPI.CampusMap.AStar.Path;
-import WPI.CampusMap.AStar.Point;
+import WPI.CampusMap.Backend.Map;
+import WPI.CampusMap.Backend.Point;
+import WPI.CampusMap.PathPlanning.Node;
+import WPI.CampusMap.PathPlanning.Path;
 
 public class AStarTest {
 	static Map testMap,testMap2;

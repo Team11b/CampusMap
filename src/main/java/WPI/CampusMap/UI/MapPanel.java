@@ -1,16 +1,27 @@
-package UI;
+package WPI.CampusMap.UI;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.awt.event.MouseMotionListener;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Comparator;
 import java.util.HashSet;
 import java.util.Hashtable;
 
 import javax.swing.JPanel;
 import javax.xml.stream.XMLStreamException;
+
+import WPI.CampusMap.Backend.Coord;
+import WPI.CampusMap.Backend.Map;
+import WPI.CampusMap.Backend.Point;
+import WPI.CampusMap.PathPlanning.Node;
+import WPI.CampusMap.PathPlanning.Path;
+import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
 import WPI.CampusMap.AStar.Coord;
 import WPI.CampusMap.AStar.Map;
@@ -22,15 +33,26 @@ import WPI.CampusMap.AStar.Point;
  * Map Panel Class Contains the graphics and UI components of the app
  */
 @SuppressWarnings("serial")
-class MapPanel extends JPanel {
+class MapPanel extends JPanel implements Runnable{
 	private AppUIObject uiObject;
 	protected Map currentMap;
 	protected Path currentRoute;
 	protected Point selectedPoint;
 	protected Point startPoint, endPoint;
+	
+	private Thread renderingThread;
+	
+	//Hashtable of all objects that can be drawn
+	private Hashtable<Object, IGraphicsObject> drawables = new Hashtable<>();
+	private ArrayList<IGraphicsObject> batchList = new ArrayList<>();
 
 	MapPanel(AppUIObject uiObject) {
 		this.uiObject = uiObject;
+		
+		
+		
+		this.renderingThread = new Thread(this, "Render Thread");
+		this.renderingThread.start();
 	}
 
 	@Override
@@ -39,125 +61,19 @@ class MapPanel extends JPanel {
 
 		drawMap((Graphics2D) g);
 	}
-	
-	/** loadMap takes a mapName and loads it as the current map
+
+	/**
+	 * loadMap takes a mapName and loads it as the current map
 	 * 
-	 * @param mapName					map to load
-	 * @throws XMLStreamException	
+	 * @param mapName
+	 *            map to load
+	 * @throws XMLStreamException
 	 */
 	protected void loadMap(String mapName) throws XMLStreamException {
 		System.out.println("UI: " + mapName);
 		Map newMap = new Map(mapName);
 		currentMap = newMap;
 		uiObject.reDrawUI();
-	}
-
-	/**
-	 * drawPoint method intakes a point and a graphics object, and draws the
-	 * point
-	 * 
-	 * @param p
-	 *            Point to be drawn
-	 * @param graphics
-	 *            graphics object to do the drawing
-	 */
-	private void drawPoint(Point p, Graphics2D graphics) {
-		if (startPoint == p && !uiObject.devMode) {
-			graphics.setColor(Color.green);
-		} else if (endPoint == p && !uiObject.devMode) {
-			graphics.setColor(Color.blue);
-		} else if (selectedPoint == p && uiObject.devMode) {
-			graphics.setColor(Color.yellow);
-		} else {
-			graphics.setColor(Color.red);
-		}
-
-		Coord screenCoord = currentMap.worldToScreenSpace(p.getCoord());
-
-		final float size = 10.0f;
-		final float halfSize = size * 0.5f;
-
-		Coord truePosition = new Coord(screenCoord.getX() - halfSize, screenCoord.getY() - halfSize);
-
-		graphics.fillOval((int) truePosition.getX(), (int) truePosition.getY(), (int) size, (int) size);
-	}
-
-	/**
-	 * drawEdges takes a point, hashtable of drawn points and a graphics object
-	 * and draws the edges of point p
-	 * 
-	 * @param p
-	 *            point to have edges drawn
-	 * @param drawnPoints
-	 *            points to draw edges to
-	 * @param graphics
-	 *            graphics object to do the drawing
-	 */
-	private void drawEdges(Point p, Hashtable<Point, HashSet<Point>> drawnPoints, Graphics2D graphics) {
-		graphics.setColor(Color.gray);
-		graphics.setStroke(new BasicStroke(2));
-
-		ArrayList<Point> neighbors = p.getValidNeighbors();
-
-		HashSet<Point> skipPoints = drawnPoints.get(p);
-		if (skipPoints == null) {
-			skipPoints = new HashSet<>();
-			drawnPoints.put(p, skipPoints);
-		}
-
-		for (Point n : neighbors) {
-			if (skipPoints.contains(n))
-				continue;
-
-			HashSet<Point> neighborPoints = drawnPoints.get(n);
-			if (neighborPoints != null) {
-				if (neighborPoints.contains(p))
-					continue;
-			} else {
-				drawnPoints.put(n, neighborPoints = new HashSet<>());
-			}
-
-			neighborPoints.add(p);
-			skipPoints.add(n);
-
-			Coord screenStart = currentMap.worldToScreenSpace(p.getCoord());
-			Coord screenStop = currentMap.worldToScreenSpace(n.getCoord());
-
-			graphics.drawLine((int) screenStart.getX(), (int) screenStart.getY(), (int) screenStop.getX(),
-					(int) screenStop.getY());
-		}
-
-		graphics.setStroke(new BasicStroke(1));
-	}
-
-	/**
-	 * drawPath takes a path and a graphics object and draws the path
-	 * 
-	 * @param path
-	 *            path to be drawn
-	 * @param graphics
-	 *            graphics object to do the drawing
-	 */
-	private void drawPath(Path path, Graphics2D graphics) {
-		graphics.setColor(new Color(255, 0, 255));
-		graphics.setStroke(new BasicStroke(3));
-
-		ArrayList<Node> nodes = path.getPath();
-		for (int i = 1; i < nodes.size(); i++) {
-			int before = i - 1;
-
-			Node currentNode = nodes.get(i);
-			Node beforeNode = nodes.get(before);
-
-			Coord startScreen = currentMap.worldToScreenSpace(beforeNode.getPoint().getCoord());
-			Coord endScreen = currentMap.worldToScreenSpace(currentNode.getPoint().getCoord());
-
-			graphics.drawLine((int) startScreen.getX(), (int) startScreen.getY(), (int) endScreen.getX(),
-					(int) endScreen.getY());
-
-		}
-
-		graphics.setStroke(new BasicStroke(1));
 	}
 
 	/**
@@ -175,19 +91,18 @@ class MapPanel extends JPanel {
 		graphics.setColor(Color.white);
 		graphics.drawImage(currentMap.getLoadedImage().getImage(), 0, 0, getWidth(), getHeight(), null);
 
-		ArrayList<Point> points = currentMap.getMap();
-
-		Hashtable<Point, HashSet<Point>> drawnPoints = new Hashtable<>();
-		for (Point p : points) {
-			drawEdges(p, drawnPoints, graphics);
-		}
-
-		for (Point p : points) {
-			drawPoint(p, graphics);
-		}
-
-		if (currentRoute != null && !uiObject.devMode) {
-			drawPath(currentRoute, graphics);
+		batchList.sort(new GraphicsBatchComparator());
+		for(int i = 0; i < batchList.size(); i++)
+		{
+			IGraphicsObject go = batchList.get(i);
+			if(go.getRepresentedObject() == null)
+			{
+				
+			}
+			else
+			{
+				go.onDraw(graphics);
+			}
 		}
 	}
 
@@ -240,13 +155,13 @@ class MapPanel extends JPanel {
 	protected boolean selectPointOnMap(MouseEvent e) {
 		Coord screenCoord = new Coord(e.getX(), e.getY());
 
-		ArrayList<Point> points = currentMap.getMap();
+		HashMap<String, Point> points = currentMap.getAllPoints();
 
 		Point closestPoint = null;
 		float closestDistance = Float.MAX_VALUE;
 		final float clickThreshold = 5.0f;
 
-		for (Point p : points) {
+		for (Point p : points.values()) {
 			float distance = screenCoord.distance(currentMap.worldToScreenSpace(p.getCoord()));
 
 			if (distance < clickThreshold && distance < closestDistance) {
@@ -288,5 +203,126 @@ class MapPanel extends JPanel {
 		selectedPoint = null;
 
 		return true;
+	}
+
+	@Override
+	public void run() {
+		while(true)
+		{
+			//Ensure that rendering does not happen while objects are updating
+			synchronized(this)
+			{
+				repaint();
+			}
+			
+			try 
+			{
+				Thread.sleep(33);
+			} catch (InterruptedException e)
+			{
+				return;
+			}
+		}
+	}
+	
+	private class GraphicsBatchComparator implements Comparator<IGraphicsObject>
+	{
+
+		@Override
+		public int compare(IGraphicsObject arg0, IGraphicsObject arg1) 
+		{
+			return arg0.getDrawBatch() - arg1.getDrawBatch();
+		}
+		
+	}
+	
+	private class MapPannelMouseListener implements MouseListener, MouseMotionListener
+	{
+		public MapPannelMouseListener(MapPanel panel)
+		{
+			this.panel = panel;
+		}
+		
+		@Override
+		public void mouseClicked(MouseEvent e) 
+		{
+			if(over != null)
+			{
+				synchronized (panel)
+				{
+					over.onMouseClick(e);
+				}
+			}
+		}
+
+		@Override
+		public void mouseEntered(MouseEvent e) 
+		{
+		}
+
+		@Override
+		public void mouseExited(MouseEvent e) 
+		{
+			if(over != null)
+			{
+				synchronized (panel)
+				{
+					over.onMouseLeave(e);
+					over = null;
+				}
+			}
+		}
+
+		@Override
+		public void mousePressed(MouseEvent e) 
+		{
+		}
+
+		@Override
+		public void mouseReleased(MouseEvent e) 
+		{
+			
+		}
+		@Override
+		public void mouseDragged(MouseEvent e)
+		{
+			if(over != null)
+			{
+				synchronized(panel)
+				{
+					over.onMouseDrag(e);
+				}
+			}
+		}
+
+		@Override
+		public void mouseMoved(MouseEvent e) 
+		{
+			synchronized (panel)
+			{
+				for(int i = panel.batchList.size() - 1; i >= 0; i--)
+				{
+					IGraphicsObject go = panel.batchList.get(i);
+					if(go.isMouseOver(e))
+					{
+						over = go;
+						over.onMouseOver(e);
+						break;
+					}
+				}
+				
+				if(over != null)
+				{
+					over.onMouseLeave(e);
+					over = null;
+				}
+			}
+			
+			
+		}
+		
+		private IGraphicsObject over;
+		
+		private MapPanel panel;
 	}
 }

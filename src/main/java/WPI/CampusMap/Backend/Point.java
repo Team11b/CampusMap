@@ -1,18 +1,23 @@
-package WPI.CampusMap.AStar;
+package WPI.CampusMap.Backend;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 /**
  * 
  * @author Max Stenke
  *
  */
-public class Point {
+public class Point implements java.io.Serializable {
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1262614340821579118L;
 	private Coord coord;
 	private String type;
 	private String id;
-	private ArrayList<Point> neighborsP;
-	private ArrayList<String> neighborsID;
+	private String map;
+	private HashMap<String, Point> neighbors = new HashMap<String, Point>();
 
 	public static final String WALL = "wall";
 	/** Standard type of wall */
@@ -35,36 +40,27 @@ public class Point {
 	 * @param id
 	 *            ID of point
 	 */
-	public Point(Coord coord, String type, String id) {
+	public Point(Coord coord, String type, String id, String map) {
 		this.coord = coord;
 		this.type = type;
 		this.id = id;
-		this.neighborsP = new ArrayList<Point>();
-//		 this.neighborsID = getNeighborsIDs(neighborsP);
-		this.neighborsID = new ArrayList<String>();
+		this.setMap(map);
+		this.neighbors = new HashMap<String, Point>();
 	}
 
 	public Point() {
 
 	}
 
-	// private ArrayList<String> getNeighborsIDs(Point[] object) {
-	// ArrayList<String> ids = new ArrayList<String>();
-	// for (int i = 0; i < object.length; i++) {
-	// if(temp[i] != null){
-	// temp[i] = object[i].getId();
-	// }
-	// }
-	// return temp;
-	// }
-
 	/**
 	 * Gets the distance between two points.
-	 * @param other The other point to get the distance too.
-	 * @return The discane to the other point.
+	 * 
+	 * @param other
+	 *            The other point to get the distance too.
+	 * @return The distance to the other point.
 	 */
-	public float distance(Point other) {
-		return this.coord.distance(other.getCoord());
+	public double distance(Point other) {
+		return 0;
 	}
 
 	public Coord getCoord() {
@@ -92,19 +88,14 @@ public class Point {
 	}
 
 	public ArrayList<Point> getNeighborsP() {
-		return neighborsP;
-	}
-
-	public void setNeighborsP(ArrayList<Point> neighborsP) {
-		this.neighborsP = neighborsP;
+		ArrayList<Point> tempAL = new ArrayList<Point>(neighbors.values());
+		return tempAL;
 	}
 
 	public ArrayList<String> getNeighborsID() {
-		return neighborsID;
-	}
-
-	public void setNeighborsID(ArrayList<String> neighborsID) {
-		this.neighborsID = neighborsID;
+		ArrayList<String> tempAL = new ArrayList<String>();
+		tempAL.addAll(neighbors.keySet());
+		return tempAL;
 	}
 
 	/**
@@ -128,26 +119,17 @@ public class Point {
 
 	/**
 	 * Removes Point from list of neighbors.
-	 * @param point point to be removed
+	 * 
+	 * @param point
+	 *            point to be removed
 	 * @return True if successfully removed, False if not removed
 	 */
 	public boolean removeNeighbor(Point point) {
-		try {
-			this.neighborsID.remove(point.id);
-		} catch (NullPointerException e) {
-			return false;
-		}
-
-		try {
-			this.neighborsP.remove(point);
-			return true;
-		} catch (NullPointerException e) {
-			return false;
-		}
+		return this.neighbors.remove(point.id) != null;
 	}
 
 	/**
-	 * adds a neighbor to this point
+	 * Adds a neighbor to this point
 	 * 
 	 * @param point
 	 *            the new Point to add
@@ -155,15 +137,19 @@ public class Point {
 	 *         exists
 	 */
 	public boolean addNeighbor(Point point) {
-		if(this.getNeighborsID().contains(point.getId())&&this.getNeighborsP().contains(point)) return false;
-		
-		if(!this.getNeighborsID().contains(point.getId())){
-			this.neighborsID.add(point.getId());
-		}
-		if(!this.getNeighborsP().contains(point)){
-			this.neighborsP.add(point);
-		}
+		if (this.neighbors.containsValue(point))
+			return false;
+
+		this.neighbors.put(point.getId(), point);
+
 		return true;
+	}
+
+	/**
+	 * Removes all the neighbors from this point
+	 */
+	public void removeAllNeighbors() {
+		this.neighbors.clear();
 	}
 
 	@Override
@@ -174,5 +160,18 @@ public class Point {
 			result = (this.getCoord().equals(that.getCoord()));
 		}
 		return result;
+	}
+
+	public String getMap() {
+		return map;
+	}
+
+	public void setMap(String map) {
+		this.map = map;
+	}
+
+	@Override
+	public String toString() {
+		return id;
 	}
 }
