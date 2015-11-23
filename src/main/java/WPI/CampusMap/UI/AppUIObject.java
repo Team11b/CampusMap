@@ -28,6 +28,7 @@ import javax.xml.stream.XMLStreamException;
 
 import WPI.CampusMap.Backend.Map;
 import WPI.CampusMap.PathPlanning.Path;
+import WPI.CampusMap.PathPlanning.AStar.AStar;
 import WPI.CampusMap.XML.XML;
 
 public class AppUIObject {
@@ -130,7 +131,7 @@ public class AppUIObject {
 				System.out.println("Send an Email!");
 				break;
 			case "Route me":
-				Path path = mapPanel.currentMap.astar(mapPanel.startPoint, mapPanel.endPoint);
+				Path path = AStar.single_AStar(mapPanel.startPoint, mapPanel.endPoint);
 				mapPanel.currentRoute = path;
 				reDrawUI();
 				break;

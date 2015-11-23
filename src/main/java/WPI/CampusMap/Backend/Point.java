@@ -45,9 +45,8 @@ public class Point implements java.io.Serializable {
 		this.type = type;
 		this.id = id;
 		this.neighborsP = new ArrayList<Point>();
-//		 this.neighborsID = getNeighborsIDs(neighborsP);
 		this.neighborsID = new ArrayList<String>();
-		this.map = map;
+		this.setMap(map);
 	}
 
 	public Point() {
@@ -67,10 +66,10 @@ public class Point implements java.io.Serializable {
 	/**
 	 * Gets the distance between two points.
 	 * @param other The other point to get the distance too.
-	 * @return The discane to the other point.
+	 * @return The distance to the other point.
 	 */
-	public float distance(Point other) {
-		return this.coord.distance(other.getCoord());
+	public double distance(Point other) {
+		return 0;
 	}
 
 	public Coord getCoord() {
@@ -185,5 +184,13 @@ public class Point implements java.io.Serializable {
 	@Override
 	public String toString() {
 		return "" + this.getId() + "\t" + this.getCoord();
+	}
+
+	public String getMap() {
+		return map;
+	}
+
+	public void setMap(String map) {
+		this.map = map;
 	}
 }
