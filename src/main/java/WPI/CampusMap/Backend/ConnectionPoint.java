@@ -13,6 +13,8 @@ public class ConnectionPoint extends Point {
 	private static final long serialVersionUID = 8498467892896790681L;
 	private String linkedMap;
 	private String linkedPoint;
+	private ConnectionPoint connPoint;
+	private Map connMap;
 
 	/**
 	 * ConnectionPoint constructor
@@ -30,6 +32,8 @@ public class ConnectionPoint extends Point {
 		super(coord, type, id);
 		this.linkedMap = linkedMap;
 		this.linkedPoint = linkedPoint;
+		this.connMap = null;
+		this.connPoint = null;
 	}
 
 	public String getLinkedMap() {
@@ -46,6 +50,22 @@ public class ConnectionPoint extends Point {
 
 	public void setLinkedPoint(String linkedPoint) {
 		this.linkedPoint = linkedPoint;
+	}
+
+	public ConnectionPoint getConnPoint() {
+		return connPoint;
+	}
+
+	public void setConnPoint(ConnectionPoint connPoint) {
+		this.connPoint = connPoint;
+	}
+
+	public Map getConnMap() {
+		return connMap;
+	}
+
+	public void setConnMap(Map connMap) {
+		this.connMap = connMap;
 	}
 
 }

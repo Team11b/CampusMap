@@ -8,6 +8,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.UUID;
 
 import javax.imageio.ImageIO;
@@ -36,8 +37,9 @@ public class Map implements java.io.Serializable {
 	private String name;
 	private String png;
 	private String xml;
-	private ArrayList<Point> map;
+	private ArrayList<Point> allPoints;
 	private ImageIcon loadedImage;
+	private static HashMap<String, Map> allMaps = new HashMap<String, Map>();
 
 	/**
 	 * Creates a map from an xml file. Default values are used if the xml cannot
@@ -66,7 +68,7 @@ public class Map implements java.io.Serializable {
 			} catch (IOException e) {
 				e.printStackTrace();
 			}
-			map = XML.parseXML(this);
+			allPoints = XML.parseXML(this);
 		}
 	}
 
@@ -78,7 +80,7 @@ public class Map implements java.io.Serializable {
 		this.name = "new_map";
 		this.png = this.name.concat(".png");
 		this.xml = "XML/".concat(this.name).concat(".xml");
-		this.map = new ArrayList<Point>();
+		this.allPoints = new ArrayList<Point>();
 	}
 
 	/**
@@ -102,8 +104,8 @@ public class Map implements java.io.Serializable {
 
 		float ratio = (float) scale / (float) oldScale;
 
-		if (map != null) {
-			for (Point p : map) {
+		if (allPoints != null) {
+			for (Point p : allPoints) {
 				Coord oldCoord = p.getCoord();
 				oldCoord.setX(oldCoord.getX() / ratio);
 				oldCoord.setY(oldCoord.getY() / ratio);
@@ -173,18 +175,18 @@ public class Map implements java.io.Serializable {
 	 * 
 	 * @return An array list of the points that make up this map.
 	 */
-	public ArrayList<Point> getMap() {
-		return this.map;
+	public ArrayList<Point> getAllPoints() {
+		return this.allPoints;
 	}
 
 	/**
 	 * Sets the points that make up this map.
 	 * 
-	 * @param map
+	 * @param allPoints
 	 *            The array list that will be the new points for this map.
 	 */
-	public void setMap(ArrayList<Point> map) {
-		this.map = map;
+	public void setAllPoints(ArrayList<Point> ap) {
+		this.allPoints = ap;
 	}
 
 	/**
@@ -202,6 +204,35 @@ public class Map implements java.io.Serializable {
 		this.loadedImage = loadedImage;
 	}
 
+	public String getXml() {
+		return xml;
+	}
+
+	public void setXml(String xml) {
+		this.xml = xml;
+	}
+
+	public HashMap<String, Map> getAllMaps() {
+		return allMaps;
+	}
+
+	public void setAllMaps(HashMap<String, Map> allMaps) {
+		this.allMaps = allMaps;
+	}
+	
+	public Map getMap(String mapKey) {
+		return Map.allMaps.get(mapKey);
+	}
+	
+	public boolean addMap(Map mapValue) {
+		if (!(Map.allMaps.containsKey(mapValue.getName()))) {
+			return false;
+		}
+		
+		Map.allMaps.put(mapValue.getName(), mapValue);
+		return true;
+	}
+
 	/**
 	 * Gets a point from the map.
 	 * 
@@ -210,7 +241,7 @@ public class Map implements java.io.Serializable {
 	 * @return The point with the id.
 	 */
 	public Point getPoint(String id) {
-		for (Point p : map) {
+		for (Point p : allPoints) {
 			if (p.getId().equals(id))
 				return p;
 		}
@@ -408,7 +439,7 @@ public class Map implements java.io.Serializable {
 	 *         does note exist
 	 */
 	public boolean removePoint(String id) {
-		for (Point point : map) {
+		for (Point point : allPoints) {
 			if (point.getId().equals(id)) {
 				ArrayList<Point> neighbors = point.getNeighborsP();
 				for (Point pointN : neighbors) {
@@ -417,7 +448,7 @@ public class Map implements java.io.Serializable {
 				}
 				point.setNeighborsID(new ArrayList<String>());
 				point.setNeighborsP(new ArrayList<Point>());
-				map.remove(point);
+				allPoints.remove(point);
 				return true;
 			}
 		}
@@ -441,7 +472,7 @@ public class Map implements java.io.Serializable {
 		}
 		point.setNeighborsID(new ArrayList<String>());
 		point.setNeighborsP(new ArrayList<Point>());
-		map.remove(point);
+		allPoints.remove(point);
 		return true;
 	}
 
@@ -464,12 +495,12 @@ public class Map implements java.io.Serializable {
 	 *         point with the same ID
 	 */
 	public boolean addPoint(Point point) {
-		for (Point p : this.map) {
+		for (Point p : this.allPoints) {
 			if (p.getId().equals(point.getId()))
 				return false;
 		}
-		this.map.add(point);
-		Collections.sort(this.map, new Comparator<Point>() {
+		this.allPoints.add(point);
+		Collections.sort(this.allPoints, new Comparator<Point>() {
 			public int compare(Point p1, Point p2) {
 				return p1.getId().compareTo(p2.getId());
 			}
@@ -491,7 +522,7 @@ public class Map implements java.io.Serializable {
 		if (point.equals(other)) {
 			return false;
 		}
-		if (this.map.contains(point) && this.map.contains(other)) {
+		if (this.allPoints.contains(point) && this.allPoints.contains(other)) {
 			boolean adder = point.addNeighbor(other);
 			if (!(adder)) {
 				return false;
@@ -513,7 +544,7 @@ public class Map implements java.io.Serializable {
 	 *         or if the edge does not exist
 	 */
 	public boolean removeEdge(Point point, Point other) {
-		if (this.map.contains(point) && (this.map.contains(other))) {
+		if (this.allPoints.contains(point) && (this.allPoints.contains(other))) {
 			boolean remover = point.removeNeighbor(other);
 			if (!(remover)) {
 				return false;
