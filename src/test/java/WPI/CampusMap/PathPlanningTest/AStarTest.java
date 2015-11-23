@@ -1,4 +1,4 @@
-package WPI.CampusMap.AStarTest;
+package WPI.CampusMap.PathPlanningTest;
 
 import static org.junit.Assert.assertEquals;
 

@@ -217,4 +217,22 @@ public class Path {
 		return route;
 	}
 	
+	@Override
+	public boolean equals(Object other) {
+		if (!(other instanceof Path)) {
+			return false;
+		}
+		if (((Path)(other)).getPath().size() != this.getPath().size()) {
+			return false;
+		}
+		
+		for (int j = 0; j < ((Path)(other)).getPath().size(); j++) {
+			if (!(((Path)(other)).getPath().get(j).getPoint().getId().equals(this.getPath().get(j).getPoint().getId()))) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
 }
