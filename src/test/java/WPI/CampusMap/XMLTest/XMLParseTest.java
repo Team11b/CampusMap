@@ -67,13 +67,11 @@ public class XMLParseTest {
 				.contains("86ee014d-3e62-44f7-86e1-70a865afe51c"));
 	}
 
-	@Ignore // Ignore till we decide if FileNowFoundException is thrown by map
-			// constructor
-	@Test
-	public void testOpenXMLFileNotFound() throws FileNotFoundException, XMLStreamException {
-		exception.expect(FileNotFoundException.class);
-		Map testMap = new Map("blah.xml");
-	}
+//	@Test
+//	public void testOpenXMLFileNotFound() throws FileNotFoundException, XMLStreamException {
+//		exception.expect(FileNotFoundException.class);
+//		Map testMap = new Map("blah.xml");
+//	}
 
 	@Test
 	public void testInvalidXML() throws FileNotFoundException, XMLStreamException {
