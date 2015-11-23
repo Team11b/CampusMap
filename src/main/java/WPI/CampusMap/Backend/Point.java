@@ -17,6 +17,7 @@ public class Point implements java.io.Serializable {
 	private String id;
 	private ArrayList<Point> neighborsP;
 	private ArrayList<String> neighborsID;
+	private String map;
 
 	public static final String WALL = "wall";
 	/** Standard type of wall */
@@ -39,13 +40,14 @@ public class Point implements java.io.Serializable {
 	 * @param id
 	 *            ID of point
 	 */
-	public Point(Coord coord, String type, String id) {
+	public Point(Coord coord, String type, String id, String map) {
 		this.coord = coord;
 		this.type = type;
 		this.id = id;
 		this.neighborsP = new ArrayList<Point>();
 //		 this.neighborsID = getNeighborsIDs(neighborsP);
 		this.neighborsID = new ArrayList<String>();
+		this.map = map;
 	}
 
 	public Point() {

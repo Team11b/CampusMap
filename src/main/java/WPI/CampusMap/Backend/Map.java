@@ -224,7 +224,7 @@ public class Map implements java.io.Serializable {
 		return Map.allMaps.get(mapKey);
 	}
 	
-	public boolean addMap(Map mapValue) {
+	public static boolean addMap(Map mapValue) {
 		if (!(Map.allMaps.containsKey(mapValue.getName()))) {
 			return false;
 		}
@@ -301,7 +301,7 @@ public class Map implements java.io.Serializable {
 
 		Coord mapCoord = this.screenToWorldSpace(screenCoord);
 
-		Point newPoint = new Point(mapCoord, "", UUID.randomUUID().toString());
+		Point newPoint = new Point(mapCoord, "", UUID.randomUUID().toString(), this.name);
 		this.addPoint(newPoint);
 
 		return newPoint;

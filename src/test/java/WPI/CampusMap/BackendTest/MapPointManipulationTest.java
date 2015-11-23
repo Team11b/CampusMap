@@ -13,9 +13,9 @@ public class MapPointManipulationTest {
 	@Test
 	public void test() {
 		Map testMap= new Map();
-		Point oneP = new Point(new Coord(0,0), "", "PointOne");
-		Point twoP = new Point(new Coord(1,1), "", "PointTwo");
-		Point threeP = new Point(new Coord(0,1), "", "PointThree");
+		Point oneP = new Point(new Coord(0,0), "", "PointOne", null);
+		Point twoP = new Point(new Coord(1,1), "", "PointTwo", null);
+		Point threeP = new Point(new Coord(0,1), "", "PointThree", null);
 		testMap.addPoint(oneP);
 		testMap.addPoint(twoP);
 		testMap.addPoint(threeP);
@@ -74,7 +74,7 @@ public class MapPointManipulationTest {
 	@Test
 	public void test2() {
 		Map testMap = new Map();
-		Point p1 = new Point(new Coord(0,0), "t", "55");
+		Point p1 = new Point(new Coord(0,0), "t", "55", null);
 		assertFalse(testMap.addEdge(p1, p1));
 	}
 

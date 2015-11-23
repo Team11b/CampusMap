@@ -7,13 +7,13 @@ package WPI.CampusMap.Backend;
  *
  */
 public class ConnectionPoint extends Point {
-	
+
 	private static final long serialVersionUID = 8498467892896790681L;
 	private String linkedMap;
 	private String linkedPoint;
 	private ConnectionPoint connPoint;
 	private Map connMap;
-	
+
 	private static final int connectionCost = 1;
 
 	/**
@@ -24,12 +24,16 @@ public class ConnectionPoint extends Point {
 	 * @param type
 	 *            Type of Point
 	 * @param id
-	 * 			  ID of Point
+	 *            ID of Point
+	 * @param mapName
+	 *            Name of Map where this Point is located
 	 * @param linkedMap
 	 *            additional Map this ConnectionPoint connects to
+	 * @param linkedPoint
+	 *            additional ConnectionPoint this ConnectionPoint connects to
 	 */
-	public ConnectionPoint(Coord coord, String type, String id, String linkedMap, String linkedPoint) {
-		super(coord, type, id);
+	public ConnectionPoint(Coord coord, String type, String id, String mapName, String linkedMap, String linkedPoint) {
+		super(coord, type, id, mapName);
 		this.linkedMap = linkedMap;
 		this.linkedPoint = linkedPoint;
 		this.connMap = null;

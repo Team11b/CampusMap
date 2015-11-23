@@ -30,6 +30,10 @@ public class MultiPath {
 		this.mp = mp;
 	}
 
+	/**
+	 * Adds a path to the MultiPath
+	 * @param p a Path to add
+	 */
 	public void add(Path p) {
 		this.mp.add(p);
 	}
@@ -38,6 +42,12 @@ public class MultiPath {
 		return this.mp.get(i);
 	}
 
+	/**
+	 * Parses an input path and splits it into multiple paths
+	 * Each sub-path is added to this.mp
+	 * A path is separated between two adjacent Nodes with ConnectionPoints
+	 * @param start a path to be split
+	 */
 	public void parse(Path start) {
 		ArrayList<Node> bigPath = start.getPath();
 		Path part = new Path();

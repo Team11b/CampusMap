@@ -217,6 +217,9 @@ public class Path {
 		return route;
 	}
 	
+	/**
+	 * Checks if two Paths are equal based upon the ID of each Point in the Path
+	 */
 	@Override
 	public boolean equals(Object other) {
 		if (!(other instanceof Path)) {

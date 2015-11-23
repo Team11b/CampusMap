@@ -43,23 +43,23 @@ public class MultiPathTest {
 	public static Path bet;
 	public static Path gimel;
 	public static Path dalet;
-	
+
 	public static MultiPath he;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		alpha = new ConnectionPoint(null, null, "alpha", null, null);
-		beta = new Point(null, null, "beta");
-		gamma = new Point(null, null, "gamma");
-		delta = new Point(null, null, "delta");
-		epsilon = new ConnectionPoint(null, null, "epsilon", null, null);
-		zeta = new ConnectionPoint(null, null, "zeta", null, null);
-		eta = new Point(null, null, "eta");
-		theta = new Point(null, null, "theta");
-		iota = new ConnectionPoint(null, null, "iota", null, null);
-		kappa = new ConnectionPoint(null, null, "kappa", null, null);
-		lambda = new Point(null, null, "lambda");
-		mu = new ConnectionPoint(null, null, "nu", null, null);
+		alpha = new ConnectionPoint(null, null, "alpha", null, null, null);
+		beta = new Point(null, null, "beta", null);
+		gamma = new Point(null, null, "gamma", null);
+		delta = new Point(null, null, "delta", null);
+		epsilon = new ConnectionPoint(null, null, "epsilon", null, null, null);
+		zeta = new ConnectionPoint(null, null, "zeta", null, null, null);
+		eta = new Point(null, null, "eta", null);
+		theta = new Point(null, null, "theta", null);
+		iota = new ConnectionPoint(null, null, "iota", null, null, null);
+		kappa = new ConnectionPoint(null, null, "kappa", null, null, null);
+		lambda = new Point(null, null, "lambda", null);
+		mu = new ConnectionPoint(null, null, "nu", null, null, null);
 
 		nu = new Node(alpha, null);
 		xi = new Node(beta, null);
@@ -78,7 +78,7 @@ public class MultiPathTest {
 		bet = new Path();
 		gimel = new Path();
 		dalet = new Path();
-		
+
 		alef.addNode(nu);
 		alef.addNode(xi);
 		alef.addNode(omicron);
@@ -91,22 +91,22 @@ public class MultiPathTest {
 		alef.addNode(chi);
 		alef.addNode(psi);
 		alef.addNode(omega);
-		
+
 		bet.addNode(nu);
 		bet.addNode(xi);
 		bet.addNode(omicron);
 		bet.addNode(pi);
 		bet.addNode(rho);
-		
+
 		gimel.addNode(sigma);
 		gimel.addNode(tau);
 		gimel.addNode(upsilon);
 		gimel.addNode(phi);
-		
+
 		dalet.addNode(chi);
 		dalet.addNode(psi);
 		dalet.addNode(omega);
-		
+
 		he = new MultiPath(alef);
 	}
 
@@ -116,7 +116,7 @@ public class MultiPathTest {
 		assertEquals(he.get(1), gimel);
 		assertEquals(he.get(2), dalet);
 	}
-	
+
 	@Test
 	public void testParse2() {
 		assertEquals(he.size(), 3);

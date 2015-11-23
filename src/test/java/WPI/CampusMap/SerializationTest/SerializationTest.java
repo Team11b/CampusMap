@@ -16,7 +16,7 @@ public class SerializationTest {
 		Map tempM = new Map();
 		tempM.setName("test_map");
 		ArrayList<Point> tempP = new ArrayList<Point>();
-		tempP.add(new Point(new Coord((float) 1.1, 0), "hiya", "id"));
+		tempP.add(new Point(new Coord((float) 1.1, 0), "hiya", "id", null));
 		tempM.setAllPoints(tempP);
 
 		Serialization.write(tempM);
