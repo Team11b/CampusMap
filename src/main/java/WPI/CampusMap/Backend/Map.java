@@ -212,15 +212,15 @@ public class Map implements java.io.Serializable {
 		this.xml = xml;
 	}
 
-	public HashMap<String, Map> getAllMaps() {
+	public static HashMap<String, Map> getAllMaps() {
 		return allMaps;
 	}
 
-	public void setAllMaps(HashMap<String, Map> allMaps) {
-		this.allMaps = allMaps;
+	public static void setAllMaps(HashMap<String, Map> allMaps) {
+		Map.allMaps = allMaps;
 	}
 	
-	public Map getMap(String mapKey) {
+	public static Map getMap(String mapKey) {
 		return Map.allMaps.get(mapKey);
 	}
 	
