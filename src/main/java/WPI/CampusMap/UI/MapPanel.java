@@ -31,6 +31,9 @@ class MapPanel extends JPanel {
 	protected Point startPoint, endPoint;
 
 	MapPanel(AppUIObject uiObject) {
+		selectedPoint = new Point();
+		selectedPoint.setId("");
+		selectedPoint.setType("1");
 		this.uiObject = uiObject;
 	}
 
@@ -263,6 +266,7 @@ class MapPanel extends JPanel {
 			return false;
 
 		selectedPoint = closestPoint;
+		uiObject.updatePoint();
 		return true;
 	}
 

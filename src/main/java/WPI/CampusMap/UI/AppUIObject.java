@@ -31,6 +31,7 @@ import javax.swing.text.StyledDocument;
 import javax.xml.stream.XMLStreamException;
 
 import WPI.CampusMap.Backend.Map;
+import WPI.CampusMap.Backend.Point;
 import WPI.CampusMap.PathPlanning.Path;
 import WPI.CampusMap.PathPlanning.AStar.AStar;
 import WPI.CampusMap.XML.XML;
@@ -58,6 +59,8 @@ public class AppUIObject {
 	private final JLabel lblMapColon = new JLabel("Map:");
 	private final JButton btnDevMode = new JButton("Dev Mode");
 	private final JButton btnSave = new JButton("Save");
+	private final String[] pointTypes = {"1", "2", "3"};
+	private JComboBox typeSelector;
 	
 	private final JTextPane txtDirections = new JTextPane();
 	/*private String[] mapStrings = { "Atwater_Kent-0", "Atwater_Kent-1", "Atwater_Kent-2", "Atwater_Kent-3",
@@ -70,7 +73,7 @@ public class AppUIObject {
 			"Project_Center_1st_floor_renovationsRoomNumbers2014", "Project_Center-0", "Project_Center-1",
 			"Stratton_Hall-0", "Stratton_Hall-1", "Stratton_Hall-2", "Stratton_Hall-3" };*/
 	private final ArrayList mapXMLStrings = new ArrayList<String>();
-	private JComboBox<Object> mapDropDown;  //= new JComboBox<Object>(mapStrings);
+	private JComboBox mapDropDown = new JComboBox();
 	private String[] mapStrings;
 	private final StringBuilder mapName = new StringBuilder();
 	private MouseListener mouseClick;
@@ -81,6 +84,8 @@ public class AppUIObject {
 	private final JButton btnSubmit;
 	private JTextField txtScale;
 	private JPasswordField txtDevPass;
+	private final JLabel lblNodeId = new JLabel("Node ID:");
+	private JTextField nodeTextField;
 	
 
 	/**
@@ -209,9 +214,6 @@ public class AppUIObject {
 		frame.getContentPane().add(directionsPanel);
 		directionsPanel.setLayout(null);
 
-		txtDirections.setBounds(26, 183, 215, 434);
-		directionsPanel.add(txtDirections);
-
 		btnEmail.setBounds(26, 629, 106, 29);
 		directionsPanel.add(btnEmail);
 
@@ -264,6 +266,25 @@ public class AppUIObject {
 		
 		directionsPanel.add(btnEdgeMode);
 		
+		JLabel lblNodeType = new JLabel("Node Type:");
+		lblNodeType.setBounds(26, 200, 85, 16);
+		directionsPanel.add(lblNodeType);
+				lblNodeId.setBounds(26, 228, 61, 16);
+				
+				directionsPanel.add(lblNodeId);
+				
+				JComboBox typeSelector = new JComboBox();
+				typeSelector.setBounds(104, 196, 131, 27);
+				directionsPanel.add(typeSelector);
+				
+				nodeTextField = new JTextField();
+				nodeTextField.setBounds(99, 235, 130, 26);
+				directionsPanel.add(nodeTextField);
+				nodeTextField.setColumns(10);
+				
+						txtDirections.setBounds(26, 183, 215, 434);
+						directionsPanel.add(txtDirections);
+		
 		btnSave.setVisible(false);
 
 		JSeparator separator = new JSeparator();
@@ -288,6 +309,17 @@ public class AppUIObject {
 					btnGetDirections.setVisible(false);
 					txtDevPass.setVisible(true);
 					btnSubmit.setVisible(true);
+					nodeTextField.setVisible(true);
+					if(mapPanel.selectedPoint == null){
+						nodeTextField.setText("");
+						typeSelector.setSelectedIndex(0);
+					}else{
+						nodeTextField.setText(mapPanel.selectedPoint.getId());
+						typeSelector.setSelectedItem(mapPanel.selectedPoint.getType());
+					}
+					typeSelector.setVisible(true);
+					lblNodeId.setVisible(true);
+					lblNodeType.setVisible(true);
 					txtDirections.setText("Enter the password and click submit!");
 					btnDevMode.setText("User mode");
 					devMode = true; //not actually true, but in order to switch without pass						
@@ -297,6 +329,10 @@ public class AppUIObject {
 					btnDevMode.setText("Dev Mode");
 					deleteMode = !deleteMode;
 					placeMode = !placeMode;
+					lblNodeId.setVisible(false);
+					lblNodeType.setVisible(false);
+					nodeTextField.setVisible(false);
+					typeSelector.setVisible(false);
 					lblDirections.setVisible(true);
 					txtDirections.setVisible(true);
 					btnGetDirections.setVisible(true);
@@ -352,8 +388,10 @@ public class AppUIObject {
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(txtScale.getText());
-				mapPanel.currentMap.setScale(Integer.parseInt(txtScale.getText()));
+				mapPanel.currentMap.setScale(Float.parseFloat(txtScale.getText()));
 				System.out.println("SAVING!");
+				mapPanel.selectedPoint.setId(nodeTextField.getText());
+				mapPanel.selectedPoint.setType((String)typeSelector.getSelectedItem());
 				XML.writePoints(mapPanel.currentMap);
 				lblScale.setText("Scale: " + mapPanel.currentMap.getScale() + " inches per ft");
 			}
@@ -434,6 +472,21 @@ public class AppUIObject {
 		lblMapviewGoesHere.setVisible(true);
 		lblMapviewGoesHere.setVisible(true);
 		
+		nodeTextField.setVisible(false);
+		typeSelector.setVisible(false);
+		lblNodeId.setVisible(false);
+		lblNodeType.setVisible(false);
+		typeSelector.addItem(pointTypes[0]);
+		typeSelector.addItem(pointTypes[1]);
+		typeSelector.addItem(pointTypes[2]);
+		
+		nodeTextField.setText(mapPanel.selectedPoint.getId());
+		
+		typeSelector.setSelectedItem(mapPanel.selectedPoint.getType());
+		if(typeSelector.getSelectedIndex() == -1){
+			typeSelector.setSelectedIndex(0);
+		}
+		
 		txtScale = new JTextField();
 		txtScale.setBounds(37, 0, 130, 19);
 		frame.getContentPane().add(txtScale);
@@ -447,6 +500,11 @@ public class AppUIObject {
 		mainPanel.setBounds(1, 15, 1018, 664);
 		frame.getContentPane().add(mainPanel);
 		mainPanel.setLayout(null);
+		
+		//typeSelector.setBounds(0,90,100,20);
+		//typeSelector.setLayout(null);
+		//directionsPanel.add(typeSelector);
+		//typeSelector.setVisible(true);
 		
 		try {
 			loadMap(mapStrings[0]);
@@ -467,5 +525,10 @@ public class AppUIObject {
 			lblScale.setText("");
 		}		
 		reDrawUI();		
+	}
+
+	public void updatePoint() {
+		nodeTextField.setText(mapPanel.selectedPoint.getId());
+		typeSelector.setSelectedItem(mapPanel.selectedPoint.getType());
 	}
 }
