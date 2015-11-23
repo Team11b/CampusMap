@@ -1,4 +1,4 @@
-package UI;
+package WPI.CampusMap.UI;
 
 import java.awt.Color;
 import java.awt.Dimension;
@@ -9,6 +9,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
+
 import javax.swing.AbstractAction;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
@@ -17,7 +18,9 @@ import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
+import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
+import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.SwingConstants;
 import javax.swing.text.BadLocationException;
@@ -27,12 +30,10 @@ import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 import javax.xml.stream.XMLStreamException;
 
-import WPI.CampusMap.AStar.Map;
-import WPI.CampusMap.AStar.Path;
-import WPI.CampusMap.AStar.Point;
+import WPI.CampusMap.Backend.Map;
+import WPI.CampusMap.PathPlanning.Path;
+import WPI.CampusMap.PathPlanning.AStar.AStar;
 import WPI.CampusMap.XML.XML;
-import javax.swing.JTextField;
-import javax.swing.JPasswordField;
 
 public class AppUIObject {
 	protected boolean placeMode = false;
@@ -152,7 +153,7 @@ public class AppUIObject {
 				System.out.println("Send an Email!");
 				break;
 			case "Route me":
-				Path path = mapPanel.currentMap.astar(mapPanel.startPoint, mapPanel.endPoint);
+				Path path = AStar.single_AStar(mapPanel.startPoint, mapPanel.endPoint);
 				mapPanel.currentRoute = path;
 				reDrawUI();
 				break;
@@ -353,7 +354,7 @@ public class AppUIObject {
 				System.out.println(txtScale.getText());
 				mapPanel.currentMap.setScale(Integer.parseInt(txtScale.getText()));
 				System.out.println("SAVING!");
-				XML.writePoints(mapPanel.currentMap, mapPanel.currentMap.getMap());
+				XML.writePoints(mapPanel.currentMap);
 				lblScale.setText("Scale: " + mapPanel.currentMap.getScale() + " inches per ft");
 			}
 		});
@@ -387,11 +388,11 @@ public class AppUIObject {
 				mapPanel.setBounds(5, 5, 1000, 660);
 				lblMapviewGoesHere.setVisible(true);
 
-				int scale = mapPanel.currentMap.getScale();
+				float scale = mapPanel.currentMap.getScale();
 				if (scale != -1) {
 					lblMapviewGoesHere.setText(mapPanel.currentMap.getName());
 					lblScale.setText("Scale: " + scale + " inches per ft");
-					txtScale.setText(Integer.toString(scale));
+					txtScale.setText(Float.toString(scale));
 					
 				} else {
 					lblMapviewGoesHere.setText("");
@@ -456,11 +457,11 @@ public class AppUIObject {
 		mapPanel.setVisible(true);
 		mapPanel.setBounds(5, 5, 1000, 660);
 
-		int scale = mapPanel.currentMap.getScale();
+		float scale = mapPanel.currentMap.getScale();
 		if (scale != -1) {
 			lblMapviewGoesHere.setText(mapPanel.currentMap.getName());
 			lblScale.setText("Scale: " + scale + " inches per ft");
-			txtScale.setText(Integer.toString(scale));
+			txtScale.setText(Float.toString(scale));
 		} else {
 			lblMapviewGoesHere.setText("");
 			lblScale.setText("");

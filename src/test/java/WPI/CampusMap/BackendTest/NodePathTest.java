@@ -1,4 +1,4 @@
-package WPI.CampusMap.AStarTest;
+package WPI.CampusMap.BackendTest;
 
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
@@ -6,10 +6,10 @@ import static org.junit.Assert.assertTrue;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import WPI.CampusMap.AStar.Coord;
-import WPI.CampusMap.AStar.Node;
-import WPI.CampusMap.AStar.Path;
-import WPI.CampusMap.AStar.Point;
+import WPI.CampusMap.Backend.Coord;
+import WPI.CampusMap.Backend.Point;
+import WPI.CampusMap.PathPlanning.Node;
+import WPI.CampusMap.PathPlanning.Path;
 
 public class NodePathTest {
 	static Coord cOne, cTwo, cThree, cFour;
@@ -24,9 +24,9 @@ public class NodePathTest {
 		cThree = new Coord(2, 1);
 		cFour = new Coord(1, 2);
 
-		one = new Point(cOne, Point.DOOR, "alpha");
-		two = new Point(cTwo, Point.ELEVATOR, "beta");
-		three = new Point(cThree, Point.STAIRS, "gamma");
+		one = new Point(cOne, Point.DOOR, "alpha", null);
+		two = new Point(cTwo, Point.ELEVATOR, "beta", null);
+		three = new Point(cThree, Point.STAIRS, "gamma", null);
 
 		nOne = new Node(one, null);
 		nTwo = new Node(two, nOne);
