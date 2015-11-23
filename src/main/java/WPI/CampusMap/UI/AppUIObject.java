@@ -60,7 +60,7 @@ public class AppUIObject {
 	private final JButton btnDevMode = new JButton("Dev Mode");
 	private final JButton btnSave = new JButton("Save");
 	private final String[] pointTypes = {"1", "2", "3"};
-	private JComboBox typeSelector;
+	private JComboBox typeSelector = new JComboBox();
 	
 	private final JTextPane txtDirections = new JTextPane();
 	/*private String[] mapStrings = { "Atwater_Kent-0", "Atwater_Kent-1", "Atwater_Kent-2", "Atwater_Kent-3",
@@ -273,7 +273,6 @@ public class AppUIObject {
 				
 				directionsPanel.add(lblNodeId);
 				
-				JComboBox typeSelector = new JComboBox();
 				typeSelector.setBounds(104, 196, 131, 27);
 				directionsPanel.add(typeSelector);
 				
@@ -399,8 +398,6 @@ public class AppUIObject {
 
 		mapDropDown.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//cleanup
-				reDrawUI();
 				mapPanel.selectedPoint = null;
 				mapPanel.startPoint = null;
 				mapPanel.endPoint = null;
@@ -408,7 +405,8 @@ public class AppUIObject {
 				
 				mapName.append((String) mapDropDown.getSelectedItem());
 				try {
-					// String path = mapName.toString() + ".xml";
+					System.out.println("Index: " + mapDropDown.getSelectedIndex());
+					//String path = mapName.toString() + ".xml";
 					String path = mapName.toString();
 					loadMap(path);
 				} catch (XMLStreamException e1) {
@@ -454,6 +452,9 @@ public class AppUIObject {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				
+				//cleanup
+				reDrawUI();
 			}
 		});
 		
@@ -529,6 +530,11 @@ public class AppUIObject {
 
 	public void updatePoint() {
 		nodeTextField.setText(mapPanel.selectedPoint.getId());
-		typeSelector.setSelectedItem(mapPanel.selectedPoint.getType());
+		if(mapPanel.selectedPoint.getType() == null){
+			typeSelector.setSelectedIndex(2);
+		}else{
+			System.out.println(mapPanel.selectedPoint.getType());
+			typeSelector.setSelectedItem(mapPanel.selectedPoint.getType());
+		}
 	}
 }
