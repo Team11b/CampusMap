@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import WPI.CampusMap.Backend.ConnectionPoint;
 import WPI.CampusMap.Backend.Map;
 import WPI.CampusMap.Backend.Point;
+import WPI.CampusMap.PathPlanning.MultiPath;
 import WPI.CampusMap.PathPlanning.Node;
 import WPI.CampusMap.PathPlanning.Path;
 
@@ -110,7 +111,7 @@ public class AStar {
 	 *            the goal Point located on goalMap
 	 * @return a Path which spans multiple maps
 	 */
-	public Path multi_AStar(Map startMap, Map goalMap, Point start, Point goal) {
+	public MultiPath multi_AStar(Map startMap, Map goalMap, Point start, Point goal) {
 		// checks to see if either the start or goal is a wall
 		if (start.getType() == Point.WALL) {
 			System.out.println("Invalid start point.");
@@ -198,7 +199,7 @@ public class AStar {
 		returnPath.addNode(tempNode);
 
 		returnPath.reverse();
-		return returnPath;
+		return new MultiPath(returnPath);
 	}
 
 }
