@@ -3,7 +3,6 @@ package WPI.CampusMap.PathPlanningTest;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import WPI.CampusMap.Backend.ConnectionPoint;

@@ -14,9 +14,11 @@ import WPI.CampusMap.Backend.Point;
  */
 public class Path {
 
-	private static final float PATHTOLERANCE = (float) 0.1;
+	private float pathtolarence;
+	private float pathtolarenceMultiplier = (float) (0.2);
 	private ArrayList<Node> path;
 	private String mapName;
+	private float pathScale;
 
 	/**
 	 * Constructor with pre-defined ArrayList of Nodes
@@ -25,9 +27,10 @@ public class Path {
 	 *            pre-defined ArrayList of Nodes
 	 * @param mapName the name of the map this Path uses
 	 */
-	public Path(ArrayList<Node> path, String mapName) {
+	public Path(ArrayList<Node> path, String mapName, float pathScale) {
 		this.path = path;
 		this.mapName = mapName;
+		setScale(pathScale);
 	}
 
 	/**
@@ -133,6 +136,11 @@ public class Path {
 		}
 		
 		return true;
+	}
+	
+	public void setScale(float scale) {
+		pathScale = scale;
+		pathtolarence = (float) (pathtolarenceMultiplier / pathScale);
 	}
 	
 }

@@ -1,9 +1,9 @@
 package WPI.CampusMap.PathPlanning.AStar;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
-import WPI.CampusMap.Backend.ConnectionPoint;
-import WPI.CampusMap.Backend.Map;
 import WPI.CampusMap.Backend.Point;
 import WPI.CampusMap.PathPlanning.MultiPath;
 import WPI.CampusMap.PathPlanning.Node;
@@ -28,7 +28,8 @@ public class AStar {
 	 *            the goal Point on amap
 	 * @return a path between start and goal
 	 */
-	//TODO This function should be able to replaced by _AStar, but that is not confirmed yet
+	// TODO This function should be able to replaced by _AStar, but that is not
+	// confirmed yet
 	public static Path single_AStar(Point start, Point goal) {
 		// checks to see if either the start or goal is a wall
 		if (start.getType() == Point.WALL) {
@@ -42,42 +43,66 @@ public class AStar {
 		boolean goalFound = false;
 
 		// Instantiate frontier and explored lists
-		Frontier frontier = new Frontier(Frontier.stdNodeComp);
-		Explored explored = new Explored();
+		ArrayList<Node> frontier = new ArrayList<Node>();
+		ArrayList<Node> explored = new ArrayList<Node>();
 
 		// Instantiate path
 		Path returnPath = new Path();
 
 		Node tempNode = new Node(start, null);
+		int otherIndex = -1;
 
 		// add start to frontier as a Node
-		frontier.add(tempNode);
+		frontier.add(new Node(start, null));
 
 		while ((!frontier.isEmpty()) && (!(goalFound))) {
 
-			explored.add(frontier.getNext());
+			// sort frontier list based upon cumulative distance
+			// sorting by attribute algorithm used from:
+			// http://stackoverflow.com/questions/12449766/java-sorting-sort-an-array-of-objects-by-property-object-not-allowed-to-use-co
+			Collections.sort(frontier, new Comparator<Node>() {
+				public int compare(Node n1, Node n2) {
+					if (n1.getCumulativeDist() < n2.getCumulativeDist()) {
+						return -1;
+					} else if (n1.getCumulativeDist() > n2.getCumulativeDist()) {
+						return 1;
+					} else {
+						return 0;
+					}
+				}
+			});
 
-			if (explored.getLast().getPoint().equals(goal)) {
+			// add the Node at the top of the frontier and add it to the
+			// explored list
+			// remove that Node from the frontier
+			explored.add(frontier.get(0));
+			frontier.remove(0);
+
+			if (explored.get(explored.size() - 1).getPoint().equals(goal)) {
 				goalFound = true;
 			}
 
 			if (!(goalFound)) {
 				// get the valid neighbors from the last Node on the explored
 				// list
-				ArrayList<Point> neigh = explored.getLast().getPoint().getValidNeighbors();
+				ArrayList<Point> neigh = explored.get(explored.size() - 1).getPoint().getValidNeighbors();
 				for (int j = 0; j < neigh.size(); j++) {
-					tempNode = new Node(null, null);
-					tempNode = new Node(neigh.get(j), explored.getLast());
-
-					tempNode.setCumulativeDist(explored.getLast().getCumulativeDist());
-					tempNode.setCurrentScore(
-							tempNode.getCumulativeDist() + tempNode.setHeuristic(tempNode.calcHeuristic(goal)));
-
+					tempNode = new Node(neigh.get(j), explored.get(explored.size() - 1));
 					// check if Node is in Explored
-					if (!(explored.containsSamePoint(tempNode))) {
-
-						if (!(frontier.isBetter(tempNode))) {
-							frontier.add(tempNode);
+					if (explored.contains(tempNode)) {
+						if (explored.contains(tempNode)) {
+							frontier.add(new Node(neigh.get(j), explored.get(explored.size() - 1)));
+							frontier.get(frontier.size() - 1)
+									.setCumulativeDist(explored.get(explored.size() - 1).getCumulativeDist()
+											+ frontier.get(frontier.size() - 1).getPoint()
+													.distance(explored.get(explored.size() - 1).getPoint()));
+							frontier.get(frontier.size() - 1)
+									.setCurrentScore(frontier.get(frontier.size() - 1).getCumulativeDist()
+											+ frontier.get(frontier.size() - 1).getHeuristic());
+						} else {
+							if (tempNode.getCurrentScore() < frontier.get(otherIndex).getCurrentScore()) {
+								frontier.set(otherIndex, new Node(neigh.get(j), explored.get(explored.size() - 1)));
+							}
 						}
 					}
 				}
@@ -85,15 +110,14 @@ public class AStar {
 		}
 
 		// form the path
-		tempNode = new Node(null, null);
-		tempNode = explored.getLast();
-		while ((tempNode != null) && (!(tempNode.getPoint().equals(start)))) {
+		tempNode = explored.get(explored.size() - 1);
+		while (tempNode != null && tempNode.getPoint() != null) {
 			returnPath.addNode(tempNode);
 			tempNode = tempNode.getParent();
 		}
-		returnPath.addNode(tempNode);
 
 		returnPath.reverse();
+		returnPath.setScale(8);
 		return returnPath;
 	}
 

@@ -59,7 +59,50 @@ public class Frontier {
 	}
 
 	public boolean isBetter(Node other) {
-		return false;
+		if (!(this.contains(other))) {
+			return false;
+		}
+
+		TreeSet<Node> allHolding = new TreeSet<Node>(Frontier.stdNodeComp);
+		Node holding = new Node(null, null);
+		boolean found = false;
+		int size = pq.size();
+
+		for (int j = 0; j < size; j++) {
+			holding = new Node(null, null);
+			holding = (Node) this.pq.poll();
+			if (holding.equals(other)) {
+				if (holding.getCurrentScore() > other.getCurrentScore()) {
+					holding = other;
+					found = true;
+					break;
+				}
+			}
+			allHolding.add(holding);
+		}
+
+		if (found) {
+			this.pq.add(holding);
+		}
+
+		while (!(allHolding.isEmpty())) {
+			holding = new Node(null, null);
+			holding = allHolding.first();
+			this.pq.add(holding);
+			allHolding.remove(holding);
+		}
+
+		return found;
+	}
+
+	public static void main(String[] args) {
+		for (int i = 0; i < 10; i++) {
+			System.out.print(i);
+			if (i == 5) {
+				break;
+			}
+			System.out.println(" f");
+		}
 	}
 
 }

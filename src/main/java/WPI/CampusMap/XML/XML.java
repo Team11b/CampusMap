@@ -66,9 +66,9 @@ public class XML {
 
 			rootElement.setAttribute("imageFile", map.getPng());
 			rootElement.setAttribute("scale", Float.toString(map.getScale()));
-			
+
 			ArrayList<Point> sortedPoints = new ArrayList<Point>(map.getAllPoints().values());
-			
+
 			sortedPoints.sort(new Comparator<Point>() {
 				public int compare(Point p1, Point p2) {
 					return p1.getId().compareTo(p2.getId());
@@ -84,7 +84,7 @@ public class XML {
 				newElement.setAttribute("x", Double.toString(sortedPoints.get(j).getCoord().getX()));
 				newElement.setAttribute("y", Double.toString(sortedPoints.get(j).getCoord().getY()));
 
-				ArrayList<String> sortedConn = sortedPoints.get(j).getNeighborsID();				
+				ArrayList<String> sortedConn = sortedPoints.get(j).getNeighborsID();
 				sortedConn.sort(new Comparator<String>() {
 					public int compare(String s1, String s2) {
 						return s1.compareTo(s2);
@@ -121,63 +121,60 @@ public class XML {
 			e.printStackTrace();
 		}
 	}
-	
+
 	/**
-	 * Function to take an xml file as input and output an HashMap of points.
+	 * Function to take an xml file as input and output an array of points.
 	 * 
-	 * @param map Map to parse XML for
-	 * @return HashMap of all points in the file
-	 * @throws XMLStreamException Thrown when XML files is improperly formated
+	 * @param map
+	 *            Map to parse XML for
+	 * @return Array of all points in the file
+	 * @throws XMLStreamException
+	 *             Thrown when XML files is improperly formated
 	 */
-	public static HashMap<String,Point> parseXML(Map map) throws XMLStreamException{
+	public static HashMap<String, Point> parseXML(Map map) throws XMLStreamException {
 		Point currPoint = null;
 		Coord tempCoord = null;
 		String tagContent = null;
-		
+
 		HashMap<String, Point> pointMap = new HashMap<String, Point>();
 		HashMap<String, ArrayList<String>> neighMap = new HashMap<String, ArrayList<String>>();
 		ArrayList<String> neighAList = new ArrayList<String>();
-		
+
 		XMLInputFactory factory = XMLInputFactory.newInstance();
 		File testFile = new File(map.getXML());
-		
-		
+
 		InputStream test = null;
-		try 
-		{
+		try {
 			test = new FileInputStream(testFile);
-		} 
-		catch (FileNotFoundException e) 
-		{	
+		} catch (FileNotFoundException e) {
 			return new HashMap<String, Point>();
 		}
-		
+
 		XMLStreamReader reader = factory.createXMLStreamReader(test);
-		
-		while(reader.hasNext()){
+
+		while (reader.hasNext()) {
 			int event = reader.next();
-			switch(event){
+			switch (event) {
 			case XMLStreamConstants.START_ELEMENT:
-				if("Node".equals(reader.getLocalName()))
-				{
+				if ("Node".equals(reader.getLocalName())) {
 					currPoint = new Point();
 					neighAList = new ArrayList<String>();
 					currPoint.setId(reader.getAttributeValue(0));
-					tempCoord = new Coord(Float.parseFloat(reader.getAttributeValue(1)),Float.parseFloat(reader.getAttributeValue(2)));
+					tempCoord = new Coord(Float.parseFloat(reader.getAttributeValue(1)),
+							Float.parseFloat(reader.getAttributeValue(2)));
 				}
-				if("Map".equals(reader.getLocalName()))
-				{
-					map.setName(map.getXML().substring(4, map.getXML().length()-4));
+				if ("Map".equals(reader.getLocalName())) {
+					map.setName(map.getXML().substring(4, map.getXML().length() - 4));
 					map.setPng(reader.getAttributeValue(0));
 					map.setScale(Float.parseFloat(reader.getAttributeValue(1)));
 				}
 				break;
 			case XMLStreamConstants.CHARACTERS:
 				tagContent = reader.getText().trim();
-			break;
+				break;
 			case XMLStreamConstants.END_ELEMENT:
-				
-				switch(reader.getLocalName()){
+
+				switch (reader.getLocalName()) {
 				case "Node":
 					currPoint.setCoord(tempCoord);
 					pointMap.put(currPoint.getId(), currPoint);
@@ -192,18 +189,19 @@ public class XML {
 				}
 				break;
 			}
-			
+
 		}
-		
-		//goes through the points and gets the point objects associated with the neighbor ids and assigns them as neighbors
-		for(Point point: pointMap.values()){
+
+		// goes through the points and gets the point objects associated with
+		// the neighbor ids and assigns them as neighbors
+		for (Point point : pointMap.values()) {
 			ArrayList<String> neighborIDs = neighMap.get(point.getId());
-			for(String neighbor: neighborIDs){
+			for (String neighbor : neighborIDs) {
 				pointMap.get(neighbor).addNeighbor(point);
 				neighMap.get(neighbor).remove(point);
 			}
 		}
-		
+
 		return pointMap;
 	}
 }
