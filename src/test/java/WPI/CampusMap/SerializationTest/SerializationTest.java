@@ -1,5 +1,7 @@
 package WPI.CampusMap.SerializationTest;
 
+import static org.junit.Assert.*;
+
 import java.util.ArrayList;
 
 import org.junit.Test;
@@ -24,6 +26,10 @@ public class SerializationTest {
 		Map temp2 = Serialization.read(tempM.getName());
 		System.out.println("Output:\t\t\t" + temp2.getName() + "\t" + temp2.getAllPoints().get(0).getCoord().getX());
 		System.out.println("Expected:\t\tnew_map\t1.1");
+		
+		assertEquals(tempM.getName(),temp2.getName());
+		assertEquals(tempM.getPoint("hiya"),temp2.getPoint("hiya"));
+		
 	}
 
 }
