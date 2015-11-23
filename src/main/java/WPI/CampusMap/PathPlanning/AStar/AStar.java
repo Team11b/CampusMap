@@ -4,6 +4,8 @@ import java.util.ArrayList;
 
 import WPI.CampusMap.Backend.Map;
 import WPI.CampusMap.Backend.Point;
+import WPI.CampusMap.PathPlanning.Node;
+import WPI.CampusMap.PathPlanning.Path;
 
 /**
  * 

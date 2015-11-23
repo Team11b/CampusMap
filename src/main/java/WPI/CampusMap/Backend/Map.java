@@ -14,8 +14,8 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.xml.stream.XMLStreamException;
 
-import WPI.CampusMap.PathPlanning.AStar.Node;
-import WPI.CampusMap.PathPlanning.AStar.Path;
+import WPI.CampusMap.PathPlanning.Node;
+import WPI.CampusMap.PathPlanning.Path;
 import WPI.CampusMap.XML.XML;
 
 /**

@@ -11,9 +11,9 @@ import org.junit.Test;
 
 import WPI.CampusMap.Backend.Map;
 import WPI.CampusMap.Backend.Point;
+import WPI.CampusMap.PathPlanning.Node;
+import WPI.CampusMap.PathPlanning.Path;
 import WPI.CampusMap.PathPlanning.AStar.AStar;
-import WPI.CampusMap.PathPlanning.AStar.Node;
-import WPI.CampusMap.PathPlanning.AStar.Path;
 import WPI.CampusMap.XML.XML;
 
 public class AStarTest {

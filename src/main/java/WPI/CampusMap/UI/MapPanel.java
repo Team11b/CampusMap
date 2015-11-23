@@ -15,8 +15,8 @@ import javax.xml.stream.XMLStreamException;
 import WPI.CampusMap.Backend.Coord;
 import WPI.CampusMap.Backend.Map;
 import WPI.CampusMap.Backend.Point;
-import WPI.CampusMap.PathPlanning.AStar.Node;
-import WPI.CampusMap.PathPlanning.AStar.Path;
+import WPI.CampusMap.PathPlanning.Node;
+import WPI.CampusMap.PathPlanning.Path;
 
 /**
  * Map Panel Class Contains the graphics and UI components of the app

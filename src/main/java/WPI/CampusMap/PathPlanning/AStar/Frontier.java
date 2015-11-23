@@ -4,6 +4,8 @@ import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.TreeSet;
 
+import WPI.CampusMap.PathPlanning.Node;
+
 /**
  * 
  * @author Jacob Zizmor

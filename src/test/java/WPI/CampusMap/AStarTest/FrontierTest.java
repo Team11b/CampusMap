@@ -10,8 +10,8 @@ import org.junit.Test;
 
 import WPI.CampusMap.Backend.Coord;
 import WPI.CampusMap.Backend.Point;
+import WPI.CampusMap.PathPlanning.Node;
 import WPI.CampusMap.PathPlanning.AStar.Frontier;
-import WPI.CampusMap.PathPlanning.AStar.Node;
 
 public class FrontierTest {
 	public static Frontier testing;

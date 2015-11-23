@@ -2,6 +2,8 @@ package WPI.CampusMap.PathPlanning.AStar;
 
 import java.util.LinkedList;
 
+import WPI.CampusMap.PathPlanning.Node;
+
 /**
  * 
  * @author Jacob Zizmor

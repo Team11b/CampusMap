@@ -27,7 +27,7 @@ import javax.swing.text.StyledDocument;
 import javax.xml.stream.XMLStreamException;
 
 import WPI.CampusMap.Backend.Map;
-import WPI.CampusMap.PathPlanning.AStar.Path;
+import WPI.CampusMap.PathPlanning.Path;
 import WPI.CampusMap.XML.XML;
 
 public class AppUIObject {

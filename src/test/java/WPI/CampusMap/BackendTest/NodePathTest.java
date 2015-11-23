@@ -8,8 +8,8 @@ import org.junit.Test;
 
 import WPI.CampusMap.Backend.Coord;
 import WPI.CampusMap.Backend.Point;
-import WPI.CampusMap.PathPlanning.AStar.Node;
-import WPI.CampusMap.PathPlanning.AStar.Path;
+import WPI.CampusMap.PathPlanning.Node;
+import WPI.CampusMap.PathPlanning.Path;
 
 public class NodePathTest {
 	static Coord cOne, cTwo, cThree, cFour;

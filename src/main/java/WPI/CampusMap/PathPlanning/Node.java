@@ -1,4 +1,4 @@
-package WPI.CampusMap.PathPlanning.AStar;
+package WPI.CampusMap.PathPlanning;
 
 import WPI.CampusMap.Backend.Point;
 
