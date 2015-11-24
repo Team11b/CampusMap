@@ -75,7 +75,7 @@ public class AppUIObject {
 	private final ArrayList mapXMLStrings = new ArrayList<String>();
 	private JComboBox mapDropDown = new JComboBox();
 	private String[] mapStrings;
-	private final StringBuilder mapName = new StringBuilder();
+	//private final StringBuilder mapName = new StringBuilder();
 	private MouseListener mouseClick;
 	private final SwingAction actionHandler = new SwingAction();
 
@@ -98,6 +98,8 @@ public class AppUIObject {
 	public void resetDropDown(){
 		//get all the files in the directory
 		File[] listOfFiles = new File("maps/").listFiles();
+		int oldIndex = mapDropDown.getSelectedIndex();
+		mapXMLStrings.clear();
 	    for (int i = 0; i < listOfFiles.length; i++) {
 	      if (listOfFiles[i].isFile()) {					        
 	        int ext = listOfFiles[i].getName().lastIndexOf(".png"); //snip extension     
@@ -107,8 +109,22 @@ public class AppUIObject {
 	    //put in alphabetical order and convert to string array
 	    mapXMLStrings.sort(null);
 	    mapStrings = new String[mapXMLStrings.size()];
-	    mapStrings = (String[]) mapXMLStrings.toArray(mapStrings); 
-	    mapDropDown = new JComboBox<Object>(mapStrings);	  
+	    mapStrings = (String[]) mapXMLStrings.toArray(mapStrings);
+	    if(mapDropDown == null){
+	    mapDropDown = new JComboBox();
+	    }
+	    else{
+	    	mapDropDown.removeAllItems();
+	    }
+	    int q = listOfFiles.length - 1; //because of dat org folder.
+	    for(int j = 0; j < q; j++)
+	    {
+	    	if(mapStrings[j] != null)
+	    		mapDropDown.addItem(mapStrings[j]);
+	    }
+	    //mapDropDown = new JComboBox<Object>(mapStrings);	    
+	    mapDropDown.setSelectedIndex(oldIndex);
+	    System.out.println("old index is " + oldIndex);
 	}
 
 	/**
@@ -343,7 +359,7 @@ public class AppUIObject {
 					txtDirections.setText("");
 				}
 				reDrawUI();
-				resetDropDown();
+				//resetDropDown();
 				mapPanel.selectedPoint = null;
 				mapPanel.startPoint = null;
 				mapPanel.endPoint = null;
@@ -401,21 +417,17 @@ public class AppUIObject {
 				mapPanel.selectedPoint = null;
 				mapPanel.startPoint = null;
 				mapPanel.endPoint = null;
-				mapPanel.currentRoute = null;
+				mapPanel.currentRoute = null;				
 				
-				mapName.append((String) mapDropDown.getSelectedItem());
+				String mapName = (String)mapDropDown.getSelectedItem();
 				try {
-					System.out.println("Index: " + mapDropDown.getSelectedIndex());
-					//String path = mapName.toString() + ".xml";
-					String path = mapName.toString();
-					loadMap(path);
+					System.out.println("Index: " + mapDropDown.getSelectedIndex());					
+					loadMap(mapName);
 				} catch (XMLStreamException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-
-				// reset the StringBuilder
-				mapName.setLength(0);
+				
 
 				// Display the map finally
 				lblScale.setVisible(true);
