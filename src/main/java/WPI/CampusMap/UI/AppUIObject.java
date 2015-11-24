@@ -266,7 +266,7 @@ public class AppUIObject {
 		
 		directionsPanel.add(btnEdgeMode);
 		
-		JLabel lblNodeType = new JLabel("Node Type:");
+		final JLabel lblNodeType = new JLabel("Node Type:");
 		lblNodeType.setBounds(26, 200, 85, 16);
 		directionsPanel.add(lblNodeType);
 				lblNodeId.setBounds(26, 228, 61, 16);
@@ -307,18 +307,14 @@ public class AppUIObject {
 				if (!devMode) {
 					btnGetDirections.setVisible(false);
 					txtDevPass.setVisible(true);
-					btnSubmit.setVisible(true);
-					nodeTextField.setVisible(true);
+					btnSubmit.setVisible(true);					
 					if(mapPanel.selectedPoint == null){
 						nodeTextField.setText("");
 						typeSelector.setSelectedIndex(0);
 					}else{
 						nodeTextField.setText(mapPanel.selectedPoint.getId());
 						typeSelector.setSelectedItem(mapPanel.selectedPoint.getType());
-					}
-					typeSelector.setVisible(true);
-					lblNodeId.setVisible(true);
-					lblNodeType.setVisible(true);
+					}					
 					txtDirections.setText("Enter the password and click submit!");
 					btnDevMode.setText("User mode");
 					devMode = true; //not actually true, but in order to switch without pass						
@@ -369,7 +365,11 @@ public class AppUIObject {
 					btnSave.setVisible(true);
 					btnEdgeMode.setVisible(true);
 					btnRemoveEdge.setVisible(true);
-					txtScale.setVisible(true);					
+					txtScale.setVisible(true);
+					nodeTextField.setVisible(true);
+					typeSelector.setVisible(true);
+					lblNodeId.setVisible(true);
+					lblNodeType.setVisible(true);
 					
 				}
 				else{
