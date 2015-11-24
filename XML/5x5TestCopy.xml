@@ -1,0 +1,98 @@
+<Map imageFile="Atwater Kent-1.png" scale="20" mapName="">
+  <Node nodeId="0" x="0" y="0">
+    <Connection>5</Connection>
+    <Connection>1</Connection>
+  </Node>
+  <Node nodeId="1" x="1" y="0">
+    <Connection>0</Connection>
+    <Connection>2</Connection>
+  </Node>
+  <Node nodeId="2" x="2" y="0">
+    <Connection>1</Connection>
+    <Connection>3</Connection>
+  </Node>
+  <Node nodeId="3" x="3" y="0">
+    <Connection>2</Connection>
+    <Connection>4</Connection>
+  </Node>
+  <Node nodeId="4" x="4" y="0">
+    <Connection>9</Connection>
+    <Connection>3</Connection>
+  </Node>
+  <Node nodeId="5" x="0" y="1">
+    <Connection>10</Connection>
+    <Connection>0</Connection>
+  </Node>
+  <Node nodeId="9" x="4" y="1">
+    <Connection>14</Connection>
+    <Connection>4</Connection>
+  </Node>
+  <Node nodeId="10" x="0" y="2">
+    <Connection>15</Connection>
+    <Connection>5</Connection>
+    <Connection>11</Connection>
+  </Node>
+  <Node nodeId="11" x="1" y="2">
+    <Connection>16</Connection>
+    <Connection>10</Connection>
+    <Connection>12</Connection>
+  </Node>
+  <Node nodeId="12" x="2" y="2">
+    <Connection>17</Connection>
+    <Connection>11</Connection>
+  </Node>
+  <Node nodeId="14" x="4" y="2">
+    <Connection>19</Connection>
+    <Connection>9</Connection>
+  </Node>
+  <Node nodeId="15" x="0" y="3">
+    <Connection>20</Connection>
+    <Connection>10</Connection>
+    <Connection>16</Connection>
+  </Node>
+  <Node nodeId="16" x="1" y="3">
+    <Connection>21</Connection>
+    <Connection>11</Connection>
+    <Connection>15</Connection>
+    <Connection>17</Connection>
+  </Node>
+  <Node nodeId="17" x="2" y="3">
+    <Connection>22</Connection>
+    <Connection>12</Connection>
+    <Connection>16</Connection>
+    <Connection>18</Connection>
+  </Node>
+  <Node nodeId="18" x="3" y="3">
+    <Connection>23</Connection>
+    <Connection>17</Connection>
+    <Connection>19</Connection>
+  </Node>
+  <Node nodeId="19" x="4" y="3">
+    <Connection>24</Connection>
+    <Connection>14</Connection>
+    <Connection>18</Connection>
+  </Node>
+  <Node nodeId="20" x="0" y="4">
+    <Connection>15</Connection>
+    <Connection>21</Connection>
+  </Node>
+  <Node nodeId="21" x="1" y="4">
+    <Connection>16</Connection>
+    <Connection>20</Connection>
+    <Connection>22</Connection>
+  </Node>
+  <Node nodeId="22" x="2" y="4">
+    <Connection>17</Connection>
+    <Connection>21</Connection>
+    <Connection>23</Connection>
+  </Node>
+  <Node nodeId="23" x="3" y="4">
+    <Connection>18</Connection>
+    <Connection>22</Connection>
+    <Connection>24</Connection>
+  </Node>
+  <Node nodeId="24" x="4" y="4">
+    <Connection>19</Connection>
+    <Connection>23</Connection>
+  </Node>
+</Map>
