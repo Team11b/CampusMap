@@ -1,6 +1,9 @@
-package WPI.CampusMap.Graphics;
+package WPI.CampusMap.Graphics.User;
 
 import WPI.CampusMap.Backend.Map;
+import WPI.CampusMap.Backend.Point;
+import WPI.CampusMap.Graphics.GraphicalMap;
+import WPI.CampusMap.Graphics.PointGraphicsObject;
 import WPI.CampusMap.UI.MapPanel;
 
 public class UserGraphicalMap extends GraphicalMap {
@@ -13,8 +16,10 @@ public class UserGraphicalMap extends GraphicalMap {
 	@Override
 	public void spawnMap(Map map)
 	{
-		// TODO Auto-generated method stub
-
+		for(Point p : map.getAllPoints().values())
+		{
+			addGraphicalObject(new PointGraphicsObject(p, this));
+		}
 	}
 
 }

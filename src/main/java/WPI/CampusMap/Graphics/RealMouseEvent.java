@@ -1,14 +1,16 @@
 package WPI.CampusMap.Graphics;
 
-public class WorldMouseEvent
+public class RealMouseEvent
 {
 	private float x, y;
 	private boolean isAlt, isCtrl, isShift;
+	private int button;
 	
-	public WorldMouseEvent(float x, float y, boolean isAlt, boolean isCtrl, boolean isShift)
+	public RealMouseEvent(float x, float y, int button, boolean isAlt, boolean isCtrl, boolean isShift)
 	{
 		this.x = x;
 		this.y = y;
+		this.button = button;
 		this.isAlt = isAlt;
 		this.isCtrl = isCtrl;
 		this.isShift = isShift;
@@ -37,5 +39,10 @@ public class WorldMouseEvent
 	public boolean isShiftDown()
 	{
 		return isShift;
+	}
+	
+	public int getButton()
+	{
+		return button;
 	}
 }

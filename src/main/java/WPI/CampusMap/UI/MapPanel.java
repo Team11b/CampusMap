@@ -20,7 +20,7 @@ import WPI.CampusMap.Backend.Coord;
 import WPI.CampusMap.Backend.Map;
 import WPI.CampusMap.Backend.Point;
 import WPI.CampusMap.Graphics.GraphicalMap;
-import WPI.CampusMap.Graphics.UserGraphicalMap;
+import WPI.CampusMap.Graphics.User.UserGraphicalMap;
 import WPI.CampusMap.PathPlanning.Node;
 import WPI.CampusMap.PathPlanning.Path;
 import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
