@@ -203,7 +203,7 @@ public class Map implements java.io.Serializable {
 	/**
 	 * Sets the points that make up this map.
 	 * 
-	 * @param allPoints
+	 * @param ap
 	 *            The array list that will be the new points for this map.
 	 */
 	public void setAllPoints(HashMap<String, Point> ap) {

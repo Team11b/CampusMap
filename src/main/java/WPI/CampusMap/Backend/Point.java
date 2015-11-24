@@ -31,14 +31,11 @@ public class Point implements java.io.Serializable {
 	/** Standard type of elevator */
 
 	/**
-	 * Constructor
-	 * 
-	 * @param coord
-	 *            Coordinate of point
-	 * @param type
-	 *            Point type using public constants
-	 * @param id
-	 *            ID of point
+	 * Point constructor
+	 * @param coord Coordinate for this Point
+	 * @param type Type of point, based upon static constants
+	 * @param id unique identifier
+	 * @param map name of the Map this point is located in
 	 */
 	public Point(Coord coord, String type, String id, String map) {
 		this.coord = coord;
