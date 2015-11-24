@@ -34,6 +34,7 @@ import WPI.CampusMap.Backend.Map;
 import WPI.CampusMap.Backend.Point;
 import WPI.CampusMap.PathPlanning.Path;
 import WPI.CampusMap.PathPlanning.AStar.AStar;
+import WPI.CampusMap.Serialization.Serialization;
 import WPI.CampusMap.XML.XML;
 
 public class AppUIObject {
@@ -393,9 +394,12 @@ public class AppUIObject {
 				System.out.println(txtScale.getText());
 				mapPanel.currentMap.setScale(Float.parseFloat(txtScale.getText()));
 				System.out.println("SAVING!");
-				mapPanel.selectedPoint.setId(nodeTextField.getText());
-				mapPanel.selectedPoint.setType((String)typeSelector.getSelectedItem());
-				XML.writePoints(mapPanel.currentMap);
+				if(mapPanel.selectedPoint != null){
+					mapPanel.selectedPoint.setId(nodeTextField.getText());
+					mapPanel.selectedPoint.setType((String)typeSelector.getSelectedItem());
+				}
+				Serialization.write(mapPanel.currentMap);
+				//XML.writePoints(mapPanel.currentMap);
 				lblScale.setText("Scale: " + mapPanel.currentMap.getScale() + " inches per ft");
 			}
 		});
