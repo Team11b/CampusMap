@@ -314,6 +314,9 @@ public class AStarTest {
 		}
 		
 		testMap6.setAllPoints(allHM2);
+		
+		Serializer.write(testMap5);
+		Serializer.write(testMap6);
 	}
 
 	@Ignore
@@ -376,12 +379,13 @@ public class AStarTest {
 		assertEquals(pathNodes.get(6).getPoint().getId(), "12");
 	}
 	
-	@Ignore
 	@Test
 	public void testConnected() {
+		Map.addMap(testMap5);
+		Map.addMap(testMap6);
 		Point start, goal;
-		start = testMap3.getPoint("12");
-		goal = testMap4.getPoint("12");
+		start = testMap5.getPoint("12");
+		goal = testMap6.getPoint("12");
 		
 		MultiPath grandPath = AStar.multi_AStar(start, goal);
 		ArrayList<Node> pathNodes = grandPath.get(0).getPath();

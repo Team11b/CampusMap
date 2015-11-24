@@ -247,7 +247,7 @@ public class Map implements java.io.Serializable {
 	}
 
 	public static boolean addMap(Map mapValue) {
-		if (!(Map.allMaps.containsKey(mapValue.getName()))) {
+		if ((Map.allMaps.containsKey(mapValue.getName()))) {
 			return false;
 		}
 
