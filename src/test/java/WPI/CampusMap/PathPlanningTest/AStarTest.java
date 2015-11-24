@@ -14,6 +14,7 @@ import WPI.CampusMap.Backend.Map;
 import WPI.CampusMap.Backend.Point;
 import WPI.CampusMap.PathPlanning.Node;
 import WPI.CampusMap.PathPlanning.Path;
+import WPI.CampusMap.PathPlanning.AStar.AStar;
 import WPI.CampusMap.XML.XML;
 
 public class AStarTest {
@@ -33,10 +34,10 @@ public class AStarTest {
 		start = testMap.getPoint("4");
 		goal = testMap.getPoint("12");
 
-		Path path = testMap.astar(start, goal);
+//		Path path = testMap.astar(start, goal);
+		Path path = AStar.single_AStar(start, goal);
 		ArrayList<Node> pathNodes = path.getPath();
-
-		assertEquals(path.getPath().size(), 5);
+		assertEquals(7, path.getPath().size());
 		assertEquals(pathNodes.get(0).getPoint().getId(), "4");
 		assertEquals(pathNodes.get(1).getPoint().getId(), "9");
 		assertEquals(pathNodes.get(2).getPoint().getId(), "14");
@@ -49,11 +50,12 @@ public class AStarTest {
 	@Ignore
 	@Test
 	public void testAStar4to11() {
+		System.out.println("in");
 		Point start, goal;
 		start = testMap.getPoint("4");
 		goal = testMap.getPoint("11");
 
-		Path path = testMap.astar(start, goal);
+		Path path = AStar.single_AStar(start, goal);
 		ArrayList<Node> pathNodes = path.getPath();
 
 		assertEquals(path.getPath().size(), 8);
@@ -74,7 +76,7 @@ public class AStarTest {
 		start = testMap2.getPoint("4");
 		goal = testMap2.getPoint("12");
 
-		Path path = testMap2.astar(start, goal);
+		Path path = AStar.single_AStar(start, goal);
 		ArrayList<Node> pathNodes = path.getPath();
 
 		assertEquals(path.getPath().size(), 7);
