@@ -2,6 +2,11 @@ package WPI.CampusMap.PathPlanningTest;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.IOException;
+import java.nio.file.DirectoryNotEmptyException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -386,6 +391,10 @@ public class AStarTest {
 		Point start, goal;
 		start = testMap5.getPoint("12");
 		goal = testMap6.getPoint("12");
+		ConnectionPoint extra1 = (ConnectionPoint) testMap5.getPoint("4");
+		ConnectionPoint extra2 = (ConnectionPoint) testMap6.getPoint("4");
+		Point ble = Map.getMap(extra1.getLinkedMap()).getPoint(extra1.getLinkedPoint());
+	
 		
 		MultiPath grandPath = AStar.multi_AStar(start, goal);
 		ArrayList<Node> pathNodes = grandPath.get(0).getPath();
@@ -406,8 +415,7 @@ public class AStarTest {
 		assertEquals(pathNodes.get(3).getPoint().getId(), "19");
 		assertEquals(pathNodes.get(4).getPoint().getId(), "18");
 		assertEquals(pathNodes.get(5).getPoint().getId(), "17");
-		assertEquals(pathNodes.get(6).getPoint().getId(), "12");
-		
+		assertEquals(pathNodes.get(6).getPoint().getId(), "12");		
 		
 	}
 
