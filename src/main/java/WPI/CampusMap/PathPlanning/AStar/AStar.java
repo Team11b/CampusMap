@@ -168,12 +168,13 @@ public class AStar {
 
 						tempNode = new Node(tempConn.getConnPoint(), explored.getLast());
 						tempNode.setCumulativeDist(explored.getLast().getCumulativeDist());
-						tempNode.setCurrentScore(tempNode.getCumulativeDist() + ConnectionPoint.getConnectioncost()
-								+ tempNode.calcHeuristic(tempNode.getPoint()));
+						tempNode.setCurrentScore(
+								tempNode.getCumulativeDist() + tempNode.calcHeuristic(tempNode.getPoint()));
 
 						if (!(explored.containsSamePoint(tempNode))) {
 
-							frontier.isBetter(tempNode);
+							// frontier.isBetter(tempNode);
+							frontier.add(tempNode);
 						}
 					}
 
