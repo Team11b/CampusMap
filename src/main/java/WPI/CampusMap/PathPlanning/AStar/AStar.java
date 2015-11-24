@@ -34,6 +34,7 @@ public class AStar {
 		if (start.equals(goal)) {
 			return new Path();
 		}
+		
 		// checks to see if either the start or goal is a wall
 		if (start.getType() == Point.WALL) {
 			System.out.println("Invalid start point.");
@@ -113,7 +114,6 @@ public class AStar {
 	 * @return a Path which spans multiple maps
 	 */
 	public MultiPath multi_AStar(Point start, Point goal) {
-		if ()
 		// checks to see if either the start or goal is a wall
 		if (start.getType() == Point.WALL) {
 			System.out.println("Invalid start point.");
