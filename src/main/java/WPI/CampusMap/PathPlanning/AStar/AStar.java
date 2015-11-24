@@ -50,6 +50,7 @@ public class AStar {
 		Path returnPath = new Path();
 
 		Node tempNode = new Node(start, null);
+		tempNode.getHeuristic();
 
 		// add start to frontier as a Node
 		frontier.add(tempNode);
@@ -81,18 +82,19 @@ public class AStar {
 						// check if Node is in Explored
 						if (!(explored.containsSamePoint(tempNode))) {
 
-							if (!(frontier.isBetter(tempNode))) {
-								frontier.add(tempNode);
-							}
+							frontier.isBetter(tempNode);
+//							if (!(frontier.isBetter(tempNode))) {
+//								frontier.add(tempNode);
+//							}
 						}
 					}
 				}
 			}
 		}
 
-		if (!(goalFound)) {
-			return null;
-		}
+//		if (!(goalFound)) {
+//			return null;
+//		}
 
 		// form the path
 		tempNode = new Node(null, null);

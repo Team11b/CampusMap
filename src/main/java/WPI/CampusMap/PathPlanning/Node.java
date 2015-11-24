@@ -97,7 +97,7 @@ public class Node {
 	
 	@Override
 	public String toString() {
-		return this.getPoint().toString() + "\t" + this.getCurrentScore() + "\n";
+		return this.getPoint().toString() + "\t" + this.getCurrentScore();
 	}
 
 }

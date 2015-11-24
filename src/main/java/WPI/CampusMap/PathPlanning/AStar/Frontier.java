@@ -57,10 +57,10 @@ public class Frontier {
 	public boolean contains(Node other) {
 		return this.pq.contains(other);
 	}
-	
+
 	public Node find(Node other) {
 		Node[] temp = this.pq.toArray(new Node[this.pq.size()]);
-		
+
 		for (int j = 0; j < temp.length; j++) {
 			if (temp[j].equals(other)) {
 				return temp[j];
@@ -71,6 +71,7 @@ public class Frontier {
 
 	public boolean isBetter(Node other) {
 		if (!(this.contains(other))) {
+			this.pq.add(other);
 			return false;
 		}
 
@@ -104,6 +105,18 @@ public class Frontier {
 		}
 
 		return found;
+	}
+
+	public String toString() {
+		String response = "";
+
+		Node[] temp = this.pq.toArray(new Node[this.pq.size()]);
+
+		for (int j = 0; j < temp.length; j++) {
+			response += temp[j].toString();
+			response += "\n";
+		}
+		return response;
 	}
 
 }
