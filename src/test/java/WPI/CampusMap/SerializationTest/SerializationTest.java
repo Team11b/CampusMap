@@ -2,6 +2,12 @@ package WPI.CampusMap.SerializationTest;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+import java.nio.file.DirectoryNotEmptyException;
+import java.nio.file.Files;
+import java.nio.file.NoSuchFileException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.HashMap;
 
 import org.junit.Test;
@@ -44,6 +50,19 @@ public class SerializationTest {
 				temp2.getPoint("PointTwo").getNeighborsP());
 		assertEquals(tempM.getPoint("PointThree").getNeighborsP(),
 						temp2.getPoint("PointThree").getNeighborsP());
+		
+		// Delete written file
+		Path path = Paths.get("serialized\\test_map.ser");
+		try {
+			Files.delete(path);
+		} catch (NoSuchFileException x) {
+			System.err.format("%s: no such" + " file or directory%n", path);
+		} catch (DirectoryNotEmptyException x) {
+			System.err.format("%s not empty%n", path);
+		} catch (IOException x) {
+			// File permission problems are caught here.
+			System.err.println(x);
+		}
 	}
 
 }
