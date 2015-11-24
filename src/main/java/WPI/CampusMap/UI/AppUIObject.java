@@ -104,10 +104,7 @@ public class AppUIObject {
 	 * @throws XMLStreamException	
 	 */
 	private void loadMap(String mapName) throws XMLStreamException {
-		System.out.println("UI: " + mapName);
-		Map newMap = new Map(mapName);
-		mapPanel.currentMap = newMap;
-		reDrawUI();
+		mapPanel.loadMap(mapName);
 	}
 	
 	/**
@@ -252,8 +249,6 @@ public class AppUIObject {
 
 		frame.setSize(1280, 720);
 		frame.setVisible(true);
-		
-		mouseClick = new MapMouseListener(this);
 
 		frame.getContentPane().setLayout(null);
 

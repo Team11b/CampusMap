@@ -10,8 +10,8 @@ public class Coord implements java.io.Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -940085833607276260L;
-	private double x;
-	private double y;
+	private float x;
+	private float y;
 
 	/**
 	 * Constructor
@@ -21,9 +21,15 @@ public class Coord implements java.io.Serializable {
 	 * @param e
 	 *            Y-Coordinate
 	 */
-	public Coord(double d, double e) {
+	public Coord(float d, float e) {
 		this.x = d;
 		this.y = e;
+	}
+
+	public Coord(double d, double e) 
+	{
+		this.x = (float)d;
+		this.y = (float)e;
 	}
 
 	/**
@@ -38,19 +44,19 @@ public class Coord implements java.io.Serializable {
 				.abs(Math.sqrt(Math.pow((other.getX() - this.getX()), 2) + Math.pow((other.getY() - this.getY()), 2))));
 	}
 
-	public double getX() {
+	public float getX() {
 		return x;
 	}
 
-	public void setX(double x) {
+	public void setX(float x) {
 		this.x = x;
 	}
 
-	public double getY() {
+	public float getY() {
 		return y;
 	}
 
-	public void setY(double y) {
+	public void setY(float y) {
 		this.y = y;
 	}
 
