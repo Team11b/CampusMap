@@ -37,7 +37,7 @@ public class AStarTest {
 		Path path = testMap.astar(start, goal);
 		ArrayList<Node> pathNodes = path.getPath();
 
-		assertEquals(path.getPath().size(), 5);
+		assertEquals(path.getPath().size(), 7);
 		assertEquals(pathNodes.get(0).getPoint().getId(), "4");
 		assertEquals(pathNodes.get(1).getPoint().getId(), "9");
 		assertEquals(pathNodes.get(2).getPoint().getId(), "14");
@@ -47,7 +47,7 @@ public class AStarTest {
 		assertEquals(pathNodes.get(6).getPoint().getId(), "12");
 	}
 
-	@Ignore
+	
 	@Test
 	public void testAStar4to11() {
 		Point start, goal;
@@ -68,7 +68,7 @@ public class AStarTest {
 		assertEquals(pathNodes.get(7).getPoint().getId(), "11");
 	}
 
-	@Ignore
+	
 	@Test
 	public void testAStar4to11_2() {
 		Point start, goal;
