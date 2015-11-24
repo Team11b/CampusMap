@@ -5,6 +5,10 @@ import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
+import java.io.File;
+import java.util.ArrayList;
+import java.util.List;
+
 
 import javax.swing.AbstractAction;
 import javax.swing.Icon;
@@ -27,16 +31,14 @@ import javax.swing.text.StyledDocument;
 import javax.xml.stream.XMLStreamException;
 
 import WPI.CampusMap.Backend.Map;
+import WPI.CampusMap.Backend.Point;
 import WPI.CampusMap.PathPlanning.Path;
 import WPI.CampusMap.PathPlanning.AStar.AStar;
+import WPI.CampusMap.Serialization.Serialization;
 import WPI.CampusMap.XML.XML;
 
 public class AppUIObject {
-	protected boolean placeMode = false;
-	protected boolean deleteMode = false;	
-	protected boolean edgeMode = false;
 	protected boolean devMode = false;
-	protected boolean removeEdgeMode = false;
 
 	// UI Elements
 	private final JFrame frame = new JFrame("Path Finder");
@@ -54,9 +56,11 @@ public class AppUIObject {
 	private final JLabel lblMapColon = new JLabel("Map:");
 	private final JButton btnDevMode = new JButton("Dev Mode");
 	private final JButton btnSave = new JButton("Save");
+	private final String[] pointTypes = {"1", "2", "3"};
+	private JComboBox typeSelector = new JComboBox();
 	
 	private final JTextPane txtDirections = new JTextPane();
-	private String[] mapStrings = { "Atwater_Kent-0", "Atwater_Kent-1", "Atwater_Kent-2", "Atwater_Kent-3",
+	/*private String[] mapStrings = { "Atwater_Kent-0", "Atwater_Kent-1", "Atwater_Kent-2", "Atwater_Kent-3",
 			"Boynton_Hall_3rd_floor_renovations-0", "Boynton_Hall_3rd_floor_renovations-1", "Boynton_Hall-0",
 			"Boynton_Hall-1", "Boynton_Hall-2", "Boynton_Hall-3", "Campus_Center-0", "Campus_Center-1",
 			"Campus_Center-2", "Gordon_Library-0", "Gordon_Library-1", "Gordon_Library-2", "Gordon_Library-3",
@@ -64,9 +68,11 @@ public class AppUIObject {
 			"Higgins_House_and_garage-2", "Higgins_House_and_garage-3", "Higgins_House_and_garage-4",
 			"Higgins_House_and_garage-5", "Project_Center_1st_floor_renovations_2013",
 			"Project_Center_1st_floor_renovationsRoomNumbers2014", "Project_Center-0", "Project_Center-1",
-			"Stratton_Hall-0", "Stratton_Hall-1", "Stratton_Hall-2", "Stratton_Hall-3" };
-	private final JComboBox<Object> mapDropDown = new JComboBox<Object>(mapStrings);
-	private final StringBuilder mapName = new StringBuilder();
+			"Stratton_Hall-0", "Stratton_Hall-1", "Stratton_Hall-2", "Stratton_Hall-3" };*/
+	private final ArrayList mapXMLStrings = new ArrayList<String>();
+	private JComboBox mapDropDown = new JComboBox();
+	private String[] mapStrings;
+	//private final StringBuilder mapName = new StringBuilder();
 	private MouseListener mouseClick;
 	private final SwingAction actionHandler = new SwingAction();
 
@@ -75,13 +81,52 @@ public class AppUIObject {
 	private final JButton btnSubmit;
 	private JTextField txtScale;
 	private JPasswordField txtDevPass;
+	private final JLabel lblNodeId = new JLabel("Node ID:");
+	private JTextField nodeTextField;
 	
+	protected enum DevMode{
+		none, addNode, addEdge, deleteNode, deleteEdge;
+	}
+	
+	protected DevMode currentDevMode = DevMode.none;
 
 	/**
 	 * Re-draws all UI elements. Call after the map has changed.
 	 */
 	public void reDrawUI() {
 		mapPanel.repaint();
+	}
+	
+	public void resetDropDown(){
+		//get all the files in the directory
+		File[] listOfFiles = new File("maps/").listFiles();
+		int oldIndex = mapDropDown.getSelectedIndex();
+		mapXMLStrings.clear();
+	    for (int i = 0; i < listOfFiles.length; i++) {
+	      if (listOfFiles[i].isFile()) {					        
+	        int ext = listOfFiles[i].getName().lastIndexOf(".png"); //snip extension     
+	        mapXMLStrings.add(listOfFiles[i].getName().substring(0, ext));	       	        
+	      } 
+	    }
+	    //put in alphabetical order and convert to string array
+	    mapXMLStrings.sort(null);
+	    mapStrings = new String[mapXMLStrings.size()];
+	    mapStrings = (String[]) mapXMLStrings.toArray(mapStrings);
+	    if(mapDropDown == null){
+	    mapDropDown = new JComboBox();
+	    }
+	    else{
+	    	mapDropDown.removeAllItems();
+	    }
+	    int q = listOfFiles.length - 1; //because of dat org folder.
+	    for(int j = 0; j < q; j++)
+	    {
+	    	if(mapStrings[j] != null)
+	    		mapDropDown.addItem(mapStrings[j]);
+	    }
+	    //mapDropDown = new JComboBox<Object>(mapStrings);	    
+	    mapDropDown.setSelectedIndex(oldIndex);
+	    System.out.println("old index is " + oldIndex);
 	}
 
 	/**
@@ -140,31 +185,19 @@ public class AppUIObject {
 				System.out.println("Print");
 				break;
 			case "Place Mode":
-				placeMode = !placeMode;
-				edgeMode = false;
-				deleteMode = false;
-				removeEdgeMode = false;
+				currentDevMode = DevMode.addNode;
 				System.out.println("Place Mode");
 				break;
 			case "Delete Mode":
-				deleteMode = !deleteMode;
-				placeMode = false;
-				edgeMode = false;
-				removeEdgeMode = false;
+				currentDevMode = DevMode.deleteNode;
 				System.out.println("Delete Mode");
 				break;
 			case "Edge Mode":
-				edgeMode = !edgeMode;
-				placeMode = false;
-				deleteMode = false;
-				removeEdgeMode = false;
+				currentDevMode = DevMode.addEdge;
 				System.out.println("Edge Mode");
 				break;
 			case "Remove Edge":
-				removeEdgeMode = !removeEdgeMode;
-				edgeMode = false;
-				placeMode = false;
-				deleteMode = false;
+				currentDevMode = DevMode.deleteEdge;
 				System.out.println("Remove Edge");
 				break;
 			default:
@@ -186,9 +219,6 @@ public class AppUIObject {
 		directionsPanel.setBounds(1031, 6, 237, 664);
 		frame.getContentPane().add(directionsPanel);
 		directionsPanel.setLayout(null);
-
-		txtDirections.setBounds(26, 183, 215, 434);
-		directionsPanel.add(txtDirections);
 
 		btnEmail.setBounds(26, 629, 106, 29);
 		directionsPanel.add(btnEmail);
@@ -228,6 +258,7 @@ public class AppUIObject {
 		directionsPanel.add(btnDevMode);
 		
 		// Drop down for map selection
+		resetDropDown();
 	    mapDropDown.setBounds(55, 6, 176, 24);
 	    directionsPanel.add(mapDropDown);
 		mapDropDown.setSelectedIndex(0);
@@ -240,6 +271,24 @@ public class AppUIObject {
 		btnEdgeMode.setBounds(124, 76, 117, 29);
 		
 		directionsPanel.add(btnEdgeMode);
+		
+		final JLabel lblNodeType = new JLabel("Node Type:");
+		lblNodeType.setBounds(26, 200, 85, 16);
+		directionsPanel.add(lblNodeType);
+				lblNodeId.setBounds(26, 228, 61, 16);
+				
+				directionsPanel.add(lblNodeId);
+				
+				typeSelector.setBounds(104, 196, 131, 27);
+				directionsPanel.add(typeSelector);
+				
+				nodeTextField = new JTextField();
+				nodeTextField.setBounds(99, 228, 130, 26);
+				directionsPanel.add(nodeTextField);
+				nodeTextField.setColumns(10);
+				
+						txtDirections.setBounds(26, 183, 215, 434);
+						directionsPanel.add(txtDirections);
 		
 		btnSave.setVisible(false);
 
@@ -264,7 +313,14 @@ public class AppUIObject {
 				if (!devMode) {
 					btnGetDirections.setVisible(false);
 					txtDevPass.setVisible(true);
-					btnSubmit.setVisible(true);
+					btnSubmit.setVisible(true);					
+					if(mapPanel.selectedPoint == null){
+						nodeTextField.setText("");
+						typeSelector.setSelectedIndex(0);
+					}else{
+						nodeTextField.setText(mapPanel.selectedPoint.getId());
+						typeSelector.setSelectedItem(mapPanel.selectedPoint.getType());
+					}					
 					txtDirections.setText("Enter the password and click submit!");
 					btnDevMode.setText("User mode");
 					devMode = true; //not actually true, but in order to switch without pass						
@@ -272,8 +328,13 @@ public class AppUIObject {
 					devMode = false;
 					frame.setTitle("Path Finder");
 					btnDevMode.setText("Dev Mode");
-					deleteMode = !deleteMode;
-					placeMode = !placeMode;
+					currentDevMode = DevMode.none;
+					lblNodeId.setVisible(false);
+					lblNodeType.setVisible(false);
+					nodeTextField.setVisible(false);
+					typeSelector.setVisible(false);
+					lblDirections.setVisible(true);
+					txtDirections.setVisible(true);
 					btnGetDirections.setVisible(true);
 					btnGetDirections.setEnabled(false);
 					btnEdgeMode.setVisible(false);
@@ -287,6 +348,7 @@ public class AppUIObject {
 					txtDirections.setText("");
 				}
 				reDrawUI();
+				//resetDropDown();
 				mapPanel.selectedPoint = null;
 				mapPanel.startPoint = null;
 				mapPanel.endPoint = null;
@@ -299,6 +361,8 @@ public class AppUIObject {
 				if(String.valueOf(txtDevPass.getPassword()).equals("0011")){
 					btnSubmit.setVisible(false);
 					txtDevPass.setVisible(false);
+					txtDirections.setVisible(false);
+					lblDirections.setVisible(false);
 					txtDevPass.setText("");
 					frame.setTitle("Dev Mode");									
 					btnNode.setVisible(true);
@@ -307,6 +371,11 @@ public class AppUIObject {
 					btnEdgeMode.setVisible(true);
 					btnRemoveEdge.setVisible(true);
 					txtScale.setVisible(true);
+					nodeTextField.setVisible(true);
+					typeSelector.setVisible(true);
+					lblNodeId.setVisible(true);
+					lblNodeType.setVisible(true);
+					
 				}
 				else{
 					txtDevPass.setText("");
@@ -323,34 +392,34 @@ public class AppUIObject {
 		btnSave.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(txtScale.getText());
-				mapPanel.currentMap.setScale(Integer.parseInt(txtScale.getText()));
+				mapPanel.currentMap.setScale(Float.parseFloat(txtScale.getText()));
 				System.out.println("SAVING!");
-				XML.writePoints(mapPanel.currentMap);
+				if(mapPanel.selectedPoint != null){
+					mapPanel.selectedPoint.setId(nodeTextField.getText());
+					mapPanel.selectedPoint.setType((String)typeSelector.getSelectedItem());
+				}
+				Serialization.write(mapPanel.currentMap);
+				//XML.writePoints(mapPanel.currentMap);
 				lblScale.setText("Scale: " + mapPanel.currentMap.getScale() + " inches per ft");
 			}
 		});
 
 		mapDropDown.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
-				//cleanup
-				reDrawUI();
 				mapPanel.selectedPoint = null;
 				mapPanel.startPoint = null;
 				mapPanel.endPoint = null;
-				mapPanel.currentRoute = null;
+				mapPanel.currentRoute = null;				
 				
-				mapName.append((String) mapDropDown.getSelectedItem());
+				String mapName = (String)mapDropDown.getSelectedItem();
 				try {
-					// String path = mapName.toString() + ".xml";
-					String path = mapName.toString();
-					loadMap(path);
+					System.out.println("Index: " + mapDropDown.getSelectedIndex());					
+					loadMap(mapName);
 				} catch (XMLStreamException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
 				}
-
-				// reset the StringBuilder
-				mapName.setLength(0);
+				
 
 				// Display the map finally
 				lblScale.setVisible(true);
@@ -387,6 +456,9 @@ public class AppUIObject {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
+				
+				//cleanup
+				reDrawUI();
 			}
 		});
 		
@@ -405,6 +477,21 @@ public class AppUIObject {
 		lblMapviewGoesHere.setVisible(true);
 		lblMapviewGoesHere.setVisible(true);
 		
+		nodeTextField.setVisible(false);
+		typeSelector.setVisible(false);
+		lblNodeId.setVisible(false);
+		lblNodeType.setVisible(false);
+		typeSelector.addItem(pointTypes[0]);
+		typeSelector.addItem(pointTypes[1]);
+		typeSelector.addItem(pointTypes[2]);
+		
+		nodeTextField.setText(mapPanel.selectedPoint.getId());
+		
+		typeSelector.setSelectedItem(mapPanel.selectedPoint.getType());
+		if(typeSelector.getSelectedIndex() == -1){
+			typeSelector.setSelectedIndex(0);
+		}
+		
 		txtScale = new JTextField();
 		txtScale.setBounds(37, 0, 130, 19);
 		frame.getContentPane().add(txtScale);
@@ -418,6 +505,11 @@ public class AppUIObject {
 		mainPanel.setBounds(1, 15, 1018, 664);
 		frame.getContentPane().add(mainPanel);
 		mainPanel.setLayout(null);
+		
+		//typeSelector.setBounds(0,90,100,20);
+		//typeSelector.setLayout(null);
+		//directionsPanel.add(typeSelector);
+		//typeSelector.setVisible(true);
 		
 		try {
 			loadMap(mapStrings[0]);
@@ -438,5 +530,15 @@ public class AppUIObject {
 			lblScale.setText("");
 		}		
 		reDrawUI();		
+	}
+
+	public void updatePoint() {
+		nodeTextField.setText(mapPanel.selectedPoint.getId());
+		if(mapPanel.selectedPoint.getType() == null){
+			typeSelector.setSelectedIndex(2);
+		}else{
+			System.out.println(mapPanel.selectedPoint.getType());
+			typeSelector.setSelectedItem(mapPanel.selectedPoint.getType());
+		}
 	}
 }

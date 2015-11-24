@@ -13,16 +13,16 @@ public class MapMouseListener implements MouseListener {
 	public void mouseClicked(MouseEvent e) {
 		// TODO Auto-generated method stub
 		if (uiObject.devMode) {
-			if (uiObject.placeMode) {
+			if (uiObject.currentDevMode == AppUIObject.DevMode.addNode) {
 				System.out.println("Placing point on Map X: " + e.getX() + " Y: " + e.getY());
 				uiObject.mapPanel.currentMap.createPointOnMap(e);
-			} else if (uiObject.edgeMode) {
+			} else if (uiObject.currentDevMode == AppUIObject.DevMode.addEdge) {
 				System.out.println("You added edge X: " + e.getX() + " Y: " + e.getY());
 				uiObject.mapPanel.addEdgeOnMap(e);
-			} else if (uiObject.deleteMode) {
+			} else if (uiObject.currentDevMode == AppUIObject.DevMode.deleteNode) {
 				System.out.println("You deleted X: " + e.getX() + " Y: " + e.getY());
 				uiObject.mapPanel.deletePointOnMap(e);
-			} else {
+			} else if(uiObject.currentDevMode == AppUIObject.DevMode.deleteEdge){
 				// if(selectPointOnMap(e))
 				uiObject.mapPanel.removeEdgeOnMap(e);
 			}
