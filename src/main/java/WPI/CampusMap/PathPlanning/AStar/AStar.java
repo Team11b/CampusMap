@@ -28,7 +28,8 @@ public class AStar {
 	 *            the goal Point on amap
 	 * @return a path between start and goal
 	 */
-	//TODO This function should be able to replaced by _AStar, but that is not confirmed yet
+	// TODO This function should be able to replaced by _AStar, but that is not
+	// confirmed yet
 	public static Path single_AStar(Point start, Point goal) {
 		// checks to see if either the start or goal is a wall
 		if (start.getType() == Point.WALL) {

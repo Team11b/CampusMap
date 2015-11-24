@@ -23,7 +23,6 @@ public class FrontierTest {
 	public static Node eta;
 	public static Node iota;
 
-	@Ignore
 	@BeforeClass
 	public static void beforeClass() {
 		testing = new Frontier(Frontier.stdNodeComp);
@@ -72,19 +71,18 @@ public class FrontierTest {
 		testing.add(eta);
 	}
 
-	@Ignore
-	@Test
-	public void testAdd() {
-		testing.add(beta);
-
-		testing.add(alpha);
-		
-		testing.add(gamma);
-		
-		testing.add(eta);
-		
-		assertTrue(testing.size() == 4);
-	}
+//	@Test
+//	public void testAdd() {
+//		testing.add(beta);
+//
+//		testing.add(alpha);
+//		
+//		testing.add(gamma);
+//		
+//		testing.add(eta);
+//		
+//		assertTrue(testing.size() == 4);
+//	}
 	
 	@Test
 	public void testRemove() {

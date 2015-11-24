@@ -38,29 +38,10 @@ public class Explored {
 	}
 
 	public boolean containsSamePoint(Node other) {
-		for (int i = 0; i < this.explored.size(); i++) {
-			if (other.getPoint().equals(this.explored.get(i).getPoint())) {
-				return true;
-			}
-		}
 		return false;
 	}
 
 	public boolean isBetter(Node other) {
-		if (!(this.containsSamePoint(other))) {
-			return false;
-		}
-
-		for (int j = 0; j < this.explored.size(); j++) {
-			if (other.getPoint().equals(this.explored.get(j).getPoint())) {
-				if (other.getCurrentScore() < this.explored.get(j).getCurrentScore()) {
-					return true;
-				} else {
-					return false;
-				}
-			}
-		}
-
 		return false;
 	}
 }
