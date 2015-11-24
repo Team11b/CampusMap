@@ -65,7 +65,9 @@ public class AStar {
 			if (!(goalFound)) {
 				// get the valid neighbors from the last Node on the explored
 				// list
-				ArrayList<Point> neigh = explored.getLast().getPoint().getValidNeighbors();
+				Node centerPoint = explored.getLast();
+				ArrayList<Point> neigh = centerPoint.getPoint().getValidNeighbors();
+				System.out.println(explored.getLast().getPoint().getId());
 				for (int j = 0; j < neigh.size(); j++) {
 					tempNode = new Node(null, null);
 					tempNode = new Node(neigh.get(j), explored.getLast());
@@ -85,6 +87,10 @@ public class AStar {
 			}
 		}
 
+		if (!(goalFound)) {
+			return null;
+		}
+		
 		// form the path
 		tempNode = new Node(null, null);
 		tempNode = explored.getLast();
