@@ -57,7 +57,7 @@ public class Point implements java.io.Serializable {
 	 * @return The distance to the other point.
 	 */
 	public double distance(Point other) {
-		return 0;
+		return this.getCoord().distance(other.getCoord());
 	}
 
 	public Coord getCoord() {

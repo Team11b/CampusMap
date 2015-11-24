@@ -44,6 +44,14 @@ public class Frontier {
 	}
 
 	public Node getNext() {
+		Node[] orig = this.pq.toArray(new Node[this.pq.size()]);
+		
+		System.out.println("removing");
+		for (int j = 0; j < orig.length; j++) {
+			System.out.println("" + orig[j].getPoint().getId() + ", " + orig[j].getCumulativeDist());
+		}
+		System.out.println("---");
+		
 		return this.pq.poll();
 	}
 
@@ -113,11 +121,7 @@ public class Frontier {
 			this.pq.add(other);
 		}
 		
-		ArrayList<Node> allHolding = new ArrayList<Node>();
 		Node[] orig = this.pq.toArray(new Node[this.pq.size()]);
-		Node hold = new Node(null, null);
-		int counter = 0;
-
 		for (int i = 0; i < orig.length; i++) {
 			if (orig[i].equals(other) && (orig[i].getCurrentScore() > other.getCurrentScore())) {
 				orig[i] = other;

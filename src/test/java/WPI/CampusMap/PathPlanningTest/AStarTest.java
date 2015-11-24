@@ -2,11 +2,6 @@ package WPI.CampusMap.PathPlanningTest;
 
 import static org.junit.Assert.assertEquals;
 
-import java.io.IOException;
-import java.nio.file.DirectoryNotEmptyException;
-import java.nio.file.Files;
-import java.nio.file.NoSuchFileException;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -390,31 +385,24 @@ public class AStarTest {
 		Map.addMap(testMap6);
 		Point start, goal;
 		start = testMap5.getPoint("0");
-		goal = testMap5.getPoint("4");
-//		ConnectionPoint extra1 = (ConnectionPoint) testMap5.getPoint("4");
-//		ConnectionPoint extra2 = (ConnectionPoint) testMap6.getPoint("4");
-//		Point ble = Map.getMap(extra1.getLinkedMap()).getPoint(extra1.getLinkedPoint());
-
+		goal = testMap6.getPoint("12");
+		
 		MultiPath grandPath = AStar.multi_AStar(start, goal);
 		ArrayList<Node> pathNodes = grandPath.get(0).getPath();
-		assertEquals(7, pathNodes.size());
-		assertEquals(pathNodes.get(0).getPoint().getId(), "12");
-		assertEquals(pathNodes.get(1).getPoint().getId(), "17");
-		assertEquals(pathNodes.get(2).getPoint().getId(), "18");
-		assertEquals(pathNodes.get(3).getPoint().getId(), "19");
-		assertEquals(pathNodes.get(4).getPoint().getId(), "14");
-		assertEquals(pathNodes.get(5).getPoint().getId(), "9");
-		assertEquals(pathNodes.get(6).getPoint().getId(), "4");
+		assertEquals(5, pathNodes.size());
+		assertEquals(pathNodes.get(0).getPoint().getId(), "0");
+		assertEquals(pathNodes.get(1).getPoint().getId(), "1");
+		assertEquals(pathNodes.get(2).getPoint().getId(), "2");
+		assertEquals(pathNodes.get(3).getPoint().getId(), "3");
+		assertEquals(pathNodes.get(4).getPoint().getId(), "4");
 		
 		pathNodes = grandPath.get(1).getPath();
-		assertEquals(7, pathNodes.size());
+		assertEquals(5, pathNodes.size());
 		assertEquals(pathNodes.get(0).getPoint().getId(), "4");
-		assertEquals(pathNodes.get(1).getPoint().getId(), "9");
-		assertEquals(pathNodes.get(2).getPoint().getId(), "14");
-		assertEquals(pathNodes.get(3).getPoint().getId(), "19");
-		assertEquals(pathNodes.get(4).getPoint().getId(), "18");
-		assertEquals(pathNodes.get(5).getPoint().getId(), "17");
-		assertEquals(pathNodes.get(6).getPoint().getId(), "12");		
+		assertEquals(pathNodes.get(1).getPoint().getId(), "3");
+		assertEquals(pathNodes.get(2).getPoint().getId(), "2");
+		assertEquals(pathNodes.get(3).getPoint().getId(), "7");
+		assertEquals(pathNodes.get(4).getPoint().getId(), "12");		
 		
 	}
 
