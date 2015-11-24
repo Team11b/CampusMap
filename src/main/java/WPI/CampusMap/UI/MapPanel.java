@@ -175,10 +175,10 @@ class MapPanel extends JPanel {
 	private void drawMap(Graphics2D graphics) {
 		graphics.clearRect(0, 0, getWidth(), getHeight());
 
-		if (currentMap == null)
-			return;
+		
+		if (currentMap == null|| currentMap.getLoadedImage() == null) return ;
 
-		//graphics.setColor(Color.white);
+		graphics.setColor(Color.white);
 		graphics.drawImage(currentMap.getLoadedImage().getImage(), 0, 0, getWidth(), getHeight(), null);
 
 		HashMap<String, Point> points = currentMap.getAllPoints();
