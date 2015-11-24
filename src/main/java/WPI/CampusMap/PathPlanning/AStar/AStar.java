@@ -1,6 +1,7 @@
 package WPI.CampusMap.PathPlanning.AStar;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import WPI.CampusMap.Backend.ConnectionPoint;
 import WPI.CampusMap.Backend.Map;
@@ -8,7 +9,6 @@ import WPI.CampusMap.Backend.Point;
 import WPI.CampusMap.PathPlanning.MultiPath;
 import WPI.CampusMap.PathPlanning.Node;
 import WPI.CampusMap.PathPlanning.Path;
-import WPI.CampusMap.Serialization.Serializer;
 
 /**
  * 
@@ -161,12 +161,12 @@ public class AStar {
 
 					if (centerPoint.getPoint() instanceof ConnectionPoint) {
 						tempConn = (ConnectionPoint) (explored.getLast().getPoint());
-						
-						tempConn.setConnMap(Map.getMap(tempConn.getLinkedMap()));
-						tempConn.setConnPoint(
-								(ConnectionPoint) tempConn.getConnMap().getPoint(tempConn.getLinkedPoint()));
 
-						tempNode = new Node(tempConn, explored.getLast());
+						Map tempMap = Map.getMap(tempConn.getLinkedMap());
+						tempConn.setConnMap(tempMap);
+						tempConn.setConnPoint((ConnectionPoint) tempMap.getPoint(tempConn.getLinkedPoint()));
+
+						tempNode = new Node(tempConn.getConnPoint(), explored.getLast());
 						tempNode.setCumulativeDist(explored.getLast().getCumulativeDist());
 						tempNode.setCurrentScore(tempNode.getCumulativeDist() + ConnectionPoint.getConnectioncost()
 								+ tempNode.calcHeuristic(tempNode.getPoint()));

@@ -263,6 +263,7 @@ public class Map implements java.io.Serializable {
 	 * @return The point with the id.
 	 */
 	public Point getPoint(String id) {
+		System.out.println("the id: " + this.allPoints.get(id).getId() + "\tthe map: " + this.allPoints.get(id).getMap());
 		return this.allPoints.get(id);
 	}
 
