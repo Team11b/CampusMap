@@ -69,7 +69,7 @@ public class MultiPath {
 				node = bigPath.get(index);
 
 				if ((node.getPoint() instanceof ConnectionPoint)) {
-					if ((count < 2)) {
+					if ((count < 1)) {
 						part.addNode(node);
 						index++;
 					}
