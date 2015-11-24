@@ -37,11 +37,7 @@ import WPI.CampusMap.PathPlanning.AStar.AStar;
 import WPI.CampusMap.XML.XML;
 
 public class AppUIObject {
-	protected boolean placeMode = false;
-	protected boolean deleteMode = false;	
-	protected boolean edgeMode = false;
 	protected boolean devMode = false;
-	protected boolean removeEdgeMode = false;
 
 	// UI Elements
 	private final JFrame frame = new JFrame("Path Finder");
@@ -87,6 +83,11 @@ public class AppUIObject {
 	private final JLabel lblNodeId = new JLabel("Node ID:");
 	private JTextField nodeTextField;
 	
+	protected enum DevMode{
+		none, addNode, addEdge, deleteNode, deleteEdge;
+	}
+	
+	protected DevMode currentDevMode = DevMode.none;
 
 	/**
 	 * Re-draws all UI elements. Call after the map has changed.
@@ -183,31 +184,19 @@ public class AppUIObject {
 				System.out.println("Print");
 				break;
 			case "Place Mode":
-				placeMode = !placeMode;
-				edgeMode = false;
-				deleteMode = false;
-				removeEdgeMode = false;
+				currentDevMode = DevMode.addNode;
 				System.out.println("Place Mode");
 				break;
 			case "Delete Mode":
-				deleteMode = !deleteMode;
-				placeMode = false;
-				edgeMode = false;
-				removeEdgeMode = false;
+				currentDevMode = DevMode.deleteNode;
 				System.out.println("Delete Mode");
 				break;
 			case "Edge Mode":
-				edgeMode = !edgeMode;
-				placeMode = false;
-				deleteMode = false;
-				removeEdgeMode = false;
+				currentDevMode = DevMode.addEdge;
 				System.out.println("Edge Mode");
 				break;
 			case "Remove Edge":
-				removeEdgeMode = !removeEdgeMode;
-				edgeMode = false;
-				placeMode = false;
-				deleteMode = false;
+				currentDevMode = DevMode.deleteEdge;
 				System.out.println("Remove Edge");
 				break;
 			default:
@@ -293,7 +282,7 @@ public class AppUIObject {
 				directionsPanel.add(typeSelector);
 				
 				nodeTextField = new JTextField();
-				nodeTextField.setBounds(99, 235, 130, 26);
+				nodeTextField.setBounds(99, 228, 130, 26);
 				directionsPanel.add(nodeTextField);
 				nodeTextField.setColumns(10);
 				
@@ -338,8 +327,7 @@ public class AppUIObject {
 					devMode = false;
 					frame.setTitle("Path Finder");
 					btnDevMode.setText("Dev Mode");
-					deleteMode = !deleteMode;
-					placeMode = !placeMode;
+					currentDevMode = DevMode.none;
 					lblNodeId.setVisible(false);
 					lblNodeType.setVisible(false);
 					nodeTextField.setVisible(false);
