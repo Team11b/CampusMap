@@ -83,22 +83,12 @@ public class AStar {
 						if (!(explored.containsSamePoint(tempNode))) {
 
 							frontier.isBetter(tempNode);
-//							if (!(frontier.isBetter(tempNode))) {
-//								frontier.add(tempNode);
-//							}
 						}
 					}
 				}
 			}
 		}
-
-//		if (!(goalFound)) {
-//			return null;
-//		}
-
-		// form the path
 		tempNode = new Node(null, null);
-//		tempNode = explored.getLast();
 		tempNode = frontier.find(new Node(goal, null));
 		while ((tempNode != null) && (!(tempNode.getPoint().equals(start)))) {
 			returnPath.addNode(tempNode);
