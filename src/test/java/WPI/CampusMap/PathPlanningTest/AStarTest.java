@@ -7,7 +7,6 @@ import java.util.ArrayList;
 import javax.xml.stream.XMLStreamException;
 
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import WPI.CampusMap.Backend.Map;
@@ -34,7 +33,7 @@ public class AStarTest {
 		start = testMap.getPoint("4");
 		goal = testMap.getPoint("12");
 
-		Path path = AStar.single_AStar(start, goal);
+		Path path = AStar.multi_AStar(start, goal).get(0);
 		ArrayList<Node> pathNodes = path.getPath();
 		assertEquals(7, path.getPath().size());
 		assertEquals(pathNodes.get(0).getPoint().getId(), "4");
@@ -52,7 +51,7 @@ public class AStarTest {
 		start = testMap.getPoint("4");
 		goal = testMap.getPoint("11");
 
-		Path path = AStar.single_AStar(start, goal);
+		Path path = AStar.multi_AStar(start, goal).get(0);
 		ArrayList<Node> pathNodes = path.getPath();
 
 		assertEquals(path.getPath().size(), 8);
@@ -72,7 +71,7 @@ public class AStarTest {
 		start = testMap2.getPoint("4");
 		goal = testMap2.getPoint("12");
 
-		Path path = AStar.single_AStar(start, goal);
+		Path path = AStar.multi_AStar(start, goal).get(0);
 		ArrayList<Node> pathNodes = path.getPath();
 
 		assertEquals(path.getPath().size(), 7);
