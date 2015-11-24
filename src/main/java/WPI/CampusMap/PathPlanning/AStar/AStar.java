@@ -31,6 +31,9 @@ public class AStar {
 	// TODO This function should be able to replaced by _AStar, but that is not
 	// confirmed yet
 	public static Path single_AStar(Point start, Point goal) {
+		if (start.equals(goal)) {
+			return new Path();
+		}
 		// checks to see if either the start or goal is a wall
 		if (start.getType() == Point.WALL) {
 			System.out.println("Invalid start point.");
@@ -110,6 +113,7 @@ public class AStar {
 	 * @return a Path which spans multiple maps
 	 */
 	public MultiPath multi_AStar(Point start, Point goal) {
+		if ()
 		// checks to see if either the start or goal is a wall
 		if (start.getType() == Point.WALL) {
 			System.out.println("Invalid start point.");
