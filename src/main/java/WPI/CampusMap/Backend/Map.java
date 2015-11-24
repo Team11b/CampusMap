@@ -17,6 +17,7 @@ import javax.xml.stream.XMLStreamException;
 
 import WPI.CampusMap.PathPlanning.Node;
 import WPI.CampusMap.PathPlanning.Path;
+import WPI.CampusMap.Serialization.Serializer;
 import WPI.CampusMap.XML.XML;
 
 /**
@@ -53,11 +54,8 @@ public class Map implements java.io.Serializable {
 	public Map(String name) throws XMLStreamException {
 		this.scale = 100;
 		this.name = name;
-		// System.out.println("Constructor: " + this.name);
-		// System.out.println("name:" + this.name);
 		this.png = "maps/" + name + ".png";
 		this.xml = "XML/" + this.name + ".xml";
-		// XML.parseXML(this);
 
 		if (this.name.equals("Select a map")) {
 			this.scale = -1; // it is THE fake map, we could do cool xml parsing
@@ -242,6 +240,9 @@ public class Map implements java.io.Serializable {
 	}
 
 	public static Map getMap(String mapKey) {
+		if (!(Map.allMaps.containsKey(mapKey))) {
+			Serializer.read(mapKey);
+		}
 		return Map.allMaps.get(mapKey);
 	}
 

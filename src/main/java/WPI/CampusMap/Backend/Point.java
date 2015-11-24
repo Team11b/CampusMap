@@ -154,7 +154,12 @@ public class Point implements java.io.Serializable {
 		boolean result = false;
 		if (other instanceof Point) {
 			Point that = (Point) other;
-			result = (this.getCoord().equals(that.getCoord()));
+			if (this.getMap() != null) {
+				result = (this.getCoord().equals(that.getCoord())) && (this.getMap().equals(((Point) other).getMap()));
+			}
+			else {
+				result = (this.getCoord().equals(that.getCoord()));
+			}
 		}
 		return result;
 	}

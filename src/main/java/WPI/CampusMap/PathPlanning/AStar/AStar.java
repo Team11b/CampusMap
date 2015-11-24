@@ -8,6 +8,7 @@ import WPI.CampusMap.Backend.Point;
 import WPI.CampusMap.PathPlanning.MultiPath;
 import WPI.CampusMap.PathPlanning.Node;
 import WPI.CampusMap.PathPlanning.Path;
+import WPI.CampusMap.Serialization.Serializer;
 
 /**
  * 
@@ -160,8 +161,8 @@ public class AStar {
 
 					if (centerPoint.getPoint() instanceof ConnectionPoint) {
 						tempConn = (ConnectionPoint) (explored.getLast().getPoint());
+						
 						tempConn.setConnMap(Map.getMap(tempConn.getLinkedMap()));
-						Map.addMap(tempConn.getConnMap());
 						tempConn.setConnPoint(
 								(ConnectionPoint) tempConn.getConnMap().getPoint(tempConn.getLinkedPoint()));
 

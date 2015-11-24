@@ -8,7 +8,7 @@ import org.junit.Test;
 import WPI.CampusMap.Backend.Coord;
 import WPI.CampusMap.Backend.Map;
 import WPI.CampusMap.Backend.Point;
-import WPI.CampusMap.Serialization.Serialization;
+import WPI.CampusMap.Serialization.Serializer;
 
 public class SerializationTest {
 
@@ -29,9 +29,9 @@ public class SerializationTest {
 		
 		tempM.setName("test_map");
 
-		Serialization.write(tempM);
+		Serializer.write(tempM);
 
-		Map temp2 = Serialization.read(tempM.getName());
+		Map temp2 = Serializer.read(tempM.getName());
 
 		assertEquals(tempM.getPoint("PointOne"),temp2.getPoint("PointOne"));
 		assertEquals(tempM.getPoint("PointTwo"),temp2.getPoint("PointTwo"));

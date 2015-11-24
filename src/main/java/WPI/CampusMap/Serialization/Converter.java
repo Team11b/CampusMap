@@ -1,13 +1,13 @@
 package WPI.CampusMap.Serialization;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
 import javax.xml.stream.XMLStreamException;
 
 import WPI.CampusMap.Backend.ConnectionPoint;
-import WPI.CampusMap.Backend.Coord;
 import WPI.CampusMap.Backend.Map;
 import WPI.CampusMap.Backend.Point;
 import WPI.CampusMap.XML.XML;
@@ -49,12 +49,12 @@ public class Converter {
 				}
 				System.out.println(temp.getName());
 
-				Serialization.write(temp);
+				Serializer.write(temp);
 			}
 		}
 	}
 
-	public static void connectionTest() {
+	public static void connectionTestPrep() {
 		Map temp = new Map();
 		String[] files = Converter.getFileNames();
 		String connKey = "4";
@@ -71,19 +71,46 @@ public class Converter {
 				}
 				System.out.println(temp.getName());
 				HashMap<String, Point> holder = temp.getAllPoints();
+				String[] keys = holder.keySet().toArray(new String[holder.keySet().size()]);
+				
+				for (int i = 0; i < keys.length; i++) {
+					holder.get(keys[i]).setMap(temp.getName());
+					holder.put(keys[i], new Point(holder.get(keys[i]).getCoord(), null, holder.get(keys[i]).getId(), temp.getName()));
+				}
 
 				if (temp.getName().equals("5x5Test")) {
-					holder.put(connKey, new ConnectionPoint(holder.get(connKey).getCoord(), null, connKey,
-							temp.getName(), "5x5TextCopy", connKey));
+					ArrayList<String> neigh = holder.get(connKey).getNeighborsID();
+					ArrayList<Point> neighP = holder.get(connKey).getNeighborsP();
+					System.out.println("" + neigh.size() + neighP.size());
+					
+					
+					ConnectionPoint tempConnP =  new ConnectionPoint(holder.get(connKey).getCoord(), null, connKey,
+							temp.getName(), "5x5TextCopy", connKey);
+					
+					for (int k = 0; k < neigh.size(); k++) {
+						tempConnP.addNeighbor(neighP.get(k));
+					}
 				}
 				else {
-					holder.put(connKey, new ConnectionPoint(holder.get(connKey).getCoord(), null, connKey,
-							temp.getName(), "5x5Text", connKey));
+					ArrayList<String> neigh = holder.get(connKey).getNeighborsID();
+					ArrayList<Point> neighP = holder.get(connKey).getNeighborsP();
+					System.out.println("" + neigh.size() + neighP.size());
+					
+					ConnectionPoint tempConnP =  new ConnectionPoint(holder.get(connKey).getCoord(), null, connKey,
+							temp.getName(), "5x5Text", connKey);
+					
+					for (int k = 0; k < neigh.size(); k++) {
+						tempConnP.addNeighbor(neighP.get(k));
+					}
 				}
 				temp.setAllPoints(holder);
 
-				Serialization.write(temp);
+				Serializer.write(temp);
 			}
 		}
+	}
+	
+	public static void main(String[] args) {
+		Converter.connectionTestPrep();
 	}
 }
