@@ -1,5 +1,6 @@
 package WPI.CampusMap.PathPlanning.AStar;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.PriorityQueue;
 import java.util.TreeSet;
@@ -69,7 +70,7 @@ public class Frontier {
 		return null;
 	}
 
-	public boolean isBetter(Node other) {
+	public boolean isBetterOLD(Node other) {
 		if (!(this.contains(other))) {
 			this.pq.add(other);
 			return false;
@@ -105,6 +106,29 @@ public class Frontier {
 		}
 
 		return found;
+	}
+	
+	public void isBetter(Node other) {
+		if (!(this.pq.contains(other))) {
+			this.pq.add(other);
+		}
+		
+		ArrayList<Node> allHolding = new ArrayList<Node>();
+		Node[] orig = this.pq.toArray(new Node[this.pq.size()]);
+		Node hold = new Node(null, null);
+		int counter = 0;
+
+		for (int i = 0; i < orig.length; i++) {
+			if (orig[i].equals(other) && (orig[i].getCurrentScore() > other.getCurrentScore())) {
+				orig[i] = other;
+			}
+		}
+		
+		this.pq.clear();
+		
+		for (int j = 0; j < orig.length; j++) {
+			this.pq.add(orig[j]);
+		}
 	}
 
 	public String toString() {
