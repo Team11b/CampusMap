@@ -1,11 +1,11 @@
 package WPI.CampusMap.PathPlanning.AStar;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 
 import WPI.CampusMap.Backend.ConnectionPoint;
 import WPI.CampusMap.Backend.Map;
 import WPI.CampusMap.Backend.Point;
+import WPI.CampusMap.PathPlanning.ConnectionNode;
 import WPI.CampusMap.PathPlanning.MultiPath;
 import WPI.CampusMap.PathPlanning.Node;
 import WPI.CampusMap.PathPlanning.Path;
@@ -144,6 +144,7 @@ public class AStar {
 		Node tempNode = new Node(start, null);
 		tempNode.setHeuristic(tempNode.calcHeuristic(goal));
 		ConnectionPoint tempConn = new ConnectionPoint(null, null, null, null, null, null);
+		ConnectionNode tempConNode = new ConnectionNode(null, null, false);
 
 		// add start to frontier as a Node
 		frontier.add(tempNode);
@@ -156,25 +157,27 @@ public class AStar {
 
 				if (!(goalFound)) {
 					tempNode = new Node(null, null);
+					tempConNode = new ConnectionNode(null, null, false);
 					tempConn = new ConnectionPoint(null, null, null, null, null, null);
 					Node centerPoint = explored.getLast();
 
-					if (centerPoint.getPoint() instanceof ConnectionPoint) {
+					if ((centerPoint.getPoint() instanceof ConnectionPoint)
+							&& (((ConnectionNode) centerPoint).getEntryPoint())) {
 						tempConn = (ConnectionPoint) (explored.getLast().getPoint());
 
 						Map tempMap = Map.getMap(tempConn.getLinkedMap());
 						tempConn.setConnMap(tempMap);
 						tempConn.setConnPoint((ConnectionPoint) tempMap.getPoint(tempConn.getLinkedPoint()));
 
-						tempNode = new Node(tempConn.getConnPoint(), explored.getLast());
-						tempNode.setCumulativeDist(explored.getLast().getCumulativeDist());
-						tempNode.setCurrentScore(
+						tempConNode = new ConnectionNode(tempConn.getConnPoint(), explored.getLast(), false);
+						tempConNode.setCumulativeDist(explored.getLast().getCumulativeDist());
+						tempConNode.setCurrentScore(
 								tempNode.getCumulativeDist() + tempNode.calcHeuristic(tempNode.getPoint()));
 
-						if (!(explored.containsSamePoint(tempNode))) {
+						if (!(explored.containsSamePoint(tempConNode))) {
 
 							// frontier.isBetter(tempNode);
-							frontier.add(tempNode);
+							frontier.add(tempConNode);
 						}
 					}
 
@@ -185,16 +188,34 @@ public class AStar {
 						ArrayList<Point> neigh = centerPoint.getPoint().getValidNeighbors();
 						for (int j = 0; j < neigh.size(); j++) {
 							tempNode = new Node(null, null);
-							tempNode = new Node(neigh.get(j), explored.getLast());
+							tempConNode = new ConnectionNode(null, null, false);
 
-							tempNode.setCumulativeDist(explored.getLast().getCumulativeDist());
-							tempNode.setCurrentScore(
-									tempNode.getCumulativeDist() + tempNode.setHeuristic(tempNode.calcHeuristic(goal)));
+							if (neigh.get(j) instanceof ConnectionPoint) {
+								tempConNode = new ConnectionNode(neigh.get(j), explored.getLast(), true);
 
-							// check if Node is in Explored
-							if (!(explored.containsSamePoint(tempNode))) {
+								tempConNode.setCumulativeDist(explored.getLast().getCumulativeDist());
+								tempConNode.setCurrentScore(tempConNode.getCumulativeDist()
+										+ tempConNode.setHeuristic(tempNode.calcHeuristic(goal)));
 
-								frontier.isBetter(tempNode);
+								// check if Node is in Explored
+								if (!(explored.containsSamePoint(tempConNode))) {
+
+									frontier.isBetter(tempConNode);
+								}
+							}
+
+							else {
+								tempNode = new Node(neigh.get(j), explored.getLast());
+
+								tempNode.setCumulativeDist(explored.getLast().getCumulativeDist());
+								tempNode.setCurrentScore(tempNode.getCumulativeDist()
+										+ tempNode.setHeuristic(tempNode.calcHeuristic(goal)));
+
+								// check if Node is in Explored
+								if (!(explored.containsSamePoint(tempNode))) {
+
+									frontier.isBetter(tempNode);
+								}
 							}
 						}
 					}
