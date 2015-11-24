@@ -65,10 +65,6 @@ public class AStar {
 			if (!(goalFound)) {
 				explored.add(frontier.getNext());
 
-				if (explored.getLast().getPoint().equals(goal)) {
-					goalFound = true;
-				}
-
 				if (!(goalFound)) {
 					// get the valid neighbors from the last Node on the
 					// explored
