@@ -57,6 +57,17 @@ public class Frontier {
 	public boolean contains(Node other) {
 		return this.pq.contains(other);
 	}
+	
+	public Node find(Node other) {
+		Node[] temp = this.pq.toArray(new Node[this.pq.size()]);
+		
+		for (int j = 0; j < temp.length; j++) {
+			if (temp[j].equals(other)) {
+				return temp[j];
+			}
+		}
+		return null;
+	}
 
 	public boolean isBetter(Node other) {
 		if (!(this.contains(other))) {

@@ -55,32 +55,36 @@ public class AStar {
 		frontier.add(tempNode);
 
 		while ((!frontier.isEmpty()) && (!(goalFound))) {
-
-			explored.add(frontier.getNext());
-
-			if (explored.getLast().getPoint().equals(goal)) {
-				goalFound = true;
-			}
+			goalFound = frontier.contains(new Node(goal, null));
 
 			if (!(goalFound)) {
-				// get the valid neighbors from the last Node on the explored
-				// list
-				Node centerPoint = explored.getLast();
-				ArrayList<Point> neigh = centerPoint.getPoint().getValidNeighbors();
-				System.out.println(explored.getLast().getPoint().getId());
-				for (int j = 0; j < neigh.size(); j++) {
-					tempNode = new Node(null, null);
-					tempNode = new Node(neigh.get(j), explored.getLast());
+				explored.add(frontier.getNext());
 
-					tempNode.setCumulativeDist(explored.getLast().getCumulativeDist());
-					tempNode.setCurrentScore(
-							tempNode.getCumulativeDist() + tempNode.setHeuristic(tempNode.calcHeuristic(goal)));
+				if (explored.getLast().getPoint().equals(goal)) {
+					goalFound = true;
+				}
 
-					// check if Node is in Explored
-					if (!(explored.containsSamePoint(tempNode))) {
+				if (!(goalFound)) {
+					// get the valid neighbors from the last Node on the
+					// explored
+					// list
+					Node centerPoint = explored.getLast();
+					ArrayList<Point> neigh = centerPoint.getPoint().getValidNeighbors();
+					System.out.println(explored.getLast().getPoint().getId());
+					for (int j = 0; j < neigh.size(); j++) {
+						tempNode = new Node(null, null);
+						tempNode = new Node(neigh.get(j), explored.getLast());
 
-						if (!(frontier.isBetter(tempNode))) {
-							frontier.add(tempNode);
+						tempNode.setCumulativeDist(explored.getLast().getCumulativeDist());
+						tempNode.setCurrentScore(
+								tempNode.getCumulativeDist() + tempNode.setHeuristic(tempNode.calcHeuristic(goal)));
+
+						// check if Node is in Explored
+						if (!(explored.containsSamePoint(tempNode))) {
+
+							if (!(frontier.isBetter(tempNode))) {
+								frontier.add(tempNode);
+							}
 						}
 					}
 				}
@@ -90,10 +94,11 @@ public class AStar {
 		if (!(goalFound)) {
 			return null;
 		}
-		
+
 		// form the path
 		tempNode = new Node(null, null);
-		tempNode = explored.getLast();
+//		tempNode = explored.getLast();
+		tempNode = frontier.find(new Node(goal, null));
 		while ((tempNode != null) && (!(tempNode.getPoint().equals(start)))) {
 			returnPath.addNode(tempNode);
 			tempNode = tempNode.getParent();
