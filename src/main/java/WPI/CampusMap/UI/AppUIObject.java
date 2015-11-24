@@ -22,6 +22,7 @@ import javax.swing.JPasswordField;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
+import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Style;
@@ -50,9 +51,9 @@ public class AppUIObject {
 	private final JButton btnEmail = new JButton("Email");
 	private final JButton btnPrint = new JButton("Print");
 	private final JLabel lblDirections = new JLabel("Directions:");
-	protected final JButton btnGetDirections = new JButton("Route me");
-	private final JButton btnNode = new JButton("Place Mode");
-	private final JButton btnDelNode = new JButton("Delete Mode");
+	protected final JButton btnGetDirections = new JButton("Route me");	
+	private final JToggleButton btnNode = new JToggleButton("Place Mode");
+	private final JToggleButton btnDelNode = new JToggleButton("Delete Mode");
 	private final JLabel lblMapColon = new JLabel("Map:");
 	private final JButton btnDevMode = new JButton("Dev Mode");
 	private final JButton btnSave = new JButton("Save");
@@ -76,8 +77,8 @@ public class AppUIObject {
 	private MouseListener mouseClick;
 	private final SwingAction actionHandler = new SwingAction();
 
-	private final JButton btnRemoveEdge = new JButton("Remove Edge");
-	private final JButton btnEdgeMode = new JButton("Edge Mode");
+	private final JToggleButton btnRemoveEdge = new JToggleButton("Remove Edge");
+	private final JToggleButton btnEdgeMode = new JToggleButton("Edge Mode");
 	private final JButton btnSubmit;
 	private JTextField txtScale;
 	private JPasswordField txtDevPass;
@@ -185,20 +186,56 @@ public class AppUIObject {
 				System.out.println("Print");
 				break;
 			case "Place Mode":
+				if(currentDevMode != DevMode.addNode){
 				currentDevMode = DevMode.addNode;
+				btnDelNode.setSelected(false);
+				btnRemoveEdge.setSelected(false);
+				btnEdgeMode.setSelected(false);
 				System.out.println("Place Mode");
+				}
+				else{
+					currentDevMode = DevMode.none;
+					System.out.println("null mode");
+				}
 				break;
 			case "Delete Mode":
+				if(currentDevMode != DevMode.deleteNode){
 				currentDevMode = DevMode.deleteNode;
+				btnNode.setSelected(false);
+				btnRemoveEdge.setSelected(false);
+				btnEdgeMode.setSelected(false);
 				System.out.println("Delete Mode");
+				}
+				else{
+					currentDevMode = DevMode.none;
+					System.out.println("null mode");
+				}
 				break;
 			case "Edge Mode":
-				currentDevMode = DevMode.addEdge;
-				System.out.println("Edge Mode");
+				if(currentDevMode != DevMode.addEdge){
+					currentDevMode = DevMode.addEdge;
+					btnNode.setSelected(false);
+					btnDelNode.setSelected(false);
+					btnRemoveEdge.setSelected(false);
+					System.out.println("Edge Mode");
+					}
+					else{
+						currentDevMode = DevMode.none;
+						System.out.println("null mode");
+					}
 				break;
 			case "Remove Edge":
-				currentDevMode = DevMode.deleteEdge;
-				System.out.println("Remove Edge");
+				if(currentDevMode != DevMode.deleteEdge){
+					currentDevMode = DevMode.deleteEdge;
+					btnNode.setSelected(false);
+					btnDelNode.setSelected(false);
+					btnEdgeMode.setSelected(false);
+					System.out.println("Remove Mode");
+					}
+					else{
+						currentDevMode = DevMode.none;
+						System.out.println("null mode");
+					}
 				break;
 			default:
 			}
