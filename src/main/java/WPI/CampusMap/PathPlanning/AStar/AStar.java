@@ -170,7 +170,7 @@ public class AStar {
 						tempConn.setConnPoint((ConnectionPoint) tempMap.getPoint(tempConn.getLinkedPoint()));
 
 						tempConNode = new ConnectionNode(tempConn.getConnPoint(), explored.getLast(), false);
-						tempConNode.setCumulativeDist(explored.getLast().getCumulativeDist());
+						tempConNode.setCumulativeDist(explored.getLast().getCumulativeDist() + explored.getLast().getPoint().distance(tempConn));
 						tempConNode.setCurrentScore(
 								tempNode.getCumulativeDist() + tempNode.calcHeuristic(tempNode.getPoint()));
 
@@ -193,7 +193,7 @@ public class AStar {
 							if (neigh.get(j) instanceof ConnectionPoint) {
 								tempConNode = new ConnectionNode(neigh.get(j), explored.getLast(), true);
 
-								tempConNode.setCumulativeDist(explored.getLast().getCumulativeDist());
+								tempConNode.setCumulativeDist(explored.getLast().getCumulativeDist() + explored.getLast().getPoint().distance(tempConNode.getPoint()));
 								tempConNode.setCurrentScore(tempConNode.getCumulativeDist()
 										+ tempConNode.setHeuristic(tempNode.calcHeuristic(goal)));
 
@@ -207,7 +207,7 @@ public class AStar {
 							else {
 								tempNode = new Node(neigh.get(j), explored.getLast());
 
-								tempNode.setCumulativeDist(explored.getLast().getCumulativeDist());
+								tempNode.setCumulativeDist(explored.getLast().getCumulativeDist() + explored.getLast().getPoint().distance(tempNode.getPoint()));
 								tempNode.setCurrentScore(tempNode.getCumulativeDist()
 										+ tempNode.setHeuristic(tempNode.calcHeuristic(goal)));
 

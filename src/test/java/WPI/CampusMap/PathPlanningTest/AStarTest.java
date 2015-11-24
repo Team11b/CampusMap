@@ -58,25 +58,25 @@ public class AStarTest {
 		Point two =  new Point(new Coord(2,0), null, "2", a);
 		Point three =  new Point(new Coord(3,0), null, "3", a);
 		ConnectionPoint four =  new ConnectionPoint(new Coord(4,0), null, "4", a, b, "4");
-		Point five =  new Point(new Coord(5,0), null, "5", a);
-		Point six =  new Point(new Coord(6,0), null, "6", a);
-		Point seven =  new Point(new Coord(7,0), null, "7", a);
-		Point eight =  new Point(new Coord(8,0), null, "8", a);
-		Point nine =  new Point(new Coord(9,0), null, "9", a);
-		Point ten =  new Point(new Coord(10,0), null, "10", a);
-		Point eleven =  new Point(new Coord(11,0), null, "11", a);
-		Point twelve =  new Point(new Coord(12,0), null, "12", a);
-		Point fourteen =  new Point(new Coord(14,0), null, "14", a);
-		Point fifteen =  new Point(new Coord(15,0), null, "15", a);
-		Point sixteen =  new Point(new Coord(16,0), null, "16", a);
-		Point seventeen =  new Point(new Coord(17,0), null, "17", a);
-		Point eightteen =  new Point(new Coord(18,0), null, "18", a);
-		Point nineteen =  new Point(new Coord(19,0), null, "19", a);
-		Point twenty =  new Point(new Coord(20,0), null, "20", a);
-		Point twentyone =  new Point(new Coord(21,0), null, "21", a);
-		Point twentytwo =  new Point(new Coord(22,0), null, "22", a);
-		Point twentythree =  new Point(new Coord(23,0), null, "23", a);
-		Point twentyfour =  new Point(new Coord(24,0), null, "24", a);
+		Point five =  new Point(new Coord(0,1), null, "5", a);
+		Point six =  new Point(new Coord(1,1), null, "6", a);
+		Point seven =  new Point(new Coord(2,1), null, "7", a);
+		Point eight =  new Point(new Coord(3,1), null, "8", a);
+		Point nine =  new Point(new Coord(4,1), null, "9", a);
+		Point ten =  new Point(new Coord(0,2), null, "10", a);
+		Point eleven =  new Point(new Coord(1,2), null, "11", a);
+		Point twelve =  new Point(new Coord(2,2), null, "12", a);
+		Point fourteen =  new Point(new Coord(4,2), null, "14", a);
+		Point fifteen =  new Point(new Coord(0,3), null, "15", a);
+		Point sixteen =  new Point(new Coord(1,3), null, "16", a);
+		Point seventeen =  new Point(new Coord(2,3), null, "17", a);
+		Point eightteen =  new Point(new Coord(3,3), null, "18", a);
+		Point nineteen =  new Point(new Coord(4,3), null, "19", a);
+		Point twenty =  new Point(new Coord(0,4), null, "20", a);
+		Point twentyone =  new Point(new Coord(1,4), null, "21", a);
+		Point twentytwo =  new Point(new Coord(2,4), null, "22", a);
+		Point twentythree =  new Point(new Coord(3,4), null, "23", a);
+		Point twentyfour =  new Point(new Coord(4,4), null, "24", a);
 		
 		zero.addNeighbor(one);
 		zero.addNeighbor(five);
@@ -389,13 +389,12 @@ public class AStarTest {
 		Map.addMap(testMap5);
 		Map.addMap(testMap6);
 		Point start, goal;
-		start = testMap5.getPoint("12");
-		goal = testMap6.getPoint("12");
-		ConnectionPoint extra1 = (ConnectionPoint) testMap5.getPoint("4");
-		ConnectionPoint extra2 = (ConnectionPoint) testMap6.getPoint("4");
-		Point ble = Map.getMap(extra1.getLinkedMap()).getPoint(extra1.getLinkedPoint());
-	
-		
+		start = testMap5.getPoint("0");
+		goal = testMap5.getPoint("4");
+//		ConnectionPoint extra1 = (ConnectionPoint) testMap5.getPoint("4");
+//		ConnectionPoint extra2 = (ConnectionPoint) testMap6.getPoint("4");
+//		Point ble = Map.getMap(extra1.getLinkedMap()).getPoint(extra1.getLinkedPoint());
+
 		MultiPath grandPath = AStar.multi_AStar(start, goal);
 		ArrayList<Node> pathNodes = grandPath.get(0).getPath();
 		assertEquals(7, pathNodes.size());
