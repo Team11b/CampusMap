@@ -170,19 +170,6 @@ public class MultiPathTest {
 
 	@Test
 	public void testParse1() {
-		
-		for(Node node:he.getMp().get(0).getPath()){
-			System.out.print(node.getPoint().getId()+" ");
-		}
-		System.out.println();
-		for(Node node:he.getMp().get(1).getPath()){
-			System.out.print(node.getPoint().getId()+" ");
-		}
-		System.out.println();
-		for(Node node:he.getMp().get(2).getPath()){
-			System.out.print(node.getPoint().getId()+" ");
-		}
-		System.out.println();
 		assertEquals(he.get(0), bet);
 		assertEquals(he.get(1), gimel);
 		assertEquals(he.get(2), dalet);
