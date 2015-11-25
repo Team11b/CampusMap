@@ -44,14 +44,6 @@ public class Frontier {
 	}
 
 	public Node getNext() {
-		Node[] orig = this.pq.toArray(new Node[this.pq.size()]);
-		
-		System.out.println("removing");
-		for (int j = 0; j < orig.length; j++) {
-			System.out.println("" + orig[j].getPoint().getId() + ", " + orig[j].getCumulativeDist());
-		}
-		System.out.println("---");
-		
 		return this.pq.poll();
 	}
 
