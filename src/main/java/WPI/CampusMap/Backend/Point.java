@@ -2,6 +2,7 @@ package WPI.CampusMap.Backend;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 /**
  * 
@@ -45,8 +46,10 @@ public class Point implements java.io.Serializable {
 		this.neighbors = new HashMap<String, Point>();
 	}
 
-	public Point() {
-
+	public Point(String map)
+	{
+		id = UUID.randomUUID().toString();
+		neighbors = new HashMap<String, Point>();
 	}
 
 	/**
