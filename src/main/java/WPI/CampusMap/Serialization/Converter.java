@@ -18,9 +18,9 @@ import WPI.CampusMap.XML.XML;
  *
  */
 public class Converter {
-	public static String[] ignore = { "5x5Test.xml", "5x5Test2.xml", "AK.xml", "borked.xml", "testOutput.xml" };
+	public static String[] ignore = { "5x5Test.xml", "5x5Test2.xml", "AK.xml", "borked.xml", "testOutput.xml","borked.xml" };
 	public static String[] allow = { "5x5Test.xml", "5x5TestCopy.xml" };
-
+	
 	public static String[] getFileNames() {
 		File folder = new File("XML/");
 		File[] listOfFiles = folder.listFiles();
@@ -44,6 +44,7 @@ public class Converter {
 
 				try {
 					temp.setAllPoints(XML.parseXML(temp));
+					System.out.println(temp.getAllPoints().size());
 				} catch (XMLStreamException e) {
 					e.printStackTrace();
 				}

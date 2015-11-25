@@ -27,7 +27,6 @@ public class Serializer {
 
 			out.close();
 			fileOut.close();
-			System.out.println("SAVED");
 			return true;
 		} catch (IOException i) {
 			System.out.println("NOT SAVED");
@@ -46,7 +45,6 @@ public class Serializer {
 
 			in.close();
 			fileIn.close();
-//			System.out.println("LOADED");
 			Map.addMap(m);
 			return m;
 		} catch (IOException i) {

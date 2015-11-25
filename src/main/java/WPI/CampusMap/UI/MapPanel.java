@@ -31,6 +31,9 @@ class MapPanel extends JPanel {
 	protected Point startPoint, endPoint;
 
 	MapPanel(AppUIObject uiObject) {
+		selectedPoint = new Point();
+		selectedPoint.setId("");
+		selectedPoint.setType("1");
 		this.uiObject = uiObject;
 	}
 
@@ -172,8 +175,8 @@ class MapPanel extends JPanel {
 	private void drawMap(Graphics2D graphics) {
 		graphics.clearRect(0, 0, getWidth(), getHeight());
 
-		if (currentMap == null)
-			return;
+		
+		if (currentMap == null|| currentMap.getLoadedImage() == null) return ;
 
 		graphics.setColor(Color.white);
 		graphics.drawImage(currentMap.getLoadedImage().getImage(), 0, 0, getWidth(), getHeight(), null);
@@ -263,6 +266,7 @@ class MapPanel extends JPanel {
 			return false;
 
 		selectedPoint = closestPoint;
+		uiObject.updatePoint();
 		return true;
 	}
 

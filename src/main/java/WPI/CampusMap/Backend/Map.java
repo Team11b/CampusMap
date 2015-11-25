@@ -18,7 +18,6 @@ import javax.xml.stream.XMLStreamException;
 import WPI.CampusMap.PathPlanning.Node;
 import WPI.CampusMap.PathPlanning.Path;
 import WPI.CampusMap.Serialization.Serializer;
-import WPI.CampusMap.XML.XML;
 
 /**
  * Represents a single map/area.
@@ -56,19 +55,8 @@ public class Map implements java.io.Serializable {
 		this.name = name;
 		this.png = "maps/" + name + ".png";
 		this.xml = "XML/" + this.name + ".xml";
-
-		if (this.name.equals("Select a map")) {
-			this.scale = -1; // it is THE fake map, we could do cool xml parsing
-								// for the fake map if needed
-		} else {
-			try {
-				loadImage();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-
-			allPoints = XML.parseXML(this);
-		}
+		
+		this.allPoints = new HashMap<String, Point>();
 	}
 
 	/**
