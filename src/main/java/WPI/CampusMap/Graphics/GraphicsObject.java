@@ -3,18 +3,36 @@ package WPI.CampusMap.Graphics;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-public abstract class GraphicsObject
+public abstract class GraphicsObject<R, M extends GraphicalMap>
 {
-	private GraphicalMap graphicsOwner;
+	private M graphicsOwner;
 	
-	public GraphicsObject(GraphicalMap owner)
+	private boolean deleted;
+	private boolean cleanedUp;
+	
+	public GraphicsObject(M owner)
 	{
 		this.graphicsOwner = owner;
 	}
 	
-	public GraphicalMap getOwner()
+	public M getOwner()
 	{
 		return graphicsOwner;
+	}
+	
+	public boolean isDelelted()
+	{
+		return deleted;
+	}
+	
+	public void delete()
+	{
+		deleted = true;
+	}
+	
+	protected void finalizeDelelte()
+	{
+		cleanedUp = true;
 	}
 	
 	/**
@@ -41,6 +59,14 @@ public abstract class GraphicsObject
 	public float getAlpha()
 	{
 		return 1.0f;
+	}
+	
+	/**
+	 * Called when the graphics object is removed from its owner.
+	 */
+	public void onRemoved()
+	{
+		
 	}
 	
 	/**
@@ -83,5 +109,5 @@ public abstract class GraphicsObject
 	 * The object that this graphics object represents.
 	 * @return The object that this graphics object represents. If null then this graphics object will be deleted.
 	 */
-	public abstract Object getRepresentedObject();
+	public abstract R getRepresentedObject();
 }

@@ -7,13 +7,13 @@ import java.awt.event.MouseEvent;
 import WPI.CampusMap.Backend.Coord;
 import WPI.CampusMap.Backend.Point;
 
-public class PointGraphicsObject extends GraphicsObject
+public abstract class PointGraphicsObject<M extends GraphicalMap> extends GraphicsObject<Point, M>
 {
 	private Point backendPoint;
 	
 	private boolean isOver;
 	
-	public PointGraphicsObject(Point backend, GraphicalMap owner)
+	public PointGraphicsObject(Point backend, M owner)
 	{
 		super(owner);
 		this.backendPoint = backend;
@@ -79,7 +79,7 @@ public class PointGraphicsObject extends GraphicsObject
 	}
 
 	@Override
-	public Object getRepresentedObject() {
+	public Point getRepresentedObject() {
 		// TODO Auto-generated method stub
 		return backendPoint;
 	}

@@ -18,7 +18,7 @@ public class UserGraphicalMap extends GraphicalMap {
 	{
 		for(Point p : map.getAllPoints().values())
 		{
-			addGraphicalObject(new PointGraphicsObject(p, this));
+			addGraphicalObject(new UserPointGraphicsObject(p, this));
 		}
 	}
 

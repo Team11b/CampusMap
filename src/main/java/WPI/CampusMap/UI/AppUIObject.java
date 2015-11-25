@@ -33,6 +33,9 @@ import javax.xml.stream.XMLStreamException;
 
 import WPI.CampusMap.Backend.Map;
 import WPI.CampusMap.Backend.Point;
+import WPI.CampusMap.Dev.EditorToolMode;
+import WPI.CampusMap.Graphics.User.UserPathGraphicsObject;
+import WPI.CampusMap.Graphics.User.UserPointGraphicsObject;
 import WPI.CampusMap.PathPlanning.Path;
 import WPI.CampusMap.PathPlanning.AStar.AStar;
 import WPI.CampusMap.Serialization.Serialization;
@@ -173,65 +176,41 @@ public class AppUIObject {
 				System.out.println("Send an Email!");
 				break;
 			case "Route me":
-				Path path = AStar.single_AStar(mapPanel.startPoint, mapPanel.endPoint);
-				mapPanel.currentRoute = path;
-				reDrawUI();
+				Path path = mapPanel.currentMap.astar(UserPointGraphicsObject.getStartPoint().getRepresentedObject(), UserPointGraphicsObject.getEndPoint().getRepresentedObject());
+				
 				break;
 			case "Print":
 				printDirections();
 				System.out.println("Print");
 				break;
 			case "Place Mode":
-				if(currentDevMode != DevMode.addNode){
-				currentDevMode = DevMode.addNode;
+				mapPanel.setDevMode(EditorToolMode.Point);
+				
 				btnDelNode.setSelected(false);
 				btnRemoveEdge.setSelected(false);
 				btnEdgeMode.setSelected(false);
-				System.out.println("Place Mode");
-				}
-				else{
-					currentDevMode = DevMode.none;
-					System.out.println("null mode");
-				}
+				
 				break;
 			case "Delete Mode":
-				if(currentDevMode != DevMode.deleteNode){
-				currentDevMode = DevMode.deleteNode;
+				mapPanel.setDevMode(EditorToolMode.DeletePoint);
+				
 				btnNode.setSelected(false);
 				btnRemoveEdge.setSelected(false);
 				btnEdgeMode.setSelected(false);
-				System.out.println("Delete Mode");
-				}
-				else{
-					currentDevMode = DevMode.none;
-					System.out.println("null mode");
-				}
 				break;
 			case "Edge Mode":
-				if(currentDevMode != DevMode.addEdge){
-					currentDevMode = DevMode.addEdge;
-					btnNode.setSelected(false);
-					btnDelNode.setSelected(false);
-					btnRemoveEdge.setSelected(false);
-					System.out.println("Edge Mode");
-					}
-					else{
-						currentDevMode = DevMode.none;
-						System.out.println("null mode");
-					}
+				mapPanel.setDevMode(EditorToolMode.Edge);
+				
+				btnNode.setSelected(false);
+				btnDelNode.setSelected(false);
+				btnRemoveEdge.setSelected(false);
 				break;
 			case "Remove Edge":
-				if(currentDevMode != DevMode.deleteEdge){
-					currentDevMode = DevMode.deleteEdge;
-					btnNode.setSelected(false);
-					btnDelNode.setSelected(false);
-					btnEdgeMode.setSelected(false);
-					System.out.println("Remove Mode");
-					}
-					else{
-						currentDevMode = DevMode.none;
-						System.out.println("null mode");
-					}
+				mapPanel.setDevMode(EditorToolMode.DeleteEdge);
+				
+				btnNode.setSelected(false);
+				btnDelNode.setSelected(false);
+				btnEdgeMode.setSelected(false);
 				break;
 			default:
 			}
@@ -345,16 +324,17 @@ public class AppUIObject {
 					btnGetDirections.setVisible(false);
 					txtDevPass.setVisible(true);
 					btnSubmit.setVisible(true);					
-					if(mapPanel.selectedPoint == null){
+					/*if(mapPanel.selectedPoint == null){
 						nodeTextField.setText("");
 						typeSelector.setSelectedIndex(0);
 					}else{
 						nodeTextField.setText(mapPanel.selectedPoint.getId());
 						typeSelector.setSelectedItem(mapPanel.selectedPoint.getType());
-					}					
+					}*/					
 					txtDirections.setText("Enter the password and click submit!");
 					btnDevMode.setText("User mode");
-					devMode = true; //not actually true, but in order to switch without pass						
+					devMode = true; //not actually true, but in order to switch without pass	
+					onEnterDevMode();
 				} else {
 					devMode = false;
 					frame.setTitle("Path Finder");
@@ -377,13 +357,8 @@ public class AppUIObject {
 					txtDevPass.setVisible(false);
 					btnSubmit.setVisible(false);
 					txtDirections.setText("");
+					onEnterUserMode();
 				}
-				reDrawUI();
-				//resetDropDown();
-				mapPanel.selectedPoint = null;
-				mapPanel.startPoint = null;
-				mapPanel.endPoint = null;
-				mapPanel.currentRoute = null;
 			}
 		});
 		//password for devmode code
@@ -425,10 +400,10 @@ public class AppUIObject {
 				System.out.println(txtScale.getText());
 				mapPanel.currentMap.setScale(Float.parseFloat(txtScale.getText()));
 				System.out.println("SAVING!");
-				if(mapPanel.selectedPoint != null){
+				/*if(mapPanel.selectedPoint != null){
 					mapPanel.selectedPoint.setId(nodeTextField.getText());
 					mapPanel.selectedPoint.setType((String)typeSelector.getSelectedItem());
-				}
+				}*/
 				Serialization.write(mapPanel.currentMap);
 				//XML.writePoints(mapPanel.currentMap);
 				lblScale.setText("Scale: " + mapPanel.currentMap.getScale() + " inches per ft");
@@ -436,12 +411,7 @@ public class AppUIObject {
 		});
 
 		mapDropDown.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent arg0) {
-				mapPanel.selectedPoint = null;
-				mapPanel.startPoint = null;
-				mapPanel.endPoint = null;
-				mapPanel.currentRoute = null;				
-				
+			public void actionPerformed(ActionEvent arg0) {				
 				String mapName = (String)mapDropDown.getSelectedItem();
 				try {
 					System.out.println("Index: " + mapDropDown.getSelectedIndex());					
@@ -516,12 +486,12 @@ public class AppUIObject {
 		typeSelector.addItem(pointTypes[1]);
 		typeSelector.addItem(pointTypes[2]);
 		
-		nodeTextField.setText(mapPanel.selectedPoint.getId());
+		/*nodeTextField.setText(mapPanel.selectedPoint.getId());
 		
 		typeSelector.setSelectedItem(mapPanel.selectedPoint.getType());
 		if(typeSelector.getSelectedIndex() == -1){
 			typeSelector.setSelectedIndex(0);
-		}
+		}*/
 		
 		txtScale = new JTextField();
 		txtScale.setBounds(37, 0, 130, 19);
@@ -563,7 +533,7 @@ public class AppUIObject {
 		reDrawUI();		
 	}
 
-	public void updatePoint() {
+	/*public void updatePoint() {
 		nodeTextField.setText(mapPanel.selectedPoint.getId());
 		if(mapPanel.selectedPoint.getType() == null){
 			typeSelector.setSelectedIndex(2);
@@ -571,5 +541,15 @@ public class AppUIObject {
 			System.out.println(mapPanel.selectedPoint.getType());
 			typeSelector.setSelectedItem(mapPanel.selectedPoint.getType());
 		}
+	}*/
+	
+	private void onEnterDevMode()
+	{
+		mapPanel.onEnterDevMode();
+	}
+	
+	private void onEnterUserMode()
+	{
+		mapPanel.onEnterUserMode();
 	}
 }

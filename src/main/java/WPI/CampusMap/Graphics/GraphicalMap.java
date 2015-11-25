@@ -14,6 +14,7 @@ import java.awt.image.renderable.RenderableImageOp;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Hashtable;
+import java.util.LinkedList;
 
 import WPI.CampusMap.Backend.Coord;
 import WPI.CampusMap.Backend.Map;
@@ -21,13 +22,13 @@ import WPI.CampusMap.UI.MapPanel;
 
 public abstract class GraphicalMap
 {
-	private ArrayList<GraphicsObject> batchList = new ArrayList<>();
-	private Hashtable<Object, GraphicsObject> drawables = new Hashtable<>();
+	private ArrayList<GraphicsObject<?, ?>> batchList = new ArrayList<>();
+	private LinkedList<GraphicsObject<?, ?>> deletedList = new LinkedList<>();
 	
 	private Map map;
 	private MapPanel panel;
 	
-	private GraphicsObject over;
+	private GraphicsObject<?, ?> over;
 	
 	private AffineTransform transform;
 	
@@ -56,10 +57,14 @@ public abstract class GraphicalMap
 		batchList.sort(new GraphicsBatchComparator());
 		for(int i = 0; i < batchList.size(); i++)
 		{
-			GraphicsObject go = batchList.get(i);
-			if(go.getRepresentedObject() == null)
+			GraphicsObject<?, ?> go = batchList.get(i);
+			if(go.getRepresentedObject() == null || go.isDelelted())
 			{
+				batchList.remove(i);
+				go.delete();
+				go.onRemoved();
 				
+				i--;
 			}
 			else
 			{
@@ -72,8 +77,12 @@ public abstract class GraphicalMap
 	
 	public void addGraphicalObject(GraphicsObject go)
 	{
-		drawables.put(go.getRepresentedObject(), go);
 		batchList.add(0, go);
+	}
+	
+	protected void deleteGraphicalObject(GraphicsObject go)
+	{
+		deletedList.add(go);
 	}
 	
 	/**
@@ -204,10 +213,10 @@ public abstract class GraphicalMap
 		return new RealMouseEvent((float)dst.getX(), (float)dst.getY(), e.getButton(), e.isAltDown(), e.isControlDown(), e.isShiftDown());
 	}
 	
-	private class GraphicsBatchComparator implements Comparator<GraphicsObject>
+	private class GraphicsBatchComparator implements Comparator<GraphicsObject<?, ?>>
 	{
 		@Override
-		public int compare(GraphicsObject arg0, GraphicsObject arg1) 
+		public int compare(GraphicsObject<?, ?> arg0, GraphicsObject<?, ?> arg1) 
 		{
 			return arg0.getDrawBatch() - arg1.getDrawBatch();
 		}

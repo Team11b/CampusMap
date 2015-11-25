@@ -1,29 +1,18 @@
 package WPI.CampusMap.UI;
 
-import java.awt.BasicStroke;
-import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Comparator;
-import java.util.HashSet;
-import java.util.Hashtable;
-
 import javax.swing.JPanel;
 import javax.xml.stream.XMLStreamException;
 
-import WPI.CampusMap.Backend.Coord;
 import WPI.CampusMap.Backend.Map;
-import WPI.CampusMap.Backend.Point;
+import WPI.CampusMap.Dev.EditorToolMode;
 import WPI.CampusMap.Graphics.GraphicalMap;
+import WPI.CampusMap.Graphics.Dev.DevGraphicalMap;
 import WPI.CampusMap.Graphics.User.UserGraphicalMap;
-import WPI.CampusMap.PathPlanning.Node;
-import WPI.CampusMap.PathPlanning.Path;
-import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 
 /**
  * Map Panel Class Contains the graphics and UI components of the app
@@ -31,21 +20,14 @@ import com.sun.xml.internal.bind.v2.schemagen.xmlschema.List;
 @SuppressWarnings("serial")
 public class MapPanel extends JPanel implements Runnable{
 	protected Map currentMap;
-	protected Path currentRoute;
-	protected Point selectedPoint;
-	protected Point startPoint, endPoint;
 	
-	private AppUIObject uiObject;
 	private Thread renderingThread;
 	
 	private GraphicalMap graphicsMap;
+	
+	private boolean isDevMode;
 
 	MapPanel(AppUIObject uiObject) {
-		selectedPoint = new Point();
-		selectedPoint.setId("");
-		selectedPoint.setType("1");
-		this.uiObject = uiObject;
-		
 		MapPannelMouseListener mouse = new MapPannelMouseListener(this);
 		addMouseListener(mouse);
 		addMouseMotionListener(mouse);
@@ -70,11 +52,51 @@ public class MapPanel extends JPanel implements Runnable{
 	 */
 	protected void loadMap(String mapName) throws XMLStreamException {
 		System.out.println("UI: " + mapName);
-		Map newMap = new Map(mapName);
-		currentMap = newMap;
-		uiObject.reDrawUI();
 		
-		graphicsMap = new UserGraphicalMap(currentMap, this);
+		synchronized(this)
+		{
+			Map newMap = new Map(mapName);
+			currentMap = newMap;
+			
+			if(isDevMode)
+			{
+				onEnterDevMode();
+			}
+			else
+			{
+				onEnterUserMode();
+			}
+		}
+	}
+	
+	protected void onEnterUserMode()
+	{
+		synchronized (this)
+		{
+			if(currentMap != null)
+				graphicsMap = new UserGraphicalMap(currentMap, this);
+			
+			isDevMode = false;
+		}
+	}
+	
+	protected void onEnterDevMode()
+	{
+		synchronized (this)
+		{
+			if(currentMap != null)
+				graphicsMap = new DevGraphicalMap(currentMap, this);
+			
+			isDevMode = true;
+		}
+	}
+	
+	protected void setDevMode(EditorToolMode mode)
+	{
+		synchronized(this)
+		{
+			((DevGraphicalMap)graphicsMap).setMode(mode);
+		}
 	}
 
 	/**
@@ -131,7 +153,7 @@ public class MapPanel extends JPanel implements Runnable{
 		{
 			synchronized (panel)
 			{
-				
+				panel.graphicsMap.onMouseClick(e);
 			}
 		}
 
