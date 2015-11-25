@@ -76,7 +76,8 @@ public class Node {
 	}
 
 	public double calcHeuristic(Point goal) {
-		return this.getPoint().distance(goal);
+//		return this.getPoint().distance(goal);
+		return 0;
 	}
 
 	public double getCumulativeDist() {
@@ -97,7 +98,7 @@ public class Node {
 	
 	@Override
 	public String toString() {
-		return this.getPoint().toString() + "\t" + this.getCurrentScore() + "\n";
+		return this.getPoint().toString() + "\t" + this.getCurrentScore();
 	}
 
 }

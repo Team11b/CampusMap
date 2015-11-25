@@ -1,6 +1,7 @@
 package WPI.CampusMap.SerializationTest;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
 import java.nio.file.DirectoryNotEmptyException;
@@ -8,14 +9,13 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.HashMap;
 
 import org.junit.Test;
 
 import WPI.CampusMap.Backend.Coord;
 import WPI.CampusMap.Backend.Map;
 import WPI.CampusMap.Backend.Point;
-import WPI.CampusMap.Serialization.Serialization;
+import WPI.CampusMap.Serialization.Serializer;
 
 public class SerializationTest {
 
@@ -36,9 +36,9 @@ public class SerializationTest {
 		
 		tempM.setName("test_map");
 
-		Serialization.write(tempM);
+		Serializer.write(tempM);
 
-		Map temp2 = Serialization.read(tempM.getName());
+		Map temp2 = Serializer.read(tempM.getName());
 
 		assertEquals(tempM.getPoint("PointOne"),temp2.getPoint("PointOne"));
 		assertEquals(tempM.getPoint("PointTwo"),temp2.getPoint("PointTwo"));

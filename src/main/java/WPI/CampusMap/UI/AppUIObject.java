@@ -7,8 +7,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
-
 
 import javax.swing.AbstractAction;
 import javax.swing.Icon;
@@ -32,11 +30,9 @@ import javax.swing.text.StyledDocument;
 import javax.xml.stream.XMLStreamException;
 
 import WPI.CampusMap.Backend.Map;
-import WPI.CampusMap.Backend.Point;
 import WPI.CampusMap.PathPlanning.Path;
 import WPI.CampusMap.PathPlanning.AStar.AStar;
-import WPI.CampusMap.Serialization.Serialization;
-import WPI.CampusMap.XML.XML;
+import WPI.CampusMap.Serialization.Serializer;
 
 public class AppUIObject {
 	protected boolean devMode = false;
@@ -435,7 +431,7 @@ public class AppUIObject {
 					mapPanel.selectedPoint.setId(nodeTextField.getText());
 					mapPanel.selectedPoint.setType((String)typeSelector.getSelectedItem());
 				}
-				Serialization.write(mapPanel.currentMap);
+				Serializer.write(mapPanel.currentMap);
 				//XML.writePoints(mapPanel.currentMap);
 				lblScale.setText("Scale: " + mapPanel.currentMap.getScale() + " inches per ft");
 			}

@@ -17,8 +17,7 @@ import javax.xml.stream.XMLStreamException;
 
 import WPI.CampusMap.PathPlanning.Node;
 import WPI.CampusMap.PathPlanning.Path;
-import WPI.CampusMap.Serialization.Serialization;
-import WPI.CampusMap.XML.XML;
+import WPI.CampusMap.Serialization.Serializer;
 
 /**
  * Represents a single map/area.
@@ -52,29 +51,12 @@ public class Map implements java.io.Serializable {
 	 *             Thrown if there is an error parsing the xml file.
 	 */
 	public Map(String name) throws XMLStreamException {
+		this.scale = 100;
+		this.name = name;
 		this.png = "maps/" + name + ".png";
 		this.xml = "XML/" + this.name + ".xml";
-		this.setName(name);
-		Map temp = Serialization.read(name);
-		if(temp != null){
-			this.setScale(temp.getScale());
-			this.setAllPoints(temp.getAllPoints());
-		}else{
-			this.setScale(100);
-			this.setAllPoints(new HashMap<String, Point>());
-		}
 		
-		if (this.name.equals("Select a map")) {
-			this.scale = -1; // it is THE fake map, we could do cool xml parsing
-								// for the fake map if needed
-		} else {
-			try {
-				loadImage();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-//			allPoints = XML.parseXML(this);
-		}
+		this.allPoints = new HashMap<String, Point>();
 	}
 
 	/**
@@ -246,11 +228,14 @@ public class Map implements java.io.Serializable {
 	}
 
 	public static Map getMap(String mapKey) {
+		if (!(Map.allMaps.containsKey(mapKey))) {
+			Serializer.read(mapKey);
+		}
 		return Map.allMaps.get(mapKey);
 	}
 
 	public static boolean addMap(Map mapValue) {
-		if (!(Map.allMaps.containsKey(mapValue.getName()))) {
+		if ((Map.allMaps.containsKey(mapValue.getName()))) {
 			return false;
 		}
 
