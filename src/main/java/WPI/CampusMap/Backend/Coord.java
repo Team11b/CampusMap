@@ -6,9 +6,6 @@ package WPI.CampusMap.Backend;
  */
 
 public class Coord implements java.io.Serializable {
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = -940085833607276260L;
 	private double x;
 	private double y;

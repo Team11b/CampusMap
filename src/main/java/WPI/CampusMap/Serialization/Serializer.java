@@ -13,21 +13,20 @@ import WPI.CampusMap.Backend.Map;
  * @author Jacob Zizmor
  *
  */
-public class Serialization {
+public class Serializer {
 	private static final String folder = "serialized/";
 	private static final String fileType = ".ser";
 
 	public static boolean write(Map amap) {
 		try {
 			FileOutputStream fileOut = new FileOutputStream(
-					Serialization.folder + amap.getName() + Serialization.fileType);
+					Serializer.folder + amap.getName() + Serializer.fileType);
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 
 			out.writeObject(amap);
 
 			out.close();
 			fileOut.close();
-			System.out.println("SAVED");
 			return true;
 		} catch (IOException i) {
 			System.out.println("NOT SAVED");
@@ -39,14 +38,14 @@ public class Serialization {
 	public static Map read(String mapName) {
 		try {
 			Map m = null;
-			FileInputStream fileIn = new FileInputStream(Serialization.folder + mapName + Serialization.fileType);
+			FileInputStream fileIn = new FileInputStream(Serializer.folder + mapName + Serializer.fileType);
 			ObjectInputStream in = new ObjectInputStream(fileIn);
 
 			m = (Map) in.readObject();
 
 			in.close();
 			fileIn.close();
-			System.out.println("LOADED");
+			Map.addMap(m);
 			return m;
 		} catch (IOException i) {
 			i.printStackTrace();

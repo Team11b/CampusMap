@@ -7,8 +7,6 @@ import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
 import java.io.File;
 import java.util.ArrayList;
-import java.util.List;
-
 
 import javax.swing.AbstractAction;
 import javax.swing.Icon;
@@ -36,10 +34,10 @@ import WPI.CampusMap.Backend.Point;
 import WPI.CampusMap.Dev.EditorToolMode;
 import WPI.CampusMap.Graphics.User.UserPathGraphicsObject;
 import WPI.CampusMap.Graphics.User.UserPointGraphicsObject;
+
 import WPI.CampusMap.PathPlanning.Path;
 import WPI.CampusMap.PathPlanning.AStar.AStar;
-import WPI.CampusMap.Serialization.Serialization;
-import WPI.CampusMap.XML.XML;
+import WPI.CampusMap.Serialization.Serializer;
 
 public class AppUIObject {
 	protected boolean devMode = false;
@@ -93,12 +91,6 @@ public class AppUIObject {
 	}
 	
 	protected DevMode currentDevMode = DevMode.none;
-
-	/**
-	 * Re-draws all UI elements. Call after the map has changed.
-	 */
-	public void reDrawUI() {
-	}
 	
 	public void resetDropDown(){
 		//get all the files in the directory
@@ -404,7 +396,7 @@ public class AppUIObject {
 					mapPanel.selectedPoint.setId(nodeTextField.getText());
 					mapPanel.selectedPoint.setType((String)typeSelector.getSelectedItem());
 				}*/
-				Serialization.write(mapPanel.currentMap);
+				Serializer.write(mapPanel.currentMap);
 				//XML.writePoints(mapPanel.currentMap);
 				lblScale.setText("Scale: " + mapPanel.currentMap.getScale() + " inches per ft");
 			}
@@ -457,9 +449,6 @@ public class AppUIObject {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
-				//cleanup
-				reDrawUI();
 			}
 		});
 		
@@ -529,8 +518,7 @@ public class AppUIObject {
 		} else {
 			lblMapviewGoesHere.setText("");
 			lblScale.setText("");
-		}		
-		reDrawUI();		
+		}	
 	}
 
 	/*public void updatePoint() {
