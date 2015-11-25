@@ -42,8 +42,16 @@ public class MultiPathTest {
 	public static Path bet;
 	public static Path gimel;
 	public static Path dalet;
+	public static Path bee;
+	public static Path cee;
+	public static Path dee;
+	public static Path eee;
+	public static Path hhh;
 
 	public static MultiPath he;
+	public static MultiPath aye;
+	public static MultiPath eff;
+	public static MultiPath gee;
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
@@ -77,6 +85,11 @@ public class MultiPathTest {
 		bet = new Path();
 		gimel = new Path();
 		dalet = new Path();
+		bee = new Path();
+		cee = new Path();
+		dee = new Path();
+		eee = new Path();
+		hhh = new Path();
 
 		alef.addNode(nu);
 		alef.addNode(xi);
@@ -105,8 +118,54 @@ public class MultiPathTest {
 		dalet.addNode(chi);
 		dalet.addNode(psi);
 		dalet.addNode(omega);
+		
+		bee.addNode(xi);
+		bee.addNode(omicron);
+		bee.addNode(pi);
+		bee.addNode(rho);
+		bee.addNode(sigma);
+		bee.addNode(tau);
+		bee.addNode(upsilon);
+		bee.addNode(phi);
+		bee.addNode(chi);
+		bee.addNode(psi);
+		bee.addNode(omega);
+		
+		eee.addNode(xi);
+		eee.addNode(omicron);
+		eee.addNode(pi);
+		eee.addNode(rho);
+		
+		cee.addNode(nu);
+		cee.addNode(xi);
+		cee.addNode(omicron);
+		cee.addNode(pi);
+		cee.addNode(rho);
+		cee.addNode(sigma);
+		cee.addNode(tau);
+		cee.addNode(upsilon);
+		cee.addNode(phi);
+		cee.addNode(chi);
+		cee.addNode(psi);
+		
+		hhh.addNode(chi);
+		hhh.addNode(psi);
+		
+		dee.addNode(xi);
+		dee.addNode(omicron);
+		dee.addNode(pi);
+		dee.addNode(rho);
+		dee.addNode(sigma);
+		dee.addNode(tau);
+		dee.addNode(upsilon);
+		dee.addNode(phi);
+		dee.addNode(chi);
+		dee.addNode(psi);
 
 		he = new MultiPath(alef);
+		aye = new MultiPath(bee);
+		eff = new MultiPath(cee);
+		gee = new MultiPath(dee);
 	}
 
 	@Test
@@ -132,6 +191,27 @@ public class MultiPathTest {
 	@Test
 	public void testParse2() {
 		assertEquals(he.size(), 3);
+	}
+	
+	@Test
+	public void testParse3() {
+		assertEquals(aye.get(0), eee);
+		assertEquals(aye.get(1), gimel);
+		assertEquals(aye.get(2), dalet);
+	}
+	
+	@Test
+	public void testParse4() {
+		assertEquals(eff.get(0), bet);
+		assertEquals(eff.get(1), gimel);
+		assertEquals(eff.get(2), hhh);
+	}
+	
+	@Test
+	public void testParse5() {
+		assertEquals(gee.get(0), eee);
+		assertEquals(gee.get(1), gimel);
+		assertEquals(gee.get(2), hhh);
 	}
 
 }
