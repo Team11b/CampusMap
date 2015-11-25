@@ -20,7 +20,7 @@ public class XMLParseTest {
 
 	@Rule
 	public ExpectedException exception = ExpectedException.none();
-
+	@Ignore
 	@Test
 	public void testOpenXML() throws FileNotFoundException, XMLStreamException {
 		Map testMap = new Map("AK");
@@ -75,6 +75,7 @@ public class XMLParseTest {
 		Map testMap = new Map("blah.xml");
 	}
 
+	@Ignore
 	@Test
 	public void testInvalidXML() throws FileNotFoundException, XMLStreamException {
 		exception.expect(XMLStreamException.class);

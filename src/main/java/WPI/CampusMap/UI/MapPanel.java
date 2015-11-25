@@ -41,6 +41,9 @@ public class MapPanel extends JPanel implements Runnable{
 	private GraphicalMap graphicsMap;
 
 	MapPanel(AppUIObject uiObject) {
+		selectedPoint = new Point();
+		selectedPoint.setId("");
+		selectedPoint.setType("1");
 		this.uiObject = uiObject;
 		
 		MapPannelMouseListener mouse = new MapPannelMouseListener(this);
@@ -159,6 +162,7 @@ public class MapPanel extends JPanel implements Runnable{
 		{
 			
 		}
+
 		@Override
 		public void mouseDragged(MouseEvent e)
 		{
