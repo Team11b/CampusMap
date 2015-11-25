@@ -4,6 +4,7 @@ import WPI.CampusMap.Backend.Map;
 import WPI.CampusMap.Backend.Point;
 import WPI.CampusMap.Dev.EditorToolMode;
 import WPI.CampusMap.Graphics.GraphicalMap;
+import WPI.CampusMap.Graphics.RealMouseEvent;
 import WPI.CampusMap.UI.MapPanel;
 
 public class DevGraphicalMap extends GraphicalMap
@@ -42,5 +43,30 @@ public class DevGraphicalMap extends GraphicalMap
 	public final void setMode(EditorToolMode mode)
 	{
 		this.mode = mode;
+		DevPointGraphicsObject.clearSelection();
+	}
+	
+	@Override
+	public boolean onMouseClick(RealMouseEvent e)
+	{
+		if(mode == EditorToolMode.Point && getHoverObject() == null)
+		{
+			Point newPoint = new Point();
+			newPoint.setCoord(getWorldCoord((int)e.getX(), (int)e.getY()));
+			getMap().addPoint(newPoint);
+			
+			DevPointGraphicsObject go = new DevPointGraphicsObject(newPoint, this);
+			addGraphicalObject(go);
+			
+			go.select();
+			
+			return true;
+		}
+		else if(getHoverObject() == null)
+		{
+			DevPointGraphicsObject.clearSelection();
+		}
+		
+		return false;
 	}
 }

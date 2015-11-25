@@ -19,6 +19,11 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 		return selected;
 	}
 	
+	public static void clearSelection()
+	{
+		selected = null;
+	}
+	
 	public DevPointGraphicsObject(Point backend, DevGraphicalMap owner)
 	{
 		super(backend, owner);
@@ -28,6 +33,11 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 		{
 			createGraphicsEdge(p);
 		}
+	}
+	
+	public void select()
+	{
+		selected = this;
 	}
 	
 	@Override
@@ -96,7 +106,10 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 			else
 			{
 				addEdgeTo(selected);
-				selected = null;
+				if(!e.isShiftDown())
+					selected = null;
+				else
+					selected = this;
 			}
 			break;
 		}

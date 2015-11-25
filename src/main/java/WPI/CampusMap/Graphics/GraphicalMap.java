@@ -75,12 +75,12 @@ public abstract class GraphicalMap
 		}
 	}
 	
-	public void addGraphicalObject(GraphicsObject go)
+	public void addGraphicalObject(GraphicsObject<?, ?> go)
 	{
 		batchList.add(0, go);
 	}
 	
-	protected void deleteGraphicalObject(GraphicsObject go)
+	protected void deleteGraphicalObject(GraphicsObject<?, ?> go)
 	{
 		deletedList.add(go);
 	}
@@ -95,15 +95,17 @@ public abstract class GraphicalMap
 	 * Called when the mouse moves over the graphics map.
 	 * @param e The mouse movement event.
 	 */
-	public void onMouseMove(MouseEvent e)
+	public final void mouseMove(MouseEvent e)
 	{
 		RealMouseEvent re = transformMouseEvent(e);
+		if(onMouseMove(re))
+			return;
 		
-		GraphicsObject lastOver = over;
+		GraphicsObject<?, ?> lastOver = over;
 		
 		for(int i = batchList.size() - 1; i >= 0; i--)
 		{
-			GraphicsObject go = batchList.get(i);
+			GraphicsObject<?, ?> go = batchList.get(i);
 			if(go.isMouseOver(re))
 			{
 				over = go;
@@ -129,35 +131,70 @@ public abstract class GraphicalMap
 		}
 	}
 	
-	public void onMouseEnter(MouseEvent e)
+	public final GraphicsObject<?, ?> getHoverObject()
 	{
+		return over;
 	}
 	
-	public void onMouseExit(MouseEvent e)
+	public boolean onMouseMove(RealMouseEvent re)
 	{
+		return false;
+	}
+	
+	public void mouseEnter(MouseEvent e)
+	{
+		//TODO: Implement
+	}
+	
+	public final void mouseExit(MouseEvent e)
+	{
+		RealMouseEvent re = transformMouseEvent(e);
+		if(onMouseExit(re))
+			return;
+		
 		if(over != null)
 		{
-			RealMouseEvent re = transformMouseEvent(e);
 			over.onMouseLeave(re);
 		}
 	}
 	
-	public void onMouseClick(MouseEvent e)
+	public boolean onMouseExit(RealMouseEvent e)
 	{
+		return false;
+	}
+	
+	public final void mouseClick(MouseEvent e)
+	{
+		RealMouseEvent re = transformMouseEvent(e);
+		if(onMouseClick(re))
+			return;
+		
 		if(over != null)
 		{
-			RealMouseEvent re = transformMouseEvent(e);
 			over.onMouseClick(re);
 		}
 	}
 	
-	public void onMouseDrag(MouseEvent e)
+	public boolean onMouseClick(RealMouseEvent e)
 	{
+		return false;
+	}
+	
+	public final void mouseDrag(MouseEvent e)
+	{
+		RealMouseEvent re = transformMouseEvent(e);
+		if(onMouseDrag(re))
+			return;
+		
 		if(over != null)
 		{
-			RealMouseEvent re = transformMouseEvent(e);
 			over.onMouseDrag(re);
 		}
+	}
+	
+	public boolean onMouseDrag(RealMouseEvent e)
+	{
+		return false;
 	}
 	
 	public final Map getMap()

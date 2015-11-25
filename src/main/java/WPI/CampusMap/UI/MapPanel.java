@@ -153,7 +153,7 @@ public class MapPanel extends JPanel implements Runnable{
 		{
 			synchronized (panel)
 			{
-				panel.graphicsMap.onMouseClick(e);
+				panel.graphicsMap.mouseClick(e);
 			}
 		}
 
@@ -170,7 +170,7 @@ public class MapPanel extends JPanel implements Runnable{
 			
 			synchronized (panel)
 			{
-				panel.graphicsMap.onMouseExit(e);
+				panel.graphicsMap.mouseExit(e);
 			}
 		}
 
@@ -193,7 +193,7 @@ public class MapPanel extends JPanel implements Runnable{
 			
 			synchronized (panel)
 			{
-				panel.graphicsMap.onMouseDrag(e);
+				panel.graphicsMap.mouseDrag(e);
 			}
 		}
 
@@ -205,7 +205,7 @@ public class MapPanel extends JPanel implements Runnable{
 			
 			synchronized (panel)
 			{
-				panel.graphicsMap.onMouseMove(e);
+				panel.graphicsMap.mouseMove(e);
 			}
 		}
 	}
