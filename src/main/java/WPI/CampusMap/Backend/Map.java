@@ -201,14 +201,19 @@ public class Map implements java.io.Serializable {
 	 * 
 	 * @return The loaded image to display for this map.
 	 */
-	public ImageIcon getLoadedImage() {
+	public ImageIcon getLoadedImage()
+	{
+		if(loadedImage == null)
+		{
+			try {
+				loadImage();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 		return loadedImage;
-	}
-
-	// Benny: I don't think we need a setter for this, only the map should be
-	// changing the loaded image.
-	public void setLoadedImage(ImageIcon loadedImage) {
-		this.loadedImage = loadedImage;
 	}
 
 	public String getXml() {

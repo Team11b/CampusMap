@@ -18,9 +18,15 @@ public class Coord implements java.io.Serializable {
 	 * @param e
 	 *            Y-Coordinate
 	 */
-	public Coord(double d, double e) {
+	public Coord(float d, float e) {
 		this.x = d;
 		this.y = e;
+	}
+
+	public Coord(double d, double e) 
+	{
+		this.x = (float)d;
+		this.y = (float)e;
 	}
 
 	/**
@@ -35,19 +41,19 @@ public class Coord implements java.io.Serializable {
 				.abs(Math.sqrt(Math.pow((other.getX() - this.getX()), 2) + Math.pow((other.getY() - this.getY()), 2))));
 	}
 
-	public double getX() {
-		return x;
+	public float getX() {
+		return (float)x;
 	}
 
-	public void setX(double x) {
+	public void setX(float x) {
 		this.x = x;
 	}
 
-	public double getY() {
-		return y;
+	public float getY() {
+		return (float)y;
 	}
 
-	public void setY(double y) {
+	public void setY(float y) {
 		this.y = y;
 	}
 
