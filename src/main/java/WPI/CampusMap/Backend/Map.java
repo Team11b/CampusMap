@@ -433,6 +433,16 @@ public class Map implements java.io.Serializable {
 		}
 		return false;
 	}
+	
+	/**
+	 * Converts specified point to other type
+	 * @param point Point to convert
+	 */
+	public void convertPoint(Point point){
+		Point temp = point.switchPointConnectionType();
+		removePoint(point);
+		addPoint(temp);
+	}
 
 	/**
 	 * Creates a Path of points using the A* algorithm. Uses this map as a map.
