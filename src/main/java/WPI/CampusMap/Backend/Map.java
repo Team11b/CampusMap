@@ -442,7 +442,8 @@ public class Map implements java.io.Serializable {
 	}
 	
 	/**
-	 * Converts specified point to other type
+	 * Converts specified point to other type 
+	 * (ie. from a normal point to connection point and vice versa)
 	 * @param point Point to convert
 	 */
 	public void convertPoint(Point point){
