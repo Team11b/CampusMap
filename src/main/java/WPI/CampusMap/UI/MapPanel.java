@@ -56,6 +56,7 @@ public class MapPanel extends JPanel implements Runnable{
 		synchronized(this)
 		{
 			Map newMap = new Map(mapName);
+			System.out.println(newMap.getAllPoints().keySet());
 			currentMap = newMap;
 			
 			if(isDevMode)

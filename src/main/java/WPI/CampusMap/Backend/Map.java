@@ -55,8 +55,15 @@ public class Map implements java.io.Serializable {
 		this.name = name;
 		this.png = "maps/" + name + ".png";
 		this.xml = "XML/" + this.name + ".xml";
-		
 		this.allPoints = new HashMap<String, Point>();
+		
+		Map testMap = Serializer.read(name);
+		if(testMap != null){
+			setScale(testMap.getScale());
+			setAllPoints(testMap.getAllPoints());
+		}
+		Map.allMaps.remove(name);
+		Map.allMaps.put(name,this);
 	}
 
 	/**
