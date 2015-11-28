@@ -91,6 +91,7 @@ public class DevEdgeGraphicsObject extends GraphicsObject<UnorderedPair<Point, P
 	public void onRemoved()
 	{
 		getOwner().getMap().removeEdge(edge.getA(), edge.getB());
+		edgeLookupTable.remove(edge);
 	}
 	
 	@Override
