@@ -61,19 +61,13 @@ public class AppUIObject {
 	private JComboBox typeSelector = new JComboBox();
 	
 	private final JTextPane txtDirections = new JTextPane();
-	/*private String[] mapStrings = { "Atwater_Kent-0", "Atwater_Kent-1", "Atwater_Kent-2", "Atwater_Kent-3",
-			"Boynton_Hall_3rd_floor_renovations-0", "Boynton_Hall_3rd_floor_renovations-1", "Boynton_Hall-0",
-			"Boynton_Hall-1", "Boynton_Hall-2", "Boynton_Hall-3", "Campus_Center-0", "Campus_Center-1",
-			"Campus_Center-2", "Gordon_Library-0", "Gordon_Library-1", "Gordon_Library-2", "Gordon_Library-3",
-			"Gordon_Library-4", "Higgins_House_and_garage-0", "Higgins_House_and_garage-1",
-			"Higgins_House_and_garage-2", "Higgins_House_and_garage-3", "Higgins_House_and_garage-4",
-			"Higgins_House_and_garage-5", "Project_Center_1st_floor_renovations_2013",
-			"Project_Center_1st_floor_renovationsRoomNumbers2014", "Project_Center-0", "Project_Center-1",
-			"Stratton_Hall-0", "Stratton_Hall-1", "Stratton_Hall-2", "Stratton_Hall-3" };*/
+	private JLabel lblStart = new JLabel("Start:");
+	private JLabel lblEnd = new JLabel("End:");
+	private JTextField txtStart;
+	private JTextField txtEnd;
 	private final ArrayList mapXMLStrings = new ArrayList<String>();
 	private JComboBox mapDropDown = new JComboBox();
-	private String[] mapStrings;
-	//private final StringBuilder mapName = new StringBuilder();
+	private String[] mapStrings;	
 	private MouseListener mouseClick;
 	private final SwingAction actionHandler = new SwingAction();
 
@@ -89,7 +83,7 @@ public class AppUIObject {
 		none, addNode, addEdge, deleteNode, deleteEdge;
 	}
 	
-	protected DevMode currentDevMode = DevMode.none;
+	protected DevMode currentDevMode = DevMode.none;	
 
 	/**
 	 * Re-draws all UI elements. Call after the map has changed.
@@ -273,7 +267,7 @@ public class AppUIObject {
 		directionsPanel.add(txtDevPass);
 		txtDevPass.setVisible(false);
 
-		btnGetDirections.setBounds(53, 89, 157, 36);
+		btnGetDirections.setBounds(55, 123, 157, 36);
 		directionsPanel.add(btnGetDirections);
 		btnGetDirections.setEnabled(false);
 
@@ -390,6 +384,10 @@ public class AppUIObject {
 				mapPanel.startPoint = null;
 				mapPanel.endPoint = null;
 				mapPanel.currentRoute = null;
+				txtEnd.setVisible(!txtEnd.isVisible());
+				txtStart.setVisible(!txtStart.isVisible());
+				lblStart.setVisible(!lblStart.isVisible());
+				lblEnd.setVisible(!lblEnd.isVisible());
 			}
 		});
 		//password for devmode code
@@ -431,6 +429,15 @@ public class AppUIObject {
 				System.out.println(txtScale.getText());
 				mapPanel.currentMap.setScale(Float.parseFloat(txtScale.getText()));
 				System.out.println("SAVING!");
+				
+				//toggle buttons
+				currentDevMode = DevMode.none;				
+				System.out.println("null mode");
+				btnNode.setSelected(false);
+				btnDelNode.setSelected(false);
+				btnRemoveEdge.setSelected(false);
+				btnEdgeMode.setSelected(false);
+				
 				if(mapPanel.selectedPoint != null){
 					mapPanel.selectedPoint.setId(nodeTextField.getText());
 					mapPanel.selectedPoint.setType((String)typeSelector.getSelectedItem());
@@ -524,7 +531,23 @@ public class AppUIObject {
 		
 		nodeTextField.setText(mapPanel.selectedPoint.getId());
 		
-		typeSelector.setSelectedItem(mapPanel.selectedPoint.getType());
+		typeSelector.setSelectedItem(mapPanel.selectedPoint.getType());		
+		
+		lblStart.setBounds(0, 70, 70, 15);
+		directionsPanel.add(lblStart);		
+		
+		lblEnd.setBounds(0, 97, 70, 15);
+		directionsPanel.add(lblEnd);
+		
+		txtStart = new JTextField();
+		txtStart.setBounds(44, 68, 165, 19);
+		directionsPanel.add(txtStart);
+		txtStart.setColumns(10);
+		
+		txtEnd = new JTextField();
+		txtEnd.setColumns(10);
+		txtEnd.setBounds(44, 92, 165, 19);
+		directionsPanel.add(txtEnd);
 		if(typeSelector.getSelectedIndex() == -1){
 			typeSelector.setSelectedIndex(0);
 		}
