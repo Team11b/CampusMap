@@ -17,8 +17,7 @@ import javax.xml.stream.XMLStreamException;
 
 import WPI.CampusMap.PathPlanning.Node;
 import WPI.CampusMap.PathPlanning.Path;
-import WPI.CampusMap.Serialization.Serialization;
-import WPI.CampusMap.XML.XML;
+import WPI.CampusMap.Serialization.Serializer;
 
 /**
  * Represents a single map/area.
@@ -52,29 +51,19 @@ public class Map implements java.io.Serializable {
 	 *             Thrown if there is an error parsing the xml file.
 	 */
 	public Map(String name) throws XMLStreamException {
+		this.scale = 100;
+		this.name = name;
 		this.png = "maps/" + name + ".png";
 		this.xml = "XML/" + this.name + ".xml";
-		this.setName(name);
-		Map temp = Serialization.read(name);
-		if(temp != null){
-			this.setScale(temp.getScale());
-			this.setAllPoints(temp.getAllPoints());
-		}else{
-			this.setScale(100);
-			this.setAllPoints(new HashMap<String, Point>());
-		}
+		this.allPoints = new HashMap<String, Point>();
 		
-		if (this.name.equals("Select a map")) {
-			this.scale = -1; // it is THE fake map, we could do cool xml parsing
-								// for the fake map if needed
-		} else {
-			try {
-				loadImage();
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-//			allPoints = XML.parseXML(this);
+		Map testMap = Serializer.read(name);
+		if(testMap != null){
+			setScale(testMap.getScale());
+			setAllPoints(testMap.getAllPoints());
 		}
+		Map.allMaps.remove(name);
+		Map.allMaps.put(name,this);
 	}
 
 	/**
@@ -219,14 +208,19 @@ public class Map implements java.io.Serializable {
 	 * 
 	 * @return The loaded image to display for this map.
 	 */
-	public ImageIcon getLoadedImage() {
+	public ImageIcon getLoadedImage()
+	{
+		if(loadedImage == null)
+		{
+			try {
+				loadImage();
+			} catch (IOException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
+		
 		return loadedImage;
-	}
-
-	// Benny: I don't think we need a setter for this, only the map should be
-	// changing the loaded image.
-	public void setLoadedImage(ImageIcon loadedImage) {
-		this.loadedImage = loadedImage;
 	}
 
 	public String getXml() {
@@ -246,11 +240,14 @@ public class Map implements java.io.Serializable {
 	}
 
 	public static Map getMap(String mapKey) {
+		if (!(Map.allMaps.containsKey(mapKey))) {
+			Serializer.read(mapKey);
+		}
 		return Map.allMaps.get(mapKey);
 	}
 
 	public static boolean addMap(Map mapValue) {
-		if (!(Map.allMaps.containsKey(mapValue.getName()))) {
+		if ((Map.allMaps.containsKey(mapValue.getName()))) {
 			return false;
 		}
 
@@ -442,6 +439,17 @@ public class Map implements java.io.Serializable {
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * Converts specified point to other type 
+	 * (ie. from a normal point to connection point and vice versa)
+	 * @param point Point to convert
+	 */
+	public void convertPoint(Point point){
+		Point temp = point.switchPointConnectionType();
+		removePoint(point);
+		addPoint(temp);
 	}
 
 	/**

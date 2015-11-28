@@ -16,7 +16,7 @@ public class RemovePointTest {
 
 	@Test
 	public void test() throws XMLStreamException {
-		Map testMap = new Map("AK");
+		Map testMap = Map.getMap("AK");
 		assertTrue(testMap.removePoint("b9e43a3e-c47d-4f7b-b63c-f874c94f4cde"));
 		
 		HashMap<String, Point> points = testMap.getAllPoints();

@@ -58,8 +58,20 @@ public class Frontier {
 		return this.pq.contains(other);
 	}
 
-	public boolean isBetter(Node other) {
+	public Node find(Node other) {
+		Node[] temp = this.pq.toArray(new Node[this.pq.size()]);
+
+		for (int j = 0; j < temp.length; j++) {
+			if (temp[j].equals(other)) {
+				return temp[j];
+			}
+		}
+		return null;
+	}
+
+	public boolean isBetterOLD(Node other) {
 		if (!(this.contains(other))) {
+			this.pq.add(other);
 			return false;
 		}
 
@@ -94,15 +106,36 @@ public class Frontier {
 
 		return found;
 	}
-
-	public static void main(String[] args) {
-		for (int i = 0; i < 10; i++) {
-			System.out.print(i);
-			if (i == 5) {
-				break;
-			}
-			System.out.println(" f");
+	
+	public void isBetter(Node other) {
+		if (!(this.pq.contains(other))) {
+			this.pq.add(other);
 		}
+		
+		Node[] orig = this.pq.toArray(new Node[this.pq.size()]);
+		for (int i = 0; i < orig.length; i++) {
+			if (orig[i].equals(other) && (orig[i].getCurrentScore() > other.getCurrentScore())) {
+				orig[i] = other;
+			}
+		}
+		
+		this.pq.clear();
+		
+		for (int j = 0; j < orig.length; j++) {
+			this.pq.add(orig[j]);
+		}
+	}
+
+	public String toString() {
+		String response = "";
+
+		Node[] temp = this.pq.toArray(new Node[this.pq.size()]);
+
+		for (int j = 0; j < temp.length; j++) {
+			response += temp[j].toString();
+			response += "\n";
+		}
+		return response;
 	}
 
 }

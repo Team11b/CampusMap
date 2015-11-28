@@ -59,21 +59,27 @@ public class MultiPath {
 		int count = 0;
 		int index = 0;
 
+		if(!(bigPath.get(0).getPoint() instanceof ConnectionPoint)){
+			count++;
+		}
+		
 		while (index < bigPath.size()) {
 			part = new Path();
 			node = new Node(null, null);
-			count = 0;
 
-			while ((index < bigPath.size()) && (count < 2)) {
+			while ((index < bigPath.size())) {
 				node = new Node(null, null);
 				node = bigPath.get(index);
 
 				if ((node.getPoint() instanceof ConnectionPoint)) {
-					if ((count < 2)) {
-						part.addNode(node);
-						index++;
-					}
+					part.addNode(node);
+					index++;
 					count++;
+					if(count == 2){
+						count = 0;
+						break;
+					}
+					
 				} else {
 					part.addNode(node);
 					index++;

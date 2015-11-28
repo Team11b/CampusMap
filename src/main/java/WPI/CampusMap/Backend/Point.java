@@ -2,6 +2,7 @@ package WPI.CampusMap.Backend;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 /**
  * 
@@ -45,8 +46,10 @@ public class Point implements java.io.Serializable {
 		this.neighbors = new HashMap<String, Point>();
 	}
 
-	public Point() {
-
+	public Point(String map)
+	{
+		id = UUID.randomUUID().toString();
+		neighbors = new HashMap<String, Point>();
 	}
 
 	/**
@@ -57,7 +60,7 @@ public class Point implements java.io.Serializable {
 	 * @return The distance to the other point.
 	 */
 	public double distance(Point other) {
-		return 0;
+		return this.getCoord().distance(other.getCoord());
 	}
 
 	public Coord getCoord() {
@@ -148,13 +151,42 @@ public class Point implements java.io.Serializable {
 	public void removeAllNeighbors() {
 		this.neighbors.clear();
 	}
+	
+	/**
+	 * Converts this point to a connection Point
+	 * 
+	 * @return The new connection Point
+	 */
+	public Point switchPointConnectionType(){
+		 return switchPointConnectionType("","");
+	}
+	
+	/**
+	 * Converts this point to a connection Point and links the new connection point to the specified map and point
+	 * 
+	 * @param linkedMap Map to link the new connection point to.
+	 * @param linkedPoint Point to link the new connection point to.
+	 * @return The new connection point
+	 */
+	public Point switchPointConnectionType(String linkedMap, String linkedPoint){
+		ConnectionPoint temp = new ConnectionPoint(this.getCoord(), this.getType(), this.getId(), this.getMap(), linkedMap, linkedPoint);
+		for(Point point: this.getNeighborsP()){
+			temp.addNeighbor(point);
+		}
+		 return temp;
+	}
 
 	@Override
 	public boolean equals(Object other) {
 		boolean result = false;
 		if (other instanceof Point) {
 			Point that = (Point) other;
-			result = (this.getCoord().equals(that.getCoord()));
+			if (this.getMap() != null) {
+				result = (this.getCoord().equals(that.getCoord())) && (this.getMap().equals(((Point) other).getMap()));
+			}
+			else {
+				result = (this.getCoord().equals(that.getCoord()));
+			}
 		}
 		return result;
 	}

@@ -157,7 +157,7 @@ public class XML {
 			switch (event) {
 			case XMLStreamConstants.START_ELEMENT:
 				if ("Node".equals(reader.getLocalName())) {
-					currPoint = new Point();
+					currPoint = new Point(map.getName());
 					neighAList = new ArrayList<String>();
 					currPoint.setId(reader.getAttributeValue(0));
 					tempCoord = new Coord(Float.parseFloat(reader.getAttributeValue(1)),
