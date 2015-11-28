@@ -365,7 +365,7 @@ public class Map implements java.io.Serializable {
 				return false;
 		}
 		point.removeAllNeighbors();
-		this.allPoints.remove(point);
+		this.allPoints.remove(point.getId());
 		return true;
 	}
 
