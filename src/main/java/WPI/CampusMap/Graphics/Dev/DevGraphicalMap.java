@@ -9,11 +9,9 @@ import WPI.CampusMap.UI.MapPanel;
 
 public class DevGraphicalMap extends GraphicalMap
 {
-	private EditorToolMode mode;
-	private MapPanel MP;
+	private EditorToolMode mode;	
 	public DevGraphicalMap(Map map, MapPanel panel) {		
-		super(map, panel);
-		this.MP = panel;
+		super(map, panel);	
 		System.out.println("Dev mode entered.");
 	}
 
@@ -55,7 +53,7 @@ public class DevGraphicalMap extends GraphicalMap
 			Point newPoint = new Point(getMap().getName());
 			newPoint.setCoord(getWorldCoord((int)e.getX(), (int)e.getY()));
 			getMap().addPoint(newPoint);
-			this.MP.uiObject.setNodeTextField(newPoint.getId());
+			getUI().setNodeTextField(newPoint.getId());
 			DevPointGraphicsObject go = new DevPointGraphicsObject(newPoint, this);
 			addGraphicalObject(go);
 			

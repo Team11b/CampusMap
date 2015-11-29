@@ -18,6 +18,7 @@ import java.util.LinkedList;
 
 import WPI.CampusMap.Backend.Coord;
 import WPI.CampusMap.Backend.Map;
+import WPI.CampusMap.UI.AppUIObject;
 import WPI.CampusMap.UI.MapPanel;
 
 public abstract class GraphicalMap
@@ -258,4 +259,13 @@ public abstract class GraphicalMap
 			return arg0.getDrawBatch() - arg1.getDrawBatch();
 		}
 	}
+
+
+	public final AppUIObject getUI()	{
+		return panel.uiObject;
+	}
+
+
+	
+	
 }

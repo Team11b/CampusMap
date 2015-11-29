@@ -6,13 +6,10 @@ import WPI.CampusMap.Graphics.GraphicalMap;
 import WPI.CampusMap.Graphics.PointGraphicsObject;
 import WPI.CampusMap.UI.MapPanel;
 
-public class UserGraphicalMap extends GraphicalMap {
-
-	public MapPanel MP;
+public class UserGraphicalMap extends GraphicalMap {	
 	
 	public UserGraphicalMap(Map map, MapPanel panel) {
-		super(map, panel);
-		this.MP = panel;
+		super(map, panel);		
 		// TODO Auto-generated constructor stub
 	}
 
