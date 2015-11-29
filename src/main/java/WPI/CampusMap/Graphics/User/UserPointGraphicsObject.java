@@ -10,7 +10,8 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 {
 	private static UserPointGraphicsObject startPoint;
 	private static UserPointGraphicsObject endPoint;
-	
+	private UserGraphicalMap owner;
+	private Point backend;
 	public static UserPointGraphicsObject getStartPoint()
 	{
 		return startPoint;
@@ -24,6 +25,8 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 	public UserPointGraphicsObject(Point backend, UserGraphicalMap owner) 
 	{
 		super(backend, owner);
+		this.owner = owner;
+		this.backend = backend;
 		// TODO Auto-generated constructor stub
 	}
 	
@@ -47,11 +50,13 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 	{
 		if(startPoint == null)
 		{
+			owner.MP.uiObject.setStart(backend.getId()); //terrible OO
 			startPoint = this;			
 		}
 		else if(endPoint == null && startPoint != this)
 		{
+			owner.MP.uiObject.setEnd(backend.getId());
 			endPoint = this;
-		}
+		}	
 	}
 }

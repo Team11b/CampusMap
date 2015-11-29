@@ -8,8 +8,11 @@ import WPI.CampusMap.UI.MapPanel;
 
 public class UserGraphicalMap extends GraphicalMap {
 
+	public MapPanel MP;
+	
 	public UserGraphicalMap(Map map, MapPanel panel) {
 		super(map, panel);
+		this.MP = panel;
 		// TODO Auto-generated constructor stub
 	}
 

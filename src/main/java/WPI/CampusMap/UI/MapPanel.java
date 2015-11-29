@@ -26,12 +26,13 @@ public class MapPanel extends JPanel implements Runnable{
 	private GraphicalMap graphicsMap;
 	
 	private boolean isDevMode;
+	public AppUIObject uiObject;
 
 	MapPanel(AppUIObject uiObject) {
 		MapPannelMouseListener mouse = new MapPannelMouseListener(this);
 		addMouseListener(mouse);
 		addMouseMotionListener(mouse);
-		
+		this.uiObject = uiObject;
 		this.renderingThread = new Thread(this, "Render Thread");
 		this.renderingThread.start();
 	}

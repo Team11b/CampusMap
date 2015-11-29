@@ -89,6 +89,21 @@ public class AppUIObject {
 	/**
 	 * Re-draws all UI elements. Call after the map has changed.
 	 */
+	
+	
+	//Next 3 functions used in UserPointGraphicsObject and DevPointGraphicsObject
+	public void setNodeTextField(String Id){		
+		nodeTextField.setText(Id);
+	}
+	
+	public void setStart(String Id){
+		txtStart.setText(Id);
+	}
+	
+	public void setEnd(String Id){
+		txtEnd.setText(Id);
+	}
+	
 	public void reDrawUI() {
 		mapPanel.repaint();
 	}
