@@ -5,6 +5,11 @@ import java.util.GregorianCalendar;
 
 import WPI.CampusMap.Weather.Wunderground;
 
+/**
+ * 
+ * @author Jacob Zizmor
+ *
+ */
 public class Heuristic {
 	// see http://www.nws.noaa.gov/os/guide/Section9.pdf
 	private static final int breezyThreshold = 15;
@@ -117,7 +122,32 @@ public class Heuristic {
 	 * pts for each deg below avg: +1 pts
 	 */
 	/**
-	 * Calculates a heuristic modifier based upon the weather
+	 * Calculates a heuristic modifier based upon the weather using the following algorithm:
+	 * 
+	 * sunny: + 2.5 pts
+	 * windy: - 2.5 pts
+	 * drizzle: 0 pts
+	 * percip: INSIDE
+	 * 
+	 * temp:: based on average temps listed here:
+	 * http://discovernewengland.org/about-new-england/new-england-usa-quick-
+	 * facts-0
+	 * 
+	 * spring/fall:
+	 * within average: 0 pts
+	 * for each deg above avg: +0.5 pts
+	 * for each deg below avg: -0.5 pts
+	 * 
+	 * winter:
+	 * within average: 0 pts
+	 * for each deg above avg: +1 pts
+	 * for each deg below avg: -1 pts
+	 * 
+	 * summer:
+	 * within average: 0 pts
+	 * for each deg above avg: -1
+	 * pts for each deg below avg: +1 pts
+	 * 
 	 * A positive score favors outdoors
 	 * A negative score favors indoors
 	 * @return modifier score
@@ -234,11 +264,6 @@ public class Heuristic {
 		else {
 			return Math.abs(tempF - Heuristic.wAvg[Heuristic.HIGH]) * Heuristic.wNegDegCost;
 		}
-	}
-
-	public static void main(String[] args) {
-		GregorianCalendar c = new GregorianCalendar();
-		System.out.println("" + c.get(c.MONTH) + "\t" + c.NOVEMBER);
 	}
 
 }
