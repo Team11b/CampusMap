@@ -152,7 +152,7 @@ public class Heuristic {
 	 * A negative score favors indoors
 	 * @return modifier score
 	 */
-	public double getWeatherScore() {
+	public static double getWeatherScore() {
 		double score = 0.0;
 
 		// SUNNY
