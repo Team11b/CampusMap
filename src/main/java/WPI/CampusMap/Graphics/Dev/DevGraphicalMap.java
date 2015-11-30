@@ -9,7 +9,7 @@ import WPI.CampusMap.UI.MapPanel;
 
 public class DevGraphicalMap extends GraphicalMap
 {
-	private EditorToolMode mode;	
+	private EditorToolMode mode = EditorToolMode.None;	
 	public DevGraphicalMap(Map map, MapPanel panel) {		
 		super(map, panel);	
 		System.out.println("Dev mode entered.");
