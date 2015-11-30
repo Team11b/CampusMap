@@ -65,6 +65,17 @@ public class DevGraphicalMap extends GraphicalMap
 		{
 			DevPointGraphicsObject.clearSelection();
 		}
+		else if((getHoverObject() != null)&& (mode == EditorToolMode.None)){
+			//getHoverObject().getRepresentedObject();
+			Point thePoint = ((Point) getHoverObject().getRepresentedObject());
+			getUI().setNodeTextField(thePoint.getId());
+			System.out.println("The type is " + thePoint.getType());
+			if(thePoint.getType()==null)
+				getUI().setTypeSelector("0");
+			else
+			getUI().setTypeSelector(thePoint.getType());
+			//getUI.
+		}
 		
 		return false;
 	}

@@ -92,7 +92,10 @@ public class AppUIObject {
 	 */
 	
 	
-	//Next 3 functions used in UserPointGraphicsObject and DevPointGraphicsObject
+	//Next 4 functions used in UserPointGraphicsObject and DevPointGraphicsObject
+	public void setTypeSelector(String type){
+		typeSelector.setSelectedIndex( Integer.parseInt(type));
+	}
 	public void setNodeTextField(String Id){		
 		nodeTextField.setText(Id);
 	}

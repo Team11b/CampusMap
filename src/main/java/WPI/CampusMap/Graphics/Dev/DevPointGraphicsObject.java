@@ -130,7 +130,7 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 	
 	private void onSelected()
 	{
-		
+		//selected.getOwner().
 	}
 	
 	private void createGraphicsEdge(Point other)
