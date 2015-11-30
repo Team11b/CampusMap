@@ -112,6 +112,8 @@ public class AppUIObject {
 		//get all the files in the directory
 		File[] listOfFiles = new File("maps/").listFiles();
 		int oldIndex = mapDropDown.getSelectedIndex();
+		String oldString = (String) mapDropDown.getItemAt(oldIndex);
+		System.out.println("Oldstring is " + oldString);
 		mapXMLStrings.clear();
 	    for (int i = 0; i < listOfFiles.length; i++) {
 	      if (listOfFiles[i].isFile()) {					        
@@ -132,11 +134,16 @@ public class AppUIObject {
 	    int q = listOfFiles.length - 1; //because of dat org folder.
 	    for(int j = 0; j < q; j++)
 	    {
-	    	if(mapStrings[j] != null)
+	    	if(mapStrings[j] != null){
 	    		mapDropDown.addItem(mapStrings[j]);
+	    		if(mapStrings[j].equals(oldString)){
+	    			mapDropDown.setSelectedIndex(j);
+	    		}
+	    		
+	    	}
 	    }
 	    //mapDropDown = new JComboBox<Object>(mapStrings);	    
-	    mapDropDown.setSelectedIndex(oldIndex);
+	   // mapDropDown.setSelectedIndex(oldIndex);
 	    System.out.println("old index is " + oldIndex);
 	}
 
@@ -369,7 +376,7 @@ public class AppUIObject {
 				}
 
 				reDrawUI();
-				//resetDropDown();
+				resetDropDown();
 				/*mapPanel.selectedPoint = null;
 				mapPanel.startPoint = null;
 				mapPanel.endPoint = null;
