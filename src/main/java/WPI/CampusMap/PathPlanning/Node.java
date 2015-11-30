@@ -1,6 +1,7 @@
 package WPI.CampusMap.PathPlanning;
 
 import WPI.CampusMap.Backend.Point;
+import WPI.CampusMap.PathPlanning.AStar.Heuristic;
 
 /**
  * 
@@ -76,8 +77,19 @@ public class Node {
 	}
 
 	public double calcHeuristic(Point goal) {
-//		return this.getPoint().distance(goal);
-		return 0;
+		double temp = stdH;
+		if(!point.getMap().equals(goal.getMap())){
+			temp += this.getPoint().distance(goal);
+		}
+		if(point.getMap().equals("CampusMap")){
+			if(Heuristic.getWeatherScore()>0){
+				temp +=Math.abs(Heuristic.getWeatherScore());
+			}
+		}
+		else if(!point.getMap().equals(goal.getMap())){
+			//+ distance to building
+		}
+		return temp;
 	}
 
 	public double getCumulativeDist() {
