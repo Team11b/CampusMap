@@ -2,7 +2,6 @@ package WPI.CampusMap.Graphics;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.event.MouseEvent;
 
 import WPI.CampusMap.Backend.Coord;
 import WPI.CampusMap.Backend.Point;

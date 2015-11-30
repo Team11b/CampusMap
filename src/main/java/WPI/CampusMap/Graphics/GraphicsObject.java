@@ -101,7 +101,8 @@ public abstract class GraphicsObject<R, M extends GraphicalMap>
 	
 	/**
 	 * Checks to see if the mouse is over the graphics object.
-	 * @return
+	 * @param e The real mouse event
+	 * @return whether the mouse is over the graphics object
 	 */
 	public abstract boolean isMouseOver(RealMouseEvent e);
 	
