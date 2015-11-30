@@ -66,6 +66,7 @@ public class AppUIObject {
 	private JLabel lblEnd = new JLabel("End:");
 	private JTextField txtStart;
 	private JTextField txtEnd;
+	private JButton btnUseWeather = new JButton("Use Weather");
 	private final ArrayList mapXMLStrings = new ArrayList<String>();
 	private JComboBox mapDropDown = new JComboBox();
 	private String[] mapStrings;	
@@ -249,6 +250,10 @@ public class AppUIObject {
 
 		btnEmail.setBounds(26, 629, 106, 29);
 		directionsPanel.add(btnEmail);
+				
+		btnUseWeather.setBounds(108, 42, 127, 25);
+		directionsPanel.add(btnUseWeather);
+		btnUseWeather.setVisible(true);
 
 		btnPrint.setBounds(130, 629, 111, 29);
 		directionsPanel.add(btnPrint);
@@ -371,6 +376,7 @@ public class AppUIObject {
 					txtScale.setVisible(false);
 					txtDevPass.setVisible(false);
 					btnSubmit.setVisible(false);
+					btnUseWeather.setVisible(true);
 					txtDirections.setText("");
 					onEnterUserMode();
 				}
@@ -408,6 +414,7 @@ public class AppUIObject {
 					typeSelector.setVisible(true);
 					lblNodeId.setVisible(true);
 					lblNodeType.setVisible(true);
+					btnUseWeather.setVisible(false);
 					
 				}
 				else{
@@ -439,6 +446,12 @@ public class AppUIObject {
 				Serializer.write(mapPanel.currentMap);
 				//XML.writePoints(mapPanel.currentMap);
 				lblScale.setText("Scale: " + mapPanel.currentMap.getScale() + " inches per ft");
+			}
+		});
+		
+		btnUseWeather.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				System.out.println("You clicked weather button!");
 			}
 		});
 
@@ -534,6 +547,9 @@ public class AppUIObject {
 		txtEnd.setColumns(10);
 		txtEnd.setBounds(44, 92, 165, 19);
 		directionsPanel.add(txtEnd);
+		
+		
+	
 		/*if(typeSelector.getSelectedIndex() == -1){
 			typeSelector.setSelectedIndex(0);
 		}*/
