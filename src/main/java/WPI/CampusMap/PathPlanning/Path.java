@@ -22,13 +22,6 @@ public class Path {
 
 	/**
 	 * Constructor with pre-defined ArrayList of Nodes
-	 * 
-	 * @param path
-	 *            pre-defined ArrayList of Nodes
-	 * @param mapName the name of the map this Path uses
-	 */
-	/**
-	 * Constructor with pre-defined ArrayList of Nodes
 	 * @param path pre-defined ArrayList of Nodes
 	 * @param mapName the name of the map this Path uses
 	 * @param pathScale the scale of this Path

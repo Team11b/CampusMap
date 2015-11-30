@@ -29,14 +29,10 @@ import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 import javax.xml.stream.XMLStreamException;
 
-import WPI.CampusMap.Backend.Map;
-import WPI.CampusMap.Backend.Point;
 import WPI.CampusMap.Dev.EditorToolMode;
-import WPI.CampusMap.Graphics.User.UserPathGraphicsObject;
 import WPI.CampusMap.Graphics.User.UserPointGraphicsObject;
 
 import WPI.CampusMap.PathPlanning.Path;
-import WPI.CampusMap.PathPlanning.AStar.AStar;
 import WPI.CampusMap.Serialization.Serializer;
 
 public class AppUIObject {
@@ -59,7 +55,7 @@ public class AppUIObject {
 	private final JButton btnDevMode = new JButton("Dev Mode");
 	private final JButton btnSave = new JButton("Save");
 	private final String[] pointTypes = {"1", "2", "3"};
-	private JComboBox typeSelector = new JComboBox();
+	private JComboBox<String> typeSelector = new JComboBox<String>();
 	
 	private final JTextPane txtDirections = new JTextPane();
 	private JLabel lblStart = new JLabel("Start:");
@@ -67,9 +63,9 @@ public class AppUIObject {
 	private JTextField txtStart;
 	private JTextField txtEnd;
 	private JButton btnUseWeather = new JButton("Use Weather");
-	private final ArrayList mapXMLStrings = new ArrayList<String>();
-	private JComboBox mapDropDown = new JComboBox();
-	private String[] mapStrings;	
+	private final ArrayList<String> mapXMLStrings = new ArrayList<String>();
+	private JComboBox<String> mapDropDown = new JComboBox<String>();
+	private String[] mapStrings;
 	private MouseListener mouseClick;
 	private final SwingAction actionHandler = new SwingAction();
 
@@ -86,11 +82,6 @@ public class AppUIObject {
 	}
 	
 	protected DevMode currentDevMode = DevMode.none;	
-
-	/**
-	 * Re-draws all UI elements. Call after the map has changed.
-	 */
-	
 	
 	//Next 3 functions used in UserPointGraphicsObject and DevPointGraphicsObject
 	public void setNodeTextField(String Id){		
@@ -127,7 +118,7 @@ public class AppUIObject {
 	    mapStrings = new String[mapXMLStrings.size()];
 	    mapStrings = (String[]) mapXMLStrings.toArray(mapStrings);
 	    if(mapDropDown == null){
-	    mapDropDown = new JComboBox();
+	    	mapDropDown = new JComboBox<String>();
 	    }
 	    else{
 	    	mapDropDown.removeAllItems();
@@ -144,7 +135,7 @@ public class AppUIObject {
 	    	}
 	    }
 	    //mapDropDown = new JComboBox<Object>(mapStrings);	    
-	   // mapDropDown.setSelectedIndex(oldIndex);
+	    // mapDropDown.setSelectedIndex(oldIndex);
 	    System.out.println("old index is " + oldIndex);
 	}
 

@@ -3,10 +3,7 @@ package WPI.CampusMap.Graphics.Dev;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import javax.swing.ToolTipManager;
-
 import WPI.CampusMap.Backend.Point;
-import WPI.CampusMap.Core.UnorderedPair;
 import WPI.CampusMap.Dev.EditorToolMode;
 import WPI.CampusMap.Graphics.*;
 
