@@ -19,7 +19,7 @@ import WPI.CampusMap.XML.XML;
  */
 public class Converter {
 	public static String[] ignore = { "5x5Test.xml", "5x5Test2.xml", "AK.xml", "borked.xml", "testOutput.xml","borked.xml" };
-	public static String[] allow = { "5x5Test.xml", "5x5TestCopy.xml" };
+	public static String[] allow = { "5x5Test.xml" , "5x5Test2.xml" , "5x5TestCopy.xml"};
 	
 	public static String[] getFileNames() {
 		File folder = new File("XML/");
@@ -44,7 +44,6 @@ public class Converter {
 
 				try {
 					temp.setAllPoints(XML.parseXML(temp));
-					System.out.println(temp.getAllPoints().size());
 				} catch (XMLStreamException e) {
 					e.printStackTrace();
 				}
@@ -62,15 +61,24 @@ public class Converter {
 
 		for (int j = 0; j < files.length; j++) {
 			if ((Arrays.asList(Converter.allow).contains(files[j]))) {
+				System.out.println(files[j]);
 				temp = new Map();
 				temp.setXML("XML/" + files[j]);
 
 				try {
-					temp.setAllPoints(XML.parseXML(temp));
+					HashMap<String, Point> allPoints = XML.parseXML(temp);
+					HashMap<String, Point> anotherAllPoints = new HashMap<String, Point>();
+					
+					for (String s : allPoints.keySet()) {
+						Point tempPoint = allPoints.get(s);
+						tempPoint.setMap(files[j]);
+						anotherAllPoints.put(tempPoint.getId(), tempPoint);
+					}
+					
+					temp.setAllPoints(anotherAllPoints);
 				} catch (XMLStreamException e) {
 					e.printStackTrace();
 				}
-				System.out.println(temp.getName());
 				HashMap<String, Point> holder = temp.getAllPoints();
 				String[] keys = holder.keySet().toArray(new String[holder.keySet().size()]);
 				

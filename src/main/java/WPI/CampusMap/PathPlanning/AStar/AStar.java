@@ -142,7 +142,7 @@ public class AStar {
 		Path returnPath = new Path();
 
 		Node tempNode = new Node(start, null);
-		tempNode.setHeuristic(tempNode.calcHeuristic(goal));
+//		tempNode.setHeuristic(tempNode.calcHeuristic(goal));
 		ConnectionPoint tempConn = new ConnectionPoint(null, null, null, null, null, null);
 		ConnectionNode tempConNode = new ConnectionNode(null, null, false);
 
