@@ -41,7 +41,7 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 	public Color getColor() 
 	{
 		EditorToolMode mode = getOwner().getMode();
-		if(mode == EditorToolMode.Point || mode == EditorToolMode.Edge || mode == EditorToolMode.DeletePoint)
+		if(mode == EditorToolMode.Point || mode == EditorToolMode.Edge || mode == EditorToolMode.DeletePoint || mode == EditorToolMode.None)
 		{
 			if(selected == this)
 			{
@@ -92,8 +92,10 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 		case DeletePoint:
 			delete();
 			break;
+		case None:
 		case Point:
 			selected = this;
+			onSelected();
 			break;
 		case Edge:
 			if(selected == null)
@@ -109,6 +111,8 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 					selected = this;
 			}
 			break;
+			default:
+				break;
 		}
 	}
 	
@@ -119,6 +123,11 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 			return false;
 		
 		return super.isMouseOver(e);
+	}
+	
+	private void onSelected()
+	{
+		
 	}
 	
 	private void createGraphicsEdge(Point other)
