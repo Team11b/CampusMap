@@ -10,12 +10,15 @@ public abstract class GraphicsObject<R, M extends GraphicalMap>
 {
 	private M graphicsOwner;
 	
+	private R representedObject;
+	
 	private boolean deleted;
 	private boolean cleanedUp;
 	
-	public GraphicsObject(M owner)
+	public GraphicsObject(R representedObject, M owner)
 	{
 		this.graphicsOwner = owner;
+		this.representedObject = representedObject;
 	}
 	
 	public M getOwner()
@@ -116,5 +119,14 @@ public abstract class GraphicsObject<R, M extends GraphicalMap>
 	 * The object that this graphics object represents.
 	 * @return The object that this graphics object represents. If null then this graphics object will be deleted.
 	 */
-	public abstract R getRepresentedObject();
+	public final R getRepresentedObject()
+	{
+		return representedObject;
+	}
+	
+	public final void setRepresentedObject(R newObject)
+	{
+		getOwner().updateReferencedObject(representedObject, newObject);
+		representedObject = newObject;
+	}
 }

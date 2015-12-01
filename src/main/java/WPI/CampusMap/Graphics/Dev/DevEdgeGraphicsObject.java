@@ -63,9 +63,9 @@ public class DevEdgeGraphicsObject extends GraphicsObject<UnorderedPair<Point, P
 	
 	private DevEdgeGraphicsObject(Point p1, Point p2, DevGraphicalMap owner) 
 	{
-		super(owner);
+		super(new UnorderedPair<Point, Point>(p1, p2), owner);
 		// TODO Auto-generated constructor stub
-		edge = new UnorderedPair<Point, Point>(p1, p2);
+		edge = getRepresentedObject();
 		edgeLookupTable.put(edge, this);
 	}
 
@@ -144,11 +144,5 @@ public class DevEdgeGraphicsObject extends GraphicsObject<UnorderedPair<Point, P
 		Line2D.Float line = new Line2D.Float(screenCoord1.getX(), screenCoord1.getY(), screenCoord2.getX(), screenCoord2.getY());
 		
 		return line.ptSegDist(e.getX(), e.getY()) <= 5.0f;
-	}
-
-	@Override
-	public UnorderedPair<Point, Point> getRepresentedObject()
-	{
-		return edge;
 	}
 }

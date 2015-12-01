@@ -30,7 +30,7 @@ public class UserPathGraphicsObject extends GraphicsObject<Path, UserGraphicalMa
 	
 	public UserPathGraphicsObject(Path path, UserGraphicalMap owner)
 	{
-		super(owner);
+		super(path, owner);
 		this.backendPath = path;
 	}
 
@@ -99,11 +99,5 @@ public class UserPathGraphicsObject extends GraphicsObject<Path, UserGraphicalMa
 	public boolean isMouseOver(RealMouseEvent e) {
 		// TODO Auto-generated method stub
 		return false;
-	}
-
-	@Override
-	public Path getRepresentedObject() 
-	{
-		return backendPath;
 	}
 }
