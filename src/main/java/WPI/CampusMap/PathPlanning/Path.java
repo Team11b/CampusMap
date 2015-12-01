@@ -14,8 +14,8 @@ import WPI.CampusMap.Backend.Point;
  */
 public class Path {
 
-	private float pathtolarence;
-	private float pathtolarenceMultiplier = (float) (0.2);
+	public float pathtolarence;
+	public static float pathtolarenceMultiplier = (float) (0.2);
 	private ArrayList<Node> path;
 	private String mapName;
 	private float pathScale;
@@ -37,6 +37,14 @@ public class Path {
 	 */
 	public Path() {
 		this.path = new ArrayList<Node>();
+	}
+
+	public float getPathScale() {
+		return pathScale;
+	}
+
+	public void setPathScale(float pathScale) {
+		this.pathScale = pathScale;
 	}
 
 	public String getMapName() {
@@ -65,6 +73,7 @@ public class Path {
 	 * @return abridged list of Nodes
 	 */
 	public Path getTurns() {
+//		System.out.println("Before Abridging: " + path.size());
 		ArrayList<Node> temp = new ArrayList<Node>();
 		Node first = path.get(0);
 		Node last = path.get(path.size() - 1);
@@ -73,24 +82,26 @@ public class Path {
 		for (int i = 1; i < path.size() - 1; i++) {
 			// check if next point is on the same level as i - 1 and i + 1
 			if (checkHorizontal(path.get(i - 1).getPoint(), path.get(i).getPoint(), path.get(i + 1).getPoint())) {
-				// System.out.println("Abridge one node horizontal");
+				 System.out.println("Abridge one node horizontal");
 				continue;
 				// check if next point is on the same level as i - 1 and i +
 				// 1
 			} else if (checkVertical(path.get(i - 1).getPoint(), path.get(i).getPoint(), path.get(i + 1).getPoint())) {
-				// System.out.println("Abridge one node vertical");
+				 System.out.println("Abridge one node vertical");
 				continue;
 			} else {
 
-				if (checkDiagonal(path.get(i - 1).getPoint(), path.get(i).getPoint(), path.get(i + 1).getPoint())) {
-					// System.out.println("Abridge one node diagonal");
-					continue;
-				}
+//				if (checkDiagonal(path.get(i - 1).getPoint(), path.get(i).getPoint(), path.get(i + 1).getPoint())) {
+//					// System.out.println("Abridge one node diagonal");
+//					continue;
+//				}
 			}
 			temp.add(path.get(i));
 
 		}
 		temp.add(last);
+
+//		System.out.println("After Abridging: " + temp.size());
 		return new Path(temp, this.mapName, this.pathScale);
 	}
 
@@ -127,8 +138,14 @@ public class Path {
 	 * @return Returns true if it's horizontal aligned otherwise false
 	 */
 	public boolean checkHorizontal(Point before, Point current, Point after) {
+//		System.out.println("Before: "+before+", Current: " + current +" After: "+after);
 		float dif1 = Math.abs(current.getCoord().getY() - before.getCoord().getY());
 		float dif2 = Math.abs(current.getCoord().getY() - after.getCoord().getY());
+//		System.out.println(before.getCoord());
+//		System.out.println(current.getCoord());
+//		System.out.println(after.getCoord());
+//		System.out.println("dif1: "+dif1+", dif2: " + dif2);
+//		System.out.println();
 		if (dif1 <= pathtolarence && dif2 <= pathtolarence) {
 			return true;
 		}
@@ -159,54 +176,6 @@ public class Path {
 		}
 
 		return false;
-	}
-
-	/**
-	 * Converts path into textual expression
-	 * 
-	 * @param path
-	 *            Path which needs to be converted
-	 * @return String which contains turns and distances
-	 */
-	public String getAndDisplayDirections(Path path) {
-		String route = "Start: " + path.getPath().get(0).getPoint().getCoord().toString() + "\n";
-		route += "Face " + path.getPath().get(0).getPoint().getId() + " and walk "
-				+ path.getPath().get(0).getPoint().distance(path.getPath().get(1).getPoint()) + "feet.\n";
-		for (int i = 1; i < path.getPath().size() - 1; i++) {
-			String turn = "";
-			String direction = "";
-			float dist = (float) path.getPath().get(i).getPoint().distance(path.getPath().get(i - 1).getPoint());
-
-			float angleBefore = path.getAngle(path.getPath().get(i - 1).getPoint(), path.getPath().get(i).getPoint());
-			float angleAfter = path.getAngle(path.getPath().get(i).getPoint(), path.getPath().get(i + 1).getPoint());
-			// System.out.printf("Angle Before: %f, Angle After: %f \n",
-			// angleBefore, angleAfter);
-
-			route += path.getPath().get(i - 1).getPoint().getCoord().toString() + " to "
-					+ path.getPath().get(i).getPoint().getCoord().toString() + "";
-
-			int quad1 = (int) (((angleBefore < 0 ? 360 : 0) + angleBefore) / 90 + 1);
-			int quad2 = (int) (((angleAfter < 0 ? 360 : 0) + angleAfter) / 90 + 1);
-			// System.out.printf("Quad Before: %d, Quad After: %d \n", quad1,
-			// quad2);
-			if (quad1 == quad2)
-				if (angleAfter > angleBefore)
-					turn = "left";
-				else
-					turn = "right";
-			else if (quad2 == (quad1 + 1) % 4)
-				turn = "left";
-			else
-				turn = "right";
-			if (Math.abs(angleBefore - angleAfter) < 45) {
-				direction = "slightly ";
-			} else {
-				direction = "";
-			}
-			route += "Turn " + direction + turn + " and walk " + dist + " feet.\n";
-		}
-		route += "You are now at your destination.";
-		return route;
 	}
 
 	/**
