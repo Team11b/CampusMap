@@ -217,7 +217,9 @@ public class AStar {
 
 		returnPath.addNode(tempNode);
 
+
 		returnPath.reverse();
+		System.out.println("Parse?");
 		return new MultiPath(returnPath);
 	}
 }
