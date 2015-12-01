@@ -214,6 +214,8 @@ public class AppUIObject {
 	public void onRouteCleared()
 	{
 		btnGetDirections.setEnabled(false);
+		
+		//TODO: Clear destinations
 	}
 
 	/**

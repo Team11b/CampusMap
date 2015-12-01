@@ -26,6 +26,12 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 	{
 		if(!point.selectedToRoute)
 		{
+			if(selectedRoute.size() == 0)
+			{
+				UserPathGraphicsObject.deleteAll();
+				AppUIObject.getInstance().onRouteCleared();
+			}
+			
 			point.selectedToRoute = true;
 			TypedRef<UserPointGraphicsObject> ref = new TypedRef<UserPointGraphicsObject>(point);
 			selectedRoute.add(ref);
@@ -36,8 +42,6 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 	
 	public static void route()
 	{
-		UserPathGraphicsObject.deleteAll();
-		
 		lastRoutedPath = new MultiPath();
 		
 		for(int i = 1; i < selectedRoute.size(); i++)
@@ -55,9 +59,11 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 			UserGraphicalMap graphicalMap = UserGraphicalMap.loadGraphicalMap(Map.getMap(map));
 			graphicalMap.setPathSections(lastRoutedPath.getMapPath(map));
 		}
+		
+		clearSelected();
 	}
 	
-	public static void clearRoute()
+	public static void clearSelected()
 	{
 		for(TypedRef<UserPointGraphicsObject> ref : selectedRoute)
 		{
@@ -65,11 +71,7 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 			ref.release();
 		}
 		
-		UserPathGraphicsObject.deleteAll();
-		
-		selectedRoute.clear();
-		
-		AppUIObject.getInstance().onRouteCleared();
+		selectedRoute.clear();		
 	}
 	
 	private boolean selectedToRoute;
