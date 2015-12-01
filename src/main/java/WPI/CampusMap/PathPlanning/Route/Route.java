@@ -73,16 +73,12 @@ public class Route {
 
 			float angleBefore = p.getAngle(p.getPath().get(i - 1).getPoint(), p.getPath().get(i).getPoint());
 			float angleAfter = p.getAngle(p.getPath().get(i).getPoint(), p.getPath().get(i + 1).getPoint());
-			// System.out.printf("Angle Before: %f, Angle After: %f \n",
-			// angleBefore, angleAfter);
 
 			route += p.getPath().get(i).getPoint().getCoord().toString() + " to "
 					+ p.getPath().get(i+1).getPoint().getCoord().toString() + "";
 
 			int quad1 = (int) (((angleBefore < 0 ? 360 : 0) + angleBefore) / 90 + 1);
 			int quad2 = (int) (((angleAfter < 0 ? 360 : 0) + angleAfter) / 90 + 1);
-			// System.out.printf("Quad Before: %d, Quad After: %d \n", quad1,
-			// quad2);
 			if (quad1 == quad2)
 				if (angleAfter > angleBefore)
 					turn = "left";

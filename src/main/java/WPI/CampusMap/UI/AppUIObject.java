@@ -168,7 +168,8 @@ public class AppUIObject {
 				System.out.println("Send an Email!");
 				break;
 			case "Route me":
-				Path path = mapPanel.currentMap.astar(UserPointGraphicsObject.getStartPoint().getRepresentedObject(), UserPointGraphicsObject.getEndPoint().getRepresentedObject());
+				Path path = AStar.single_AStar(UserPointGraphicsObject.getStartPoint().getRepresentedObject(), 
+						UserPointGraphicsObject.getEndPoint().getRepresentedObject());
 				
 				break;
 			case "Print":
