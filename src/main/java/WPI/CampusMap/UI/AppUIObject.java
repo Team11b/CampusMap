@@ -33,12 +33,20 @@ import WPI.CampusMap.Backend.Point;
 import WPI.CampusMap.Dev.EditorToolMode;
 import WPI.CampusMap.Graphics.Dev.DevPointGraphicsObject;
 import WPI.CampusMap.Graphics.User.UserPointGraphicsObject;
-
+import WPI.CampusMap.PathPlanning.MultiPath;
 import WPI.CampusMap.PathPlanning.Path;
 import WPI.CampusMap.Serialization.Serializer;
 
 public class AppUIObject {
+	private static AppUIObject instance;
+	
+	public static AppUIObject getInstance()
+	{
+		return instance;
+	}
+	
 	protected boolean devMode = false;
+	private MultiPath lastRoutedPath;
 
 	// UI Elements
 	private final JFrame frame = new JFrame("Path Finder");
@@ -87,6 +95,8 @@ public class AppUIObject {
 	}
 	
 	protected DevMode currentDevMode = DevMode.none;	
+	private JTextField connectingMapTextField;
+	private JTextField connectingPointTextField;
 	
 	private void clearNodeInfo(){
 		typeSelector.setSelectedIndex(0);
@@ -97,8 +107,33 @@ public class AppUIObject {
 	public String getID(){
 		return nodeTextField.getText();
 	}
+	
+	public void setMapConnectionTextFieldEditable(boolean b){
+		connectingMapTextField.setEditable(b);
+	}
+	
+	public void setPointConnectionTextFieldEditable(boolean b){
+		connectingPointTextField.setEditable(b);
+	}
+	
 	public String getTypeSelector(){
 		return typeSelector.getItemAt(typeSelector.getSelectedIndex()); 
+	}
+	
+	public void setPointConnectorText(String text){
+		connectingPointTextField.setText(text);
+	}
+	
+	public void setMapConnectorText(String text){
+		connectingMapTextField.setText(text);
+	}
+	
+	public String getMapConnectorText(){
+		return connectingMapTextField.getText();
+	}
+	
+	public String getPointConnectorText(){
+		return connectingPointTextField.getText();
 	}
 	
 	//Next 4 functions are around UserPointGraphicsObject and DevPointGraphicsObject
@@ -159,6 +194,16 @@ public class AppUIObject {
 	    // mapDropDown.setSelectedIndex(oldIndex);
 	    System.out.println("old index is " + oldIndex);
 	}
+	
+	public void onPointAddedToRoute(Point newPoint)
+	{
+		btnGetDirections.setEnabled(true);
+	}
+	
+	public void onRouteCleared()
+	{
+		btnGetDirections.setEnabled(false);
+	}
 
 	/**
 	 * Presents a view that allows the user to enter an email address and send
@@ -204,8 +249,7 @@ public class AppUIObject {
 				System.out.println("Send an Email!");
 				break;
 			case "Route me":
-				Path path = mapPanel.currentMap.astar(UserPointGraphicsObject.getStartPoint().getRepresentedObject(), UserPointGraphicsObject.getEndPoint().getRepresentedObject());
-				
+				UserPointGraphicsObject.route();
 				break;
 			case "Print":
 				printDirections();
@@ -271,6 +315,8 @@ public class AppUIObject {
 
 	public AppUIObject() {
 
+		instance = this;
+		
 		// debug statements
 		System.out.println(System.getProperty("user.dir"));
 
@@ -283,6 +329,24 @@ public class AppUIObject {
 		directionsPanel.setBounds(1031, 6, 237, 664);
 		frame.getContentPane().add(directionsPanel);
 		directionsPanel.setLayout(null);
+		
+		connectingPointTextField = new JTextField();
+		connectingPointTextField.setBounds(140, 282, 95, 26);
+		directionsPanel.add(connectingPointTextField);
+		connectingPointTextField.setColumns(10);
+		
+		connectingMapTextField = new JTextField();
+		connectingMapTextField.setBounds(140, 254, 95, 26);
+		directionsPanel.add(connectingMapTextField);
+		connectingMapTextField.setColumns(10);
+		
+		JLabel lblConnectingPoint = new JLabel("Connecting Point:");
+		lblConnectingPoint.setBounds(26, 287, 117, 16);
+		directionsPanel.add(lblConnectingPoint);
+		
+		JLabel lblConnectingMap = new JLabel("Connecting Map:");
+		lblConnectingMap.setBounds(24, 259, 108, 16);
+		directionsPanel.add(lblConnectingMap);
 
 		btnEmail.setBounds(26, 629, 106, 29);
 		directionsPanel.add(btnEmail);
@@ -427,6 +491,10 @@ public class AppUIObject {
 					frame.setTitle("Path Finder");
 					btnDevMode.setText("Dev Mode");
 					currentDevMode = DevMode.none;
+					connectingMapTextField.setVisible(false);
+					connectingPointTextField.setVisible(false);
+					lblConnectingMap.setVisible(false);
+					lblConnectingPoint.setVisible(false);
 					lblNodeId.setVisible(false);
 					lblNodeType.setVisible(false);
 					nodeTextField.setVisible(false);
@@ -470,6 +538,10 @@ public class AppUIObject {
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(String.valueOf(txtDevPass.getPassword()).equals("0011")){
+					connectingMapTextField.setVisible(true);
+					connectingPointTextField.setVisible(true);
+					lblConnectingMap.setVisible(true);
+					lblConnectingPoint.setVisible(true);
 					btnSubmit.setVisible(false);
 					txtDevPass.setVisible(false);
 					txtDirections.setVisible(false);
@@ -634,6 +706,11 @@ public class AppUIObject {
 			typeSelector.setSelectedIndex(0);
 		}*/
 		
+		connectingMapTextField.setVisible(false);
+		connectingPointTextField.setVisible(false);
+		lblConnectingMap.setVisible(false);
+		lblConnectingPoint.setVisible(false);
+		
 		txtScale = new JTextField();
 		txtScale.setBounds(37, 0, 130, 19);
 		frame.getContentPane().add(txtScale);
@@ -682,6 +759,16 @@ public class AppUIObject {
 			typeSelector.setSelectedItem(mapPanel.selectedPoint.getType());
 		}
 	}*/
+	
+	public MultiPath getLastRoute()
+	{
+		return lastRoutedPath;
+	}
+	
+	public void clearLastRoute()
+	{
+		lastRoutedPath = null;
+	}
 	
 	private void onEnterDevMode()
 	{

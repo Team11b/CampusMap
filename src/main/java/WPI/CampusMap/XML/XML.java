@@ -178,13 +178,18 @@ public class XML {
 				case "Node":
 					currPoint.setCoord(tempCoord);
 					pointMap.put(currPoint.getId(), currPoint);
-					neighMap.put(currPoint.getId(), neighAList);
+//					neighMap.put(currPoint.getId(), neighAList);
 					break;
 				case "type":
 					currPoint.setType(tagContent);
 					break;
 				case "Connection":
-					neighAList.add(tagContent);
+					ArrayList<String> temp = new ArrayList<String>();
+					if (neighMap.containsKey(currPoint.getId())) {
+						temp = neighMap.get(currPoint.getId());
+					}
+					temp.add(tagContent);
+					neighMap.put(currPoint.getId(), temp);
 					break;
 				}
 				break;
@@ -192,14 +197,24 @@ public class XML {
 
 		}
 
-		// goes through the points and gets the point objects associated with
-		// the neighbor ids and assigns them as neighbors
-		for (Point point : pointMap.values()) {
-			ArrayList<String> neighborIDs = neighMap.get(point.getId());
-			for (String neighbor : neighborIDs) {
-				pointMap.get(neighbor).addNeighbor(point);
-				neighMap.get(neighbor).remove(point);
+//		// goes through the points and gets the point objects associated with
+//		// the neighbor ids and assigns them as neighbors
+//		for (Point point : pointMap.values()) {
+//			ArrayList<String> neighborIDs = neighMap.get(point.getId());
+//			for (String neighbor : neighborIDs) {
+//				pointMap.get(neighbor).addNeighbor(point);
+//				neighMap.get(neighbor).remove(point);
+//			}
+//		}
+		
+		
+		for (String s : pointMap.keySet()) {
+			Point tempP = pointMap.get(s);
+			ArrayList<String> aLS = neighMap.get(s);
+			for (String sV : aLS) {
+				tempP.addNeighbor(pointMap.get(sV));
 			}
+			pointMap.put(s, tempP);
 		}
 
 		return pointMap;

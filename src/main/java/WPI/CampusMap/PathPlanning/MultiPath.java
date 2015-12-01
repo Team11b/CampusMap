@@ -1,17 +1,69 @@
 package WPI.CampusMap.PathPlanning;
 
 import java.util.ArrayList;
+import java.util.Hashtable;
 import java.util.LinkedList;
+import java.util.Set;
 
 import WPI.CampusMap.Backend.ConnectionPoint;
+import WPI.CampusMap.Backend.Map;
 
 /**
  * 
  * @author Jacob Zizmor
  *
  */
-public class MultiPath {
-	LinkedList<Path> mp;
+public class MultiPath
+{
+	@SuppressWarnings("unchecked")
+	public static MultiPath join(MultiPath a, MultiPath b)
+	{
+		MultiPath newMultiPath = new MultiPath();
+		
+		for(Path path : a.mp)
+		{
+			Path newPath = new Path();
+			
+			newPath.setPath((ArrayList<Node>)path.getPath().clone());
+			
+			String mapName = newPath.getPath().get(0).getPoint().getMap();
+			newMultiPath.mp.add(newPath);
+			LinkedList<Path> parts = newMultiPath.pathLookup.get(mapName);
+			
+			if(parts == null)
+			{
+				parts = new LinkedList<Path>();
+			}
+			
+			parts.add(newPath);
+			newMultiPath.pathLookup.put(mapName, parts);
+		}
+		
+		for(Path path : b.mp)
+		{
+			Path newPath = new Path();
+			
+			newPath.setPath((ArrayList<Node>)path.getPath().clone());
+			
+			String mapName = newPath.getPath().get(0).getPoint().getMap();
+			newMultiPath.mp.add(newPath);
+			LinkedList<Path> parts = newMultiPath.pathLookup.get(mapName);
+			
+			if(parts == null)
+			{
+				parts = new LinkedList<Path>();
+			}
+			
+			parts.add(newPath);
+			newMultiPath.pathLookup.put(mapName, parts);
+		}
+		
+		return newMultiPath;
+	}
+	
+	private LinkedList<Path> mp;
+	
+	private Hashtable<String, LinkedList<Path>> pathLookup;
 
 	public MultiPath() {
 		mp = new LinkedList<Path>();
@@ -19,6 +71,7 @@ public class MultiPath {
 
 	public MultiPath(Path start) {
 		mp = new LinkedList<Path>();
+		pathLookup = new Hashtable<>();
 		parse(start);
 	}
 
@@ -28,6 +81,21 @@ public class MultiPath {
 
 	public void setMp(LinkedList<Path> mp) {
 		this.mp = mp;
+	}
+	
+	public LinkedList<Path> getMapPath(Map map)
+	{
+		return getMapPath(map.getName());
+	}
+	
+	public LinkedList<Path> getMapPath(String mapName)
+	{
+		return pathLookup.get(mapName);
+	}
+	
+	public Set<String> getReferencedMaps()
+	{
+		return pathLookup.keySet();
 	}
 
 	/**
@@ -40,7 +108,8 @@ public class MultiPath {
 		this.mp.add(p);
 	}
 
-	public Path get(int i) {
+	public Path get(int i)
+	{
 		return this.mp.get(i);
 	}
 
@@ -65,10 +134,10 @@ public class MultiPath {
 		
 		while (index < bigPath.size()) {
 			part = new Path();
-			node = new Node(null, null);
+			node = new Node(null, null);//?
 
 			while ((index < bigPath.size())) {
-				node = new Node(null, null);
+				node = new Node(null, null);//???
 				node = bigPath.get(index);
 
 				if ((node.getPoint() instanceof ConnectionPoint)) {
@@ -86,6 +155,15 @@ public class MultiPath {
 				}
 			}
 			this.mp.add(part);
+			
+			LinkedList<Path> parts = this.pathLookup.get(node.getPoint().getMap());
+			if(parts == null)
+			{
+				parts = new LinkedList<Path>();
+			}
+			
+			parts.add(part);
+			this.pathLookup.put(node.getPoint().getMap(), parts);
 		}
 	}
 
