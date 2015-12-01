@@ -1,12 +1,16 @@
 package WPI.CampusMap.Graphics.User;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Stroke;
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.LinkedList;
 
 import WPI.CampusMap.Backend.Coord;
 import WPI.CampusMap.Backend.Point;
+import WPI.CampusMap.Core.TypedRef;
 import WPI.CampusMap.Graphics.GraphicsObject;
 import WPI.CampusMap.Graphics.RealMouseEvent;
 import WPI.CampusMap.PathPlanning.Node;
@@ -14,13 +18,13 @@ import WPI.CampusMap.PathPlanning.Path;
 
 public class UserPathGraphicsObject extends GraphicsObject<Path, UserGraphicalMap>
 {
-	private static LinkedList<UserPathGraphicsObject> pathObjects = new LinkedList<>();
+	private static LinkedList<TypedRef<UserPathGraphicsObject>> pathObjects = new LinkedList<>();
 	
 	public static void deleteAll()
 	{
-		for(UserPathGraphicsObject path : pathObjects)
+		for(TypedRef<UserPathGraphicsObject> path : pathObjects)
 		{
-			path.delete();
+			path.getValue().delete();
 		}
 		
 		pathObjects.clear();
@@ -32,6 +36,21 @@ public class UserPathGraphicsObject extends GraphicsObject<Path, UserGraphicalMa
 	{
 		super(owner);
 		this.backendPath = path;
+		pathObjects.add(new TypedRef<UserPathGraphicsObject>(this));
+	}
+	
+	@Override
+	public void onRemoved()
+	{
+		for(Iterator<TypedRef<UserPathGraphicsObject>> itr = pathObjects.iterator(); itr.hasNext();)
+		{
+			TypedRef<UserPathGraphicsObject> ref = itr.next();
+			if(ref.getValue() == this)
+			{
+				itr.remove();
+				break;
+			}
+		}
 	}
 
 	@Override
@@ -43,6 +62,9 @@ public class UserPathGraphicsObject extends GraphicsObject<Path, UserGraphicalMa
 	@Override
 	public void onDraw(Graphics2D graphics)
 	{
+		BasicStroke dashed = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
+		graphics.setStroke(dashed);
+		
 		ArrayList<Node> nodes = backendPath.getPath();
 		for(int i = 1; i < nodes.size(); i++)
 		{
@@ -57,12 +79,14 @@ public class UserPathGraphicsObject extends GraphicsObject<Path, UserGraphicalMa
 			
 			graphics.drawLine((int)screenA.getX(), (int)screenA.getY(), (int)screenB.getX(), (int)screenB.getY());
 		}
+		
+		graphics.setStroke(new BasicStroke(1.0f));
 	}
 	
 	@Override
 	public Color getColor() 
 	{
-		return Color.magenta;
+		return new Color(204, 0, 204);
 	}
 
 	@Override

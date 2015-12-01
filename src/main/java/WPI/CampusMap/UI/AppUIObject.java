@@ -207,11 +207,15 @@ public class AppUIObject {
 	public void onPointAddedToRoute(Point newPoint)
 	{
 		btnGetDirections.setEnabled(true);
+		
+		destinations.setDestination(newPoint.getId());
 	}
 	
 	public void onRouteCleared()
 	{
 		btnGetDirections.setEnabled(false);
+		
+		//TODO: Clear destinations
 	}
 
 	/**
