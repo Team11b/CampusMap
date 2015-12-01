@@ -311,7 +311,6 @@ public class RouteTest {
 		Serializer.write(testMap6);
 	}
 
-	@Ignore
 	@Test
 	public void testConnected() {
 		Map.addMap(testMap5);
