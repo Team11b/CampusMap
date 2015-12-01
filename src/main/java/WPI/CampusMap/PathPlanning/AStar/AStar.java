@@ -124,6 +124,7 @@ public class AStar {
 		// Instantiate path
 		Path returnPath = new Path();
 
+		System.out.println("Start == null" + (start == null));
 		Node tempNode = new Node(start, null);
 //		tempNode.setHeuristic(tempNode.calcHeuristic(goal));
 		ConnectionPoint tempConn = new ConnectionPoint(null, null, null, null, null, null);
@@ -213,8 +214,8 @@ public class AStar {
 		System.out.println("HERE");
 		System.out.println("Frontier itself null " + (frontier == null));
 		System.out.println("Frontier .find null " + (frontier.find(new Node(goal, null)) == null));
-		System.out.println("Temp node == null" + (tempNode == null));
-		System.out.println("tempNode.getPoint == null" + (tempNode.getPoint() == null));
+		System.out.println("Temp node == null " + (tempNode == null));
+		System.out.println("tempNode.getPoint == null " + (tempNode.getPoint() == null));
 		System.out.println("start== null" + (start == null));
 		System.out.println("tempNode.getPoint().equals(start)" + (tempNode.getPoint().equals(start)));
 		while ((tempNode != null) && (!(tempNode.getPoint().equals(start)))) {
