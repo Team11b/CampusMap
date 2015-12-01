@@ -82,19 +82,17 @@ public class ConnectionPoint extends Point {
 	 * @return The new connection Point
 	 */
 	@Override
-	public Point switchPointConnectionType(){
-		 return switchPointConnectionType("","");
+	public ConnectionPoint getConnectionPoint(){
+		 return this;
 	}
 	
 	/**
 	 * Converts this connection point
 	 * 
-	 * @param linkedMap Map to link the new connection point to.
-	 * @param linkedPoint Point to link the new connection point to.
 	 * @return The new connection point
 	 */
 	@Override
-	public Point switchPointConnectionType(String linkedMap, String linkedPoint){
+	public Point getNormalPoint(){
 		Point temp = new Point(this.getCoord(), this.getType(), this.getId(), this.getMap());
 		for(Point point: this.getNeighborsP()){
 			temp.addNeighbor(point);
