@@ -19,8 +19,7 @@ public class Serializer {
 
 	public static boolean write(Map amap) {
 		try {
-			FileOutputStream fileOut = new FileOutputStream(
-					Serializer.folder + amap.getName() + Serializer.fileType);
+			FileOutputStream fileOut = new FileOutputStream(Serializer.folder + amap.getName() + Serializer.fileType);
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 
 			out.writeObject(amap);

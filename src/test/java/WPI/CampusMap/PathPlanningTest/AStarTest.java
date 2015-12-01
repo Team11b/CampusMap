@@ -331,7 +331,6 @@ public class AStarTest {
 		assertEquals(pathNodes.get(6).getPoint().getId(), "12");
 	}
 
-	@Ignore
 	@Test
 	public void testAStar4to11() {
 		Point start, goal;
@@ -352,7 +351,6 @@ public class AStarTest {
 		assertEquals(pathNodes.get(7).getPoint().getId(), "11");
 	}
 
-	@Ignore
 	@Test
 	public void testAStar4to12_2() {
 		Point start, goal;
@@ -372,7 +370,6 @@ public class AStarTest {
 		assertEquals(pathNodes.get(6).getPoint().getId(), "12");
 	}
 
-	@Ignore
 	@Test
 	public void testConnected() {
 		Map.addMap(testMap5);
