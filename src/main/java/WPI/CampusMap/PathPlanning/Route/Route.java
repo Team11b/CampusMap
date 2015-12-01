@@ -76,8 +76,8 @@ public class Route {
 			// System.out.printf("Angle Before: %f, Angle After: %f \n",
 			// angleBefore, angleAfter);
 
-			route += p.getPath().get(i - 1).getPoint().getCoord().toString() + " to "
-					+ p.getPath().get(i).getPoint().getCoord().toString() + "";
+			route += p.getPath().get(i).getPoint().getCoord().toString() + " to "
+					+ p.getPath().get(i+1).getPoint().getCoord().toString() + "";
 
 			int quad1 = (int) (((angleBefore < 0 ? 360 : 0) + angleBefore) / 90 + 1);
 			int quad2 = (int) (((angleAfter < 0 ? 360 : 0) + angleAfter) / 90 + 1);

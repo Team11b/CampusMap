@@ -74,6 +74,7 @@ public class Path {
 	 * @return abridged list of Nodes
 	 */
 	public Path getTurns() {
+//		System.out.println("Before Abridging: " + path.size());
 		ArrayList<Node> temp = new ArrayList<Node>();
 		Node first = path.get(0);
 		Node last = path.get(path.size() - 1);
@@ -100,6 +101,8 @@ public class Path {
 
 		}
 		temp.add(last);
+
+//		System.out.println("After Abridging: " + temp.size());
 		return new Path(temp, this.mapName, this.pathScale);
 	}
 
@@ -136,8 +139,14 @@ public class Path {
 	 * @return Returns true if it's horizontal aligned otherwise false
 	 */
 	public boolean checkHorizontal(Point before, Point current, Point after) {
+//		System.out.println("Before: "+before+", Current: " + current +" After: "+after);
 		float dif1 = Math.abs(current.getCoord().getY() - before.getCoord().getY());
 		float dif2 = Math.abs(current.getCoord().getY() - after.getCoord().getY());
+//		System.out.println(before.getCoord());
+//		System.out.println(current.getCoord());
+//		System.out.println(after.getCoord());
+//		System.out.println("dif1: "+dif1+", dif2: " + dif2);
+//		System.out.println();
 		if (dif1 <= pathtolarence && dif2 <= pathtolarence) {
 			return true;
 		}
