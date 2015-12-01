@@ -151,23 +151,21 @@ public class Point implements java.io.Serializable {
 	}
 	
 	/**
-	 * Converts this point to a connection Point
+	 * Returns the normal point version
 	 * 
-	 * @return The new connection Point
+	 * @return The current Point
 	 */
-	public Point switchPointConnectionType(){
-		 return switchPointConnectionType("","");
+	public Point getNormalPoint(){
+		 return this;
 	}
 	
 	/**
 	 * Converts this point to a connection Point and links the new connection point to the specified map and point
 	 * 
-	 * @param linkedMap Map to link the new connection point to.
-	 * @param linkedPoint Point to link the new connection point to.
 	 * @return The new connection point
 	 */
-	public Point switchPointConnectionType(String linkedMap, String linkedPoint){
-		ConnectionPoint temp = new ConnectionPoint(this.getCoord(), this.getType(), this.getId(), this.getMap(), linkedMap, linkedPoint);
+	public ConnectionPoint getConnectionPoint(){
+		ConnectionPoint temp = new ConnectionPoint(this.getCoord(), this.getType(), this.getId(), this.getMap(), "", "");
 		for(Point point: this.getNeighborsP()){
 			temp.addNeighbor(point);
 		}
