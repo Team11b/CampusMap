@@ -20,8 +20,8 @@ import WPI.CampusMap.XML.XML;
 public class Converter {
 	public static String[] ignore = { "5x5Test.xml", "5x5Test2.xml", "AK.xml", "borked.xml", "testOutput.xml",
 			"borked.xml" };
-	public static String[] allow = { "5x5Test.ser", "5x5Test2.ser", "5x5TestCopy.ser" };
-	public static String[] allowXML = { "5x5Test.xml", "5x5Test2.xml", "5x5TestCopy.xml" };
+	public static String[] allow = { "5x5Test.ser", "5x5Test2.ser", "5x5TestCopy.ser" , "Atwater_Kent-0.ser"};
+	public static String[] allowXML = { "5x5Test.xml", "5x5Test2.xml", "5x5TestCopy.xml" , "Atwater_Kent-0.xml"};
 
 	public static String[] getFileNames() {
 		File folder = new File("XML/");
@@ -127,7 +127,7 @@ public class Converter {
 	}
 
 	public static void main(String[] args) {
+		Converter.connectionTestPrep();
 		Converter.addMapFromSer();
-//		Converter.connectionTestPrep();
 	}
 }
