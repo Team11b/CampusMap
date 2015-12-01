@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import WPI.CampusMap.Graphics.Dev.DevPointGraphicsObject;
+import WPI.CampusMap.Core.Ref;
 
 public abstract class GraphicsObject<R, M extends GraphicalMap>
 {
@@ -35,6 +36,9 @@ public abstract class GraphicsObject<R, M extends GraphicalMap>
 	protected void finalizeDelelte()
 	{
 		cleanedUp = true;
+		Ref ref = Ref.getRefTo(this);
+		if(ref != null)
+			ref.releaseAll();
 	}
 	
 	/**

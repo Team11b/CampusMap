@@ -37,6 +37,22 @@ public abstract class GraphicalMap
 		this.spawnMap(map);
 	}
 	
+	public void setPanel(MapPanel panel)
+	{
+		this.panel = panel;
+	}
+	
+	public MapPanel getPanel()
+	{
+		return this.panel;
+	}
+	
+	public GraphicsObject<?, ?>[] getObjects()
+	{
+		GraphicsObject<?, ?>[] objs = new GraphicsObject<?, ?>[batchList.size()];
+		return batchList.toArray(objs);
+	}
+	
 	public final void onDraw(Graphics2D graphics)
 	{
 		graphics.clearRect(0, 0, panel.getWidth(), panel.getWidth());
@@ -87,6 +103,11 @@ public abstract class GraphicalMap
 	 * @param map The map to read in.
 	 */
 	public abstract void spawnMap(Map map);
+	
+	public void unload()
+	{
+		
+	}
 	
 	/**
 	 * Called when the mouse moves over the graphics map.

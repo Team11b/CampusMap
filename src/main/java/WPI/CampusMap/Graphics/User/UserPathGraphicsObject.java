@@ -3,6 +3,7 @@ package WPI.CampusMap.Graphics.User;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
+import java.util.LinkedList;
 
 import WPI.CampusMap.Backend.Coord;
 import WPI.CampusMap.Backend.Point;
@@ -13,18 +14,29 @@ import WPI.CampusMap.PathPlanning.Path;
 
 public class UserPathGraphicsObject extends GraphicsObject<Path, UserGraphicalMap>
 {
+	private static LinkedList<UserPathGraphicsObject> pathObjects = new LinkedList<>();
+	
+	public static void deleteAll()
+	{
+		for(UserPathGraphicsObject path : pathObjects)
+		{
+			path.delete();
+		}
+		
+		pathObjects.clear();
+	}
+	
 	private Path backendPath;
 	
 	public UserPathGraphicsObject(Path path, UserGraphicalMap owner)
 	{
 		super(owner);
 		this.backendPath = path;
-		instance = this;
 	}
 
 	@Override
-	public int getDrawBatch() {
-		// TODO Auto-generated method stub
+	public int getDrawBatch() 
+	{
 		return 1;
 	}
 
@@ -92,8 +104,6 @@ public class UserPathGraphicsObject extends GraphicsObject<Path, UserGraphicalMa
 	@Override
 	public Path getRepresentedObject() 
 	{
-		return instance == this ? backendPath : null;
+		return backendPath;
 	}
-	
-	private static UserPathGraphicsObject instance;
 }

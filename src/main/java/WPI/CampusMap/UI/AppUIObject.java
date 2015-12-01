@@ -33,12 +33,20 @@ import WPI.CampusMap.Backend.Point;
 import WPI.CampusMap.Dev.EditorToolMode;
 import WPI.CampusMap.Graphics.Dev.DevPointGraphicsObject;
 import WPI.CampusMap.Graphics.User.UserPointGraphicsObject;
-
+import WPI.CampusMap.PathPlanning.MultiPath;
 import WPI.CampusMap.PathPlanning.Path;
 import WPI.CampusMap.Serialization.Serializer;
 
 public class AppUIObject {
+	private static AppUIObject instance;
+	
+	public static AppUIObject getInstance()
+	{
+		return instance;
+	}
+	
 	protected boolean devMode = false;
+	private MultiPath lastRoutedPath;
 
 	// UI Elements
 	private final JFrame frame = new JFrame("Path Finder");
@@ -156,6 +164,16 @@ public class AppUIObject {
 	    // mapDropDown.setSelectedIndex(oldIndex);
 	    System.out.println("old index is " + oldIndex);
 	}
+	
+	public void onPointAddedToRoute(Point newPoint)
+	{
+		btnGetDirections.setEnabled(true);
+	}
+	
+	public void onRouteCleared()
+	{
+		btnGetDirections.setEnabled(false);
+	}
 
 	/**
 	 * Presents a view that allows the user to enter an email address and send
@@ -201,8 +219,7 @@ public class AppUIObject {
 				System.out.println("Send an Email!");
 				break;
 			case "Route me":
-				Path path = mapPanel.currentMap.astar(UserPointGraphicsObject.getStartPoint().getRepresentedObject(), UserPointGraphicsObject.getEndPoint().getRepresentedObject());
-				
+				UserPointGraphicsObject.route();
 				break;
 			case "Print":
 				printDirections();
@@ -268,6 +285,8 @@ public class AppUIObject {
 
 	public AppUIObject() {
 
+		instance = this;
+		
 		// debug statements
 		System.out.println(System.getProperty("user.dir"));
 
@@ -644,6 +663,16 @@ public class AppUIObject {
 			typeSelector.setSelectedItem(mapPanel.selectedPoint.getType());
 		}
 	}*/
+	
+	public MultiPath getLastRoute()
+	{
+		return lastRoutedPath;
+	}
+	
+	public void clearLastRoute()
+	{
+		lastRoutedPath = null;
+	}
 	
 	private void onEnterDevMode()
 	{
