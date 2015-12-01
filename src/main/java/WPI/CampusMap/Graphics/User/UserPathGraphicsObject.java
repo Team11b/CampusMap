@@ -1,5 +1,6 @@
 package WPI.CampusMap.Graphics.User;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.util.ArrayList;
@@ -7,6 +8,7 @@ import java.util.LinkedList;
 
 import WPI.CampusMap.Backend.Coord;
 import WPI.CampusMap.Backend.Point;
+import WPI.CampusMap.Core.TypedRef;
 import WPI.CampusMap.Graphics.GraphicsObject;
 import WPI.CampusMap.Graphics.RealMouseEvent;
 import WPI.CampusMap.PathPlanning.Node;
@@ -14,13 +16,14 @@ import WPI.CampusMap.PathPlanning.Path;
 
 public class UserPathGraphicsObject extends GraphicsObject<Path, UserGraphicalMap>
 {
-	private static LinkedList<UserPathGraphicsObject> pathObjects = new LinkedList<>();
+	private static LinkedList<TypedRef<UserPathGraphicsObject>> pathObjects = new LinkedList<>();
 	
 	public static void deleteAll()
 	{
-		for(UserPathGraphicsObject path : pathObjects)
+		for(TypedRef<UserPathGraphicsObject> path : pathObjects)
 		{
-			path.delete();
+			path.getValue().delete();
+			path.release();
 		}
 		
 		pathObjects.clear();
@@ -32,6 +35,7 @@ public class UserPathGraphicsObject extends GraphicsObject<Path, UserGraphicalMa
 	{
 		super(owner);
 		this.backendPath = path;
+		pathObjects.add(new TypedRef<UserPathGraphicsObject>(this));
 	}
 
 	@Override
@@ -43,6 +47,8 @@ public class UserPathGraphicsObject extends GraphicsObject<Path, UserGraphicalMa
 	@Override
 	public void onDraw(Graphics2D graphics)
 	{
+		graphics.setStroke(new BasicStroke(3.0f));
+		
 		ArrayList<Node> nodes = backendPath.getPath();
 		for(int i = 1; i < nodes.size(); i++)
 		{
@@ -57,6 +63,8 @@ public class UserPathGraphicsObject extends GraphicsObject<Path, UserGraphicalMa
 			
 			graphics.drawLine((int)screenA.getX(), (int)screenA.getY(), (int)screenB.getX(), (int)screenB.getY());
 		}
+		
+		graphics.setStroke(new BasicStroke(1.0f));
 	}
 	
 	@Override
