@@ -167,8 +167,10 @@ public class Point implements java.io.Serializable {
 	public ConnectionPoint getConnectionPoint(){
 		ConnectionPoint temp = new ConnectionPoint(this.getCoord(), this.getType(), this.getId(), this.getMap(), "", "");
 		for(Point point: this.getNeighborsP()){
-			System.out.println(point);
+			//System.out.println("Point neighbor: " + point);
 			temp.addNeighbor(point);
+			point.removeNeighbor(this);
+			point.addNeighbor(temp);
 		}
 		 return temp;
 	}

@@ -153,7 +153,7 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 			
 			if(getOwner().getUI().getTypeSelector() != "hallway"){
 				//Is a connecting node.
-				System.out.println("IS A CONNECTING NODE");
+				System.out.println("IS A CONNECTING NODE!");
 				ConnectionPoint connectionPoint = selectedPoint.getConnectionPoint();
 				getOwner().getUI().setMapConnectionTextFieldEditable(true);
 				getOwner().getUI().setMapConnectionTextFieldEditable(true);
