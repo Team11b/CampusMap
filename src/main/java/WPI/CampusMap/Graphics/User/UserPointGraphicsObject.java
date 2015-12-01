@@ -47,10 +47,11 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 		System.out.println("Index is "+ index);
 		
 		//get the graphical object and change color
-		UserPointGraphicsObject point = selectedRoute.get(index).getValue();
-		point.selectedToRoute = false;
+		TypedRef<UserPointGraphicsObject> point = selectedRoute.get(index);
+		point.getValue().selectedToRoute = false;
 		
 		//remove from Route
+		point.release();
 		selectedRoute.remove(index);
 	}
 	
@@ -84,8 +85,6 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 			ref.getValue().selectedToRoute = false;
 			ref.release();
 		}
-		
-		UserPathGraphicsObject.deleteAll();
 		
 		selectedRoute.clear();
 		
