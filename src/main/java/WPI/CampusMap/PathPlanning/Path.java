@@ -162,54 +162,6 @@ public class Path {
 	}
 
 	/**
-	 * Converts path into textual expression
-	 * 
-	 * @param path
-	 *            Path which needs to be converted
-	 * @return String which contains turns and distances
-	 */
-	public String getAndDisplayDirections(Path path) {
-		String route = "Start: " + path.getPath().get(0).getPoint().getCoord().toString() + "\n";
-		route += "Face " + path.getPath().get(0).getPoint().getId() + " and walk "
-				+ path.getPath().get(0).getPoint().distance(path.getPath().get(1).getPoint()) + "feet.\n";
-		for (int i = 1; i < path.getPath().size() - 1; i++) {
-			String turn = "";
-			String direction = "";
-			float dist = (float) path.getPath().get(i).getPoint().distance(path.getPath().get(i - 1).getPoint());
-
-			float angleBefore = path.getAngle(path.getPath().get(i - 1).getPoint(), path.getPath().get(i).getPoint());
-			float angleAfter = path.getAngle(path.getPath().get(i).getPoint(), path.getPath().get(i + 1).getPoint());
-			// System.out.printf("Angle Before: %f, Angle After: %f \n",
-			// angleBefore, angleAfter);
-
-			route += path.getPath().get(i - 1).getPoint().getCoord().toString() + " to "
-					+ path.getPath().get(i).getPoint().getCoord().toString() + "";
-
-			int quad1 = (int) (((angleBefore < 0 ? 360 : 0) + angleBefore) / 90 + 1);
-			int quad2 = (int) (((angleAfter < 0 ? 360 : 0) + angleAfter) / 90 + 1);
-			// System.out.printf("Quad Before: %d, Quad After: %d \n", quad1,
-			// quad2);
-			if (quad1 == quad2)
-				if (angleAfter > angleBefore)
-					turn = "left";
-				else
-					turn = "right";
-			else if (quad2 == (quad1 + 1) % 4)
-				turn = "left";
-			else
-				turn = "right";
-			if (Math.abs(angleBefore - angleAfter) < 45) {
-				direction = "slightly ";
-			} else {
-				direction = "";
-			}
-			route += "Turn " + direction + turn + " and walk " + dist + " feet.\n";
-		}
-		route += "You are now at your destination.";
-		return route;
-	}
-
-	/**
 	 * Calculates the angle between to points
 	 * 
 	 * @param point1
