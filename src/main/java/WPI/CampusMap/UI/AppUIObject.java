@@ -457,6 +457,10 @@ public class AppUIObject {
 					frame.setTitle("Path Finder");
 					btnDevMode.setText("Dev Mode");
 					currentDevMode = DevMode.none;
+					connectingMapTextField.setVisible(false);
+					connectingPointTextField.setVisible(false);
+					lblConnectingMap.setVisible(false);
+					lblConnectingPoint.setVisible(false);
 					lblNodeId.setVisible(false);
 					lblNodeType.setVisible(false);
 					nodeTextField.setVisible(false);
@@ -497,6 +501,10 @@ public class AppUIObject {
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(String.valueOf(txtDevPass.getPassword()).equals("0011")){
+					connectingMapTextField.setVisible(true);
+					connectingPointTextField.setVisible(true);
+					lblConnectingMap.setVisible(true);
+					lblConnectingPoint.setVisible(true);
 					btnSubmit.setVisible(false);
 					txtDevPass.setVisible(false);
 					txtDirections.setVisible(false);
@@ -659,6 +667,11 @@ public class AppUIObject {
 		/*if(typeSelector.getSelectedIndex() == -1){
 			typeSelector.setSelectedIndex(0);
 		}*/
+		
+		connectingMapTextField.setVisible(false);
+		connectingPointTextField.setVisible(false);
+		lblConnectingMap.setVisible(false);
+		lblConnectingPoint.setVisible(false);
 		
 		txtScale = new JTextField();
 		txtScale.setBounds(37, 0, 130, 19);
