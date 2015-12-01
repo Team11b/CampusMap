@@ -94,8 +94,11 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 			delete();
 			break;
 		case None:
+			Point selectedPoint = DevPointGraphicsObject.getSelected().getRepresentedObject();	
 			getOwner().getUI().setTypeSelectorEditable(true);
 			getOwner().getUI().setNodeTextFieldEditable(true);
+			getOwner().getUI().setMapConnectorText(selectedPoint.getConnectionPoint().getLinkedMap());
+			getOwner().getUI().setPointConnectorText(selectedPoint.getConnectionPoint().getLinkedPoint());
 		case Point:
 			selected = this;
 			onSelected();
