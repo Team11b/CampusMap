@@ -78,9 +78,13 @@ public abstract class PointGraphicsObject<M extends GraphicalMap> extends Graphi
 	}
 
 	@Override
-	public Point getRepresentedObject() {
-		// TODO Auto-generated method stub
+	public Point getRepresentedObject() 
+	{
 		return backendPoint;
 	}
-
+	
+	@Override
+	protected void setRepresentedObject(Point object) {
+		backendPoint = object;
+	}
 }

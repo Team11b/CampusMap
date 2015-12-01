@@ -106,4 +106,9 @@ public class UserPathGraphicsObject extends GraphicsObject<Path, UserGraphicalMa
 	{
 		return backendPath;
 	}
+
+	@Override
+	protected void setRepresentedObject(Path object) {
+		backendPath = object;
+	}
 }

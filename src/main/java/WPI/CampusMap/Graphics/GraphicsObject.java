@@ -117,4 +117,6 @@ public abstract class GraphicsObject<R, M extends GraphicalMap>
 	 * @return The object that this graphics object represents. If null then this graphics object will be deleted.
 	 */
 	public abstract R getRepresentedObject();
+	
+	protected abstract void setRepresentedObject(R object);
 }

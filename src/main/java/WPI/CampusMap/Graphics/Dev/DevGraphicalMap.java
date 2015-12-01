@@ -65,10 +65,10 @@ public class DevGraphicalMap extends GraphicalMap
 		} else if (getHoverObject() == null) {
 			DevPointGraphicsObject.clearSelection();
 		} else if ((getHoverObject() != null) && (mode == EditorToolMode.None)) {
-
-			// Copy the textbook to the type
+			// Copy the textboxt to the type
 			if (DevPointGraphicsObject.getSelected() != null)
 				DevPointGraphicsObject.getSelected().updatePoint();
+			
 
 			// Update UI
 			DevPointGraphicsObject hoverObject = (DevPointGraphicsObject) getHoverObject();
@@ -77,9 +77,11 @@ public class DevGraphicalMap extends GraphicalMap
 			getUI().setNodeTextField(thePoint.getId());
 			if (getHoverObject().getRepresentedObject().getClass() == ConnectionPoint.class) {
 				System.out.println("Is a connection node");
-				ConnectionPoint theConnectionPoint = (ConnectionPoint) getHoverObject().getRepresentedObject();
+				DevPointGraphicsObject pointObject = (DevPointGraphicsObject) this.getHoverObject();
+				ConnectionPoint theConnectionPoint = (ConnectionPoint) pointObject.getRepresentedObject();
 				getUI().setPointConnectorText(theConnectionPoint.getLinkedMap());
 				getUI().setPointConnectorText(theConnectionPoint.getLinkedPoint());
+				System.out.println(theConnectionPoint.getId()+": "+theConnectionPoint.getLinkedMap());
 				getUI().setMapConnectionTextFieldEditable(true);
 				getUI().setPointConnectionTextFieldEditable(true);
 			} else {
@@ -117,6 +119,13 @@ public class DevGraphicalMap extends GraphicalMap
 			default:
 				System.out.println("Type is invalid");
 				break;
+			}
+			
+			if(!thePoint.getType().equals(Point.HALLWAY)){
+				ConnectionPoint cPoint = thePoint.getConnectionPoint();
+				System.out.println("Here: "+cPoint.getLinkedMap()+", "+cPoint.getLinkedPoint());
+				getUI().setMapConnectorText(cPoint.getLinkedMap());
+				getUI().setPointConnectorText(cPoint.getLinkedPoint());
 			}
 
 		}

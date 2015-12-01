@@ -12,7 +12,7 @@ import WPI.CampusMap.Dev.EditorToolMode;
 import WPI.CampusMap.Graphics.*;
 
 /**
- * A visual representation of an edge between two points.
+ * A visual representation of an edge between two s.
  * @author Benny
  *
  */
@@ -27,8 +27,8 @@ public class DevEdgeGraphicsObject extends GraphicsObject<UnorderedPair<Point, P
 	
 	/**
 	 * Creates a unique edge on the current map.
-	 * @param p1 The first point to create an edge between.
-	 * @param p2 The second point to create an edge between.
+	 * @param p1 The first  to create an edge between.
+	 * @param p2 The second  to create an edge between.
 	 * @param owner The graphical map owner.
 	 * @return The graphical edge that was either created or already exist.
 	 */
@@ -150,5 +150,10 @@ public class DevEdgeGraphicsObject extends GraphicsObject<UnorderedPair<Point, P
 	public UnorderedPair<Point, Point> getRepresentedObject()
 	{
 		return edge;
+	}
+
+	@Override
+	protected void setRepresentedObject(UnorderedPair<Point, Point> object) {
+		edge = object;
 	}
 }
