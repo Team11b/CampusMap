@@ -13,7 +13,7 @@ public class Instruction {
 	private Node start;
 	private String map;
 	private int index;
-	
+
 	public Instruction(String instruction, double distance, Node start, int index) {
 		this.instruction = instruction;
 		this.distance = distance;
@@ -61,7 +61,9 @@ public class Instruction {
 	public void setIndex(int index) {
 		this.index = index;
 	}
-
 	
+	public String toString() {
+		return this.instruction;
+	}
 
 }

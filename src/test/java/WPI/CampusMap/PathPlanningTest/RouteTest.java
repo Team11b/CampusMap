@@ -16,17 +16,15 @@ import WPI.CampusMap.Backend.Map;
 import WPI.CampusMap.Backend.Point;
 import WPI.CampusMap.PathPlanning.MultiPath;
 import WPI.CampusMap.PathPlanning.Node;
-import WPI.CampusMap.PathPlanning.Path;
 import WPI.CampusMap.PathPlanning.AStar.AStar;
+import WPI.CampusMap.PathPlanning.Route.Route;
 import WPI.CampusMap.Serialization.Serializer;
 
-public class AStarTest {
-	static Map testMap, testMap2, testMap5, testMap6;
+public class RouteTest {
+	static Map testMap5, testMap6;
 
 	@BeforeClass
 	public static void getMap() throws XMLStreamException {
-		testMap = Serializer.read("5x5Test");
-		testMap2 = Serializer.read("5x5Test2");
 
 		setupMaps();
 	}
@@ -313,63 +311,6 @@ public class AStarTest {
 	}
 
 	@Test
-	public void testAStar4to12() {
-		Point start, goal;
-		start = testMap.getPoint("4");
-		goal = testMap.getPoint("12");
-
-		Path path = AStar.multi_AStar(start, goal).get(0);
-		ArrayList<Node> pathNodes = path.getPath();
-		assertEquals(7, path.getPath().size());
-		assertEquals(pathNodes.get(0).getPoint().getId(), "4");
-		assertEquals(pathNodes.get(1).getPoint().getId(), "9");
-		assertEquals(pathNodes.get(2).getPoint().getId(), "14");
-		assertEquals(pathNodes.get(3).getPoint().getId(), "19");
-		assertEquals(pathNodes.get(4).getPoint().getId(), "18");
-		assertEquals(pathNodes.get(5).getPoint().getId(), "17");
-		assertEquals(pathNodes.get(6).getPoint().getId(), "12");
-	}
-
-	@Test
-	public void testAStar4to11() {
-		Point start, goal;
-		start = testMap.getPoint("4");
-		goal = testMap.getPoint("11");
-
-		Path path = AStar.multi_AStar(start, goal).get(0);
-		ArrayList<Node> pathNodes = path.getPath();
-
-		assertEquals(path.getPath().size(), 8);
-		assertEquals(pathNodes.get(0).getPoint().getId(), "4");
-		assertEquals(pathNodes.get(1).getPoint().getId(), "3");
-		assertEquals(pathNodes.get(2).getPoint().getId(), "2");
-		assertEquals(pathNodes.get(3).getPoint().getId(), "1");
-		assertEquals(pathNodes.get(4).getPoint().getId(), "0");
-		assertEquals(pathNodes.get(5).getPoint().getId(), "5");
-		assertEquals(pathNodes.get(6).getPoint().getId(), "10");
-		assertEquals(pathNodes.get(7).getPoint().getId(), "11");
-	}
-
-	@Test
-	public void testAStar4to12_2() {
-		Point start, goal;
-		start = testMap2.getPoint("4");
-		goal = testMap2.getPoint("12");
-
-		Path path = AStar.multi_AStar(start, goal).get(0);
-		ArrayList<Node> pathNodes = path.getPath();
-
-		assertEquals(path.getPath().size(), 7);
-		assertEquals(pathNodes.get(0).getPoint().getId(), "4");
-		assertEquals(pathNodes.get(1).getPoint().getId(), "9");
-		assertEquals(pathNodes.get(2).getPoint().getId(), "14");
-		assertEquals(pathNodes.get(3).getPoint().getId(), "19");
-		assertEquals(pathNodes.get(4).getPoint().getId(), "18");
-		assertEquals(pathNodes.get(5).getPoint().getId(), "17");
-		assertEquals(pathNodes.get(6).getPoint().getId(), "12");
-	}
-
-	@Test
 	public void testConnected() {
 		Map.addMap(testMap5);
 		Point start, goal;
@@ -392,7 +333,9 @@ public class AStarTest {
 		assertEquals(pathNodes.get(2).getPoint().getId(), "8");
 		assertEquals(pathNodes.get(3).getPoint().getId(), "7");
 		assertEquals(pathNodes.get(4).getPoint().getId(), "12");
-
+		
+		Route ar = new Route(grandPath);
+		System.out.println(ar);
 	}
 
 }
