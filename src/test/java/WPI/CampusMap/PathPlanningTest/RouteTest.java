@@ -35,7 +35,7 @@ public class RouteTest {
 		b = "MapB";
 
 		testMap5 = new Map();
-		testMap5.setScale(100);
+		testMap5.setScale(1);
 		testMap5.setName(a);
 
 		Point zero = new Point(new Coord(0, 0), null, "0", a);

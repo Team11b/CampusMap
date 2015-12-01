@@ -14,8 +14,8 @@ import WPI.CampusMap.Backend.Point;
  */
 public class Path {
 
-	private float pathtolarence;
-	private float pathtolarenceMultiplier = (float) (0.2);
+	public float pathtolarence;
+	public static float pathtolarenceMultiplier = (float) (0.2);
 	private ArrayList<Node> path;
 	private String mapName;
 	private float pathScale;
@@ -38,6 +38,14 @@ public class Path {
 	 */
 	public Path() {
 		this.path = new ArrayList<Node>();
+	}
+
+	public float getPathScale() {
+		return pathScale;
+	}
+
+	public void setPathScale(float pathScale) {
+		this.pathScale = pathScale;
 	}
 
 	public String getMapName() {
@@ -74,19 +82,19 @@ public class Path {
 		for (int i = 1; i < path.size() - 1; i++) {
 			// check if next point is on the same level as i - 1 and i + 1
 			if (checkHorizontal(path.get(i - 1).getPoint(), path.get(i).getPoint(), path.get(i + 1).getPoint())) {
-				// System.out.println("Abridge one node horizontal");
+				 System.out.println("Abridge one node horizontal");
 				continue;
 				// check if next point is on the same level as i - 1 and i +
 				// 1
 			} else if (checkVertical(path.get(i - 1).getPoint(), path.get(i).getPoint(), path.get(i + 1).getPoint())) {
-				// System.out.println("Abridge one node vertical");
+				 System.out.println("Abridge one node vertical");
 				continue;
 			} else {
 
-				if (checkDiagonal(path.get(i - 1).getPoint(), path.get(i).getPoint(), path.get(i + 1).getPoint())) {
-					// System.out.println("Abridge one node diagonal");
-					continue;
-				}
+//				if (checkDiagonal(path.get(i - 1).getPoint(), path.get(i).getPoint(), path.get(i + 1).getPoint())) {
+//					// System.out.println("Abridge one node diagonal");
+//					continue;
+//				}
 			}
 			temp.add(path.get(i));
 
