@@ -257,53 +257,49 @@ public class AppUIObject {
 				break;
 			case "Place Mode":
 				clearNodeInfo();
-				if(mapPanel.getDevMode() != EditorToolMode.Point){
+				if (mapPanel.getDevMode() != EditorToolMode.Point) {
 					mapPanel.setDevMode(EditorToolMode.Point);
+				} else {
+					mapPanel.setDevMode(EditorToolMode.None);
 				}
-				else{
-				mapPanel.setDevMode(EditorToolMode.None);				
-				}
-			
+
 				btnDelNode.setSelected(false);
 				btnRemoveEdge.setSelected(false);
 				btnEdgeMode.setSelected(false);
-				
+
 				break;
 			case "Delete Mode":
 				clearNodeInfo();
-				if(mapPanel.getDevMode() != EditorToolMode.DeletePoint){
-				mapPanel.setDevMode(EditorToolMode.DeletePoint);
+				if (mapPanel.getDevMode() != EditorToolMode.DeletePoint) {
+					mapPanel.setDevMode(EditorToolMode.DeletePoint);
+				} else {
+					mapPanel.setDevMode(EditorToolMode.None);
 				}
-				else{
-				mapPanel.setDevMode(EditorToolMode.None);	
-				}
-				
+
 				btnNode.setSelected(false);
 				btnRemoveEdge.setSelected(false);
 				btnEdgeMode.setSelected(false);
 				break;
 			case "Edge Mode":
 				clearNodeInfo();
-				if(mapPanel.getDevMode() != EditorToolMode.Edge){
-				mapPanel.setDevMode(EditorToolMode.Edge);
+				if (mapPanel.getDevMode() != EditorToolMode.Edge) {
+					mapPanel.setDevMode(EditorToolMode.Edge);
+				} else {
+					mapPanel.setDevMode(EditorToolMode.None);
 				}
-				else{
-				mapPanel.setDevMode(EditorToolMode.None);
-				}
-				
+
 				btnNode.setSelected(false);
 				btnDelNode.setSelected(false);
 				btnRemoveEdge.setSelected(false);
 				break;
 			case "Remove Edge":
 				clearNodeInfo();
-				if(mapPanel.getDevMode() != EditorToolMode.DeleteEdge){
-				mapPanel.setDevMode(EditorToolMode.DeleteEdge);
+				if (mapPanel.getDevMode() != EditorToolMode.DeleteEdge) {
+					mapPanel.setDevMode(EditorToolMode.DeleteEdge);
+				} else {
+					mapPanel.setDevMode(EditorToolMode.None);
 				}
-				else{
-				mapPanel.setDevMode(EditorToolMode.None);
-				}
-				
+
 				btnNode.setSelected(false);
 				btnDelNode.setSelected(false);
 				btnEdgeMode.setSelected(false);
