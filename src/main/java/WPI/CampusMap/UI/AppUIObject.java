@@ -411,6 +411,8 @@ public class AppUIObject {
 					btnSubmit.setVisible(false);
 					btnUseWeather.setVisible(true);
 					txtDirections.setText("");
+					txtStart.setText("");
+					txtEnd.setText("");
 					onEnterUserMode();
 				}
 
