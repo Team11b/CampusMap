@@ -6,63 +6,50 @@ import java.util.Hashtable;
  * 
  * @author Benny
  */
-public class Ref
-{
+public class Ref {
 	private static Hashtable<Object, Integer> counterTable;
-	
-	public static int getRefsTo(Object value)
-	{
+
+	public static int getRefsTo(Object value) {
 		return counterTable.get(value);
 	}
-	
+
 	private Object value;
-	
-	public Ref(Object value)
-	{
-		synchronized (value)
-		{
+
+	public Ref(Object value) {
+		synchronized (value) {
 			Integer count = counterTable.get(value);
-			if(count == null)
-			{
+			if (count == null) {
 				count = 1;
-			}
-			else
-			{
+			} else {
 				count++;
 			}
-			
+
 			counterTable.put(value, count);
 		}
-		
+
 		this.value = value;
 	}
-	
-	public void release()
-	{
-		if(value == null)
+
+	public void release() {
+		if (value == null)
 			return;
-		
-		synchronized (value)
-		{
+
+		synchronized (value) {
 			Integer count = counterTable.get(value);
-			if(count == null)
-			{
+			if (count == null) {
 				count = 0;
-			}
-			else
-			{
+			} else {
 				count--;
 			}
-			
+
 			counterTable.put(value, count);
 		}
-		
+
 		value = null;
 	}
-	
+
 	@Override
-	protected void finalize() throws Throwable
-	{
+	protected void finalize() throws Throwable {
 		release();
 	}
 }
