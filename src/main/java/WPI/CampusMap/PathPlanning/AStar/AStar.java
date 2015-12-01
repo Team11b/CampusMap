@@ -219,7 +219,7 @@ public class AStar {
 
 
 		returnPath.reverse();
-		System.out.println("Parse?");
+		System.out.println(returnPath.getPath().size());
 		return new MultiPath(returnPath);
 	}
 }
