@@ -18,11 +18,24 @@ import WPI.CampusMap.XML.XML;
  *
  */
 public class Converter {
-	public static String[] ignore = { "5x5Test.xml", "5x5Test2.xml", "AK.xml", "borked.xml", "testOutput.xml","borked.xml" };
-	public static String[] allow = { "5x5Test.xml" , "5x5Test2.xml" , "5x5TestCopy.xml"};
-	
+	public static String[] ignore = { "5x5Test.xml", "5x5Test2.xml", "AK.xml", "borked.xml", "testOutput.xml",
+			"borked.xml" };
+	public static String[] allow = { "5x5Test.ser", "5x5Test2.ser", "5x5TestCopy.ser" };
+
 	public static String[] getFileNames() {
 		File folder = new File("XML/");
+		File[] listOfFiles = folder.listFiles();
+		String[] listOfNames = new String[listOfFiles.length];
+
+		for (int j = 0; j < listOfFiles.length; j++) {
+			listOfNames[j] = listOfFiles[j].getName();
+		}
+
+		return listOfNames;
+	}
+
+	public static String[] getSerNames() {
+		File folder = new File("serialized/");
 		File[] listOfFiles = folder.listFiles();
 		String[] listOfNames = new String[listOfFiles.length];
 
@@ -66,48 +79,38 @@ public class Converter {
 				temp.setXML("XML/" + files[j]);
 
 				try {
-					HashMap<String, Point> allPoints = XML.parseXML(temp);
-					HashMap<String, Point> anotherAllPoints = new HashMap<String, Point>();
-					
-					for (String s : allPoints.keySet()) {
-						Point tempPoint = allPoints.get(s);
-						tempPoint.setMap(files[j]);
-						anotherAllPoints.put(tempPoint.getId(), tempPoint);
-					}
-					
-					temp.setAllPoints(anotherAllPoints);
+					temp.setAllPoints(XML.parseXML(temp));
 				} catch (XMLStreamException e) {
 					e.printStackTrace();
 				}
 				HashMap<String, Point> holder = temp.getAllPoints();
 				String[] keys = holder.keySet().toArray(new String[holder.keySet().size()]);
-				
+
 				for (int i = 0; i < keys.length; i++) {
 					holder.get(keys[i]).setMap(temp.getName());
-					holder.put(keys[i], new Point(holder.get(keys[i]).getCoord(), null, holder.get(keys[i]).getId(), temp.getName()));
+					holder.put(keys[i], new Point(holder.get(keys[i]).getCoord(), null, holder.get(keys[i]).getId(),
+							temp.getName()));
 				}
 
 				if (temp.getName().equals("5x5Test")) {
 					ArrayList<String> neigh = holder.get(connKey).getNeighborsID();
 					ArrayList<Point> neighP = holder.get(connKey).getNeighborsP();
 					System.out.println("" + neigh.size() + neighP.size());
-					
-					
-					ConnectionPoint tempConnP =  new ConnectionPoint(holder.get(connKey).getCoord(), null, connKey,
+
+					ConnectionPoint tempConnP = new ConnectionPoint(holder.get(connKey).getCoord(), null, connKey,
 							temp.getName(), "5x5TextCopy", connKey);
-					
+
 					for (int k = 0; k < neigh.size(); k++) {
 						tempConnP.addNeighbor(neighP.get(k));
 					}
-				}
-				else {
+				} else {
 					ArrayList<String> neigh = holder.get(connKey).getNeighborsID();
 					ArrayList<Point> neighP = holder.get(connKey).getNeighborsP();
 					System.out.println("" + neigh.size() + neighP.size());
-					
-					ConnectionPoint tempConnP =  new ConnectionPoint(holder.get(connKey).getCoord(), null, connKey,
+
+					ConnectionPoint tempConnP = new ConnectionPoint(holder.get(connKey).getCoord(), null, connKey,
 							temp.getName(), "5x5Text", connKey);
-					
+
 					for (int k = 0; k < neigh.size(); k++) {
 						tempConnP.addNeighbor(neighP.get(k));
 					}
@@ -118,8 +121,42 @@ public class Converter {
 			}
 		}
 	}
+
+	public static void addMapFromSer() {
+		Map temp = new Map();
+		String[] files = Converter.getSerNames();
+
+		for (int j = 0; j < files.length; j++) {
+			String file = files[j].substring(0, files[j].length() - 4) + ".ser";
+			if (Converter.contains(file, Converter.allow)) {
+				temp = Serializer.read(files[j].substring(0, files[j].length() - 4));
+
+				HashMap<String, Point> allPoints = temp.getAllPoints();
+
+				for (String s : allPoints.keySet()) {
+					Point tempP = allPoints.get(s);
+					tempP.setMap(files[j].substring(0, files[j].length() - 4));
+					allPoints.put(tempP.getId(), tempP);
+				}
+				System.out.println(temp.getName());
+				temp.setAllPoints(allPoints);
+				Serializer.write(temp);
+			}
+		}
+		System.out.println("done");
+	}
 	
+	private static boolean contains(String find, String[] list) {
+		for (String s : list) {
+			if (s.equals(find)) {
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public static void main(String[] args) {
-		Converter.connectionTestPrep();
+		Converter.addMapFromSer();
+//		Converter.connectionTestPrep();
 	}
 }
