@@ -124,13 +124,15 @@ public class AStar {
 		// Instantiate path
 		Path returnPath = new Path();
 
-		System.out.println("Start == null" + (start == null));
+		System.out.println("Start == null " + (start == null));
 		Node tempNode = new Node(start, null);
 //		tempNode.setHeuristic(tempNode.calcHeuristic(goal));
 		ConnectionPoint tempConn = new ConnectionPoint(null, null, null, null, null, null);
 		ConnectionNode tempConNode = new ConnectionNode(null, null, false);
 
 		// add start to frontier as a Node
+		System.out.println("Temp node == null " + (tempNode == null));
+		System.out.println("tempNode.getPoint == null " + (tempNode.getPoint() == null));
 		frontier.add(tempNode);
 
 		while ((!frontier.isEmpty()) && (!(goalFound))) {
