@@ -349,11 +349,11 @@ public class AppUIObject {
 		directionsPanel.add(connectingMapTextField);
 		connectingMapTextField.setColumns(10);
 		
-		JLabel lblConnectingPoint = new JLabel("Connecting Point:");
+		final JLabel lblConnectingPoint = new JLabel("Connecting Point:");
 		lblConnectingPoint.setBounds(26, 287, 117, 16);
 		directionsPanel.add(lblConnectingPoint);
 		
-		JLabel lblConnectingMap = new JLabel("Connecting Map:");
+		final JLabel lblConnectingMap = new JLabel("Connecting Map:");
 		lblConnectingMap.setBounds(24, 259, 108, 16);
 		directionsPanel.add(lblConnectingMap);
 
@@ -431,11 +431,11 @@ public class AppUIObject {
 		txtDirections.setBounds(0, 270, 220, 350);
 		directionsPanel.add(txtDirections);
 		
-		JButton btnAddDest = new JButton("+ Dest");
+		final JButton btnAddDest = new JButton("+ Dest");
 		btnAddDest.setBounds(0, 76, 117, 25);
 		directionsPanel.add(btnAddDest);
 		
-		JButton btnRemoveDest = new JButton("- Dest");
+		final JButton btnRemoveDest = new JButton("- Dest");
 		btnRemoveDest.setBounds(118, 76, 117, 25);
 		directionsPanel.add(btnRemoveDest);
 		
