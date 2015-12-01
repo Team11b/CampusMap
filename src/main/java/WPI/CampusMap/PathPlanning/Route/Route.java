@@ -3,8 +3,6 @@ package WPI.CampusMap.PathPlanning.Route;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
-import WPI.CampusMap.Backend.Coord;
-import WPI.CampusMap.Backend.Point;
 import WPI.CampusMap.PathPlanning.MultiPath;
 import WPI.CampusMap.PathPlanning.Node;
 import WPI.CampusMap.PathPlanning.Path;
@@ -56,12 +54,13 @@ public class Route {
 		}
 	}
 
-	public static LinkedList<Instruction> parse(Path p, int offset) {
+	public static LinkedList<Instruction> parse(Path origP, int offset) {
+		Path p = origP.getTurns();
 		LinkedList<Instruction> list = new LinkedList<Instruction>();
 		Instruction latest = null;
 
 		String route = "Start: " + p.getPath().get(0).getPoint().getCoord().toString() + "\n";
-		route += "Face " + p.getPath().get(0).getPoint().getId() + " and walk "
+		route += "Face " + p.getPath().get(1).getPoint().getId() + " and walk "
 				+ p.getPath().get(0).getPoint().distance(p.getPath().get(1).getPoint()) + "feet.\n";
 		latest = new Instruction(route, 0, p.getPath().get(0), offset);
 		list.add(latest);
@@ -104,127 +103,13 @@ public class Route {
 			list.add(latest);
 			route = "";
 		}
+		
+		ArrayList<Node> nodes = p.getPath();
+		route = "Face " + nodes.get(nodes.size() - 1).getPoint().getId() + " and walk ";
+		route += Math.abs(nodes.get(nodes.size()-2).getPoint().distance(nodes.get(nodes.size() - 1).getPoint()));
+		route += " feet.";
 
 		return list;
-	}
-	
-	/**
-	 * Parses the current path of Nodes and returns a new Path with only the
-	 * start, goal, and any Nodes that result in a change of direction
-	 * 
-	 * @return abridged list of Nodes
-	 */
-	public static Path getTurns(Path p) {
-		ArrayList<Node> temp = new ArrayList<Node>();
-		ArrayList<Node> path = p.getPath();
-		Node first = path.get(0);
-		Node last = path.get(path.size() - 1);
-
-		temp.add(first);
-		for (int i = 1; i < path.size() - 1; i++) {
-			// check if next point is on the same level as i - 1 and i + 1
-			if (checkHorizontal(path.get(i - 1).getPoint(), path.get(i).getPoint(), path.get(i + 1).getPoint())) {
-				// System.out.println("Abridge one node horizontal");
-				continue;
-				// check if next point is on the same level as i - 1 and i +
-				// 1
-			} else if (checkVertical(path.get(i - 1).getPoint(), path.get(i).getPoint(), path.get(i + 1).getPoint())) {
-				// System.out.println("Abridge one node vertical");
-				continue;
-			} else {
-
-				if (checkDiagonal(path.get(i - 1).getPoint(), path.get(i).getPoint(), path.get(i + 1).getPoint())) {
-					// System.out.println("Abridge one node diagonal");
-					continue;
-				}
-			}
-			temp.add(path.get(i));
-
-		}
-		temp.add(last);
-		return new Path(temp, this.mapName, this.pathScale);
-	}
-	
-	/**
-	 * Check if a point is in a vertical line between two other points
-	 * 
-	 * @param before
-	 *            Point before the current point
-	 * @param current
-	 *            Current point
-	 * @param after
-	 *            Point after the current point
-	 * @return Returns true if it's vertical aligned otherwise false
-	 */
-	public boolean checkVertical(Point before, Point current, Point after) {
-		float dif1 = Math.abs(current.getCoord().getX() - before.getCoord().getX());
-		float dif2 = Math.abs(current.getCoord().getX() - after.getCoord().getX());
-		if (dif1 <= pathtolarence && dif2 <= pathtolarence) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Check if point is in a horizontal line between two other points
-	 * 
-	 * @param before
-	 *            Point before the current point
-	 * @param current
-	 *            Current point
-	 * @param after
-	 *            Point after the current point
-	 * @return Returns true if it's horizontal aligned otherwise false
-	 */
-	public boolean checkHorizontal(Point before, Point current, Point after) {
-		float dif1 = Math.abs(current.getCoord().getY() - before.getCoord().getY());
-		float dif2 = Math.abs(current.getCoord().getY() - after.getCoord().getY());
-		if (dif1 <= pathtolarence && dif2 <= pathtolarence) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Check if point is in a diagonal line between two other points
-	 * 
-	 * @param before
-	 *            Point before the current point
-	 * @param current
-	 *            Current point
-	 * @param after
-	 *            Point after the current point
-	 * @return Returns true if it's diagonal aligned otherwise false
-	 */
-	public boolean checkDiagonal(Point before, Point current, Point after) {
-
-		Coord slope = new Coord(Math.abs(current.getCoord().getX() - before.getCoord().getX()),
-				Math.abs(current.getCoord().getY() - before.getCoord().getY()));
-		Coord deltaAfter = new Coord(Math.abs(current.getCoord().getX() - after.getCoord().getX()),
-				Math.abs(current.getCoord().getY() - after.getCoord().getY()));
-		float expectedY = slope.getY() / slope.getX() * deltaAfter.getX();
-		if (Math.abs(expectedY - deltaAfter.getY()) < pathtolarence) {
-			return true;
-		}
-
-		return false;
-	}
-
-	/**
-	 * Calculates the angle between to points
-	 * 
-	 * @param point1
-	 *            Point 1
-	 * @param point2
-	 *            Point 2
-	 * @return returns the angle.
-	 */
-
-	public float getAngle(Point point1, Point point2) {
-		return (float) (-(float) Math.atan2((point2.getCoord().getY() - point1.getCoord().getY()),
-				(point2.getCoord().getX() - point1.getCoord().getX())) * 180 / Math.PI);
 	}
 	
 	public String toString() {

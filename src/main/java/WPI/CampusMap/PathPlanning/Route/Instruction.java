@@ -63,7 +63,7 @@ public class Instruction {
 	}
 	
 	public String toString() {
-		return this.instruction;
+		return this.instruction + " @ " + this.map;
 	}
 
 }
