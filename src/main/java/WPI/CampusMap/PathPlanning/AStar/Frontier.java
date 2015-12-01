@@ -61,6 +61,7 @@ public class Frontier {
 	public Node find(Node other) {
 		Node[] temp = this.pq.toArray(new Node[this.pq.size()]);
 
+		System.out.println("temp.length " + temp.length);
 		for (int j = 0; j < temp.length; j++) {
 			System.out.println("tempj  " + temp[j] + "other " + other);
 			System.out.println("temp[j].equals(other) " + temp[j].equals(other));
