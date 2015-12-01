@@ -1,5 +1,6 @@
 package WPI.CampusMap.PathPlanning;
 
+import WPI.CampusMap.Backend.Map;
 import WPI.CampusMap.Backend.Point;
 import WPI.CampusMap.PathPlanning.AStar.Heuristic;
 
@@ -78,16 +79,50 @@ public class Node {
 
 	public double calcHeuristic(Point goal) {
 		double temp = stdH;
-		if(!point.getMap().equals(goal.getMap())){
+		double weather = Heuristic.getWeatherScore();
+		String building = goal.getMap().substring(0, goal.getMap().length() - 3);
+		building = this.getPoint().getMap();
+
+
+		if (point.getMap().equals(goal.getMap())) {
+			
+			if (weather > 0) {
+				
+				if (point.getMap().equalsIgnoreCase("CampusMap")) {
+					temp += Math.abs(weather);
+				}
+				else {
+					temp -= Math.abs(weather);
+				}
+			} else {
+				if (point.getMap().equalsIgnoreCase("CampusMap")) {
+					temp -= Math.abs(weather);
+				}
+				else {
+					temp += Math.abs(weather);
+				}
+			}
+			
 			temp += this.getPoint().distance(goal);
 		}
-		if(point.getMap().equals("CampusMap")){
-			if(Heuristic.getWeatherScore()>0){
-				temp +=Math.abs(Heuristic.getWeatherScore());
+		
+		else if (point.getMap().equals("CampusMap")) {
+
+			if (weather > 0) {
+				temp += Math.abs(weather);
+			} else {
+				temp -= Math.abs(weather);
 			}
+
+			temp += this.getPoint().distance(Map.getMap(goal.getMap()).getPoint(building));
 		}
-		else if(!point.getMap().equals(goal.getMap())){
-			//+ distance to building
+
+		else {
+			if (weather > 0) {
+				temp -= Math.abs(weather);
+			} else {
+				temp += Math.abs(weather);
+			}
 		}
 		return temp;
 	}
@@ -107,7 +142,7 @@ public class Node {
 		}
 		return false;
 	}
-	
+
 	@Override
 	public String toString() {
 		return this.getPoint().toString() + "\t" + this.getCurrentScore();
