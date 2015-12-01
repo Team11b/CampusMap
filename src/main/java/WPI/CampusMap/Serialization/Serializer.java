@@ -5,8 +5,10 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 
 import WPI.CampusMap.Backend.Map;
+import WPI.CampusMap.Backend.Point;
 
 /**
  * 
@@ -41,6 +43,7 @@ public class Serializer {
 			ObjectInputStream in = new ObjectInputStream(fileIn);
 
 			m = (Map) in.readObject();
+			ArrayList<Point> vals = new ArrayList<Point>(m.getAllPoints().values());
 
 			in.close();
 			fileIn.close();

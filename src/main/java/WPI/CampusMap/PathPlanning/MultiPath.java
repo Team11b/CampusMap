@@ -47,6 +47,7 @@ public class MultiPath
 			
 			String mapName = newPath.getPath().get(0).getPoint().getMap();
 			newMultiPath.mp.add(newPath);
+			System.out.println(newMultiPath.pathLookup);
 			LinkedList<Path> parts = newMultiPath.pathLookup.get(mapName);
 			
 			if(parts == null)
@@ -63,7 +64,7 @@ public class MultiPath
 	
 	private LinkedList<Path> mp;
 	
-	private Hashtable<String, LinkedList<Path>> pathLookup;
+	private Hashtable<String, LinkedList<Path>> pathLookup = new Hashtable<String, LinkedList<Path>>();
 
 	public MultiPath() {
 		mp = new LinkedList<Path>();

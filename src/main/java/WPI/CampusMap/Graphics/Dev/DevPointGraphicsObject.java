@@ -151,14 +151,14 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 				System.out.println("IS A CONNECTING NODE");
 				ConnectionPoint connectionPoint = selectedPoint.getConnectionPoint();
 				getOwner().getUI().setMapConnectionTextFieldEditable(true);
-				getOwner().getUI().setPointConnectionTextFieldEditable(true);
+				getOwner().getUI().setMapConnectionTextFieldEditable(true);
 				connectionPoint.setLinkedMap(getOwner().getUI().getMapConnectorText());
 				connectionPoint.setLinkedPoint(getOwner().getUI().getPointConnectorText());
 				getOwner().getMap().addPoint(connectionPoint);
 			}else{
 				System.out.println("IS NOT A CONNECTING NODE");
 				getOwner().getUI().setMapConnectionTextFieldEditable(false);
-				getOwner().getUI().setPointConnectionTextFieldEditable(false);
+				getOwner().getUI().setMapConnectionTextFieldEditable(false);
 				getOwner().getMap().addPoint(selectedPoint.getNormalPoint());
 			}
 			

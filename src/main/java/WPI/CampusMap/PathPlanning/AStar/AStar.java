@@ -169,6 +169,7 @@ public class AStar {
 						// explored
 						// list
 						ArrayList<Point> neigh = centerPoint.getPoint().getValidNeighbors();
+						System.out.println(centerPoint+ "'s neighbors: " +neigh);
 						for (int j = 0; j < neigh.size(); j++) {
 							tempNode = new Node(null, null);
 							tempConNode = new ConnectionNode(null, null, false);
@@ -203,7 +204,7 @@ public class AStar {
 						}
 					}
 				}
-			}
+			}else{System.out.println("Goal Found");}
 		}
 
 		// form the path

@@ -112,7 +112,7 @@ public class Point implements java.io.Serializable {
 			}
 		}*/
 
-		return trim;
+		return neigh;
 	}
 
 	/**

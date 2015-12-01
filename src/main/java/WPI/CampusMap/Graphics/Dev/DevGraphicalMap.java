@@ -78,37 +78,37 @@ public class DevGraphicalMap extends GraphicalMap
 			if (getHoverObject().getRepresentedObject().getClass() == ConnectionPoint.class) {
 				System.out.println("Is a connection node");
 				ConnectionPoint theConnectionPoint = (ConnectionPoint) getHoverObject().getRepresentedObject();
-				getUI().setMapConnectorText(theConnectionPoint.getLinkedMap());
+				getUI().setPointConnectorText(theConnectionPoint.getLinkedMap());
 				getUI().setPointConnectorText(theConnectionPoint.getLinkedPoint());
 				getUI().setMapConnectionTextFieldEditable(true);
-				getUI().setPointConnectionTextFieldEditable(true);
+				getUI().setMapConnectionTextFieldEditable(true);
 			} else {
-				getUI().setMapConnectorText("");
+				getUI().setPointConnectorText("");
 				getUI().setPointConnectorText("");
 				getUI().setMapConnectionTextFieldEditable(false);
-				getUI().setPointConnectionTextFieldEditable(false);
+				getUI().setMapConnectionTextFieldEditable(false);
 			}
 			System.out.println("The type is " + thePoint.getType());
 			switch (thePoint.getType()) {
 			case "":
 			case Point.HALLWAY:
 				getUI().setMapConnectionTextFieldEditable(false);
-				getUI().setPointConnectionTextFieldEditable(false);
+				getUI().setMapConnectionTextFieldEditable(false);
 				getUI().setTypeSelector(0);
 				break;
 			case Point.STAIRS:
 				getUI().setMapConnectionTextFieldEditable(true);
-				getUI().setPointConnectionTextFieldEditable(true);
+				getUI().setMapConnectionTextFieldEditable(true);
 				getUI().setTypeSelector(1);
 				break;
 			case Point.ELEVATOR:
 				getUI().setMapConnectionTextFieldEditable(true);
-				getUI().setPointConnectionTextFieldEditable(true);
+				getUI().setMapConnectionTextFieldEditable(true);
 				getUI().setTypeSelector(2);
 				break;
 			case Point.OUT_DOOR:
 				getUI().setMapConnectionTextFieldEditable(true);
-				getUI().setPointConnectionTextFieldEditable(true);
+				getUI().setMapConnectionTextFieldEditable(true);
 				getUI().setTypeSelector(3);
 				break;
 			default:

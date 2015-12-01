@@ -111,6 +111,8 @@ public class Converter {
 				temp = Serializer.read(files[j].substring(0, files[j].length() - 4));
 				System.out.println(temp.getName());
 				temp.setAllPointMaps();
+				ArrayList<Point> vals = new ArrayList<Point>(temp.getAllPoints().values());
+				System.out.println("hello " + vals.get(1).getMap());
 				Serializer.write(temp);
 			}
 		}

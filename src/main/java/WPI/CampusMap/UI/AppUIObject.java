@@ -87,16 +87,11 @@ public class AppUIObject {
 	private final JLabel lblNodeId = new JLabel("Node ID:");
 	private JTextField nodeTextField;
 	
-
-	Destinations destinations = new Destinations(directionsPanel);
-	
 	protected enum DevMode{
 		none, addNode, addEdge, deleteNode, deleteEdge;
 	}
 	
 	protected DevMode currentDevMode = DevMode.none;	
-	private JTextField connectingMapTextField;
-	private JTextField connectingPointTextField;
 	
 	private void clearNodeInfo(){
 		typeSelector.setSelectedIndex(0);
@@ -107,33 +102,8 @@ public class AppUIObject {
 	public String getID(){
 		return nodeTextField.getText();
 	}
-	
-	public void setMapConnectionTextFieldEditable(boolean b){
-		connectingMapTextField.setEditable(b);
-	}
-	
-	public void setPointConnectionTextFieldEditable(boolean b){
-		connectingPointTextField.setEditable(b);
-	}
-	
 	public String getTypeSelector(){
 		return typeSelector.getItemAt(typeSelector.getSelectedIndex()); 
-	}
-	
-	public void setPointConnectorText(String text){
-		connectingPointTextField.setText(text);
-	}
-	
-	public void setMapConnectorText(String text){
-		connectingMapTextField.setText(text);
-	}
-	
-	public String getMapConnectorText(){
-		return connectingMapTextField.getText();
-	}
-	
-	public String getPointConnectorText(){
-		return connectingPointTextField.getText();
 	}
 	
 	//Next 4 functions are around UserPointGraphicsObject and DevPointGraphicsObject
@@ -257,49 +227,53 @@ public class AppUIObject {
 				break;
 			case "Place Mode":
 				clearNodeInfo();
-				if (mapPanel.getDevMode() != EditorToolMode.Point) {
+				if(mapPanel.getDevMode() != EditorToolMode.Point){
 					mapPanel.setDevMode(EditorToolMode.Point);
-				} else {
-					mapPanel.setDevMode(EditorToolMode.None);
 				}
-
+				else{
+				mapPanel.setDevMode(EditorToolMode.None);				
+				}
+			
 				btnDelNode.setSelected(false);
 				btnRemoveEdge.setSelected(false);
 				btnEdgeMode.setSelected(false);
-
+				
 				break;
 			case "Delete Mode":
 				clearNodeInfo();
-				if (mapPanel.getDevMode() != EditorToolMode.DeletePoint) {
-					mapPanel.setDevMode(EditorToolMode.DeletePoint);
-				} else {
-					mapPanel.setDevMode(EditorToolMode.None);
+				if(mapPanel.getDevMode() != EditorToolMode.DeletePoint){
+				mapPanel.setDevMode(EditorToolMode.DeletePoint);
 				}
-
+				else{
+				mapPanel.setDevMode(EditorToolMode.None);	
+				}
+				
 				btnNode.setSelected(false);
 				btnRemoveEdge.setSelected(false);
 				btnEdgeMode.setSelected(false);
 				break;
 			case "Edge Mode":
 				clearNodeInfo();
-				if (mapPanel.getDevMode() != EditorToolMode.Edge) {
-					mapPanel.setDevMode(EditorToolMode.Edge);
-				} else {
-					mapPanel.setDevMode(EditorToolMode.None);
+				if(mapPanel.getDevMode() != EditorToolMode.Edge){
+				mapPanel.setDevMode(EditorToolMode.Edge);
 				}
-
+				else{
+				mapPanel.setDevMode(EditorToolMode.None);
+				}
+				
 				btnNode.setSelected(false);
 				btnDelNode.setSelected(false);
 				btnRemoveEdge.setSelected(false);
 				break;
 			case "Remove Edge":
 				clearNodeInfo();
-				if (mapPanel.getDevMode() != EditorToolMode.DeleteEdge) {
-					mapPanel.setDevMode(EditorToolMode.DeleteEdge);
-				} else {
-					mapPanel.setDevMode(EditorToolMode.None);
+				if(mapPanel.getDevMode() != EditorToolMode.DeleteEdge){
+				mapPanel.setDevMode(EditorToolMode.DeleteEdge);
 				}
-
+				else{
+				mapPanel.setDevMode(EditorToolMode.None);
+				}
+				
 				btnNode.setSelected(false);
 				btnDelNode.setSelected(false);
 				btnEdgeMode.setSelected(false);
@@ -322,27 +296,9 @@ public class AppUIObject {
 		System.out.println(
 				"Image Size X: " + mapPanel.getSize().getWidth() + " Y: " + mapPanel.getSize().getHeight());
 
-		directionsPanel.setBounds(1031, 6, 237, 664);
+		directionsPanel.setBounds(1024, 6, 237, 664);
 		frame.getContentPane().add(directionsPanel);
 		directionsPanel.setLayout(null);
-		
-		connectingPointTextField = new JTextField();
-		connectingPointTextField.setBounds(140, 282, 95, 26);
-		directionsPanel.add(connectingPointTextField);
-		connectingPointTextField.setColumns(10);
-		
-		connectingMapTextField = new JTextField();
-		connectingMapTextField.setBounds(140, 254, 95, 26);
-		directionsPanel.add(connectingMapTextField);
-		connectingMapTextField.setColumns(10);
-		
-		JLabel lblConnectingPoint = new JLabel("Connecting Point:");
-		lblConnectingPoint.setBounds(26, 287, 117, 16);
-		directionsPanel.add(lblConnectingPoint);
-		
-		JLabel lblConnectingMap = new JLabel("Connecting Map:");
-		lblConnectingMap.setBounds(24, 259, 108, 16);
-		directionsPanel.add(lblConnectingMap);
 
 		btnEmail.setBounds(26, 629, 106, 29);
 		directionsPanel.add(btnEmail);
@@ -364,7 +320,7 @@ public class AppUIObject {
 		directionsPanel.add(txtDevPass);
 		txtDevPass.setVisible(false);
 
-		btnGetDirections.setBounds(55, 213, 157, 36);
+		btnGetDirections.setBounds(30, 130, 157, 36);
 		directionsPanel.add(btnGetDirections);
 		btnGetDirections.setEnabled(false);
 
@@ -376,7 +332,7 @@ public class AppUIObject {
 
 		directionsPanel.add(btnDelNode);
 
-		lblDirections.setBounds(26, 243, 80, 25);
+		lblDirections.setBounds(0, 180, 80, 25);
 		directionsPanel.add(lblDirections);
 
 		lblMapColon.setBounds(6, 10, 70, 15);
@@ -403,28 +359,20 @@ public class AppUIObject {
 		final JLabel lblNodeType = new JLabel("Node Type:");
 		lblNodeType.setBounds(26, 200, 85, 16);
 		directionsPanel.add(lblNodeType);
-		lblNodeId.setBounds(26, 228, 61, 16);
-		
-		directionsPanel.add(lblNodeId);
-		
-		typeSelector.setBounds(104, 196, 131, 27);
-		directionsPanel.add(typeSelector);
-		
-		nodeTextField = new JTextField();
-		nodeTextField.setBounds(99, 228, 130, 26);
-		directionsPanel.add(nodeTextField);
-		nodeTextField.setColumns(10);
-		
-		txtDirections.setBounds(26, 273, 215, 434);
-		directionsPanel.add(txtDirections);
-		
-		JButton btnAddDest = new JButton("+ Dest");
-		btnAddDest.setBounds(0, 76, 117, 25);
-		directionsPanel.add(btnAddDest);
-		
-		JButton btnRemoveDest = new JButton("- Dest");
-		btnRemoveDest.setBounds(118, 76, 117, 25);
-		directionsPanel.add(btnRemoveDest);
+				lblNodeId.setBounds(26, 228, 61, 16);
+				
+				directionsPanel.add(lblNodeId);
+				
+				typeSelector.setBounds(104, 196, 131, 27);
+				directionsPanel.add(typeSelector);
+				
+				nodeTextField = new JTextField();
+				nodeTextField.setBounds(99, 228, 130, 26);
+				directionsPanel.add(nodeTextField);
+				nodeTextField.setColumns(10);
+				
+						txtDirections.setBounds(0, 200, 220, 400);
+						directionsPanel.add(txtDirections);
 		
 		btnSave.setVisible(false);
 
@@ -441,36 +389,13 @@ public class AppUIObject {
 
 		frame.getContentPane().setLayout(null);
 
-		//Destinations
-		btnAddDest.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent arg0){
-				destinations.addDestination();
-				System.out.println("ADD dest");
-				destinations.setVisibility(false);
-				destinations.setVisibility(true);
-//				reDrawUI(); 
-			}
-		});
-		
-		btnRemoveDest.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent arg0){
-				destinations.removeDestination();
-				destinations.setVisibility(false);
-				destinations.setVisibility(true);
-				System.out.println("SUB dest");
-			}
-		});
-		
 		// Dev Mode
 		btnDevMode.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (!devMode) {
 					btnGetDirections.setVisible(false);
 					txtDevPass.setVisible(true);
-					btnSubmit.setVisible(true);
-					btnAddDest.setVisible(false);
-					btnRemoveDest.setVisible(false);
-					destinations.setVisibility(false);
+					btnSubmit.setVisible(true);					
 					/*if(mapPanel.selectedPoint == null){
 						nodeTextField.setText("");
 						typeSelector.setSelectedIndex(0);
@@ -487,10 +412,6 @@ public class AppUIObject {
 					frame.setTitle("Path Finder");
 					btnDevMode.setText("Dev Mode");
 					currentDevMode = DevMode.none;
-					connectingMapTextField.setVisible(false);
-					connectingPointTextField.setVisible(false);
-					lblConnectingMap.setVisible(false);
-					lblConnectingPoint.setVisible(false);
 					lblNodeId.setVisible(false);
 					lblNodeType.setVisible(false);
 					nodeTextField.setVisible(false);
@@ -509,24 +430,20 @@ public class AppUIObject {
 					btnSubmit.setVisible(false);
 					btnUseWeather.setVisible(true);
 					txtDirections.setText("");
-//					txtStart.setText("");
-//					txtEnd.setText("");
-					btnAddDest.setVisible(true);
-					btnRemoveDest.setVisible(true);
-					destinations.setVisibility(true);
+					txtStart.setText("");
+					txtEnd.setText("");
 					onEnterUserMode();
 				}
 
 				reDrawUI();
-//				resetDropDown();
 				/*mapPanel.selectedPoint = null;
 				mapPanel.startPoint = null;
 				mapPanel.endPoint = null;
 				mapPanel.currentRoute = null;*/
-//				txtEnd.setVisible(!txtEnd.isVisible());
-//				txtStart.setVisible(!txtStart.isVisible());
-//				lblStart.setVisible(!lblStart.isVisible());
-//				lblEnd.setVisible(!lblEnd.isVisible());
+				txtEnd.setVisible(!txtEnd.isVisible());
+				txtStart.setVisible(!txtStart.isVisible());
+				lblStart.setVisible(!lblStart.isVisible());
+				lblEnd.setVisible(!lblEnd.isVisible());
 
 			}
 		});
@@ -534,10 +451,6 @@ public class AppUIObject {
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(String.valueOf(txtDevPass.getPassword()).equals("0011")){
-					connectingMapTextField.setVisible(true);
-					connectingPointTextField.setVisible(true);
-					lblConnectingMap.setVisible(true);
-					lblConnectingPoint.setVisible(true);
 					btnSubmit.setVisible(false);
 					txtDevPass.setVisible(false);
 					txtDirections.setVisible(false);
@@ -679,33 +592,27 @@ public class AppUIObject {
 		
 		//typeSelector.setSelectedItem(mapPanel.selectedPoint.getType());		
 		
+		lblStart.setBounds(0, 72, 70, 15);
+		directionsPanel.add(lblStart);		
 		
-//		lblStart.setBounds(0, 70, 70, 15);
-//		directionsPanel.add(lblStart);		
-//		
-//		lblEnd.setBounds(0, 97, 70, 15);
-//		directionsPanel.add(lblEnd);
-//		
-//		txtStart = new JTextField();
-//		txtStart.setBounds(44, 68, 165, 19);
-//		directionsPanel.add(txtStart);
-//		txtStart.setColumns(10);
-//		
-//		txtEnd = new JTextField();
-//		txtEnd.setColumns(10);
-//		txtEnd.setBounds(44, 92, 165, 19);
-//		directionsPanel.add(txtEnd);
+		lblEnd.setBounds(0, 102, 70, 15);
+		directionsPanel.add(lblEnd);
+		
+		txtStart = new JTextField();
+		txtStart.setBounds(40, 70, 165, 19);
+		directionsPanel.add(txtStart);
+		txtStart.setColumns(10);
+		
+		txtEnd = new JTextField();
+		txtEnd.setColumns(10);
+		txtEnd.setBounds(40, 100, 165, 19);
+		directionsPanel.add(txtEnd);
 		
 		
 	
 		/*if(typeSelector.getSelectedIndex() == -1){
 			typeSelector.setSelectedIndex(0);
 		}*/
-		
-		connectingMapTextField.setVisible(false);
-		connectingPointTextField.setVisible(false);
-		lblConnectingMap.setVisible(false);
-		lblConnectingPoint.setVisible(false);
 		
 		txtScale = new JTextField();
 		txtScale.setBounds(37, 0, 130, 19);
@@ -774,5 +681,25 @@ public class AppUIObject {
 	private void onEnterUserMode()
 	{
 		mapPanel.onEnterUserMode();
+	}
+
+	public void setMapConnectionTextFieldEditable(boolean b) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public void setPointConnectorText(String string) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	public String getMapConnectorText() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public String getPointConnectorText() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
