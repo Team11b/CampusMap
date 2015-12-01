@@ -9,6 +9,7 @@ import WPI.CampusMap.Backend.Point;
 /**
  * 
  * @author Max Stenke
+ * @author Jacob Zizmor
  *
  */
 public class Path {
@@ -16,18 +17,19 @@ public class Path {
 	private float pathtolarence;
 	private float pathtolarenceMultiplier = (float) (0.2);
 	private ArrayList<Node> path;
+	private String mapName;
 	private float pathScale;
+
 
 	/**
 	 * Constructor with pre-defined ArrayList of Nodes
-	 * 
-	 * @param path
-	 *            pre-defined ArrayList of Nodes
-	 * @param pathScale
-	 * 			  scale of the path
+	 * @param path pre-defined ArrayList of Nodes
+	 * @param mapName the name of the map this Path uses
+	 * @param pathScale the scale of this Path
 	 */
-	public Path(ArrayList<Node> path, float pathScale) {
+	public Path(ArrayList<Node> path, String mapName, float pathScale) {
 		this.path = path;
+		this.mapName = mapName;
 		setScale(pathScale);
 	}
 
@@ -36,7 +38,14 @@ public class Path {
 	 */
 	public Path() {
 		this.path = new ArrayList<Node>();
-		setScale(pathScale);
+	}
+
+	public String getMapName() {
+		return mapName;
+	}
+
+	public void setMapName(String mapName) {
+		this.mapName = mapName;
 	}
 
 	public boolean addNode(Node node) {
@@ -83,7 +92,7 @@ public class Path {
 
 		}
 		temp.add(last);
-		return new Path(temp, this.pathScale);
+		return new Path(temp, this.mapName, this.pathScale);
 	}
 
 	/**
@@ -234,10 +243,31 @@ public class Path {
 					+ path.getPath().get(i).getPoint().getCoord().getY() + ")");
 		}
 	}
-
+	
+	/**
+	 * Checks if two Paths are equal based upon the ID of each Point in the Path
+	 */
+	@Override
+	public boolean equals(Object other) {
+		if (!(other instanceof Path)) {
+			return false;
+		}
+		if (((Path)(other)).getPath().size() != this.getPath().size()) {
+			return false;
+		}
+		
+		for (int j = 0; j < ((Path)(other)).getPath().size(); j++) {
+			if (!(((Path)(other)).getPath().get(j).getPoint().getId().equals(this.getPath().get(j).getPoint().getId()))) {
+				return false;
+			}
+		}
+		
+		return true;
+	}
+	
 	public void setScale(float scale) {
 		pathScale = scale;
 		pathtolarence = (float) (pathtolarenceMultiplier / pathScale);
 	}
-
+	
 }
