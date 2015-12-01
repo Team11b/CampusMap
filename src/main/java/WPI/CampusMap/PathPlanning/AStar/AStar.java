@@ -119,6 +119,7 @@ public class AStar {
 
 		// Instantiate frontier and explored lists
 		Frontier frontier = new Frontier(Frontier.stdNodeComp);
+		frontier.find(new Node(goal, null));
 		Explored explored = new Explored();
 
 		// Instantiate path
@@ -134,7 +135,7 @@ public class AStar {
 		System.out.println("Temp node == null " + (tempNode == null));
 		System.out.println("tempNode.getPoint == null " + (tempNode.getPoint() == null));
 		frontier.add(tempNode);
-
+		frontier.find(new Node(goal, null));
 		while ((!frontier.isEmpty()) && (!(goalFound))) {
 			goalFound = frontier.contains(new Node(goal, null));
 
