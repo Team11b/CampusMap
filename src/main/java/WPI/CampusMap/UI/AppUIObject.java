@@ -29,6 +29,7 @@ import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 import javax.xml.stream.XMLStreamException;
 
+import WPI.CampusMap.Backend.ConnectionPoint;
 import WPI.CampusMap.Backend.Point;
 import WPI.CampusMap.Dev.EditorToolMode;
 import WPI.CampusMap.Graphics.Dev.DevPointGraphicsObject;
@@ -95,6 +96,8 @@ public class AppUIObject {
 	}
 	
 	protected DevMode currentDevMode = DevMode.none;	
+	private JTextField connectingMapTextField;
+	private JTextField connectingPointTextField;
 	
 	private void clearNodeInfo(){
 		typeSelector.setSelectedIndex(0);
@@ -105,9 +108,42 @@ public class AppUIObject {
 	public String getID(){
 		return nodeTextField.getText();
 	}
+	
+	public void setMapConnectionTextFieldEditable(boolean b){
+		connectingMapTextField.setEditable(b);
+	}
+	
+	public void setPointConnectionTextFieldEditable(boolean b){
+		connectingPointTextField.setEditable(b);
+	}
+	
 	public String getTypeSelector(){
 		return typeSelector.getItemAt(typeSelector.getSelectedIndex()); 
 	}
+	
+	public void setPointConnectorText(String text){
+		connectingPointTextField.setText(text);
+	}
+	
+	public void setMapConnectorText(String text){
+		connectingMapTextField.setText(text);
+	}
+	
+	public String getMapConnectorText(){
+		return connectingMapTextField.getText();
+	}
+	
+	public String getPointConnectorText(){
+		return connectingPointTextField.getText();
+	}
+	
+	public void setNodeTextFieldEditable(boolean b){
+		nodeTextField.setEnabled(b);
+	}
+	public void setTypeSelectorEditable(boolean b){
+		typeSelector.setEnabled(b);
+	}
+	
 	
 	//Next 4 functions are around UserPointGraphicsObject and DevPointGraphicsObject
 	public void setTypeSelector(int type){
@@ -117,13 +153,13 @@ public class AppUIObject {
 		nodeTextField.setText(Id);
 	}
 	
-	public void setStart(String Id){
+//	public void setStart(String Id){
 //		txtStart.setText(Id);
-	}
-	
-	public void setEnd(String Id){
+//	}
+//	
+//	public void setEnd(String Id){
 //		txtEnd.setText(Id);
-	}
+//	}
 	
 	public void reDrawUI() {
 		mapPanel.repaint();
@@ -240,7 +276,7 @@ public class AppUIObject {
 				btnDelNode.setSelected(false);
 				btnRemoveEdge.setSelected(false);
 				btnEdgeMode.setSelected(false);
-				
+
 				break;
 			case "Delete Mode":
 				clearNodeInfo();
@@ -276,7 +312,7 @@ public class AppUIObject {
 				else{
 				mapPanel.setDevMode(EditorToolMode.None);
 				}
-				
+
 				btnNode.setSelected(false);
 				btnDelNode.setSelected(false);
 				btnEdgeMode.setSelected(false);
@@ -302,6 +338,24 @@ public class AppUIObject {
 		directionsPanel.setBounds(1024, 6, 237, 664);
 		frame.getContentPane().add(directionsPanel);
 		directionsPanel.setLayout(null);
+		
+		connectingPointTextField = new JTextField();
+		connectingPointTextField.setBounds(140, 282, 95, 26);
+		directionsPanel.add(connectingPointTextField);
+		connectingPointTextField.setColumns(10);
+		
+		connectingMapTextField = new JTextField();
+		connectingMapTextField.setBounds(140, 254, 95, 26);
+		directionsPanel.add(connectingMapTextField);
+		connectingMapTextField.setColumns(10);
+		
+		JLabel lblConnectingPoint = new JLabel("Connecting Point:");
+		lblConnectingPoint.setBounds(26, 287, 117, 16);
+		directionsPanel.add(lblConnectingPoint);
+		
+		JLabel lblConnectingMap = new JLabel("Connecting Map:");
+		lblConnectingMap.setBounds(24, 259, 108, 16);
+		directionsPanel.add(lblConnectingMap);
 
 		btnEmail.setBounds(26, 629, 106, 29);
 		directionsPanel.add(btnEmail);
@@ -363,7 +417,7 @@ public class AppUIObject {
 		lblNodeType.setBounds(26, 200, 85, 16);
 		directionsPanel.add(lblNodeType);
 		lblNodeId.setBounds(26, 228, 61, 16);
-				
+		
 		directionsPanel.add(lblNodeId);
 		
 		typeSelector.setBounds(104, 196, 131, 27);
@@ -377,14 +431,14 @@ public class AppUIObject {
 		txtDirections.setBounds(0, 270, 220, 350);
 		directionsPanel.add(txtDirections);
 		
-        JButton btnAddDest = new JButton("+ Dest");
-        btnAddDest.setBounds(0, 76, 117, 25);
-        directionsPanel.add(btnAddDest);
-        
-        JButton btnRemoveDest = new JButton("- Dest");
-        btnRemoveDest.setBounds(118, 76, 117, 25);
-        directionsPanel.add(btnRemoveDest);
-
+		JButton btnAddDest = new JButton("+ Dest");
+		btnAddDest.setBounds(0, 76, 117, 25);
+		directionsPanel.add(btnAddDest);
+		
+		JButton btnRemoveDest = new JButton("- Dest");
+		btnRemoveDest.setBounds(118, 76, 117, 25);
+		directionsPanel.add(btnRemoveDest);
+		
 		btnSave.setVisible(false);
 
 		JSeparator separator = new JSeparator();
@@ -419,6 +473,10 @@ public class AppUIObject {
 		btnDevMode.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (!devMode) {
+					setTypeSelectorEditable(false);
+					setNodeTextFieldEditable(false);
+					setMapConnectionTextFieldEditable(false);
+					setPointConnectionTextFieldEditable(false);
 					btnGetDirections.setVisible(false);
 					txtDevPass.setVisible(true);
 					btnSubmit.setVisible(true);	
@@ -442,6 +500,10 @@ public class AppUIObject {
 					frame.setTitle("Path Finder");
 					btnDevMode.setText("Dev Mode");
 					currentDevMode = DevMode.none;
+					connectingMapTextField.setVisible(false);
+					connectingPointTextField.setVisible(false);
+					lblConnectingMap.setVisible(false);
+					lblConnectingPoint.setVisible(false);
 					lblNodeId.setVisible(false);
 					lblNodeType.setVisible(false);
 					nodeTextField.setVisible(false);
@@ -466,7 +528,6 @@ public class AppUIObject {
 					btnRemoveDest.setVisible(true);
 					destinations.setVisibility(true);
 					onEnterUserMode();
-					
 				}
 
 				reDrawUI();
@@ -485,6 +546,10 @@ public class AppUIObject {
 		btnSubmit.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				if(String.valueOf(txtDevPass.getPassword()).equals("0011")){
+					connectingMapTextField.setVisible(true);
+					connectingPointTextField.setVisible(true);
+					lblConnectingMap.setVisible(true);
+					lblConnectingPoint.setVisible(true);
 					btnSubmit.setVisible(false);
 					txtDevPass.setVisible(false);
 					txtDirections.setVisible(false);
@@ -622,6 +687,26 @@ public class AppUIObject {
 		typeSelector.addItem(pointTypes[2]);
 		typeSelector.addItem(pointTypes[3]);
 		
+		//Type selector
+		typeSelector.addActionListener(new ActionListener(){
+				public void actionPerformed(ActionEvent arg0) {
+					if (getTypeSelector() != pointTypes[0]) {
+						ConnectionPoint cPoint = DevPointGraphicsObject.getSelected().getRepresentedObject().getConnectionPoint();
+						String connMap = cPoint.getConnMap() == null ? "" : cPoint.getConnMap().getName();
+						String connPoint = cPoint.getConnPoint() == null ? "" : cPoint.getConnPoint().getId();
+						setMapConnectorText(connMap);
+						setPointConnectorText(connPoint);
+						setMapConnectionTextFieldEditable(true);
+						setPointConnectionTextFieldEditable(true);
+					} else {
+						setMapConnectorText("");
+						setPointConnectorText("");
+						setMapConnectionTextFieldEditable(false);
+						setPointConnectionTextFieldEditable(false);
+					}
+				}
+		});
+		
 		//nodeTextField.setText(mapPanel.selectedPoint.getId());
 		
 		//typeSelector.setSelectedItem(mapPanel.selectedPoint.getType());		
@@ -647,6 +732,11 @@ public class AppUIObject {
 		/*if(typeSelector.getSelectedIndex() == -1){
 			typeSelector.setSelectedIndex(0);
 		}*/
+		
+		connectingMapTextField.setVisible(false);
+		connectingPointTextField.setVisible(false);
+		lblConnectingMap.setVisible(false);
+		lblConnectingPoint.setVisible(false);
 		
 		txtScale = new JTextField();
 		txtScale.setBounds(37, 0, 130, 19);
@@ -715,25 +805,5 @@ public class AppUIObject {
 	private void onEnterUserMode()
 	{
 		mapPanel.onEnterUserMode();
-	}
-
-	public void setMapConnectionTextFieldEditable(boolean b) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public void setPointConnectorText(String string) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	public String getMapConnectorText() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	public String getPointConnectorText() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 }

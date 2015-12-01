@@ -94,6 +94,8 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 			delete();
 			break;
 		case None:
+			getOwner().getUI().setTypeSelectorEditable(true);
+			getOwner().getUI().setNodeTextFieldEditable(true);
 		case Point:
 			selected = this;
 			onSelected();
