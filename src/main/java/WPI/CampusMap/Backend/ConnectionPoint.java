@@ -135,6 +135,8 @@ public class ConnectionPoint extends Point {
 		Point temp = new Point(this.getCoord(), this.getType(), this.getId(), this.getMap());
 		for (Point point : this.getNeighborsP()) {
 			temp.addNeighbor(point);
+			point.removeNeighbor(this);
+			point.addNeighbor(temp);
 		}
 		return temp;
 	}

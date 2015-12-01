@@ -88,7 +88,7 @@ public class AppUIObject {
 	private final JLabel lblNodeId = new JLabel("Node ID:");
 	private JTextField nodeTextField;
 	
-    Destinations destinations = new Destinations(directionsPanel);
+   public  Destinations destinations = new Destinations(directionsPanel);
 
 	
 	protected enum DevMode{
@@ -207,11 +207,15 @@ public class AppUIObject {
 	public void onPointAddedToRoute(Point newPoint)
 	{
 		btnGetDirections.setEnabled(true);
+		
+		destinations.setDestination(newPoint.getId());
 	}
 	
 	public void onRouteCleared()
 	{
 		btnGetDirections.setEnabled(false);
+		
+		//TODO: Clear destinations
 	}
 
 	/**
