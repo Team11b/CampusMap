@@ -1,7 +1,9 @@
 package WPI.CampusMap.Graphics.User;
 
+import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Stroke;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -43,6 +45,9 @@ public class UserPathGraphicsObject extends GraphicsObject<Path, UserGraphicalMa
 	@Override
 	public void onDraw(Graphics2D graphics)
 	{
+		BasicStroke dashed = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
+		graphics.setStroke(dashed);
+		
 		ArrayList<Node> nodes = backendPath.getPath();
 		for(int i = 1; i < nodes.size(); i++)
 		{
@@ -57,12 +62,14 @@ public class UserPathGraphicsObject extends GraphicsObject<Path, UserGraphicalMa
 			
 			graphics.drawLine((int)screenA.getX(), (int)screenA.getY(), (int)screenB.getX(), (int)screenB.getY());
 		}
+		
+		graphics.setStroke(new BasicStroke(1.0f));
 	}
 	
 	@Override
 	public Color getColor() 
 	{
-		return Color.magenta;
+		return new Color(204, 0, 204);
 	}
 
 	@Override
