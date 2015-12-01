@@ -3,6 +3,8 @@ package WPI.CampusMap.Graphics;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import WPI.CampusMap.Graphics.Dev.DevPointGraphicsObject;
+
 public abstract class GraphicsObject<R, M extends GraphicalMap>
 {
 	private M graphicsOwner;

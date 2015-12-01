@@ -31,6 +31,7 @@ import javax.xml.stream.XMLStreamException;
 
 import WPI.CampusMap.Backend.Point;
 import WPI.CampusMap.Dev.EditorToolMode;
+import WPI.CampusMap.Graphics.Dev.DevPointGraphicsObject;
 import WPI.CampusMap.Graphics.User.UserPointGraphicsObject;
 
 import WPI.CampusMap.PathPlanning.Path;
@@ -63,7 +64,7 @@ public class AppUIObject {
 	private JLabel lblEnd = new JLabel("End:");
 	private JTextField txtStart;
 	private JTextField txtEnd;
-	private JButton btnUseWeather = new JButton("Use Weather");
+	private JToggleButton btnUseWeather = new JToggleButton("Use Weather");
 	private final ArrayList<String> mapXMLStrings = new ArrayList<String>();
 	private JComboBox<String> mapDropDown = new JComboBox<String>();
 	private String[] mapStrings;
@@ -84,7 +85,20 @@ public class AppUIObject {
 	
 	protected DevMode currentDevMode = DevMode.none;	
 	
-	//Next 4 functions used in UserPointGraphicsObject and DevPointGraphicsObject
+	private void clearNodeInfo(){
+		typeSelector.setSelectedIndex(0);
+		nodeTextField.setText("");
+	}
+	
+	//getters for the BennyZone(tm)
+	public String getID(){
+		return nodeTextField.getText();
+	}
+	public String getTypeSelector(){
+		return typeSelector.getItemAt(typeSelector.getSelectedIndex()); 
+	}
+	
+	//Next 4 functions are around UserPointGraphicsObject and DevPointGraphicsObject
 	public void setTypeSelector(int type){
 		typeSelector.setSelectedIndex(type);
 	}
@@ -195,6 +209,7 @@ public class AppUIObject {
 				System.out.println("Print");
 				break;
 			case "Place Mode":
+				clearNodeInfo();
 				if(mapPanel.getDevMode() != EditorToolMode.Point){
 					mapPanel.setDevMode(EditorToolMode.Point);
 				}
@@ -208,6 +223,7 @@ public class AppUIObject {
 				
 				break;
 			case "Delete Mode":
+				clearNodeInfo();
 				if(mapPanel.getDevMode() != EditorToolMode.DeletePoint){
 				mapPanel.setDevMode(EditorToolMode.DeletePoint);
 				}
@@ -220,6 +236,7 @@ public class AppUIObject {
 				btnEdgeMode.setSelected(false);
 				break;
 			case "Edge Mode":
+				clearNodeInfo();
 				if(mapPanel.getDevMode() != EditorToolMode.Edge){
 				mapPanel.setDevMode(EditorToolMode.Edge);
 				}
@@ -232,6 +249,7 @@ public class AppUIObject {
 				btnRemoveEdge.setSelected(false);
 				break;
 			case "Remove Edge":
+				clearNodeInfo();
 				if(mapPanel.getDevMode() != EditorToolMode.DeleteEdge){
 				mapPanel.setDevMode(EditorToolMode.DeleteEdge);
 				}
@@ -449,6 +467,12 @@ public class AppUIObject {
 				System.out.println(txtScale.getText());
 				mapPanel.currentMap.setScale(Float.parseFloat(txtScale.getText()));
 				System.out.println("SAVING!");
+				
+				//Copy the textbox to the type
+				if(DevPointGraphicsObject.getSelected() != null)
+				DevPointGraphicsObject.getSelected().updatePoint();
+				
+				//clearNodeInfo();
 				
 				//toggle buttons
 				currentDevMode = DevMode.none;				

@@ -53,7 +53,10 @@ public class DevGraphicalMap extends GraphicalMap
 			Point newPoint = new Point(getMap().getName());
 			newPoint.setCoord(getWorldCoord((int)e.getX(), (int)e.getY()));
 			getMap().addPoint(newPoint);
+			
+			//Update with point name(id)
 			getUI().setNodeTextField(newPoint.getId());
+			
 			DevPointGraphicsObject go = new DevPointGraphicsObject(newPoint, this);
 			addGraphicalObject(go);
 			
@@ -65,8 +68,15 @@ public class DevGraphicalMap extends GraphicalMap
 		{
 			DevPointGraphicsObject.clearSelection();
 		}
-		else if((getHoverObject() != null)&& (mode == EditorToolMode.None)){
-			//getHoverObject().getRepresentedObject();
+		else if((getHoverObject() != null)&& (mode == EditorToolMode.None)){			
+			
+			//Copy the textbook to the type
+			if(DevPointGraphicsObject.getSelected() != null)
+			DevPointGraphicsObject.getSelected().updatePoint();
+			
+			//Update UI
+			DevPointGraphicsObject hoverObject = (DevPointGraphicsObject) getHoverObject();			
+			hoverObject.select();
 			Point thePoint = ((Point) getHoverObject().getRepresentedObject());
 			getUI().setNodeTextField(thePoint.getId());
 			System.out.println("The type is " + thePoint.getType());

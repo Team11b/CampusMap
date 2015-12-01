@@ -128,10 +128,28 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 	private void onSelected()
 	{
 		//selected.getOwner().
+		//getColor();
 	}
 	
 	private void createGraphicsEdge(Point other)
 	{
 		DevEdgeGraphicsObject.createGraphicsEdge(getRepresentedObject(), other, getOwner());
+	}
+	
+	public void updatePoint(){
+		//Copy the textbox to the type									
+		DevPointGraphicsObject selectedObject = DevPointGraphicsObject.getSelected();
+		if(selectedObject != null){
+			Point selectedPoint = DevPointGraphicsObject.getSelected().getRepresentedObject();	
+			getOwner().getMap().removePoint(selectedPoint);
+			selectedPoint.setType(getOwner().getUI().getTypeSelector());
+			selectedPoint.setId(getOwner().getUI().getID());	
+			getOwner().getMap().addPoint(selectedPoint);
+			System.out.println(getOwner().getMap().getAllPoints().containsKey(selectedPoint.getId()));
+			
+			selectedObject.clearSelection();
+			getOwner().getUI().setNodeTextField("");
+			getOwner().getUI().setTypeSelector(0);
+		}
 	}
 }

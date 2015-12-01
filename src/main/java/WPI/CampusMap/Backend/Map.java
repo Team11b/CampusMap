@@ -336,14 +336,14 @@ public class Map implements java.io.Serializable {
 	 *         does note exist
 	 */
 	public boolean removePoint(String id) {
-		Point point = this.allPoints.get(id);
+		Point point = allPoints.get(id);
 		if (point != null) {
 			for (Point pointN : point.getNeighborsP()) {
 				if (!pointN.removeNeighbor(point))
 					return false;
 			}
 			point.removeAllNeighbors();
-			this.allPoints.remove(point.getId());
+			allPoints.remove(point.getId());
 			return true;
 		}
 		return false;
@@ -359,13 +359,15 @@ public class Map implements java.io.Serializable {
 	 *         does note exist
 	 */
 	public boolean removePoint(Point point) {
+		System.out.println("Remove: " + point.getId());
 		ArrayList<Point> neighbors = point.getNeighborsP();
 		for (Point pointN : neighbors) {
 			if (!pointN.removeNeighbor(point))
 				return false;
 		}
 		point.removeAllNeighbors();
-		this.allPoints.remove(point.getId());
+		allPoints.remove(point.getId());
+		
 		return true;
 	}
 
