@@ -1,7 +1,7 @@
 package WPI.CampusMap;
 
 
-import WPI.CampusMap.UI.AppUIObject;
+import WPI.CampusMap.Frontend.UI.AppUIObject;
 
 /**
  * Hello world!
