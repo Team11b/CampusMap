@@ -178,6 +178,7 @@ public class XML {
 				case "Node":
 					currPoint.setCoord(tempCoord);
 					pointMap.put(currPoint.getId(), currPoint);
+					if(neighMap.get(currPoint.getId()) == null) neighMap.put(currPoint.getId(), new ArrayList<String>());
 //					neighMap.put(currPoint.getId(), neighAList);
 					break;
 				case "type":
@@ -211,6 +212,7 @@ public class XML {
 		for (String s : pointMap.keySet()) {
 			Point tempP = pointMap.get(s);
 			ArrayList<String> aLS = neighMap.get(s);
+			System.out.println(s +": "+aLS);
 			for (String sV : aLS) {
 				tempP.addNeighbor(pointMap.get(sV));
 			}
