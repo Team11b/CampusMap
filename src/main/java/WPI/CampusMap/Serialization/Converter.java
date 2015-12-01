@@ -127,7 +127,7 @@ public class Converter {
 	}
 
 	public static void main(String[] args) {
-//		Converter.addMapFromSer();
-		Converter.connectionTestPrep();
+		Converter.addMapFromSer();
+//		Converter.connectionTestPrep();
 	}
 }
