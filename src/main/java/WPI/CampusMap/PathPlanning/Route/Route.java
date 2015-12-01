@@ -2,6 +2,11 @@ package WPI.CampusMap.PathPlanning.Route;
 
 import java.util.LinkedList;
 
+/**
+ * 
+ * @author Jacob Zizmor
+ *
+ */
 public class Route {
 	private LinkedList<Instruction> route;
 
