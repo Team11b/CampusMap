@@ -3,6 +3,9 @@ package WPI.CampusMap.Graphics;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import WPI.CampusMap.Graphics.Dev.DevPointGraphicsObject;
+import WPI.CampusMap.Core.Ref;
+
 public abstract class GraphicsObject<R, M extends GraphicalMap>
 {
 	private M graphicsOwner;
@@ -33,6 +36,9 @@ public abstract class GraphicsObject<R, M extends GraphicalMap>
 	protected void finalizeDelelte()
 	{
 		cleanedUp = true;
+		Ref ref = Ref.getRefTo(this);
+		if(ref != null)
+			ref.releaseAll();
 	}
 	
 	/**
@@ -101,7 +107,8 @@ public abstract class GraphicsObject<R, M extends GraphicalMap>
 	
 	/**
 	 * Checks to see if the mouse is over the graphics object.
-	 * @return
+	 * @param e The real mouse event
+	 * @return whether the mouse is over the graphics object
 	 */
 	public abstract boolean isMouseOver(RealMouseEvent e);
 	

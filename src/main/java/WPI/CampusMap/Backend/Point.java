@@ -19,10 +19,8 @@ public class Point implements java.io.Serializable {
 	private String id;
 	private String map;
 	private HashMap<String, Point> neighbors = new HashMap<String, Point>();
-
-	public static final String WALL = "wall";
-	/** Standard type of wall */
-	public static final String DOOR = "door";
+	
+	public static final String OUT_DOOR = "out_door";
 	/** Standard type of door */
 	public static final String STAIRS = "stairs";
 	/** Standard type of stairs */
@@ -108,13 +106,13 @@ public class Point implements java.io.Serializable {
 		ArrayList<Point> neigh = this.getNeighborsP();
 		ArrayList<Point> trim = new ArrayList<Point>();
 
-		for (int i = 0; i < neigh.size(); i++) {
+		/*for (int i = 0; i < neigh.size(); i++) {
 			if (neigh.get(i).getType() == null || !(neigh.get(i).getType().equalsIgnoreCase(Point.WALL))) {
 				trim.add(neigh.get(i));
 			}
-		}
+		}*/
 
-		return trim;
+		return neigh;
 	}
 
 	/**
@@ -153,24 +151,23 @@ public class Point implements java.io.Serializable {
 	}
 	
 	/**
-	 * Converts this point to a connection Point
+	 * Returns the normal point version
 	 * 
-	 * @return The new connection Point
+	 * @return The current Point
 	 */
-	public Point switchPointConnectionType(){
-		 return switchPointConnectionType("","");
+	public Point getNormalPoint(){
+		 return this;
 	}
 	
 	/**
 	 * Converts this point to a connection Point and links the new connection point to the specified map and point
 	 * 
-	 * @param linkedMap Map to link the new connection point to.
-	 * @param linkedPoint Point to link the new connection point to.
 	 * @return The new connection point
 	 */
-	public Point switchPointConnectionType(String linkedMap, String linkedPoint){
-		ConnectionPoint temp = new ConnectionPoint(this.getCoord(), this.getType(), this.getId(), this.getMap(), linkedMap, linkedPoint);
+	public ConnectionPoint getConnectionPoint(){
+		ConnectionPoint temp = new ConnectionPoint(this.getCoord(), this.getType(), this.getId(), this.getMap(), "", "");
 		for(Point point: this.getNeighborsP()){
+			System.out.println(point);
 			temp.addNeighbor(point);
 		}
 		 return temp;

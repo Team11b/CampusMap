@@ -26,12 +26,13 @@ public class MapPanel extends JPanel implements Runnable{
 	private GraphicalMap graphicsMap;
 	
 	private boolean isDevMode;
+	public AppUIObject uiObject;
 
 	MapPanel(AppUIObject uiObject) {
 		MapPannelMouseListener mouse = new MapPannelMouseListener(this);
 		addMouseListener(mouse);
 		addMouseMotionListener(mouse);
-		
+		this.uiObject = uiObject;
 		this.renderingThread = new Thread(this, "Render Thread");
 		this.renderingThread.start();
 	}
@@ -55,9 +56,13 @@ public class MapPanel extends JPanel implements Runnable{
 		
 		synchronized(this)
 		{
+			System.out.println(mapName);
 			Map newMap = new Map(mapName);
 			System.out.println(newMap.getAllPoints().keySet());
 			currentMap = newMap;
+			
+			if(graphicsMap != null)
+				graphicsMap.unload();
 			
 			if(isDevMode)
 			{
@@ -75,7 +80,7 @@ public class MapPanel extends JPanel implements Runnable{
 		synchronized (this)
 		{
 			if(currentMap != null)
-				graphicsMap = new UserGraphicalMap(currentMap, this);
+				graphicsMap = UserGraphicalMap.loadGraphicalMap(currentMap, this);
 			
 			isDevMode = false;
 		}
@@ -99,6 +104,15 @@ public class MapPanel extends JPanel implements Runnable{
 			((DevGraphicalMap)graphicsMap).setMode(mode);
 		}
 	}
+	
+	protected EditorToolMode getDevMode()
+	{
+		synchronized(this)
+		{
+			return ((DevGraphicalMap)graphicsMap).getMode();
+		}
+	}
+	
 
 	/**
 	 * drawMap takes in a graphics object and uses it to draw the map

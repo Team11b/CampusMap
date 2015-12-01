@@ -44,7 +44,7 @@ public class Heuristic {
 
 	// month
 	private static final GregorianCalendar gc = new GregorianCalendar();
-	private static final int month = gc.get(gc.MONTH);
+	private static final int month = gc.get(GregorianCalendar.MONTH);
 
 	public Heuristic() {
 

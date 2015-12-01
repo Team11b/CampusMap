@@ -20,7 +20,6 @@ public class Path {
 	private String mapName;
 	private float pathScale;
 
-
 	/**
 	 * Constructor with pre-defined ArrayList of Nodes
 	 * @param path pre-defined ArrayList of Nodes

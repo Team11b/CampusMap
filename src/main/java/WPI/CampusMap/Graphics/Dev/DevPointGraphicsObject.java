@@ -3,10 +3,8 @@ package WPI.CampusMap.Graphics.Dev;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import javax.swing.ToolTipManager;
-
+import WPI.CampusMap.Backend.ConnectionPoint;
 import WPI.CampusMap.Backend.Point;
-import WPI.CampusMap.Core.UnorderedPair;
 import WPI.CampusMap.Dev.EditorToolMode;
 import WPI.CampusMap.Graphics.*;
 
@@ -44,7 +42,7 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 	public Color getColor() 
 	{
 		EditorToolMode mode = getOwner().getMode();
-		if(mode == EditorToolMode.Point || mode == EditorToolMode.Edge || mode == EditorToolMode.DeletePoint)
+		if(mode == EditorToolMode.Point || mode == EditorToolMode.Edge || mode == EditorToolMode.DeletePoint || mode == EditorToolMode.None)
 		{
 			if(selected == this)
 			{
@@ -95,8 +93,15 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 		case DeletePoint:
 			delete();
 			break;
+		case None:
+			Point selectedPoint = DevPointGraphicsObject.getSelected().getRepresentedObject();	
+			getOwner().getUI().setTypeSelectorEditable(true);
+			getOwner().getUI().setNodeTextFieldEditable(true);
+			getOwner().getUI().setMapConnectorText(selectedPoint.getConnectionPoint().getLinkedMap());
+			getOwner().getUI().setPointConnectorText(selectedPoint.getConnectionPoint().getLinkedPoint());
 		case Point:
 			selected = this;
+			onSelected();
 			break;
 		case Edge:
 			if(selected == null)
@@ -112,6 +117,8 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 					selected = this;
 			}
 			break;
+			default:
+				break;
 		}
 	}
 	
@@ -124,8 +131,47 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 		return super.isMouseOver(e);
 	}
 	
+	private void onSelected()
+	{
+		//selected.getOwner().
+		//getColor();
+	}
+	
 	private void createGraphicsEdge(Point other)
 	{
 		DevEdgeGraphicsObject.createGraphicsEdge(getRepresentedObject(), other, getOwner());
+	}
+	
+	public void updatePoint(){
+		//Copy the textbox to the type									
+		DevPointGraphicsObject selectedObject = DevPointGraphicsObject.getSelected();
+		if(selectedObject != null){
+			Point selectedPoint = DevPointGraphicsObject.getSelected().getRepresentedObject();	
+			getOwner().getMap().removePoint(selectedPoint);
+			selectedPoint.setType(getOwner().getUI().getTypeSelector());
+			selectedPoint.setId(getOwner().getUI().getID());
+			
+			if(getOwner().getUI().getTypeSelector() != "hallway"){
+				//Is a connecting node.
+				System.out.println("IS A CONNECTING NODE");
+				ConnectionPoint connectionPoint = selectedPoint.getConnectionPoint();
+				getOwner().getUI().setMapConnectionTextFieldEditable(true);
+				getOwner().getUI().setMapConnectionTextFieldEditable(true);
+				connectionPoint.setLinkedMap(getOwner().getUI().getMapConnectorText());
+				connectionPoint.setLinkedPoint(getOwner().getUI().getPointConnectorText());
+				getOwner().getMap().addPoint(connectionPoint);
+			}else{
+				System.out.println("IS NOT A CONNECTING NODE");
+				getOwner().getUI().setMapConnectionTextFieldEditable(false);
+				getOwner().getUI().setMapConnectionTextFieldEditable(false);
+				getOwner().getMap().addPoint(selectedPoint.getNormalPoint());
+			}
+			
+			System.out.println(getOwner().getMap().getAllPoints().containsKey(selectedPoint.getId()));
+			
+			selectedObject.clearSelection();
+			getOwner().getUI().setNodeTextField("");
+			getOwner().getUI().setTypeSelector(0);
+		}
 	}
 }

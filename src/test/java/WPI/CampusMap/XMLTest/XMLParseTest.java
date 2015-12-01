@@ -79,6 +79,6 @@ public class XMLParseTest {
 	@Test
 	public void testInvalidXML() throws FileNotFoundException, XMLStreamException {
 		exception.expect(XMLStreamException.class);
-		Map testMap = new Map("borked");
+		new Map("borked");
 	}
 }

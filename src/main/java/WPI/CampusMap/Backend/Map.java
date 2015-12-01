@@ -336,14 +336,14 @@ public class Map implements java.io.Serializable {
 	 *         does note exist
 	 */
 	public boolean removePoint(String id) {
-		Point point = this.allPoints.get(id);
+		Point point = allPoints.get(id);
 		if (point != null) {
 			for (Point pointN : point.getNeighborsP()) {
 				if (!pointN.removeNeighbor(point))
 					return false;
 			}
 			point.removeAllNeighbors();
-			this.allPoints.remove(point.getId());
+			allPoints.remove(point.getId());
 			return true;
 		}
 		return false;
@@ -359,13 +359,15 @@ public class Map implements java.io.Serializable {
 	 *         does note exist
 	 */
 	public boolean removePoint(Point point) {
+		System.out.println("Remove: " + point.getId());
 		ArrayList<Point> neighbors = point.getNeighborsP();
 		for (Point pointN : neighbors) {
 			if (!pointN.removeNeighbor(point))
 				return false;
 		}
 		point.removeAllNeighbors();
-		this.allPoints.remove(point);
+		allPoints.remove(point.getId());
+		
 		return true;
 	}
 
@@ -439,17 +441,6 @@ public class Map implements java.io.Serializable {
 			return true;
 		}
 		return false;
-	}
-	
-	/**
-	 * Converts specified point to other type 
-	 * (ie. from a normal point to connection point and vice versa)
-	 * @param point Point to convert
-	 */
-	public void convertPoint(Point point){
-		Point temp = point.switchPointConnectionType();
-		removePoint(point);
-		addPoint(temp);
 	}
 	
 	public void setAllPointMaps() {

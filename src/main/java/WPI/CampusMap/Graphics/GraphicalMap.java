@@ -3,21 +3,18 @@ package WPI.CampusMap.Graphics;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Panel;
-import java.awt.Point;
 import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
-import java.awt.image.renderable.RenderableImageOp;
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.Hashtable;
 import java.util.LinkedList;
 
 import WPI.CampusMap.Backend.Coord;
 import WPI.CampusMap.Backend.Map;
+import WPI.CampusMap.UI.AppUIObject;
 import WPI.CampusMap.UI.MapPanel;
 
 public abstract class GraphicalMap
@@ -38,6 +35,22 @@ public abstract class GraphicalMap
 		this.map = map;
 		transform = AffineTransform.getScaleInstance(1, 1);
 		this.spawnMap(map);
+	}
+	
+	public void setPanel(MapPanel panel)
+	{
+		this.panel = panel;
+	}
+	
+	public MapPanel getPanel()
+	{
+		return this.panel;
+	}
+	
+	public GraphicsObject<?, ?>[] getObjects()
+	{
+		GraphicsObject<?, ?>[] objs = new GraphicsObject<?, ?>[batchList.size()];
+		return batchList.toArray(objs);
 	}
 	
 	public final void onDraw(Graphics2D graphics)
@@ -90,6 +103,11 @@ public abstract class GraphicalMap
 	 * @param map The map to read in.
 	 */
 	public abstract void spawnMap(Map map);
+	
+	public void unload()
+	{
+		
+	}
 	
 	/**
 	 * Called when the mouse moves over the graphics map.
@@ -258,4 +276,13 @@ public abstract class GraphicalMap
 			return arg0.getDrawBatch() - arg1.getDrawBatch();
 		}
 	}
+
+
+	public final AppUIObject getUI()	{
+		return panel.uiObject;
+	}
+
+
+	
+	
 }

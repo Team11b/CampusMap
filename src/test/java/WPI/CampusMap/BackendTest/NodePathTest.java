@@ -24,7 +24,7 @@ public class NodePathTest {
 		cThree = new Coord(2, 1);
 		cFour = new Coord(1, 2);
 
-		one = new Point(cOne, Point.DOOR, "alpha", null);
+		one = new Point(cOne, Point.OUT_DOOR, "alpha", null);
 		two = new Point(cTwo, Point.ELEVATOR, "beta", null);
 		three = new Point(cThree, Point.STAIRS, "gamma", null);
 
