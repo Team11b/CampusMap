@@ -3,6 +3,7 @@ package WPI.CampusMap.Graphics.Dev;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import WPI.CampusMap.Backend.ConnectionPoint;
 import WPI.CampusMap.Backend.Point;
 import WPI.CampusMap.Dev.EditorToolMode;
 import WPI.CampusMap.Graphics.*;
@@ -144,10 +145,20 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 			getOwner().getMap().removePoint(selectedPoint);
 			selectedPoint.setType(getOwner().getUI().getTypeSelector());
 			selectedPoint.setId(getOwner().getUI().getID());
+			
 			if(getOwner().getUI().getTypeSelector() != "hallway"){
 				//Is a connecting node.
-				getOwner().getMap().addPoint(selectedPoint.getConnectionPoint());
+				System.out.println("IS A CONNECTING NODE");
+				ConnectionPoint connectionPoint = selectedPoint.getConnectionPoint();
+				getOwner().getUI().setMapConnectionTextFieldEditable(true);
+				getOwner().getUI().setPointConnectionTextFieldEditable(true);
+				connectionPoint.setLinkedMap(getOwner().getUI().getMapConnectorText());
+				connectionPoint.setLinkedPoint(getOwner().getUI().getPointConnectorText());
+				getOwner().getMap().addPoint(connectionPoint);
 			}else{
+				System.out.println("IS NOT A CONNECTING NODE");
+				getOwner().getUI().setMapConnectionTextFieldEditable(false);
+				getOwner().getUI().setPointConnectionTextFieldEditable(false);
 				getOwner().getMap().addPoint(selectedPoint.getNormalPoint());
 			}
 			
