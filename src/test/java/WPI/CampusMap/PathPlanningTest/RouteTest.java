@@ -8,6 +8,7 @@ import java.util.HashMap;
 import javax.xml.stream.XMLStreamException;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import WPI.CampusMap.Backend.ConnectionPoint;
@@ -310,6 +311,7 @@ public class RouteTest {
 		Serializer.write(testMap6);
 	}
 
+	@Ignore
 	@Test
 	public void testConnected() {
 		Map.addMap(testMap5);
