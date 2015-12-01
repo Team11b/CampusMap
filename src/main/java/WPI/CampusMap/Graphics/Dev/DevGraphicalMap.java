@@ -70,11 +70,25 @@ public class DevGraphicalMap extends GraphicalMap
 			Point thePoint = ((Point) getHoverObject().getRepresentedObject());
 			getUI().setNodeTextField(thePoint.getId());
 			System.out.println("The type is " + thePoint.getType());
-			if(thePoint.getType()==null)
-				getUI().setTypeSelector("0");
-			else
-			getUI().setTypeSelector(thePoint.getType());
-			//getUI.
+			switch(thePoint.getType()){
+			case "":
+			case Point.HALLWAY:
+				getUI().setTypeSelector(0);
+				break;
+			case Point.STAIRS:
+				getUI().setTypeSelector(1);
+				break;
+			case Point.ELEVATOR:
+				getUI().setTypeSelector(2);
+				break;
+			case Point.OUT_DOOR:
+				getUI().setTypeSelector(3);
+				break;
+			default:
+				System.out.println("Type is invalid");
+				break;
+			}
+			
 		}
 		
 		return false;

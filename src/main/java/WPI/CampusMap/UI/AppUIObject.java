@@ -29,6 +29,7 @@ import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 import javax.xml.stream.XMLStreamException;
 
+import WPI.CampusMap.Backend.Point;
 import WPI.CampusMap.Dev.EditorToolMode;
 import WPI.CampusMap.Graphics.User.UserPointGraphicsObject;
 
@@ -54,7 +55,7 @@ public class AppUIObject {
 	private final JLabel lblMapColon = new JLabel("Map:");
 	private final JButton btnDevMode = new JButton("Dev Mode");
 	private final JButton btnSave = new JButton("Save");
-	private final String[] pointTypes = {"1", "2", "3"};
+	private final String[] pointTypes = {Point.HALLWAY, Point.STAIRS, Point.ELEVATOR, Point.OUT_DOOR};
 	private JComboBox<String> typeSelector = new JComboBox<String>();
 	
 	private final JTextPane txtDirections = new JTextPane();
@@ -84,8 +85,8 @@ public class AppUIObject {
 	protected DevMode currentDevMode = DevMode.none;	
 	
 	//Next 4 functions used in UserPointGraphicsObject and DevPointGraphicsObject
-	public void setTypeSelector(String type){
-		typeSelector.setSelectedIndex( Integer.parseInt(type));
+	public void setTypeSelector(int type){
+		typeSelector.setSelectedIndex(type);
 	}
 	public void setNodeTextField(String Id){		
 		nodeTextField.setText(Id);
@@ -194,29 +195,49 @@ public class AppUIObject {
 				System.out.println("Print");
 				break;
 			case "Place Mode":
-				mapPanel.setDevMode(EditorToolMode.Point);
-				
+				if(mapPanel.getDevMode() != EditorToolMode.Point){
+					mapPanel.setDevMode(EditorToolMode.Point);
+				}
+				else{
+				mapPanel.setDevMode(EditorToolMode.None);				
+				}
+			
 				btnDelNode.setSelected(false);
 				btnRemoveEdge.setSelected(false);
 				btnEdgeMode.setSelected(false);
 				
 				break;
 			case "Delete Mode":
+				if(mapPanel.getDevMode() != EditorToolMode.DeletePoint){
 				mapPanel.setDevMode(EditorToolMode.DeletePoint);
+				}
+				else{
+				mapPanel.setDevMode(EditorToolMode.None);	
+				}
 				
 				btnNode.setSelected(false);
 				btnRemoveEdge.setSelected(false);
 				btnEdgeMode.setSelected(false);
 				break;
 			case "Edge Mode":
+				if(mapPanel.getDevMode() != EditorToolMode.Edge){
 				mapPanel.setDevMode(EditorToolMode.Edge);
+				}
+				else{
+				mapPanel.setDevMode(EditorToolMode.None);
+				}
 				
 				btnNode.setSelected(false);
 				btnDelNode.setSelected(false);
 				btnRemoveEdge.setSelected(false);
 				break;
 			case "Remove Edge":
+				if(mapPanel.getDevMode() != EditorToolMode.DeleteEdge){
 				mapPanel.setDevMode(EditorToolMode.DeleteEdge);
+				}
+				else{
+				mapPanel.setDevMode(EditorToolMode.None);
+				}
 				
 				btnNode.setSelected(false);
 				btnDelNode.setSelected(false);
@@ -521,6 +542,7 @@ public class AppUIObject {
 		typeSelector.addItem(pointTypes[0]);
 		typeSelector.addItem(pointTypes[1]);
 		typeSelector.addItem(pointTypes[2]);
+		typeSelector.addItem(pointTypes[3]);
 		
 		//nodeTextField.setText(mapPanel.selectedPoint.getId());
 		

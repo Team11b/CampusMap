@@ -463,15 +463,7 @@ public class Map implements java.io.Serializable {
 	 *            the goal Point
 	 * @return a Path of points or null if either the start or goal is invalid
 	 */
-	public Path astar(Point start, Point goal) {
-		// checks to see if either the start or goal is a wall
-		if (start.getType() == Point.WALL) {
-			System.out.println("Invalid start point.");
-			return null;
-		} else if (goal.getType() == Point.WALL) {
-			System.out.println("Invalid goal point.");
-			return null;
-		}
+	public Path astar(Point start, Point goal) {		
 
 		boolean goalFound = false;
 

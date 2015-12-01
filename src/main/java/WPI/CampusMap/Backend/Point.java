@@ -19,10 +19,8 @@ public class Point implements java.io.Serializable {
 	private String id;
 	private String map;
 	private HashMap<String, Point> neighbors = new HashMap<String, Point>();
-
-	public static final String WALL = "wall";
-	/** Standard type of wall */
-	public static final String DOOR = "door";
+	
+	public static final String OUT_DOOR = "out_door";
 	/** Standard type of door */
 	public static final String STAIRS = "stairs";
 	/** Standard type of stairs */
@@ -108,11 +106,11 @@ public class Point implements java.io.Serializable {
 		ArrayList<Point> neigh = this.getNeighborsP();
 		ArrayList<Point> trim = new ArrayList<Point>();
 
-		for (int i = 0; i < neigh.size(); i++) {
+		/*for (int i = 0; i < neigh.size(); i++) {
 			if (neigh.get(i).getType() == null || !(neigh.get(i).getType().equalsIgnoreCase(Point.WALL))) {
 				trim.add(neigh.get(i));
 			}
-		}
+		}*/
 
 		return trim;
 	}

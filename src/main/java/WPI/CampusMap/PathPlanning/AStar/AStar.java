@@ -39,15 +39,7 @@ public class AStar {
 			returnPath.addNode(new Node(goal, tempNode));
 			return returnPath;
 		}
-
-		// checks to see if either the start or goal is a wall
-		if (start.getType() == Point.WALL) {
-			System.out.println("Invalid start point.");
-			return null;
-		} else if (goal.getType() == Point.WALL) {
-			System.out.println("Invalid goal point.");
-			return null;
-		}
+	
 
 		boolean goalFound = false;
 
@@ -121,16 +113,7 @@ public class AStar {
 			returnPath.addNode(tempNode);
 			returnPath.addNode(new Node(goal, tempNode));
 			return new MultiPath(returnPath);
-		}
-
-		// checks to see if either the start or goal is a wall
-		if (start.getType() == Point.WALL) {
-			System.out.println("Invalid start point.");
-			return null;
-		} else if (goal.getType() == Point.WALL) {
-			System.out.println("Invalid goal point.");
-			return null;
-		}
+		}		
 
 		boolean goalFound = false;
 
