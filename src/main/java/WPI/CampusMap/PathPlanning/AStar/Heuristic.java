@@ -96,31 +96,6 @@ public class Heuristic {
 		return input.replaceAll("\\s", "");
 	}
 
-	/*
-	 * sunny: + 2.5 pts
-	 * windy: - 2.5 pts
-	 * drizzle: 0 pts
-	 * percip: INSIDE
-	 * 
-	 * temp:: based on average temps listed here:
-	 * http://discovernewengland.org/about-new-england/new-england-usa-quick-
-	 * facts-0
-	 * 
-	 * spring/fall:
-	 * within average: 0 pts
-	 * for each deg above avg: +0.5 pts
-	 * for each deg below avg: -0.5 pts
-	 * 
-	 * winter:
-	 * within average: 0 pts
-	 * for each deg above avg: +1 pts
-	 * for each deg below avg: -1 pts
-	 * 
-	 * summer:
-	 * within average: 0 pts
-	 * for each deg above avg: -1
-	 * pts for each deg below avg: +1 pts
-	 */
 	/**
 	 * Calculates a heuristic modifier based upon the weather using the following algorithm:
 	 * 
@@ -152,7 +127,7 @@ public class Heuristic {
 	 * A negative score favors indoors
 	 * @return modifier score
 	 */
-	public double getWeatherScore() {
+	public static double getWeatherScore() {
 		double score = 0.0;
 
 		// SUNNY

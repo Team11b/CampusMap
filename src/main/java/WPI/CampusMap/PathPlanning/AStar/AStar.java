@@ -125,7 +125,7 @@ public class AStar {
 		Path returnPath = new Path();
 
 		Node tempNode = new Node(start, null);
-		tempNode.setHeuristic(tempNode.calcHeuristic(goal));
+//		tempNode.setHeuristic(tempNode.calcHeuristic(goal));
 		ConnectionPoint tempConn = new ConnectionPoint(null, null, null, null, null, null);
 		ConnectionNode tempConNode = new ConnectionNode(null, null, false);
 
@@ -155,7 +155,7 @@ public class AStar {
 						tempConNode = new ConnectionNode(tempConn.getConnPoint(), explored.getLast(), false);
 						tempConNode.setCumulativeDist(explored.getLast().getCumulativeDist() + explored.getLast().getPoint().distance(tempConn));
 						tempConNode.setCurrentScore(
-								tempNode.getCumulativeDist() + tempNode.calcHeuristic(tempNode.getPoint()));
+								tempConNode.getCumulativeDist() + tempConNode.calcHeuristic(goal));
 
 						if (!(explored.containsSamePoint(tempConNode))) {
 
@@ -178,7 +178,7 @@ public class AStar {
 
 								tempConNode.setCumulativeDist(explored.getLast().getCumulativeDist() + explored.getLast().getPoint().distance(tempConNode.getPoint()));
 								tempConNode.setCurrentScore(tempConNode.getCumulativeDist()
-										+ tempConNode.setHeuristic(tempNode.calcHeuristic(goal)));
+										+ tempConNode.setHeuristic(tempConNode.calcHeuristic(goal)));
 
 								// check if Node is in Explored
 								if (!(explored.containsSamePoint(tempConNode))) {
