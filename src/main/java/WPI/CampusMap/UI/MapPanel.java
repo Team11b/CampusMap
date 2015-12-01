@@ -61,6 +61,9 @@ public class MapPanel extends JPanel implements Runnable{
 			System.out.println(newMap.getAllPoints().keySet());
 			currentMap = newMap;
 			
+			if(graphicsMap != null)
+				graphicsMap.unload();
+			
 			if(isDevMode)
 			{
 				onEnterDevMode();
@@ -77,7 +80,7 @@ public class MapPanel extends JPanel implements Runnable{
 		synchronized (this)
 		{
 			if(currentMap != null)
-				graphicsMap = new UserGraphicalMap(currentMap, this);
+				graphicsMap = UserGraphicalMap.loadGraphicalMap(currentMap, this);
 			
 			isDevMode = false;
 		}
