@@ -58,18 +58,18 @@ public class MultiPathTest {
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
 		testMap.setName("TestMap");
-		alpha = new ConnectionPoint(null, null, "alpha","TestMap", null, null);
+		alpha = new ConnectionPoint(null, null, "alpha","TestMap", null, "null");
 		beta = new Point(null, null, "beta", "TestMap");
 		gamma = new Point(null, null, "gamma", "TestMap");
 		delta = new Point(null, null, "delta", "TestMap");
-		epsilon = new ConnectionPoint(null, null, "epsilon","TestMap", null, null);
-		zeta = new ConnectionPoint(null, null, "zeta","TestMap", null, null);
+		epsilon = new ConnectionPoint(null, null, "epsilon","TestMap", null, "null");
+		zeta = new ConnectionPoint(null, null, "zeta","TestMap", null, "null");
 		eta = new Point(null, null, "eta", "TestMap");
 		theta = new Point(null, null, "theta", "TestMap");
-		iota = new ConnectionPoint(null, null, "iota","TestMap", null, null);
-		kappa = new ConnectionPoint(null, null, "kappa","TestMap", null, null);
+		iota = new ConnectionPoint(null, null, "iota","TestMap", null, "null");
+		kappa = new ConnectionPoint(null, null, "kappa","TestMap", null, "null");
 		lambda = new Point(null, null, "lambda", "TestMap");
-		mu = new ConnectionPoint(null, null, "nu","TestMap", null, null);
+		mu = new ConnectionPoint(null, null, "nu","TestMap", null, "null");
 
 		nu = new Node(alpha, null);
 		xi = new Node(beta, null);
