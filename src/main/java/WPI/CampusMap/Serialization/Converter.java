@@ -88,11 +88,11 @@ public class Converter {
 				HashMap<String, Point> holder = temp.getAllPoints();
 				String[] keys = holder.keySet().toArray(new String[holder.keySet().size()]);
 
-				for (int i = 0; i < keys.length; i++) {
-					holder.get(keys[i]).setMap(temp.getName());
-					holder.put(keys[i], new Point(holder.get(keys[i]).getCoord(), null, holder.get(keys[i]).getId(),
-							temp.getName()));
-				}
+//				for (int i = 0; i < keys.length; i++) {
+//					holder.get(keys[i]).setMap(temp.getName());
+//					holder.put(keys[i], new Point(holder.get(keys[i]).getCoord(), null, holder.get(keys[i]).getId(),
+//							temp.getName()));
+//				}
 
 				temp.setAllPoints(holder);
 
