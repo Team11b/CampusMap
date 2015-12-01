@@ -2,6 +2,11 @@ package WPI.CampusMap.PathPlanning.Route;
 
 import WPI.CampusMap.PathPlanning.Node;
 
+/**
+ * 
+ * @author Jacob Zizmor
+ *
+ */
 public class Instruction {
 	private String instruction;
 	private double distance;
