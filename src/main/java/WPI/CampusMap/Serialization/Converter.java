@@ -21,6 +21,7 @@ public class Converter {
 	public static String[] ignore = { "5x5Test.xml", "5x5Test2.xml", "AK.xml", "borked.xml", "testOutput.xml",
 			"borked.xml" };
 	public static String[] allow = { "5x5Test.ser", "5x5Test2.ser", "5x5TestCopy.ser" };
+	public static String[] allowXML = { "5x5Test.xml", "5x5Test2.xml", "5x5TestCopy.xml" };
 
 	public static String[] getFileNames() {
 		File folder = new File("XML/");
@@ -73,13 +74,14 @@ public class Converter {
 		String connKey = "4";
 
 		for (int j = 0; j < files.length; j++) {
-			if ((Arrays.asList(Converter.allow).contains(files[j]))) {
+			if ((Arrays.asList(Converter.allowXML).contains(files[j]))) {
 				System.out.println(files[j]);
 				temp = new Map();
 				temp.setXML("XML/" + files[j]);
 
 				try {
-					temp.setAllPoints(XML.parseXML(temp));
+					HashMap<String, Point> hello = XML.parseXML(temp);
+					temp.setAllPoints(hello);
 				} catch (XMLStreamException e) {
 					e.printStackTrace();
 				}
@@ -92,29 +94,6 @@ public class Converter {
 							temp.getName()));
 				}
 
-				if (temp.getName().equals("5x5Test")) {
-					ArrayList<String> neigh = holder.get(connKey).getNeighborsID();
-					ArrayList<Point> neighP = holder.get(connKey).getNeighborsP();
-					System.out.println("" + neigh.size() + neighP.size());
-
-					ConnectionPoint tempConnP = new ConnectionPoint(holder.get(connKey).getCoord(), null, connKey,
-							temp.getName(), "5x5TextCopy", connKey);
-
-					for (int k = 0; k < neigh.size(); k++) {
-						tempConnP.addNeighbor(neighP.get(k));
-					}
-				} else {
-					ArrayList<String> neigh = holder.get(connKey).getNeighborsID();
-					ArrayList<Point> neighP = holder.get(connKey).getNeighborsP();
-					System.out.println("" + neigh.size() + neighP.size());
-
-					ConnectionPoint tempConnP = new ConnectionPoint(holder.get(connKey).getCoord(), null, connKey,
-							temp.getName(), "5x5Text", connKey);
-
-					for (int k = 0; k < neigh.size(); k++) {
-						tempConnP.addNeighbor(neighP.get(k));
-					}
-				}
 				temp.setAllPoints(holder);
 
 				Serializer.write(temp);
@@ -130,16 +109,8 @@ public class Converter {
 			String file = files[j].substring(0, files[j].length() - 4) + ".ser";
 			if (Converter.contains(file, Converter.allow)) {
 				temp = Serializer.read(files[j].substring(0, files[j].length() - 4));
-
-				HashMap<String, Point> allPoints = temp.getAllPoints();
-
-				for (String s : allPoints.keySet()) {
-					Point tempP = allPoints.get(s);
-					tempP.setMap(files[j].substring(0, files[j].length() - 4));
-					allPoints.put(tempP.getId(), tempP);
-				}
 				System.out.println(temp.getName());
-				temp.setAllPoints(allPoints);
+				temp.setAllPointMaps();
 				Serializer.write(temp);
 			}
 		}
@@ -156,7 +127,7 @@ public class Converter {
 	}
 
 	public static void main(String[] args) {
-		Converter.addMapFromSer();
-//		Converter.connectionTestPrep();
+//		Converter.addMapFromSer();
+		Converter.connectionTestPrep();
 	}
 }

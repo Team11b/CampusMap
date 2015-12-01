@@ -554,5 +554,11 @@ public class Map implements java.io.Serializable {
 		returnPath.reverse();
 		return returnPath;
 	}
+	
+	public void setAllPointMaps() {
+		for (Point p : this.allPoints.values()) {
+			p.setMap(this.getName());
+		}
+	}
 
 }
