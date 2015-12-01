@@ -68,10 +68,10 @@ public class AppUIObject {
 	private JComboBox<String> typeSelector = new JComboBox<String>();
 	
 	private final JTextPane txtDirections = new JTextPane();
-	private JLabel lblStart = new JLabel("Start:");
-	private JLabel lblEnd = new JLabel("End:");
-	private JTextField txtStart;
-	private JTextField txtEnd;
+//	private JLabel lblStart = new JLabel("Start:");
+//	private JLabel lblEnd = new JLabel("End:");
+//	private JTextField txtStart;
+//	private JTextField txtEnd;
 	private JToggleButton btnUseWeather = new JToggleButton("Use Weather");
 	private final ArrayList<String> mapXMLStrings = new ArrayList<String>();
 	private JComboBox<String> mapDropDown = new JComboBox<String>();
@@ -86,6 +86,9 @@ public class AppUIObject {
 	private JPasswordField txtDevPass;
 	private final JLabel lblNodeId = new JLabel("Node ID:");
 	private JTextField nodeTextField;
+	
+    Destinations destinations = new Destinations(directionsPanel);
+
 	
 	protected enum DevMode{
 		none, addNode, addEdge, deleteNode, deleteEdge;
@@ -115,11 +118,11 @@ public class AppUIObject {
 	}
 	
 	public void setStart(String Id){
-		txtStart.setText(Id);
+//		txtStart.setText(Id);
 	}
 	
 	public void setEnd(String Id){
-		txtEnd.setText(Id);
+//		txtEnd.setText(Id);
 	}
 	
 	public void reDrawUI() {
@@ -320,7 +323,7 @@ public class AppUIObject {
 		directionsPanel.add(txtDevPass);
 		txtDevPass.setVisible(false);
 
-		btnGetDirections.setBounds(30, 130, 157, 36);
+		btnGetDirections.setBounds(30, 213, 157, 36);
 		directionsPanel.add(btnGetDirections);
 		btnGetDirections.setEnabled(false);
 
@@ -332,7 +335,7 @@ public class AppUIObject {
 
 		directionsPanel.add(btnDelNode);
 
-		lblDirections.setBounds(0, 180, 80, 25);
+		lblDirections.setBounds(0, 243, 80, 25);
 		directionsPanel.add(lblDirections);
 
 		lblMapColon.setBounds(6, 10, 70, 15);
@@ -359,21 +362,29 @@ public class AppUIObject {
 		final JLabel lblNodeType = new JLabel("Node Type:");
 		lblNodeType.setBounds(26, 200, 85, 16);
 		directionsPanel.add(lblNodeType);
-				lblNodeId.setBounds(26, 228, 61, 16);
+		lblNodeId.setBounds(26, 228, 61, 16);
 				
-				directionsPanel.add(lblNodeId);
-				
-				typeSelector.setBounds(104, 196, 131, 27);
-				directionsPanel.add(typeSelector);
-				
-				nodeTextField = new JTextField();
-				nodeTextField.setBounds(99, 228, 130, 26);
-				directionsPanel.add(nodeTextField);
-				nodeTextField.setColumns(10);
-				
-						txtDirections.setBounds(0, 200, 220, 400);
-						directionsPanel.add(txtDirections);
+		directionsPanel.add(lblNodeId);
 		
+		typeSelector.setBounds(104, 196, 131, 27);
+		directionsPanel.add(typeSelector);
+		
+		nodeTextField = new JTextField();
+		nodeTextField.setBounds(99, 228, 130, 26);
+		directionsPanel.add(nodeTextField);
+		nodeTextField.setColumns(10);
+		
+		txtDirections.setBounds(0, 270, 220, 350);
+		directionsPanel.add(txtDirections);
+		
+        JButton btnAddDest = new JButton("+ Dest");
+        btnAddDest.setBounds(0, 76, 117, 25);
+        directionsPanel.add(btnAddDest);
+        
+        JButton btnRemoveDest = new JButton("- Dest");
+        btnRemoveDest.setBounds(118, 76, 117, 25);
+        directionsPanel.add(btnRemoveDest);
+
 		btnSave.setVisible(false);
 
 		JSeparator separator = new JSeparator();
@@ -388,6 +399,21 @@ public class AppUIObject {
 		frame.setVisible(true);
 
 		frame.getContentPane().setLayout(null);
+        
+		//Destinations
+        btnAddDest.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent arg0){
+                destinations.addDestination();
+                System.out.println("ADD dest");
+            }
+        });
+        
+        btnRemoveDest.addActionListener(new ActionListener(){
+            public void actionPerformed(ActionEvent arg0){
+                destinations.removeDestination();
+                System.out.println("SUB dest");
+            }
+        });
 
 		// Dev Mode
 		btnDevMode.addActionListener(new ActionListener() {
@@ -395,7 +421,11 @@ public class AppUIObject {
 				if (!devMode) {
 					btnGetDirections.setVisible(false);
 					txtDevPass.setVisible(true);
-					btnSubmit.setVisible(true);					
+					btnSubmit.setVisible(true);	
+					
+					btnAddDest.setVisible(false);
+					btnRemoveDest.setVisible(false);
+					destinations.setVisibility(false);
 					/*if(mapPanel.selectedPoint == null){
 						nodeTextField.setText("");
 						typeSelector.setSelectedIndex(0);
@@ -430,9 +460,13 @@ public class AppUIObject {
 					btnSubmit.setVisible(false);
 					btnUseWeather.setVisible(true);
 					txtDirections.setText("");
-					txtStart.setText("");
-					txtEnd.setText("");
+//					txtStart.setText("");
+//					txtEnd.setText("");
+					btnAddDest.setVisible(true);
+					btnRemoveDest.setVisible(true);
+					destinations.setVisibility(true);
 					onEnterUserMode();
+					
 				}
 
 				reDrawUI();
@@ -440,10 +474,10 @@ public class AppUIObject {
 				mapPanel.startPoint = null;
 				mapPanel.endPoint = null;
 				mapPanel.currentRoute = null;*/
-				txtEnd.setVisible(!txtEnd.isVisible());
-				txtStart.setVisible(!txtStart.isVisible());
-				lblStart.setVisible(!lblStart.isVisible());
-				lblEnd.setVisible(!lblEnd.isVisible());
+//				txtEnd.setVisible(!txtEnd.isVisible());
+//				txtStart.setVisible(!txtStart.isVisible());
+//				lblStart.setVisible(!lblStart.isVisible());
+//				lblEnd.setVisible(!lblEnd.isVisible());
 
 			}
 		});
@@ -592,21 +626,21 @@ public class AppUIObject {
 		
 		//typeSelector.setSelectedItem(mapPanel.selectedPoint.getType());		
 		
-		lblStart.setBounds(0, 72, 70, 15);
-		directionsPanel.add(lblStart);		
-		
-		lblEnd.setBounds(0, 102, 70, 15);
-		directionsPanel.add(lblEnd);
-		
-		txtStart = new JTextField();
-		txtStart.setBounds(40, 70, 165, 19);
-		directionsPanel.add(txtStart);
-		txtStart.setColumns(10);
-		
-		txtEnd = new JTextField();
-		txtEnd.setColumns(10);
-		txtEnd.setBounds(40, 100, 165, 19);
-		directionsPanel.add(txtEnd);
+//		lblStart.setBounds(0, 72, 70, 15);
+//		directionsPanel.add(lblStart);		
+//		
+//		lblEnd.setBounds(0, 102, 70, 15);
+//		directionsPanel.add(lblEnd);
+//		
+//		txtStart = new JTextField();
+//		txtStart.setBounds(40, 70, 165, 19);
+//		directionsPanel.add(txtStart);
+//		txtStart.setColumns(10);
+//		
+//		txtEnd = new JTextField();
+//		txtEnd.setColumns(10);
+//		txtEnd.setBounds(40, 100, 165, 19);
+//		directionsPanel.add(txtEnd);
 		
 		
 	
