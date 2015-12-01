@@ -1,6 +1,7 @@
 package WPI.CampusMap.Graphics.User;
 
 import java.awt.Color;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import WPI.CampusMap.Backend.Map;
@@ -22,6 +23,8 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 		return selectedRoute;
 	}
 	
+	private boolean selectedToRoute;
+	
 	public static void pushPointOnRoute(UserPointGraphicsObject point)
 	{
 		if(!point.selectedToRoute)
@@ -35,6 +38,17 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 			//Destinations					
 			AppUIObject.getInstance().destinations.setDestination(point.getRepresentedObject().getId());
 		}
+	}
+	
+	public static void pullPointOnRoute(int index){
+		System.out.println("Index is "+ index);
+		
+		//get the graphical object and change color
+		UserPointGraphicsObject point = selectedRoute.get(index).getValue();
+		point.selectedToRoute = false;
+		
+		//remove from Route
+		selectedRoute.remove(index);
 	}
 	
 	public static void route()
@@ -73,9 +87,8 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 		selectedRoute.clear();
 		
 		AppUIObject.getInstance().onRouteCleared();
-	}
-	
-	private boolean selectedToRoute;
+	}	
+
 	
 	public UserPointGraphicsObject(Point backend, UserGraphicalMap owner) 
 	{
