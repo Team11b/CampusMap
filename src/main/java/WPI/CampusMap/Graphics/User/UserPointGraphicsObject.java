@@ -86,6 +86,11 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 	{
 		if(selectedToRoute)
 		{
+			if(this == getSelectedRoute().getFirst().getValue())
+				return Color.green;
+			else if(this == getSelectedRoute().getLast().getValue())
+				return Color.blue;
+			else
 			return Color.yellow;
 		}
 		
