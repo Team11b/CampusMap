@@ -210,7 +210,9 @@ public class AStar {
 		// form the path
 		tempNode = new Node(null, null);
 		tempNode = frontier.find(new Node(goal, null));
-		System.out.println(tempNode != null);
+		System.out.println("Frontier itself null " + frontier == null);
+		System.out.println("Frontier .find null " + frontier.find(new Node(goal, null)) == null);
+		System.out.println("Temp node == null" + tempNode == null);
 		System.out.println(tempNode.getPoint().equals(start));
 		while ((tempNode != null) && (!(tempNode.getPoint().equals(start)))) {
 			System.out.println("Looping");
