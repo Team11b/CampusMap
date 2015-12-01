@@ -31,6 +31,9 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 			selectedRoute.add(ref);
 			
 			AppUIObject.getInstance().onPointAddedToRoute(point.getRepresentedObject());
+			
+			//Destinations					
+			AppUIObject.getInstance().destinations.setDestination(point.getRepresentedObject().getId());
 		}
 	}
 	

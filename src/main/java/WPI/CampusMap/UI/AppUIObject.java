@@ -88,7 +88,7 @@ public class AppUIObject {
 	private final JLabel lblNodeId = new JLabel("Node ID:");
 	private JTextField nodeTextField;
 	
-    Destinations destinations = new Destinations(directionsPanel);
+   public  Destinations destinations = new Destinations(directionsPanel);
 
 	
 	protected enum DevMode{
