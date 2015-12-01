@@ -10,6 +10,7 @@ import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Hashtable;
 import java.util.LinkedList;
 
 import WPI.CampusMap.Backend.Coord;
@@ -21,6 +22,7 @@ public abstract class GraphicalMap
 {
 	private ArrayList<GraphicsObject<?, ?>> batchList = new ArrayList<>();
 	private LinkedList<GraphicsObject<?, ?>> deletedList = new LinkedList<>();
+	private Hashtable<Object, GraphicsObject<?, ?>> graphicsObjectLookup = new Hashtable<>();
 	
 	private Map map;
 	private MapPanel panel;
@@ -51,6 +53,11 @@ public abstract class GraphicalMap
 	{
 		GraphicsObject<?, ?>[] objs = new GraphicsObject<?, ?>[batchList.size()];
 		return batchList.toArray(objs);
+	}
+	
+	public GraphicsObject<?, ?> getObject(Object representedObject)
+	{
+		return graphicsObjectLookup.get(representedObject);
 	}
 	
 	public final void onDraw(Graphics2D graphics)
@@ -251,6 +258,13 @@ public abstract class GraphicalMap
 		float screenY = imageY / map.getLoadedImage().getIconHeight() * panel.getHeight();
 
 		return new Coord(screenX, screenY);
+	}
+	
+	protected final void updateReferencedObject(Object oldReference, Object newReference)
+	{
+		GraphicsObject<?,?> gfxObj = graphicsObjectLookup.get(oldReference);
+		graphicsObjectLookup.remove(oldReference);
+		graphicsObjectLookup.put(newReference, gfxObj);
 	}
 	
 	private final RealMouseEvent transformMouseEvent(MouseEvent e)

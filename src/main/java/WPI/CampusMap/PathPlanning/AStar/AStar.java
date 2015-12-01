@@ -124,12 +124,15 @@ public class AStar {
 		// Instantiate path
 		Path returnPath = new Path();
 
+		System.out.println("Start == null " + (start == null));
 		Node tempNode = new Node(start, null);
 		// tempNode.setHeuristic(tempNode.calcHeuristic(goal));
 		ConnectionPoint tempConn = new ConnectionPoint(null, null, null, null, null, "null");
 		ConnectionNode tempConNode = new ConnectionNode(null, null, false);
 
 		// add start to frontier as a Node
+		System.out.println("Temp node == null " + (tempNode == null));
+		System.out.println("tempNode.getPoint == null " + (tempNode.getPoint() == null));
 		frontier.add(tempNode);
 
 		while ((!frontier.isEmpty()) && (!(goalFound))) {
@@ -221,14 +224,24 @@ public class AStar {
 		// form the path
 		tempNode = new Node(null, null);
 		tempNode = frontier.find(new Node(goal, null));
+		System.out.println("HERE");
+		System.out.println("Frontier itself null " + (frontier == null));
+		System.out.println("Frontier .find null " + (frontier.find(new Node(goal, null)) == null));
+		System.out.println("Temp node == null " + (tempNode == null));
+		System.out.println("tempNode.getPoint == null " + (tempNode.getPoint() == null));
+		System.out.println("start== null" + (start == null));
+		System.out.println("tempNode.getPoint().equals(start)" + (tempNode.getPoint().equals(start)));
 		while ((tempNode != null) && (!(tempNode.getPoint().equals(start)))) {
+			System.out.println("Looping");
 			returnPath.addNode(tempNode);
 			tempNode = tempNode.getParent();
 		}
 
 		returnPath.addNode(tempNode);
 
+
 		returnPath.reverse();
+		System.out.println(returnPath.getPath().size());
 		return new MultiPath(returnPath);
 	}
 }

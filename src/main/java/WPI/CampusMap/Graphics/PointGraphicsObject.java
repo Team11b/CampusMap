@@ -14,7 +14,7 @@ public abstract class PointGraphicsObject<M extends GraphicalMap> extends Graphi
 	
 	public PointGraphicsObject(Point backend, M owner)
 	{
-		super(owner);
+		super(backend, owner);
 		this.backendPoint = backend;
 	}
 	
@@ -76,11 +76,4 @@ public abstract class PointGraphicsObject<M extends GraphicalMap> extends Graphi
 		Coord screenPosition = getOwner().getScreenCoord(backendPoint.getCoord());
 		return mouseCoord.distance(screenPosition) <= 5;
 	}
-
-	@Override
-	public Point getRepresentedObject() {
-		// TODO Auto-generated method stub
-		return backendPoint;
-	}
-
 }
