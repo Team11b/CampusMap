@@ -80,8 +80,7 @@ public class Node {
 	public double calcHeuristic(Point goal) {
 		double temp = stdH;
 		double weather = Heuristic.getWeatherScore();
-		String building = goal.getMap().substring(0, goal.getMap().length() - 3);
-		building = this.getPoint().getMap();
+		String building = goal.getMap().substring(0, goal.getMap().length() - 2);
 
 		if (point.getMap().equals(goal.getMap())) {
 
@@ -118,10 +117,10 @@ public class Node {
 				}
 			}
 
-//			Point mapPoint = Map.getMap(goal.getMap()).getPoint(building);
-//			if (mapPoint != null) {
-//				temp += this.getPoint().distance(mapPoint);
-//			}
+			Point mapPoint = Map.getMap("CampusMap").getPoint(building);
+			if (mapPoint != null) {
+				temp += this.getPoint().distance(mapPoint);
+			}
 		}
 
 		else {

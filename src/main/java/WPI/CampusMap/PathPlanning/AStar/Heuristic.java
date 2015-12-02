@@ -54,7 +54,7 @@ public class Heuristic {
 	}
 
 	public static boolean isUsingWeather() {
-		return useWeather;
+		return true;
 	}
 
 	/**
