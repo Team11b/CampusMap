@@ -482,7 +482,7 @@ public class AppUIObject {
 		btnRemoveDest.setBounds(118, 76, 117, 25);
 		directionsPanel.add(btnRemoveDest);		
 		
-		JButton btnClear = new JButton("Clear");	
+		final JButton btnClear = new JButton("Clear");	
 		btnClear.setFont(new Font("DejaVu Serif Condensed", Font.BOLD, 13));
 		btnClear.setBounds(171, 211, 70, 36);
 		directionsPanel.add(btnClear);
