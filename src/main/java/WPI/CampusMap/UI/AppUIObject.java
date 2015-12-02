@@ -41,6 +41,7 @@ import WPI.CampusMap.PathPlanning.Path;
 import WPI.CampusMap.PathPlanning.Route.Instruction;
 import WPI.CampusMap.PathPlanning.Route.Route;
 import WPI.CampusMap.Serialization.Serializer;
+import java.awt.Font;
 
 public class AppUIObject {
 	private static AppUIObject instance;
@@ -104,6 +105,17 @@ public class AppUIObject {
 	private JTextField connectingMapTextField;
 	private JTextField connectingPointTextField;
 	
+	private static Destinations destInstance;
+	
+	public static AppUIObject get()
+	{
+		return instance;
+	}
+	
+	public void clearDestinations(){
+		destinations.resetLastPoint();
+		
+	}
 	private void clearNodeInfo(){
 		typeSelector.setSelectedIndex(0);
 		nodeTextField.setText("");
@@ -273,11 +285,14 @@ public class AppUIObject {
 				System.out.println("Send an Email!");
 				break;
 			case "Route me":
+				//UserPointGraphicsObject.clearSelected();				
+				AppUIObject.getInstance().destinations.resetLastPoint();
 				MultiPath path = UserPointGraphicsObject.route();
 				Route route = new Route(path);
 				for(Instruction i: route.getRoute()){
 					txtDirections.setText(txtDirections.getText() + i.getInstruction());
 				}
+				
 				break;
 			case "Print":
 				printDirections();
@@ -396,7 +411,7 @@ public class AppUIObject {
 		directionsPanel.add(txtDevPass);
 		txtDevPass.setVisible(false);
 
-		btnGetDirections.setBounds(30, 213, 157, 36);
+		btnGetDirections.setBounds(12, 211, 157, 36);
 		directionsPanel.add(btnGetDirections);
 		btnGetDirections.setEnabled(false);
 
@@ -458,6 +473,11 @@ public class AppUIObject {
 		final JButton btnRemoveDest = new JButton("- Dest");
 		btnRemoveDest.setBounds(118, 76, 117, 25);
 		directionsPanel.add(btnRemoveDest);		
+		
+		JButton btnClear = new JButton("Clear");	
+		btnClear.setFont(new Font("DejaVu Serif Condensed", Font.BOLD, 13));
+		btnClear.setBounds(171, 211, 70, 36);
+		directionsPanel.add(btnClear);
 		
 		comboWeather.setBounds(118, 40, 117, 24);
 		directionsPanel.add(comboWeather);
@@ -795,6 +815,13 @@ public class AppUIObject {
 		/*if(typeSelector.getSelectedIndex() == -1){
 			typeSelector.setSelectedIndex(0);
 		}*/
+		
+		btnClear.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				destinations.resetLastPoint();
+				UserPointGraphicsObject.clearSelected();
+			}
+		});
 		
 		connectingMapTextField.setVisible(false);
 		connectingPointTextField.setVisible(false);

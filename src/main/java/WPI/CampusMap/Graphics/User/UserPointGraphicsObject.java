@@ -12,6 +12,7 @@ import WPI.CampusMap.Graphics.RealMouseEvent;
 import WPI.CampusMap.PathPlanning.MultiPath;
 import WPI.CampusMap.PathPlanning.AStar.AStar;
 import WPI.CampusMap.UI.AppUIObject;
+import WPI.CampusMap.UI.Destinations;
 
 public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMap>
 {
@@ -105,7 +106,9 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 		if(selectedToRoute)
 		{
 			if(this == getSelectedRoute().getFirst().getValue())
+			{					
 				return Color.green;
+			}				
 			else if(this == getSelectedRoute().getLast().getValue())
 				return Color.blue;
 			else
