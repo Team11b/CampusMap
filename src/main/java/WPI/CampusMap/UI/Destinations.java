@@ -100,6 +100,13 @@ public class Destinations {
 			textFields.get(free).setText(idOfDest);
 		}
 		lastPoint++;		
-	}	
+	}
+	
+	public void resetLastPoint(){		
+		lastPoint = -1;
+		for(int i = 0; i < textFields.size(); i++){
+			textFields.get(i).setText("");
+		}
+	}
 	
 }

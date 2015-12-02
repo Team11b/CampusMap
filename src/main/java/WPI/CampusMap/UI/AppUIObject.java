@@ -213,6 +213,12 @@ public class AppUIObject {
 	{
 		btnGetDirections.setEnabled(true);
 		
+		//Clear old data from directions
+		if(txtDirections.getText().isEmpty()== false){
+			destinations.resetLastPoint();
+			txtDirections.setText("");
+		}
+		
 		destinations.setDestination(newPoint.getId());
 	}
 	
@@ -510,9 +516,12 @@ public class AppUIObject {
 						typeSelector.setSelectedItem(mapPanel.selectedPoint.getType());
 					}*/					
 					txtDirections.setText("Enter the password and click submit!");
-					btnDevMode.setText("User mode");
+					btnDevMode.setText("User mode");					
 					devMode = true; //not actually true, but in order to switch without pass	
 					onEnterDevMode();
+					
+					//For coming back into usermode
+					destinations.resetLastPoint();
 				} else {
 					devMode = false;
 					frame.setTitle("Path Finder");
