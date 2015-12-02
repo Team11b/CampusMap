@@ -55,7 +55,7 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 		selectedRoute.remove(index);
 	}
 	
-	public static void route()
+	public static MultiPath route()
 	{
 		lastRoutedPath = new MultiPath();
 		
@@ -76,6 +76,7 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 		}
 		
 		clearSelected();
+		return lastRoutedPath;
 	}
 	
 	public static void clearSelected()

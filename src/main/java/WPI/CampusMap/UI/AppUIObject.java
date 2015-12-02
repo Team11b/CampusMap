@@ -36,6 +36,8 @@ import WPI.CampusMap.Graphics.Dev.DevPointGraphicsObject;
 import WPI.CampusMap.Graphics.User.UserPointGraphicsObject;
 import WPI.CampusMap.PathPlanning.MultiPath;
 import WPI.CampusMap.PathPlanning.Path;
+import WPI.CampusMap.PathPlanning.Route.Instruction;
+import WPI.CampusMap.PathPlanning.Route.Route;
 import WPI.CampusMap.Serialization.Serializer;
 
 public class AppUIObject {
@@ -262,7 +264,11 @@ public class AppUIObject {
 				System.out.println("Send an Email!");
 				break;
 			case "Route me":
-				UserPointGraphicsObject.route();
+				MultiPath path = UserPointGraphicsObject.route();
+				Route route = new Route(path);
+				for(Instruction i: route.getRoute()){
+					txtDirections.setText(txtDirections.getText() + i.getInstruction());
+				}
 				break;
 			case "Print":
 				printDirections();
