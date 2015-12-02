@@ -23,7 +23,7 @@ public class DevGraphicalMap extends GraphicalMap
 		
 		for(Point p : map.getAllPoints().values())
 		{
-			addGraphicalObject(new DevPointGraphicsObject(p, this));
+			new DevPointGraphicsObject(p, this);
 		}
 	}
 	

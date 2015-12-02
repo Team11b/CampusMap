@@ -82,6 +82,7 @@ public abstract class GraphicalMap
 			{
 				batchList.remove(i);
 				go.delete();
+				graphicsObjectLookup.remove(go.getRepresentedObject());
 				go.onRemoved();
 				
 				i--;
@@ -95,9 +96,10 @@ public abstract class GraphicalMap
 		}
 	}
 	
-	public void addGraphicalObject(GraphicsObject<?, ?> go)
+	protected void addGraphicalObject(GraphicsObject<?, ?> go)
 	{
 		batchList.add(0, go);
+		graphicsObjectLookup.put(go.getRepresentedObject(), go);
 	}
 	
 	protected void deleteGraphicalObject(GraphicsObject<?, ?> go)
@@ -264,6 +266,7 @@ public abstract class GraphicalMap
 	{
 		GraphicsObject<?,?> gfxObj = graphicsObjectLookup.get(oldReference);
 		graphicsObjectLookup.remove(oldReference);
+		System.out.println("gfxObj: "+gfxObj);
 		graphicsObjectLookup.put(newReference, gfxObj);
 	}
 	

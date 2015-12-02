@@ -2,6 +2,8 @@ package WPI.CampusMap.Graphics.Dev;
 
 import java.awt.Color;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.LinkedList;
 
 import WPI.CampusMap.Backend.ConnectionPoint;
 import WPI.CampusMap.Backend.Point;
@@ -157,7 +159,23 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 				getOwner().getMap().removePoint(selectedPoint);
 				getOwner().getUI().setMapConnectionTextFieldEditable(true);
 				getOwner().getUI().setMapConnectionTextFieldEditable(true);
-				connectionPoint.addLinkedPoint(getOwner().getUI().getMapConnectorText(), getOwner().getUI().getPointConnectorText());
+				
+				connectionPoint.setLinkedMaps(new LinkedList<String>());
+				connectionPoint.setLinkedPoints(new HashMap<String,String>());
+				
+				String[] maps = getOwner().getUI().getMapConnectorText().split(", ");
+				String[] points = getOwner().getUI().getPointConnectorText().split(", ");
+				
+				System.out.println("Maps" + maps);
+				System.out.println("Points" + points);
+				
+				int size = Math.min(maps.length, points.length);
+				for(int i = 0; i < size; i++){
+					connectionPoint.addLinkedPoint(maps[i],points[i]);
+					connectionPoint.addLinkedMap(maps[i]);
+				}
+				System.out.println("Linked Maps: " + connectionPoint.getLinkedMapsString());
+				System.out.println("Linked Points:" + connectionPoint.getLinkedPointsString());
 				getOwner().getMap().addPoint(connectionPoint);
 				this.setRepresentedObject(connectionPoint);
 			}else{

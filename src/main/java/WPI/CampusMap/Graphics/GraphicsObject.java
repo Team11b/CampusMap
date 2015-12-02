@@ -19,6 +19,7 @@ public abstract class GraphicsObject<R, M extends GraphicalMap>
 	{
 		this.graphicsOwner = owner;
 		this.representedObject = representedObject;
+		owner.addGraphicalObject(this);
 	}
 	
 	public M getOwner()
@@ -126,7 +127,9 @@ public abstract class GraphicsObject<R, M extends GraphicalMap>
 	
 	public final void setRepresentedObject(R newObject)
 	{
+		System.out.println("hello: "+representedObject);
 		getOwner().updateReferencedObject(representedObject, newObject);
 		representedObject = newObject;
 	}
+	
 }
