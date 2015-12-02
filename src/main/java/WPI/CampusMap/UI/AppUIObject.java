@@ -213,6 +213,12 @@ public class AppUIObject {
 	{
 		btnGetDirections.setEnabled(true);
 		
+		//Clear old data from directions
+		if(txtDirections.getText().isEmpty()== false){
+			destinations.resetLastPoint();
+			txtDirections.setText("");
+		}
+		
 		destinations.setDestination(newPoint.getId());
 	}
 	
