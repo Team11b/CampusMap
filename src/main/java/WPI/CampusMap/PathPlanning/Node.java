@@ -115,7 +115,10 @@ public class Node {
 				}
 			}
 
-//			temp += this.getPoint().distance(Map.getMap(goal.getMap()).getPoint(building));
+//			Point mapPoint = Map.getMap(goal.getMap()).getPoint(building);
+//			if (mapPoint != null) {
+//				temp += this.getPoint().distance(mapPoint);
+//			}
 		}
 
 		else {
