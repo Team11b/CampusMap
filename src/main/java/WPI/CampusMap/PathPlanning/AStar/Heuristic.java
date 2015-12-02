@@ -137,6 +137,10 @@ public class Heuristic {
 	 */
 	public static double getWeatherScore() 
 	{
+		if (Heuristic.weather == null) {
+			return 0.0;
+		}
+		
 		if(!useWeather)
 		{
 			return 0.0;

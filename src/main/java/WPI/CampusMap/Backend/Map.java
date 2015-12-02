@@ -363,7 +363,7 @@ public class Map implements java.io.Serializable {
 	 *         does note exist
 	 */
 	public boolean removePoint(Point point) {
-		System.out.println("Remove: " + point.getId());
+//		System.out.println("Remove: " + point.getId());
 		ArrayList<Point> neighbors = point.getNeighborsP();
 		for (Point pointN : neighbors) {
 			if (!pointN.removeNeighbor(point))

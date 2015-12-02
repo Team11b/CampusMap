@@ -212,7 +212,7 @@ public class XML {
 		for (String s : pointMap.keySet()) {
 			Point tempP = pointMap.get(s);
 			ArrayList<String> aLS = neighMap.get(s);
-			System.out.println(s +": "+aLS);
+//			System.out.println(s +": "+aLS);
 			for (String sV : aLS) {
 				tempP.addNeighbor(pointMap.get(sV));
 			}

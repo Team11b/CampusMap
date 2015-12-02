@@ -336,7 +336,7 @@ public class RouteTest {
 		assertEquals(pathNodes.get(4).getPoint().getId(), "12");
 		
 		Route ar = new Route(grandPath);
-		System.out.println(ar);
+//		System.out.println(ar);
 	}
 
 }

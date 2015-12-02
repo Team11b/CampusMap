@@ -61,7 +61,7 @@ public class Converter {
 				} catch (XMLStreamException e) {
 					e.printStackTrace();
 				}
-				System.out.println(temp.getName());
+//				System.out.println(temp.getName());
 
 				Serializer.write(temp);
 			}
@@ -75,7 +75,7 @@ public class Converter {
 
 		for (int j = 0; j < files.length; j++) {
 			if ((Arrays.asList(Converter.allowXML).contains(files[j]))) {
-				System.out.println(files[j]);
+//				System.out.println(files[j]);
 				temp = new Map();
 				temp.setXML("XML/" + files[j]);
 
@@ -109,14 +109,14 @@ public class Converter {
 			String file = files[j].substring(0, files[j].length() - 4) + ".ser";
 			if (Converter.contains(file, Converter.allow)) {
 				temp = Serializer.read(files[j].substring(0, files[j].length() - 4));
-				System.out.println(temp.getName());
+//				System.out.println(temp.getName());
 				temp.setAllPointMaps();
 				ArrayList<Point> vals = new ArrayList<Point>(temp.getAllPoints().values());
-				System.out.println("hello " + vals.get(1).getMap());
+//				System.out.println("hello " + vals.get(1).getMap());
 				Serializer.write(temp);
 			}
 		}
-		System.out.println("done");
+//		System.out.println("done");
 	}
 	
 	private static boolean contains(String find, String[] list) {
