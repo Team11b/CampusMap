@@ -636,6 +636,7 @@ public class AppUIObject {
 				try {
 					System.out.println("Index: " + mapDropDown.getSelectedIndex());					
 					loadMap(mapName);
+					txtDirections.setText("");
 				} catch (XMLStreamException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -671,7 +672,7 @@ public class AppUIObject {
 				// StyleContext.DEFAULT_STYLE );
 				// Style regular = doc.addStyle( "regular", def );
 				try {
-					doc.insertString(0, "Turn-by-turn directions coming soon!\n", null);
+					doc.insertString(0, "", null);
 					//doc.insertString(doc.getLength(), "Ignored", labelStyle);
 				} catch (BadLocationException e) {
 					// TODO Auto-generated catch block
@@ -680,6 +681,7 @@ public class AppUIObject {
 			}
 		});
 		
+		txtDirections.setEditable(false);
 		JScrollPane directionsPane = new JScrollPane(txtDirections);
 		directionsPane.setBounds(txtDirections.getBounds());
 		directionsPane.setVisible(true);
