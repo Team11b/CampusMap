@@ -67,6 +67,7 @@ public class Route {
 		latest = new Instruction(route, 0, p.getPath().get(0), offset);
 		list.add(latest);
 		route = "";
+		float totalDist = 0;
 
 		for (int i = 1; i < p.getPath().size() - 1; i++) {
 			String turn = "";
@@ -112,13 +113,20 @@ public class Route {
 
 			latest = new Instruction(route, dist, p.getPath().get(0), offset + i);
 			list.add(latest);
+			totalDist += dist;
 			route = "";
 		}
 		
 		ArrayList<Node> nodes = p.getPath();
 		route = "Face " + nodes.get(nodes.size() - 1).getPoint().getId() + " and walk ";
 		route += Math.abs(nodes.get(nodes.size()-2).getPoint().distance(nodes.get(nodes.size() - 1).getPoint()));
-		route += " feet.";
+		route += " feet.\n";
+		float walkingSpeed = (float) 4.11; //feet per sec
+		float seconds = (totalDist / walkingSpeed);
+		String time = "ETA: " + (int)(seconds/60) + " minutes and " + new DecimalFormat("#.").format(seconds%60) +" seconds."; 
+
+		latest = new Instruction(time, 0, p.getPath().get(p.getPath().size()-1), p.getPath().size()-1);
+		list.add(latest);
 
 		return list;
 	}
