@@ -2,6 +2,7 @@ package WPI.CampusMap.PathPlanning;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.TooManyListenersException;
 
 import WPI.CampusMap.Backend.Coord;
 import WPI.CampusMap.Backend.Point;
@@ -27,15 +28,16 @@ public class Path {
 	 * @param pathScale the scale of this Path
 	 */
 	public Path(ArrayList<Node> path, String mapName, float pathScale) {
+		setScale(pathScale);
 		this.path = path;
 		this.mapName = mapName;
-		setScale(pathScale);
 	}
 
 	/**
 	 * Constructor with no previous Nodes
 	 */
-	public Path() {
+	public Path(float pathScale) {
+		setScale(pathScale);
 		this.path = new ArrayList<Node>();
 	}
 
@@ -73,6 +75,7 @@ public class Path {
 	 * @return abridged list of Nodes
 	 */
 	public Path getTurns() {
+		
 //		System.out.println("Before Abridging: " + path.size());
 		ArrayList<Node> temp = new ArrayList<Node>();
 		Node first = path.get(0);
@@ -145,6 +148,7 @@ public class Path {
 //		System.out.println(current.getCoord());
 //		System.out.println(after.getCoord());
 //		System.out.println("dif1: "+dif1+", dif2: " + dif2);
+//		System.out.println("tolerance" + pathtolarence);
 //		System.out.println();
 		if (dif1 <= pathtolarence && dif2 <= pathtolarence) {
 			return true;
@@ -235,6 +239,9 @@ public class Path {
 	
 	public void setScale(float scale) {
 		pathScale = scale;
+
+//		System.out.println("pathScale"+(pathScale));
+//		System.out.println("pathtolarence"+(pathtolarenceMultiplier / pathScale));
 		pathtolarence = (float) (pathtolarenceMultiplier / pathScale);
 	}
 	

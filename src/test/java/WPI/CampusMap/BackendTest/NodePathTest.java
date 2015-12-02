@@ -7,6 +7,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import WPI.CampusMap.Backend.Coord;
+import WPI.CampusMap.Backend.Map;
 import WPI.CampusMap.Backend.Point;
 import WPI.CampusMap.PathPlanning.Node;
 import WPI.CampusMap.PathPlanning.Path;
@@ -32,7 +33,7 @@ public class NodePathTest {
 		nTwo = new Node(two, nOne);
 		nThree = new Node(three, nTwo);
 
-		aPath = new Path();
+		aPath = new Path(1);
 		aPath.addNode(nThree);
 		aPath.addNode(nTwo);
 		aPath.addNode(nOne);

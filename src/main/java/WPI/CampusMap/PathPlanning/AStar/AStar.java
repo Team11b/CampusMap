@@ -34,7 +34,7 @@ public class AStar {
 	// confirmed yet
 	public static Path single_AStar(Point start, Point goal) {
 		if (start.equals(goal)) {
-			Path returnPath = new Path();
+			Path returnPath = new Path(Map.getMap(start.getMap()).getScale());
 			Node tempNode = new Node(start, null);
 			returnPath.addNode(tempNode);
 			returnPath.addNode(new Node(goal, tempNode));
@@ -48,7 +48,7 @@ public class AStar {
 		Explored explored = new Explored();
 
 		// Instantiate path
-		Path returnPath = new Path();
+		Path returnPath = new Path(Map.getMap(start.getMap()).getScale());
 
 		Node tempNode = new Node(start, null);
 		tempNode.setHeuristic(tempNode.calcHeuristic(goal));
@@ -108,7 +108,7 @@ public class AStar {
 	 */
 	public static MultiPath multi_AStar(Point start, Point goal) {
 		if (start.equals(goal)) {
-			Path returnPath = new Path();
+			Path returnPath = new Path(Map.getMap(start.getMap()).getScale());
 			Node tempNode = new Node(start, null);
 			returnPath.addNode(tempNode);
 			returnPath.addNode(new Node(goal, tempNode));
@@ -122,7 +122,7 @@ public class AStar {
 		Explored explored = new Explored();
 
 		// Instantiate path
-		Path returnPath = new Path();
+		Path returnPath = new Path(Map.getMap(start.getMap()).getScale());
 
 		System.out.println("Start == null " + (start == null));
 		Node tempNode = new Node(start, null);
