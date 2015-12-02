@@ -134,7 +134,7 @@ public class Node {
 			}
 		}
 		
-		if (this.getPoint() instanceof ConnectionPoint) {
+		if ((this.getPoint() instanceof ConnectionPoint) && ((this.getPoint().getType().equals(Point.ELEVATOR)) || (this.getPoint().getType().equals(Point.STAIRS)))) {
 			temp += ConnectionNode.travelCost;
 		}
 		return temp;
