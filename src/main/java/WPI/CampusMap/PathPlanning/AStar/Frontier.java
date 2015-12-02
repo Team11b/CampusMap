@@ -17,7 +17,7 @@ import WPI.CampusMap.PathPlanning.*;
 public class Frontier {
 	private PriorityQueue<Node> pq;
 	private HashMap<Point, Node> visited;
-	private HashSet<Point> frontierSet;
+	private HashMap<Point, Node> frontierSet;
 	
 
 	public static final Comparator<Node> stdNodeComp = new Comparator<Node>() {
@@ -35,15 +35,25 @@ public class Frontier {
 	public Frontier() {
 		this.pq = new PriorityQueue<Node>(stdNodeComp);
 		this.visited = new HashMap<>();
-		this.frontierSet = new HashSet<>();
+		this.frontierSet = new HashMap<>();
 	}
 
 	public void addToFrontier(Node newItem) 
 	{
-		if(!visited.containsKey(newItem.getPoint()) && !frontierSet.contains(newItem.getPoint()))
+		if(frontierSet.containsKey(newItem.getPoint()))
+		{
+			Node old = frontierSet.get(newItem.getPoint());
+			if(newItem.getCurrentScore() < old.getCurrentScore())
+			{
+				frontierSet.put(newItem.getPoint(), newItem);
+				this.pq.remove(old);
+				this.pq.add(newItem);
+			}
+		}
+		else if(!visited.containsKey(newItem.getPoint()))
 		{
 			this.pq.add(newItem);
-			this.frontierSet.add(newItem.getPoint());
+			this.frontierSet.put(newItem.getPoint(), newItem);
 		}
 	}
 	
@@ -56,7 +66,12 @@ public class Frontier {
 
 	public Node visitFront()
 	{
+		//System.out.println(pq);
+		
 		Node front = this.pq.poll();
+		/*if(front == null)
+			return null;*/
+		
 		frontierSet.remove(front.getPoint());
 		addToVisited(front);
 		

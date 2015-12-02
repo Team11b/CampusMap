@@ -112,10 +112,31 @@ public class Point implements java.io.Serializable {
 		return tempAL;
 	}
 	
+	public void fixNeighbors()
+	{
+		Map map = Map.getMap(getMap());
+		
+		ArrayList<String> ids = getNeighborsID();
+		for(int i = ids.size() - 1; i >= 0; i--)
+		{
+			String neighbor = ids.get(i);
+			
+			Point p = map.getPoint(neighbor);
+			if(p != null)
+				neighbors.put(neighbor, map.getPoint(neighbor));
+			else
+				neighbors.remove(neighbor);
+		}
+	}
+	
 	public void buildFrontier(Frontier frontier, Node fromNode, Point goal)
 	{
 		for(Point localPoint : getNeighborsP())
 		{
+			if(localPoint == null)
+				System.out.println("R");
+			if(localPoint.getId().equals(goal.id))
+				System.out.println("T");
 			Node newNode = new Node(localPoint, fromNode, goal);
 			frontier.addToFrontier(newNode);
 		}
@@ -201,7 +222,7 @@ public class Point implements java.io.Serializable {
 		 return temp;
 	}
 
-	@Override
+	/*@Override
 	public boolean equals(Object other) {
 		boolean result = false;
 		if (other instanceof Point) {
@@ -214,7 +235,7 @@ public class Point implements java.io.Serializable {
 			}
 		}
 		return result;
-	}
+	}*/
 	
 	@Override
 	public int hashCode() {

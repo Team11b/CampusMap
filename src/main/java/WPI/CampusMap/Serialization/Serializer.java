@@ -48,6 +48,7 @@ public class Serializer {
 			in.close();
 			fileIn.close();
 			Map.addMap(m);
+			m.fixMap();
 			return m;
 		} catch (IOException i) {
 			i.printStackTrace();

@@ -81,6 +81,14 @@ public class Map implements java.io.Serializable {
 	public static void clearAllMaps() {
 		Map.allMaps.clear();
 	}
+	
+	public void fixMap()
+	{
+		for(Point p : allPoints.values())
+		{
+			p.fixNeighbors();
+		}
+	}
 
 	/**
 	 * Get the scale from inches to feet.

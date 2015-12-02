@@ -35,7 +35,7 @@ public class Node {
 		this.point = point;
 		this.parent = parent;
 
-		if (this.parent == null) {
+		if (this.parent == null || !parent.getPoint().getMap().equals(goal.getMap())) {
 			this.cumulativeDist = 0;
 		} else {
 			this.cumulativeDist = this.parent.cumulativeDist + this.parent.getPoint().distance(this.point);
@@ -101,6 +101,9 @@ public class Node {
 					}
 				}
 			}
+			
+			if(point.getMap() == goal.getMap())
+				temp -= 1000;
 
 			temp += this.getPoint().distance(goal);
 		}

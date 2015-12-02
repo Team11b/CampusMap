@@ -85,6 +85,9 @@ public class ConnectionPoint extends Point {
 	{
 		super.buildFrontier(frontier, fromNode, goal);
 		
+		System.out.println(getMap());
+		System.out.println(getId());
+		
 		for(java.util.Map.Entry<String, String> entry : linkedPoints.entrySet())
 		{
 			Map targetMap = Map.getMap(entry.getKey());

@@ -205,6 +205,7 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 	 */
 	private void onSelected()
 	{
+		System.out.println(getRepresentedObject().getNeighborsID());
 		AppUIObject.getInstance().onPointSelected(getRepresentedObject());
 	}
 	

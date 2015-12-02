@@ -124,7 +124,7 @@ public class MultiPath
 		Point p = n.getPoint();
 		
 		Path path;
-		if(mp.size() == 0 || mp.getLast().getMapName() != p.getMap())
+		if(mp.size() == 0 || !mp.getLast().getMapName().equals(p.getMap()))
 		{
 			path = new Path(Map.getMap(p.getMap()).getScale());
 			path.setMapName(p.getMap());
