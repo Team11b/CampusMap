@@ -1,6 +1,7 @@
 package WPI.CampusMap.Graphics.User;
 
 import java.awt.Color;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import WPI.CampusMap.Backend.Map;
@@ -22,25 +23,40 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 		return selectedRoute;
 	}
 	
+	private boolean selectedToRoute;
+	
 	public static void pushPointOnRoute(UserPointGraphicsObject point)
 	{
 		if(!point.selectedToRoute)
 		{
+			if(selectedRoute.size() == 0)
+			{
+				UserPathGraphicsObject.deleteAll();
+				AppUIObject.getInstance().onRouteCleared();
+			}
+			
 			point.selectedToRoute = true;
 			TypedRef<UserPointGraphicsObject> ref = new TypedRef<UserPointGraphicsObject>(point);
 			selectedRoute.add(ref);
 			
 			AppUIObject.getInstance().onPointAddedToRoute(point.getRepresentedObject());
-			
-			//Destinations					
-			AppUIObject.getInstance().destinations.setDestination(point.getRepresentedObject().getId());
 		}
 	}
 	
-	public static void route()
-	{
-		UserPathGraphicsObject.deleteAll();
+	public static void pullPointOnRoute(int index){
+		System.out.println("Index is "+ index);
 		
+		//get the graphical object and change color
+		TypedRef<UserPointGraphicsObject> point = selectedRoute.get(index);
+		point.getValue().selectedToRoute = false;
+		
+		//remove from Route
+		point.release();
+		selectedRoute.remove(index);
+	}
+	
+	public static MultiPath route()
+	{
 		lastRoutedPath = new MultiPath();
 		
 		for(int i = 1; i < selectedRoute.size(); i++)
@@ -58,9 +74,12 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 			UserGraphicalMap graphicalMap = UserGraphicalMap.loadGraphicalMap(Map.getMap(map));
 			graphicalMap.setPathSections(lastRoutedPath.getMapPath(map));
 		}
+		
+		clearSelected();
+		return lastRoutedPath;
 	}
 	
-	public static void clearRoute()
+	public static void clearSelected()
 	{
 		for(TypedRef<UserPointGraphicsObject> ref : selectedRoute)
 		{
@@ -68,14 +87,10 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 			ref.release();
 		}
 		
-		UserPathGraphicsObject.deleteAll();
-		
 		selectedRoute.clear();
 		
 		AppUIObject.getInstance().onRouteCleared();
 	}
-	
-	private boolean selectedToRoute;
 	
 	public UserPointGraphicsObject(Point backend, UserGraphicalMap owner) 
 	{

@@ -36,6 +36,8 @@ import WPI.CampusMap.Graphics.Dev.DevPointGraphicsObject;
 import WPI.CampusMap.Graphics.User.UserPointGraphicsObject;
 import WPI.CampusMap.PathPlanning.MultiPath;
 import WPI.CampusMap.PathPlanning.Path;
+import WPI.CampusMap.PathPlanning.Route.Instruction;
+import WPI.CampusMap.PathPlanning.Route.Route;
 import WPI.CampusMap.Serialization.Serializer;
 
 public class AppUIObject {
@@ -207,11 +209,15 @@ public class AppUIObject {
 	public void onPointAddedToRoute(Point newPoint)
 	{
 		btnGetDirections.setEnabled(true);
+		
+		destinations.setDestination(newPoint.getId());
 	}
 	
 	public void onRouteCleared()
 	{
 		btnGetDirections.setEnabled(false);
+		
+		//TODO: Clear destinations
 	}
 
 	/**
@@ -258,7 +264,11 @@ public class AppUIObject {
 				System.out.println("Send an Email!");
 				break;
 			case "Route me":
-				UserPointGraphicsObject.route();
+				MultiPath path = UserPointGraphicsObject.route();
+				Route route = new Route(path);
+				for(Instruction i: route.getRoute()){
+					txtDirections.setText(txtDirections.getText() + i.getInstruction());
+				}
 				break;
 			case "Print":
 				printDirections();
@@ -349,11 +359,11 @@ public class AppUIObject {
 		directionsPanel.add(connectingMapTextField);
 		connectingMapTextField.setColumns(10);
 		
-		JLabel lblConnectingPoint = new JLabel("Connecting Point:");
+		final JLabel lblConnectingPoint = new JLabel("Connecting Point:");
 		lblConnectingPoint.setBounds(26, 287, 117, 16);
 		directionsPanel.add(lblConnectingPoint);
 		
-		JLabel lblConnectingMap = new JLabel("Connecting Map:");
+		final JLabel lblConnectingMap = new JLabel("Connecting Map:");
 		lblConnectingMap.setBounds(24, 259, 108, 16);
 		directionsPanel.add(lblConnectingMap);
 
@@ -431,11 +441,11 @@ public class AppUIObject {
 		txtDirections.setBounds(0, 270, 220, 350);
 		directionsPanel.add(txtDirections);
 		
-		JButton btnAddDest = new JButton("+ Dest");
+		final JButton btnAddDest = new JButton("+ Dest");
 		btnAddDest.setBounds(0, 76, 117, 25);
 		directionsPanel.add(btnAddDest);
 		
-		JButton btnRemoveDest = new JButton("- Dest");
+		final JButton btnRemoveDest = new JButton("- Dest");
 		btnRemoveDest.setBounds(118, 76, 117, 25);
 		directionsPanel.add(btnRemoveDest);
 		
@@ -692,8 +702,8 @@ public class AppUIObject {
 				public void actionPerformed(ActionEvent arg0) {
 					if (getTypeSelector() != pointTypes[0]) {
 						ConnectionPoint cPoint = DevPointGraphicsObject.getSelected().getRepresentedObject().getConnectionPoint();
-						String connMap = cPoint.getConnMap() == null ? "" : cPoint.getConnMap().getName();
-						String connPoint = cPoint.getConnPoint() == null ? "" : cPoint.getConnPoint().getId();
+						String connMap = cPoint.getLinkedMapsString() == null ? "" : cPoint.getLinkedMapsString();
+						String connPoint = cPoint.getLinkedPointsString() == null ? "" : cPoint.getLinkedPointsString();
 						setMapConnectorText(connMap);
 						setPointConnectorText(connPoint);
 						setMapConnectionTextFieldEditable(true);

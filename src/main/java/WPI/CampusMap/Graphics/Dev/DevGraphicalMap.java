@@ -79,9 +79,8 @@ public class DevGraphicalMap extends GraphicalMap
 				System.out.println("Is a connection node");
 				DevPointGraphicsObject pointObject = (DevPointGraphicsObject) this.getHoverObject();
 				ConnectionPoint theConnectionPoint = (ConnectionPoint) pointObject.getRepresentedObject();
-				getUI().setPointConnectorText(theConnectionPoint.getLinkedMap());
-				getUI().setPointConnectorText(theConnectionPoint.getLinkedPoint());
-				System.out.println(theConnectionPoint.getId()+": "+theConnectionPoint.getLinkedMap());
+				getUI().setPointConnectorText(theConnectionPoint.getLinkedMapsString());
+				getUI().setPointConnectorText(theConnectionPoint.getLinkedPointsString());
 				getUI().setMapConnectionTextFieldEditable(true);
 				getUI().setPointConnectionTextFieldEditable(true);
 			} else {
@@ -123,9 +122,9 @@ public class DevGraphicalMap extends GraphicalMap
 			
 			if(!thePoint.getType().equals(Point.HALLWAY)){
 				ConnectionPoint cPoint = thePoint.getConnectionPoint();
-				System.out.println("Here: "+cPoint.getLinkedMap()+", "+cPoint.getLinkedPoint());
-				getUI().setMapConnectorText(cPoint.getLinkedMap());
-				getUI().setPointConnectorText(cPoint.getLinkedPoint());
+				System.out.println("Here: "+cPoint.getLinkedMapsString()+", "+cPoint.getLinkedPointsString());
+				getUI().setMapConnectorText(cPoint.getLinkedMapsString());
+				getUI().setPointConnectorText(cPoint.getLinkedPointsString());
 			}
 
 		}

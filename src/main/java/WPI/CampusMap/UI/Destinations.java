@@ -6,6 +6,8 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
+import WPI.CampusMap.Graphics.User.UserPointGraphicsObject;
+
 public class Destinations {
 	final int MAX = 5;
 	int indexFreeTextBox = 0;
@@ -59,6 +61,7 @@ public class Destinations {
 		int size = labels.size()-1;
 		if(size < 2) return;
 		setVisibility(false);
+		String id = textFields.get(size).getText();
 		panel.remove(labels.get(size));
 		panel.remove(textFields.get(size));
 		panel.revalidate();
@@ -69,12 +72,18 @@ public class Destinations {
 
 		System.out.println(size);
 		
+		//Unselect point on map
+		if(id.isEmpty() == false){
+			UserPointGraphicsObject.pullPointOnRoute(tempIndex-1);
+			System.out.println("ID is"+ id);
+			indexFreeTextBox = -1;
+		}		
+		
 		//Keep track if there is a free textbox
 		if(indexFreeTextBox == -1){
 			tempIndex--;			
 		}
-		else{
-			
+		else{			
 			indexFreeTextBox--;
 		}
 	}
@@ -95,7 +104,9 @@ public class Destinations {
 		//add a textbox if neccessary
 		if(indexFreeTextBox == -1){
 			addDestination();			
-		}
+		}else{
+		
+		//set in destination textbox
 		textFields.get(indexFreeTextBox).setText(idOfDest);
 		
 		//keep track if theres a free textbox
@@ -103,6 +114,7 @@ public class Destinations {
 		if(indexFreeTextBox == textFields.size()){
 			tempIndex = indexFreeTextBox;
 			indexFreeTextBox = -1;
+		}
 		}
 	}
 	

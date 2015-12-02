@@ -8,6 +8,7 @@ import java.util.HashMap;
 import javax.xml.stream.XMLStreamException;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import WPI.CampusMap.Backend.ConnectionPoint;
@@ -16,17 +17,15 @@ import WPI.CampusMap.Backend.Map;
 import WPI.CampusMap.Backend.Point;
 import WPI.CampusMap.PathPlanning.MultiPath;
 import WPI.CampusMap.PathPlanning.Node;
-import WPI.CampusMap.PathPlanning.Path;
 import WPI.CampusMap.PathPlanning.AStar.AStar;
+import WPI.CampusMap.PathPlanning.Route.Route;
 import WPI.CampusMap.Serialization.Serializer;
 
-public class AStarTest {
-	static Map testMap, testMap2, testMap5, testMap6;
+public class RouteTest {
+	static Map testMap5, testMap6;
 
 	@BeforeClass
 	public static void getMap() throws XMLStreamException {
-		testMap = Serializer.read("5x5Test");
-		testMap2 = Serializer.read("5x5Test2");
 
 		setupMaps();
 	}
@@ -37,7 +36,7 @@ public class AStarTest {
 		b = "MapB";
 
 		testMap5 = new Map();
-		testMap5.setScale(100);
+		testMap5.setScale(1);
 		testMap5.setName(a);
 
 		Point zero = new Point(new Coord(0, 0), null, "0", a);
@@ -181,25 +180,25 @@ public class AStarTest {
 		Point two2 = new Point(new Coord(2, 0), null, "2", b);
 		Point three2 = new Point(new Coord(3, 0), null, "3", b);
 		ConnectionPoint four2 = new ConnectionPoint(new Coord(4, 0), null, "4", b, a, "4");
-		Point five2 = new Point(new Coord(5, 0), null, "5", b);
-		Point six2 = new Point(new Coord(6, 0), null, "6", b);
-		Point seven2 = new Point(new Coord(7, 0), null, "7", b);
-		Point eight2 = new Point(new Coord(8, 0), null, "8", b);
-		Point nine2 = new Point(new Coord(9, 0), null, "9", b);
-		Point ten2 = new Point(new Coord(10, 0), null, "10", b);
-		Point eleven2 = new Point(new Coord(11, 0), null, "11", b);
-		Point twelve2 = new Point(new Coord(12, 0), null, "12", b);
-		Point fourteen2 = new Point(new Coord(14, 0), null, "14", b);
-		Point fifteen2 = new Point(new Coord(15, 0), null, "15", b);
-		Point sixteen2 = new Point(new Coord(16, 0), null, "16", b);
-		Point seventeen2 = new Point(new Coord(17, 0), null, "17", b);
-		Point eightteen2 = new Point(new Coord(18, 0), null, "18", b);
-		Point nineteen2 = new Point(new Coord(19, 0), null, "19", b);
-		Point twenty2 = new Point(new Coord(20, 0), null, "20", b);
-		Point twentyone2 = new Point(new Coord(21, 0), null, "21", b);
-		Point twentytwo2 = new Point(new Coord(22, 0), null, "22", b);
-		Point twentythree2 = new Point(new Coord(23, 0), null, "23", b);
-		Point twentyfour2 = new Point(new Coord(24, 0), null, "24", b);
+		Point five2 = new Point(new Coord(0, 1), null, "5", b);
+		Point six2 = new Point(new Coord(1, 1), null, "6", b);
+		Point seven2 = new Point(new Coord(2, 1), null, "7", b);
+		Point eight2 = new Point(new Coord(3, 1), null, "8", b);
+		Point nine2 = new Point(new Coord(4, 1), null, "9", b);
+		Point ten2 = new Point(new Coord(0, 2), null, "10", b);
+		Point eleven2 = new Point(new Coord(1, 2), null, "11", b);
+		Point twelve2 = new Point(new Coord(2, 2), null, "12", b);
+		Point fourteen2 = new Point(new Coord(4, 2), null, "14", b);
+		Point fifteen2 = new Point(new Coord(0, 3), null, "15", b);
+		Point sixteen2 = new Point(new Coord(1, 3), null, "16", b);
+		Point seventeen2 = new Point(new Coord(2, 3), null, "17", b);
+		Point eightteen2 = new Point(new Coord(3, 3), null, "18", b);
+		Point nineteen2 = new Point(new Coord(4, 3), null, "19", b);
+		Point twenty2 = new Point(new Coord(0, 4), null, "20", b);
+		Point twentyone2 = new Point(new Coord(1, 4), null, "21", b);
+		Point twentytwo2 = new Point(new Coord(2, 4), null, "22", b);
+		Point twentythree2 = new Point(new Coord(3, 4), null, "23", b);
+		Point twentyfour2 = new Point(new Coord(4, 4), null, "24", b);
 
 		zero2.addNeighbor(one2);
 		zero2.addNeighbor(five2);
@@ -313,63 +312,6 @@ public class AStarTest {
 	}
 
 	@Test
-	public void testAStar4to12() {
-		Point start, goal;
-		start = testMap.getPoint("4");
-		goal = testMap.getPoint("12");
-
-		Path path = AStar.multi_AStar(start, goal).get(0);
-		ArrayList<Node> pathNodes = path.getPath();
-		assertEquals(7, path.getPath().size());
-		assertEquals(pathNodes.get(0).getPoint().getId(), "4");
-		assertEquals(pathNodes.get(1).getPoint().getId(), "9");
-		assertEquals(pathNodes.get(2).getPoint().getId(), "14");
-		assertEquals(pathNodes.get(3).getPoint().getId(), "19");
-		assertEquals(pathNodes.get(4).getPoint().getId(), "18");
-		assertEquals(pathNodes.get(5).getPoint().getId(), "17");
-		assertEquals(pathNodes.get(6).getPoint().getId(), "12");
-	}
-
-	@Test
-	public void testAStar4to11() {
-		Point start, goal;
-		start = testMap.getPoint("4");
-		goal = testMap.getPoint("11");
-
-		Path path = AStar.multi_AStar(start, goal).get(0);
-		ArrayList<Node> pathNodes = path.getPath();
-
-		assertEquals(path.getPath().size(), 8);
-		assertEquals(pathNodes.get(0).getPoint().getId(), "4");
-		assertEquals(pathNodes.get(1).getPoint().getId(), "3");
-		assertEquals(pathNodes.get(2).getPoint().getId(), "2");
-		assertEquals(pathNodes.get(3).getPoint().getId(), "1");
-		assertEquals(pathNodes.get(4).getPoint().getId(), "0");
-		assertEquals(pathNodes.get(5).getPoint().getId(), "5");
-		assertEquals(pathNodes.get(6).getPoint().getId(), "10");
-		assertEquals(pathNodes.get(7).getPoint().getId(), "11");
-	}
-
-	@Test
-	public void testAStar4to12_2() {
-		Point start, goal;
-		start = testMap2.getPoint("4");
-		goal = testMap2.getPoint("12");
-
-		Path path = AStar.multi_AStar(start, goal).get(0);
-		ArrayList<Node> pathNodes = path.getPath();
-
-		assertEquals(path.getPath().size(), 7);
-		assertEquals(pathNodes.get(0).getPoint().getId(), "4");
-		assertEquals(pathNodes.get(1).getPoint().getId(), "9");
-		assertEquals(pathNodes.get(2).getPoint().getId(), "14");
-		assertEquals(pathNodes.get(3).getPoint().getId(), "19");
-		assertEquals(pathNodes.get(4).getPoint().getId(), "18");
-		assertEquals(pathNodes.get(5).getPoint().getId(), "17");
-		assertEquals(pathNodes.get(6).getPoint().getId(), "12");
-	}
-
-	@Test
 	public void testConnected() {
 		Map.addMap(testMap5);
 		Point start, goal;
@@ -392,7 +334,9 @@ public class AStarTest {
 		assertEquals(pathNodes.get(2).getPoint().getId(), "8");
 		assertEquals(pathNodes.get(3).getPoint().getId(), "7");
 		assertEquals(pathNodes.get(4).getPoint().getId(), "12");
-
+		
+		Route ar = new Route(grandPath);
+		System.out.println(ar);
 	}
 
 }

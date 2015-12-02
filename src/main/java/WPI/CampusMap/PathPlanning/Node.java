@@ -87,20 +87,23 @@ public class Node {
 
 		if (point.getMap().equals(goal.getMap())) {
 			
-			if (weather > 0) {
-				
-				if (point.getMap().equalsIgnoreCase("CampusMap")) {
-					temp += Math.abs(weather);
-				}
-				else {
-					temp -= Math.abs(weather);
-				}
-			} else {
-				if (point.getMap().equalsIgnoreCase("CampusMap")) {
-					temp -= Math.abs(weather);
-				}
-				else {
-					temp += Math.abs(weather);
+			if(Heuristic.isUsingWeather())
+			{
+				if (weather > 0) {
+					
+					if (point.getMap().equalsIgnoreCase("CampusMap")) {
+						temp += Math.abs(weather);
+					}
+					else {
+						temp -= Math.abs(weather);
+					}
+				} else {
+					if (point.getMap().equalsIgnoreCase("CampusMap")) {
+						temp -= Math.abs(weather);
+					}
+					else {
+						temp += Math.abs(weather);
+					}
 				}
 			}
 			

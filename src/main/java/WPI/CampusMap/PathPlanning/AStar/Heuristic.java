@@ -11,6 +11,9 @@ import WPI.CampusMap.Weather.Wunderground;
  *
  */
 public class Heuristic {
+	
+	private static boolean useWeather;
+	
 	// see http://www.nws.noaa.gov/os/guide/Section9.pdf
 	private static final int breezyThreshold = 15;
 	private static final int windyThreshold = 25;
@@ -48,6 +51,11 @@ public class Heuristic {
 
 	public Heuristic() {
 
+	}
+	
+	public static boolean isUsingWeather()
+	{
+		return useWeather;
 	}
 
 	/**
@@ -127,7 +135,13 @@ public class Heuristic {
 	 * A negative score favors indoors
 	 * @return modifier score
 	 */
-	public static double getWeatherScore() {
+	public static double getWeatherScore() 
+	{
+		if(!useWeather)
+		{
+			return 0.0;
+		}
+		
 		double score = 0.0;
 
 		// SUNNY
