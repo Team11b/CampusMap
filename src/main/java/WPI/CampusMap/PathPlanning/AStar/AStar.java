@@ -152,9 +152,12 @@ public class AStar {
 						tempConn = (ConnectionPoint) (explored.getLast().getPoint());
 
 						LinkedList<String> maps = tempConn.getLinkedMaps();
-
+						
 						for (String m : maps) {
-
+							if(m.equals("")|| m == null){
+								System.out.println(tempConn.getCoord());
+								System.out.println(tempConn.getId());
+							}
 							Map tempMap = Map.getMap(m);
 							tempConn.addConnMap(tempMap);
 							tempConn.addConnPoint(tempMap.getName(),

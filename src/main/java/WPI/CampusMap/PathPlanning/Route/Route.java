@@ -83,14 +83,23 @@ public class Route {
 
 			int quad1 = (int) (((angleBefore < 0 ? 360 : 0) + angleBefore) / 90 + 1);
 			int quad2 = (int) (((angleAfter < 0 ? 360 : 0) + angleAfter) / 90 + 1);
-			// System.out.printf("Quad Before: %d, Quad After: %d \n", quad1,
-			// quad2);
+//			 System.out.printf("Quad Before: %d, Quad After: %d \n", quad1, quad2);
 			if (quad1 == quad2)
 				if (angleAfter > angleBefore)
 					turn = "left";
 				else
 					turn = "right";
-			else if (quad2 == (quad1 + 1) % 4)
+			else if( quad2%4 == (quad1 + 2) % 4){
+				float after2 = (angleAfter+180);
+				after2 = after2 > 180 ? after2 - 360 : after2;
+				int quad3 = (int) (((after2 < 0 ? 360 : 0) + after2) / 90 + 1);
+//				System.out.printf("Angle Before: %f, Angle After2: %f \n", angleBefore, after2);
+				if (after2 > angleBefore)
+					turn = "right";
+				else
+					turn = "left";
+				}
+			else if (quad2%4 == (quad1 + 1) % 4)
 				turn = "left";
 			else
 				turn = "right";
