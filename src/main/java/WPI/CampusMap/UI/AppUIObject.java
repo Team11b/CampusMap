@@ -2,6 +2,7 @@ package WPI.CampusMap.UI;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseListener;
@@ -17,6 +18,7 @@ import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
+import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
 import javax.swing.JTextField;
 import javax.swing.JTextPane;
@@ -89,6 +91,7 @@ public class AppUIObject {
 	private JPasswordField txtDevPass;
 	private final JLabel lblNodeId = new JLabel("Node ID:");
 	private JTextField nodeTextField;
+	private JScrollPane directionsPane = new JScrollPane(txtDirections);
 	
    public  Destinations destinations = new Destinations(directionsPanel);
 
@@ -341,7 +344,7 @@ public class AppUIObject {
 
 		mainPanel.add(mapPanel);
 		mapPanel.setVisible(false);
-
+		
 		System.out.println(
 				"Image Size X: " + mapPanel.getSize().getWidth() + " Y: " + mapPanel.getSize().getHeight());
 
@@ -439,7 +442,8 @@ public class AppUIObject {
 		nodeTextField.setColumns(10);
 		
 		txtDirections.setBounds(0, 270, 220, 350);
-		directionsPanel.add(txtDirections);
+		directionsPane.setBounds(txtDirections.getBounds());
+		//directionsPanel.add(txtDirections);
 		
 		final JButton btnAddDest = new JButton("+ Dest");
 		btnAddDest.setBounds(0, 76, 117, 25);
@@ -493,6 +497,7 @@ public class AppUIObject {
 					btnGetDirections.setVisible(false);
 					txtDevPass.setVisible(true);
 					btnSubmit.setVisible(true);	
+					directionsPane.setVisible(false);
 					
 					btnAddDest.setVisible(false);
 					btnRemoveDest.setVisible(false);
@@ -512,6 +517,7 @@ public class AppUIObject {
 					devMode = false;
 					frame.setTitle("Path Finder");
 					btnDevMode.setText("Dev Mode");
+					directionsPane.setVisible(true);
 					currentDevMode = DevMode.none;
 					connectingMapTextField.setVisible(false);
 					connectingPointTextField.setVisible(false);
@@ -634,6 +640,7 @@ public class AppUIObject {
 				try {
 					System.out.println("Index: " + mapDropDown.getSelectedIndex());					
 					loadMap(mapName);
+					txtDirections.setText("");
 				} catch (XMLStreamException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -669,7 +676,7 @@ public class AppUIObject {
 				// StyleContext.DEFAULT_STYLE );
 				// Style regular = doc.addStyle( "regular", def );
 				try {
-					doc.insertString(0, "Turn-by-turn directions coming soon!\n", null);
+					doc.insertString(0, "", null);
 					//doc.insertString(doc.getLength(), "Ignored", labelStyle);
 				} catch (BadLocationException e) {
 					// TODO Auto-generated catch block
@@ -677,6 +684,12 @@ public class AppUIObject {
 				}
 			}
 		});
+		
+		txtDirections.setEditable(false);
+		directionsPane.setBounds(txtDirections.getBounds());
+		directionsPane.setBounds(0, 267, 235, 350);
+		directionsPane.setVisible(true);
+		directionsPanel.add(directionsPane);
 		
 		//mapPanel.addMouseListener(mouseClick);
 		

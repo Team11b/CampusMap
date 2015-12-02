@@ -41,7 +41,6 @@ public class DevEdgeGraphicsObject extends GraphicsObject<UnorderedPair<Point, P
 			return go;
 		
 		go = new DevEdgeGraphicsObject(p1, p2, owner);
-		owner.addGraphicalObject(go);
 		
 		return go;
 	}
