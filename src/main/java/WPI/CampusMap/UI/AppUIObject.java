@@ -69,13 +69,13 @@ public class AppUIObject {
 	private final JButton btnSave = new JButton("Save");
 	private final String[] pointTypes = {Point.HALLWAY, Point.STAIRS, Point.ELEVATOR, Point.OUT_DOOR};
 	private JComboBox<String> typeSelector = new JComboBox<String>();
-	
-	private final JTextPane txtDirections = new JTextPane();
-//	private JLabel lblStart = new JLabel("Start:");
+	private final String[] weatherTypes = {"Weather", "No Preference", "Prefer Outside", "Prefer Inside"};	private final JTextPane txtDirections = new JTextPane();
+	private JComboBox<String> comboWeather = new JComboBox(weatherTypes);
+	//	private JLabel lblStart = new JLabel("Start:");
 //	private JLabel lblEnd = new JLabel("End:");
 //	private JTextField txtStart;
 //	private JTextField txtEnd;
-	private JToggleButton btnUseWeather = new JToggleButton("Use Weather");
+	//private JToggleButton btnUseWeather = new JToggleButton("Use Weather");
 	private final ArrayList<String> mapXMLStrings = new ArrayList<String>();
 	private JComboBox<String> mapDropDown = new JComboBox<String>();
 	private String[] mapStrings;
@@ -370,9 +370,9 @@ public class AppUIObject {
 		btnEmail.setBounds(26, 629, 106, 29);
 		directionsPanel.add(btnEmail);
 				
-		btnUseWeather.setBounds(108, 42, 127, 25);
+		/*btnUseWeather.setBounds(108, 42, 127, 25);
 		directionsPanel.add(btnUseWeather);
-		btnUseWeather.setVisible(true);
+		btnUseWeather.setVisible(true);*/
 
 		btnPrint.setBounds(130, 629, 111, 29);
 		directionsPanel.add(btnPrint);
@@ -447,7 +447,10 @@ public class AppUIObject {
 		
 		final JButton btnRemoveDest = new JButton("- Dest");
 		btnRemoveDest.setBounds(118, 76, 117, 25);
-		directionsPanel.add(btnRemoveDest);
+		directionsPanel.add(btnRemoveDest);		
+		
+		comboWeather.setBounds(118, 40, 117, 24);
+		directionsPanel.add(comboWeather);
 		
 		btnSave.setVisible(false);
 
@@ -530,7 +533,8 @@ public class AppUIObject {
 					txtScale.setVisible(false);
 					txtDevPass.setVisible(false);
 					btnSubmit.setVisible(false);
-					btnUseWeather.setVisible(true);
+					//btnUseWeather.setVisible(true);
+					comboWeather.setVisible(true);
 					txtDirections.setText("");
 //					txtStart.setText("");
 //					txtEnd.setText("");
@@ -576,7 +580,8 @@ public class AppUIObject {
 					typeSelector.setVisible(true);
 					lblNodeId.setVisible(true);
 					lblNodeType.setVisible(true);
-					btnUseWeather.setVisible(false);
+					comboWeather.setVisible(false);
+					//btnUseWeather.setVisible(false);
 					
 				}
 				else{
@@ -617,11 +622,11 @@ public class AppUIObject {
 			}
 		});
 		
-		btnUseWeather.addActionListener(new ActionListener() {
+		/*btnUseWeather.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				System.out.println("You clicked weather button!");
 			}
-		});
+		});*/
 
 		mapDropDown.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {				
@@ -696,6 +701,32 @@ public class AppUIObject {
 		typeSelector.addItem(pointTypes[1]);
 		typeSelector.addItem(pointTypes[2]);
 		typeSelector.addItem(pointTypes[3]);
+		
+		//comboWeather
+		comboWeather.addActionListener(new ActionListener() {			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				switch(comboWeather.getSelectedIndex()){
+				case 0:
+					System.out.println("Weather");
+					break;
+				case 1:
+					System.out.println("No Preference");
+					break;
+				case 2:
+					System.out.println("Prefer Outside");
+					break;
+				case 3:
+					System.out.println("Prefer Inside");
+					break;
+				default:
+					System.out.println("Switch test");
+					break;
+				}
+				
+			}
+		});
 		
 		//Type selector
 		typeSelector.addActionListener(new ActionListener(){
