@@ -118,9 +118,6 @@ public class Route {
 		}
 		
 		ArrayList<Node> nodes = p.getPath();
-		route = "Face " + nodes.get(nodes.size() - 1).getPoint().getId() + " and walk ";
-		route += Math.abs(nodes.get(nodes.size()-2).getPoint().distance(nodes.get(nodes.size() - 1).getPoint()));
-		route += " feet.\n";
 		float walkingSpeed = (float) 4.11; //feet per sec
 		float seconds = (totalDist / walkingSpeed);
 		String time = "ETA: " + (int)(seconds/60) + " minutes and " + new DecimalFormat("#.").format(seconds%60) +" seconds."; 
