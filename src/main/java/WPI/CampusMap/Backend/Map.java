@@ -77,6 +77,10 @@ public class Map implements java.io.Serializable {
 
 		this.allPoints = new HashMap<String, Point>();
 	}
+	
+	public static void clearAllMaps() {
+		Map.allMaps.clear();
+	}
 
 	/**
 	 * Get the scale from inches to feet.
