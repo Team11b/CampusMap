@@ -9,9 +9,8 @@ import javax.swing.JTextField;
 import WPI.CampusMap.Graphics.User.UserPointGraphicsObject;
 
 public class Destinations {
-	final int MAX = 5;
-	int indexFreeTextBox = 0;
-	int tempIndex;
+	final int MAX = 5;	
+	int lastPoint = -1;
 	ArrayList<JLabel> labels = new ArrayList<JLabel>();
 	ArrayList<JTextField> textFields = new ArrayList<JTextField>();
 	JPanel panel;
@@ -50,11 +49,8 @@ public class Destinations {
 		toggleVisibility(true);
 		
 		size++;
-		System.out.println(size);
+		System.out.println(size);		
 		
-		//Update where to setDest to if neccessary
-		if(indexFreeTextBox == -1)
-			indexFreeTextBox = tempIndex;
 	}
 	
 	public void removeDestination(){
@@ -62,6 +58,7 @@ public class Destinations {
 		if(size < 2) return;
 		setVisibility(false);
 		String id = textFields.get(size).getText();
+		
 		panel.remove(labels.get(size));
 		panel.remove(textFields.get(size));
 		panel.revalidate();
@@ -74,18 +71,9 @@ public class Destinations {
 		
 		//Unselect point on map
 		if(id.isEmpty() == false){
-			UserPointGraphicsObject.pullPointOnRoute(tempIndex-1);
-			System.out.println("ID is"+ id);
-			indexFreeTextBox = -1;
-		}		
-		
-		//Keep track if there is a free textbox
-		if(indexFreeTextBox == -1){
-			tempIndex--;			
-		}
-		else{			
-			indexFreeTextBox--;
-		}
+			UserPointGraphicsObject.pullPointOnRoute(lastPoint);					
+			lastPoint--;
+		}				
 	}
 	
 	public void toggleVisibility(boolean visibility){
@@ -101,23 +89,17 @@ public class Destinations {
 	}
 	
 	public void setDestination(String idOfDest){
-		//add a textbox if neccessary
-		if(indexFreeTextBox == -1){
-			addDestination();			
+		int free = lastPoint+1;
+		System.out.println("Size is "+ textFields.size()+ " free is " + free);
+		if(textFields.size() > free)
+			textFields.get(free).setText(idOfDest);
+		else
+		{
+			System.out.println("Making space!");
+			addDestination();
+			textFields.get(free).setText(idOfDest);
 		}
-		
-		//set in destination textbox
-		textFields.get(indexFreeTextBox).setText(idOfDest);
-		
-		//keep track if theres a free textbox
-		indexFreeTextBox++;
-		if(indexFreeTextBox == textFields.size()){
-			tempIndex = indexFreeTextBox;
-			indexFreeTextBox = -1;
-		}
-	}
+		lastPoint++;		
+	}	
 	
-	public int getIndexFreeTextBox(){
-		return indexFreeTextBox;
-	}
 }
