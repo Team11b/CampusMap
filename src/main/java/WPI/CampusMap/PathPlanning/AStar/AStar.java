@@ -174,6 +174,7 @@ public class AStar {
 						// list
 						ArrayList<Point> neigh = centerPoint.getPoint().getValidNeighbors();
 						System.out.println(centerPoint+ "'s neighbors: " +neigh);
+						System.out.println("num_neigh: " + neigh.size());
 						for (int j = 0; j < neigh.size(); j++) {
 							tempNode = new Node(null, null);
 							tempConNode = new ConnectionNode(null, null, false);
