@@ -8,7 +8,6 @@ import java.util.HashMap;
 import javax.xml.stream.XMLStreamException;
 
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import WPI.CampusMap.Backend.ConnectionPoint;
@@ -26,7 +25,7 @@ public class RouteTest {
 
 	@BeforeClass
 	public static void getMap() throws XMLStreamException {
-
+		Map.clearAllMaps();
 		setupMaps();
 	}
 
