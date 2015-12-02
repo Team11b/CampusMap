@@ -40,4 +40,8 @@ public class Wunderground extends WundergroundAbstract {
 	public double getWindMPH() {
 		return resp.current_observation.getWindMPH();
 	}
+	
+	public String toString() {
+		return "" + this.getWeather() + " @ " + this.getTempF() + " degF & " + this.getWindMPH() + " MPH";
+	}
 }
