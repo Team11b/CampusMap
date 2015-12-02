@@ -68,18 +68,21 @@ public class ConnectionNodeList extends  JComponent
 	
 	private void clearElements()
 	{
-		//displayPanel.removeAll();
+		displayPanel.removeAll();
+		displayPanel.revalidate();
+		displayPanel.repaint();
 	}
 	
 	private void createElementFor(String mapName, String nodeName)
 	{
 		HashMap<String, String> connections = editingPoint.getLinkedPoints();
-		if(!nodeName.equals(connections.get(nodeName)))
+		if(!nodeName.equals(connections.get(mapName)))
 			return;
 		
 		ConnectionNodeElement element = new ConnectionNodeElement(editingPoint, mapName, nodeName);
 		displayPanel.add(element);
 		displayPanel.revalidate();
+		displayPanel.repaint();
 	}
 	
 	public void removeElement(ConnectionNodeElement element)
