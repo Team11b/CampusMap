@@ -25,7 +25,7 @@ public class Ref
 	{
 		HashSet<Ref> set = refTable.get(value);
 		
-		if(set != null)
+		if(set != null && set.iterator().hasNext())
 			return set.iterator().next();
 		
 		return null;

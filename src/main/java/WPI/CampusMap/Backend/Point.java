@@ -92,6 +92,12 @@ public class Point implements java.io.Serializable {
 			map.renamePoint(this, id);
 		}
 		
+		for(Point n : getNeighborsP())
+		{
+			n.neighbors.remove(this.id);
+			n.neighbors.put(id, this);
+		}
+		
 		this.id = id;
 	}
 
@@ -208,6 +214,11 @@ public class Point implements java.io.Serializable {
 			}
 		}
 		return result;
+	}
+	
+	@Override
+	public int hashCode() {
+		return (this.getMap() + "/" + getId()).hashCode();
 	}
 
 	public String getMap() {

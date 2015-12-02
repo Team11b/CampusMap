@@ -58,7 +58,7 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 	
 	public static MultiPath route()
 	{
-		lastRoutedPath = new MultiPath();
+		lastRoutedPath = null;
 		
 		for(int i = 1; i < selectedRoute.size(); i++)
 		{
@@ -67,7 +67,10 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 			
 			MultiPath subRoute = AStar.multi_AStar(last.getValue().getRepresentedObject(), current.getValue().getRepresentedObject());
 			
-			lastRoutedPath = MultiPath.join(lastRoutedPath, subRoute);
+			if(lastRoutedPath != null)
+				lastRoutedPath = MultiPath.join(lastRoutedPath, subRoute);
+			else
+				lastRoutedPath = subRoute;
 		}
 		
 		for(String map : lastRoutedPath.getReferencedMaps())

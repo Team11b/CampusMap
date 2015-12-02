@@ -126,16 +126,18 @@ public class AStar {
 		if(front == null)
 			return null;
 		
-		LinkedList<Point> pathList = new LinkedList<>();
-		Node node = front;
-		while(node != null)
+		LinkedList<Node> pathList = new LinkedList<>();
+		for(Node node = front; node != null; node = node.getParent())
 		{
-			pathList.addFirst(node.getPoint());
-			node = node.getParent();
+			pathList.addFirst(node);
 		}
 		
+		MultiPath path = new MultiPath();
+		for(Node node : pathList)
+		{
+			path.add(node);
+		}
 		
-		
-		return null;
+		return path;
 	}
 }

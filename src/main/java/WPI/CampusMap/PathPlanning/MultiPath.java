@@ -7,6 +7,7 @@ import java.util.Set;
 
 import WPI.CampusMap.Backend.ConnectionPoint;
 import WPI.CampusMap.Backend.Map;
+import WPI.CampusMap.Backend.Point;
 
 /**
  * 
@@ -107,6 +108,34 @@ public class MultiPath
 	 */
 	public void add(Path p) {
 		this.mp.add(p);
+		LinkedList<Path> parts = pathLookup.get(p.getMapName());
+		
+		if(parts == null)
+		{
+			parts = new LinkedList<Path>();
+		}
+		
+		parts.add(p);
+		pathLookup.put(p.getMapName(), parts);
+	}
+	
+	public void add(Node n)
+	{
+		Point p = n.getPoint();
+		
+		Path path;
+		if(mp.size() == 0 || mp.getLast().getMapName() != p.getMap())
+		{
+			path = new Path(Map.getMap(p.getMap()).getScale());
+			path.setMapName(p.getMap());
+			add(path);
+		}
+		else 
+		{
+			path = mp.getLast();
+		}
+		
+		path.addNode(n);
 	}
 
 	public Path get(int i)
