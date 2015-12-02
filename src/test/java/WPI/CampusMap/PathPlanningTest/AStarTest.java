@@ -25,6 +25,8 @@ public class AStarTest {
 
 	@BeforeClass
 	public static void getMap() throws XMLStreamException {
+		Map.clearAllMaps();
+		
 		testMap = Serializer.read("5x5Test");
 		testMap2 = Serializer.read("5x5Test2");
 
