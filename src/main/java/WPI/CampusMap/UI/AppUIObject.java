@@ -516,11 +516,13 @@ public class AppUIObject {
 		btnDevMode.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent arg0) {
 				if (!devMode) {
+					btnClear.setVisible(false);
 					setTypeSelectorEditable(false);
 					setNodeTextFieldEditable(false);
 					setMapConnectionTextFieldEditable(false);
 					setPointConnectionTextFieldEditable(false);
 					btnGetDirections.setVisible(false);
+					lblDirections.setVisible(false);
 					txtDevPass.setVisible(true);
 					btnSubmit.setVisible(true);	
 					directionsPane.setVisible(false);
@@ -544,6 +546,7 @@ public class AppUIObject {
 					destinations.resetLastPoint();
 				} else {
 					devMode = false;
+					btnClear.setVisible(true);
 					frame.setTitle("Path Finder");
 					btnDevMode.setText("Dev Mode");
 					directionsPane.setVisible(true);
