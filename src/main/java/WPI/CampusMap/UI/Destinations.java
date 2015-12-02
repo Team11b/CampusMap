@@ -104,7 +104,7 @@ public class Destinations {
 		//add a textbox if neccessary
 		if(indexFreeTextBox == -1){
 			addDestination();			
-		}else{
+		}
 		
 		//set in destination textbox
 		textFields.get(indexFreeTextBox).setText(idOfDest);
@@ -114,7 +114,6 @@ public class Destinations {
 		if(indexFreeTextBox == textFields.size()){
 			tempIndex = indexFreeTextBox;
 			indexFreeTextBox = -1;
-		}
 		}
 	}
 	
