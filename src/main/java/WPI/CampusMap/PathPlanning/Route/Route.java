@@ -1,5 +1,6 @@
 package WPI.CampusMap.PathPlanning.Route;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -62,7 +63,7 @@ public class Route {
 		String route = "";
 		route += "Start: " + p.getPath().get(0).getPoint().getCoord().toString() + "\n";
 		route += "Face " + p.getPath().get(1).getPoint().getId() + " and walk "
-				+ p.getPath().get(0).getPoint().distance(p.getPath().get(1).getPoint()) + "feet.\n";
+				+  new DecimalFormat("#.#").format(p.getPath().get(0).getPoint().distance(p.getPath().get(1).getPoint())) + " feet.\n";
 		latest = new Instruction(route, 0, p.getPath().get(0), offset);
 		list.add(latest);
 		route = "";
@@ -98,7 +99,7 @@ public class Route {
 			} else {
 				direction = "";
 			}
-			route += "Turn " + direction + turn + " and walk " + dist + " feet.\n";
+			route += "Turn " + direction + turn + " and walk " +  new DecimalFormat("#.#").format(dist) + " feet.\n";
 
 			latest = new Instruction(route, dist, p.getPath().get(0), offset + i);
 			list.add(latest);
