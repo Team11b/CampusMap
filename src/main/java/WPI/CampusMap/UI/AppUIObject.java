@@ -218,8 +218,15 @@ public class AppUIObject {
 		//TODO: Clear destinations
 	}
 	
+	private Point lastPoint;
+	
 	public void onPointSelected(Point point)
 	{
+		if(lastPoint != null)
+		{
+			lastPoint.setId(nodeTextField.getText());
+		}
+		
 		if(point == null)
 		{
 			setTypeSelector(0);
@@ -254,6 +261,8 @@ public class AppUIObject {
 			setNodeTextFieldEditable(true);
 			setNodeTextField(point.getId());
 		}
+		
+		lastPoint = point;
 		
 		connectionEditorList.setConnectionPoint(point);
 	}
