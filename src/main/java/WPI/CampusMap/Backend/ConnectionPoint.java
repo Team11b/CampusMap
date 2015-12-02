@@ -67,9 +67,10 @@ public class ConnectionPoint extends Point {
 		String linkedMapsString = "";
 		for(String string: linkedMaps){
 			linkedMapsString+=string;
+			linkedMapsString+=", ";
 		}
 		
-		return linkedMapsString.substring(0, linkedMapsString.length());
+		return linkedMapsString.substring(0, linkedMapsString.length()-2);
 	}
 
 	public void setLinkedMaps(LinkedList<String> linkedMaps) {
@@ -88,9 +89,10 @@ public class ConnectionPoint extends Point {
 		String linkedPointsString = "";
 		for(String string: linkedPoints.values()){
 			linkedPointsString+=string;
+			linkedPointsString+=", ";
 		}
 		
-		return linkedPointsString.substring(0, linkedPointsString.length());
+		return linkedPointsString.substring(0, linkedPointsString.length()-2);
 	}
 
 	public void setLinkedPoints(HashMap<String, String> linkedPoints) {

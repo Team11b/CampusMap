@@ -163,16 +163,16 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 				connectionPoint.setLinkedMaps(new LinkedList<String>());
 				connectionPoint.setLinkedPoints(new HashMap<String,String>());
 				
-				String[] maps = getOwner().getUI().getMapConnectorText().split(", ");
-				String[] points = getOwner().getUI().getPointConnectorText().split(", ");
+				String[] maps = getOwner().getUI().getMapConnectorText().split(",");
+				String[] points = getOwner().getUI().getPointConnectorText().split(",");
 				
 				System.out.println("Maps" + maps);
 				System.out.println("Points" + points);
 				
 				int size = Math.min(maps.length, points.length);
 				for(int i = 0; i < size; i++){
-					connectionPoint.addLinkedPoint(maps[i],points[i]);
-					connectionPoint.addLinkedMap(maps[i]);
+					connectionPoint.addLinkedPoint(maps[i].trim(),points[i].trim());
+					connectionPoint.addLinkedMap(maps[i].trim());
 				}
 				System.out.println("Linked Maps: " + connectionPoint.getLinkedMapsString());
 				System.out.println("Linked Points:" + connectionPoint.getLinkedPointsString());
