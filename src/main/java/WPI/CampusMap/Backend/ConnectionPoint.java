@@ -24,6 +24,15 @@ public class ConnectionPoint extends Point {
 															// connectionpoint
 	private LinkedList<Map> connMaps;
 
+	public ConnectionPoint(Coord coord, String type, String id, String mapName)
+	{
+		super(coord, type, id, mapName);
+		this.linkedMaps = new LinkedList<String>();
+		this.linkedPoints = new HashMap<String, String>();
+		this.connMaps = new LinkedList<Map>();
+		this.connPoints = new HashMap<String, ConnectionPoint>();
+	}
+	
 	/**
 	 * ConnectionPoint constructor
 	 * 

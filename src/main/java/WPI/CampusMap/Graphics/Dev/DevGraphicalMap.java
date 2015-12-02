@@ -6,6 +6,7 @@ import WPI.CampusMap.Backend.Point;
 import WPI.CampusMap.Dev.EditorToolMode;
 import WPI.CampusMap.Graphics.GraphicalMap;
 import WPI.CampusMap.Graphics.RealMouseEvent;
+import WPI.CampusMap.UI.AppUIObject;
 import WPI.CampusMap.UI.MapPanel;
 
 public class DevGraphicalMap extends GraphicalMap
@@ -48,7 +49,8 @@ public class DevGraphicalMap extends GraphicalMap
 	
 	@Override
 	public boolean onMouseClick(RealMouseEvent e) {
-		if (mode == EditorToolMode.Point && getHoverObject() == null) {
+		if (mode == EditorToolMode.Point && getHoverObject() == null)
+		{
 			Point newPoint = new Point(getMap().getName());
 			newPoint.setCoord(getWorldCoord((int) e.getX(), (int) e.getY()));
 			getMap().addPoint(newPoint);
@@ -62,71 +64,11 @@ public class DevGraphicalMap extends GraphicalMap
 			go.select();
 
 			return true;
-		} else if (getHoverObject() == null) {
+		} 
+		else if (getHoverObject() == null) {
 			DevPointGraphicsObject.clearSelection();
-		} else if ((getHoverObject() != null) && (mode == EditorToolMode.None)) {
-			// Copy the textboxt to the type
-			if (DevPointGraphicsObject.getSelected() != null)
-				DevPointGraphicsObject.getSelected().updatePoint();
-			
-
-			// Update UI
-			DevPointGraphicsObject hoverObject = (DevPointGraphicsObject) getHoverObject();
-			hoverObject.select();
-			Point thePoint = ((Point) getHoverObject().getRepresentedObject());
-			getUI().setNodeTextField(thePoint.getId());
-			if (getHoverObject().getRepresentedObject().getClass() == ConnectionPoint.class) {
-				System.out.println("Is a connection node");
-				DevPointGraphicsObject pointObject = (DevPointGraphicsObject) this.getHoverObject();
-				ConnectionPoint theConnectionPoint = (ConnectionPoint) pointObject.getRepresentedObject();
-				getUI().setPointConnectorText(theConnectionPoint.getLinkedMapsString());
-				getUI().setPointConnectorText(theConnectionPoint.getLinkedPointsString());
-				getUI().setMapConnectionTextFieldEditable(true);
-				getUI().setPointConnectionTextFieldEditable(true);
-			} else {
-				getUI().setPointConnectorText("");
-				getUI().setPointConnectorText("");
-				getUI().setMapConnectionTextFieldEditable(false);
-				getUI().setPointConnectionTextFieldEditable(false);
-			}
-			System.out.println("The type is " + thePoint.getType());
-			if(thePoint.getType() == null){
-				thePoint.setType(Point.HALLWAY);
-			}
-			switch (thePoint.getType()) {
-			case "":
-			case Point.HALLWAY:
-				getUI().setMapConnectionTextFieldEditable(false);
-				getUI().setPointConnectionTextFieldEditable(false);
-				getUI().setTypeSelector(0);
-				break;
-			case Point.STAIRS:
-				getUI().setMapConnectionTextFieldEditable(true);
-				getUI().setPointConnectionTextFieldEditable(true);
-				getUI().setTypeSelector(1);
-				break;
-			case Point.ELEVATOR:
-				getUI().setMapConnectionTextFieldEditable(true);
-				getUI().setPointConnectionTextFieldEditable(true);
-				getUI().setTypeSelector(2);
-				break;
-			case Point.OUT_DOOR:
-				getUI().setMapConnectionTextFieldEditable(true);
-				getUI().setPointConnectionTextFieldEditable(true);
-				getUI().setTypeSelector(3);
-				break;
-			default:
-				System.out.println("Type is invalid");
-				break;
-			}
-			
-			if(!thePoint.getType().equals(Point.HALLWAY)){
-				ConnectionPoint cPoint = thePoint.getConnectionPoint();
-				System.out.println("Here: "+cPoint.getLinkedMapsString()+", "+cPoint.getLinkedPointsString());
-				getUI().setMapConnectorText(cPoint.getLinkedMapsString());
-				getUI().setPointConnectorText(cPoint.getLinkedPointsString());
-			}
-
+			AppUIObject.getInstance().onPointSelected(null);
+			return true;
 		}
 
 		return false;

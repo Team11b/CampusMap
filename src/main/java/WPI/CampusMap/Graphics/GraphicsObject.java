@@ -35,6 +35,7 @@ public abstract class GraphicsObject<R, M extends GraphicalMap>
 	public void delete()
 	{
 		deleted = true;
+		getOwner().deleteGraphicalObject(this);
 	}
 	
 	protected void finalizeDelelte()

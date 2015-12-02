@@ -23,7 +23,12 @@ public class Ref
 	
 	public static Ref getRefTo(Object value)
 	{
-		return refTable.get(value).iterator().next();
+		HashSet<Ref> set = refTable.get(value);
+		
+		if(set != null)
+			return set.iterator().next();
+		
+		return null;
 	}
 	
 	protected Object value;
