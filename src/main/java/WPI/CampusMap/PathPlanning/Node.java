@@ -10,8 +10,7 @@ import WPI.CampusMap.PathPlanning.AStar.Heuristic;
  * @author Max Stenke
  *
  */
-public class Node
-{
+public class Node {
 	private Point point;
 	private Node parent;
 	private double heuristic = 0;
@@ -81,52 +80,51 @@ public class Node
 	public double calcHeuristic(Point goal) {
 		double temp = stdH;
 		double weather = Heuristic.getWeatherScore();
-		System.out.println(goal.getMap());
 		String building = goal.getMap().substring(0, goal.getMap().length() - 3);
 		building = this.getPoint().getMap();
 
-
 		if (point.getMap().equals(goal.getMap())) {
-			
-			if(Heuristic.isUsingWeather())
-			{
+
+			if (Heuristic.isUsingWeather()) {
 				if (weather > 0) {
-					
+
 					if (point.getMap().equalsIgnoreCase("CampusMap")) {
 						temp += Math.abs(weather);
-					}
-					else {
+					} else {
 						temp -= Math.abs(weather);
 					}
 				} else {
 					if (point.getMap().equalsIgnoreCase("CampusMap")) {
 						temp -= Math.abs(weather);
-					}
-					else {
+					} else {
 						temp += Math.abs(weather);
 					}
 				}
 			}
-			
+
 			temp += this.getPoint().distance(goal);
 		}
-		
+
 		else if (point.getMap().equals("CampusMap")) {
 
-			if (weather > 0) {
-				temp += Math.abs(weather);
-			} else {
-				temp -= Math.abs(weather);
+			if (Heuristic.isUsingWeather()) {
+				if (weather > 0) {
+					temp += Math.abs(weather);
+				} else {
+					temp -= Math.abs(weather);
+				}
 			}
 
-			temp += this.getPoint().distance(Map.getMap(goal.getMap()).getPoint(building));
+//			temp += this.getPoint().distance(Map.getMap(goal.getMap()).getPoint(building));
 		}
 
 		else {
-			if (weather > 0) {
-				temp -= Math.abs(weather);
-			} else {
-				temp += Math.abs(weather);
+			if (Heuristic.isUsingWeather()) {
+				if (weather > 0) {
+					temp += Math.abs(weather);
+				} else {
+					temp -= Math.abs(weather);
+				}
 			}
 		}
 		return temp;
