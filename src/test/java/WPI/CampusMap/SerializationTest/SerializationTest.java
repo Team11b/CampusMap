@@ -51,18 +51,18 @@ public class SerializationTest {
 		assertEquals(tempM.getPoint("PointThree").getNeighborsP(),
 						temp2.getPoint("PointThree").getNeighborsP());
 		
-		// Delete written file
-		Path path = Paths.get("serialized\\test_map.ser");
-		try {
-			Files.delete(path);
-		} catch (NoSuchFileException x) {
-			System.err.format("%s: no such" + " file or directory%n", path);
-		} catch (DirectoryNotEmptyException x) {
-			System.err.format("%s not empty%n", path);
-		} catch (IOException x) {
-			// File permission problems are caught here.
-			System.err.println(x);
-		}
+//		// Delete written file
+//		Path path = Paths.get("serialized/test_map.ser");
+//		try {
+//			Files.delete(path);
+//		} catch (NoSuchFileException x) {
+//			System.err.format("%s: no such" + " file or directory%n", path);
+//		} catch (DirectoryNotEmptyException x) {
+//			System.err.format("%s not empty%n", path);
+//		} catch (IOException x) {
+//			// File permission problems are caught here.
+//			System.err.println(x);
+//		}
 	}
 
 }
