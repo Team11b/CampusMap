@@ -122,8 +122,9 @@ public class MultiPath
 	 * @param start
 	 *            a path to be split
 	 */
+	@Deprecated
 	public void parse(Path start) {
-		ArrayList<Node> bigPath = start.getPath();
+		/*ArrayList<Node> bigPath = start.getPath();
 		Path part = new Path(start.getPathScale());
 		Node node = new Node(null, null);
 		int count = 0;
@@ -170,7 +171,7 @@ public class MultiPath
 			
 			parts.add(part);
 			this.pathLookup.put(node.getPoint().getMap(), parts);
-		}
+		}*/
 	}
 
 	public int size() {

@@ -452,5 +452,11 @@ public class Map implements java.io.Serializable {
 			p.setMap(this.getName());
 		}
 	}
+	
+	protected void renamePoint(Point p, String newName)
+	{
+		allPoints.remove(p.getId());
+		allPoints.put(newName, p);
+	}
 
 }

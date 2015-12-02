@@ -10,7 +10,8 @@ import WPI.CampusMap.PathPlanning.AStar.Heuristic;
  * @author Max Stenke
  *
  */
-public class Node {
+public class Node
+{
 	private Point point;
 	private Node parent;
 	private double heuristic = 0;
@@ -31,7 +32,7 @@ public class Node {
 	 * @param parent
 	 *            Parent Node
 	 */
-	public Node(Point point, Node parent) {
+	public Node(Point point, Node parent, Point goal) {
 		this.point = point;
 		this.parent = parent;
 
@@ -41,7 +42,7 @@ public class Node {
 			this.cumulativeDist = this.parent.cumulativeDist + this.parent.getPoint().distance(this.point);
 		}
 
-		this.currentScore = this.cumulativeDist + Node.stdH;
+		this.currentScore = this.cumulativeDist + Node.stdH + (parent == null ? 0 : parent.calcHeuristic(goal));
 	}
 
 	public Point getPoint() {

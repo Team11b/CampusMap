@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
+import WPI.CampusMap.PathPlanning.Node;
+import WPI.CampusMap.PathPlanning.AStar.Frontier;
+
 /**
  * 
  * @author Max Stenke
@@ -57,7 +60,8 @@ public class Point implements java.io.Serializable {
 	 *            The other point to get the distance too.
 	 * @return The distance to the other point.
 	 */
-	public double distance(Point other) {
+	public double distance(Point other)
+	{
 		return this.getCoord().distance(other.getCoord());
 	}
 
@@ -82,6 +86,12 @@ public class Point implements java.io.Serializable {
 	}
 
 	public void setId(String id) {
+		Map map = Map.getMap(getMap());
+		if(map != null)
+		{
+			map.renamePoint(this, id);
+		}
+		
 		this.id = id;
 	}
 
@@ -95,6 +105,15 @@ public class Point implements java.io.Serializable {
 		tempAL.addAll(neighbors.keySet());
 		return tempAL;
 	}
+	
+	public void buildFrontier(Frontier frontier, Node fromNode, Point goal)
+	{
+		for(Point localPoint : getNeighborsP())
+		{
+			Node newNode = new Node(localPoint, fromNode, goal);
+			frontier.addToFrontier(newNode);
+		}
+	}
 
 	/**
 	 * returns a list of all neighbors of this point which are valid locations a
@@ -102,6 +121,7 @@ public class Point implements java.io.Serializable {
 	 * 
 	 * @return an array of any neighbor points which do not have a type wall
 	 */
+	@Deprecated
 	public ArrayList<Point> getValidNeighbors() {
 		ArrayList<Point> neigh = this.getNeighborsP();
 		ArrayList<Point> trim = new ArrayList<Point>();

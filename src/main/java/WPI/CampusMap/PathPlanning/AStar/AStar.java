@@ -32,8 +32,9 @@ public class AStar {
 	 */
 	// TODO This function should be able to replaced by _AStar, but that is not
 	// confirmed yet
+	@Deprecated
 	public static Path single_AStar(Point start, Point goal) {
-		if (start.equals(goal)) {
+		/*if (start.equals(goal)) {
 			Path returnPath = new Path(Map.getMap(start.getMap()).getScale());
 			Node tempNode = new Node(start, null);
 			returnPath.addNode(tempNode);
@@ -94,7 +95,8 @@ public class AStar {
 		returnPath.addNode(tempNode);
 
 		returnPath.reverse();
-		return returnPath;
+		return returnPath;*/
+		return null;
 	}
 
 	/**
@@ -106,145 +108,34 @@ public class AStar {
 	 *            the goal Point located on goalMap
 	 * @return a Path which spans multiple maps
 	 */
-	public static MultiPath multi_AStar(Point start, Point goal) {
-		if (start.equals(goal)) {
-			Path returnPath = new Path(Map.getMap(start.getMap()).getScale());
-			Node tempNode = new Node(start, null);
-			returnPath.addNode(tempNode);
-			returnPath.addNode(new Node(goal, tempNode));
-			return new MultiPath(returnPath);
+	public static MultiPath multi_AStar(Point start, Point goal) 
+	{
+		Frontier frontier = new Frontier();
+		
+		Node startNode = new Node(start, null, goal);
+		frontier.addToVisited(startNode);
+		start.buildFrontier(frontier, startNode, goal);
+		
+		Node front = frontier.visitFront();
+		while(front != null && front.getPoint() != goal)
+		{
+			front.getPoint().buildFrontier(frontier, front, goal);
+			front = frontier.visitFront();
 		}
-
-		boolean goalFound = false;
-
-		// Instantiate frontier and explored lists
-		Frontier frontier = new Frontier(Frontier.stdNodeComp);
-		Explored explored = new Explored();
-
-		// Instantiate path
-		Path returnPath = new Path(Map.getMap(start.getMap()).getScale());
-
-		System.out.println("Start == null " + (start == null));
-		Node tempNode = new Node(start, null);
-		// tempNode.setHeuristic(tempNode.calcHeuristic(goal));
-		ConnectionPoint tempConn = new ConnectionPoint(null, null, null, null, null, "null");
-		ConnectionNode tempConNode = new ConnectionNode(null, null, false);
-
-		// add start to frontier as a Node
-		System.out.println("Temp node == null " + (tempNode == null));
-		System.out.println("tempNode.getPoint == null " + (tempNode.getPoint() == null));
-		frontier.add(tempNode);
-
-		while ((!frontier.isEmpty()) && (!(goalFound))) {
-			goalFound = frontier.contains(new Node(goal, null));
-
-			if (!(goalFound)) {
-				explored.add(frontier.getNext());
-
-				if (!(goalFound)) {
-					tempNode = new Node(null, null);
-					tempConNode = new ConnectionNode(null, null, false);
-					tempConn = new ConnectionPoint(null, null, null, null, null, "null");
-					Node centerPoint = explored.getLast();
-
-					if ((centerPoint.getPoint() instanceof ConnectionPoint)
-							&& (((ConnectionNode) centerPoint).getEntryPoint())) {
-						tempConn = (ConnectionPoint) (explored.getLast().getPoint());
-
-						LinkedList<String> maps = tempConn.getLinkedMaps();
-						
-						for (String m : maps) {
-							if(m.equals("")|| m == null){
-								System.out.println(tempConn.getCoord());
-								System.out.println(tempConn.getId());
-							}
-							Map tempMap = Map.getMap(m);
-							tempConn.addConnMap(tempMap);
-							tempConn.addConnPoint(tempMap.getName(),
-									(ConnectionPoint) tempMap.getPoint(tempConn.getSpecLinkedPoint(tempMap.getName())));
-
-							tempConNode = new ConnectionNode(tempConn.getSpecConnPoint(m), explored.getLast(), false);
-							tempConNode.setCumulativeDist(explored.getLast().getCumulativeDist()
-									+ explored.getLast().getPoint().distance(tempConn));
-							tempConNode
-									.setCurrentScore(tempConNode.getCumulativeDist() + tempConNode.calcHeuristic(goal));
-
-							if (!(explored.containsSamePoint(tempConNode))) {
-
-								// frontier.isBetter(tempNode);
-								frontier.add(tempConNode);
-							}
-						}
-					}
-
-					else {
-						// get the valid neighbors from the last Node on the
-						// explored
-						// list
-						ArrayList<Point> neigh = centerPoint.getPoint().getValidNeighbors();
-						System.out.println(centerPoint + "'s neighbors: " + neigh);
-						for (int j = 0; j < neigh.size(); j++) {
-							tempNode = new Node(null, null);
-							tempConNode = new ConnectionNode(null, null, false);
-
-							if (neigh.get(j) instanceof ConnectionPoint) {
-								tempConNode = new ConnectionNode(neigh.get(j), explored.getLast(), true);
-
-								tempConNode.setCumulativeDist(explored.getLast().getCumulativeDist()
-										+ explored.getLast().getPoint().distance(tempConNode.getPoint()));
-								tempConNode.setCurrentScore(tempConNode.getCumulativeDist()
-										+ tempConNode.setHeuristic(tempConNode.calcHeuristic(goal)));
-
-								// check if Node is in Explored
-								if (!(explored.containsSamePoint(tempConNode))) {
-
-									frontier.isBetter(tempConNode);
-								}
-							}
-
-							else {
-								tempNode = new Node(neigh.get(j), explored.getLast());
-
-								tempNode.setCumulativeDist(explored.getLast().getCumulativeDist()
-										+ explored.getLast().getPoint().distance(tempNode.getPoint()));
-								tempNode.setCurrentScore(tempNode.getCumulativeDist()
-										+ tempNode.setHeuristic(tempNode.calcHeuristic(goal)));
-
-								// check if Node is in Explored
-								if (!(explored.containsSamePoint(tempNode))) {
-
-									frontier.isBetter(tempNode);
-								}
-							}
-						}
-					}
-				}
-			} else {
-				System.out.println("Goal Found");
-			}
+		
+		if(front == null)
+			return null;
+		
+		LinkedList<Point> pathList = new LinkedList<>();
+		Node node = front;
+		while(node != null)
+		{
+			pathList.addFirst(node.getPoint());
+			node = node.getParent();
 		}
-
-		// form the path
-		tempNode = new Node(null, null);
-		tempNode = frontier.find(new Node(goal, null));
-		System.out.println("HERE");
-		System.out.println("Frontier itself null " + (frontier == null));
-		System.out.println("Frontier .find null " + (frontier.find(new Node(goal, null)) == null));
-		System.out.println("Temp node == null " + (tempNode == null));
-		System.out.println("tempNode.getPoint == null " + (tempNode.getPoint() == null));
-		System.out.println("start== null" + (start == null));
-		System.out.println("tempNode.getPoint().equals(start)" + (tempNode.getPoint().equals(start)));
-		while ((tempNode != null) && (!(tempNode.getPoint().equals(start)))) {
-			System.out.println("Looping");
-			returnPath.addNode(tempNode);
-			tempNode = tempNode.getParent();
-		}
-
-		returnPath.addNode(tempNode);
-
-
-		returnPath.reverse();
-		System.out.println(returnPath.getPath().size());
-		return new MultiPath(returnPath);
+		
+		
+		
+		return null;
 	}
 }

@@ -7,7 +7,7 @@ public class ConnectionNode extends Node {
 	private boolean entryPoint;
 	
 	public ConnectionNode(Point point, Node parent, boolean entryPoint) {
-		super(point, parent);
+		super(point, parent, null);
 		this.entryPoint = entryPoint;
 	}
 	

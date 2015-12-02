@@ -3,6 +3,9 @@ package WPI.CampusMap.Backend;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import WPI.CampusMap.PathPlanning.Node;
+import WPI.CampusMap.PathPlanning.AStar.Frontier;
+
 /**
  * 
  * @author Max Stenke
@@ -66,6 +69,30 @@ public class ConnectionPoint extends Point {
 		this.linkedPoints = linkedPoint;
 		this.connMaps = new LinkedList<Map>();
 		this.connPoints = new HashMap<String, ConnectionPoint>();
+	}
+	
+	@Override
+	public double distance(Point other)
+	{
+		if(other.getMap() != other.getMap())
+			return 0;
+		
+		return super.distance(other);
+	}
+	
+	@Override
+	public void buildFrontier(Frontier frontier, Node fromNode, Point goal) 
+	{
+		super.buildFrontier(frontier, fromNode, goal);
+		
+		for(java.util.Map.Entry<String, String> entry : linkedPoints.entrySet())
+		{
+			Map targetMap = Map.getMap(entry.getKey());
+			Point target = targetMap.getPoint(entry.getValue());
+			
+			Node newNode = new Node(target, fromNode, goal);
+			frontier.addToFrontier(newNode);
+		}
 	}
 
 	public LinkedList<String> getLinkedMaps() {

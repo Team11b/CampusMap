@@ -1,10 +1,13 @@
 package WPI.CampusMap.PathPlanning.AStar;
 
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.PriorityQueue;
 import java.util.TreeSet;
 
-import WPI.CampusMap.PathPlanning.Node;
+import WPI.CampusMap.Backend.*;
+import WPI.CampusMap.PathPlanning.*;
 
 /**
  * 
@@ -13,6 +16,8 @@ import WPI.CampusMap.PathPlanning.Node;
  */
 public class Frontier {
 	private PriorityQueue<Node> pq;
+	private HashMap<Point, Node> visited;
+	
 
 	public static final Comparator<Node> stdNodeComp = new Comparator<Node>() {
 		public int compare(Node n1, Node n2) {
@@ -26,24 +31,28 @@ public class Frontier {
 		}
 	};
 
-	public Frontier(Comparator<Node> comp) {
-		this.pq = new PriorityQueue<Node>(comp);
+	public Frontier() {
+		this.pq = new PriorityQueue<Node>(stdNodeComp);
+		this.visited = new HashMap<>();
 	}
 
-	public PriorityQueue<Node> getPQ() {
-		return this.pq;
+	public void addToFrontier(Node newItem) 
+	{
+		if(!visited.containsKey(newItem.getPoint()))
+			this.pq.add(newItem);
+	}
+	
+	public void addToVisited(Node node)
+	{
+		visited.put(node.getPoint(), node);
 	}
 
-	public void setTree(PriorityQueue<Node> pq) {
-		this.pq = pq;
-	}
-
-	public void add(Node newItem) {
-		this.pq.add(newItem);
-	}
-
-	public Node getNext() {
-		return this.pq.poll();
+	public Node visitFront()
+	{
+		Node front = this.pq.poll();
+		addToVisited(front);
+		
+		return front;
 	}
 
 	public boolean isEmpty() {
@@ -52,81 +61,6 @@ public class Frontier {
 
 	public int size() {
 		return this.pq.size();
-	}
-
-	public boolean contains(Node other) {
-		return this.pq.contains(other);
-	}
-
-	public Node find(Node other) {
-		Node[] temp = this.pq.toArray(new Node[this.pq.size()]);
-
-		System.out.println("temp.length " + temp.length);
-		for (int j = 0; j < temp.length; j++) {
-			System.out.println("tempj  " + temp[j] + "other " + other);
-			System.out.println("temp[j].equals(other) " + temp[j].equals(other));
-			if (temp[j].equals(other)) {
-				return temp[j];
-			}
-		}
-		return null;
-	}
-
-	public boolean isBetterOLD(Node other) {
-		if (!(this.contains(other))) {
-			this.pq.add(other);
-			return false;
-		}
-
-		TreeSet<Node> allHolding = new TreeSet<Node>(Frontier.stdNodeComp);
-		Node holding = new Node(null, null);
-		boolean found = false;
-		int size = pq.size();
-
-		for (int j = 0; j < size; j++) {
-			holding = new Node(null, null);
-			holding = (Node) this.pq.poll();
-			if (holding.equals(other)) {
-				if (holding.getCurrentScore() > other.getCurrentScore()) {
-					holding = other;
-					found = true;
-					break;
-				}
-			}
-			allHolding.add(holding);
-		}
-
-		if (found) {
-			this.pq.add(holding);
-		}
-
-		while (!(allHolding.isEmpty())) {
-			holding = new Node(null, null);
-			holding = allHolding.first();
-			this.pq.add(holding);
-			allHolding.remove(holding);
-		}
-
-		return found;
-	}
-	
-	public void isBetter(Node other) {
-		if (!(this.pq.contains(other))) {
-			this.pq.add(other);
-		}
-		
-		Node[] orig = this.pq.toArray(new Node[this.pq.size()]);
-		for (int i = 0; i < orig.length; i++) {
-			if (orig[i].equals(other) && (orig[i].getCurrentScore() > other.getCurrentScore())) {
-				orig[i] = other;
-			}
-		}
-		
-		this.pq.clear();
-		
-		for (int j = 0; j < orig.length; j++) {
-			this.pq.add(orig[j]);
-		}
 	}
 
 	public String toString() {
