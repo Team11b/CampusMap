@@ -91,6 +91,7 @@ public class AppUIObject {
 	private JPasswordField txtDevPass;
 	private final JLabel lblNodeId = new JLabel("Node ID:");
 	private JTextField nodeTextField;
+	private JScrollPane directionsPane = new JScrollPane(txtDirections);
 	
    public  Destinations destinations = new Destinations(directionsPanel);
 
@@ -441,6 +442,7 @@ public class AppUIObject {
 		nodeTextField.setColumns(10);
 		
 		txtDirections.setBounds(0, 270, 220, 350);
+		directionsPane.setBounds(txtDirections.getBounds());
 		//directionsPanel.add(txtDirections);
 		
 		final JButton btnAddDest = new JButton("+ Dest");
@@ -495,6 +497,7 @@ public class AppUIObject {
 					btnGetDirections.setVisible(false);
 					txtDevPass.setVisible(true);
 					btnSubmit.setVisible(true);	
+					directionsPane.setVisible(false);
 					
 					btnAddDest.setVisible(false);
 					btnRemoveDest.setVisible(false);
@@ -514,6 +517,7 @@ public class AppUIObject {
 					devMode = false;
 					frame.setTitle("Path Finder");
 					btnDevMode.setText("Dev Mode");
+					directionsPane.setVisible(true);
 					currentDevMode = DevMode.none;
 					connectingMapTextField.setVisible(false);
 					connectingPointTextField.setVisible(false);
@@ -682,8 +686,8 @@ public class AppUIObject {
 		});
 		
 		txtDirections.setEditable(false);
-		JScrollPane directionsPane = new JScrollPane(txtDirections);
 		directionsPane.setBounds(txtDirections.getBounds());
+		directionsPane.setBounds(0, 267, 235, 350);
 		directionsPane.setVisible(true);
 		directionsPanel.add(directionsPane);
 		
