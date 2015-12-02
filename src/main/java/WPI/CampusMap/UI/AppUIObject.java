@@ -489,6 +489,7 @@ public class AppUIObject {
 		
 		comboWeather.setBounds(118, 40, 117, 24);
 		directionsPanel.add(comboWeather);
+		comboWeather.setVisible(false);
 		
 		btnSave.setVisible(false);
 
@@ -574,7 +575,7 @@ public class AppUIObject {
 					txtDevPass.setVisible(false);
 					btnSubmit.setVisible(false);
 					//btnUseWeather.setVisible(true);
-					comboWeather.setVisible(true);
+//					comboWeather.setVisible(true);
 					txtDirections.setText("");
 //					txtStart.setText("");
 //					txtEnd.setText("");
@@ -616,7 +617,7 @@ public class AppUIObject {
 					typeSelector.setVisible(true);
 					lblNodeId.setVisible(true);
 					lblNodeType.setVisible(true);
-					comboWeather.setVisible(false);
+//					comboWeather.setVisible(false);
 					//btnUseWeather.setVisible(false);
 					
 				}
