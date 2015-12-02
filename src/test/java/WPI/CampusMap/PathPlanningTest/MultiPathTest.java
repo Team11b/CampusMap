@@ -84,15 +84,15 @@ public class MultiPathTest {
 		psi = new Node(lambda, null);
 		omega = new Node(mu, null);
 
-		alef = new Path();
-		bet = new Path();
-		gimel = new Path();
-		dalet = new Path();
-		bee = new Path();
-		cee = new Path();
-		dee = new Path();
-		eee = new Path();
-		hhh = new Path();
+		alef = new Path(1);
+		bet = new Path(1);
+		gimel = new Path(1);
+		dalet = new Path(1);
+		bee = new Path(1);
+		cee = new Path(1);
+		dee = new Path(1);
+		eee = new Path(1);
+		hhh = new Path(1);
 
 		alef.addNode(nu);
 		alef.addNode(xi);

@@ -22,7 +22,7 @@ public class MultiPath
 		
 		for(Path path : a.mp)
 		{
-			Path newPath = new Path();
+			Path newPath = new Path(path.getPathScale());
 			
 			newPath.setPath((ArrayList<Node>)path.getPath().clone());
 			
@@ -41,7 +41,7 @@ public class MultiPath
 		
 		for(Path path : b.mp)
 		{
-			Path newPath = new Path();
+			Path newPath = new Path(path.getPathScale());
 			
 			newPath.setPath((ArrayList<Node>)path.getPath().clone());
 			
@@ -124,7 +124,7 @@ public class MultiPath
 	 */
 	public void parse(Path start) {
 		ArrayList<Node> bigPath = start.getPath();
-		Path part = new Path();
+		Path part = new Path(start.getPathScale());
 		Node node = new Node(null, null);
 		int count = 0;
 		int index = 0;
@@ -139,7 +139,7 @@ public class MultiPath
 		}
 		
 		while (index < bigPath.size()) {
-			part = new Path();
+			part = new Path(start.getPathScale());
 			node = new Node(null, null);//?
 
 			while ((index < bigPath.size())) {
