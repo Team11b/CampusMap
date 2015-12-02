@@ -146,19 +146,20 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 		//Copy the textbox to the type									
 		DevPointGraphicsObject selectedObject = DevPointGraphicsObject.getSelected();
 		if(selectedObject != null){
-			Point selectedPoint = DevPointGraphicsObject.getSelected().getRepresentedObject();	
-			getOwner().getMap().removePoint(selectedPoint);
+			Point selectedPoint = DevPointGraphicsObject.getSelected().getRepresentedObject();
 			selectedPoint.setType(getOwner().getUI().getTypeSelector());
 			selectedPoint.setId(getOwner().getUI().getID());
 			
 			if(getOwner().getUI().getTypeSelector() != "hallway"){
 				//Is a connecting node.
 				System.out.println("IS A CONNECTING NODE");
-				ConnectionPoint connectionPoint = selectedPoint.getConnectionPoint();
+				ConnectionPoint connectionPoint = selectedPoint.getConnectionPoint();	
+				getOwner().getMap().removePoint(selectedPoint);
 				getOwner().getUI().setMapConnectionTextFieldEditable(true);
 				getOwner().getUI().setMapConnectionTextFieldEditable(true);
 				connectionPoint.addLinkedPoint(getOwner().getUI().getMapConnectorText(), getOwner().getUI().getPointConnectorText());
 				getOwner().getMap().addPoint(connectionPoint);
+				this.setRepresentedObject(connectionPoint);
 			}else{
 				System.out.println("IS NOT A CONNECTING NODE");
 				getOwner().getUI().setMapConnectionTextFieldEditable(false);
@@ -166,7 +167,7 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 				getOwner().getMap().addPoint(selectedPoint.getNormalPoint());
 			}
 			
-			System.out.println(getOwner().getMap().getAllPoints().containsKey(selectedPoint.getId()));
+//			System.out.println(getOwner().getMap().getAllPoints().containsKey(selectedPoint.getId()));
 			
 			selectedObject.clearSelection();
 			getOwner().getUI().setNodeTextField("");
