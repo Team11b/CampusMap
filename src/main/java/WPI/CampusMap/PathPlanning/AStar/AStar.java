@@ -117,10 +117,13 @@ public class AStar {
 		start.buildFrontier(frontier, startNode, goal);
 		
 		Node front = frontier.visitFront();
-		while(front != null && front.getPoint() != goal)
+		while(front != null && !front.getPoint().equals(goal))
 		{
 			front.getPoint().buildFrontier(frontier, front, goal);
 			front = frontier.visitFront();
+			
+			if(front.getPoint().getId().equals(goal.getId()) && front.getPoint().getMap().equals(goal.getMap()))
+				System.out.println("D");
 		}
 		
 		if(front == null)

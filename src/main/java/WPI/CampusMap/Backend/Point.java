@@ -135,7 +135,7 @@ public class Point implements java.io.Serializable {
 		{
 			if(localPoint == null)
 				System.out.println("R");
-			if(localPoint.getId().equals(goal.id))
+			if(localPoint.getId().equals(goal.id) && localPoint.getMap().equals(goal.getMap()))
 				System.out.println("T");
 			Node newNode = new Node(localPoint, fromNode, goal);
 			frontier.addToFrontier(newNode);
@@ -222,20 +222,15 @@ public class Point implements java.io.Serializable {
 		 return temp;
 	}
 
-	/*@Override
+	@Override
 	public boolean equals(Object other) {
-		boolean result = false;
 		if (other instanceof Point) {
 			Point that = (Point) other;
-			if (this.getMap() != null) {
-				result = (this.getCoord().equals(that.getCoord())) && (this.getMap().equals(((Point) other).getMap()));
-			}
-			else {
-				result = (this.getCoord().equals(that.getCoord()));
-			}
+			boolean result = getMap().equals(that.getMap()) && getId().equals(that.getId());
+			return result;
 		}
-		return result;
-	}*/
+		return false;
+	}
 	
 	@Override
 	public int hashCode() {
