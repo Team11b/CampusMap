@@ -37,6 +37,7 @@ import WPI.CampusMap.Backend.ConnectionPoint;
 import WPI.CampusMap.Backend.Point;
 import WPI.CampusMap.Dev.EditorToolMode;
 import WPI.CampusMap.Graphics.Dev.DevPointGraphicsObject;
+import WPI.CampusMap.Graphics.User.UserPathGraphicsObject;
 import WPI.CampusMap.Graphics.User.UserPointGraphicsObject;
 import WPI.CampusMap.PathPlanning.MultiPath;
 import WPI.CampusMap.PathPlanning.Path;
@@ -310,9 +311,7 @@ public class AppUIObject {
 				sendEmail();
 				System.out.println("Send an Email!");
 				break;
-			case "Route me":
-				//UserPointGraphicsObject.clearSelected();				
-				AppUIObject.getInstance().destinations.resetLastPoint();
+			case "Route me":				
 				MultiPath path = UserPointGraphicsObject.route();
 				Route route = new Route(path);
 				for(Instruction i: route.getRoute()){
@@ -537,20 +536,11 @@ public class AppUIObject {
 					btnAddDest.setVisible(false);
 					btnRemoveDest.setVisible(false);
 					destinations.setVisibility(false);
-					/*if(mapPanel.selectedPoint == null){
-						nodeTextField.setText("");
-						typeSelector.setSelectedIndex(0);
-					}else{
-						nodeTextField.setText(mapPanel.selectedPoint.getId());
-						typeSelector.setSelectedItem(mapPanel.selectedPoint.getType());
-					}*/					
+									
 					txtDirections.setText("Enter the password and click submit!");
 					btnDevMode.setText("User mode");					
 					devMode = true; //not actually true, but in order to switch without pass	
-					onEnterDevMode();
-					
-					//For coming back into usermode
-					destinations.resetLastPoint();
+					onEnterDevMode();					
 				} else {
 					devMode = false;
 					btnClear.setVisible(true);
@@ -824,6 +814,7 @@ public class AppUIObject {
 			public void actionPerformed(ActionEvent e) {
 				destinations.resetLastPoint();
 				UserPointGraphicsObject.clearSelected();
+				UserPathGraphicsObject.deleteAll();
 			}
 		});
 

@@ -32,6 +32,13 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 	
 	public static void pushPointOnRoute(UserPointGraphicsObject point)
 	{
+		//Clear out when adding a start point
+		if(lastRoutedPath != null){
+			AppUIObject.getInstance().destinations.resetLastPoint();
+			clearSelected();
+			lastRoutedPath = null;
+		}
+		
 		if(!point.selectedToRoute)
 		{
 			if(selectedRoute.size() == 0)
@@ -42,7 +49,7 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 			
 			point.selectedToRoute = true;
 			TypedRef<UserPointGraphicsObject> ref = new TypedRef<UserPointGraphicsObject>(point);
-			selectedRoute.add(ref);
+			selectedRoute.add(ref);			
 			
 			AppUIObject.getInstance().onPointAddedToRoute(point.getRepresentedObject());
 		}
@@ -83,7 +90,7 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 			graphicalMap.setPathSections(lastRoutedPath.getMapPath(map));
 		}
 		
-		clearSelected();
+		//clearSelected();
 		return lastRoutedPath;
 	}
 	
@@ -113,7 +120,7 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 		if(selectedToRoute)
 		{
 			if(this == getSelectedRoute().getFirst().getValue())
-			{					
+			{				
 				return Color.green;
 			}				
 			else if(this == getSelectedRoute().getLast().getValue())
