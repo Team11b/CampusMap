@@ -1,6 +1,6 @@
 package WPI.CampusMap.UI;
 
-public class DevMode {
+public class DevMode extends UIMode {
 	//Singleton
 	private static DevMode instance;
 	
@@ -24,9 +24,10 @@ public class DevMode {
 		currentMode = SELECT_MODE;
 	}
 	
-	public void onDevModeEntered(){
+	@Override
+	public void onModeEntered(){
 		currentMode = SELECT_MODE;
-		UIMode.getInstance().setWindowText("Dev Mode");		
+		//UIMode.setWindowText("Dev Mode");		
 		//Switch label to textbox for scale
 		//Show and hide UI elements
 	}
