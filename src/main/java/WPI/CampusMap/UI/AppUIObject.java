@@ -2,12 +2,10 @@ package WPI.CampusMap.UI;
 
 import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.ScrollPane;
+import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.MouseListener;
 import java.io.File;
-import java.security.GeneralSecurityException;
 import java.util.ArrayList;
 
 import javax.swing.AbstractAction;
@@ -17,7 +15,6 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JScrollPane;
@@ -33,18 +30,15 @@ import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 import javax.xml.stream.XMLStreamException;
 
-import WPI.CampusMap.Backend.ConnectionPoint;
 import WPI.CampusMap.Backend.Point;
 import WPI.CampusMap.Dev.EditorToolMode;
 import WPI.CampusMap.Graphics.Dev.DevPointGraphicsObject;
 import WPI.CampusMap.Graphics.User.UserPathGraphicsObject;
 import WPI.CampusMap.Graphics.User.UserPointGraphicsObject;
 import WPI.CampusMap.PathPlanning.MultiPath;
-import WPI.CampusMap.PathPlanning.Path;
 import WPI.CampusMap.PathPlanning.Route.Instruction;
 import WPI.CampusMap.PathPlanning.Route.Route;
 import WPI.CampusMap.Serialization.Serializer;
-import java.awt.Font;
 
 public class AppUIObject {
 	private static AppUIObject instance;
@@ -76,7 +70,7 @@ public class AppUIObject {
 	private final String[] pointTypes = {Point.HALLWAY, Point.STAIRS, Point.ELEVATOR, Point.OUT_DOOR};
 	private JComboBox<String> typeSelector = new JComboBox<String>();
 	private final String[] weatherTypes = {"Weather", "No Preference", "Prefer Outside", "Prefer Inside"};	private final JTextPane txtDirections = new JTextPane();
-	private JComboBox<String> comboWeather = new JComboBox(weatherTypes);
+	private JComboBox<String> comboWeather = new JComboBox<String>(weatherTypes);
 	//	private JLabel lblStart = new JLabel("Start:");
 //	private JLabel lblEnd = new JLabel("End:");
 //	private JTextField txtStart;
@@ -85,7 +79,6 @@ public class AppUIObject {
 	private final ArrayList<String> mapXMLStrings = new ArrayList<String>();
 	private JComboBox<String> mapDropDown = new JComboBox<String>();
 	private String[] mapStrings;
-	private MouseListener mouseClick;
 	private final SwingAction actionHandler = new SwingAction();
 
 	private final JToggleButton btnRemoveEdge = new JToggleButton("Remove Edge");
@@ -107,7 +100,6 @@ public class AppUIObject {
 	
 	protected DevMode currentDevMode = DevMode.none;
 	
-	private static Destinations destInstance;
 	
 	public static AppUIObject get()
 	{

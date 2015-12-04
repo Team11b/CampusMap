@@ -3,7 +3,6 @@ package WPI.CampusMap.Graphics.User;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.awt.Stroke;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;

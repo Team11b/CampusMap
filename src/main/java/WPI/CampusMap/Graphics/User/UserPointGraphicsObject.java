@@ -1,8 +1,6 @@
 package WPI.CampusMap.Graphics.User;
 
 import java.awt.Color;
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.LinkedList;
 
 import WPI.CampusMap.Backend.Coord;
@@ -12,11 +10,8 @@ import WPI.CampusMap.Core.TypedRef;
 import WPI.CampusMap.Graphics.PointGraphicsObject;
 import WPI.CampusMap.Graphics.RealMouseEvent;
 import WPI.CampusMap.PathPlanning.MultiPath;
-import WPI.CampusMap.PathPlanning.Node;
-import WPI.CampusMap.PathPlanning.Path;
 import WPI.CampusMap.PathPlanning.AStar.AStar;
 import WPI.CampusMap.UI.AppUIObject;
-import WPI.CampusMap.UI.Destinations;
 
 public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMap>
 {

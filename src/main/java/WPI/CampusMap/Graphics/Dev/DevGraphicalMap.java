@@ -1,6 +1,5 @@
 package WPI.CampusMap.Graphics.Dev;
 
-import WPI.CampusMap.Backend.ConnectionPoint;
 import WPI.CampusMap.Backend.Map;
 import WPI.CampusMap.Backend.Point;
 import WPI.CampusMap.Dev.EditorToolMode;

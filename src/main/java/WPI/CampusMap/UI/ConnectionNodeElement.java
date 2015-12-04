@@ -1,27 +1,18 @@
 package WPI.CampusMap.UI;
 
-import javax.swing.JPanel;
-import javax.swing.JRadioButton;
-
 import java.awt.Dimension;
-import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.util.EventListener;
 import java.util.HashMap;
-
-import javax.swing.BoxLayout;
-import javax.swing.SpringLayout;
-
-import WPI.CampusMap.Backend.ConnectionPoint;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
 import javax.swing.JTextField;
+import javax.swing.SpringLayout;
+
+import WPI.CampusMap.Backend.ConnectionPoint;
 
 public class ConnectionNodeElement extends JComponent
 {

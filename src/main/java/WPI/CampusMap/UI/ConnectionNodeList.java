@@ -1,24 +1,19 @@
 package WPI.CampusMap.UI;
 
-import javax.swing.JButton;
-import javax.swing.JComponent;
-import javax.swing.JLayeredPane;
-import javax.swing.JPanel;
-
-import WPI.CampusMap.Backend.ConnectionPoint;
-import WPI.CampusMap.Backend.Point;
 import java.awt.BorderLayout;
+import java.awt.FlowLayout;
+import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.Map;
 
-import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.BoxLayout;
-import javax.swing.JRadioButton;
-import java.awt.Panel;
-import java.awt.FlowLayout;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
+
+import WPI.CampusMap.Backend.ConnectionPoint;
+import WPI.CampusMap.Backend.Point;
 
 public class ConnectionNodeList extends  JComponent
 {

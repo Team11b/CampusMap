@@ -11,7 +11,7 @@ import com.google.gson.Gson;
  * @author Max Stenke
  */
 public class Wunderground extends WundergroundAbstract {
-	ResponseContainer resp;
+	private ResponseContainer resp;
 
 	public Wunderground() {
 		BASE_URI = "http://api.wunderground.com/api/2901b67aa5967692/conditions/q/MA/Worcester.json";
@@ -26,19 +26,19 @@ public class Wunderground extends WundergroundAbstract {
 	}
 
 	public double getTempC() {
-		return resp.current_observation.getTempC();
+		return resp.getCurrent_observation().getTempC();
 	}
 
 	public double getTempF() {
-		return resp.current_observation.getTempF();
+		return resp.getCurrent_observation().getTempF();
 	}
 
 	public String getWeather() {
-		return resp.current_observation.getWeather();
+		return resp.getCurrent_observation().getWeather();
 	}
 
 	public double getWindMPH() {
-		return resp.current_observation.getWindMPH();
+		return resp.getCurrent_observation().getWindMPH();
 	}
 	
 	public String toString() {

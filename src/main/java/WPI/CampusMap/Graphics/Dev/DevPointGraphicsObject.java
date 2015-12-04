@@ -2,14 +2,13 @@ package WPI.CampusMap.Graphics.Dev;
 
 import java.awt.Color;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.LinkedList;
 
 import WPI.CampusMap.Backend.ConnectionPoint;
 import WPI.CampusMap.Backend.Coord;
 import WPI.CampusMap.Backend.Point;
 import WPI.CampusMap.Dev.EditorToolMode;
-import WPI.CampusMap.Graphics.*;
+import WPI.CampusMap.Graphics.PointGraphicsObject;
+import WPI.CampusMap.Graphics.RealMouseEvent;
 import WPI.CampusMap.UI.AppUIObject;
 
 public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>

@@ -2,7 +2,6 @@ package WPI.CampusMap.PathPlanning;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.TooManyListenersException;
 
 import WPI.CampusMap.Backend.Coord;
 import WPI.CampusMap.Backend.Point;

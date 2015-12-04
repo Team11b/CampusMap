@@ -6,10 +6,8 @@ import java.util.LinkedList;
 import WPI.CampusMap.Backend.Map;
 import WPI.CampusMap.Backend.Point;
 import WPI.CampusMap.Core.Ref;
-import WPI.CampusMap.Core.TypedRef;
 import WPI.CampusMap.Graphics.GraphicalMap;
 import WPI.CampusMap.Graphics.GraphicsObject;
-import WPI.CampusMap.Graphics.PointGraphicsObject;
 import WPI.CampusMap.PathPlanning.Path;
 import WPI.CampusMap.UI.MapPanel;
 

@@ -6,8 +6,6 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.UUID;
 
@@ -15,8 +13,6 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.xml.stream.XMLStreamException;
 
-import WPI.CampusMap.PathPlanning.Node;
-import WPI.CampusMap.PathPlanning.Path;
 import WPI.CampusMap.Serialization.Serializer;
 
 /**
@@ -329,14 +325,14 @@ public class Map implements java.io.Serializable {
 	 * @return the index of the existing Node, -1 if not found
 	 */
 	// TODO may not be used
-	private static int getIndex(Node aNode, ArrayList<Node> LoN) {
-		for (int j = 0; j < LoN.size(); j++) {
-			if (LoN.get(j).getPoint() == aNode.getPoint()) {
-				return j;
-			}
-		}
-		return -1;
-	}
+//	private static int getIndex(Node aNode, ArrayList<Node> LoN) {
+//		for (int j = 0; j < LoN.size(); j++) {
+//			if (LoN.get(j).getPoint() == aNode.getPoint()) {
+//				return j;
+//			}
+//		}
+//		return -1;
+//	}
 
 	/**
 	 * Removes the point with the given ID from the map array, and from the
