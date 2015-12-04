@@ -3,7 +3,6 @@ package WPI.CampusMap.Graphics;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import WPI.CampusMap.Graphics.Dev.DevPointGraphicsObject;
 import WPI.CampusMap.Core.Ref;
 
 public abstract class GraphicsObject<R, M extends GraphicalMap>
@@ -40,7 +39,7 @@ public abstract class GraphicsObject<R, M extends GraphicalMap>
 	
 	protected void finalizeDelelte()
 	{
-		cleanedUp = true;
+		setCleanedUp(true);
 		Ref ref = Ref.getRefTo(this);
 		if(ref != null)
 			ref.releaseAll();
@@ -131,6 +130,14 @@ public abstract class GraphicsObject<R, M extends GraphicalMap>
 		System.out.println("hello: "+representedObject);
 		getOwner().updateReferencedObject(representedObject, newObject);
 		representedObject = newObject;
+	}
+
+	public boolean isCleanedUp() {
+		return cleanedUp;
+	}
+
+	public void setCleanedUp(boolean cleanedUp) {
+		this.cleanedUp = cleanedUp;
 	}
 	
 }

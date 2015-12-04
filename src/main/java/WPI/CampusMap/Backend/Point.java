@@ -151,7 +151,6 @@ public class Point implements java.io.Serializable {
 	@Deprecated
 	public ArrayList<Point> getValidNeighbors() {
 		ArrayList<Point> neigh = this.getNeighborsP();
-		ArrayList<Point> trim = new ArrayList<Point>();
 
 		/*for (int i = 0; i < neigh.size(); i++) {
 			if (neigh.get(i).getType() == null || !(neigh.get(i).getType().equalsIgnoreCase(Point.WALL))) {

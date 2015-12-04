@@ -3,7 +3,6 @@ package WPI.CampusMap.UI;
 import java.util.ArrayList;
 
 import javax.swing.JLabel;
-import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 

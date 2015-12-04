@@ -1,13 +1,11 @@
 package WPI.CampusMap.Serialization;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 
 import javax.xml.stream.XMLStreamException;
 
-import WPI.CampusMap.Backend.ConnectionPoint;
 import WPI.CampusMap.Backend.Map;
 import WPI.CampusMap.Backend.Point;
 import WPI.CampusMap.XML.XML;
@@ -71,7 +69,6 @@ public class Converter {
 	public static void connectionTestPrep() {
 		Map temp = new Map();
 		String[] files = Converter.getFileNames();
-		String connKey = "4";
 
 		for (int j = 0; j < files.length; j++) {
 			if ((Arrays.asList(Converter.allowXML).contains(files[j]))) {
@@ -86,7 +83,6 @@ public class Converter {
 					e.printStackTrace();
 				}
 				HashMap<String, Point> holder = temp.getAllPoints();
-				String[] keys = holder.keySet().toArray(new String[holder.keySet().size()]);
 
 //				for (int i = 0; i < keys.length; i++) {
 //					holder.get(keys[i]).setMap(temp.getName());
@@ -106,12 +102,10 @@ public class Converter {
 		String[] files = Converter.getSerNames();
 
 		for (int j = 0; j < files.length; j++) {
-			String file = files[j].substring(0, files[j].length() - 4) + ".ser";
 //			if (Converter.contains(file, Converter.allow)) {
 				temp = Serializer.read(files[j].substring(0, files[j].length() - 4));
 				System.out.println(temp.getName());
 				temp.setAllPointMaps();
-				ArrayList<Point> vals = new ArrayList<Point>(temp.getAllPoints().values());
 //				System.out.println("hello " + vals.get(1).getMap());
 				Serializer.write(temp);
 //			}
@@ -119,14 +113,6 @@ public class Converter {
 		System.out.println("done");
 	}
 	
-	private static boolean contains(String find, String[] list) {
-		for (String s : list) {
-			if (s.equals(find)) {
-				return true;
-			}
-		}
-		return false;
-	}
 
 	public static void main(String[] args) {
 //		Converter.connectionTestPrep();

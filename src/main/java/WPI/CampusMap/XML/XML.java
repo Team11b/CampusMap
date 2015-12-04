@@ -138,6 +138,7 @@ public class XML {
 
 		HashMap<String, Point> pointMap = new HashMap<String, Point>();
 		HashMap<String, ArrayList<String>> neighMap = new HashMap<String, ArrayList<String>>();
+		@SuppressWarnings("unused")
 		ArrayList<String> neighAList = new ArrayList<String>();
 
 		XMLInputFactory factory = XMLInputFactory.newInstance();

@@ -1,12 +1,8 @@
 package WPI.CampusMap.PathPlanning.AStar;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 
-import WPI.CampusMap.Backend.ConnectionPoint;
-import WPI.CampusMap.Backend.Map;
 import WPI.CampusMap.Backend.Point;
-import WPI.CampusMap.PathPlanning.ConnectionNode;
 import WPI.CampusMap.PathPlanning.MultiPath;
 import WPI.CampusMap.PathPlanning.Node;
 import WPI.CampusMap.PathPlanning.Path;

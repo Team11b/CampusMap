@@ -2,12 +2,10 @@ package WPI.CampusMap.PathPlanning.AStar;
 
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.PriorityQueue;
-import java.util.TreeSet;
 
-import WPI.CampusMap.Backend.*;
-import WPI.CampusMap.PathPlanning.*;
+import WPI.CampusMap.Backend.Point;
+import WPI.CampusMap.PathPlanning.Node;
 
 /**
  * 

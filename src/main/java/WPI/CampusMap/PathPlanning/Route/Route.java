@@ -1,11 +1,9 @@
 package WPI.CampusMap.PathPlanning.Route;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.LinkedList;
 
 import WPI.CampusMap.PathPlanning.MultiPath;
-import WPI.CampusMap.PathPlanning.Node;
 import WPI.CampusMap.PathPlanning.Path;
 
 /**
@@ -93,7 +91,7 @@ public class Route {
 			else if( quad2%4 == (quad1 + 2) % 4){
 				float after2 = (angleAfter+180);
 				after2 = after2 > 180 ? after2 - 360 : after2;
-				int quad3 = (int) (((after2 < 0 ? 360 : 0) + after2) / 90 + 1);
+				//int quad3 = (int) (((after2 < 0 ? 360 : 0) + after2) / 90 + 1);
 //				System.out.printf("Angle Before: %f, Angle After2: %f \n", angleBefore, after2);
 				if (after2 > angleBefore)
 					turn = "right";
@@ -117,7 +115,6 @@ public class Route {
 			route = "";
 		}
 		
-		ArrayList<Node> nodes = p.getPath();
 		float walkingSpeed = (float) 4.11; //feet per sec
 		float seconds = (totalDist / walkingSpeed);
 		String time = "ETA: " + (int)(seconds/60) + " minutes and " + new DecimalFormat("#.").format(seconds%60) +" seconds."; 
