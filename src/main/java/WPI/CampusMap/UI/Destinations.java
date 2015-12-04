@@ -3,6 +3,7 @@ package WPI.CampusMap.UI;
 import java.util.ArrayList;
 
 import javax.swing.JLabel;
+import javax.swing.JLayeredPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 
@@ -17,8 +18,8 @@ public class Destinations {
 	
 	final int startX = 0, startY = 110, labelWidth = 50, labelHight = 20, textWidth = 170, textHight = 20;
 	
-	public Destinations(JPanel panel){
-		this.panel = panel;
+	public Destinations( JPanel directionsPanel){
+		this.panel = directionsPanel;
 		
 		addDestination();
 		addDestination();

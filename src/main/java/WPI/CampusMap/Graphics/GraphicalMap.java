@@ -21,7 +21,6 @@ import WPI.CampusMap.UI.MapPanel;
 public abstract class GraphicalMap
 {
 	private ArrayList<GraphicsObject<?, ?>> batchList = new ArrayList<>();
-	private LinkedList<GraphicsObject<?, ?>> deletedList = new LinkedList<>();
 	private Hashtable<Object, GraphicsObject<?, ?>> graphicsObjectLookup = new Hashtable<>();
 	
 	private Map map;
@@ -78,11 +77,11 @@ public abstract class GraphicalMap
 		for(int i = 0; i < batchList.size(); i++)
 		{
 			GraphicsObject<?, ?> go = batchList.get(i);
-			if(go.getRepresentedObject() == null || go.isDelelted())
+			if(go.isDelelted())
 			{
 				batchList.remove(i);
 				go.delete();
-				graphicsObjectLookup.remove(go.getRepresentedObject());
+				go.finalizeDelelte();
 				go.onRemoved();
 				
 				i--;
@@ -104,7 +103,7 @@ public abstract class GraphicalMap
 	
 	protected void deleteGraphicalObject(GraphicsObject<?, ?> go)
 	{
-		deletedList.add(go);
+		graphicsObjectLookup.remove(go.getRepresentedObject());
 	}
 	
 	/**
@@ -115,7 +114,6 @@ public abstract class GraphicalMap
 	
 	public void unload()
 	{
-		
 	}
 	
 	/**

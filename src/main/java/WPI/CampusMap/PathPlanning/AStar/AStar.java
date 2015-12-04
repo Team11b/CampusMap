@@ -32,9 +32,10 @@ public class AStar {
 	 */
 	// TODO This function should be able to replaced by _AStar, but that is not
 	// confirmed yet
+	@Deprecated
 	public static Path single_AStar(Point start, Point goal) {
-		if (start.equals(goal)) {
-			Path returnPath = new Path();
+		/*if (start.equals(goal)) {
+			Path returnPath = new Path(Map.getMap(start.getMap()).getScale());
 			Node tempNode = new Node(start, null);
 			returnPath.addNode(tempNode);
 			returnPath.addNode(new Node(goal, tempNode));
@@ -48,7 +49,7 @@ public class AStar {
 		Explored explored = new Explored();
 
 		// Instantiate path
-		Path returnPath = new Path();
+		Path returnPath = new Path(Map.getMap(start.getMap()).getScale());
 
 		Node tempNode = new Node(start, null);
 		tempNode.setHeuristic(tempNode.calcHeuristic(goal));
@@ -94,7 +95,8 @@ public class AStar {
 		returnPath.addNode(tempNode);
 
 		returnPath.reverse();
-		return returnPath;
+		return returnPath;*/
+		return null;
 	}
 
 	/**
@@ -106,14 +108,24 @@ public class AStar {
 	 *            the goal Point located on goalMap
 	 * @return a Path which spans multiple maps
 	 */
-	public static MultiPath multi_AStar(Point start, Point goal) {
-		if (start.equals(goal)) {
-			Path returnPath = new Path();
-			Node tempNode = new Node(start, null);
-			returnPath.addNode(tempNode);
-			returnPath.addNode(new Node(goal, tempNode));
-			return new MultiPath(returnPath);
+	public static MultiPath multi_AStar(Point start, Point goal) 
+	{
+		Frontier frontier = new Frontier();
+		
+		Node startNode = new Node(start, null, goal);
+		frontier.addToVisited(startNode);
+		start.buildFrontier(frontier, startNode, goal);
+		
+		Node front = frontier.visitFront();
+		while(front != null && !front.getPoint().equals(goal))
+		{
+			front.getPoint().buildFrontier(frontier, front, goal);
+			front = frontier.visitFront();
+			
+			if(front.getPoint().getId().equals(goal.getId()) && front.getPoint().getMap().equals(goal.getMap()))
+				System.out.println("D");
 		}
+<<<<<<< HEAD
 
 		boolean goalFound = false;
 
@@ -244,5 +256,24 @@ public class AStar {
 		returnPath.reverse();
 //		System.out.println(returnPath.getPath().size());
 		return new MultiPath(returnPath);
+=======
+		
+		if(front == null)
+			return null;
+		
+		LinkedList<Node> pathList = new LinkedList<>();
+		for(Node node = front; node != null; node = node.getParent())
+		{
+			pathList.addFirst(node);
+		}
+		
+		MultiPath path = new MultiPath();
+		for(Node node : pathList)
+		{
+			path.add(node);
+		}
+		
+		return path;
+>>>>>>> UI-Branch
 	}
 }

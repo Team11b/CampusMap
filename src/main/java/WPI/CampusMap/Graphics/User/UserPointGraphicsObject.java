@@ -1,17 +1,22 @@
 package WPI.CampusMap.Graphics.User;
 
 import java.awt.Color;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import WPI.CampusMap.Backend.Coord;
 import WPI.CampusMap.Backend.Map;
 import WPI.CampusMap.Backend.Point;
 import WPI.CampusMap.Core.TypedRef;
 import WPI.CampusMap.Graphics.PointGraphicsObject;
 import WPI.CampusMap.Graphics.RealMouseEvent;
 import WPI.CampusMap.PathPlanning.MultiPath;
+import WPI.CampusMap.PathPlanning.Node;
+import WPI.CampusMap.PathPlanning.Path;
 import WPI.CampusMap.PathPlanning.AStar.AStar;
 import WPI.CampusMap.UI.AppUIObject;
+import WPI.CampusMap.UI.Destinations;
 
 public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMap>
 {
@@ -27,6 +32,13 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 	
 	public static void pushPointOnRoute(UserPointGraphicsObject point)
 	{
+		//Clear out when adding a start point
+		if(lastRoutedPath != null){
+			AppUIObject.getInstance().destinations.resetLastPoint();
+			clearSelected();
+			lastRoutedPath = null;
+		}
+		
 		if(!point.selectedToRoute)
 		{
 			if(selectedRoute.size() == 0)
@@ -37,7 +49,7 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 			
 			point.selectedToRoute = true;
 			TypedRef<UserPointGraphicsObject> ref = new TypedRef<UserPointGraphicsObject>(point);
-			selectedRoute.add(ref);
+			selectedRoute.add(ref);			
 			
 			AppUIObject.getInstance().onPointAddedToRoute(point.getRepresentedObject());
 		}
@@ -57,7 +69,7 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 	
 	public static MultiPath route()
 	{
-		lastRoutedPath = new MultiPath();
+		lastRoutedPath = null;
 		
 		for(int i = 1; i < selectedRoute.size(); i++)
 		{
@@ -66,7 +78,10 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 			
 			MultiPath subRoute = AStar.multi_AStar(last.getValue().getRepresentedObject(), current.getValue().getRepresentedObject());
 			
-			lastRoutedPath = MultiPath.join(lastRoutedPath, subRoute);
+			if(lastRoutedPath != null)
+				lastRoutedPath = MultiPath.join(lastRoutedPath, subRoute);
+			else
+				lastRoutedPath = subRoute;
 		}
 		
 		for(String map : lastRoutedPath.getReferencedMaps())
@@ -75,7 +90,7 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 			graphicalMap.setPathSections(lastRoutedPath.getMapPath(map));
 		}
 		
-		clearSelected();
+		//clearSelected();
 		return lastRoutedPath;
 	}
 	
@@ -105,14 +120,50 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 		if(selectedToRoute)
 		{
 			if(this == getSelectedRoute().getFirst().getValue())
+			{				
 				return Color.green;
+			}				
 			else if(this == getSelectedRoute().getLast().getValue())
 				return Color.blue;
 			else
 			return Color.yellow;
 		}
+		else if(lastRoutedPath != null)
+		{
+			/*LinkedList<Path> paths = lastRoutedPath.getMapPath(getOwner().getMap());
+			for(Path p : paths)
+			{
+				if(this.equals(p.getPath().get(0).getPoint()))
+					return Color.green;
+				else
+				{
+					ArrayList<Node> nodes = p.getPath();
+					if(this.equals(nodes.get(nodes.size() - 1).getPoint()))
+						return Color.blue;
+				}
+			}*/
+		}
 		
 		return super.getColor();
+	}
+	
+	@Override
+	public float getAlpha() {
+		// TODO Auto-generated method stub
+		if(selectedToRoute)
+			return 1.0f;
+		
+		if(getOwner().getHoverObject() == this)
+			return 0.5f;
+		
+		return 0.1f;
+	}
+	
+	@Override
+	public boolean isMouseOver(RealMouseEvent e) {
+		Coord mouseCoord = new Coord(e.getX(), e.getY());
+		Coord screenPosition = getOwner().getScreenCoord(getRepresentedObject().getCoord());
+		return mouseCoord.distance(screenPosition) <= 30;
 	}
 	
 	@Override

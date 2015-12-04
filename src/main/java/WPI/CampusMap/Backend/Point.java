@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.UUID;
 
+import WPI.CampusMap.PathPlanning.Node;
+import WPI.CampusMap.PathPlanning.AStar.Frontier;
+
 /**
  * 
  * @author Max Stenke
@@ -57,7 +60,8 @@ public class Point implements java.io.Serializable {
 	 *            The other point to get the distance too.
 	 * @return The distance to the other point.
 	 */
-	public double distance(Point other) {
+	public double distance(Point other)
+	{
 		return this.getCoord().distance(other.getCoord());
 	}
 
@@ -82,6 +86,18 @@ public class Point implements java.io.Serializable {
 	}
 
 	public void setId(String id) {
+		Map map = Map.getMap(getMap());
+		if(map != null)
+		{
+			map.renamePoint(this, id);
+		}
+		
+		for(Point n : getNeighborsP())
+		{
+			n.neighbors.remove(this.id);
+			n.neighbors.put(id, this);
+		}
+		
 		this.id = id;
 	}
 
@@ -95,6 +111,36 @@ public class Point implements java.io.Serializable {
 		tempAL.addAll(neighbors.keySet());
 		return tempAL;
 	}
+	
+	public void fixNeighbors()
+	{
+		Map map = Map.getMap(getMap());
+		
+		ArrayList<String> ids = getNeighborsID();
+		for(int i = ids.size() - 1; i >= 0; i--)
+		{
+			String neighbor = ids.get(i);
+			
+			Point p = map.getPoint(neighbor);
+			if(p != null)
+				neighbors.put(neighbor, map.getPoint(neighbor));
+			else
+				neighbors.remove(neighbor);
+		}
+	}
+	
+	public void buildFrontier(Frontier frontier, Node fromNode, Point goal)
+	{
+		for(Point localPoint : getNeighborsP())
+		{
+			if(localPoint == null)
+				System.out.println("R");
+			if(localPoint.getId().equals(goal.id) && localPoint.getMap().equals(goal.getMap()))
+				System.out.println("T");
+			Node newNode = new Node(localPoint, fromNode, goal);
+			frontier.addToFrontier(newNode);
+		}
+	}
 
 	/**
 	 * returns a list of all neighbors of this point which are valid locations a
@@ -102,6 +148,7 @@ public class Point implements java.io.Serializable {
 	 * 
 	 * @return an array of any neighbor points which do not have a type wall
 	 */
+	@Deprecated
 	public ArrayList<Point> getValidNeighbors() {
 		ArrayList<Point> neigh = this.getNeighborsP();
 		ArrayList<Point> trim = new ArrayList<Point>();
@@ -177,17 +224,17 @@ public class Point implements java.io.Serializable {
 
 	@Override
 	public boolean equals(Object other) {
-		boolean result = false;
 		if (other instanceof Point) {
 			Point that = (Point) other;
-			if (this.getMap() != null) {
-				result = (this.getCoord().equals(that.getCoord())) && (this.getMap().equals(((Point) other).getMap()));
-			}
-			else {
-				result = (this.getCoord().equals(that.getCoord()));
-			}
+			boolean result = getMap().equals(that.getMap()) && getId().equals(that.getId());
+			return result;
 		}
-		return result;
+		return false;
+	}
+	
+	@Override
+	public int hashCode() {
+		return (this.getMap() + "/" + getId()).hashCode();
 	}
 
 	public String getMap() {

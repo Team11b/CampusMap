@@ -107,14 +107,14 @@ public class Converter {
 
 		for (int j = 0; j < files.length; j++) {
 			String file = files[j].substring(0, files[j].length() - 4) + ".ser";
-			if (Converter.contains(file, Converter.allow)) {
+//			if (Converter.contains(file, Converter.allow)) {
 				temp = Serializer.read(files[j].substring(0, files[j].length() - 4));
 //				System.out.println(temp.getName());
 				temp.setAllPointMaps();
 				ArrayList<Point> vals = new ArrayList<Point>(temp.getAllPoints().values());
 //				System.out.println("hello " + vals.get(1).getMap());
 				Serializer.write(temp);
-			}
+//			}
 		}
 //		System.out.println("done");
 	}
@@ -129,7 +129,7 @@ public class Converter {
 	}
 
 	public static void main(String[] args) {
-		Converter.connectionTestPrep();
+//		Converter.connectionTestPrep();
 		Converter.addMapFromSer();
 	}
 }

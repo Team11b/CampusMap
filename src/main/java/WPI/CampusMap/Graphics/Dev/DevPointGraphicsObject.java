@@ -6,9 +6,11 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 import WPI.CampusMap.Backend.ConnectionPoint;
+import WPI.CampusMap.Backend.Coord;
 import WPI.CampusMap.Backend.Point;
 import WPI.CampusMap.Dev.EditorToolMode;
 import WPI.CampusMap.Graphics.*;
+import WPI.CampusMap.UI.AppUIObject;
 
 public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 {
@@ -33,6 +35,70 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 		{
 			createGraphicsEdge(p);
 		}
+	}
+	
+	public void convertToConnectionPoint(String type)
+	{
+		Point point = getRepresentedObject();
+		if(point instanceof ConnectionPoint)
+		{
+			point.setType(type);
+			return;
+		}
+		
+		Coord copyCoord = new Coord(point.getCoord().getX(), point.getCoord().getY());
+		
+		ConnectionPoint connectionPoint = new ConnectionPoint(copyCoord, type, point.getId(), point.getMap());
+		
+		@SuppressWarnings("unchecked")
+		ArrayList<Point> neighbors = (ArrayList<Point>) point.getNeighborsP().clone();
+		
+		removeEdges();
+		getOwner().getMap().removePoint(point);
+		getOwner().getMap().addPoint(connectionPoint);
+		
+		setRepresentedObject(connectionPoint);
+		
+		for(Point p : neighbors)
+		{
+			connectionPoint.addNeighbor(p);
+			createGraphicsEdge((Point) getOwner().getObject(p).getRepresentedObject());
+		}
+		
+		AppUIObject.getInstance().onPointSelected(getRepresentedObject());
+	}
+	
+	public void convertToNormalPoint(String type)
+	{
+		Point point = getRepresentedObject();
+		if(!(point instanceof ConnectionPoint))
+		{
+			point.setType(type);
+			return;
+		}
+		
+		ConnectionPoint connectionPoint = (ConnectionPoint)point;
+		
+		Coord copyCoord = new Coord(point.getCoord().getX(), point.getCoord().getY());
+		
+		Point normalPoint = new Point(copyCoord, type, point.getId(), point.getMap());
+		
+		@SuppressWarnings("unchecked")
+		ArrayList<Point> neighbors = (ArrayList<Point>) connectionPoint.getNeighborsP().clone();
+		
+		removeEdges();
+		getOwner().getMap().removePoint(connectionPoint);
+		getOwner().getMap().addPoint(normalPoint);
+		
+		setRepresentedObject(normalPoint);
+		
+		for(Point p : neighbors)
+		{
+			normalPoint.addNeighbor(p);
+			createGraphicsEdge((Point) getOwner().getObject(p).getRepresentedObject());
+		}
+		
+		AppUIObject.getInstance().onPointSelected(getRepresentedObject());
 	}
 	
 	public void select()
@@ -74,6 +140,13 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 	@Override
 	public void onRemoved() 
 	{
+		removeEdges();
+		Point ourPoint = getRepresentedObject();
+		getOwner().getMap().removePoint(ourPoint);
+	}
+	
+	public void removeEdges()
+	{
 		Point ourPoint = getRepresentedObject();
 		ArrayList<Point> connections = ourPoint.getNeighborsP();
 		
@@ -82,8 +155,6 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 			DevEdgeGraphicsObject edge = DevEdgeGraphicsObject.getGraphicsEdge(ourPoint, other, getOwner());
 			edge.delete();
 		}
-		
-		getOwner().getMap().removePoint(ourPoint);
 	}
 	
 	@Override
@@ -93,14 +164,10 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 		switch(mode)
 		{
 		case DeletePoint:
+			AppUIObject.getInstance().onPointSelected(null);
 			delete();
 			break;
 		case None:
-			Point selectedPoint = DevPointGraphicsObject.getSelected().getRepresentedObject();	
-			getOwner().getUI().setTypeSelectorEditable(true);
-			getOwner().getUI().setNodeTextFieldEditable(true);
-			getOwner().getUI().setMapConnectorText(selectedPoint.getConnectionPoint().getLinkedMapsString());
-			getOwner().getUI().setPointConnectorText(selectedPoint.getConnectionPoint().getLinkedPointsString());
 		case Point:
 			selected = this;
 			onSelected();
@@ -133,63 +200,17 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 		return super.isMouseOver(e);
 	}
 	
+	/**
+	 * Called when this point has been selected
+	 */
 	private void onSelected()
 	{
-		//selected.getOwner().
-		//getColor();
+		System.out.println(getRepresentedObject().getNeighborsID());
+		AppUIObject.getInstance().onPointSelected(getRepresentedObject());
 	}
 	
 	private void createGraphicsEdge(Point other)
 	{
 		DevEdgeGraphicsObject.createGraphicsEdge(getRepresentedObject(), other, getOwner());
-	}
-	
-	public void updatePoint(){
-		//Copy the textbox to the type									
-		DevPointGraphicsObject selectedObject = DevPointGraphicsObject.getSelected();
-		if(selectedObject != null){
-			Point selectedPoint = DevPointGraphicsObject.getSelected().getRepresentedObject();
-			selectedPoint.setType(getOwner().getUI().getTypeSelector());
-			selectedPoint.setId(getOwner().getUI().getID());
-			
-			if(getOwner().getUI().getTypeSelector() != "hallway"){
-				//Is a connecting node.
-				System.out.println("IS A CONNECTING NODE");
-				ConnectionPoint connectionPoint = selectedPoint.getConnectionPoint();	
-				getOwner().getMap().removePoint(selectedPoint);
-				getOwner().getUI().setMapConnectionTextFieldEditable(true);
-				getOwner().getUI().setMapConnectionTextFieldEditable(true);
-				
-				connectionPoint.setLinkedMaps(new LinkedList<String>());
-				connectionPoint.setLinkedPoints(new HashMap<String,String>());
-				
-				String[] maps = getOwner().getUI().getMapConnectorText().split(",");
-				String[] points = getOwner().getUI().getPointConnectorText().split(",");
-				
-				System.out.println("Maps" + maps);
-				System.out.println("Points" + points);
-				
-				int size = Math.min(maps.length, points.length);
-				for(int i = 0; i < size; i++){
-					connectionPoint.addLinkedPoint(maps[i].trim(),points[i].trim());
-					connectionPoint.addLinkedMap(maps[i].trim());
-				}
-				System.out.println("Linked Maps: " + connectionPoint.getLinkedMapsString());
-				System.out.println("Linked Points:" + connectionPoint.getLinkedPointsString());
-				getOwner().getMap().addPoint(connectionPoint);
-				this.setRepresentedObject(connectionPoint);
-			}else{
-				System.out.println("IS NOT A CONNECTING NODE");
-				getOwner().getUI().setMapConnectionTextFieldEditable(false);
-				getOwner().getUI().setMapConnectionTextFieldEditable(false);
-				getOwner().getMap().addPoint(selectedPoint.getNormalPoint());
-			}
-			
-//			System.out.println(getOwner().getMap().getAllPoints().containsKey(selectedPoint.getId()));
-			
-			selectedObject.clearSelection();
-			getOwner().getUI().setNodeTextField("");
-			getOwner().getUI().setTypeSelector(0);
-		}
 	}
 }

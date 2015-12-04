@@ -11,9 +11,9 @@ import WPI.CampusMap.Weather.Wunderground;
  *
  */
 public class Heuristic {
-	
-	private static boolean useWeather;
-	
+
+	private static boolean useWeather = true;
+
 	// see http://www.nws.noaa.gov/os/guide/Section9.pdf
 	private static final int breezyThreshold = 15;
 	private static final int windyThreshold = 25;
@@ -22,7 +22,7 @@ public class Heuristic {
 	private static final double windyCost = -5.0;
 
 	private static final double sunnyCost = 5.0;
-	private static final double percipCost = 100.0;
+	private static final double percipCost = -100.0;
 
 	private static final double rfDegCost = 0.5;
 	private static double rfPosDegCost = rfDegCost;
@@ -52,10 +52,9 @@ public class Heuristic {
 	public Heuristic() {
 
 	}
-	
-	public static boolean isUsingWeather()
-	{
-		return useWeather;
+
+	public static boolean isUsingWeather() {
+		return true;
 	}
 
 	/**
@@ -105,36 +104,29 @@ public class Heuristic {
 	}
 
 	/**
-	 * Calculates a heuristic modifier based upon the weather using the following algorithm:
+	 * Calculates a heuristic modifier based upon the weather using the
+	 * following algorithm:
 	 * 
-	 * sunny: + 2.5 pts
-	 * windy: - 2.5 pts
-	 * drizzle: 0 pts
-	 * percip: INSIDE
+	 * sunny: + 2.5 pts windy: - 2.5 pts drizzle: 0 pts percip: INSIDE
 	 * 
 	 * temp:: based on average temps listed here:
 	 * http://discovernewengland.org/about-new-england/new-england-usa-quick-
 	 * facts-0
 	 * 
-	 * spring/fall:
-	 * within average: 0 pts
-	 * for each deg above avg: +0.5 pts
-	 * for each deg below avg: -0.5 pts
+	 * spring/fall: within average: 0 pts for each deg above avg: +0.5 pts for
+	 * each deg below avg: -0.5 pts
 	 * 
-	 * winter:
-	 * within average: 0 pts
-	 * for each deg above avg: +1 pts
-	 * for each deg below avg: -1 pts
+	 * winter: within average: 0 pts for each deg above avg: +1 pts for each deg
+	 * below avg: -1 pts
 	 * 
-	 * summer:
-	 * within average: 0 pts
-	 * for each deg above avg: -1
-	 * pts for each deg below avg: +1 pts
+	 * summer: within average: 0 pts for each deg above avg: -1 pts for each deg
+	 * below avg: +1 pts
 	 * 
-	 * A positive score favors outdoors
-	 * A negative score favors indoors
+	 * A positive score favors outdoors A negative score favors indoors
+	 * 
 	 * @return modifier score
 	 */
+<<<<<<< HEAD
 	public static double getWeatherScore() 
 	{
 		if (Heuristic.weather == null) {
@@ -143,9 +135,13 @@ public class Heuristic {
 		
 		if(!useWeather)
 		{
+=======
+	public static double getWeatherScore() {
+		if (!useWeather) {
+>>>>>>> UI-Branch
 			return 0.0;
 		}
-		
+
 		double score = 0.0;
 
 		// SUNNY
@@ -163,49 +159,49 @@ public class Heuristic {
 		// PERCIP
 		if (Heuristic.isPercip(Heuristic.getWeather().getWeather())) {
 			score += Heuristic.percipCost;
-		}
-
-		// TEMP
-		switch (Heuristic.month) {
-		case (Calendar.DECEMBER):
-			score += Heuristic.wTemp(Heuristic.getWeather().getTempF());
-			break;
-		case (Calendar.JANUARY):
-			score += Heuristic.wTemp(Heuristic.getWeather().getTempF());
-			break;
-		case (Calendar.FEBRUARY):
-			score += Heuristic.wTemp(Heuristic.getWeather().getTempF());
-			break;
-		case (Calendar.MARCH):
-			score += Heuristic.rTemp(Heuristic.getWeather().getTempF());
-			break;
-		case (Calendar.APRIL):
-			score += Heuristic.rTemp(Heuristic.getWeather().getTempF());
-			break;
-		case (Calendar.MAY):
-			score += Heuristic.rTemp(Heuristic.getWeather().getTempF());
-			break;
-		case (Calendar.JUNE):
-			score += Heuristic.sTemp(Heuristic.getWeather().getTempF());
-			break;
-		case (Calendar.JULY):
-			score += Heuristic.sTemp(Heuristic.getWeather().getTempF());
-			break;
-		case (Calendar.AUGUST):
-			score += Heuristic.sTemp(Heuristic.getWeather().getTempF());
-			break;
-		case (Calendar.SEPTEMBER):
-			score += Heuristic.fTemp(Heuristic.getWeather().getTempF());
-			break;
-		case (Calendar.OCTOBER):
-			score += Heuristic.fTemp(Heuristic.getWeather().getTempF());
-			break;
-		case (Calendar.NOVEMBER):
-			score += Heuristic.fTemp(Heuristic.getWeather().getTempF());
-			break;
-		default:
-			score += 0;
-			break;
+		} else {
+			// TEMP
+			switch (Heuristic.month) {
+			case (Calendar.DECEMBER):
+				score += Heuristic.wTemp(Heuristic.getWeather().getTempF());
+				break;
+			case (Calendar.JANUARY):
+				score += Heuristic.wTemp(Heuristic.getWeather().getTempF());
+				break;
+			case (Calendar.FEBRUARY):
+				score += Heuristic.wTemp(Heuristic.getWeather().getTempF());
+				break;
+			case (Calendar.MARCH):
+				score += Heuristic.rTemp(Heuristic.getWeather().getTempF());
+				break;
+			case (Calendar.APRIL):
+				score += Heuristic.rTemp(Heuristic.getWeather().getTempF());
+				break;
+			case (Calendar.MAY):
+				score += Heuristic.rTemp(Heuristic.getWeather().getTempF());
+				break;
+			case (Calendar.JUNE):
+				score += Heuristic.sTemp(Heuristic.getWeather().getTempF());
+				break;
+			case (Calendar.JULY):
+				score += Heuristic.sTemp(Heuristic.getWeather().getTempF());
+				break;
+			case (Calendar.AUGUST):
+				score += Heuristic.sTemp(Heuristic.getWeather().getTempF());
+				break;
+			case (Calendar.SEPTEMBER):
+				score += Heuristic.fTemp(Heuristic.getWeather().getTempF());
+				break;
+			case (Calendar.OCTOBER):
+				score += Heuristic.fTemp(Heuristic.getWeather().getTempF());
+				break;
+			case (Calendar.NOVEMBER):
+				score += Heuristic.fTemp(Heuristic.getWeather().getTempF());
+				break;
+			default:
+				score += 0;
+				break;
+			}
 		}
 
 		return score;
@@ -214,11 +210,9 @@ public class Heuristic {
 	private static double fTemp(double tempF) {
 		if ((tempF >= Heuristic.fAvg[Heuristic.LOW]) && (tempF <= Heuristic.fAvg[Heuristic.HIGH])) {
 			return 0;
-		}
-		else if (tempF < Heuristic.fAvg[Heuristic.LOW]) {
+		} else if (tempF < Heuristic.fAvg[Heuristic.LOW]) {
 			return Math.abs(Heuristic.fAvg[Heuristic.LOW] - tempF) * Heuristic.rfPosDegCost;
-		}
-		else {
+		} else {
 			return Math.abs(tempF - Heuristic.fAvg[Heuristic.HIGH]) * Heuristic.rfNegDegCost;
 		}
 	}
@@ -226,11 +220,9 @@ public class Heuristic {
 	private static double sTemp(double tempF) {
 		if ((tempF >= Heuristic.sAvg[Heuristic.LOW]) && (tempF <= Heuristic.sAvg[Heuristic.HIGH])) {
 			return 0;
-		}
-		else if (tempF < Heuristic.sAvg[Heuristic.LOW]) {
+		} else if (tempF < Heuristic.sAvg[Heuristic.LOW]) {
 			return Math.abs(Heuristic.sAvg[Heuristic.LOW] - tempF) * Heuristic.sPosDegCost;
-		}
-		else {
+		} else {
 			return Math.abs(tempF - Heuristic.sAvg[Heuristic.HIGH]) * Heuristic.sNegDegCost;
 		}
 	}
@@ -238,11 +230,9 @@ public class Heuristic {
 	private static double rTemp(double tempF) {
 		if ((tempF >= Heuristic.rAvg[Heuristic.LOW]) && (tempF <= Heuristic.rAvg[Heuristic.HIGH])) {
 			return 0;
-		}
-		else if (tempF < Heuristic.rAvg[Heuristic.LOW]) {
+		} else if (tempF < Heuristic.rAvg[Heuristic.LOW]) {
 			return Math.abs(Heuristic.rAvg[Heuristic.LOW] - tempF) * Heuristic.rfPosDegCost;
-		}
-		else {
+		} else {
 			return Math.abs(tempF - Heuristic.rAvg[Heuristic.HIGH]) * Heuristic.rfNegDegCost;
 		}
 	}
@@ -250,12 +240,10 @@ public class Heuristic {
 	private static double wTemp(double tempF) {
 		if ((tempF >= Heuristic.wAvg[Heuristic.LOW]) && (tempF <= Heuristic.wAvg[Heuristic.HIGH])) {
 			return 0;
-		}
-		else if (tempF < Heuristic.wAvg[Heuristic.LOW]) {
-			return Math.abs(Heuristic.wAvg[Heuristic.LOW] - tempF) * Heuristic.wPosDegCost;
-		}
-		else {
-			return Math.abs(tempF - Heuristic.wAvg[Heuristic.HIGH]) * Heuristic.wNegDegCost;
+		} else if (tempF < Heuristic.wAvg[Heuristic.LOW]) {
+			return Math.abs(Heuristic.wAvg[Heuristic.LOW] - tempF) * Heuristic.wNegDegCost;
+		} else {
+			return Math.abs(tempF - Heuristic.wAvg[Heuristic.HIGH]) * Heuristic.wPosDegCost;
 		}
 	}
 

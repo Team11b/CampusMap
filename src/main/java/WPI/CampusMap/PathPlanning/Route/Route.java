@@ -1,5 +1,6 @@
 package WPI.CampusMap.PathPlanning.Route;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.LinkedList;
 
@@ -58,13 +59,15 @@ public class Route {
 		Path p = origP.getTurns();
 		LinkedList<Instruction> list = new LinkedList<Instruction>();
 		Instruction latest = null;
-
-		String route = "Start: " + p.getPath().get(0).getPoint().getCoord().toString() + "\n";
+		
+		String route = "";
+		route += "Start: " + p.getPath().get(0).getPoint().getCoord().toString() + "\n";
 		route += "Face " + p.getPath().get(1).getPoint().getId() + " and walk "
-				+ p.getPath().get(0).getPoint().distance(p.getPath().get(1).getPoint()) + "feet.\n";
+				+  new DecimalFormat("#.").format(p.getPath().get(0).getPoint().distance(p.getPath().get(1).getPoint())) + " feet.\n";
 		latest = new Instruction(route, 0, p.getPath().get(0), offset);
 		list.add(latest);
 		route = "";
+		float totalDist = 0;
 
 		for (int i = 1; i < p.getPath().size() - 1; i++) {
 			String turn = "";
@@ -76,19 +79,28 @@ public class Route {
 			// System.out.printf("Angle Before: %f, Angle After: %f \n",
 			// angleBefore, angleAfter);
 
-			route += p.getPath().get(i).getPoint().getCoord().toString() + " to "
-					+ p.getPath().get(i+1).getPoint().getCoord().toString() + "";
+//			route += p.getPath().get(i).getPoint().getCoord().toString() + " to "
+//					+ p.getPath().get(i+1).getPoint().getCoord().toString() + "";
 
 			int quad1 = (int) (((angleBefore < 0 ? 360 : 0) + angleBefore) / 90 + 1);
 			int quad2 = (int) (((angleAfter < 0 ? 360 : 0) + angleAfter) / 90 + 1);
-			// System.out.printf("Quad Before: %d, Quad After: %d \n", quad1,
-			// quad2);
+//			 System.out.printf("Quad Before: %d, Quad After: %d \n", quad1, quad2);
 			if (quad1 == quad2)
 				if (angleAfter > angleBefore)
 					turn = "left";
 				else
 					turn = "right";
-			else if (quad2 == (quad1 + 1) % 4)
+			else if( quad2%4 == (quad1 + 2) % 4){
+				float after2 = (angleAfter+180);
+				after2 = after2 > 180 ? after2 - 360 : after2;
+				int quad3 = (int) (((after2 < 0 ? 360 : 0) + after2) / 90 + 1);
+//				System.out.printf("Angle Before: %f, Angle After2: %f \n", angleBefore, after2);
+				if (after2 > angleBefore)
+					turn = "right";
+				else
+					turn = "left";
+				}
+			else if (quad2%4 == (quad1 + 1) % 4)
 				turn = "left";
 			else
 				turn = "right";
@@ -97,17 +109,21 @@ public class Route {
 			} else {
 				direction = "";
 			}
-			route += "Turn " + direction + turn + " and walk " + dist + " feet.\n";
+			route += "Turn " + direction + turn + " and walk " +  new DecimalFormat("#.").format(dist) + " feet.\n";
 
 			latest = new Instruction(route, dist, p.getPath().get(0), offset + i);
 			list.add(latest);
+			totalDist += dist;
 			route = "";
 		}
 		
 		ArrayList<Node> nodes = p.getPath();
-		route = "Face " + nodes.get(nodes.size() - 1).getPoint().getId() + " and walk ";
-		route += Math.abs(nodes.get(nodes.size()-2).getPoint().distance(nodes.get(nodes.size() - 1).getPoint()));
-		route += " feet.";
+		float walkingSpeed = (float) 4.11; //feet per sec
+		float seconds = (totalDist / walkingSpeed);
+		String time = "ETA: " + (int)(seconds/60) + " minutes and " + new DecimalFormat("#.").format(seconds%60) +" seconds."; 
+
+		latest = new Instruction(time, 0, p.getPath().get(p.getPath().size()-1), p.getPath().size()-1);
+		list.add(latest);
 
 		return list;
 	}

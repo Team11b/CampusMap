@@ -7,6 +7,7 @@ import java.util.Set;
 
 import WPI.CampusMap.Backend.ConnectionPoint;
 import WPI.CampusMap.Backend.Map;
+import WPI.CampusMap.Backend.Point;
 
 /**
  * 
@@ -22,7 +23,7 @@ public class MultiPath
 		
 		for(Path path : a.mp)
 		{
-			Path newPath = new Path();
+			Path newPath = new Path(path.getPathScale());
 			
 			newPath.setPath((ArrayList<Node>)path.getPath().clone());
 			
@@ -41,7 +42,7 @@ public class MultiPath
 		
 		for(Path path : b.mp)
 		{
-			Path newPath = new Path();
+			Path newPath = new Path(path.getPathScale());
 			
 			newPath.setPath((ArrayList<Node>)path.getPath().clone());
 			
@@ -107,6 +108,34 @@ public class MultiPath
 	 */
 	public void add(Path p) {
 		this.mp.add(p);
+		LinkedList<Path> parts = pathLookup.get(p.getMapName());
+		
+		if(parts == null)
+		{
+			parts = new LinkedList<Path>();
+		}
+		
+		parts.add(p);
+		pathLookup.put(p.getMapName(), parts);
+	}
+	
+	public void add(Node n)
+	{
+		Point p = n.getPoint();
+		
+		Path path;
+		if(mp.size() == 0 || !mp.getLast().getMapName().equals(p.getMap()))
+		{
+			path = new Path(Map.getMap(p.getMap()).getScale());
+			path.setMapName(p.getMap());
+			add(path);
+		}
+		else 
+		{
+			path = mp.getLast();
+		}
+		
+		path.addNode(n);
 	}
 
 	public Path get(int i)
@@ -122,9 +151,10 @@ public class MultiPath
 	 * @param start
 	 *            a path to be split
 	 */
+	@Deprecated
 	public void parse(Path start) {
-		ArrayList<Node> bigPath = start.getPath();
-		Path part = new Path();
+		/*ArrayList<Node> bigPath = start.getPath();
+		Path part = new Path(start.getPathScale());
 		Node node = new Node(null, null);
 		int count = 0;
 		int index = 0;
@@ -139,7 +169,7 @@ public class MultiPath
 		}
 		
 		while (index < bigPath.size()) {
-			part = new Path();
+			part = new Path(start.getPathScale());
 			node = new Node(null, null);//?
 
 			while ((index < bigPath.size())) {
@@ -170,7 +200,7 @@ public class MultiPath
 			
 			parts.add(part);
 			this.pathLookup.put(node.getPoint().getMap(), parts);
-		}
+		}*/
 	}
 
 	public int size() {
