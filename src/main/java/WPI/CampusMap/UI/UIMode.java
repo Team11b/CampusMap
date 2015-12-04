@@ -38,5 +38,9 @@ public class UIMode {
 	public void setWindowText(String theText){
 		//set window text, don't call from not usermode or devmode classes
 	}
+	
+	public void onModeLoad(){
+		//reintialize code that move modes need reinitializing
+	}
 
 }

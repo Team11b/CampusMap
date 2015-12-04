@@ -27,6 +27,7 @@ public class DevMode {
 	public void onDevModeEntered(){
 		currentMode = SELECT_MODE;
 		UIMode.getInstance().setWindowText("Dev Mode");
+		UIMode.getInstance().onModeLoad();
 		//Switch label to textbox for scale
 		//Show and hide UI elements
 	}
