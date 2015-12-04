@@ -13,7 +13,7 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 
 import WPI.CampusMap.Backend.ConnectionPoint;
-import WPI.CampusMap.Backend.Point;
+import WPI.CampusMap.Backend.Point.Point;
 
 public class ConnectionNodeList extends  JComponent
 {

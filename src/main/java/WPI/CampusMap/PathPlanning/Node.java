@@ -1,8 +1,8 @@
 package WPI.CampusMap.PathPlanning;
 
 import WPI.CampusMap.Backend.ConnectionPoint;
-import WPI.CampusMap.Backend.Map;
-import WPI.CampusMap.Backend.Point;
+import WPI.CampusMap.Backend.Map.Map;
+import WPI.CampusMap.Backend.Point.Point;
 import WPI.CampusMap.PathPlanning.AStar.Heuristic;
 
 /**

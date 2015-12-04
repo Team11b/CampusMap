@@ -13,7 +13,7 @@ import java.util.Comparator;
 import java.util.Hashtable;
 
 import WPI.CampusMap.Backend.Coord;
-import WPI.CampusMap.Backend.Map;
+import WPI.CampusMap.Backend.Map.Map;
 import WPI.CampusMap.UI.AppUIObject;
 import WPI.CampusMap.UI.MapPanel;
 

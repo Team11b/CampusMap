@@ -7,7 +7,7 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import WPI.CampusMap.Backend.Coord;
-import WPI.CampusMap.Backend.Point;
+import WPI.CampusMap.Backend.Point.Point;
 import WPI.CampusMap.PathPlanning.Node;
 import WPI.CampusMap.PathPlanning.AStar.Heuristic;
 import WPI.CampusMap.Weather.Wunderground;

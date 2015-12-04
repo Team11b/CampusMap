@@ -25,8 +25,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 import WPI.CampusMap.Backend.Coord;
-import WPI.CampusMap.Backend.Map;
-import WPI.CampusMap.Backend.Point;
+import WPI.CampusMap.Backend.Map.Map;
+import WPI.CampusMap.Backend.Point.Point;
 
 public class XML {
 	public static final String filePath = "XML/";

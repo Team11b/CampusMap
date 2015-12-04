@@ -5,8 +5,8 @@ import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.Set;
 
-import WPI.CampusMap.Backend.Map;
-import WPI.CampusMap.Backend.Point;
+import WPI.CampusMap.Backend.Map.Map;
+import WPI.CampusMap.Backend.Point.Point;
 
 /**
  * 

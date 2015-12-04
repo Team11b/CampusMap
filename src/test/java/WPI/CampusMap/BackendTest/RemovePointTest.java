@@ -9,8 +9,8 @@ import javax.xml.stream.XMLStreamException;
 
 import org.junit.Test;
 
-import WPI.CampusMap.Backend.Map;
-import WPI.CampusMap.Backend.Point;
+import WPI.CampusMap.Backend.Map.Map;
+import WPI.CampusMap.Backend.Point.Point;
 
 public class RemovePointTest {
 

@@ -30,7 +30,7 @@ import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 import javax.xml.stream.XMLStreamException;
 
-import WPI.CampusMap.Backend.Point;
+import WPI.CampusMap.Backend.Point.Point;
 import WPI.CampusMap.Dev.EditorToolMode;
 import WPI.CampusMap.Graphics.Dev.DevPointGraphicsObject;
 import WPI.CampusMap.Graphics.User.UserPathGraphicsObject;

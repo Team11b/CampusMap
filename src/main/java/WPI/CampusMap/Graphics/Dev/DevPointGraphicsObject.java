@@ -5,7 +5,7 @@ import java.util.ArrayList;
 
 import WPI.CampusMap.Backend.ConnectionPoint;
 import WPI.CampusMap.Backend.Coord;
-import WPI.CampusMap.Backend.Point;
+import WPI.CampusMap.Backend.Point.Point;
 import WPI.CampusMap.Dev.EditorToolMode;
 import WPI.CampusMap.Graphics.PointGraphicsObject;
 import WPI.CampusMap.Graphics.RealMouseEvent;

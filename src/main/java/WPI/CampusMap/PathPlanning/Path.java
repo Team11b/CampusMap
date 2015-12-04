@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import WPI.CampusMap.Backend.Coord;
-import WPI.CampusMap.Backend.Point;
+import WPI.CampusMap.Backend.Point.Point;
 
 /**
  * 

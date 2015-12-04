@@ -3,8 +3,8 @@ package WPI.CampusMap.Graphics.User;
 import java.util.Hashtable;
 import java.util.LinkedList;
 
-import WPI.CampusMap.Backend.Map;
-import WPI.CampusMap.Backend.Point;
+import WPI.CampusMap.Backend.Map.Map;
+import WPI.CampusMap.Backend.Point.Point;
 import WPI.CampusMap.Core.Ref;
 import WPI.CampusMap.Graphics.GraphicalMap;
 import WPI.CampusMap.Graphics.GraphicsObject;

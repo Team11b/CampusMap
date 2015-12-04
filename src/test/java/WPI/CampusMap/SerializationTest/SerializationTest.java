@@ -13,15 +13,15 @@ import java.nio.file.Paths;
 import org.junit.Test;
 
 import WPI.CampusMap.Backend.Coord;
-import WPI.CampusMap.Backend.Map;
-import WPI.CampusMap.Backend.Point;
+import WPI.CampusMap.Backend.Map.Map;
+import WPI.CampusMap.Backend.Point.Point;
 import WPI.CampusMap.Serialization.Serializer;
 
 public class SerializationTest {
 
 	@Test
 	public void test() {
-		Map tempM = new Map();
+		Map tempM = new Map("tempM");
 
 		Point oneP = new Point(new Coord(0,0), "", "PointOne", "tempM");
 		Point twoP = new Point(new Coord(1,1), "", "PointTwo", "tempM");
@@ -33,8 +33,6 @@ public class SerializationTest {
 		assertTrue(tempM.addEdge(tempM.getPoint("PointOne"), tempM.getPoint("PointTwo")));
 		assertTrue(tempM.addEdge(tempM.getPoint("PointThree"), tempM.getPoint("PointOne")));
 		assertTrue(tempM.addEdge(tempM.getPoint("PointThree"), tempM.getPoint("PointTwo")));
-		
-		tempM.setName("tempM");
 
 		Serializer.write(tempM);
 

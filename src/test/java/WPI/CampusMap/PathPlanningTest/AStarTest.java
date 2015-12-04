@@ -13,8 +13,8 @@ import org.junit.Test;
 
 import WPI.CampusMap.Backend.ConnectionPoint;
 import WPI.CampusMap.Backend.Coord;
-import WPI.CampusMap.Backend.Map;
-import WPI.CampusMap.Backend.Point;
+import WPI.CampusMap.Backend.Map.Map;
+import WPI.CampusMap.Backend.Point.Point;
 import WPI.CampusMap.PathPlanning.MultiPath;
 import WPI.CampusMap.PathPlanning.Node;
 import WPI.CampusMap.PathPlanning.Path;
@@ -39,9 +39,8 @@ public class AStarTest {
 		a = "MapA";
 		b = "MapB";
 
-		testMap5 = new Map();
+		testMap5 = new Map(a);
 		testMap5.setScale(100);
-		testMap5.setName(a);
 
 		Point zero = new Point(new Coord(0, 0), "", "0", a);
 		Point one = new Point(new Coord(1, 0), "", "1", a);
@@ -175,9 +174,8 @@ public class AStarTest {
 
 		testMap5.setAllPoints(allHM);
 
-		testMap6 = new Map();
+		testMap6 = new Map(b);
 		testMap6.setScale(100);
-		testMap6.setName(b);
 
 		Point zero2 = new Point(new Coord(0, 0), "", "0", b);
 		Point one2 = new Point(new Coord(1, 0), "", "1", b);

@@ -3,6 +3,8 @@ package WPI.CampusMap.Backend;
 import java.util.HashMap;
 import java.util.LinkedList;
 
+import WPI.CampusMap.Backend.Map.Map;
+import WPI.CampusMap.Backend.Point.Point;
 import WPI.CampusMap.PathPlanning.Node;
 import WPI.CampusMap.PathPlanning.AStar.Frontier;
 

@@ -7,6 +7,7 @@ import java.awt.geom.Line2D;
 import java.util.Hashtable;
 
 import WPI.CampusMap.Backend.*;
+import WPI.CampusMap.Backend.Point.Point;
 import WPI.CampusMap.Core.UnorderedPair;
 import WPI.CampusMap.Dev.EditorToolMode;
 import WPI.CampusMap.Graphics.*;

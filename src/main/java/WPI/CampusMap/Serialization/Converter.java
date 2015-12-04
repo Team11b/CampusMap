@@ -6,8 +6,8 @@ import java.util.HashMap;
 
 import javax.xml.stream.XMLStreamException;
 
-import WPI.CampusMap.Backend.Map;
-import WPI.CampusMap.Backend.Point;
+import WPI.CampusMap.Backend.Map.Map;
+import WPI.CampusMap.Backend.Point.Point;
 import WPI.CampusMap.XML.XML;
 
 /**

@@ -4,7 +4,7 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import WPI.CampusMap.Backend.Coord;
-import WPI.CampusMap.Backend.Point;
+import WPI.CampusMap.Backend.Point.Point;
 
 public abstract class PointGraphicsObject<M extends GraphicalMap> extends GraphicsObject<Point, M>
 {

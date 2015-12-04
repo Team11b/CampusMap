@@ -1,6 +1,6 @@
 package WPI.CampusMap.PathPlanning;
 
-import WPI.CampusMap.Backend.Point;
+import WPI.CampusMap.Backend.Point.Point;
 
 public class ConnectionNode extends Node {
 

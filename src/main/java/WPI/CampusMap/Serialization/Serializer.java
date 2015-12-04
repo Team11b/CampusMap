@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import WPI.CampusMap.Backend.Map;
+import WPI.CampusMap.Backend.Map.Map;
 
 /**
  * 

@@ -1,7 +1,7 @@
 package WPI.CampusMap.Graphics.Dev;
 
-import WPI.CampusMap.Backend.Map;
-import WPI.CampusMap.Backend.Point;
+import WPI.CampusMap.Backend.Map.Map;
+import WPI.CampusMap.Backend.Point.Point;
 import WPI.CampusMap.Dev.EditorToolMode;
 import WPI.CampusMap.Graphics.GraphicalMap;
 import WPI.CampusMap.Graphics.RealMouseEvent;

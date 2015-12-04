@@ -8,7 +8,7 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import WPI.CampusMap.Backend.Coord;
-import WPI.CampusMap.Backend.Point;
+import WPI.CampusMap.Backend.Point.Point;
 import WPI.CampusMap.Core.TypedRef;
 import WPI.CampusMap.Graphics.GraphicsObject;
 import WPI.CampusMap.Graphics.RealMouseEvent;

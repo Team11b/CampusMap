@@ -8,7 +8,7 @@ import java.awt.event.MouseMotionListener;
 import javax.swing.JPanel;
 import javax.xml.stream.XMLStreamException;
 
-import WPI.CampusMap.Backend.Map;
+import WPI.CampusMap.Backend.Map.Map;
 import WPI.CampusMap.Dev.EditorToolMode;
 import WPI.CampusMap.Graphics.GraphicalMap;
 import WPI.CampusMap.Graphics.Dev.DevGraphicalMap;
