@@ -1,5 +1,5 @@
 package WPI.CampusMap.UI;
-
+//unused
 public class UILogic {
 	//Singleton
 	private static UILogic instance;

@@ -34,5 +34,9 @@ public class UIMode {
 			//Calls button wrapper
 		}
 	}
+	
+	public void setWindowText(String theText){
+		//set window text, don't call from not usermode or devmode classes
+	}
 
 }

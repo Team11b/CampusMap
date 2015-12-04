@@ -26,6 +26,9 @@ public class DevMode {
 	
 	public void onDevModeEntered(){
 		currentMode = SELECT_MODE;
+		UIMode.getInstance().setWindowText("Dev Mode");
+		//Switch label to textbox for scale
+		//Show and hide UI elements
 	}
 	
 	
@@ -76,10 +79,12 @@ public class DevMode {
 	
 	public void setType(String Type){		
 		pointType = Type;
+		//set the typeselector
 	}
 	
 	public void setID(String Id){
 		pointID = Id;
+		//set the textbox
 		
 	}
 	
@@ -88,10 +93,12 @@ public class DevMode {
 	}
 	
 	public String getType(){
+		//pull from typeselector
 		return pointType;
 	}
 	
 	public String getID(){
+		//pull from idtextbox
 		return pointID;
 	}
 	
