@@ -10,6 +10,9 @@ public class DevMode {
 	}
 	
 	private String currentMode;
+	private String pointID;
+	private String pointType;
+	
 	public static final String SELECT_MODE = "selectmode";
 	public static final String PLACE_MODE = "placemode";
 	public static final String REMOVE_MODE = "removemode";
@@ -28,22 +31,75 @@ public class DevMode {
 	
 
 	public void setPlace(){
-		
+		if(currentMode != PLACE_MODE){
+			currentMode = PLACE_MODE;
+		}
+		else{				
+			currentMode = SELECT_MODE;
+		}
+			
+			
 	}
 	
 	public void setRemove(){		
-	
+		if(currentMode != REMOVE_MODE){
+			currentMode = REMOVE_MODE;
+		}
+		else{				
+			currentMode = SELECT_MODE;
+		}
 	}
 	
 	public void setEdge(){
-		
+		if(currentMode != EDGE_MODE){
+			currentMode = EDGE_MODE;
+		}
+		else{				
+			currentMode = SELECT_MODE;
+		}
 	}
 	
 	public void setRemoveEdge(){
-		
+		if(currentMode != REMOVE_EDGE_MODE){
+			currentMode = REMOVE_EDGE_MODE;
+		}
+		else{				
+			currentMode = SELECT_MODE;
+		}
 	}
 	
 	public void save(){
+		if(currentMode != SELECT_MODE){
+			currentMode = SELECT_MODE;
+		}
+	}
+	
+	public void setType(String Type){		
+		pointType = Type;
+	}
+	
+	public void setID(String Id){
+		pointID = Id;
+		
+	}
+	
+	public String getCurrentMode(){
+		return currentMode; 
+	}
+	
+	public String getType(){
+		return pointType;
+	}
+	
+	public String getID(){
+		return pointID;
+	}
+	
+	public void updateTypeID(){
+		//for saving and switching points after change
+	}
+	
+	public void addConnect(){
 		
 	}
 }
