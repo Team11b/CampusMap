@@ -9,9 +9,23 @@ public class DevMode {
 		return instance;
 	}
 	
+	private String currentMode;
+	public static final String SELECT_MODE = "selectmode";
+	public static final String PLACE_MODE = "placemode";
+	public static final String REMOVE_MODE = "removemode";
+	public static final String EDGE_MODE = "edgemode";
+	public static final String REMOVE_EDGE_MODE = "removeedgemode";
+	
 	public DevMode(){
-		this.instance = this;		
+		instance = this;
+		currentMode = SELECT_MODE;
 	}
+	
+	public void onDevModeEntered(){
+		currentMode = SELECT_MODE;
+	}
+	
+	
 
 	public void setPlace(){
 		
@@ -26,6 +40,10 @@ public class DevMode {
 	}
 	
 	public void setRemoveEdge(){
+		
+	}
+	
+	public void save(){
 		
 	}
 }
