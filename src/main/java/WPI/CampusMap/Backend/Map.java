@@ -1,13 +1,11 @@
 package WPI.CampusMap.Backend;
 
 import java.awt.Image;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.UUID;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -136,23 +134,6 @@ public class Map implements java.io.Serializable {
 		this.name = name;
 	}
 
-	/**
-	 * Creates a point on the map at the mouse point.
-	 * 
-	 * @param e
-	 *            The mouse event to trigger the method.
-	 * @return The point that was created.
-	 */
-	public Point createPointOnMap(MouseEvent e) {
-		Coord screenCoord = new Coord(e.getX(), e.getY());
-
-		Coord mapCoord = this.screenToWorldSpace(screenCoord);
-
-		Point newPoint = new Point(mapCoord, "", UUID.randomUUID().toString(), this.name);
-		this.addPoint(newPoint);
-
-		return newPoint;
-	}
 
 	/**
 	 * Gets the png file that this map should use.
@@ -223,7 +204,6 @@ public class Map implements java.io.Serializable {
 			try {
 				loadImage();
 			} catch (IOException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -274,65 +254,6 @@ public class Map implements java.io.Serializable {
 		return this.allPoints.get(id);
 	}
 
-	/**
-	 * Converts screen space coords to world space coords.
-	 * 
-	 * @param screenSpace
-	 *            The coords in screen space
-	 * @return The coords in world space.
-	 */
-	public Coord screenToWorldSpace(Coord screenSpace) {
-		double imageX = screenSpace.getX() / 1000.0f * loadedImage.getIconWidth();
-		double imageY = screenSpace.getY() / 660.0f * loadedImage.getIconHeight();
-
-		double inchesX = imageX / 72.0f;
-		double inchesY = imageY / 72.0f;
-
-		double feetX = inchesX / scale;
-		double feetY = inchesY / scale;
-
-		return new Coord(feetX, feetY);
-	}
-
-	/**
-	 * Converts world space to screen space.
-	 * 
-	 * @param worldSpace
-	 *            The world space coords to convert.
-	 * @return The screen space coords.
-	 */
-	public Coord worldToScreenSpace(Coord worldSpace) {
-		double inchesX = worldSpace.getX() * scale;
-		double inchesY = worldSpace.getY() * scale;
-
-		double imageX = inchesX * 72.0f;
-		double imageY = inchesY * 72.0f;
-
-		double screenX = imageX / loadedImage.getIconWidth() * 1000.0f;
-		double screenY = imageY / loadedImage.getIconHeight() * 660.0f;
-
-		return new Coord(screenX, screenY);
-	}
-
-	/**
-	 * Gets the index of a specific Node in a list of Nodes, based upon the
-	 * Point
-	 * 
-	 * @param aNode
-	 *            the Node to search for
-	 * @param LoN
-	 *            the list of Nodes to search in
-	 * @return the index of the existing Node, -1 if not found
-	 */
-	// TODO may not be used
-//	private static int getIndex(Node aNode, ArrayList<Node> LoN) {
-//		for (int j = 0; j < LoN.size(); j++) {
-//			if (LoN.get(j).getPoint() == aNode.getPoint()) {
-//				return j;
-//			}
-//		}
-//		return -1;
-//	}
 
 	/**
 	 * Removes the point with the given ID from the map array, and from the

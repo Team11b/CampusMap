@@ -101,16 +101,6 @@ public class ConnectionPoint extends Point {
 	public LinkedList<String> getLinkedMaps() {
 		return linkedMaps;
 	}
-	
-	public String getLinkedMapsString(){
-		String linkedMapsString = "";
-		for(String string: linkedMaps){
-			linkedMapsString+=string;
-			linkedMapsString+=", ";
-		}
-		
-		return linkedMapsString.substring(0, linkedMapsString.length()-2);
-	}
 
 	public void setLinkedMaps(LinkedList<String> linkedMaps) {
 		this.linkedMaps = linkedMaps;
@@ -124,16 +114,6 @@ public class ConnectionPoint extends Point {
 		return linkedPoints;
 	}
 	
-	public String getLinkedPointsString(){
-		String linkedPointsString = "";
-		for(String string: linkedPoints.values()){
-			linkedPointsString+=string;
-			linkedPointsString+=", ";
-		}
-		
-		return linkedPointsString.substring(0, linkedPointsString.length()-2);
-	}
-
 	public void setLinkedPoints(HashMap<String, String> linkedPoints) {
 		this.linkedPoints = linkedPoints;
 	}
