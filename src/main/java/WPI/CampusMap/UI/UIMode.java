@@ -31,6 +31,7 @@ public class UIMode {
 		}			
 		else{
 			currentMode = USER_MODE;
+			UserMode.getInstance().onUserModeEntered();
 			//Calls button wrapper
 		}
 	}

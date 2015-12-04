@@ -11,5 +11,12 @@ public class UserMode {
 	
 	public UserMode(){
 		this.instance = this;		
+		
 	}
+	
+	public void onUserModeEntered(){
+		//Execute changes to UI
+	}
+	
+	
 }
