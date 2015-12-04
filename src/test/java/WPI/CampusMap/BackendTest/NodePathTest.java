@@ -7,7 +7,6 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import WPI.CampusMap.Backend.Coord;
-import WPI.CampusMap.Backend.Map;
 import WPI.CampusMap.Backend.Point;
 import WPI.CampusMap.PathPlanning.Node;
 import WPI.CampusMap.PathPlanning.Path;
