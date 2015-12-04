@@ -126,19 +126,9 @@ public class Heuristic {
 	 * 
 	 * @return modifier score
 	 */
-<<<<<<< HEAD
-	public static double getWeatherScore() 
-	{
-		if (Heuristic.weather == null) {
-			return 0.0;
-		}
-		
-		if(!useWeather)
-		{
-=======
+
 	public static double getWeatherScore() {
 		if (!useWeather) {
->>>>>>> UI-Branch
 			return 0.0;
 		}
 

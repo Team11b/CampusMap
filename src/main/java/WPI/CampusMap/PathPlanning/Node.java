@@ -81,14 +81,7 @@ public class Node {
 	public double calcHeuristic(Point goal) {
 		double temp = stdH;
 		double weather = Heuristic.getWeatherScore();
-<<<<<<< HEAD
-//		System.out.println(goal.getMap());
-		String building = goal.getMap().substring(0, goal.getMap().length() - 3);
-		building = this.getPoint().getMap();
-
-=======
 		String building = goal.getMap().substring(0, goal.getMap().length() - 2);
->>>>>>> UI-Branch
 
 		if (point.getMap().equals(goal.getMap())) {
 
