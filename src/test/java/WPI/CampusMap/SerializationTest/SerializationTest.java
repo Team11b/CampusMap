@@ -23,9 +23,9 @@ public class SerializationTest {
 	public void test() {
 		Map tempM = new Map();
 
-		Point oneP = new Point(new Coord(0,0), "", "PointOne", null);
-		Point twoP = new Point(new Coord(1,1), "", "PointTwo", null);
-		Point threeP = new Point(new Coord(0,1), "", "PointThree", null);
+		Point oneP = new Point(new Coord(0,0), "", "PointOne", "tempM");
+		Point twoP = new Point(new Coord(1,1), "", "PointTwo", "tempM");
+		Point threeP = new Point(new Coord(0,1), "", "PointThree", "tempM");
 		tempM.addPoint(oneP);
 		tempM.addPoint(twoP);
 		tempM.addPoint(threeP);
@@ -34,7 +34,7 @@ public class SerializationTest {
 		assertTrue(tempM.addEdge(tempM.getPoint("PointThree"), tempM.getPoint("PointOne")));
 		assertTrue(tempM.addEdge(tempM.getPoint("PointThree"), tempM.getPoint("PointTwo")));
 		
-		tempM.setName("test_map");
+		tempM.setName("tempM");
 
 		Serializer.write(tempM);
 
@@ -51,18 +51,18 @@ public class SerializationTest {
 		assertEquals(tempM.getPoint("PointThree").getNeighborsP(),
 						temp2.getPoint("PointThree").getNeighborsP());
 		
-//		// Delete written file
-//		Path path = Paths.get("serialized/test_map.ser");
-//		try {
-//			Files.delete(path);
-//		} catch (NoSuchFileException x) {
-//			System.err.format("%s: no such" + " file or directory%n", path);
-//		} catch (DirectoryNotEmptyException x) {
-//			System.err.format("%s not empty%n", path);
-//		} catch (IOException x) {
-//			// File permission problems are caught here.
-//			System.err.println(x);
-//		}
+		// Delete written file
+		Path path = Paths.get("serialized/tempM.ser");
+		try {
+			Files.delete(path);
+		} catch (NoSuchFileException x) {
+			System.err.format("%s: no such" + " file or directory%n", path);
+		} catch (DirectoryNotEmptyException x) {
+			System.err.format("%s not empty%n", path);
+		} catch (IOException x) {
+			// File permission problems are caught here.
+			System.err.println(x);
+		}
 	}
 
 }

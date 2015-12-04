@@ -81,7 +81,8 @@ public class Node {
 	public double calcHeuristic(Point goal) {
 		double temp = stdH;
 		double weather = Heuristic.getWeatherScore();
-		String building = goal.getMap().substring(0, goal.getMap().length() - 2);
+		String building = goal.getMap();
+		if(building != null && building.length() > 3) building = building.substring(0, goal.getMap().length() - 2);
 
 		if (point.getMap().equals(goal.getMap())) {
 
@@ -133,7 +134,6 @@ public class Node {
 				}
 			}
 		}
-		
 		if ((this.getPoint() instanceof ConnectionPoint) && ((this.getPoint().getType().equals(Point.ELEVATOR)) || (this.getPoint().getType().equals(Point.STAIRS)))) {
 			temp += ConnectionNode.travelCost;
 		}

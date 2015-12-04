@@ -119,6 +119,7 @@ public class AStar {
 		Node front = frontier.visitFront();
 		while(front != null && !front.getPoint().equals(goal))
 		{
+			
 			front.getPoint().buildFrontier(frontier, front, goal);
 			front = frontier.visitFront();
 			

@@ -25,18 +25,19 @@ public class NodePathTest {
 		cThree = new Coord(2, 1);
 		cFour = new Coord(1, 2);
 
-		one = new Point(cOne, Point.OUT_DOOR, "alpha", null);
-		two = new Point(cTwo, Point.ELEVATOR, "beta", null);
-		three = new Point(cThree, Point.STAIRS, "gamma", null);
+		one = new Point(cOne, Point.OUT_DOOR, "alpha", "");
+		two = new Point(cTwo, Point.ELEVATOR, "beta", "");
+		three = new Point(cThree, Point.STAIRS, "gamma", "");
+		three = new Point(cThree, Point.STAIRS, "gamma", "");
 
-		//nOne = new Node(one, null);
-		//nTwo = new Node(two, nOne);
-		//nThree = new Node(three, nTwo);
+		nOne = new Node(one, null,one);
+		nTwo = new Node(two, nOne, one);
+		nThree = new Node(three, nTwo, one);
 
 		aPath = new Path(1);
-		//aPath.addNode(nThree);
-		//aPath.addNode(nTwo);
-		//aPath.addNode(nOne);
+		aPath.addNode(nThree);
+		aPath.addNode(nTwo);
+		aPath.addNode(nOne);
 	}
 
 	@Test
@@ -50,6 +51,7 @@ public class NodePathTest {
 	public void testPathReverse() {
 		aPath.reverse();
 
+		System.out.println(aPath.getPath());
 		assertTrue(nOne.getPoint().equals(aPath.getPath().get(0).getPoint()));
 
 	}
@@ -57,8 +59,8 @@ public class NodePathTest {
 	@Test
 	public void testPointEquals() {
 
-		assertTrue(one.equals(two));
-
+		assertTrue(one.equals(one));
+		assertFalse(one.equals(two));
 		assertFalse(one.equals(three));
 	}
 

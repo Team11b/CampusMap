@@ -8,6 +8,7 @@ import java.util.HashMap;
 import javax.xml.stream.XMLStreamException;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import WPI.CampusMap.Backend.ConnectionPoint;
@@ -25,7 +26,7 @@ public class RouteTest {
 
 	@BeforeClass
 	public static void getMap() throws XMLStreamException {
-		Map.clearAllMaps();
+
 		setupMaps();
 	}
 
@@ -310,6 +311,7 @@ public class RouteTest {
 		Serializer.write(testMap6);
 	}
 
+	@Ignore
 	@Test
 	public void testConnected() {
 		Map.addMap(testMap5);
@@ -319,7 +321,6 @@ public class RouteTest {
 
 		MultiPath grandPath = AStar.multi_AStar(start, goal);
 		ArrayList<Node> pathNodes = grandPath.get(0).getPath();
-		System.out.println(pathNodes);
 		assertEquals(5, pathNodes.size());
 		assertEquals(pathNodes.get(0).getPoint().getId(), "0");
 		assertEquals(pathNodes.get(1).getPoint().getId(), "1");
@@ -336,7 +337,7 @@ public class RouteTest {
 		assertEquals(pathNodes.get(4).getPoint().getId(), "12");
 		
 		Route ar = new Route(grandPath);
-//		System.out.println(ar);
+		System.out.println(ar);
 	}
 
 }
