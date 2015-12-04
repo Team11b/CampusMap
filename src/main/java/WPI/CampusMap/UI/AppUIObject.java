@@ -492,7 +492,7 @@ public class AppUIObject {
 		separator.setVisible(false);
 		frame.getContentPane().add(separator);
 
-		frame.setSize(1280, 720);
+		frame.setSize(1277, 717);
 		frame.setVisible(true);
 
 		frame.getContentPane().setLayout(null);

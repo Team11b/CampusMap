@@ -4,6 +4,7 @@ package WPI.CampusMap;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
+import WPI.CampusMap.UI.AppMainWindow;
 import WPI.CampusMap.UI.AppUIObject;
 
 /**
@@ -17,7 +18,6 @@ public class App
     {
     	if(System.getProperty("os.name").startsWith("Windows"))
     		UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-    	@SuppressWarnings("unused")
-		AppUIObject uiInstance = new AppUIObject();
+    	AppMainWindow uiInstance = new AppMainWindow();
     }
 }
