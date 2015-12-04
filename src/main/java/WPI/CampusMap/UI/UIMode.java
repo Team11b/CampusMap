@@ -24,14 +24,14 @@ public class UIMode {
 	}	
 	
 	public void switchCurrentMode(){
+		onModeLoad(); 
 		if(currentMode.equals(USER_MODE)){
 			currentMode = DEV_MODE;
-			DevMode.getInstance().onDevModeEntered();
-			//Calls button wrapper
+			DevMode.getInstance().onDevModeEntered();			
 		}			
 		else{
 			currentMode = USER_MODE;
-			//Calls button wrapper
+			
 		}
 	}
 	
@@ -39,7 +39,7 @@ public class UIMode {
 		//set window text, don't call from not usermode or devmode classes
 	}
 	
-	public void onModeLoad(){
+	private void onModeLoad(){
 		//reintialize code that move modes need reinitializing
 	}
 
