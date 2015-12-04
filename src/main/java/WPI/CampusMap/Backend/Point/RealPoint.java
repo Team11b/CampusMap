@@ -2,6 +2,7 @@ package WPI.CampusMap.Backend.Point;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.UUID;
 
 import WPI.CampusMap.Backend.Coord;
 import WPI.CampusMap.Backend.Map.AllMaps;
@@ -17,7 +18,7 @@ public class RealPoint implements IPoint,java.io.Serializable {
 	private String type;
 	private String id;
 	private String map;
-	private HashMap<String, IPoint> neighbors = new HashMap<String, IPoint>();
+	private transient HashMap<String, IPoint> neighbors = new HashMap<String, IPoint>();
 	//TODO: Make neighbors transient and make a list of strings of neighbor names that actually serializes
 	
 	public static final String OUT_DOOR = "out_door";
@@ -29,6 +30,26 @@ public class RealPoint implements IPoint,java.io.Serializable {
 	public static final String ELEVATOR = "elevator";
 	/** Standard type of elevator */
 	
+	/**
+	 * Point constructor
+	 * @param coord Coordinate for this Point
+	 * @param type Type of point, based upon static constants
+	 * @param id unique identifier
+	 * @param map name of the Map this point is located in
+	 */
+	public RealPoint(Coord coord, String type, String id, String map) {
+		this.coord = coord;
+		this.type = type;
+		this.id = id;
+		this.map = map;
+		this.neighbors = new HashMap<String, IPoint>();
+	}
+
+	public RealPoint(String map)
+	{
+		id = UUID.randomUUID().toString();
+		neighbors = new HashMap<String, IPoint>();
+	}
 	@Override
 	public double distance(IPoint other) {
 		return this.getCoord().distance(other.getCoord());
