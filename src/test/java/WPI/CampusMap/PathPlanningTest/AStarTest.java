@@ -312,7 +312,7 @@ public class AStarTest {
 		Serializer.write(testMap5);
 		Serializer.write(testMap6);
 	}
-
+	@Ignore
 	@Test
 	public void testAStar4to12() {
 		Point start, goal;
