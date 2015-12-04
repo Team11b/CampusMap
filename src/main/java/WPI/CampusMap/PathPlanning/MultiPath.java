@@ -159,11 +159,11 @@ public class MultiPath
 		int count = 0;
 		int index = 0;
 
-//		System.out.println("Size" + bigPath.size());
-//		System.out.println(start);
-//		System.out.println(start.getPath());
-//		System.out.println("---" + bigPath.get(0));
-//		System.out.println(bigPath.get(0).getPoint());
+		System.out.println("Size" + bigPath.size());
+		System.out.println(start);
+		System.out.println(start.getPath());
+		System.out.println("---" + bigPath.get(0));
+		System.out.println(bigPath.get(0).getPoint());
 		if(!(bigPath.get(0).getPoint() instanceof ConnectionPoint)){
 			count++;
 		}

@@ -126,7 +126,6 @@ public class Heuristic {
 	 * 
 	 * @return modifier score
 	 */
-
 	public static double getWeatherScore() {
 		if (!useWeather) {
 			return 0.0;

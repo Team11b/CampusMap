@@ -1,6 +1,5 @@
 package WPI.CampusMap.Weather;
 
-import javax.ws.rs.ProcessingException;
 import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.core.Response;
@@ -18,15 +17,12 @@ public class Wunderground extends WundergroundAbstract {
 		BASE_URI = "http://api.wunderground.com/api/2901b67aa5967692/conditions/q/MA/Worcester.json";
 		Client client = ClientBuilder.newClient();
 		targetService = client.target(BASE_URI);
+		Response results = targetService.request().get();
+		String responseAsString = results.readEntity(String.class);
+		Gson gson = new Gson();
+		resp = gson.fromJson(responseAsString, ResponseContainer.class);
 
-		try {
-			Response results = targetService.request().get();
-			String responseAsString = results.readEntity(String.class);
-			Gson gson = new Gson();
-			resp = gson.fromJson(responseAsString, ResponseContainer.class);
-		} catch (ProcessingException e) {
-		}
-
+		// System.out.println(responseAsString);
 	}
 
 	public double getTempC() {
