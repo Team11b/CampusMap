@@ -6,16 +6,18 @@ import org.junit.Test;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Map.Map;
+import WPI.CampusMap.Backend.Core.Map.ProxyMap;
 import WPI.CampusMap.Backend.Core.Point.Point;
+import WPI.CampusMap.Backend.Core.Point.RealPoint;
 
 public class MapPointManipulationTest {
 
 	@Test
 	public void test() {
-		Map testMap = new Map();
-		Point oneP = new Point(new Coord(0, 0), "", "PointOne", "testMap");
-		Point twoP = new Point(new Coord(1, 1), "", "PointTwo", "testMap");
-		Point threeP = new Point(new Coord(0, 1), "", "PointThree", "testMap");
+		ProxyMap testMap = new ProxyMap("testMap");
+		RealPoint oneP = new RealPoint(new Coord(0, 0), "", "PointOne", "testMap");
+		RealPoint twoP = new RealPoint(new Coord(1, 1), "", "PointTwo", "testMap");
+		RealPoint threeP = new RealPoint(new Coord(0, 1), "", "PointThree", "testMap");
 		testMap.addPoint(oneP);
 		testMap.addPoint(twoP);
 		testMap.addPoint(threeP);
