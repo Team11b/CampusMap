@@ -44,14 +44,7 @@ public class MapPanel extends JPanel implements Runnable{
 
 		drawMap((Graphics2D) g);
 	}
-
-	/**
-	 * loadMap takes a mapName and loads it as the current map
-	 * 
-	 * @param mapName
-	 *            map to load
-	 * @throws XMLStreamException
-	 */
+	
 	protected void loadMap(String mapName) throws XMLStreamException {
 		System.out.println("UI: " + mapName);
 		

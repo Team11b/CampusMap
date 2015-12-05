@@ -93,7 +93,7 @@ public abstract class GraphicalMap
 	
 	/**
 	 * Called every time the map is drawn.
-	 * @param graphics
+	 * @param graphics The graphics to use to draw.
 	 */
 	public final void onDraw(Graphics2D graphics)
 	{		
@@ -221,7 +221,7 @@ public abstract class GraphicalMap
 	
 	/**
 	 * Called when the mouse moves over the graphical map.
-	 * @param re The mouse event to cause the event.
+	 * @param e The mouse event to cause the event.
 	 * @return True to block the call continuing to the hover object.
 	 */
 	public boolean onMouseMove(RealMouseEvent e)
