@@ -4,16 +4,31 @@ import java.util.ArrayList;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
+import WPI.CampusMap.Backend.Core.Map.IMap;
 import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.AStar.Frontier;
 import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.Node.Node;
 
 public class ProxyPoint implements IPoint {
 	String pointName, mapName;
 	RealPoint realPoint;
+	
+	protected ProxyPoint(String fullName){
+		String[] splitName = fullName.split("/");
+		if(splitName.length == 1){
+			this.pointName = splitName[0];
+		}else if(splitName.length == 2){
+			this.pointName = splitName[1];
+			this.mapName = splitName[0];
+			
+		}
+	}
 
 	private void load(){
 		if(realPoint == null){
-			realPoint = (RealPoint) AllMaps.getMap(mapName).getPoint(pointName);	
+			IMap temp = AllMaps.getMap(mapName);
+			if(temp != null){
+				realPoint = (RealPoint) temp.getPoint(pointName);
+			}
 		}
 	}
 	
@@ -111,6 +126,12 @@ public class ProxyPoint implements IPoint {
 	@Override
 	public int hashCode() {
 		return (this.getMap() + "/" + getId()).hashCode();
+	}
+
+	@Override
+	public boolean exists() {
+		load();
+		return realPoint == null;
 	}
 
 }

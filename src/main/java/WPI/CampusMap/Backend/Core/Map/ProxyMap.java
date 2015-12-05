@@ -3,6 +3,7 @@ package WPI.CampusMap.Backend.Core.Map;
 import javax.swing.ImageIcon;
 
 import WPI.CampusMap.Backend.Core.Point.IPoint;
+import WPI.CampusMap.Backend.Core.Point.RealPoint;
 import WPI.CampusMap.Recording.Serialization.Serializer;
 
 public class ProxyMap implements IMap {
@@ -20,6 +21,8 @@ public class ProxyMap implements IMap {
 			//incase the map has not been created, create a new one
 			if(realMap == null){
 				realMap = new RealMap(mapName);
+			}else{
+				realMap.validatePoints();
 			}
 		}
 	}
@@ -48,7 +51,7 @@ public class ProxyMap implements IMap {
 	}
 
 	@Override
-	public IPoint getPoint(String id) {
+	public RealPoint getPoint(String id) {
 		load();
 		return realMap.getPoint(id);
 	}
@@ -66,7 +69,7 @@ public class ProxyMap implements IMap {
 	}
 
 	@Override
-	public boolean addPoint(IPoint point) {
+	public boolean addPoint(RealPoint point) {
 		load();
 		return realMap.addPoint(point);
 	}
@@ -84,16 +87,18 @@ public class ProxyMap implements IMap {
 	}
 
 	@Override
-	public void renamePoint(IPoint p, String newName) {
+	public void renamePoint(RealPoint p, String newName) {
 		load();
 		realMap.renamePoint(p, newName);
 	}
 
 	@Override
 	public void save() {
-		load();
-		realMap.save();
-		// TODO Add methods to save metadata
+		if(realMap != null){
+			realMap.validatePoints();
+			realMap.save();
+			// TODO Add methods to save metadata
+		}
 
 	}
 	

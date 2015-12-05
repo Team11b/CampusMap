@@ -20,6 +20,7 @@ public class RealPoint implements IPoint,java.io.Serializable {
 	private String map;
 	private transient HashMap<String, IPoint> neighbors = new HashMap<String, IPoint>();
 	//TODO: Make neighbors transient and make a list of strings of neighbor names that actually serializes
+	private ArrayList<String> neighborList = new ArrayList<String>();
 	
 	public static final String OUT_DOOR = "out_door";
 	/** Standard type of door */
@@ -53,6 +54,25 @@ public class RealPoint implements IPoint,java.io.Serializable {
 	{
 		id = UUID.randomUUID().toString();
 		neighbors = new HashMap<String, IPoint>();
+	}
+	
+	public void constructNeighbors(){
+		for(String name: neighborList){
+			neighbors.put(name, new ProxyPoint(name));
+		}
+		validateNeighbors();
+	}
+	
+	public void validateNeighbors(){
+		ArrayList<String> temp = new ArrayList<String>(); 
+		for(IPoint neighbor: neighbors.values()){
+			if(neighbor.exists()){
+				temp.add(neighbor.getId());
+			}else{
+				neighbors.remove(neighbor.getId());
+			}
+		}
+		neighborList = temp;
 	}
 
 	/**
@@ -217,6 +237,12 @@ public class RealPoint implements IPoint,java.io.Serializable {
 	@Override
 	public void removeAllNeighbors() {
 		this.neighbors.clear();
+		this.neighborList = new ArrayList<String>();
+	}
+
+	@Override
+	public boolean exists() {
+		return true;
 	}
 
 

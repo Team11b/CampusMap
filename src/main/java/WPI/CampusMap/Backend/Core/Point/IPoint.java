@@ -23,4 +23,5 @@ public interface IPoint {
 	public boolean addNeighbor(IPoint point);
 	public String getMap();
 	public String toString();
+	public boolean exists();
 }

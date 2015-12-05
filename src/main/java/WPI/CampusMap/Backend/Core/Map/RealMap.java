@@ -13,6 +13,7 @@ import javax.swing.ImageIcon;
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.Core.Point.Point;
+import WPI.CampusMap.Backend.Core.Point.RealPoint;
 import WPI.CampusMap.Recording.Serialization.OLSSerializer;
 
 public class RealMap implements IMap, java.io.Serializable {
@@ -21,7 +22,7 @@ public class RealMap implements IMap, java.io.Serializable {
 	private static final String pngLocation = "maps/";
 	private float scale;
 	private String name;
-	private HashMap<String, IPoint> allPoints;
+	private HashMap<String, RealPoint> allPoints;
 	private ImageIcon loadedImage;
 	
 	/**
@@ -33,7 +34,18 @@ public class RealMap implements IMap, java.io.Serializable {
 	public RealMap(String name){
 		this.scale = 100;
 		this.name = name;
-		this.allPoints = new HashMap<String, IPoint>();
+		this.allPoints = new HashMap<String, RealPoint>();
+	}
+	
+	public void validatePoints(){
+		for(String key : allPoints.keySet()){
+			RealPoint point = allPoints.get(key);
+			if(point != null){
+				point.validateNeighbors();
+			}else{
+				allPoints.remove(key);
+			}
+		}
 	}
 	
 	/**
@@ -114,7 +126,7 @@ public class RealMap implements IMap, java.io.Serializable {
 	 * @return The point with the id.
 	 */
 	@Override
-	public IPoint getPoint(String id) {
+	public RealPoint getPoint(String id) {
 		return this.allPoints.get(id);
 	}
 
@@ -130,16 +142,7 @@ public class RealMap implements IMap, java.io.Serializable {
 	@Override
 	public boolean removePoint(String id) {
 		IPoint point = allPoints.get(id);
-		if (point != null) {
-			for (IPoint pointN : point.getNeighborsP()) {
-				if (!pointN.removeNeighbor(point))
-					return false;
-			}
-			point.removeAllNeighbors();
-			allPoints.remove(point.getId());
-			return true;
-		}
-		return false;
+		return removePoint(point);
 	}
 
 	/**
@@ -174,7 +177,7 @@ public class RealMap implements IMap, java.io.Serializable {
 	 *         point with the same ID
 	 */
 	@Override
-	public boolean addPoint(IPoint point) {
+	public boolean addPoint(RealPoint point) {
 		if (this.allPoints.containsKey(point.getId()))
 			return false;
 
@@ -235,7 +238,7 @@ public class RealMap implements IMap, java.io.Serializable {
 	 * Removes the given point and adds it back under the newName
 	 */
 	@Override
-	public void renamePoint(IPoint p, String newName) {
+	public void renamePoint(RealPoint p, String newName) {
 		allPoints.remove(p.getId());
 		allPoints.put(newName, p);
 	}
