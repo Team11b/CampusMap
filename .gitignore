@@ -17,3 +17,7 @@ hs_err_pid*
 /target/
 **/.metadata/
 /bin/
+
+!miglayout15-swing.jar
+!jgoodies-forms-1.8.0.jar
+!jgoodies-forms-1.8.0-sources.jar
