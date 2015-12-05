@@ -211,9 +211,12 @@ public class RealPoint implements IPoint,java.io.Serializable {
 	public boolean addNeighbor(IPoint point) {
 		if (this.neighbors.containsValue(point))
 			return false;
-
-		this.neighbors.put(point.getId(), point);
-
+		
+		if(point.getMap() == this.getMap()){
+			this.neighbors.put(point.getId(), point);
+		}else{
+			this.neighbors.put(point.getMap()+"/"+point.getId(), point);
+		}
 		return true;
 	}
 	

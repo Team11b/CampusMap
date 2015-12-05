@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.Core.Point.RealPoint;
+import WPI.CampusMap.Recording.Serialization.Serializer;
 
 public class RealMap implements IMap, java.io.Serializable {
 
@@ -245,7 +246,7 @@ public class RealMap implements IMap, java.io.Serializable {
 	 */
 	@Override
 	public void save() {
-		// TODO Auto-generated method stub
+		Serializer.save(this);
 		
 	}
 	

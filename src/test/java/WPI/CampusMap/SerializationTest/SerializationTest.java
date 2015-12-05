@@ -19,31 +19,33 @@ import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Map.Map;
 import WPI.CampusMap.Backend.Core.Map.ProxyMap;
+import WPI.CampusMap.Backend.Core.Map.RealMap;
 import WPI.CampusMap.Backend.Core.Point.Point;
+import WPI.CampusMap.Backend.Core.Point.RealPoint;
 import WPI.CampusMap.Recording.Serialization.OLSSerializer;
 import WPI.CampusMap.Recording.Serialization.Serializer;
 
 public class SerializationTest {
 
 	static ProxyMap pm;
+	static ProxyMap connected;
 
 	@BeforeClass
 	public static void setup() {
 		AllMaps.getInstance().clearAllMaps();
 		pm = new ProxyMap("testmap");
+		pm.addPoint(new RealPoint(new Coord(1.0, 0.0), RealPoint.HALLWAY, "1", pm.getName()));
+
+		connected = new ProxyMap("this_is_connected");
+		connected.addPoint(new RealPoint(new Coord(1.0, 0.0), RealPoint.HALLWAY, "1", connected.getName()));
+		connected.addPoint(new RealPoint(new Coord(1.0, 1.0), RealPoint.HALLWAY, "2", connected.getName()));
+
+		connected.getPoint("1").addNeighbor(pm.getPoint("1"));
 	}
 
 	@AfterClass
 	public static void cleanup() {
 		AllMaps.getInstance().clearAllMaps();
-	}
-
-	@Test
-	public void testProxy() {
-		Serializer.save(pm);
-
-		@SuppressWarnings("unused")
-		ProxyMap newPM = Serializer.proxyLoad(pm.getName());
 
 		// Delete written file
 		Path path = Paths.get(Serializer.folderProxy + pm.getName() + Serializer.fileType);
@@ -57,6 +59,32 @@ public class SerializationTest {
 			// File permission problems are caught here.
 			System.err.println(x);
 		}
+
+		// Delete written file
+		path = Paths.get(Serializer.folderProxy + connected.getName() + Serializer.fileType);
+		try {
+			Files.delete(path);
+		} catch (NoSuchFileException x) {
+			System.err.format("%s: no such" + " file or directory%n", path);
+		} catch (DirectoryNotEmptyException x) {
+			System.err.format("%s not empty%n", path);
+		} catch (IOException x) {
+			// File permission problems are caught here.
+			System.err.println(x);
+		}
+	}
+
+	@SuppressWarnings("unused")
+	@Test
+	public void testProxy() {
+		pm.save();
+		connected.save();
+		
+		ProxyMap newPm = Serializer.proxyLoad(pm.getName());
+		ProxyMap newCon = Serializer.proxyLoad(connected.getName());
+		System.out.println(newPm.getName());
+		RealMap newRPm = Serializer.realLoad(newPm.getName());
+		RealMap newRCon = Serializer.realLoad(newCon.getName());
 
 		assertTrue(true);
 	}

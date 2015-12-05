@@ -11,8 +11,8 @@ import WPI.CampusMap.Recording.Serialization.Serializer;
 public class ProxyMap implements IMap, Serializable {
 
 	private static final long serialVersionUID = 4921953163121951580L;
-	String mapName;
-	RealMap realMap;
+	private String mapName;
+	private transient RealMap realMap;
 	
 	public ProxyMap(String name){
 		this.mapName = name;
@@ -101,6 +101,7 @@ public class ProxyMap implements IMap, Serializable {
 		if(realMap != null){
 			realMap.validatePoints();
 			realMap.save();
+			Serializer.save(this);
 			// TODO Add methods to save metadata
 		}
 

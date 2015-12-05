@@ -23,6 +23,7 @@ public class AllMaps {
 		allMaps.clear();
 	}
 	
+	@Deprecated
 	public HashMap<String, IMap> getAllMaps() {
 		return allMaps;
 	}
