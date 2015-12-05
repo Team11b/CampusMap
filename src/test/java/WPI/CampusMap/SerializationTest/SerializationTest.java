@@ -9,6 +9,7 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -35,12 +36,16 @@ public class SerializationTest {
 		AllMaps.getInstance().clearAllMaps();
 		pm = new ProxyMap("testmap");
 		pm.addPoint(new RealPoint(new Coord(1.0, 0.0), RealPoint.HALLWAY, "1", pm.getName()));
+		
+		AllMaps.getInstance().addMap(pm);
 
 		connected = new ProxyMap("this_is_connected");
 		connected.addPoint(new RealPoint(new Coord(1.0, 0.0), RealPoint.HALLWAY, "1", connected.getName()));
 		connected.addPoint(new RealPoint(new Coord(1.0, 1.0), RealPoint.HALLWAY, "2", connected.getName()));
 
-		connected.getPoint("1").addNeighbor(pm.getPoint("1"));
+		AllMaps.getInstance().addMap(connected);
+		
+		connected.addEdge(connected.getPoint("1"), pm.getPoint("1"));
 	}
 
 	@AfterClass
@@ -72,6 +77,32 @@ public class SerializationTest {
 			// File permission problems are caught here.
 			System.err.println(x);
 		}
+
+		// Delete written file
+		path = Paths.get(Serializer.folderReal + pm.getName() + Serializer.fileType);
+		try {
+			Files.delete(path);
+		} catch (NoSuchFileException x) {
+			System.err.format("%s: no such" + " file or directory%n", path);
+		} catch (DirectoryNotEmptyException x) {
+			System.err.format("%s not empty%n", path);
+		} catch (IOException x) {
+			// File permission problems are caught here.
+			System.err.println(x);
+		}
+
+		// Delete written file
+		path = Paths.get(Serializer.folderReal + connected.getName() + Serializer.fileType);
+		try {
+			Files.delete(path);
+		} catch (NoSuchFileException x) {
+			System.err.format("%s: no such" + " file or directory%n", path);
+		} catch (DirectoryNotEmptyException x) {
+			System.err.format("%s not empty%n", path);
+		} catch (IOException x) {
+			// File permission problems are caught here.
+			System.err.println(x);
+		}
 	}
 
 	@SuppressWarnings("unused")
@@ -80,11 +111,30 @@ public class SerializationTest {
 		pm.save();
 		connected.save();
 		
+		System.out.println(pm.getName());
 		ProxyMap newPm = Serializer.proxyLoad(pm.getName());
 		ProxyMap newCon = Serializer.proxyLoad(connected.getName());
 		System.out.println(newPm.getName());
+
 		RealMap newRPm = Serializer.realLoad(newPm.getName());
 		RealMap newRCon = Serializer.realLoad(newCon.getName());
+		newRPm.validatePoints();
+		newRCon.validatePoints();
+		
+		System.out.println(newPm.getAllPoints().length);
+		System.out.println(pm.getAllPoints().length);
+		
+		assertTrue(Arrays.equals(newPm.getAllPoints(),pm.getAllPoints()));
+		assertTrue(Arrays.equals(newCon.getAllPoints(),connected.getAllPoints()));
+		
+		assertTrue(newPm.getAllPoints()[0].getNeighborsP().equals(pm.getAllPoints()[0].getNeighborsP()));
+		assertTrue(newCon.getAllPoints()[0].getNeighborsP().equals(connected.getAllPoints()[0].getNeighborsP()));
+		
+		assertTrue(Arrays.equals(newPm.getAllPoints(),newRPm.getAllPoints()));
+		assertTrue(Arrays.equals(newCon.getAllPoints(),newRCon.getAllPoints()));
+		
+		assertTrue(newPm.getAllPoints()[0].getNeighborsP().equals(newRPm.getAllPoints()[0].getNeighborsP()));
+		assertTrue(newCon.getAllPoints()[0].getNeighborsP().equals(newRCon.getAllPoints()[0].getNeighborsP()));
 
 		assertTrue(true);
 	}

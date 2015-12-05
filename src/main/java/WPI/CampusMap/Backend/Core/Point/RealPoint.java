@@ -56,26 +56,29 @@ public class RealPoint implements IPoint,java.io.Serializable {
 	}
 	
 	public void constructNeighbors(){
+//		System.out.println(this.toString() + "'s neighbors: "+ this.neighborList.size());
+		neighbors = new HashMap<String, IPoint>();
+		if(neighbors == null){
+			System.out.printf("Null neighbors: %s\n", this.getMap()+"/"+this.getId());
+		}
 		for(String name: neighborList){
 			neighbors.put(name, new ProxyPoint(name));
+//			System.out.println("Adding " +name+ " to " + this.toString()+"'s neighbor list");
 		}
-		validateNeighbors();
 	}
 	
 	public void validateNeighbors(){
 		ArrayList<String> temp = new ArrayList<String>(); 
+		if(neighbors == null){
+			System.out.printf("Null neighbors: %s\n", this.getMap()+"/"+this.getId());
+		}
 		for(IPoint neighbor: neighbors.values()){
-			if(neighbor.exists()){
-				if(neighbor.getMap() == this.getMap()){
-					temp.add(neighbor.getId());
-				}else{
-					temp.add(neighbor.getMap() + "/" + neighbor.getId());
-				}
-			}else{
+			if(!neighbor.exists()){
+				System.out.println("Neighbor does not exist, removing from list of neighbors");
 				neighbors.remove(neighbor.getId());
+				neighborList.remove(neighbor.getId());
 			}
 		}
-		neighborList = temp;
 	}
 
 	/**
@@ -214,8 +217,10 @@ public class RealPoint implements IPoint,java.io.Serializable {
 		
 		if(point.getMap() == this.getMap()){
 			this.neighbors.put(point.getId(), point);
+			this.neighborList.add(point.getId());
 		}else{
 			this.neighbors.put(point.getMap()+"/"+point.getId(), point);
+			this.neighborList.add(point.getMap()+"/"+point.getId());
 		}
 		return true;
 	}
@@ -251,5 +256,10 @@ public class RealPoint implements IPoint,java.io.Serializable {
 		return true;
 	}
 
+
+	@Override
+	public String toString() {
+		return map+"/"+id;
+	}
 
 }

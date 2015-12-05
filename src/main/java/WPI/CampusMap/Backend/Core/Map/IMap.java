@@ -1,6 +1,6 @@
 package WPI.CampusMap.Backend.Core.Map;
 
-import java.io.Serializable;
+import java.util.Collection;
 
 import javax.swing.ImageIcon;
 
@@ -13,6 +13,7 @@ public interface IMap {
 	public String getName();
 	public ImageIcon getLoadedImage();
 	public RealPoint getPoint(String id);
+	public RealPoint[] getAllPoints();
 	public boolean removePoint(String id);
 	public boolean removePoint(IPoint point);
 	public boolean addPoint(RealPoint point);

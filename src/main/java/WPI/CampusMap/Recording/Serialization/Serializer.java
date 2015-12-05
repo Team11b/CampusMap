@@ -86,11 +86,11 @@ public class Serializer {
 			in.close();
 			fileIn.close();
 
-			AllMaps.getInstance().clearAllMaps();
+//			AllMaps.getInstance().clearAllMaps();
 			return pm;
 		} catch (FileNotFoundException f) {
-			System.out.println("NOT LOADED");
-			f.printStackTrace();
+//			System.out.println("NOT LOADED");
+//			f.printStackTrace();
 		} catch (IOException i) {
 			System.out.println("NOT LOADED");
 			i.printStackTrace();
@@ -122,8 +122,8 @@ public class Serializer {
 
 			return rm;
 		} catch (FileNotFoundException f) {
-			System.out.println("NOT LOADED");
-			f.printStackTrace();
+//			System.out.println("NOT LOADED");
+//			f.printStackTrace();
 		} catch (IOException i) {
 			System.out.println("NOT LOADED");
 			i.printStackTrace();

@@ -1,6 +1,5 @@
 package WPI.CampusMap.Backend.Core.Point;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
@@ -9,18 +8,16 @@ import WPI.CampusMap.Backend.Core.Map.IMap;
 import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.AStar.Frontier;
 import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.Node.Node;
 
-public class ProxyPoint implements IPoint, Serializable {
-
-	private static final long serialVersionUID = 5426983372569624985L;
-	String pointName, mapName;
+public class ProxyPoint implements IPoint {
+	String pointId, mapName;
 	RealPoint realPoint;
 	
 	protected ProxyPoint(String fullName){
 		String[] splitName = fullName.split("/");
 		if(splitName.length == 1){
-			this.pointName = splitName[0];
+			this.pointId = splitName[0];
 		}else if(splitName.length == 2){
-			this.pointName = splitName[1];
+			this.pointId = splitName[1];
 			this.mapName = splitName[0];
 			
 		}
@@ -30,7 +27,8 @@ public class ProxyPoint implements IPoint, Serializable {
 		if(realPoint == null){
 			IMap temp = AllMaps.getInstance().getMap(mapName);
 			if(temp != null){
-				realPoint = (RealPoint) temp.getPoint(pointName);
+				realPoint = (RealPoint) temp.getPoint(pointId);
+				realPoint.constructNeighbors();
 			}
 		}
 	}
@@ -68,7 +66,7 @@ public class ProxyPoint implements IPoint, Serializable {
 	@Override
 	public String getId() {
 		load();
-		return pointName;
+		return pointId;
 	}
 
 	@Override
@@ -137,4 +135,15 @@ public class ProxyPoint implements IPoint, Serializable {
 		return realPoint != null;
 	}
 
+	@Override
+	public boolean equals(Object other) {
+		load();
+		return realPoint.equals(other);
+	}
+	
+	@Override
+	public String toString() {
+		load();
+		return realPoint.toString();
+	}
 }

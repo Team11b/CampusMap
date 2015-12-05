@@ -1,6 +1,7 @@
 package WPI.CampusMap.Backend.Core.Map;
 
 import java.io.Serializable;
+import java.util.Collection;
 
 import javax.swing.ImageIcon;
 
@@ -24,6 +25,7 @@ public class ProxyMap implements IMap, Serializable {
 			
 			//incase the map has not been created, create a new one
 			if(realMap == null){
+				System.out.printf("Real Map (%s) not found, making a new one.\n",mapName);
 				realMap = new RealMap(mapName);
 			}else{
 				realMap.validatePoints();
@@ -99,7 +101,6 @@ public class ProxyMap implements IMap, Serializable {
 	@Override
 	public void save() {
 		if(realMap != null){
-			realMap.validatePoints();
 			realMap.save();
 			Serializer.save(this);
 			// TODO Add methods to save metadata
@@ -110,6 +111,12 @@ public class ProxyMap implements IMap, Serializable {
 	@Override
 	public int hashCode(){
 		return mapName.hashCode();
+	}
+
+	@Override
+	public RealPoint[] getAllPoints() {
+		load();
+		return realMap.getAllPoints();
 	}
 
 }

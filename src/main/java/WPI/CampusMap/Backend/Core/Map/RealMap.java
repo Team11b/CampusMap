@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 
 import javax.imageio.ImageIO;
@@ -39,7 +40,7 @@ public class RealMap implements IMap, java.io.Serializable {
 		for(String key : allPoints.keySet()){
 			RealPoint point = allPoints.get(key);
 			if(point != null){
-				point.validateNeighbors();
+				point.constructNeighbors();
 			}else{
 				allPoints.remove(key);
 			}
@@ -182,7 +183,7 @@ public class RealMap implements IMap, java.io.Serializable {
 		this.allPoints.put(point.getId(), point);
 		return true;
 	}
-
+	//TODO maybe move this to a static method?
 	/**
 	 * Adds an edge between two Points
 	 * 
@@ -193,20 +194,18 @@ public class RealMap implements IMap, java.io.Serializable {
 	 * @return true if the edge was added, false if one Points doesn't exist or
 	 *         if the edge already exists
 	 */
+	//TODO maybe move this to a static method?
 	@Override
 	public boolean addEdge(IPoint point, IPoint other) {
 		if (point.equals(other)) {
 			return false;
 		}
-		if (this.allPoints.containsKey(point.getId()) && this.allPoints.containsKey(other.getId())) {
-			boolean adder = point.addNeighbor(other);
-			if (!(adder)) {
-				return false;
-			}
-			other.addNeighbor(point);
-			return true;
+		boolean adder = point.addNeighbor(other);
+		if (!(adder)) {
+			return false;
 		}
-		return false;
+		other.addNeighbor(point);
+		return true;
 	}
 
 	/**
@@ -246,8 +245,8 @@ public class RealMap implements IMap, java.io.Serializable {
 	 */
 	@Override
 	public void save() {
+		this.validatePoints();
 		Serializer.save(this);
-		
 	}
 	
 	/**
@@ -256,6 +255,12 @@ public class RealMap implements IMap, java.io.Serializable {
 	@Override
 	public int hashCode(){
 		return name.hashCode();
+	}
+
+	@Override
+	public RealPoint[] getAllPoints() {
+		Collection<RealPoint> temp = allPoints.values();
+		return (RealPoint[]) temp.toArray(new RealPoint[temp.size()]);
 	}
 
 }
