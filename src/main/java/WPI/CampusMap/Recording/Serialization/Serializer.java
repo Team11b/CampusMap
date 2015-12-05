@@ -86,7 +86,7 @@ public class Serializer {
 			in.close();
 			fileIn.close();
 
-			AllMaps.addMap(pm);
+			AllMaps.getInstance().clearAllMaps();
 			return pm;
 		} catch (FileNotFoundException f) {
 			System.out.println("NOT LOADED");
