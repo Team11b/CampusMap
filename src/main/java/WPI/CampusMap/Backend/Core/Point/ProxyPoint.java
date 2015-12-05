@@ -3,99 +3,114 @@ package WPI.CampusMap.Backend.Core.Point;
 import java.util.ArrayList;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
+import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.AStar.Frontier;
 import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.Node.Node;
 
 public class ProxyPoint implements IPoint {
+	String pointName, mapName;
+	RealPoint realPoint;
 
+	private void load(){
+		if(realPoint == null){
+			realPoint = (RealPoint) AllMaps.getMap(mapName).getPoint(pointName);	
+		}
+	}
+	
 	@Override
 	public double distance(IPoint other) {
-		// TODO Auto-generated method stub
-		return 0;
+		load();
+		return realPoint.distance(other);
 	}
 
 	@Override
 	public Coord getCoord() {
-		// TODO Auto-generated method stub
-		return null;
+		load();
+		return realPoint.getCoord();
 	}
 
 	@Override
 	public void setCoord(Coord coord) {
-		// TODO Auto-generated method stub
-
+		load();
+		realPoint.setCoord(coord);
 	}
 
 	@Override
 	public String getType() {
-		// TODO Auto-generated method stub
-		return null;
+		load();
+		return realPoint.getType();
 	}
 
 	@Override
 	public void setType(String type) {
-		// TODO Auto-generated method stub
-
+		load();
+		realPoint.setType(type);
 	}
 
 	@Override
 	public String getId() {
-		// TODO Auto-generated method stub
-		return null;
+		load();
+		return pointName;
 	}
 
 	@Override
 	public void setId(String id) {
-		// TODO Auto-generated method stub
-
+		load();
+		realPoint.setId(id);
 	}
 
 	@Override
 	public ArrayList<IPoint> getNeighborsP() {
-		// TODO Auto-generated method stub
-		return null;
+		load();
+		return realPoint.getNeighborsP();
 	}
 
 	@Override
 	public void buildFrontier(Frontier frontier, Node fromNode, IPoint goal) {
-		// TODO Auto-generated method stub
+		load();
+		realPoint.buildFrontier(frontier, fromNode, goal);
 
 	}
 
 	@Override
 	public ArrayList<IPoint> getValidNeighbors(ArrayList<String> whitelist) {
-		// TODO Auto-generated method stub
-		return null;
+		load();
+		return realPoint.getValidNeighbors(whitelist);
 	}
 
 	@Override
 	public boolean removeNeighbor(IPoint point) {
-		// TODO Auto-generated method stub
-		return false;
+		load();
+		return realPoint.removeNeighbor(point);
 	}
 
 	@Override
 	public boolean removeNeighbor(String pointId) {
-		// TODO Auto-generated method stub
-		return false;
+		load();
+		return realPoint.removeNeighbor(pointId);
 	}
 
 	@Override
 	public void removeAllNeighbors() {
-		// TODO Auto-generated method stub
-
+		load();
+		realPoint.removeAllNeighbors();
 	}
 
 	@Override
 	public boolean addNeighbor(IPoint point) {
-		// TODO Auto-generated method stub
-		return false;
+		load();
+		return realPoint.addNeighbor(point);
 	}
 
 	@Override
 	public String getMap() {
-		// TODO Auto-generated method stub
-		return null;
+		load();
+		return realPoint.getMap();
+	}
+	
+	@Override
+	public int hashCode() {
+		return (this.getMap() + "/" + getId()).hashCode();
 	}
 
 }

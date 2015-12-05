@@ -15,7 +15,7 @@ public class RealPoint implements IPoint,java.io.Serializable {
 
 	private static final long serialVersionUID = 1262614340821579118L;
 	private Coord coord;
-	private String type;
+	private String type = RealPoint.HALLWAY;
 	private String id;
 	private String map;
 	private transient HashMap<String, IPoint> neighbors = new HashMap<String, IPoint>();
@@ -44,32 +44,64 @@ public class RealPoint implements IPoint,java.io.Serializable {
 		this.map = map;
 		this.neighbors = new HashMap<String, IPoint>();
 	}
-
+	
+	/**
+	 * Creates a new RealPoint with the given map and default values
+	 * @param map
+	 */
 	public RealPoint(String map)
 	{
 		id = UUID.randomUUID().toString();
 		neighbors = new HashMap<String, IPoint>();
 	}
+
+	/**
+	 * Gets the distance between two points.
+	 * 
+	 * @param other
+	 *            The other point to get the distance too.
+	 * @return The distance to the other point.
+	 */
 	@Override
 	public double distance(IPoint other) {
 		return this.getCoord().distance(other.getCoord());
 	}
 
+	/**
+	 * Gets the coordinate of this point
+	 * 
+	 * @return The current coordinate of this point
+	 */
 	@Override
 	public Coord getCoord() {
 		return coord;
 	}
 
+	/**
+	 * Sets the coordinates location of this point
+	 * 
+	 * @param coord The new coordinate of this point
+	 */
 	@Override
 	public void setCoord(Coord coord) {
 		this.coord = coord;
 	}
 
+	/**
+	 * Gets the type of this point
+	 * 
+	 * @return The type of the point
+	 */
 	@Override
 	public String getType() {
 		return type;
 	}
 
+	/**
+	 * Sets the type of this point
+	 * 
+	 * @param type The type to set this point to
+	 */
 	@Override
 	public void setType(String type) {
 		this.type = type;
@@ -147,8 +179,8 @@ public class RealPoint implements IPoint,java.io.Serializable {
 	
 	@Override
 	public boolean equals(Object other) {
-		if (other instanceof Point) {
-			Point that = (Point) other;
+		if (other instanceof IPoint) {
+			IPoint that = (IPoint) other;
 			boolean result = getMap().equals(that.getMap()) && getId().equals(that.getId());
 			return result;
 		}

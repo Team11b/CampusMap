@@ -20,9 +20,9 @@ public class AllMaps {
 	}
 
 	public static IMap getMap(String mapKey) {
-		if (!(AllMaps.allMaps.containsKey(mapKey))) {
-			OLSSerializer.read(mapKey);
-		}
+//		if (!(AllMaps.allMaps.containsKey(mapKey))) {
+//			OLSSerializer.read(mapKey);
+//		}
 		return AllMaps.allMaps.get(mapKey);
 	}
 
