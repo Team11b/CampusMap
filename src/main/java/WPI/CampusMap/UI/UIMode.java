@@ -1,45 +1,36 @@
 package WPI.CampusMap.UI;
 
-public class UIMode {
-	//Singleton
-	private static UIMode instance;
-	
-	public static UIMode getInstance()
-	{
-		return instance;
-	}
+abstract public class UIMode {
 	
 	//other members of class go here
-	private String currentMode;
+	private String currentGUIMode;
 	public static final String DEV_MODE = "devmode";
 	public static final String USER_MODE = "usermode";
 	
-	public UIMode(){
-		this.instance = this;
-		this.currentMode = USER_MODE;
+	public UIMode(){		
+		this.currentGUIMode = USER_MODE;
 	}
 	
 	public String getCurrentMode(){
-		return currentMode;
+		return currentGUIMode;
 	}	
 	
-	public void switchCurrentMode(){
-		onModeLoad(); 
-		if(currentMode.equals(USER_MODE)){
-			currentMode = DEV_MODE;
-			DevMode.getInstance().onDevModeEntered();			
+	protected void switchCurrentMode(){
+		onAnyModeLoad(); 
+		if(currentGUIMode.equals(USER_MODE)){
+			currentGUIMode = DEV_MODE;
+			DevMode.getInstance().onModeEntered();			
 		}			
 		else{
-			currentMode = USER_MODE;
-			
+			currentGUIMode = USER_MODE;			
 		}
 	}
+
+	protected void onModeEntered(){
+	    //overwritten
+	}	
 	
-	public void setWindowText(String theText){
-		//set window text, don't call from not usermode or devmode classes
-	}
-	
-	private void onModeLoad(){
+	private void onAnyModeLoad(){
 		//reintialize code that move modes need reinitializing
 	}
 
