@@ -18,6 +18,7 @@ import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.User.UserGraphicalMap;
  * Map Panel Class Contains the graphics and UI components of the app
  */
 @SuppressWarnings("serial")
+@Deprecated
 public class MapPanel extends JPanel implements Runnable{
 	protected Map currentMap;
 	

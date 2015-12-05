@@ -13,10 +13,16 @@ import java.util.Comparator;
 import java.util.Hashtable;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
+import WPI.CampusMap.Backend.Core.Map.IMap;
 import WPI.CampusMap.Backend.Core.Map.Map;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI.AppUIObject;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI.MapPanel;
 
+/**
+ * A graphical map represents a container of graphical objects for a map. It is the equivalent of a map in the backend.
+ * @author Benny
+ *
+ */
 public abstract class GraphicalMap
 {
 	private ArrayList<GraphicsObject<?, ?>> batchList = new ArrayList<>();
@@ -29,6 +35,7 @@ public abstract class GraphicalMap
 	
 	private AffineTransform transform;
 	
+	@Deprecated
 	public GraphicalMap(Map map, MapPanel panel)
 	{
 		this.panel = panel;
@@ -37,16 +44,31 @@ public abstract class GraphicalMap
 		this.spawnMap(map);
 	}
 	
+	/**
+	 * Creates a new graphical map from a backend map.
+	 * @param map The backend map to create from.
+	 */
+	public GraphicalMap(IMap map) 
+	{
+		throw new UnsupportedOperationException("not implemented");
+	}
+	
+	@Deprecated
 	public void setPanel(MapPanel panel)
 	{
 		this.panel = panel;
 	}
 	
+	@Deprecated
 	public MapPanel getPanel()
 	{
 		return this.panel;
 	}
 	
+	/**
+	 * Get an array of all graphical objects that have been created on this map.
+	 * @return An array of all objects created on this map.
+	 */
 	public GraphicsObject<?, ?>[] getObjects()
 	{
 		synchronized (this)
@@ -56,6 +78,11 @@ public abstract class GraphicalMap
 		}
 	}
 	
+	/**
+	 * Get a specific object by its backend object representation.
+	 * @param representedObject The object that represents the graphical object.
+	 * @return The graphical object that corresponds with this data, or null if not found.
+	 */
 	public GraphicsObject<?, ?> getObject(Object representedObject)
 	{
 		synchronized (this)
@@ -64,8 +91,12 @@ public abstract class GraphicalMap
 		}
 	}
 	
+	/**
+	 * Called every time the map is drawn.
+	 * @param graphics
+	 */
 	public final void onDraw(Graphics2D graphics)
-	{
+	{		
 		graphics.clearRect(0, 0, panel.getWidth(), panel.getWidth());
 		
 		graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -100,6 +131,10 @@ public abstract class GraphicalMap
 		}
 	}
 	
+	/**
+	 * Registers a graphical object with this graphical map.
+	 * @param go The graphical object to register.
+	 */
 	protected void addGraphicalObject(GraphicsObject<?, ?> go)
 	{
 		synchronized (this)
@@ -109,6 +144,10 @@ public abstract class GraphicalMap
 		}
 	}
 	
+	/**
+	 * Deletes a registered object from this map. This method should NOT be used, instead use GraphicsObject.delete.
+	 * @param go The graphical object to delete.
+	 */
 	protected void deleteGraphicalObject(GraphicsObject<?, ?> go)
 	{
 		synchronized (this)
@@ -122,21 +161,25 @@ public abstract class GraphicalMap
 	 * Called when a map should be converted into graphics objects.
 	 * @param map The map to read in.
 	 */
+	@Deprecated
 	public abstract void spawnMap(Map map);
 	
+	/**
+	 * Called to unload this graphical map.
+	 */
 	public void unload()
 	{
 	}
 	
+	/**
+	 * Gets the graphics object that the mouse is hovering over.
+	 * @return The graphics object that the mouse is hovering over.
+	 */
 	public final GraphicsObject<?, ?> getHoverObject()
 	{
 		return over;
 	}
 	
-	/**
-	 * Called when the mouse moves over the graphics map.
-	 * @param e The mouse movement event.
-	 */
 	public final void mouseMove(MouseEvent e)
 	{
 		synchronized (this)
@@ -176,7 +219,12 @@ public abstract class GraphicalMap
 		}
 	}
 	
-	public boolean onMouseMove(RealMouseEvent re)
+	/**
+	 * Called when the mouse moves over the graphical map.
+	 * @param re The mouse event to cause the event.
+	 * @return True to block the call continuing to the hover object.
+	 */
+	public boolean onMouseMove(RealMouseEvent e)
 	{
 		return false;
 	}
@@ -201,6 +249,11 @@ public abstract class GraphicalMap
 		}
 	}
 	
+	/**
+	 * Called when the mouse exits the graphical map.
+	 * @param e The mouse event to cause the event.
+	 * @return True to block the call continuing to the hover object.
+	 */
 	public boolean onMouseExit(RealMouseEvent e)
 	{
 		return false;
@@ -221,6 +274,11 @@ public abstract class GraphicalMap
 		}
 	}
 	
+	/**
+	 * Called when the mouse clicks the graphical map.
+	 * @param e The mouse event to cause the event.
+	 * @return True to block the call continuing to the hover object.
+	 */
 	public boolean onMouseClick(RealMouseEvent e)
 	{
 		return false;
@@ -241,6 +299,11 @@ public abstract class GraphicalMap
 		}
 	}
 	
+	/**
+	 * Called when the mouse drags over the graphical map.
+	 * @param e The mouse event to cause the event.
+	 * @return True to block the call continuing to the hover object.
+	 */
 	public boolean onMouseDrag(RealMouseEvent e)
 	{
 		return false;
@@ -251,6 +314,12 @@ public abstract class GraphicalMap
 		return map;
 	}
 	
+	/**
+	 * Converts screen coordinates to world coordinates.
+	 * @param screenX The x screen coordinate.
+	 * @param screenY The y screen coordinate.
+	 * @return The world coordinates.
+	 */
 	public final Coord getWorldCoord(int screenX, int screenY)
 	{
 		float imageX = (float)screenX / (float)panel.getWidth() * map.getLoadedImage().getIconWidth();
@@ -265,11 +334,22 @@ public abstract class GraphicalMap
 		return new Coord(feetX, feetY);
 	}
 	
+	/**
+	 * Converts world coordinates to screen coordinates.
+	 * @param worldCoord The world coordinates.
+	 * @return The screen coordinates.
+	 */
 	public final Coord getScreenCoord(Coord worldCoord)
 	{
 		return getScreenCoord(worldCoord.getX(), worldCoord.getY());
 	}
 	
+	/**
+	 * Converts world coordinates to screen coordinates.
+	 * @param worldX The x world coordinates.
+	 * @param worldY The y world coordinates.
+	 * @return The screen coordinates.
+	 */
 	public final Coord getScreenCoord(float worldX, float worldY)
 	{
 		float inchesX = worldX * map.getScale();
@@ -320,6 +400,7 @@ public abstract class GraphicalMap
 	}
 
 
+	@Deprecated
 	public final AppUIObject getUI()	{
 		return panel.uiObject;
 	}

@@ -5,6 +5,13 @@ import java.awt.Graphics2D;
 
 import WPI.CampusMap.Backend.Core.Ref.Ref;
 
+/**
+ * An object that represents a piece of data graphically.
+ * @author Benny
+ *
+ * @param <R> The type of data to represent.
+ * @param <M> The graphical map container type that holds this object.
+ */
 public abstract class GraphicsObject<R, M extends GraphicalMap>
 {
 	private M graphicsOwner;
@@ -12,8 +19,12 @@ public abstract class GraphicsObject<R, M extends GraphicalMap>
 	private R representedObject;
 	
 	private boolean deleted;
-	private boolean cleanedUp;
 	
+	/**
+	 * Creates a new graphical object.
+	 * @param representedObject The represented object.
+	 * @param owner The owning map.
+	 */
 	public GraphicsObject(R representedObject, M owner)
 	{
 		this.graphicsOwner = owner;
@@ -21,16 +32,27 @@ public abstract class GraphicsObject<R, M extends GraphicalMap>
 		owner.addGraphicalObject(this);
 	}
 	
+	/**
+	 * Gets the graphical map that owns this object.
+	 * @return
+	 */
 	public M getOwner()
 	{
 		return graphicsOwner;
 	}
 	
+	/**
+	 * Checks to see if this object is deleted.
+	 * @return True if deleted, false otherwise.
+	 */
 	public boolean isDelelted()
 	{
 		return deleted;
 	}
 	
+	/**
+	 * Deletes this object from the graphical wrapper.
+	 */
 	public void delete()
 	{
 		deleted = true;
@@ -71,6 +93,9 @@ public abstract class GraphicsObject<R, M extends GraphicalMap>
 		
 	}
 	
+	/**
+	 * Called when this object is unloaded from the graphical wrapper.
+	 */
 	public void onUnloaded()
 	{
 		
@@ -122,9 +147,22 @@ public abstract class GraphicsObject<R, M extends GraphicalMap>
 		return representedObject;
 	}
 	
+	/**
+	 * Changes the represented object.
+	 * @param newObject The new object to represent.
+	 */
 	public final void setRepresentedObject(R newObject)
 	{
 		getOwner().updateReferencedObject(representedObject, newObject);
 		representedObject = newObject;
+		onRepresentedObjectChanged();
+	}
+	
+	/**
+	 * Called when the represented object changes.
+	 */
+	protected void onRepresentedObjectChanged()
+	{
+		
 	}
 }
