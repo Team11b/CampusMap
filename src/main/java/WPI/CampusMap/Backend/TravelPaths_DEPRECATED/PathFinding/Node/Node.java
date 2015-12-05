@@ -29,6 +29,8 @@ public class Node {
 	 * 
 	 * @param point
 	 *            Point to base this Node on
+	 * @param goal
+	 *            The end point of the pathfinding
 	 * @param parent
 	 *            Parent Node
 	 */

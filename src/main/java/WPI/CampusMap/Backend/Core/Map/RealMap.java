@@ -3,7 +3,6 @@ package WPI.CampusMap.Backend.Core.Map;
 import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -12,9 +11,7 @@ import javax.swing.ImageIcon;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
-import WPI.CampusMap.Backend.Core.Point.Point;
 import WPI.CampusMap.Backend.Core.Point.RealPoint;
-import WPI.CampusMap.Recording.Serialization.OLSSerializer;
 
 public class RealMap implements IMap, java.io.Serializable {
 

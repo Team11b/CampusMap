@@ -2,31 +2,43 @@ package WPI.CampusMap.Backend.Core.Map;
 
 import java.util.HashMap;
 
-import WPI.CampusMap.Recording.Serialization.OLSSerializer;
-
 public class AllMaps {
+    private static volatile AllMaps instance;
 	private static HashMap<String, IMap> allMaps = new HashMap<String, IMap>();
 	
-	public static void clearAllMaps() {
-		AllMaps.allMaps.clear();
+	private AllMaps(){}
+	
+	public static AllMaps getInstance(){
+		if(instance == null){
+            synchronized (AllMaps.class){
+            	if(instance == null){
+        			instance = new AllMaps();
+            	}
+            }
+		}
+		return instance;
 	}
 	
-	public static HashMap<String, IMap> getAllMaps() {
+	public void clearAllMaps() {
+		allMaps.clear();
+	}
+	
+	public HashMap<String, IMap> getAllMaps() {
 		return allMaps;
 	}
 
-	public static void setAllMaps(HashMap<String, IMap> allMaps) {
+	public void setAllMaps(HashMap<String, IMap> allMaps) {
 		AllMaps.allMaps = allMaps;
 	}
 
-	public static IMap getMap(String mapKey) {
+	public IMap getMap(String mapKey) {
 //		if (!(AllMaps.allMaps.containsKey(mapKey))) {
 //			OLSSerializer.read(mapKey);
 //		}
 		return AllMaps.allMaps.get(mapKey);
 	}
 
-	public static boolean addMap(IMap mapValue) {
+	public boolean addMap(IMap mapValue) {
 		if ((AllMaps.allMaps.containsKey(mapValue.getName()))) {
 			return false;
 		}

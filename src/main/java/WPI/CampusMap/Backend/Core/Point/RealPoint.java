@@ -7,7 +7,6 @@ import java.util.UUID;
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Map.IMap;
-import WPI.CampusMap.Backend.Core.Map.Map;
 import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.AStar.Frontier;
 import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.Node.Node;
 
@@ -146,7 +145,7 @@ public class RealPoint implements IPoint,java.io.Serializable {
 	@Override
 	public void setId(String id) {
 		// TODO Add check to see if id already exists?
-		IMap map = AllMaps.getMap(getMap());
+		IMap map = AllMaps.getInstance().getMap(getMap());
 		if(map != null)
 		{
 			map.renamePoint(this, id);
@@ -184,7 +183,7 @@ public class RealPoint implements IPoint,java.io.Serializable {
 	 * 
 	 * @param whitelist whitelist of valid floors
 	 * 
-	 * @return 
+	 * @return The list of only neighbors that exists on the specifies maps
 	 */
 	@Override
 	public ArrayList<IPoint> getValidNeighbors(ArrayList<String> whitelist) {

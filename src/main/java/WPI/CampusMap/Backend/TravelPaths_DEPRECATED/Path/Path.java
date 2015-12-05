@@ -35,6 +35,8 @@ public class Path {
 
 	/**
 	 * Constructor with no previous Nodes
+	 * 
+	 * @param pathScale The scale of the path
 	 */
 	public Path(float pathScale) {
 		setScale(pathScale);

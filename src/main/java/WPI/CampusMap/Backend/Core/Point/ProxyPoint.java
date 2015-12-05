@@ -25,7 +25,7 @@ public class ProxyPoint implements IPoint {
 
 	private void load(){
 		if(realPoint == null){
-			IMap temp = AllMaps.getMap(mapName);
+			IMap temp = AllMaps.getInstance().getMap(mapName);
 			if(temp != null){
 				realPoint = (RealPoint) temp.getPoint(pointName);
 			}
@@ -131,7 +131,7 @@ public class ProxyPoint implements IPoint {
 	@Override
 	public boolean exists() {
 		load();
-		return realPoint == null;
+		return realPoint != null;
 	}
 
 }
