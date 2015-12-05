@@ -6,11 +6,11 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import WPI.CampusMap.Backend.Coord;
-import WPI.CampusMap.Backend.Point.Point;
-import WPI.CampusMap.PathPlanning.Node;
-import WPI.CampusMap.PathPlanning.AStar.Heuristic;
-import WPI.CampusMap.Weather.Wunderground;
+import WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Weather.WeatherAnalysis;
+import WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Weather.Wunderground;
+import WPI.CampusMap.Backend.Core.Coordinate.Coord;
+import WPI.CampusMap.Backend.Core.Point.Point;
+import WPI.CampusMap.Backend.TravelPaths.PathFinding.Node.Node;
 
 public class WeatherHeuristicTest {
 	public static Wunderground weather;
@@ -26,7 +26,7 @@ public class WeatherHeuristicTest {
 	@Test
 	public void weatherScore() {
 		System.out.println(weather);
-		assertEquals(Heuristic.getWeatherScore(), -100.0, 0.1);
+		assertEquals(WeatherAnalysis.getWeatherScore(), -100.0, 0.1);
 	}
 	
 	@Ignore

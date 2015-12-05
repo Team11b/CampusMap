@@ -13,8 +13,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import WPI.CampusMap.Backend.Map.Map;
-import WPI.CampusMap.Backend.Point.Point;
+import WPI.CampusMap.Backend.Core.Map.Map;
+import WPI.CampusMap.Backend.Core.Point.Point;
 
 public class XMLParseTest {
 

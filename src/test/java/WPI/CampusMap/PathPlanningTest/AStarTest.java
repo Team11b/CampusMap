@@ -11,15 +11,15 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import WPI.CampusMap.Backend.ConnectionPoint;
-import WPI.CampusMap.Backend.Coord;
-import WPI.CampusMap.Backend.Map.Map;
-import WPI.CampusMap.Backend.Point.Point;
-import WPI.CampusMap.PathPlanning.MultiPath;
-import WPI.CampusMap.PathPlanning.Node;
-import WPI.CampusMap.PathPlanning.Path;
-import WPI.CampusMap.PathPlanning.AStar.AStar;
-import WPI.CampusMap.Serialization.Serializer;
+import WPI.CampusMap.Backend.Core.Coordinate.Coord;
+import WPI.CampusMap.Backend.Core.Map.Map;
+import WPI.CampusMap.Backend.Core.Point.ConnectionPoint;
+import WPI.CampusMap.Backend.Core.Point.Point;
+import WPI.CampusMap.Backend.TravelPaths.Path.MultiPath;
+import WPI.CampusMap.Backend.TravelPaths.Path.Path;
+import WPI.CampusMap.Backend.TravelPaths.PathFinding.AStar.AStar;
+import WPI.CampusMap.Backend.TravelPaths.PathFinding.Node.Node;
+import WPI.CampusMap.Recording.Serialization.Serializer;
 
 public class AStarTest {
 	static Map testMap, testMap2, testMap5, testMap6;
