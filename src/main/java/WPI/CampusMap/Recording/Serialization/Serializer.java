@@ -1,6 +1,7 @@
 package WPI.CampusMap.Recording.Serialization;
 
 import WPI.CampusMap.Backend.Core.Map.ProxyMap;
+import WPI.CampusMap.Backend.Core.Map.RealMap;
 
 public class Serializer {
 	
@@ -28,7 +29,7 @@ public class Serializer {
 	 * @param mapName name of the map to load
 	 * @return a RealMap which represents mapName
 	 */
-	public static ProxyMap realLoad(String mapName) {
+	public static RealMap realLoad(String mapName) {
 		throw new UnsupportedOperationException("Real load not yet implemented.");
 	}
 
