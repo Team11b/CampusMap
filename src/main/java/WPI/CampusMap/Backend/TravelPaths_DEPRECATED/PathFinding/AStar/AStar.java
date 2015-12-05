@@ -3,6 +3,7 @@ package WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.AStar;
 import java.util.LinkedList;
 
 import WPI.CampusMap.Backend.Core.Point.Point;
+import WPI.CampusMap.Backend.Core.Point.RealPoint;
 import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Path.MultiPath;
 import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Path.Path;
 import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.Node.Node;
@@ -104,7 +105,7 @@ public class AStar {
 	 *            the goal Point located on goalMap
 	 * @return a Path which spans multiple maps
 	 */
-	public static MultiPath multi_AStar(Point start, Point goal) 
+	public static MultiPath multi_AStar(RealPoint start, RealPoint goal) 
 	{
 		Frontier frontier = new Frontier();
 		

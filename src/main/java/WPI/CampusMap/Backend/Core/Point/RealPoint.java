@@ -229,6 +229,10 @@ public class RealPoint implements IPoint,java.io.Serializable {
 		return true;
 	}
 	
+	public double distance(RealPoint other) {
+		return this.getCoord().distance(other.getCoord());
+	}
+	
 	@Override
 	public String getMap() {
 		return map;
