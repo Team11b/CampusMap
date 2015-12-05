@@ -7,10 +7,17 @@ public class Serializer {
 	
 	/**
 	 * Saves the ProxyMap to a serial file
-	 * Also saves the corresponding RealMap to a serial file
 	 * @param tosave ProxyMap to save
 	 */
 	public static void save(ProxyMap tosave) {
+		throw new UnsupportedOperationException("Save not yet implemented.");
+	}
+	
+	/**
+	 * Saves the RealMap to a serial file
+	 * @param tosave RealMap to save
+	 */
+	public static void save(RealMap tosave) {
 		throw new UnsupportedOperationException("Save not yet implemented.");
 	}
 	
