@@ -86,11 +86,15 @@ public class RealPoint implements IPoint,java.io.Serializable {
 	 * 
 	 * @param other
 	 *            The other point to get the distance too.
-	 * @return The distance to the other point.
+	 * @return The distance to the other point or -1 if on different maps.
 	 */
 	@Override
 	public double distance(IPoint other) {
-		return this.getCoord().distance(other.getCoord());
+		if(other.getMap().equals(this.getMap())){
+			return this.getCoord().distance(other.getCoord());
+		}else{
+			return -1;
+		}
 	}
 
 	/**
