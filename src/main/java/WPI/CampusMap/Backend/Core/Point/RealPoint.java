@@ -66,7 +66,11 @@ public class RealPoint implements IPoint,java.io.Serializable {
 		ArrayList<String> temp = new ArrayList<String>(); 
 		for(IPoint neighbor: neighbors.values()){
 			if(neighbor.exists()){
-				temp.add(neighbor.getId());
+				if(neighbor.getMap() == this.getMap()){
+					temp.add(neighbor.getId());
+				}else{
+					temp.add(neighbor.getMap() + "/" + neighbor.getId());
+				}
 			}else{
 				neighbors.remove(neighbor.getId());
 			}
