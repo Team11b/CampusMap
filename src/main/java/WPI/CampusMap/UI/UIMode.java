@@ -24,16 +24,23 @@ public class UIMode {
 	}	
 	
 	public void switchCurrentMode(){
+		onModeLoad(); 
 		if(currentMode.equals(USER_MODE)){
 			currentMode = DEV_MODE;
-			DevMode.getInstance().onDevModeEntered();
-			//Calls button wrapper
+			DevMode.getInstance().onDevModeEntered();			
 		}			
 		else{
 			currentMode = USER_MODE;
-			UserMode.getInstance().onUserModeEntered();
-			//Calls button wrapper
+			
 		}
+	}
+	
+	public void setWindowText(String theText){
+		//set window text, don't call from not usermode or devmode classes
+	}
+	
+	private void onModeLoad(){
+		//reintialize code that move modes need reinitializing
 	}
 
 }
