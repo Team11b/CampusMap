@@ -1,5 +1,6 @@
 package WPI.CampusMap.SerializationTest;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
@@ -8,7 +9,6 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -30,12 +30,12 @@ public class SerializationTest {
 	public static void setup() {
 		AllMaps.getInstance().clearAllMaps();
 		pm = new ProxyMap("testmap");
-		pm.addPoint(new RealPoint(new Coord(1.0, 0.0), RealPoint.HALLWAY, "1", pm.getName()));
+		pm.addPoint(new RealPoint(new Coord(1.0, 0.0), RealPoint.ELEVATOR, "1", pm.getName()));
 		
 		AllMaps.getInstance().addMap(pm);
 
 		connected = new ProxyMap("this_is_connected");
-		connected.addPoint(new RealPoint(new Coord(1.0, 0.0), RealPoint.HALLWAY, "1", connected.getName()));
+		connected.addPoint(new RealPoint(new Coord(1.0, 0.0), RealPoint.ELEVATOR, "1", connected.getName()));
 		connected.addPoint(new RealPoint(new Coord(1.0, 1.0), RealPoint.HALLWAY, "2", connected.getName()));
 
 		AllMaps.getInstance().addMap(connected);
@@ -115,20 +115,24 @@ public class SerializationTest {
 		newRPm.validatePoints();
 		newRCon.validatePoints();
 		
-		System.out.println(newPm.getAllPoints().length);
-		System.out.println(pm.getAllPoints().length);
+		System.out.println(newPm.getAllPoints().size());
+		System.out.println(pm.getAllPoints().size());
 		
-		assertTrue(Arrays.equals(newPm.getAllPoints(),pm.getAllPoints()));
-		assertTrue(Arrays.equals(newCon.getAllPoints(),connected.getAllPoints()));
+		assertTrue(newPm.getAllPoints().equals(pm.getAllPoints()));
+		assertTrue(newCon.getAllPoints().equals(connected.getAllPoints()));
 		
-		assertTrue(newPm.getAllPoints()[0].getNeighborsP().equals(pm.getAllPoints()[0].getNeighborsP()));
-		assertTrue(newCon.getAllPoints()[0].getNeighborsP().equals(connected.getAllPoints()[0].getNeighborsP()));
+		assertTrue(newPm.getPoint("1").getNeighborsP().equals(pm.getPoint("1").getNeighborsP()));
+		assertTrue(newCon.getPoint("1").getNeighborsP().equals(connected.getPoint("1").getNeighborsP()));
 		
-		assertTrue(Arrays.equals(newPm.getAllPoints(),newRPm.getAllPoints()));
-		assertTrue(Arrays.equals(newCon.getAllPoints(),newRCon.getAllPoints()));
+		assertTrue(newPm.getAllPoints().equals(newRPm.getAllPoints()));
+		assertTrue(newCon.getAllPoints().equals(newRCon.getAllPoints()));
 		
-		assertTrue(newPm.getAllPoints()[0].getNeighborsP().equals(newRPm.getAllPoints()[0].getNeighborsP()));
-		assertTrue(newCon.getAllPoints()[0].getNeighborsP().equals(newRCon.getAllPoints()[0].getNeighborsP()));
+		assertTrue(newPm.getPoint("1").getNeighborsP().equals(newRPm.getPoint("1").getNeighborsP()));
+		assertTrue(newCon.getPoint("1").getNeighborsP().equals(newRCon.getPoint("1").getNeighborsP()));
+
+		assertEquals(newPm.getPoint("1").getType(), RealPoint.ELEVATOR);
+		assertEquals(newCon.getPoint("1").getType(), RealPoint.ELEVATOR);
+		assertEquals(newCon.getPoint("2").getType(), RealPoint.HALLWAY);
 
 	}
 

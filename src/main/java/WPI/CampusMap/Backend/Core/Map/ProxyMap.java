@@ -1,6 +1,7 @@
 package WPI.CampusMap.Backend.Core.Map;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
@@ -113,7 +114,7 @@ public class ProxyMap implements IMap, Serializable {
 	}
 
 	@Override
-	public RealPoint[] getAllPoints() {
+	public ArrayList<RealPoint> getAllPoints() {
 		load();
 		return realMap.getAllPoints();
 	}
