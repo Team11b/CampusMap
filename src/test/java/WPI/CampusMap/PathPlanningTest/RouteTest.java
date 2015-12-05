@@ -19,7 +19,7 @@ import WPI.CampusMap.Backend.TravelPaths.Path.MultiPath;
 import WPI.CampusMap.Backend.TravelPaths.PathFinding.AStar.AStar;
 import WPI.CampusMap.Backend.TravelPaths.PathFinding.Node.Node;
 import WPI.CampusMap.Backend.TravelPaths.Route.Route;
-import WPI.CampusMap.Recording.Serialization.Serializer;
+import WPI.CampusMap.Recording.Serialization.OLSSerializer;
 
 public class RouteTest {
 	static Map testMap5, testMap6;
@@ -305,8 +305,8 @@ public class RouteTest {
 
 		testMap6.setAllPoints(allHM2);
 
-		Serializer.write(testMap5);
-		Serializer.write(testMap6);
+		OLSSerializer.write(testMap5);
+		OLSSerializer.write(testMap6);
 	}
 
 	@Ignore

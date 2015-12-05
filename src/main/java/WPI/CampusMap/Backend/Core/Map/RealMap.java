@@ -13,7 +13,7 @@ import javax.swing.ImageIcon;
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.Core.Point.Point;
-import WPI.CampusMap.Recording.Serialization.Serializer;
+import WPI.CampusMap.Recording.Serialization.OLSSerializer;
 
 public class RealMap implements IMap, java.io.Serializable {
 

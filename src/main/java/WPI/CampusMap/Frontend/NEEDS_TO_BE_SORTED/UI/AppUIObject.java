@@ -38,7 +38,7 @@ import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Dev.EditorToolMode;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.Dev.DevPointGraphicsObject;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.User.UserPathGraphicsObject;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.User.UserPointGraphicsObject;
-import WPI.CampusMap.Recording.Serialization.Serializer;
+import WPI.CampusMap.Recording.Serialization.OLSSerializer;
 
 public class AppUIObject {
 	private static AppUIObject instance;
@@ -631,7 +631,7 @@ public class AppUIObject {
 				btnRemoveEdge.setSelected(false);
 				btnEdgeMode.setSelected(false);
 				
-				Serializer.write(mapPanel.currentMap);
+				OLSSerializer.write(mapPanel.currentMap);
 				//XML.writePoints(mapPanel.currentMap);
 				lblScale.setText("Scale: " + mapPanel.currentMap.getScale() + " inches per ft");
 			}

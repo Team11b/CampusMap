@@ -16,7 +16,7 @@ import org.junit.Test;
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Map.Map;
 import WPI.CampusMap.Backend.Core.Point.Point;
-import WPI.CampusMap.Recording.Serialization.Serializer;
+import WPI.CampusMap.Recording.Serialization.OLSSerializer;
 
 public class SerializationTest {
 
@@ -36,9 +36,9 @@ public class SerializationTest {
 		assertTrue(tempM.addEdge(tempM.getPoint("PointThree"), tempM.getPoint("PointOne")));
 		assertTrue(tempM.addEdge(tempM.getPoint("PointThree"), tempM.getPoint("PointTwo")));
 
-		Serializer.write(tempM);
+		OLSSerializer.write(tempM);
 
-		Map temp2 = Serializer.read(tempM.getName());
+		Map temp2 = OLSSerializer.read(tempM.getName());
 
 		assertEquals(tempM.getPoint("PointOne"),temp2.getPoint("PointOne"));
 		assertEquals(tempM.getPoint("PointTwo"),temp2.getPoint("PointTwo"));

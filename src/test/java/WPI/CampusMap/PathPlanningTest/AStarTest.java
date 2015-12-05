@@ -19,7 +19,7 @@ import WPI.CampusMap.Backend.TravelPaths.Path.MultiPath;
 import WPI.CampusMap.Backend.TravelPaths.Path.Path;
 import WPI.CampusMap.Backend.TravelPaths.PathFinding.AStar.AStar;
 import WPI.CampusMap.Backend.TravelPaths.PathFinding.Node.Node;
-import WPI.CampusMap.Recording.Serialization.Serializer;
+import WPI.CampusMap.Recording.Serialization.OLSSerializer;
 
 public class AStarTest {
 	static Map testMap, testMap2, testMap5, testMap6;
@@ -28,8 +28,8 @@ public class AStarTest {
 	public static void getMap() throws XMLStreamException {
 		Map.clearAllMaps();
 		
-		testMap = Serializer.read("5x5Test");
-		testMap2 = Serializer.read("5x5Test2");
+		testMap = OLSSerializer.read("5x5Test");
+		testMap2 = OLSSerializer.read("5x5Test2");
 
 		setupMaps();
 	}
@@ -309,8 +309,8 @@ public class AStarTest {
 
 		testMap6.setAllPoints(allHM2);
 
-		Serializer.write(testMap5);
-		Serializer.write(testMap6);
+		OLSSerializer.write(testMap5);
+		OLSSerializer.write(testMap6);
 	}
 	@Ignore
 	@Test
