@@ -108,11 +108,21 @@ public class RealPoint implements IPoint,java.io.Serializable {
 
 	}
 
+	/**
+	 * Returns the id of the point
+	 * 
+	 * @return The id of the point
+	 */
 	@Override
 	public String getId() {
 		return id;
 	}
 
+	/**|
+	 * Sets the id of the point
+	 * 
+	 * @param The new id
+	 */
 	@Override
 	public void setId(String id) {
 		// TODO Add check to see if id already exists?
@@ -131,7 +141,12 @@ public class RealPoint implements IPoint,java.io.Serializable {
 		this.id = id;
 
 	}
-
+	
+	/**
+	 * Returns the list of neighboring points
+	 * 
+	 * @return the list of neighboring points
+	 */
 	@Override
 	public ArrayList<IPoint> getNeighborsP() {
 		ArrayList<IPoint> tempAL = new ArrayList<IPoint>(neighbors.values());
@@ -144,6 +159,13 @@ public class RealPoint implements IPoint,java.io.Serializable {
 
 	}
 
+	/**
+	 * Returns all the valid nieghbors of the point
+	 * 
+	 * @param whitelist whitelist of valid floors
+	 * 
+	 * @return 
+	 */
 	@Override
 	public ArrayList<IPoint> getValidNeighbors(ArrayList<String> whitelist) {
 		//TODO check white list when returning neighbors
