@@ -66,7 +66,7 @@ public abstract class GraphicsObject<R, M extends GraphicalMap>
 	/**
 	 * Called when the graphics object is removed from its owner.
 	 */
-	public void onRemoved()
+	public void onDeleted()
 	{
 		
 	}

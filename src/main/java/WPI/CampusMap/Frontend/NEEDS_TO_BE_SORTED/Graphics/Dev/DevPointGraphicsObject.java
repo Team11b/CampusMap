@@ -137,7 +137,7 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 	}
 	
 	@Override
-	public void onRemoved() 
+	public void onDeleted() 
 	{
 		removeEdges();
 		Point ourPoint = getRepresentedObject();

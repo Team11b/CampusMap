@@ -39,7 +39,7 @@ public class UserPathGraphicsObject extends GraphicsObject<Path, UserGraphicalMa
 	}
 	
 	@Override
-	public void onRemoved()
+	public void onDeleted()
 	{
 		for(Iterator<TypedRef<UserPathGraphicsObject>> itr = pathObjects.iterator(); itr.hasNext();)
 		{

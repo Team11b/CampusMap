@@ -114,7 +114,7 @@ public abstract class GraphicalMap
 		synchronized (this)
 		{
 			graphicsObjectLookup.remove(go.getRepresentedObject());
-			go.onRemoved();
+			go.onDeleted();
 		}
 	}
 	
