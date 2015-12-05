@@ -15,6 +15,7 @@ import WPI.CampusMap.Recording.XML.XML;
  * @author Jacob Zizmor
  *
  */
+@Deprecated
 public class Converter {
 	public static String[] ignore = { "5x5Test.xml", "5x5Test2.xml", "AK.xml", "borked.xml", "testOutput.xml",
 			"borked.xml" };

@@ -19,18 +19,39 @@ public class Serializer {
 	public static final String fileType = ".ser";
 
 	/**
-	 * Saves the ProxyMap to a serial file Also saves the corresponding RealMap
-	 * to a serial file
+	 * Saves the ProxyMap to a serial file
 	 * 
 	 * @param tosave
 	 *            ProxyMap to save
 	 */
 	public static void save(ProxyMap tosave) {
-
-		// save proxy map
 		try {
 			FileOutputStream fileOut = new FileOutputStream(
 					Serializer.folderProxy + tosave.getName() + Serializer.fileType);
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+
+			out.writeObject(tosave);
+
+			out.close();
+			fileOut.close();
+		} catch (FileNotFoundException f) {
+			System.out.println("NOT SAVED");
+			f.printStackTrace();
+		} catch (IOException i) {
+			System.out.println("NOT SAVED");
+			i.printStackTrace();
+		}
+	}
+	
+	/**
+	 * Saves the RealMap to a serial file
+	 * 
+	 * @param tosave RealMap to save
+	 */
+	public static void save(RealMap tosave) {
+		try {
+			FileOutputStream fileOut = new FileOutputStream(
+					Serializer.folderReal + tosave.getName() + Serializer.fileType);
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 
 			out.writeObject(tosave);
