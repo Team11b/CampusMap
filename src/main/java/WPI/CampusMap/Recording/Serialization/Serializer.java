@@ -1,10 +1,13 @@
 package WPI.CampusMap.Recording.Serialization;
 
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
+import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Map.ProxyMap;
 
 public class Serializer {
@@ -32,11 +35,11 @@ public class Serializer {
 			fileOut.close();
 		}
 		catch (FileNotFoundException f) {
-			System.out.println("NOT SAVED. File cannot be created.");
+			System.out.println("NOT SAVED");
 			f.printStackTrace();
 		}
 		catch (IOException i) {
-			System.out.println("NOT SAVED.");
+			System.out.println("NOT SAVED");
 			i.printStackTrace();
 		}
 	}
@@ -48,7 +51,28 @@ public class Serializer {
 	 * @return a ProxyMap which represents mapName
 	 */
 	public static ProxyMap proxyLoad(String mapName) {
-		throw new UnsupportedOperationException("Proxy load not yet implemented.");
+		try {
+			ProxyMap pm;
+			FileInputStream fileIn = new FileInputStream(Serializer.folderProxy + mapName + Serializer.fileType);
+			ObjectInputStream in = new ObjectInputStream(fileIn);
+			
+			pm = (ProxyMap) in.readObject();
+			
+			in.close();
+			fileIn.close();
+			
+			AllMaps.addMap(pm);
+			return pm;
+		}
+		catch (FileNotFoundException f) {
+			System.out.println("NOT LOADED");
+			f.printStackTrace();
+		} catch (IOException i) {
+			i.printStackTrace();
+		} catch (ClassNotFoundException c) {
+			c.printStackTrace();
+		}
+		return null;
 	}
 	
 	/**
