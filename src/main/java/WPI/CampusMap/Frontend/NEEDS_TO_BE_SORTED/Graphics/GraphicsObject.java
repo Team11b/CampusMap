@@ -71,6 +71,11 @@ public abstract class GraphicsObject<R, M extends GraphicalMap>
 		
 	}
 	
+	public void onUnloaded()
+	{
+		
+	}
+	
 	/**
 	 * Called when the mouse hovers over this object.
 	 * @param e The mouse event when the mouse started hovering over this object.
