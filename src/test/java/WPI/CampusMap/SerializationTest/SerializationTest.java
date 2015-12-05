@@ -29,13 +29,13 @@ public class SerializationTest {
 
 	@BeforeClass
 	public static void setup() {
-		AllMaps.clearAllMaps();
-		pm = new ProxyMap();
+		AllMaps.getInstance().clearAllMaps();
+		pm = new ProxyMap("testmap");
 	}
 
 	@AfterClass
 	public static void cleanup() {
-		AllMaps.clearAllMaps();
+		AllMaps.getInstance().clearAllMaps();
 	}
 
 	@Test

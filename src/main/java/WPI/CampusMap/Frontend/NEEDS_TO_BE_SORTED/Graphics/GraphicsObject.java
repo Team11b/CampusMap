@@ -37,14 +37,6 @@ public abstract class GraphicsObject<R, M extends GraphicalMap>
 		getOwner().deleteGraphicalObject(this);
 	}
 	
-	protected void finalizeDelelte()
-	{
-		setCleanedUp(true);
-		Ref ref = Ref.getRefTo(this);
-		if(ref != null)
-			ref.releaseAll();
-	}
-	
 	/**
 	 * This number determines what drawing batch to draw this object in. Lower numbers are earlier.
 	 * @return The drawing batch to draw this object in.
@@ -127,17 +119,7 @@ public abstract class GraphicsObject<R, M extends GraphicalMap>
 	
 	public final void setRepresentedObject(R newObject)
 	{
-		System.out.println("hello: "+representedObject);
 		getOwner().updateReferencedObject(representedObject, newObject);
 		representedObject = newObject;
 	}
-
-	public boolean isCleanedUp() {
-		return cleanedUp;
-	}
-
-	public void setCleanedUp(boolean cleanedUp) {
-		this.cleanedUp = cleanedUp;
-	}
-	
 }

@@ -10,8 +10,8 @@ import java.util.LinkedList;
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Point.Point;
 import WPI.CampusMap.Backend.Core.Ref.TypedRef;
-import WPI.CampusMap.Backend.TravelPaths.Path.Path;
-import WPI.CampusMap.Backend.TravelPaths.PathFinding.Node.Node;
+import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Path.Path;
+import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.Node.Node;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicsObject;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.RealMouseEvent;
 

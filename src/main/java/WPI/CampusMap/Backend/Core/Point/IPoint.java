@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.ArrayList;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
-import WPI.CampusMap.Backend.TravelPaths.PathFinding.AStar.Frontier;
-import WPI.CampusMap.Backend.TravelPaths.PathFinding.Node.Node;
+import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.AStar.Frontier;
+import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.Node.Node;
 
 public interface IPoint extends Serializable {
 	public double distance(IPoint other);
@@ -24,4 +24,5 @@ public interface IPoint extends Serializable {
 	public boolean addNeighbor(IPoint point);
 	public String getMap();
 	public String toString();
+	public boolean exists();
 }

@@ -1,4 +1,4 @@
-package WPI.CampusMap.Backend.TravelPaths.PathFinding.Node;
+package WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.Node;
 
 import WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Weather.WeatherAnalysis;
 import WPI.CampusMap.Backend.Core.Map.Map;
@@ -29,6 +29,8 @@ public class Node {
 	 * 
 	 * @param point
 	 *            Point to base this Node on
+	 * @param goal
+	 *            The end point of the pathfinding
 	 * @param parent
 	 *            Parent Node
 	 */

@@ -31,9 +31,9 @@ import javax.swing.text.StyledDocument;
 import javax.xml.stream.XMLStreamException;
 
 import WPI.CampusMap.Backend.Core.Point.Point;
-import WPI.CampusMap.Backend.TravelPaths.Path.MultiPath;
-import WPI.CampusMap.Backend.TravelPaths.Route.Instruction;
-import WPI.CampusMap.Backend.TravelPaths.Route.Route;
+import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Path.MultiPath;
+import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Route.Instruction;
+import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Route.Route;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Dev.EditorToolMode;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.Dev.DevPointGraphicsObject;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.User.UserPathGraphicsObject;

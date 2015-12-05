@@ -15,10 +15,10 @@ import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Map.Map;
 import WPI.CampusMap.Backend.Core.Point.ConnectionPoint;
 import WPI.CampusMap.Backend.Core.Point.Point;
-import WPI.CampusMap.Backend.TravelPaths.Path.MultiPath;
-import WPI.CampusMap.Backend.TravelPaths.Path.Path;
-import WPI.CampusMap.Backend.TravelPaths.PathFinding.AStar.AStar;
-import WPI.CampusMap.Backend.TravelPaths.PathFinding.Node.Node;
+import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Path.MultiPath;
+import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Path.Path;
+import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.AStar.AStar;
+import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.Node.Node;
 import WPI.CampusMap.Recording.Serialization.OLSSerializer;
 
 public class AStarTest {

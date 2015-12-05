@@ -10,8 +10,9 @@ import WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Weather.Weather
 import WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Weather.Wunderground;
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Point.Point;
-import WPI.CampusMap.Backend.TravelPaths.PathFinding.Node.Node;
+import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.Node.Node;
 
+@Ignore
 public class WeatherHeuristicTest {
 	public static Wunderground weather;
 
