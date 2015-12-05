@@ -13,13 +13,14 @@ import WPI.CampusMap.Backend.Core.Map.Map;
  * @author Jacob Zizmor
  *
  */
-public class Serializer {
+@Deprecated
+public class OLSSerializer {
 	private static final String folder = "serialized/";
 	private static final String fileType = ".ser";
 
 	public static boolean write(Map amap) {
 		try {
-			FileOutputStream fileOut = new FileOutputStream(Serializer.folder + amap.getName() + Serializer.fileType);
+			FileOutputStream fileOut = new FileOutputStream(OLSSerializer.folder + amap.getName() + OLSSerializer.fileType);
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 
 			out.writeObject(amap);
@@ -37,7 +38,7 @@ public class Serializer {
 	public static Map read(String mapName) {
 		try {
 			Map m = null;
-			FileInputStream fileIn = new FileInputStream(Serializer.folder + mapName + Serializer.fileType);
+			FileInputStream fileIn = new FileInputStream(OLSSerializer.folder + mapName + OLSSerializer.fileType);
 			ObjectInputStream in = new ObjectInputStream(fileIn);
 
 			m = (Map) in.readObject();

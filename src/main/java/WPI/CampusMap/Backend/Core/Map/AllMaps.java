@@ -2,7 +2,7 @@ package WPI.CampusMap.Backend.Core.Map;
 
 import java.util.HashMap;
 
-import WPI.CampusMap.Recording.Serialization.Serializer;
+import WPI.CampusMap.Recording.Serialization.OLSSerializer;
 
 public class AllMaps {
 	private static HashMap<String, IMap> allMaps = new HashMap<String, IMap>();
@@ -21,7 +21,7 @@ public class AllMaps {
 
 	public static IMap getMap(String mapKey) {
 		if (!(AllMaps.allMaps.containsKey(mapKey))) {
-			Serializer.read(mapKey);
+			OLSSerializer.read(mapKey);
 		}
 		return AllMaps.allMaps.get(mapKey);
 	}

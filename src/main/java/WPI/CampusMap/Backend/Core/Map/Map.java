@@ -13,7 +13,7 @@ import javax.xml.stream.XMLStreamException;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Point.Point;
-import WPI.CampusMap.Recording.Serialization.Serializer;
+import WPI.CampusMap.Recording.Serialization.OLSSerializer;
 
 /**
  * Represents a single map/area.
@@ -52,7 +52,7 @@ public class Map implements java.io.Serializable {
 		this.xml = "XML/" + this.name + ".xml";
 		this.allPoints = new HashMap<String, Point>();
 
-		Map testMap = Serializer.read(name);
+		Map testMap = OLSSerializer.read(name);
 		if (testMap != null) {
 			setScale(testMap.getScale());
 			setAllPoints(testMap.getAllPoints());
@@ -225,7 +225,7 @@ public class Map implements java.io.Serializable {
 
 	public static Map getMap(String mapKey) {
 		if (!(Map.allMaps.containsKey(mapKey))) {
-			Serializer.read(mapKey);
+			OLSSerializer.read(mapKey);
 		}
 		return Map.allMaps.get(mapKey);
 	}
