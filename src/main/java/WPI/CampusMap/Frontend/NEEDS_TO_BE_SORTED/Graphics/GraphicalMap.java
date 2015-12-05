@@ -49,13 +49,19 @@ public abstract class GraphicalMap
 	
 	public GraphicsObject<?, ?>[] getObjects()
 	{
-		GraphicsObject<?, ?>[] objs = new GraphicsObject<?, ?>[batchList.size()];
-		return batchList.toArray(objs);
+		synchronized (this)
+		{
+			GraphicsObject<?, ?>[] objs = new GraphicsObject<?, ?>[graphicsObjectLookup.size()];
+			return graphicsObjectLookup.values().toArray(objs);
+		}
 	}
 	
 	public GraphicsObject<?, ?> getObject(Object representedObject)
 	{
-		return graphicsObjectLookup.get(representedObject);
+		synchronized (this)
+		{
+			return graphicsObjectLookup.get(representedObject);
+		}
 	}
 	
 	public final void onDraw(Graphics2D graphics)
@@ -68,41 +74,48 @@ public abstract class GraphicalMap
 
 		if (map == null)
 			return;
-
-		graphics.setColor(Color.white);
-		graphics.drawImage(map.getLoadedImage().getImage(), 0, 0, panel.getWidth(), panel.getHeight(), null);
 		
-		batchList.sort(new GraphicsBatchComparator());
-		for(int i = 0; i < batchList.size(); i++)
+		synchronized (this)
 		{
-			GraphicsObject<?, ?> go = batchList.get(i);
-			if(go.isDelelted())
+			graphics.setColor(Color.white);
+			graphics.drawImage(map.getLoadedImage().getImage(), 0, 0, panel.getWidth(), panel.getHeight(), null);
+			
+			batchList.sort(new GraphicsBatchComparator());
+			for(int i = 0; i < batchList.size(); i++)
 			{
-				batchList.remove(i);
-				go.delete();
-				go.finalizeDelelte();
-				go.onRemoved();
-				
-				i--;
-			}
-			else
-			{
-				graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, go.getAlpha()));
-				graphics.setColor(go.getColor());
-				go.onDraw(graphics);
+				GraphicsObject<?, ?> go = batchList.get(i);
+				if(go.isDelelted())
+				{
+					batchList.remove(i);
+					
+					i--;
+				}
+				else
+				{
+					graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, go.getAlpha()));
+					graphics.setColor(go.getColor());
+					go.onDraw(graphics);
+				}
 			}
 		}
 	}
 	
 	protected void addGraphicalObject(GraphicsObject<?, ?> go)
 	{
-		batchList.add(0, go);
-		graphicsObjectLookup.put(go.getRepresentedObject(), go);
+		synchronized (this)
+		{
+			batchList.add(0, go);
+			graphicsObjectLookup.put(go.getRepresentedObject(), go);
+		}
 	}
 	
 	protected void deleteGraphicalObject(GraphicsObject<?, ?> go)
 	{
-		graphicsObjectLookup.remove(go.getRepresentedObject());
+		synchronized (this)
+		{
+			graphicsObjectLookup.remove(go.getRepresentedObject());
+			go.onRemoved();
+		}
 	}
 	
 	/**
@@ -115,49 +128,52 @@ public abstract class GraphicalMap
 	{
 	}
 	
+	public final GraphicsObject<?, ?> getHoverObject()
+	{
+		return over;
+	}
+	
 	/**
 	 * Called when the mouse moves over the graphics map.
 	 * @param e The mouse movement event.
 	 */
 	public final void mouseMove(MouseEvent e)
 	{
-		RealMouseEvent re = transformMouseEvent(e);
-		if(onMouseMove(re))
-			return;
-		
-		GraphicsObject<?, ?> lastOver = over;
-		
-		for(int i = batchList.size() - 1; i >= 0; i--)
+		synchronized (this)
 		{
-			GraphicsObject<?, ?> go = batchList.get(i);
-			if(go.isMouseOver(re))
-			{
-				over = go;
-				if(lastOver == over)
-				{
-					over.onMouseMove(re);
-				}
-				else if(lastOver != over)
-				{
-					if(lastOver != null)
-						lastOver.onMouseLeave(re);
-					over.onMouseOver(re);
-				}
-				
+			RealMouseEvent re = transformMouseEvent(e);
+			if(onMouseMove(re))
 				return;
+			
+			GraphicsObject<?, ?> lastOver = over;
+			
+			for(int i = batchList.size() - 1; i >= 0; i--)
+			{
+				GraphicsObject<?, ?> go = batchList.get(i);
+				if(go.isMouseOver(re))
+				{
+					over = go;
+					if(lastOver == over)
+					{
+						over.onMouseMove(re);
+					}
+					else if(lastOver != over)
+					{
+						if(lastOver != null)
+							lastOver.onMouseLeave(re);
+						over.onMouseOver(re);
+					}
+					
+					return;
+				}
+			}
+			
+			if(lastOver != null)
+			{
+				lastOver.onMouseLeave(re);
+				over = null;
 			}
 		}
-		
-		if(lastOver != null)
-		{
-			lastOver.onMouseLeave(re);
-			over = null;
-		}
-	}
-	
-	public final GraphicsObject<?, ?> getHoverObject()
-	{
-		return over;
 	}
 	
 	public boolean onMouseMove(RealMouseEvent re)
@@ -165,20 +181,23 @@ public abstract class GraphicalMap
 		return false;
 	}
 	
-	public void mouseEnter(MouseEvent e)
+	public final void mouseEnter(MouseEvent e)
 	{
 		//TODO: Implement
 	}
 	
 	public final void mouseExit(MouseEvent e)
 	{
-		RealMouseEvent re = transformMouseEvent(e);
-		if(onMouseExit(re))
-			return;
-		
-		if(over != null)
+		synchronized (this)
 		{
-			over.onMouseLeave(re);
+			RealMouseEvent re = transformMouseEvent(e);
+			if(onMouseExit(re))
+				return;
+			
+			if(over != null)
+			{
+				over.onMouseLeave(re);
+			}
 		}
 	}
 	
@@ -189,13 +208,16 @@ public abstract class GraphicalMap
 	
 	public final void mouseClick(MouseEvent e)
 	{
-		RealMouseEvent re = transformMouseEvent(e);
-		if(onMouseClick(re))
-			return;
-		
-		if(over != null)
+		synchronized (this)
 		{
-			over.onMouseClick(re);
+			RealMouseEvent re = transformMouseEvent(e);
+			if(onMouseClick(re))
+				return;
+			
+			if(over != null)
+			{
+				over.onMouseClick(re);
+			}
 		}
 	}
 	
@@ -206,13 +228,16 @@ public abstract class GraphicalMap
 	
 	public final void mouseDrag(MouseEvent e)
 	{
-		RealMouseEvent re = transformMouseEvent(e);
-		if(onMouseDrag(re))
-			return;
-		
-		if(over != null)
+		synchronized (this)
 		{
-			over.onMouseDrag(re);
+			RealMouseEvent re = transformMouseEvent(e);
+			if(onMouseDrag(re))
+				return;
+			
+			if(over != null)
+			{
+				over.onMouseDrag(re);
+			}	
 		}
 	}
 	
@@ -261,10 +286,13 @@ public abstract class GraphicalMap
 	
 	protected final void updateReferencedObject(Object oldReference, Object newReference)
 	{
-		GraphicsObject<?,?> gfxObj = graphicsObjectLookup.get(oldReference);
-		graphicsObjectLookup.remove(oldReference);
-		System.out.println("gfxObj: "+gfxObj);
-		graphicsObjectLookup.put(newReference, gfxObj);
+		synchronized (this)
+		{
+			GraphicsObject<?,?> gfxObj = graphicsObjectLookup.get(oldReference);
+			graphicsObjectLookup.remove(oldReference);
+			System.out.println("gfxObj: "+gfxObj);
+			graphicsObjectLookup.put(newReference, gfxObj);
+		}
 	}
 	
 	private final RealMouseEvent transformMouseEvent(MouseEvent e)
