@@ -1,4 +1,4 @@
-package WPI.CampusMap.Backend.TravelPaths.PathFinding.Node;
+package WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.Node;
 
 import WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Weather.WeatherAnalysis;
 import WPI.CampusMap.Backend.Core.Map.Map;

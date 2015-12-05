@@ -1,8 +1,8 @@
-package WPI.CampusMap.Backend.TravelPaths.PathFinding.AStar;
+package WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.AStar;
 
 import java.util.LinkedList;
 
-import WPI.CampusMap.Backend.TravelPaths.PathFinding.Node.Node;
+import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.Node.Node;
 
 /**
  * 

@@ -1,11 +1,11 @@
-package WPI.CampusMap.Backend.TravelPaths.Path;
+package WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Path;
 
 import java.util.ArrayList;
 import java.util.Collections;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Point.Point;
-import WPI.CampusMap.Backend.TravelPaths.PathFinding.Node.Node;
+import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.Node.Node;
 
 /**
  * 

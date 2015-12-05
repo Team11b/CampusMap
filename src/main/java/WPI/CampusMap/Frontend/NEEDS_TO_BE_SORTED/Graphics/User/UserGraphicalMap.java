@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import WPI.CampusMap.Backend.Core.Map.Map;
 import WPI.CampusMap.Backend.Core.Point.Point;
 import WPI.CampusMap.Backend.Core.Ref.Ref;
-import WPI.CampusMap.Backend.TravelPaths.Path.Path;
+import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Path.Path;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicalMap;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicsObject;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI.MapPanel;

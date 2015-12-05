@@ -3,8 +3,8 @@ package WPI.CampusMap.Backend.Core.Point;
 import java.util.ArrayList;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
-import WPI.CampusMap.Backend.TravelPaths.PathFinding.AStar.Frontier;
-import WPI.CampusMap.Backend.TravelPaths.PathFinding.Node.Node;
+import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.AStar.Frontier;
+import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.Node.Node;
 
 public class ProxyPoint implements IPoint {
 
