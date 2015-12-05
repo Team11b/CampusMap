@@ -6,7 +6,7 @@ import javax.swing.ImageIcon;
 
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 
-public interface IMap extends Serializable {
+public interface IMap {
 	public float getScale();
 	public void setScale(float f);
 	public String getName();

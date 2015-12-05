@@ -1,12 +1,15 @@
 package WPI.CampusMap.Backend.Core.Point;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.TravelPaths.PathFinding.AStar.Frontier;
 import WPI.CampusMap.Backend.TravelPaths.PathFinding.Node.Node;
 
-public class ProxyPoint implements IPoint {
+public class ProxyPoint implements IPoint, Serializable {
+
+	private static final long serialVersionUID = 5426983372569624985L;
 
 	@Override
 	public double distance(IPoint other) {

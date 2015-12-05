@@ -14,6 +14,7 @@ import WPI.CampusMap.Backend.TravelPaths.PathFinding.Node.Node;
  * @author Max Stenke
  *
  */
+@Deprecated
 public class Point implements java.io.Serializable {
 	/**
 	 * 

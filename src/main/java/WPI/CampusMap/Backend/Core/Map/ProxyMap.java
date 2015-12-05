@@ -1,10 +1,14 @@
 package WPI.CampusMap.Backend.Core.Map;
 
+import java.io.Serializable;
+
 import javax.swing.ImageIcon;
 
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 
-public class ProxyMap implements IMap {
+public class ProxyMap implements IMap, Serializable {
+
+	private static final long serialVersionUID = 4921953163121951580L;
 
 	@Override
 	public float getScale() {
@@ -21,7 +25,7 @@ public class ProxyMap implements IMap {
 	@Override
 	public String getName() {
 		// TODO Auto-generated method stub
-		return null;
+		return "test";
 	}
 
 	@Override

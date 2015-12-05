@@ -14,9 +14,9 @@ import WPI.CampusMap.Backend.Core.Map.RealMap;
 public class Serializer {
 
 	private static final String folder = "serialized/";
-	private static final String folderProxy = Serializer.folder + "proxy/";
-	private static final String folderReal = Serializer.folder + "real/";
-	private static final String fileType = ".ser";
+	public static final String folderProxy = Serializer.folder + "proxy/";
+	public static final String folderReal = Serializer.folder + "real/";
+	public static final String fileType = ".ser";
 
 	/**
 	 * Saves the ProxyMap to a serial file Also saves the corresponding RealMap
