@@ -1,10 +1,12 @@
 package WPI.CampusMap.Backend.Core.Map;
 
+import java.io.Serializable;
+
 import javax.swing.ImageIcon;
 
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 
-public interface IMap {
+public interface IMap extends Serializable {
 	public float getScale();
 	public void setScale(float f);
 	public String getName();

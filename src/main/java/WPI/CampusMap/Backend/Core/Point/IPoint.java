@@ -1,12 +1,13 @@
 package WPI.CampusMap.Backend.Core.Point;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.TravelPaths.PathFinding.AStar.Frontier;
 import WPI.CampusMap.Backend.TravelPaths.PathFinding.Node.Node;
 
-public interface IPoint {
+public interface IPoint extends Serializable {
 	public double distance(IPoint other);
 	public Coord getCoord();
 	public void setCoord(Coord coord);
