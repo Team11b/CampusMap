@@ -1,8 +1,18 @@
 package WPI.CampusMap.Recording.Serialization;
 
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectOutputStream;
+
 import WPI.CampusMap.Backend.Core.Map.ProxyMap;
 
 public class Serializer {
+	
+	private static final String folder = "serialized/";
+	private static final String folderProxy = Serializer.folder + "proxy/";
+	private static final String folderReal = Serializer.folder + "real/";
+	private static final String fileType = ".ser";
 	
 	/**
 	 * Saves the ProxyMap to a serial file
@@ -10,7 +20,25 @@ public class Serializer {
 	 * @param tosave ProxyMap to save
 	 */
 	public static void save(ProxyMap tosave) {
-		throw new UnsupportedOperationException("Save not yet implemented.");
+		
+		// save proxy map
+		try {
+			FileOutputStream fileOut = new FileOutputStream(Serializer.folderProxy + tosave.getName() + Serializer.fileType);
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+			
+			out.writeObject(tosave);
+			
+			out.close();
+			fileOut.close();
+		}
+		catch (FileNotFoundException f) {
+			System.out.println("NOT SAVED. File cannot be created.");
+			f.printStackTrace();
+		}
+		catch (IOException i) {
+			System.out.println("NOT SAVED.");
+			i.printStackTrace();
+		}
 	}
 	
 	/**
