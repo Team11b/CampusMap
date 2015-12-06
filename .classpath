@@ -24,5 +24,8 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="lib" path="src/main/java/WPI/CampusMap/Backend/AdditionalFeatures/InternetFeatures/Twitter/RequiredPackages/twitter4j-core-4.0.4.jar"/>
+	<classpathentry kind="lib" path="src/main/java/WPI/CampusMap/Backend/AdditionalFeatures/InternetFeatures/Twitter/RequiredPackages/signpost-core-1.2.1.2.jar"/>
+	<classpathentry kind="lib" path="src/main/java/WPI/CampusMap/Backend/AdditionalFeatures/InternetFeatures/Twitter/RequiredPackages/signpost-commonshttp4-1.2.1.2.jar"/>
+	<classpathentry kind="lib" path="src/main/java/WPI/CampusMap/Backend/AdditionalFeatures/InternetFeatures/Twitter/RequiredPackages/signpost-jetty6-1.2.1.2.jar"/>
 	<classpathentry kind="output" path="target/classes"/>
 </classpath>

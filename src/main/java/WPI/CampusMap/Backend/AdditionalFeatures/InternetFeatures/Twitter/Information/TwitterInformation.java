@@ -1,4 +1,4 @@
-package WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Twitter.RequiredPackages;
+package WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Twitter.Information;
 
 public class TwitterInformation {
 	private static final String publicKey = "FCK8MC0jOQza3FfE4zq8GPgsv";
