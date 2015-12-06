@@ -107,10 +107,10 @@ public class SerializationTest {
 		pm.save();
 		connected.save();
 		
-		//System.out.println(pm.getName());
+		System.out.println(pm.getName());
 		ProxyMap newPm = Serializer.proxyLoad(pm.getName());
 		ProxyMap newCon = Serializer.proxyLoad(connected.getName());
-		//System.out.println(newPm.getName());
+		System.out.println(newPm.getName());
 
 		RealMap newRPm = Serializer.realLoad(newPm.getName());
 		RealMap newRCon = Serializer.realLoad(newCon.getName());
