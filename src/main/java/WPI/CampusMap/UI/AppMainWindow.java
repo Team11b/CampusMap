@@ -23,9 +23,6 @@ import java.awt.SystemColor;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JPanel;
-import net.miginfocom.swing.MigLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
 
 public class AppMainWindow extends JFrame implements Runnable
 {
@@ -49,6 +46,22 @@ public class AppMainWindow extends JFrame implements Runnable
 		//setMinimumSize(new Dimension(600, 400));
 		setLocation(200, 200);
 		getContentPane().setLayout(new BorderLayout(0, 0));
+		
+		JSplitPane splitPane = new JSplitPane();
+		splitPane.setResizeWeight(1);
+		splitPane.setDividerSize(5);
+		getContentPane().add(splitPane, BorderLayout.CENTER);
+		
+		Panel infoArea = new Panel();
+		splitPane.setRightComponent(infoArea);
+		infoArea.setLayout(new BorderLayout(0, 0));
+		infoArea.setMinimumSize(new Dimension(300, 200));
+		
+		AppDevModeControl userPanel = new AppDevModeControl();
+		infoArea.add(userPanel, BorderLayout.CENTER);
+		
+		JPanel panel = new JPanel();
+		splitPane.setLeftComponent(panel);
 		
 		Panel bottomPane = new Panel();
 		getContentPane().add(bottomPane, BorderLayout.SOUTH);
@@ -117,25 +130,6 @@ public class AppMainWindow extends JFrame implements Runnable
 		
 		JCheckBoxMenuItem chckbxmntmDevMode = new JCheckBoxMenuItem("Dev Mode");
 		mnSettings.add(chckbxmntmDevMode);
-		
-		Panel mainArea = new Panel();
-		getContentPane().add(mainArea, BorderLayout.CENTER);
-		SpringLayout sl_mainArea = new SpringLayout();
-		mainArea.setLayout(sl_mainArea);
-		
-		Panel mapPanel = new Panel();
-		sl_mainArea.putConstraint(SpringLayout.NORTH, mapPanel, 0, SpringLayout.NORTH, mainArea);
-		sl_mainArea.putConstraint(SpringLayout.WEST, mapPanel, 0, SpringLayout.WEST, mainArea);
-		sl_mainArea.putConstraint(SpringLayout.SOUTH, mapPanel, 0, SpringLayout.SOUTH, mainArea);
-		sl_mainArea.putConstraint(SpringLayout.EAST, mapPanel, -300, SpringLayout.EAST, mainArea);
-		mainArea.add(mapPanel);
-		
-		AppDevModeControl sidePanel = new AppDevModeControl();
-		sl_mainArea.putConstraint(SpringLayout.NORTH, sidePanel, 0, SpringLayout.NORTH, mainArea);
-		sl_mainArea.putConstraint(SpringLayout.WEST, sidePanel, 0, SpringLayout.EAST, mapPanel);
-		sl_mainArea.putConstraint(SpringLayout.SOUTH, sidePanel, 0, SpringLayout.SOUTH, mainArea);
-		sl_mainArea.putConstraint(SpringLayout.EAST, sidePanel, 0, SpringLayout.EAST, mainArea);
-		mainArea.add(sidePanel);
 		
 		renderThread = new Thread(this, "Render Thread");
 		renderThread.start();
