@@ -1,7 +1,6 @@
 package WPI.CampusMap.Backend.Core.Map;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 import javax.swing.ImageIcon;
 

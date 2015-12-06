@@ -3,8 +3,6 @@ package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import WPI.CampusMap.Backend.Core.Ref.Ref;
-
 public abstract class GraphicsObject<R, M extends GraphicalMap>
 {
 	private M graphicsOwner;

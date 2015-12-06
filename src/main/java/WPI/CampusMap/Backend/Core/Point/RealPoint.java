@@ -8,7 +8,7 @@ import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Map.IMap;
 import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.AStar.Frontier;
-import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.Node.Node;
+import WPI.CampusMap.Backend.PathPlanning.Node;
 
 public class RealPoint implements IPoint,java.io.Serializable {
 
@@ -230,6 +230,10 @@ public class RealPoint implements IPoint,java.io.Serializable {
 			this.neighborList.add(point.getMap()+"/"+point.getId());
 		}
 		return true;
+	}
+	
+	public double distance(RealPoint other) {
+		return this.getCoord().distance(other.getCoord());
 	}
 	
 	@Override

@@ -1,13 +1,14 @@
 package WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Path;
 
-import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.LinkedList;
 import java.util.Set;
 
-import WPI.CampusMap.Backend.Core.Map.Map;
-import WPI.CampusMap.Backend.Core.Point.Point;
-import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.Node.Node;
+import WPI.CampusMap.Backend.Core.Map.AllMaps;
+import WPI.CampusMap.Backend.Core.Map.IMap;
+import WPI.CampusMap.Backend.Core.Point.RealPoint;
+import WPI.CampusMap.Backend.PathPlanning.Node;
+import WPI.CampusMap.Backend.PathPlanning.Path;
 
 /**
  * 
@@ -16,7 +17,6 @@ import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.Node.Node;
  */
 public class MultiPath
 {
-	@SuppressWarnings("unchecked")
 	public static MultiPath join(MultiPath a, MultiPath b)
 	{
 		MultiPath newMultiPath = new MultiPath();
@@ -25,7 +25,7 @@ public class MultiPath
 		{
 			Path newPath = new Path(path.getPathScale());
 			
-			newPath.setPath((ArrayList<Node>)path.getPath().clone());
+			newPath = path.clone();
 			
 			String mapName = newPath.getPath().get(0).getPoint().getMap();
 			newMultiPath.mp.add(newPath);
@@ -44,7 +44,7 @@ public class MultiPath
 		{
 			Path newPath = new Path(path.getPathScale());
 			
-			newPath.setPath((ArrayList<Node>)path.getPath().clone());
+			newPath = path.clone();
 			
 			String mapName = newPath.getPath().get(0).getPoint().getMap();
 			newMultiPath.mp.add(newPath);
@@ -85,7 +85,7 @@ public class MultiPath
 		this.mp = mp;
 	}
 	
-	public LinkedList<Path> getMapPath(Map map)
+	public LinkedList<Path> getMapPath(IMap map)
 	{
 		return getMapPath(map.getName());
 	}
@@ -121,12 +121,12 @@ public class MultiPath
 	
 	public void add(Node n)
 	{
-		Point p = n.getPoint();
+		RealPoint p = n.getPoint();
 		
 		Path path;
 		if(mp.size() == 0 || !mp.getLast().getMapName().equals(p.getMap()))
 		{
-			path = new Path(Map.getMap(p.getMap()).getScale());
+			path = new Path(AllMaps.getInstance().getMap(p.getMap()).getScale());
 			path.setMapName(p.getMap());
 			add(path);
 		}

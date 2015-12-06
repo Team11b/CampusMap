@@ -4,7 +4,7 @@ import java.text.DecimalFormat;
 import java.util.LinkedList;
 
 import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Path.MultiPath;
-import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Path.Path;
+import WPI.CampusMap.Backend.PathPlanning.Path;
 
 /**
  * 

@@ -9,23 +9,18 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.util.Arrays;
 
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
-import org.junit.Ignore;
 import org.junit.Test;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
-import WPI.CampusMap.Backend.Core.Map.Map;
 import WPI.CampusMap.Backend.Core.Map.ProxyMap;
 import WPI.CampusMap.Backend.Core.Map.RealMap;
-import WPI.CampusMap.Backend.Core.Point.Point;
 import WPI.CampusMap.Backend.Core.Point.RealPoint;
-import WPI.CampusMap.Recording.Serialization.OLSSerializer;
 import WPI.CampusMap.Recording.Serialization.Serializer;
 
 public class SerializationTest {
@@ -202,7 +197,6 @@ public class SerializationTest {
 			// File permission problems are caught here.
 			System.err.println(x);
 		}
-		
 	}
 
 }

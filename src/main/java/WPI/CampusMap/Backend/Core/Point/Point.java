@@ -140,14 +140,16 @@ public class Point implements java.io.Serializable {
 				System.out.println("R");
 			if(localPoint.getId().equals(goal.id) && localPoint.getMap().equals(goal.getMap()))
 				System.out.println("T");
-			Node newNode = new Node(localPoint, fromNode, goal);
-			frontier.addToFrontier(newNode);
+//			Node newNode = new Node(localPoint, fromNode, goal);
+//			frontier.addToFrontier(newNode);
 		}
 	}
 
 	/**
 	 * returns a list of all neighbors of this point which are valid locations a
 	 * valid location is any Point which does not have a type of wall
+	 * 
+	 * @param whitelist Names of maps allowed to be loaded
 	 * 
 	 * @return an array of any neighbor points which do not have a type wall
 	 */

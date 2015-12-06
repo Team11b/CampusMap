@@ -2,10 +2,10 @@ package WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.AStar;
 
 import java.util.LinkedList;
 
-import WPI.CampusMap.Backend.Core.Point.Point;
+import WPI.CampusMap.Backend.Core.Point.RealPoint;
 import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Path.MultiPath;
 import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Path.Path;
-import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.Node.Node;
+import WPI.CampusMap.Backend.PathPlanning.Node;
 
 /**
  * 
@@ -29,7 +29,7 @@ public class AStar {
 	// TODO This function should be able to replaced by _AStar, but that is not
 	// confirmed yet
 	@Deprecated
-	public static Path single_AStar(Point start, Point goal) {
+	public static Path single_AStar(RealPoint start, RealPoint goal) {
 		/*if (start.equals(goal)) {
 			Path returnPath = new Path(Map.getMap(start.getMap()).getScale());
 			Node tempNode = new Node(start, null);
@@ -104,11 +104,11 @@ public class AStar {
 	 *            the goal Point located on goalMap
 	 * @return a Path which spans multiple maps
 	 */
-	public static MultiPath multi_AStar(Point start, Point goal) 
+	public static MultiPath multi_AStar(RealPoint start, RealPoint goal) 
 	{
 		Frontier frontier = new Frontier();
 		
-		Node startNode = new Node(start, null, goal);
+		Node startNode = new Node(start);
 		frontier.addToVisited(startNode);
 		start.buildFrontier(frontier, startNode, goal);
 		
@@ -126,7 +126,7 @@ public class AStar {
 		if(front == null)
 			return null;
 		
-		LinkedList<Node> pathList = new LinkedList<>();
+		LinkedList<Node> pathList = new LinkedList<Node>();
 		for(Node node = front; node != null; node = node.getParent())
 		{
 			pathList.addFirst(node);

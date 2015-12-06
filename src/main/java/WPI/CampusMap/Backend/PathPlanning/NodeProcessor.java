@@ -1,6 +1,5 @@
 package WPI.CampusMap.Backend.PathPlanning;
 
-import org.jboss.resteasy.spi.NotImplementedYetException;
 
 /**
  * Base class for a piece of code that processes a node during path finding.
