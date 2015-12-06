@@ -1,19 +1,21 @@
-package WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Twitter.Learning.TwitterAPI;
+package WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Twitter.Learning;
+
+import java.util.List;
 
 import WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Twitter.Information.TwitterInformation;
+import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 
-public class HelloWorldTwitter4j {
+public class Timeline {
 	static String consumerKeyStr = TwitterInformation.getPublicKey();
 	static String consumerSecretStr = TwitterInformation.getPrivateKey();
 	static String accessTokenStr = TwitterInformation.getPublicAccessToken();
 	static String accessTokenSecretStr = TwitterInformation.getPrivateAccessToken();
 
 	public static void main(String[] args) {
-
 		try {
 			Twitter twitter = new TwitterFactory().getInstance();
 
@@ -22,9 +24,12 @@ public class HelloWorldTwitter4j {
 
 			twitter.setOAuthAccessToken(accessToken);
 
-			twitter.updateStatus("Post using Twitter4J!");
+			List<Status> statuses = twitter.getMentionsTimeline();
+			System.out.println("Showing home timeline.");
+			for (Status status : statuses) {
+				System.out.println(status.getUser().getName() + " : " + "#" + status.getHashtagEntities()[0].getText() + " #" + status.getHashtagEntities()[1].getText());
+			}
 
-			System.out.println("Successfully updated the status in Twitter.");
 		} catch (TwitterException te) {
 			te.printStackTrace();
 		}
