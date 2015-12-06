@@ -11,7 +11,7 @@ public class UserMode extends UIMode{
 	//Singleton
 	private static UserMode instance;
 	
-	private UserMode(){
+	public UserMode(){
 		this.instance = this;		
 	}
 	

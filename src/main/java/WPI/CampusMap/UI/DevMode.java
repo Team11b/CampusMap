@@ -24,7 +24,7 @@ public class DevMode extends UIMode {
 	public static final String EDGE_MODE = "edgemode";
 	public static final String REMOVE_EDGE_MODE = "removeedgemode";
 	
-	private DevMode(){
+	public DevMode(){
 		instance = this;
 		currentEditMode = SELECT_MODE;
 	}

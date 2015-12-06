@@ -147,6 +147,6 @@ public class AppDevModePointEditorControl extends JComponent
 	 * 
 	 */
 	private static final long serialVersionUID = -7831300945301622071L;
-	private final ButtonGroup modeButtonGroup = new ButtonGroup();
+	private final NoneSelectedButtonGroup modeButtonGroup = new NoneSelectedButtonGroup();
 	private JTextField nameField;
 }
