@@ -5,10 +5,13 @@ import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+
 import javax.swing.JPanel;
 import javax.xml.stream.XMLStreamException;
 
-import WPI.CampusMap.Backend.Core.Map.Map;
+import WPI.CampusMap.Backend.Core.Map.AllMaps;
+import WPI.CampusMap.Backend.Core.Map.IMap;
+import WPI.CampusMap.Backend.Core.Map.ProxyMap;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Dev.EditorToolMode;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicalMap;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.Dev.DevGraphicalMap;
@@ -19,7 +22,7 @@ import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.User.UserGraphicalMap;
  */
 @SuppressWarnings("serial")
 public class MapPanel extends JPanel implements Runnable{
-	protected Map currentMap;
+	protected IMap currentMap;
 	
 	private Thread renderingThread;
 	
@@ -56,9 +59,10 @@ public class MapPanel extends JPanel implements Runnable{
 		
 		synchronized(this)
 		{
-			System.out.println(mapName);
-			Map newMap = new Map(mapName);
-			System.out.println(newMap.getAllPoints().keySet());
+			IMap newMap = AllMaps.getInstance().getMap(mapName);
+			if(newMap == null){
+				newMap = new ProxyMap(mapName);
+			}
 			currentMap = newMap;
 			
 			if(graphicsMap != null)

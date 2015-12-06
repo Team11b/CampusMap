@@ -2,6 +2,7 @@ package WPI.CampusMap.Backend.Core.Point;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.AStar.Frontier;
@@ -25,4 +26,5 @@ public interface IPoint extends Serializable {
 	public String getMap();
 	public String toString();
 	public boolean exists();
+	public HashMap<String, String> getNeighborPointsOnOtherMaps();
 }

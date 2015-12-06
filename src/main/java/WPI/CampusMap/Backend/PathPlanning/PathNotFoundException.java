@@ -1,6 +1,6 @@
 package WPI.CampusMap.Backend.PathPlanning;
 
-import WPI.CampusMap.Backend.Core.Point.Point;
+import WPI.CampusMap.Backend.Core.Point.IPoint;
 
 /**
  * Exception thrown when a path cannot be resolved between a start and an end point.
@@ -14,9 +14,9 @@ public class PathNotFoundException extends Exception
 	 */
 	private static final long serialVersionUID = -5966857820837092319L;
 	
-	private Point start, goal;
+	private IPoint start, goal;
 	
-	public PathNotFoundException(Point start, Point goal)
+	public PathNotFoundException(IPoint start, IPoint goal)
 	{
 		this.start = start;
 		this.goal = goal;
@@ -26,7 +26,7 @@ public class PathNotFoundException extends Exception
 	 * Get the start point of the failed path.
 	 * @return The start point.
 	 */
-	public Point getStart()
+	public IPoint getStart()
 	{
 		return start;
 	}
@@ -35,7 +35,7 @@ public class PathNotFoundException extends Exception
 	 * Get the goal point of the failed path.
 	 * @return The goal point.
 	 */
-	public Point getGoal()
+	public IPoint getGoal()
 	{
 		return goal;
 	}

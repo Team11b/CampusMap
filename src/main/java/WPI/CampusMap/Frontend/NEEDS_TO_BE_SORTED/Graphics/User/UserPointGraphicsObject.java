@@ -4,15 +4,14 @@ import java.awt.Color;
 import java.util.LinkedList;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
-import WPI.CampusMap.Backend.Core.Map.Map;
-import WPI.CampusMap.Backend.Core.Point.Point;
+import WPI.CampusMap.Backend.Core.Map.AllMaps;
+import WPI.CampusMap.Backend.Core.Point.RealPoint;
 import WPI.CampusMap.Backend.Core.Ref.TypedRef;
 import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Path.MultiPath;
-import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.AStar.AStar;
+import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Path.Path;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.PointGraphicsObject;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.RealMouseEvent;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI.AppUIObject;
-import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Path.Path;
 
 public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMap>
 {
@@ -82,7 +81,7 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 		
 		for(String map : lastRoutedPath.getReferencedMaps())
 		{
-			UserGraphicalMap graphicalMap = UserGraphicalMap.loadGraphicalMap(Map.getMap(map));
+			UserGraphicalMap graphicalMap = UserGraphicalMap.loadGraphicalMap(AllMaps.getInstance().getMap(map));
 //			Path path = lastRoutedPath.getMapPath(map);
 			graphicalMap.setPathSections(new LinkedList<Path>());
 		}
@@ -104,7 +103,7 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 		AppUIObject.getInstance().onRouteCleared();
 	}
 	
-	public UserPointGraphicsObject(Point backend, UserGraphicalMap owner) 
+	public UserPointGraphicsObject(RealPoint backend, UserGraphicalMap owner) 
 	{
 		super(backend, owner);		
 		

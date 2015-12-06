@@ -51,6 +51,7 @@ public class RealPoint implements IPoint,java.io.Serializable {
 	 */
 	public RealPoint(String map)
 	{
+		this.map = map;
 		id = UUID.randomUUID().toString();
 		neighbors = new HashMap<String, IPoint>();
 	}
@@ -245,6 +246,8 @@ public class RealPoint implements IPoint,java.io.Serializable {
 	public boolean equals(Object other) {
 		if (other instanceof IPoint) {
 			IPoint that = (IPoint) other;
+			System.out.println(this);
+			System.out.println(that);
 			boolean result = getMap().equals(that.getMap()) && getId().equals(that.getId());
 			return result;
 		}
@@ -271,6 +274,17 @@ public class RealPoint implements IPoint,java.io.Serializable {
 	@Override
 	public String toString() {
 		return map+"/"+id;
+	}
+
+	@Override
+	public HashMap<String, String> getNeighborPointsOnOtherMaps() {
+		HashMap<String, String> temp = new HashMap<String, String>();
+		for(IPoint point: this.getNeighborsP()){
+			if(point.getMap() != this.getMap()){
+				temp.put(point.getMap(), point.getId());
+			}
+		}
+		return temp;
 	}
 
 }

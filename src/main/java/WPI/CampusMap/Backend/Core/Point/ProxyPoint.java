@@ -1,6 +1,7 @@
 package WPI.CampusMap.Backend.Core.Point;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
@@ -30,7 +31,8 @@ public class ProxyPoint implements IPoint {
 				realPoint = (RealPoint) temp.getPoint(pointId);
 				realPoint.constructNeighbors();
 			}else{
-//				System.out.println("Point "+ this.mapName+"/"+this.pointId +" does not exist");
+				System.out.println("Map "+ this.mapName+" does not exist, cannot get real point");
+				System.out.println(AllMaps.getInstance().getAllMaps().keySet());
 			}
 		}
 	}
@@ -147,5 +149,11 @@ public class ProxyPoint implements IPoint {
 	public String toString() {
 		load();
 		return realPoint.toString();
+	}
+
+	@Override
+	public HashMap<String, String> getNeighborPointsOnOtherMaps() {
+		load();
+		return realPoint.getNeighborPointsOnOtherMaps();
 	}
 }

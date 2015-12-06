@@ -4,15 +4,15 @@ import java.awt.Color;
 import java.awt.Graphics2D;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
-import WPI.CampusMap.Backend.Core.Point.Point;
+import WPI.CampusMap.Backend.Core.Point.RealPoint;
 
-public abstract class PointGraphicsObject<M extends GraphicalMap> extends GraphicsObject<Point, M>
+public abstract class PointGraphicsObject<M extends GraphicalMap> extends GraphicsObject<RealPoint, M>
 {
-	private Point backendPoint;
+	private RealPoint backendPoint;
 	
 	private boolean isOver;
 	
-	public PointGraphicsObject(Point backend, M owner)
+	public PointGraphicsObject(RealPoint backend, M owner)
 	{
 		super(backend, owner);
 		this.backendPoint = backend;
