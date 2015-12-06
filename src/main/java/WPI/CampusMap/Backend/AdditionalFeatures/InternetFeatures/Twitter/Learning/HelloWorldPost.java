@@ -11,6 +11,7 @@ import oauth.signpost.OAuthConsumer;
 import oauth.signpost.commonshttp.CommonsHttpOAuthConsumer;
 
 // http://javapapers.com/core-java/post-to-twitter-using-java/
+// the issue is that Twitter now authenticates with SSL
 public class HelloWorldPost {
 	static String consumerKeyStr = TwitterInformation.getPublicKey();
 	static String consumerSecretStr = TwitterInformation.getPrivateKey();
