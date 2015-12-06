@@ -13,6 +13,8 @@ import java.awt.Choice;
 import javax.swing.JLabel;
 import javax.swing.BoxLayout;
 import java.awt.Component;
+import java.awt.Container;
+
 import javax.swing.Box;
 import javax.swing.JRadioButton;
 import javax.swing.JProgressBar;
@@ -26,6 +28,12 @@ import java.awt.event.ActionListener;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JPanel;
+import javax.swing.AbstractAction;
+import java.awt.event.ActionEvent;
+import javax.swing.Action;
+import java.awt.event.KeyEvent;
+import javax.swing.KeyStroke;
+import java.awt.event.InputEvent;
 
 public class AppMainWindow extends JFrame implements Runnable
 {
@@ -36,7 +44,13 @@ public class AppMainWindow extends JFrame implements Runnable
 	
 	private JLabel taskName;
 	private JProgressBar progressBar;
-	private Thread renderThread;	
+	private Thread renderThread;
+	
+	private UIMode currentMode;
+	private AppUserModeControl userPanel;
+	private AppDevModeControl devPanel;
+	private final Action devModeAction = new DevModeAction();
+	private final Action printAction = new PrintAction();
 	
 	public AppMainWindow() {
 		super();
@@ -58,9 +72,9 @@ public class AppMainWindow extends JFrame implements Runnable
 		infoArea.setLayout(new BorderLayout(0, 0));
 		infoArea.setMinimumSize(new Dimension(300, 200));
 		
-		AppUserModeControl userPanel = new AppUserModeControl();
-		AppDevModeControl devPanel = new AppDevModeControl();
-		infoArea.add(userPanel, BorderLayout.CENTER);	
+		userPanel = new AppUserModeControl();
+		devPanel = new AppDevModeControl();
+		infoArea.add(userPanel, BorderLayout.CENTER);
 		
 		JPanel panel = new JPanel();
 		splitPane.setLeftComponent(panel);
@@ -101,6 +115,7 @@ public class AppMainWindow extends JFrame implements Runnable
 		mnSendAs.add(mntmSms);
 		
 		JMenuItem mntmPrint = new JMenuItem("Print");
+		mntmPrint.setAction(printAction);
 		mnFile.add(mntmPrint);
 		
 		JMenu mnRouting = new JMenu("Routing");
@@ -131,70 +146,13 @@ public class AppMainWindow extends JFrame implements Runnable
 		menuBar.add(mnSettings);
 		
 		JCheckBoxMenuItem chckbxmntmDevMode = new JCheckBoxMenuItem("Dev Mode");
+		chckbxmntmDevMode.setAction(devModeAction);
 		mnSettings.add(chckbxmntmDevMode);
 		
 		renderThread = new Thread(this, "Render Thread");
 		renderThread.start();
 		
 		setVisible(true);
-		
-		//Mainpanel handling	
-        ActionListener aL = new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				switch (e.getActionCommand()) {
-				case "Dev Mode": //needs improvement, not sure how to redraw everything or if in right place
-					if(UIMode.getCurrentMode() == UIMode.USER_MODE ){
-					infoArea.remove(userPanel);
-					infoArea.add(devPanel, BorderLayout.CENTER);					
-					}
-					else{
-					infoArea.remove(devPanel);
-					infoArea.add(userPanel, BorderLayout.CENTER);					
-					}
-					UIMode.switchCurrentMode();
-					setVisible(true); //redraw					
-					break;
-				case "Save As PDF":
-					UserMode.getInstance().onPdf();
-					break;
-				case "Save As TXT":
-					UserMode.getInstance().onTxt();
-					break;
-				case "Print":
-					UserMode.getInstance().onPrint();
-					break;
-				case "Email":
-					UserMode.getInstance().onEmail();
-					break;
-				case "SMS":
-					UserMode.getInstance().onSMS();
-				    break;
-				case "Prefer Indoor":
-				case "Prefer Outdoor":
-				case "Use Weather":
-					UserMode.getInstance().onWeatherChosen(e.getActionCommand());
-					break;
-				case "First Floor":
-					UIMode.onFloorChosen(1);
-					break;
-				
-				}
-			}
-        };
-    	chckbxmntmDevMode.addActionListener(aL);
-    	rdbtnmntmPreferIndoor.addActionListener(aL);
-    	rdbtnmntmPreferOutdoor.addActionListener(aL);
-    	rdbtnmntmUseWeather.addActionListener(aL);
-        mntmSaveAsPdf.addActionListener(aL);
-        mntmSaveAsTxt.addActionListener(aL);
-        mntmEmail.addActionListener(aL);
-        mntmPrint.addActionListener(aL);
-        mntmSms.addActionListener(aL);
-        mntmFirstFloor.addActionListener(aL);	
-		
 	}
 
 	@Override
@@ -211,6 +169,63 @@ public class AppMainWindow extends JFrame implements Runnable
 			}
 			
 			repaint();
+		}
+	}
+	
+	@SuppressWarnings("serial")
+	private class DevModeAction extends AbstractAction
+	{
+		public DevModeAction()
+		{
+			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_MASK));
+			putValue(NAME, "Dev Mode");
+			putValue(SHORT_DESCRIPTION, "Switch to and from dev mode.");
+		}
+		
+		public void actionPerformed(ActionEvent e)
+		{
+			if(!isDevMode)
+			{
+				isDevMode = true;
+				
+				Container parent = userPanel.getParent();
+				parent.remove(userPanel);
+				parent.add(devPanel);
+				parent.revalidate();
+				parent.repaint();
+				
+				currentMode = new DevMode();
+			}
+			else
+			{
+				isDevMode = false;
+				
+				Container parent = devPanel.getParent();
+				parent.remove(devPanel);
+				parent.add(userPanel);
+				parent.revalidate();
+				parent.repaint();
+				
+				currentMode = new UserMode();
+			}
+			
+			currentMode.onModeEntered();
+		}
+		
+		private boolean isDevMode;
+	}
+	
+	
+	@SuppressWarnings("serial")
+	private class PrintAction extends AbstractAction
+	{
+		public PrintAction() {
+			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_P, InputEvent.CTRL_MASK));
+			putValue(NAME, "Print");
+			putValue(SHORT_DESCRIPTION, "Prints the route to a printer.");
+		}
+		public void actionPerformed(ActionEvent e)
+		{
 		}
 	}
 }
