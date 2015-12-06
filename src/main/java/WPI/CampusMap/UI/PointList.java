@@ -9,9 +9,9 @@ import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
 import java.awt.FlowLayout;
 
-public class DestinationsList extends Panel
+public class PointList extends Panel
 {
-	public DestinationsList()
+	public PointList()
 	{
 		setForeground(SystemColor.controlShadow);
 		SpringLayout springLayout = new SpringLayout();

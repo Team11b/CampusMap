@@ -10,9 +10,9 @@ import java.awt.TextField;
 import java.awt.event.TextListener;
 import java.awt.event.TextEvent;
 
-public class DestinationElement extends JComponent
+public class PointListElement extends JComponent
 {
-	public DestinationElement() {
+	public PointListElement() {
 		SpringLayout springLayout = new SpringLayout();
 		setLayout(springLayout);
 		
@@ -20,7 +20,7 @@ public class DestinationElement extends JComponent
 		springLayout.putConstraint(SpringLayout.NORTH, removeButton, 10, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.SOUTH, removeButton, -10, SpringLayout.SOUTH, this);
 		springLayout.putConstraint(SpringLayout.EAST, removeButton, -10, SpringLayout.EAST, this);
-		removeButton.setIcon(new ImageIcon(DestinationElement.class.getResource("/javax/swing/plaf/metal/icons/ocean/paletteClose.gif")));
+		removeButton.setIcon(new ImageIcon(PointListElement.class.getResource("/javax/swing/plaf/metal/icons/ocean/paletteClose.gif")));
 		removeButton.setMinimumSize(new Dimension(45, 25));
 		add(removeButton);
 		
@@ -28,7 +28,7 @@ public class DestinationElement extends JComponent
 		springLayout.putConstraint(SpringLayout.EAST, goToButton, -6, SpringLayout.WEST, removeButton);
 		springLayout.putConstraint(SpringLayout.NORTH, goToButton, 10, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.SOUTH, goToButton, -10, SpringLayout.SOUTH, this);
-		goToButton.setIcon(new ImageIcon(DestinationElement.class.getResource("/javax/swing/plaf/metal/icons/ocean/minimize.gif")));
+		goToButton.setIcon(new ImageIcon(PointListElement.class.getResource("/javax/swing/plaf/metal/icons/ocean/minimize.gif")));
 		goToButton.setMinimumSize(new Dimension(45, 25));
 		add(goToButton);
 		

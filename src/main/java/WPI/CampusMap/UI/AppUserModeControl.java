@@ -1,43 +1,40 @@
 package WPI.CampusMap.UI;
 
-import java.awt.Panel;
 import javax.swing.SpringLayout;
 import javax.swing.JComboBox;
+import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.JSeparator;
-import java.awt.Component;
-import javax.swing.Box;
-import java.awt.ScrollPane;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import javax.swing.AbstractAction;
-
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
-import javax.swing.JTextPane;
-import javax.swing.BoxLayout;
 import javax.swing.JTree;
 import java.awt.Font;
 import javax.swing.ImageIcon;
 import java.awt.Label;
 import javax.swing.DefaultComboBoxModel;
-import javax.swing.JSlider;
 import javax.swing.tree.DefaultTreeModel;
 
 import javax.swing.tree.DefaultMutableTreeNode;
+import java.awt.Choice;
+import java.awt.Component;
 
-public class AppUserModeControl extends Panel
+public class AppUserModeControl extends JComponent
 {
+	@SuppressWarnings("serial")
 	public AppUserModeControl() {
 		SpringLayout springLayout = new SpringLayout();
 		setLayout(springLayout);
 		
-		JComboBox comboBox = new JComboBox();
+		Choice comboBox = new Choice();
+		comboBox.add("AK");
+		comboBox.add("FL");
+		comboBox.add("Campus Map");
 		springLayout.putConstraint(SpringLayout.NORTH, comboBox, 35, SpringLayout.NORTH, this);
-		comboBox.setModel(new DefaultComboBoxModel(new String[] {"AK", "Fuller", "Campus Map"}));
 		add(comboBox);
 		
-		DestinationsList scrollPane = new DestinationsList();
+		PointList scrollPane = new PointList();
 		springLayout.putConstraint(SpringLayout.NORTH, scrollPane, 80, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.WEST, comboBox, 0, SpringLayout.WEST, scrollPane);
 		springLayout.putConstraint(SpringLayout.EAST, comboBox, 0, SpringLayout.EAST, scrollPane);
@@ -66,9 +63,9 @@ public class AppUserModeControl extends Panel
 		
 		JSeparator separator = new JSeparator();
 		springLayout.putConstraint(SpringLayout.NORTH, separator, 19, SpringLayout.SOUTH, routeButton);
-		springLayout.putConstraint(SpringLayout.WEST, separator, 0, SpringLayout.WEST, comboBox);
+		springLayout.putConstraint(SpringLayout.WEST, separator, 0, SpringLayout.WEST, this);
 		springLayout.putConstraint(SpringLayout.SOUTH, separator, 27, SpringLayout.SOUTH, routeButton);
-		springLayout.putConstraint(SpringLayout.EAST, separator, 0, SpringLayout.EAST, comboBox);
+		springLayout.putConstraint(SpringLayout.EAST, separator, 0, SpringLayout.EAST, this);
 		add(separator);
 		
 		JScrollPane scrollPane_1 = new JScrollPane();
@@ -115,7 +112,7 @@ public class AppUserModeControl extends Panel
 			}
 		};
 		routeButton.addActionListener(aL);
-}
+	}
 
 	/**
 	 * 
