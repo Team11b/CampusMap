@@ -62,13 +62,16 @@ public class RealPoint implements IPoint,java.io.Serializable {
 			System.out.printf("Null neighbors: %s\n", this.getMap()+"/"+this.getId());
 		}
 		for(String name: neighborList){
-			neighbors.put(name, new ProxyPoint(name));
+			if(name.contains("/")){
+				neighbors.put(name, new ProxyPoint(name));
+			}else{
+				neighbors.put(name, new ProxyPoint(this.getMap()+"/"+name));
+			}
 //			System.out.println("Adding " +name+ " to " + this.toString()+"'s neighbor list");
 		}
 	}
 	
-	public void validateNeighbors(){
-		ArrayList<String> temp = new ArrayList<String>(); 
+	public void validateNeighbors(){ 
 		if(neighbors == null){
 			System.out.printf("Null neighbors: %s\n", this.getMap()+"/"+this.getId());
 		}

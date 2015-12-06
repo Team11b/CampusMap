@@ -29,6 +29,8 @@ public class ProxyPoint implements IPoint {
 			if(temp != null){
 				realPoint = (RealPoint) temp.getPoint(pointId);
 				realPoint.constructNeighbors();
+			}else{
+//				System.out.println("Point "+ this.mapName+"/"+this.pointId +" does not exist");
 			}
 		}
 	}

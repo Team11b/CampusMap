@@ -11,7 +11,9 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
 
+import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
@@ -105,24 +107,23 @@ public class SerializationTest {
 		}
 	}
 
-	@SuppressWarnings("unused")
 	@Test
 	public void testProxy() {
 		pm.save();
 		connected.save();
 		
-		System.out.println(pm.getName());
+		//System.out.println(pm.getName());
 		ProxyMap newPm = Serializer.proxyLoad(pm.getName());
 		ProxyMap newCon = Serializer.proxyLoad(connected.getName());
-		System.out.println(newPm.getName());
+		//System.out.println(newPm.getName());
 
 		RealMap newRPm = Serializer.realLoad(newPm.getName());
 		RealMap newRCon = Serializer.realLoad(newCon.getName());
 		newRPm.validatePoints();
 		newRCon.validatePoints();
 		
-		System.out.println(newPm.getAllPoints().size());
-		System.out.println(pm.getAllPoints().size());
+		//System.out.println(newPm.getAllPoints().size());
+		//System.out.println(pm.getAllPoints().size());
 		
 		assertTrue(newPm.getAllPoints().equals(pm.getAllPoints()));
 		assertTrue(newCon.getAllPoints().equals(connected.getAllPoints()));
@@ -143,36 +144,41 @@ public class SerializationTest {
 		assertTrue(true);
 	}
 
-	@Ignore
 	@Test
 	public void test() {
-		Map tempM = new Map("tempM");
+		AllMaps.getInstance().clearAllMaps();
+		
+		ProxyMap tempM = new ProxyMap("tempM");
+		
+		AllMaps.getInstance().addMap(tempM);
 
-		Point oneP = new Point(new Coord(0, 0), "", "PointOne", "tempM");
-		Point twoP = new Point(new Coord(1, 1), "", "PointTwo", "tempM");
-		Point threeP = new Point(new Coord(0, 1), "", "PointThree", "tempM");
+		RealPoint oneP = new RealPoint(new Coord(0, 0), RealPoint.HALLWAY, "PointOne", "tempM");
+		RealPoint twoP = new RealPoint(new Coord(1, 1), RealPoint.HALLWAY, "PointTwo", "tempM");
+		RealPoint threeP = new RealPoint(new Coord(0, 1), RealPoint.HALLWAY, "PointThree", "tempM");
 		tempM.addPoint(oneP);
 		tempM.addPoint(twoP);
 		tempM.addPoint(threeP);
 
-		assertTrue(tempM.addEdge(tempM.getPoint("PointOne"), tempM.getPoint("PointTwo")));
-		assertTrue(tempM.addEdge(tempM.getPoint("PointThree"), tempM.getPoint("PointOne")));
-		assertTrue(tempM.addEdge(tempM.getPoint("PointThree"), tempM.getPoint("PointTwo")));
+		assertTrue(tempM.addEdge(oneP, twoP));
+		assertTrue(tempM.addEdge(threeP, twoP));
+		assertTrue(tempM.addEdge(threeP, oneP));
 
-		OLSSerializer.write(tempM);
+		tempM.save();
 
-		Map temp2 = OLSSerializer.read(tempM.getName());
+		ProxyMap temp2 = Serializer.proxyLoad(tempM.getName());
 
 		assertEquals(tempM.getPoint("PointOne"), temp2.getPoint("PointOne"));
 		assertEquals(tempM.getPoint("PointTwo"), temp2.getPoint("PointTwo"));
 		assertEquals(tempM.getPoint("PointThree"), temp2.getPoint("PointThree"));
 
+		System.out.println(tempM.getPoint("PointOne").exists());
+		System.out.println(tempM.getPoint("PointOne").getNeighborsP());
 		assertEquals(tempM.getPoint("PointOne").getNeighborsP(), temp2.getPoint("PointOne").getNeighborsP());
 		assertEquals(tempM.getPoint("PointTwo").getNeighborsP(), temp2.getPoint("PointTwo").getNeighborsP());
 		assertEquals(tempM.getPoint("PointThree").getNeighborsP(), temp2.getPoint("PointThree").getNeighborsP());
 
 		// Delete written file
-		Path path = Paths.get("serialized/tempM.ser");
+		Path path = Paths.get(Serializer.folderReal + tempM.getName() + Serializer.fileType);
 		try {
 			Files.delete(path);
 		} catch (NoSuchFileException x) {
@@ -183,6 +189,20 @@ public class SerializationTest {
 			// File permission problems are caught here.
 			System.err.println(x);
 		}
+		
+
+		path = Paths.get(Serializer.folderProxy + tempM.getName() + Serializer.fileType);
+		try {
+			Files.delete(path);
+		} catch (NoSuchFileException x) {
+			System.err.format("%s: no such" + " file or directory%n", path);
+		} catch (DirectoryNotEmptyException x) {
+			System.err.format("%s not empty%n", path);
+		} catch (IOException x) {
+			// File permission problems are caught here.
+			System.err.println(x);
+		}
+		
 	}
 
 }

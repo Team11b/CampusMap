@@ -26,8 +26,9 @@ public class ProxyMap implements IMap, Serializable {
 			
 			//incase the map has not been created, create a new one
 			if(realMap == null){
-				System.out.printf("Real Map (%s) not found, making a new one.\n",mapName);
+				//System.out.printf("Real Map (%s) not found, making a new one.\n",mapName);
 				realMap = new RealMap(mapName);
+				realMap.validatePoints();
 			}else{
 				realMap.validatePoints();
 			}
