@@ -41,6 +41,7 @@ public class DevMode extends UIMode {
 	
 
 	public void setPlace(){
+		System.out.println("Place/create");
 		if(currentEditMode != PLACE_MODE){
 			currentEditMode = PLACE_MODE;
 		}
@@ -63,7 +64,8 @@ public class DevMode extends UIMode {
 			
 	}
 	
-	public void setRemove(){		
+	public void setRemove(){
+		System.out.println("Delete/remove");
 		if(currentEditMode != REMOVE_MODE){
 			currentEditMode = REMOVE_MODE;
 		}
@@ -84,6 +86,7 @@ public class DevMode extends UIMode {
 	}
 	
 	public void setEdge(){
+		System.out.println("Edge");
 		if(currentEditMode != EDGE_MODE){
 			currentEditMode = EDGE_MODE;
 		}
@@ -105,6 +108,7 @@ public class DevMode extends UIMode {
 	}
 	
 	public void setRemoveEdge(){
+		System.out.println("Delete Edge");
 		if(currentEditMode != REMOVE_EDGE_MODE){
 			currentEditMode = REMOVE_EDGE_MODE;
 		}
@@ -125,6 +129,7 @@ public class DevMode extends UIMode {
 	}
 	
 	public void save(){
+		System.out.println("Save");
 		if(currentEditMode != SELECT_MODE){
 			currentEditMode = SELECT_MODE;
 		}

@@ -36,9 +36,7 @@ public class AppMainWindow extends JFrame implements Runnable
 	
 	private JLabel taskName;
 	private JProgressBar progressBar;
-	private Thread renderThread;
-	
-	private UIMode mode;
+	private Thread renderThread;	
 	
 	public AppMainWindow() {
 		super();
@@ -159,13 +157,43 @@ public class AppMainWindow extends JFrame implements Runnable
 					UIMode.switchCurrentMode();
 					setVisible(true); //redraw					
 					break;
+				case "Save As PDF":
+					UserMode.getInstance().onPdf();
+					break;
+				case "Save As TXT":
+					UserMode.getInstance().onTxt();
+					break;
+				case "Print":
+					UserMode.getInstance().onPrint();
+					break;
+				case "Email":
+					UserMode.getInstance().onEmail();
+					break;
+				case "SMS":
+					UserMode.getInstance().onSMS();
+				    break;
+				case "Prefer Indoor":
+				case "Prefer Outdoor":
+				case "Use Weather":
+					UserMode.getInstance().onWeatherChosen(e.getActionCommand());
+					break;
+				case "First Floor":
+					UIMode.onFloorChosen(1);
+					break;
+				
 				}
 			}
         };
     	chckbxmntmDevMode.addActionListener(aL);
-    	
-			
-		
+    	rdbtnmntmPreferIndoor.addActionListener(aL);
+    	rdbtnmntmPreferOutdoor.addActionListener(aL);
+    	rdbtnmntmUseWeather.addActionListener(aL);
+        mntmSaveAsPdf.addActionListener(aL);
+        mntmSaveAsTxt.addActionListener(aL);
+        mntmEmail.addActionListener(aL);
+        mntmPrint.addActionListener(aL);
+        mntmSms.addActionListener(aL);
+        mntmFirstFloor.addActionListener(aL);	
 		
 	}
 

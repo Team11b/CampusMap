@@ -38,11 +38,11 @@ abstract public class UIMode {
 	}
 	
 	public void onBuildingChosen(String building){
-		
+		System.out.println("Building chosen");
 	}
 	
-	public void onFloorChosen(int floor){
-		
+	public static void onFloorChosen(int floor){
+		System.out.println("Floor chosen");
 	}
 	
 	private void loadMap(String mapName) throws XMLStreamException {

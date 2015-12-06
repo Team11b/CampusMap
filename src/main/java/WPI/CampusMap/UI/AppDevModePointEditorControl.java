@@ -119,14 +119,28 @@ public class AppDevModePointEditorControl extends JComponent
 			public void actionPerformed(ActionEvent e) {
 				// TODO Auto-generated method stub
 				switch (e.getActionCommand()) {
-				case "Route Me!":
-					UserMode.getInstance().onRouteButton();
+				case "Create":
+					DevMode.getInstance().setPlace();
 						break;
+				case "Delete":
+					DevMode.getInstance().setRemove();
+						break;
+				case "Edge":
+					DevMode.getInstance().setEdge();
+					break;
+				case "Delete Edge":
+					DevMode.getInstance().setRemoveEdge();
+					break;			
 				
 				}
 				
 			}
 		};
+		
+		rdbtnCreate.addActionListener(aL);
+		rdbtnDelete.addActionListener(aL);
+		rdbtnEdge.addActionListener(aL);
+		rdbtnDeleteEdge.addActionListener(aL);
 	}
 
 	/**

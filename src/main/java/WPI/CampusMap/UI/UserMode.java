@@ -17,7 +17,7 @@ public class UserMode extends UIMode{
 	
 	public static UserMode getInstance()
 	{
-		if(instance != null){		
+		if(instance == null){		
 			instance = new UserMode();			
 		}
 		return instance;
@@ -31,12 +31,12 @@ public class UserMode extends UIMode{
 	
 	public void onRouteButton(){
 		System.out.println("Route me");
-		MultiPath path = UserPointGraphicsObject.route();
+		/*MultiPath path = UserPointGraphicsObject.route();
 		Route route = new Route(path);
 		for(Instruction i: route.getRoute()){
 			//need directions output function
 			//txtDirections.setText(txtDirections.getText() + i.getInstruction());
-		}
+		}*/
 	}
 	
 	public void onClearButton(){
@@ -53,28 +53,28 @@ public class UserMode extends UIMode{
 		//destinations.setDestination(newPoint.getId());
 	}
 	
-	public void onWeatherChosen(int index){
-		
+	public void onWeatherChosen(String option){
+		System.out.println("Weather chosen is "+ option);
 	}
 	
 	public void onPrint(){
-		
+		System.out.println("Print");
 	}	
 	
 	public void onPdf(){
-		
+		System.out.println("PDF");
 	}
 	
     public void onTxt(){
-		
+    	System.out.println("TXT");
 	}
     
     public void onEmail(){
-    	
+    	System.out.println("Email");
     }
     
     public void onSMS(){
-    	
+    	System.out.println("SMS");
     }
     
     public void outputDirections(){
