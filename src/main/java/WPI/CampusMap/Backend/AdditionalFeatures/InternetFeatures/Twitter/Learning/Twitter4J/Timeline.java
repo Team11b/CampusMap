@@ -3,6 +3,8 @@ package WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Twitter.Learni
 import java.util.List;
 
 import WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Twitter.Information.TwitterInformation;
+import twitter4j.EntitySupport;
+import twitter4j.HashtagEntity;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
@@ -24,10 +26,10 @@ public class Timeline {
 
 			twitter.setOAuthAccessToken(accessToken);
 
-			List<Status> statuses = twitter.getHomeTimeline();
+			List<Status> statuses = twitter.getMentionsTimeline();
 			System.out.println("Showing home timeline.");
 			for (Status status : statuses) {
-				System.out.println(status.getUser().getName() + " : " + status.getText());
+				System.out.println(status.getUser().getName() + " : " + "#" + status.getHashtagEntities()[0].getText() + " #" + status.getHashtagEntities()[1].getText());
 			}
 
 		} catch (TwitterException te) {
