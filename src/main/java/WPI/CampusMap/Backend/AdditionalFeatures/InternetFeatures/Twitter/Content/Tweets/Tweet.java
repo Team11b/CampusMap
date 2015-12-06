@@ -1,19 +1,24 @@
-package WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Twitter.Content;
+package WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Twitter.Content.Tweets;
 
 import java.util.LinkedList;
 
+import WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Twitter.Content.Support.Hashtag;
+import WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Twitter.Resources.TwitterImage;
 import twitter4j.Status;
+import twitter4j.User;
 
 public class Tweet {
 	private Status status;
 	private LinkedList<Hashtag> hashtags;
-	private String userID;
-	private boolean hasBuilding;
+	private boolean hasLocation;
+	private TwitterImage twitterIcon;
+	private User user;
 	
 	public Tweet(Status status, String userID) {
 		this.status = status;
-		this.userID = userID;
 		this.hashtags = parseForHashtags();
+		this.twitterIcon = new TwitterImage();
+		this.user = this.status.getUser();
 	}
 	
 	/**
@@ -45,38 +50,17 @@ public class Tweet {
 	}
 
 	/**
-	 * @return the userID
-	 */
-	public String getUserID() {
-		return userID;
-	}
-
-	/**
-	 * @param userID the userID to set
-	 */
-	public void setUserID(String userID) {
-		this.userID = userID;
-	}
-
-	/**
-	 * @return the hasBuilding
-	 */
-	public boolean isHasBuilding() {
-		return hasBuilding;
-	}
-
-	/**
 	 * @param hasBuilding the hasBuilding to set
 	 */
-	public void setHasBuilding(boolean hasBuilding) {
-		this.hasBuilding = hasBuilding;
+	private void setHasBuilding(boolean hasBuilding) {
+		this.hasLocation = hasBuilding;
 	}
 
 	private LinkedList<Hashtag> parseForHashtags() {
 		throw new UnsupportedOperationException("Parse not yet implemented.");
 	}
 	
-	public boolean hasBuilding() {
-		return this.hasBuilding;
+	public boolean hasLocation() {
+		return this.hasLocation;
 	}
 }

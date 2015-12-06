@@ -1,4 +1,4 @@
-package WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Twitter.Content;
+package WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Twitter.Content.Tweets;
 
 import java.util.LinkedList;
 

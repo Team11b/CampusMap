@@ -1,4 +1,4 @@
-package WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Twitter.Content;
+package WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Twitter.Content.Support;
 
 public class Hashtag {
 	private String building;
