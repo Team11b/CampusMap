@@ -10,6 +10,8 @@ import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.AStar.Frontier;
 import WPI.CampusMap.Backend.PathPlanning.Node;
 
 public class ProxyPoint implements IPoint {
+
+	private static final long serialVersionUID = 4456203165550908105L;
 	String pointId, mapName;
 	RealPoint realPoint;
 	
@@ -29,7 +31,11 @@ public class ProxyPoint implements IPoint {
 			IMap temp = AllMaps.getInstance().getMap(mapName);
 			if(temp != null){
 				realPoint = (RealPoint) temp.getPoint(pointId);
-				realPoint.constructNeighbors();
+				if(realPoint == null){
+					System.out.println(pointId);
+				}else{
+					realPoint.constructNeighbors();
+				}
 			}else{
 				System.out.println("Map "+ this.mapName+" does not exist, cannot get real point");
 				System.out.println(AllMaps.getInstance().getAllMaps().keySet());

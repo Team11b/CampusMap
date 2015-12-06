@@ -79,7 +79,7 @@ public class RealPoint implements IPoint,java.io.Serializable {
 		for(IPoint neighbor: neighbors.values()){
 			if(!neighbor.exists()){
 				System.out.println("Neighbor does not exist, removing from list of neighbors");
-				neighbors.remove(neighbor.getId());
+//				neighbors.remove(neighbor.getId());
 				neighborList.remove(neighbor.getId());
 			}
 		}
@@ -210,7 +210,14 @@ public class RealPoint implements IPoint,java.io.Serializable {
 
 	@Override
 	public boolean removeNeighbor(IPoint point) {
-		return this.neighbors.remove(point.getId()) != null;
+		boolean success = true;
+		if(point.getMap().equals(getMap())){
+			success = success && this.neighborList.remove(point.toString());
+		}else{
+			success = success && this.neighborList.remove(point.getId());
+		}
+		success = success && (this.neighbors.remove(point.getId()) != null);
+		return success;
 	}
 	
 	@Override

@@ -245,7 +245,9 @@ public class RealMap implements IMap, java.io.Serializable {
 	 */
 	@Override
 	public void save() {
-		this.validatePoints();
+		for(RealPoint point: allPoints.values()){
+			point.validateNeighbors();
+		}
 		Serializer.save(this);
 	}
 	
