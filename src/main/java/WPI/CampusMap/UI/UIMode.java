@@ -33,5 +33,14 @@ abstract public class UIMode {
 	private void onAnyModeLoad(){
 		//reintialize code that move modes need reinitializing
 	}
+	
+	public void onBuildingChosen(String building){
+		
+	}
+	
+	public void onFloorChosen(int floor){
+		
+	}	
+	
 
 }

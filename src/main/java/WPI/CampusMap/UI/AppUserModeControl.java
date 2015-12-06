@@ -7,6 +7,10 @@ import javax.swing.JSeparator;
 import java.awt.Component;
 import javax.swing.Box;
 import java.awt.ScrollPane;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import javax.swing.AbstractAction;
+
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.ScrollPaneConstants;
@@ -19,6 +23,7 @@ import java.awt.Label;
 import javax.swing.DefaultComboBoxModel;
 import javax.swing.JSlider;
 import javax.swing.tree.DefaultTreeModel;
+
 import javax.swing.tree.DefaultMutableTreeNode;
 
 public class AppUserModeControl extends Panel
@@ -92,7 +97,25 @@ public class AppUserModeControl extends Panel
 		));
 		scrollPane_1.setViewportView(tree);
 		add(label_1);
-	}
+	
+		//button handling 
+		UserMode aUM = new UserMode();
+		ActionListener aL = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				switch (e.getActionCommand()) {
+				case "Route Me!":
+					UserMode.getInstance().onRouteButton();
+						break;
+				
+				}
+				
+			}
+		};
+		routeButton.addActionListener(aL);
+}
 
 	/**
 	 * 

@@ -291,7 +291,7 @@ public class AppUIObject {
 	 *
 	 */
 	@SuppressWarnings("serial")
-	private class SwingAction extends AbstractAction {
+	public class SwingAction extends AbstractAction {
 		public SwingAction() {
 			putValue(NAME, "SwingAction");
 			putValue(SHORT_DESCRIPTION, "Some short description");
