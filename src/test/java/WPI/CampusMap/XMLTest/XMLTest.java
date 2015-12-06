@@ -17,9 +17,9 @@ import javax.xml.stream.XMLStreamException;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import WPI.CampusMap.Backend.Map;
-import WPI.CampusMap.Backend.Point;
-import WPI.CampusMap.XML.XML;
+import WPI.CampusMap.Backend.Core.Map.Map;
+import WPI.CampusMap.Backend.Core.Point.Point;
+import WPI.CampusMap.Recording.XML.XML;
 
 public class XMLTest {
 	@Ignore

@@ -11,15 +11,15 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import WPI.CampusMap.Backend.ConnectionPoint;
-import WPI.CampusMap.Backend.Coord;
-import WPI.CampusMap.Backend.Map;
-import WPI.CampusMap.Backend.Point;
-import WPI.CampusMap.PathPlanning.MultiPath;
-import WPI.CampusMap.PathPlanning.Node;
-import WPI.CampusMap.PathPlanning.Path;
-import WPI.CampusMap.PathPlanning.AStar.AStar;
-import WPI.CampusMap.Serialization.Serializer;
+import WPI.CampusMap.Backend.Core.Coordinate.Coord;
+import WPI.CampusMap.Backend.Core.Map.Map;
+import WPI.CampusMap.Backend.Core.Point.ConnectionPoint;
+import WPI.CampusMap.Backend.Core.Point.Point;
+import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Path.MultiPath;
+import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Path.Path;
+import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.AStar.AStar;
+import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.Node.Node;
+import WPI.CampusMap.Recording.Serialization.OLSSerializer;
 
 public class AStarTest {
 	static Map testMap, testMap2, testMap5, testMap6;
@@ -28,8 +28,8 @@ public class AStarTest {
 	public static void getMap() throws XMLStreamException {
 		Map.clearAllMaps();
 		
-		testMap = Serializer.read("5x5Test");
-		testMap2 = Serializer.read("5x5Test2");
+		testMap = OLSSerializer.read("5x5Test");
+		testMap2 = OLSSerializer.read("5x5Test2");
 
 		setupMaps();
 	}
@@ -39,9 +39,8 @@ public class AStarTest {
 		a = "MapA";
 		b = "MapB";
 
-		testMap5 = new Map();
+		testMap5 = new Map(a);
 		testMap5.setScale(100);
-		testMap5.setName(a);
 
 		Point zero = new Point(new Coord(0, 0), "", "0", a);
 		Point one = new Point(new Coord(1, 0), "", "1", a);
@@ -175,9 +174,8 @@ public class AStarTest {
 
 		testMap5.setAllPoints(allHM);
 
-		testMap6 = new Map();
+		testMap6 = new Map(b);
 		testMap6.setScale(100);
-		testMap6.setName(b);
 
 		Point zero2 = new Point(new Coord(0, 0), "", "0", b);
 		Point one2 = new Point(new Coord(1, 0), "", "1", b);
@@ -311,10 +309,10 @@ public class AStarTest {
 
 		testMap6.setAllPoints(allHM2);
 
-		Serializer.write(testMap5);
-		Serializer.write(testMap6);
+		OLSSerializer.write(testMap5);
+		OLSSerializer.write(testMap6);
 	}
-
+	@Ignore
 	@Test
 	public void testAStar4to12() {
 		Point start, goal;
