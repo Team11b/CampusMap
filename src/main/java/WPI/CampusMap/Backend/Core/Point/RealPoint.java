@@ -253,8 +253,8 @@ public class RealPoint implements IPoint,java.io.Serializable {
 	public boolean equals(Object other) {
 		if (other instanceof IPoint) {
 			IPoint that = (IPoint) other;
-			System.out.println(this);
-			System.out.println(that);
+//			System.out.println(this);
+//			System.out.println(that);
 			boolean result = getMap().equals(that.getMap()) && getId().equals(that.getId());
 			return result;
 		}
