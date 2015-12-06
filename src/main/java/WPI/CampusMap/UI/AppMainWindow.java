@@ -40,9 +40,6 @@ public class AppMainWindow extends JFrame
 		splitPane.setDividerSize(5);
 		getContentPane().add(splitPane, BorderLayout.CENTER);
 		
-		Panel mapDisplay = new Panel();
-		splitPane.setLeftComponent(mapDisplay);
-		
 		Panel infoArea = new Panel();
 		splitPane.setRightComponent(infoArea);
 		infoArea.setLayout(new BorderLayout(0, 0));
