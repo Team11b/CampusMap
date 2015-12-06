@@ -1,5 +1,7 @@
 package WPI.CampusMap.UI;
 
+import javax.xml.stream.XMLStreamException;
+
 abstract public class UIMode {
 	
 	//other members of class go here
@@ -40,7 +42,15 @@ abstract public class UIMode {
 	
 	public void onFloorChosen(int floor){
 		
-	}	
+	}
+	
+	private void loadMap(String mapName) throws XMLStreamException {
+		//mapPanel.loadMap(mapName);
+	}
+	
+	public void reDrawUI() {
+		//mapPanel.repaint();
+	}
 	
 
 }
