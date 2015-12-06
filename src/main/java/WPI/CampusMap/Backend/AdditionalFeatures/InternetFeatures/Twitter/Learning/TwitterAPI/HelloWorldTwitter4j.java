@@ -1,4 +1,4 @@
-package WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Twitter.Learning;
+package WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Twitter.Learning.TwitterAPI;
 
 import WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Twitter.Information.TwitterInformation;
 import twitter4j.Twitter;

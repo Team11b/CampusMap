@@ -5,7 +5,7 @@ public class TwitterInformation {
 	private static final String privateKey = null;
 	private static final String publicAccessToken = null;
 	private static final String privateAccessToken = null;
-	
+	private static final String username = "team11b";
 
 	private TwitterInformation() {
 
@@ -37,6 +37,13 @@ public class TwitterInformation {
 		} else {
 			return TwitterInformation.privateAccessToken;
 		}
+	}
+
+	/**
+	 * @return the username
+	 */
+	public static String getUsername() {
+		return TwitterInformation.username;
 	}
 
 }
