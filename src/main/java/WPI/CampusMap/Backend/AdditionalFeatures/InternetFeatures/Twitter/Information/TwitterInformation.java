@@ -12,9 +12,30 @@ public class TwitterInformation {
 	private static final String publicAccessToken = null;
 	private static final String privateAccessToken = null;
 	private static final String username = "team11b";
-	private static LinkedList<String> buildingHashtags;
 	private static final String buildingHashtagsPath = "src/main/java/WPI/CampusMap/Backend/AdditionalFeatures/InternetFeatures/Twitter/Information/LocationNames.txt";
 	private static final String noBuildingFound = "nobuilding";
+	private static LinkedList<String> buildingHashtags; // lines starts at index 1 to ease copy over from the txt file
+	
+	// Buildings
+	public static final String CC = "CC";
+	public static final String FL = "FL";
+	public static final String AK = "AK";
+	public static final String PG = "PG";
+	public static final String BH = "BH";
+	public static final String GL = "GL";
+	public static final String HH = "HH";
+	public static final String PC = "PC";
+	public static final String SH = "SH";
+	public static final String SDCC = "SDCC";
+	public static final String AH = "AH";
+	public static final String AG = "AG";
+	public static final String BC = "BC";
+	public static final String HA = "HA";
+	public static final String SL = "SL";
+	public static final String WS = "WS";
+	public static final String SR = "SR";
+	public static final String GP = "GP";
+	public static final String p85 = "85P";
 
 	private TwitterInformation() {
 	}
@@ -51,11 +72,18 @@ public class TwitterInformation {
 		return TwitterInformation.username;
 	}
 
-	public static String getBuilding(String hastag) {
+	public static String getBuilding(String hashtag) {
 		if (TwitterInformation.buildingHashtags == null) {
 			TwitterInformation.loadBuildingHashtags();
 		}
-
+		hashtag = TwitterInformation.fixHashtag(hashtag);
+		
+		if (TwitterInformation.buildingHashtags.get(1).equals(hashtag)) {
+			return TwitterInformation.CC;
+		} else if (TwitterInformation.buildingHashtags.get(2).equals(hashtag)) {
+			return TwitterInformation.CC;
+		}
+		
 		return TwitterInformation.noBuildingFound;
 	}
 
@@ -66,13 +94,14 @@ public class TwitterInformation {
 			
 			String line = bufferedReader.readLine();
 			LinkedList<String> lines = new LinkedList<String>();
+			lines.add(null);
 
 			do {
 					line.replaceAll("\\s","");
 					line.replaceAll("[^A-Za-z0-9]", "");
 					
 					if (line.length() > 0) {
-						lines.add(line);
+						lines.add(line.toLowerCase());
 					}
 					
 					line = bufferedReader.readLine();
@@ -89,6 +118,13 @@ public class TwitterInformation {
 		catch (IOException i) {
 			i.printStackTrace();
 		}
+	}
+	
+	private static String fixHashtag(String hashtag) {
+		hashtag.replaceAll("\\s","");
+		hashtag.replaceAll("[^A-Za-z0-9]", "");
+		
+		return hashtag.toLowerCase();
 	}
 
 }
