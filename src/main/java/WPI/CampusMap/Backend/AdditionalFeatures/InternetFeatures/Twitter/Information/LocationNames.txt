@@ -1,0 +1,76 @@
+CC
+Campus Center
+FL
+Fuller
+Fuller Labs
+AK
+Atwater
+Atwater Kent
+PG
+Parking Garage
+BH
+Boyton
+Boyton Hall
+GL
+Gordon
+Gordon Library
+HH
+Higgins House
+PC
+Project Center
+SH
+Stratton
+Stratton Hall
+SDCC
+Student Development & Counseling Center
+Student Development and Counseling Center
+AH
+Alden
+Alden Hall
+AG
+Alumni
+Alumni Gym
+BC
+Bartlett
+Bartlett Center
+HA
+Harrigton
+Harrington Auditorium
+SL
+Salisbury
+Salisbury Labs
+WS
+WB
+Washburn
+Washburn Shops
+SR
+Sports & Rec
+Sports & Recreation
+Sports & Rec Center
+Sports & Recreation Center
+Sports and Rec
+Sports and Recreation
+Sports and Rec Center
+Sports and Recreation Center
+Sports Rec
+Sports Recreation
+Sports Rec Center
+Sports Recreation Center
+GP
+Gateway
+Gateway Park
+85P
+85 Prescott
+85 Prescott St
+85 Prescott St.
+85 Prescott Street
+RBE
+RBE Dept
+RBE Dept.
+RBE Department
+Robotics Dept
+Robotics Dept.
+Robotics Department
+Robotics Engineering Dept
+Robotics Engineering Dept.
+Robotics Engineering Department
