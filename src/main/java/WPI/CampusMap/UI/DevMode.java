@@ -8,12 +8,13 @@ public class DevMode extends UIMode {
 	//Singleton
 	private static DevMode instance;
 	
-	public static DevMode getInstance()
-	{
+	public static DevMode getInstance(){
+		if(instance == null)
+			instance = new DevMode();
 		return instance;
 	}
 	
-	private String currentMode;
+	private String currentEditMode;
 	private String pointID;
 	private String pointType;
 	
@@ -23,14 +24,15 @@ public class DevMode extends UIMode {
 	public static final String EDGE_MODE = "edgemode";
 	public static final String REMOVE_EDGE_MODE = "removeedgemode";
 	
-	public DevMode(){
+	private DevMode(){
 		instance = this;
-		currentMode = SELECT_MODE;
+		currentEditMode = SELECT_MODE;
 	}
 	
 	@Override
 	public void onModeEntered(){
-		currentMode = SELECT_MODE;
+		//UIMode.switchCurrentMode();
+		currentEditMode = SELECT_MODE;
 		//UIMode.setWindowText("Dev Mode");		
 		//Switch label to textbox for scale
 		//Show and hide UI elements
@@ -39,11 +41,11 @@ public class DevMode extends UIMode {
 	
 
 	public void setPlace(){
-		if(currentMode != PLACE_MODE){
-			currentMode = PLACE_MODE;
+		if(currentEditMode != PLACE_MODE){
+			currentEditMode = PLACE_MODE;
 		}
 		else{				
-			currentMode = SELECT_MODE;
+			currentEditMode = SELECT_MODE;
 		}
 		
 		clearNodeInfo();
@@ -62,11 +64,11 @@ public class DevMode extends UIMode {
 	}
 	
 	public void setRemove(){		
-		if(currentMode != REMOVE_MODE){
-			currentMode = REMOVE_MODE;
+		if(currentEditMode != REMOVE_MODE){
+			currentEditMode = REMOVE_MODE;
 		}
 		else{				
-			currentMode = SELECT_MODE;
+			currentEditMode = SELECT_MODE;
 		}
 		clearNodeInfo();
 		/*if(mapPanel.getDevMode() != EditorToolMode.DeletePoint){
@@ -82,11 +84,11 @@ public class DevMode extends UIMode {
 	}
 	
 	public void setEdge(){
-		if(currentMode != EDGE_MODE){
-			currentMode = EDGE_MODE;
+		if(currentEditMode != EDGE_MODE){
+			currentEditMode = EDGE_MODE;
 		}
 		else{				
-			currentMode = SELECT_MODE;
+			currentEditMode = SELECT_MODE;
 		}
 		
 		clearNodeInfo();
@@ -103,11 +105,11 @@ public class DevMode extends UIMode {
 	}
 	
 	public void setRemoveEdge(){
-		if(currentMode != REMOVE_EDGE_MODE){
-			currentMode = REMOVE_EDGE_MODE;
+		if(currentEditMode != REMOVE_EDGE_MODE){
+			currentEditMode = REMOVE_EDGE_MODE;
 		}
 		else{				
-			currentMode = SELECT_MODE;
+			currentEditMode = SELECT_MODE;
 		}
 		clearNodeInfo();
 		/*if(mapPanel.getDevMode() != EditorToolMode.DeleteEdge){
@@ -123,8 +125,8 @@ public class DevMode extends UIMode {
 	}
 	
 	public void save(){
-		if(currentMode != SELECT_MODE){
-			currentMode = SELECT_MODE;
+		if(currentEditMode != SELECT_MODE){
+			currentEditMode = SELECT_MODE;
 		}
 		/*System.out.println(txtScale.getText());
 		mapPanel.currentMap.setScale(Float.parseFloat(txtScale.getText()));
@@ -156,8 +158,8 @@ public class DevMode extends UIMode {
 		
 	}
 	
-	public String getCurrentMode(){
-		return currentMode; 
+	public String getcurrentEditMode(){
+		return currentEditMode; 
 	}
 	
 	public String getType(){

@@ -112,8 +112,7 @@ public class AppDevModePointEditorControl extends JComponent
 		springLayout.putConstraint(SpringLayout.EAST, separator_1, 0, SpringLayout.EAST, this);
 		add(separator_1);
 	
-		//button handling 
-		UserMode aUM = new UserMode();
+		//button handling 	
 		ActionListener aL = new ActionListener() {
 			
 			@Override

@@ -95,8 +95,7 @@ public class AppUserModeControl extends JComponent
 		scrollPane_1.setViewportView(tree);
 		add(label_1);
 	
-		//button handling 
-		UserMode aUM = new UserMode();
+		//button handling		
 		ActionListener aL = new ActionListener() {
 			
 			@Override

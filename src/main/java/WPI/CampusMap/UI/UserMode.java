@@ -11,18 +11,22 @@ public class UserMode extends UIMode{
 	//Singleton
 	private static UserMode instance;
 	
+	private UserMode(){
+		this.instance = this;		
+	}
+	
 	public static UserMode getInstance()
 	{
+		if(instance != null){		
+			instance = new UserMode();			
+		}
 		return instance;
 	}
 	
-	public UserMode(){
-		this.instance = this;		
-		
-	}
-	
-	public void onUserModeEntered(){
+	@Override
+	public void onModeEntered(){
 		//Execute changes to UI
+		
 	}
 	
 	public void onRouteButton(){

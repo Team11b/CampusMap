@@ -4,27 +4,28 @@ import javax.xml.stream.XMLStreamException;
 
 abstract public class UIMode {
 	
-	//other members of class go here
-	private String currentGUIMode;
+	//other members of class go here	
 	public static final String DEV_MODE = "devmode";
 	public static final String USER_MODE = "usermode";
+	private static String currentGUIMode =  USER_MODE;
 	
 	public UIMode(){		
-		this.currentGUIMode = USER_MODE;
+		//this.currentGUIMode =
 	}
 	
-	public String getCurrentMode(){
+	public static String getCurrentMode(){
 		return currentGUIMode;
 	}	
 	
-	protected void switchCurrentMode(){
+	public static void switchCurrentMode(){
 		onAnyModeLoad(); 
 		if(currentGUIMode.equals(USER_MODE)){
 			currentGUIMode = DEV_MODE;
 			DevMode.getInstance().onModeEntered();			
 		}			
 		else{
-			currentGUIMode = USER_MODE;			
+			currentGUIMode = USER_MODE;
+			UserMode.getInstance().onModeEntered();
 		}
 	}
 
@@ -32,7 +33,7 @@ abstract public class UIMode {
 	    //overwritten
 	}	
 	
-	private void onAnyModeLoad(){
+	private static void onAnyModeLoad(){
 		//reintialize code that move modes need reinitializing
 	}
 	

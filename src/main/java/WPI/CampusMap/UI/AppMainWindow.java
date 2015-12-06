@@ -20,6 +20,9 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import java.awt.SystemColor;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JPanel;
@@ -57,8 +60,9 @@ public class AppMainWindow extends JFrame implements Runnable
 		infoArea.setLayout(new BorderLayout(0, 0));
 		infoArea.setMinimumSize(new Dimension(300, 200));
 		
-		AppDevModeControl userPanel = new AppDevModeControl();
-		infoArea.add(userPanel, BorderLayout.CENTER);
+		AppUserModeControl userPanel = new AppUserModeControl();
+		AppDevModeControl devPanel = new AppDevModeControl();
+		infoArea.add(userPanel, BorderLayout.CENTER);	
 		
 		JPanel panel = new JPanel();
 		splitPane.setLeftComponent(panel);
@@ -135,6 +139,34 @@ public class AppMainWindow extends JFrame implements Runnable
 		renderThread.start();
 		
 		setVisible(true);
+		
+		//Mainpanel handling	
+        ActionListener aL = new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				// TODO Auto-generated method stub
+				switch (e.getActionCommand()) {
+				case "Dev Mode": //needs improvement, not sure how to redraw everything or if in right place
+					if(UIMode.getCurrentMode() == UIMode.USER_MODE ){
+					infoArea.remove(userPanel);
+					infoArea.add(devPanel, BorderLayout.CENTER);					
+					}
+					else{
+					infoArea.remove(devPanel);
+					infoArea.add(userPanel, BorderLayout.CENTER);					
+					}
+					UIMode.switchCurrentMode();
+					setVisible(true); //redraw					
+					break;
+				}
+			}
+        };
+    	chckbxmntmDevMode.addActionListener(aL);
+    	
+			
+		
+		
 	}
 
 	@Override
