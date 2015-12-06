@@ -73,58 +73,15 @@ public class TwitterInformation {
 	}
 
 	public static String getBuilding(String hashtag) {
-		if (TwitterInformation.buildingHashtags == null) {
-			TwitterInformation.loadBuildingHashtags();
-		}
-		hashtag = TwitterInformation.fixHashtag(hashtag);
-		
-		if (TwitterInformation.buildingHashtags.get(1).equals(hashtag)) {
-			return TwitterInformation.CC;
-		} else if (TwitterInformation.buildingHashtags.get(2).equals(hashtag)) {
-			return TwitterInformation.CC;
-		}
-		
-		return TwitterInformation.noBuildingFound;
+		throw new UnsupportedOperationException("getBuilding not yet implemented.");
 	}
 
 	private static void loadBuildingHashtags() {
-		try {
-			FileReader fileReader = new FileReader(TwitterInformation.buildingHashtagsPath);
-			BufferedReader bufferedReader = new BufferedReader(fileReader);
-			
-			String line = bufferedReader.readLine();
-			LinkedList<String> lines = new LinkedList<String>();
-			lines.add(null);
-
-			do {
-					line.replaceAll("\\s","");
-					line.replaceAll("[^A-Za-z0-9]", "");
-					
-					if (line.length() > 0) {
-						lines.add(line.toLowerCase());
-					}
-					
-					line = bufferedReader.readLine();
-			} while (line != null);
-			
-			bufferedReader.close();
-			fileReader.close();
-			
-			TwitterInformation.buildingHashtags = lines;
-		}
-		catch (FileNotFoundException f) {
-			f.printStackTrace();
-		}
-		catch (IOException i) {
-			i.printStackTrace();
-		}
+		throw new UnsupportedOperationException("loadBuildingHashtags not yet implemented.");
 	}
 	
 	private static String fixHashtag(String hashtag) {
-		hashtag.replaceAll("\\s","");
-		hashtag.replaceAll("[^A-Za-z0-9]", "");
-		
-		return hashtag.toLowerCase();
+		throw new UnsupportedOperationException("fixHashtag not yet implemented.");
 	}
 
 }
