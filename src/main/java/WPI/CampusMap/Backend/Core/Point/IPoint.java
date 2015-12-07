@@ -1,12 +1,14 @@
 package WPI.CampusMap.Backend.Core.Point;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.AStar.Frontier;
-import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.Node.Node;
+import WPI.CampusMap.Backend.PathPlanning.Node;
 
-public interface IPoint {
+public interface IPoint extends Serializable {
 	public double distance(IPoint other);
 	public Coord getCoord();
 	public void setCoord(Coord coord);
@@ -23,4 +25,6 @@ public interface IPoint {
 	public boolean addNeighbor(IPoint point);
 	public String getMap();
 	public String toString();
+	public boolean exists();
+	public HashMap<String, String> getNeighborPointsOnOtherMaps();
 }

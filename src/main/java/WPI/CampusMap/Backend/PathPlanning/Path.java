@@ -69,4 +69,9 @@ public class Path implements Iterable<Path.Section>
 	{
 		throw new UnsupportedOperationException("not implemented");
 	}
+
+	public Node getPathScale() {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

@@ -8,10 +8,10 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
-import WPI.CampusMap.Backend.Core.Point.Point;
+import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.Core.Ref.TypedRef;
 import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Path.Path;
-import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.Node.Node;
+import WPI.CampusMap.Backend.PathPlanning.Node;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicsObject;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.RealMouseEvent;
 
@@ -70,8 +70,8 @@ public class UserPathGraphicsObject extends GraphicsObject<Path, UserGraphicalMa
 			Node a = nodes.get(i - 1);
 			Node b = nodes.get(i);
 			
-			Point pa = a.getPoint();
-			Point pb = b.getPoint();
+			IPoint pa = a.getPoint();
+			IPoint pb = b.getPoint();
 			
 			Coord screenA = getOwner().getScreenCoord(pa.getCoord());
 			Coord screenB = getOwner().getScreenCoord(pb.getCoord());

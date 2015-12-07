@@ -96,8 +96,8 @@ public class ConnectionPoint extends Point {
 			Map targetMap = Map.getMap(entry.getKey());
 			Point target = targetMap.getPoint(entry.getValue());
 			
-			Node newNode = new Node(target, fromNode, goal);
-			frontier.addToFrontier(newNode);
+//			Node newNode = new Node(target, fromNode, goal);
+//			frontier.addToFrontier(newNode);
 		}
 	}
 

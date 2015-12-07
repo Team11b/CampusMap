@@ -2,9 +2,6 @@ package WPI.CampusMap.Backend.PathPlanning;
 
 import java.util.Comparator;
 
-import org.jboss.resteasy.spi.NotImplementedYetException;
-import org.jboss.resteasy.spi.UnauthorizedException;
-
 import WPI.CampusMap.Backend.Core.Point.Point;
 
 /**

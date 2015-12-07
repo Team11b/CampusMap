@@ -3,8 +3,8 @@ package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.User;
 import java.util.Hashtable;
 import java.util.LinkedList;
 
-import WPI.CampusMap.Backend.Core.Map.Map;
-import WPI.CampusMap.Backend.Core.Point.Point;
+import WPI.CampusMap.Backend.Core.Map.IMap;
+import WPI.CampusMap.Backend.Core.Point.RealPoint;
 import WPI.CampusMap.Backend.Core.Ref.Ref;
 import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Path.Path;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicalMap;
@@ -15,12 +15,12 @@ public class UserGraphicalMap extends GraphicalMap
 {
 	private static Hashtable<String, UserGraphicalMap> loadedMaps = new Hashtable<>();
 	
-	public static UserGraphicalMap loadGraphicalMap(Map map)
+	public static UserGraphicalMap loadGraphicalMap(IMap map)
 	{
 		return loadGraphicalMap(map, null);
 	}
 	
-	public static UserGraphicalMap loadGraphicalMap(Map map, MapPanel panel)
+	public static UserGraphicalMap loadGraphicalMap(IMap map, MapPanel panel)
 	{
 		UserGraphicalMap graphicalMap = loadedMaps.get(map.getName());
 		if(graphicalMap == null)
@@ -36,15 +36,15 @@ public class UserGraphicalMap extends GraphicalMap
 		return graphicalMap;
 	}
 	
-	private UserGraphicalMap(Map map, MapPanel panel) {
+	private UserGraphicalMap(IMap map, MapPanel panel) {
 		super(map, panel);		
 		// TODO Auto-generated constructor stub
 	}
 
 	@Override
-	public void spawnMap(Map map)
+	public void spawnMap(IMap map)
 	{
-		for(Point p : map.getAllPoints().values())
+		for(RealPoint p : map.getAllPoints())
 		{
 			new UserPointGraphicsObject(p, this);
 		}

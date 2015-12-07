@@ -1,6 +1,6 @@
 package WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.Node;
 
-import WPI.CampusMap.Backend.Core.Point.Point;
+import WPI.CampusMap.Backend.Core.Point.RealPoint;
 
 @Deprecated
 public class ConnectionNode extends Node {
@@ -8,7 +8,7 @@ public class ConnectionNode extends Node {
 	private boolean entryPoint;
 	public static final int travelCost = 500;
 	
-	public ConnectionNode(Point point, Node parent, boolean entryPoint) {
+	public ConnectionNode(RealPoint point, Node parent, boolean entryPoint) {
 		super(point, parent, null);
 		this.entryPoint = entryPoint;
 	}

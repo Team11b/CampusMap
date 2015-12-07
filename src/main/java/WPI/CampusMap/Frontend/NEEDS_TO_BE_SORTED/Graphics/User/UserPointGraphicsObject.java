@@ -4,11 +4,11 @@ import java.awt.Color;
 import java.util.LinkedList;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
-import WPI.CampusMap.Backend.Core.Map.Map;
-import WPI.CampusMap.Backend.Core.Point.Point;
+import WPI.CampusMap.Backend.Core.Map.AllMaps;
+import WPI.CampusMap.Backend.Core.Point.RealPoint;
 import WPI.CampusMap.Backend.Core.Ref.TypedRef;
 import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Path.MultiPath;
-import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.AStar.AStar;
+import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Path.Path;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.PointGraphicsObject;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.RealMouseEvent;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI.AppUIObject;
@@ -67,22 +67,23 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 		lastRoutedPath = null;
 		
 		for(int i = 1; i < selectedRoute.size(); i++)
-		{
-			TypedRef<UserPointGraphicsObject> current = selectedRoute.get(i);
-			TypedRef<UserPointGraphicsObject> last = selectedRoute.get(i - 1);
-			
-			MultiPath subRoute = AStar.multi_AStar(last.getValue().getRepresentedObject(), current.getValue().getRepresentedObject());
-			
-			if(lastRoutedPath != null)
-				lastRoutedPath = MultiPath.join(lastRoutedPath, subRoute);
-			else
-				lastRoutedPath = subRoute;
-		}
+//		{
+//			TypedRef<UserPointGraphicsObject> current = selectedRoute.get(i);
+//			TypedRef<UserPointGraphicsObject> last = selectedRoute.get(i - 1);
+//			
+//			MultiPath subRoute = AStar.multi_AStar(last.getValue().getRepresentedObject(), current.getValue().getRepresentedObject());
+//			
+//			if(lastRoutedPath != null)
+//				lastRoutedPath = MultiPath.join(lastRoutedPath, subRoute);
+//			else
+//				lastRoutedPath = subRoute;
+//		}
 		
 		for(String map : lastRoutedPath.getReferencedMaps())
 		{
-			UserGraphicalMap graphicalMap = UserGraphicalMap.loadGraphicalMap(Map.getMap(map));
-			graphicalMap.setPathSections(lastRoutedPath.getMapPath(map));
+			UserGraphicalMap graphicalMap = UserGraphicalMap.loadGraphicalMap(AllMaps.getInstance().getMap(map));
+//			Path path = lastRoutedPath.getMapPath(map);
+			graphicalMap.setPathSections(new LinkedList<Path>());
 		}
 		
 		//clearSelected();
@@ -102,7 +103,7 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 		AppUIObject.getInstance().onRouteCleared();
 	}
 	
-	public UserPointGraphicsObject(Point backend, UserGraphicalMap owner) 
+	public UserPointGraphicsObject(RealPoint backend, UserGraphicalMap owner) 
 	{
 		super(backend, owner);		
 		

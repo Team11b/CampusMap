@@ -14,7 +14,8 @@ import java.util.Hashtable;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Map.IMap;
-import WPI.CampusMap.Backend.Core.Map.Map;
+import WPI.CampusMap.Backend.Core.Map.IMap;
+import WPI.CampusMap.Backend.Core.Map.RealMap;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI.AppUIObject;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI.MapPanel;
 
@@ -28,7 +29,7 @@ public abstract class GraphicalMap
 	private ArrayList<GraphicsObject<?, ?>> batchList = new ArrayList<>();
 	private Hashtable<Object, GraphicsObject<?, ?>> graphicsObjectLookup = new Hashtable<>();
 	
-	private Map map;
+	private IMap map;
 	private MapPanel panel;
 	
 	private GraphicsObject<?, ?> over;
@@ -36,7 +37,7 @@ public abstract class GraphicalMap
 	private AffineTransform transform;
 	
 	@Deprecated
-	public GraphicalMap(Map map, MapPanel panel)
+	public GraphicalMap(IMap map, MapPanel panel)
 	{
 		this.panel = panel;
 		this.map = map;
@@ -162,7 +163,7 @@ public abstract class GraphicalMap
 	 * @param map The map to read in.
 	 */
 	@Deprecated
-	public abstract void spawnMap(Map map);
+	public abstract void spawnMap(IMap map);
 	
 	/**
 	 * Called to unload this graphical map.
@@ -180,6 +181,10 @@ public abstract class GraphicalMap
 		return over;
 	}
 	
+	/**
+	 * Called when the mouse moves over the graphics map.
+	 * @param e The mouse movement event.
+	 */
 	public final void mouseMove(MouseEvent e)
 	{
 		synchronized (this)
@@ -309,7 +314,7 @@ public abstract class GraphicalMap
 		return false;
 	}
 	
-	public final Map getMap()
+	public final IMap getMap()
 	{
 		return map;
 	}

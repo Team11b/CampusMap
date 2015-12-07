@@ -4,8 +4,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.PriorityQueue;
 
-import WPI.CampusMap.Backend.Core.Point.Point;
-import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.Node.Node;
+import WPI.CampusMap.Backend.Core.Point.IPoint;
+import WPI.CampusMap.Backend.PathPlanning.Node;
 
 /**
  * 
@@ -14,8 +14,8 @@ import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.Node.Node;
  */
 public class Frontier {
 	private PriorityQueue<Node> pq;
-	private HashMap<Point, Node> visited;
-	private HashMap<Point, Node> frontierSet;
+	private HashMap<IPoint, Node> visited;
+	private HashMap<IPoint, Node> frontierSet;
 	
 
 	public static final Comparator<Node> stdNodeComp = new Comparator<Node>() {
@@ -36,22 +36,22 @@ public class Frontier {
 		this.frontierSet = new HashMap<>();
 	}
 
-	public void addToFrontier(Node newItem) 
+	public void addToFrontier(Node beta) 
 	{
-		if(frontierSet.containsKey(newItem.getPoint()))
+		if(frontierSet.containsKey(beta.getPoint()))
 		{
-			Node old = frontierSet.get(newItem.getPoint());
-			if(newItem.getCurrentScore() < old.getCurrentScore())
+			Node old = frontierSet.get(beta.getPoint());
+			if(beta.getCurrentScore() < old.getCurrentScore())
 			{
-				frontierSet.put(newItem.getPoint(), newItem);
+				frontierSet.put(beta.getPoint(), beta);
 				this.pq.remove(old);
-				this.pq.add(newItem);
+				this.pq.add(beta);
 			}
 		}
-		else if(!visited.containsKey(newItem.getPoint()))
+		else if(!visited.containsKey(beta.getPoint()))
 		{
-			this.pq.add(newItem);
-			this.frontierSet.put(newItem.getPoint(), newItem);
+			this.pq.add(beta);
+			this.frontierSet.put((IPoint) beta.getPoint(), beta);
 		}
 	}
 	
@@ -94,6 +94,18 @@ public class Frontier {
 			response += "\n";
 		}
 		return response;
+	}
+
+	public Node getNext() {
+		//needed for frontier test
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	public boolean contains(Node eta) {
+		//needed for frontier test
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

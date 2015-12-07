@@ -3,9 +3,8 @@ package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.Dev;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import WPI.CampusMap.Backend.Core.Coordinate.Coord;
-import WPI.CampusMap.Backend.Core.Point.ConnectionPoint;
-import WPI.CampusMap.Backend.Core.Point.Point;
+import WPI.CampusMap.Backend.Core.Point.IPoint;
+import WPI.CampusMap.Backend.Core.Point.RealPoint;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Dev.EditorToolMode;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.PointGraphicsObject;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.RealMouseEvent;
@@ -25,20 +24,22 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 		selected = null;
 	}
 	
-	public DevPointGraphicsObject(Point backend, DevGraphicalMap owner)
+	public DevPointGraphicsObject(RealPoint backend, DevGraphicalMap owner)
 	{
 		super(backend, owner);
 		
-		ArrayList<Point> connections = backend.getNeighborsP();
-		for(Point p : connections)
+		ArrayList<IPoint> connections = backend.getNeighborsP();
+		for(IPoint p : connections)
 		{
-			createGraphicsEdge(p);
+			if(p.getMap().equals(backend.getMap())){
+				createGraphicsEdge(p);
+			}
 		}
 	}
 	
-	public void convertToConnectionPoint(String type)
+	/*public void convertToConnectionPoint(String type)
 	{
-		Point point = getRepresentedObject();
+		RealPoint point = getRepresentedObject();
 		if(point instanceof ConnectionPoint)
 		{
 			point.setType(type);
@@ -50,7 +51,7 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 		ConnectionPoint connectionPoint = new ConnectionPoint(copyCoord, type, point.getId(), point.getMap());
 		
 		@SuppressWarnings("unchecked")
-		ArrayList<Point> neighbors = (ArrayList<Point>) point.getNeighborsP().clone();
+		ArrayList<RealPoint> neighbors = (ArrayList<RealPoint>) point.getNeighborsP().clone();
 		
 		removeEdges();
 		getOwner().getMap().removePoint(point);
@@ -58,18 +59,18 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 		
 		setRepresentedObject(connectionPoint);
 		
-		for(Point p : neighbors)
+		for(RealPoint p : neighbors)
 		{
 			connectionPoint.addNeighbor(p);
-			createGraphicsEdge((Point) getOwner().getObject(p).getRepresentedObject());
+			createGraphicsEdge((RealPoint) getOwner().getObject(p).getRepresentedObject());
 		}
 		
 		AppUIObject.getInstance().onPointSelected(getRepresentedObject());
-	}
+	}*/
 	
-	public void convertToNormalPoint(String type)
+	/*public void convertToNormalPoint(String type)
 	{
-		Point point = getRepresentedObject();
+		RealPoint point = getRepresentedObject();
 		if(!(point instanceof ConnectionPoint))
 		{
 			point.setType(type);
@@ -91,14 +92,14 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 		
 		setRepresentedObject(normalPoint);
 		
-		for(Point p : neighbors)
+		for(RealPoint p : neighbors)
 		{
 			normalPoint.addNeighbor(p);
-			createGraphicsEdge((Point) getOwner().getObject(p).getRepresentedObject());
+			createGraphicsEdge((RealPoint) getOwner().getObject(p).getRepresentedObject());
 		}
 		
 		AppUIObject.getInstance().onPointSelected(getRepresentedObject());
-	}
+	}*/
 	
 	public void select()
 	{
@@ -140,16 +141,16 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 	public void onDeleted() 
 	{
 		removeEdges();
-		Point ourPoint = getRepresentedObject();
+		RealPoint ourPoint = getRepresentedObject();
 		getOwner().getMap().removePoint(ourPoint);
 	}
 	
 	public void removeEdges()
 	{
-		Point ourPoint = getRepresentedObject();
-		ArrayList<Point> connections = ourPoint.getNeighborsP();
+		RealPoint ourPoint = getRepresentedObject();
+		ArrayList<IPoint> connections = ourPoint.getNeighborsP();
 		
-		for(Point other : connections)
+		for(IPoint other : connections)
 		{
 			DevEdgeGraphicsObject edge = DevEdgeGraphicsObject.getGraphicsEdge(ourPoint, other, getOwner());
 			edge.delete();
@@ -204,12 +205,16 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 	 */
 	private void onSelected()
 	{
-		System.out.println(getRepresentedObject().getNeighborsID());
 		AppUIObject.getInstance().onPointSelected(getRepresentedObject());
 	}
 	
-	private void createGraphicsEdge(Point other)
+	private void createGraphicsEdge(IPoint other)
 	{
 		DevEdgeGraphicsObject.createGraphicsEdge(getRepresentedObject(), other, getOwner());
+	}
+
+	public void setType(String type) {
+		RealPoint point = getRepresentedObject();
+		point.setType(type);
 	}
 }

@@ -8,6 +8,7 @@ import java.util.Hashtable;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Pair.UnorderedPair;
+import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.Core.Point.Point;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Dev.EditorToolMode;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicsObject;
@@ -18,9 +19,9 @@ import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.RealMouseEvent;
  * @author Benny
  *
  */
-public class DevEdgeGraphicsObject extends GraphicsObject<UnorderedPair<Point, Point>, DevGraphicalMap>
+public class DevEdgeGraphicsObject extends GraphicsObject<UnorderedPair<IPoint, IPoint>, DevGraphicalMap>
 {
-	private static Hashtable<UnorderedPair<Point, Point>, DevEdgeGraphicsObject> edgeLookupTable = new Hashtable<>();
+	private static Hashtable<UnorderedPair<IPoint, IPoint>, DevEdgeGraphicsObject> edgeLookupTable = new Hashtable<>();
 	
 	public static void cleanupEdges()
 	{
@@ -34,9 +35,9 @@ public class DevEdgeGraphicsObject extends GraphicsObject<UnorderedPair<Point, P
 	 * @param owner The graphical map owner.
 	 * @return The graphical edge that was either created or already exist.
 	 */
-	public static DevEdgeGraphicsObject createGraphicsEdge(Point p1, Point p2, DevGraphicalMap owner)
+	public static DevEdgeGraphicsObject createGraphicsEdge(IPoint p1, IPoint p2, DevGraphicalMap owner)
 	{
-		UnorderedPair<Point, Point> pair = new UnorderedPair<Point, Point>(p1, p2);
+		UnorderedPair<IPoint, IPoint> pair = new UnorderedPair<IPoint, IPoint>(p1, p2);
 		DevEdgeGraphicsObject go = edgeLookupTable.get(pair);
 		
 		if(go != null)
@@ -47,9 +48,9 @@ public class DevEdgeGraphicsObject extends GraphicsObject<UnorderedPair<Point, P
 		return go;
 	}
 	
-	public static DevEdgeGraphicsObject getGraphicsEdge(Point p1, Point p2, DevGraphicalMap owner)
+	public static DevEdgeGraphicsObject getGraphicsEdge(IPoint p1, IPoint p2, DevGraphicalMap owner)
 	{
-		UnorderedPair<Point, Point> pair = new UnorderedPair<Point, Point>(p1, p2);
+		UnorderedPair<IPoint, IPoint> pair = new UnorderedPair<IPoint, IPoint>(p1, p2);
 		DevEdgeGraphicsObject go = edgeLookupTable.get(pair);
 		
 		if(go != null)
@@ -58,13 +59,13 @@ public class DevEdgeGraphicsObject extends GraphicsObject<UnorderedPair<Point, P
 		return null;
 	}
 	
-	private UnorderedPair<Point, Point> edge;
+	private UnorderedPair<IPoint, IPoint> edge;
 	
 	private boolean isOver;
 	
-	private DevEdgeGraphicsObject(Point p1, Point p2, DevGraphicalMap owner) 
+	private DevEdgeGraphicsObject(IPoint p1, IPoint p2, DevGraphicalMap owner) 
 	{
-		super(new UnorderedPair<Point, Point>(p1, p2), owner);
+		super(new UnorderedPair<IPoint, IPoint>(p1, p2), owner);
 		// TODO Auto-generated constructor stub
 		edge = getRepresentedObject();
 		edgeLookupTable.put(edge, this);

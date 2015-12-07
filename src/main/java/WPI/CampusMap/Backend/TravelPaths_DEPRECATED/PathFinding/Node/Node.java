@@ -1,9 +1,8 @@
 package WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.Node;
 
 import WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Weather.WeatherAnalysis;
-import WPI.CampusMap.Backend.Core.Map.Map;
-import WPI.CampusMap.Backend.Core.Point.ConnectionPoint;
-import WPI.CampusMap.Backend.Core.Point.Point;
+import WPI.CampusMap.Backend.Core.Map.AllMaps;
+import WPI.CampusMap.Backend.Core.Point.RealPoint;
 
 /**
  * 
@@ -12,7 +11,7 @@ import WPI.CampusMap.Backend.Core.Point.Point;
  *
  */
 public class Node {
-	private Point point;
+	private RealPoint point;
 	private Node parent;
 	private double heuristic = 0;
 	private double cumulativeDist;
@@ -27,29 +26,31 @@ public class Node {
 	 * Constructor. Sets cumulative distance and the most recent distance for
 	 * each Node based upon the parent.
 	 * 
-	 * @param point
+	 * @param one
 	 *            Point to base this Node on
+	 * @param one2
+	 *            The end point of the pathfinding
 	 * @param parent
 	 *            Parent Node
 	 */
-	public Node(Point point, Node parent, Point goal) {
-		this.point = point;
+	public Node(RealPoint one, Node parent, RealPoint one2) {
+		this.point = one;
 		this.parent = parent;
 
-		if (this.parent == null || !parent.getPoint().getMap().equals(goal.getMap())) {
+		if (this.parent == null || !parent.getPoint().getMap().equals(one2.getMap())) {
 			this.cumulativeDist = 0;
 		} else {
 			this.cumulativeDist = this.parent.cumulativeDist + this.parent.getPoint().distance(this.point);
 		}
 
-		this.currentScore = this.cumulativeDist + Node.stdH + (parent == null ? 0 : parent.calcHeuristic(goal));
+		this.currentScore = this.cumulativeDist + Node.stdH + (parent == null ? 0 : parent.calcHeuristic(one2));
 	}
 
-	public Point getPoint() {
+	public RealPoint getPoint() {
 		return point;
 	}
 
-	public void setPoint(Point point) {
+	public void setPoint(RealPoint point) {
 		this.point = point;
 	}
 
@@ -78,13 +79,13 @@ public class Node {
 		return this.heuristic;
 	}
 
-	public double calcHeuristic(Point goal) {
+	public double calcHeuristic(RealPoint one2) {
 		double temp = stdH;
 		double weather = WeatherAnalysis.getWeatherScore();
-		String building = goal.getMap();
-		if(building != null && building.length() > 3) building = building.substring(0, goal.getMap().length() - 2);
+		String building = one2.getMap();
+		if(building != null && building.length() > 3) building = building.substring(0, one2.getMap().length() - 2);
 
-		if (point.getMap().equals(goal.getMap())) {
+		if (point.getMap().equals(one2.getMap())) {
 
 			if (WeatherAnalysis.isUsingWeather()) {
 				if (weather > 0) {
@@ -103,10 +104,10 @@ public class Node {
 				}
 			}
 			
-			if(point.getMap() == goal.getMap())
+			if(point.getMap() == one2.getMap())
 				temp -= 1000;
 
-			temp += this.getPoint().distance(goal);
+			temp += this.getPoint().distance(one2);
 		}
 
 		else if (point.getMap().equals("CampusMap")) {
@@ -119,7 +120,7 @@ public class Node {
 				}
 			}
 
-			Point mapPoint = Map.getMap("CampusMap").getPoint(building);
+			RealPoint mapPoint = AllMaps.getInstance().getMap("CampusMap").getPoint(building);
 			if (mapPoint != null) {
 				temp += this.getPoint().distance(mapPoint);
 			}
@@ -134,9 +135,9 @@ public class Node {
 				}
 			}
 		}
-		if ((this.getPoint() instanceof ConnectionPoint) && ((this.getPoint().getType().equals(Point.ELEVATOR)) || (this.getPoint().getType().equals(Point.STAIRS)))) {
-			temp += ConnectionNode.travelCost;
-		}
+//		if ((this.getPoint() instanceof ConnectionPoint) && ((this.getPoint().getType().equals(Point.ELEVATOR)) || (this.getPoint().getType().equals(Point.STAIRS)))) {
+//			temp += ConnectionNode.travelCost;
+//		}
 		return temp;
 	}
 
