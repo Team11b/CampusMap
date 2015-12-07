@@ -562,7 +562,7 @@ public class AStarTest {
 			assertEquals(expectedSectionSize[j],section.size());
 			i = 0;
 			for(IPoint point: section){
-				System.out.println(point);
+//				System.out.println(point);
 				assertEquals(expectedPath[j][i],point.getId());
 				i++;
 			}
