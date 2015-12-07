@@ -8,6 +8,14 @@ import java.awt.Panel;
 import java.awt.Button;
 import java.awt.Canvas;
 import javax.swing.SpringLayout;
+
+import WPI.CampusMap.Backend.Core.Map.IMap;
+import WPI.CampusMap.Backend.Core.Point.IPoint;
+import WPI.CampusMap.Backend.PathPlanning.Path;
+import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.PointGraphicsObject;
+import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.Dev.DevEdgeGraphicsObject;
+import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.Dev.DevPointGraphicsObject;
+
 import javax.swing.JComboBox;
 import java.awt.Choice;
 import javax.swing.JLabel;
@@ -153,6 +161,92 @@ public class AppMainWindow extends JFrame implements Runnable
 		renderThread.start();
 		
 		setVisible(true);
+	}
+	
+	/**
+	 * Adds a map to be registered by the UI. This will add the map to all required lists.
+	 * @param map The map to be registered by the UI.
+	 */
+	public void addMap(IMap map)
+	{
+		throw new UnsupportedOperationException("not implemented");
+	}
+	
+	/**
+	 * Clears all registered maps.
+	 */
+	public void clearMaps()
+	{
+		throw new UnsupportedOperationException("not implemented");
+	}
+	
+	/**
+	 * Forces the map to switch to a new map. This method acts like the drop down menu selected a new map, so loading should not occur on the backend.
+	 * @param map
+	 */
+	public void forceMapSwitch(IMap map)
+	{
+		throw new UnsupportedOperationException("not implemented");
+	}
+	
+	/**
+	 * Adds a destination to the destination list.
+	 * @param point The point that represents the destination.
+	 */
+	public void addDestination(IPoint point)
+	{
+		throw new UnsupportedOperationException("not implemented");
+	}
+	
+	/**
+	 * Clears the destination list.
+	 */
+	public void clearDestinations()
+	{
+		throw new UnsupportedOperationException("not implemented");
+	}
+	
+	/**
+	 * Sets the route from path planning.
+	 * @param path The new route.
+	 */
+	public void setRoute(Path path)
+	{
+		throw new UnsupportedOperationException("not implemented");
+	}
+	
+	/**
+	 * Removes the current route in the GUI without loading in another one.
+	 */
+	public void clearRoute()
+	{
+		throw new UnsupportedOperationException("not implemented");
+	}
+	
+	/**
+	 * Called when a point has been selected in dev mode.
+	 * @param selectedPoint The graphical point that has been selected.
+	 */
+	public void devPointSelected(DevPointGraphicsObject selectedPoint)
+	{
+		throw new UnsupportedOperationException("not implemented");
+	}
+	
+	/**
+	 * Clears the selection from the UI.
+	 */
+	public void devClearPointSelection()
+	{
+		throw new UnsupportedOperationException("not implemented");
+	}
+	
+	/**
+	 * Called whn an edge has been selected in dev mode.
+	 * @param selectedEdge The selected edge.
+	 */
+	public void devEdgeSelected(DevEdgeGraphicsObject selectedEdge)
+	{
+		throw new UnsupportedOperationException("not implemented");
 	}
 
 	@Override
