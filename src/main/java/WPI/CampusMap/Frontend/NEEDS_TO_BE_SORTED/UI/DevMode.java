@@ -1,6 +1,7 @@
 package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI;
 
 import java.awt.Graphics2D;
+import java.awt.event.MouseEvent;
 
 public class DevMode extends UIMode 
 {
@@ -194,6 +195,36 @@ public class DevMode extends UIMode
 
 	@Override
 	public void onDraw(Graphics2D graphics) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onMouseClickMap(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onMouseEnterMap(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onMouseLeaveMap(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onMouseMoveOverMap(MouseEvent e) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void onMouseDraggedOverMap(MouseEvent e) {
 		// TODO Auto-generated method stub
 		
 	}

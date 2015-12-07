@@ -1,6 +1,7 @@
 package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI;
 
 import java.awt.Graphics2D;
+import java.awt.event.MouseEvent;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -56,4 +57,14 @@ abstract public class UIMode {
 	}
 	
 	public abstract void onDraw(Graphics2D graphics);
+	
+	public abstract void onMouseClickMap(MouseEvent e);
+	
+	public abstract void onMouseEnterMap(MouseEvent e);
+	
+	public abstract void onMouseLeaveMap(MouseEvent e);
+	
+	public abstract void onMouseMoveOverMap(MouseEvent e);
+	
+	public abstract void onMouseDraggedOverMap(MouseEvent e);
 }
