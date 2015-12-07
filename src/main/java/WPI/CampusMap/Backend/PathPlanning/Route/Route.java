@@ -44,32 +44,27 @@ public class Route {
 	}
 
 	public void parse(Path mp) {
-		int offset = 0;
 
 		for (Section current: mp) {;
-			this.append(Route.parse(current, offset));
-			offset += current.size();
+			this.append(Route.parse(current));
 		}
 	}
 
-	public static LinkedList<Instruction> parse(Section current, int offset) {
+	public static LinkedList<Instruction> parse(Section current) {
 		ArrayList<IPoint> p = GetTurns.getTurns(current);
 		LinkedList<Instruction> list = new LinkedList<Instruction>();
 		Instruction latest = null;
 		
-		String route = "";
-		route += "Start: " + p.get(0).getCoord().toString() + "\n";
-		route += "Face " + p.get(1).getId() + " and walk "
-				+  new DecimalFormat("#.").format(p.get(0).distance(p.get(1))) + " feet.\n";
-		latest = new Instruction(route, 0, p.get(0), offset);
+		latest = new Instruction(p.get(0),true);
 		list.add(latest);
-		route = "";
+		latest = new Instruction(p.get(0).distance(p.get(1)), p.get(0), p.get(1));
+		list.add(latest);
 		float totalDist = 0;
 
 		for (int i = 1; i < p.size() - 1; i++) {
 			String turn = "";
 			String direction = "";
-			float dist = (float) p.get(i).distance(p.get(i - 1));
+			float dist = (float) p.get(i).distance(p.get(i + 1));
 
 			float angleBefore = GetTurns.getAngle(p.get(i - 1), p.get(i));
 			float angleAfter = GetTurns.getAngle(p.get(i), p.get(i + 1));
@@ -106,19 +101,20 @@ public class Route {
 			} else {
 				direction = "";
 			}
-			route += "Turn " + direction + turn + " and walk " +  new DecimalFormat("#.").format(dist) + " feet.\n";
 
-			latest = new Instruction(route, dist, p.get(0), offset + i);
+			latest = new Instruction(direction + turn, p.get(i));
+			list.add(latest);
+			latest = new Instruction(dist, p.get(i), p.get(i + 1));
 			list.add(latest);
 			totalDist += dist;
-			route = "";
 		}
 		
 		float walkingSpeed = (float) 4.11; //feet per sec
 		float seconds = (totalDist / walkingSpeed);
-		String time = "ETA: " + (int)(seconds/60) + " minutes and " + new DecimalFormat("#.").format(seconds%60) +" seconds."; 
 
-		latest = new Instruction(time, 0, p.get(p.size()-1), p.size()-1);
+		latest = new Instruction(p.get(p.size()-1), false);
+		list.add(latest);
+		latest = new Instruction(seconds);
 		list.add(latest);
 
 		return list;
