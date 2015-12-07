@@ -32,7 +32,7 @@ public abstract class GraphicsObject<R, M extends GraphicalMap>
 	
 	/**
 	 * Gets the graphical map that owns this object.
-	 * @return
+	 * @return M BENNY FILL THIS IN
 	 */
 	public M getOwner()
 	{

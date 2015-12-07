@@ -28,7 +28,7 @@ public abstract class PathProcessor
 	/**
 	 * Executes the path processors path finding.
 	 * @return The found path.
-	 * @throws PathNotFoundException
+	 * @throws PathNotFoundException thrown when no path is found
 	 */
 	protected Path execute() throws PathNotFoundException
 	{
@@ -87,7 +87,7 @@ public abstract class PathProcessor
 	/**
 	 * Adds a node to the expored set.
 	 * @param node The node to add to the expored set.
-	 * @return
+	 * @return the node to add
 	 */
 	protected final Node addToExplored(Node node)
 	{

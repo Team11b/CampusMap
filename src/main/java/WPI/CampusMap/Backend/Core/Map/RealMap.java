@@ -23,30 +23,30 @@ public class RealMap implements IMap, java.io.Serializable {
 	private String name;
 	private HashMap<String, RealPoint> allPoints;
 	private ImageIcon loadedImage;
-	
+
 	/**
 	 * Creates a map with the given name and default values
 	 * 
 	 * @param name
 	 *            The name of the map to be created.
 	 */
-	public RealMap(String name){
+	public RealMap(String name) {
 		this.scale = 100;
 		this.name = name;
 		this.allPoints = new HashMap<String, RealPoint>();
 	}
-	
-	public void validatePoints(){
-		for(String key : allPoints.keySet()){
+
+	public void validatePoints() {
+		for (String key : allPoints.keySet()) {
 			RealPoint point = allPoints.get(key);
-			if(point != null){
+			if (point != null) {
 				point.constructNeighbors();
-			}else{
+			} else {
 				allPoints.remove(key);
 			}
 		}
 	}
-	
+
 	/**
 	 * Get the scale from inches to feet.
 	 * 
@@ -60,8 +60,8 @@ public class RealMap implements IMap, java.io.Serializable {
 	/**
 	 * Set the scale from inches to feet.
 	 * 
-	 * @param f
-	 *            The inches to feet scale.
+	 * @param scale
+	 *            the inches to feet scale.
 	 */
 	@Override
 	public void setScale(float scale) {
@@ -98,13 +98,12 @@ public class RealMap implements IMap, java.io.Serializable {
 	 */
 	@Override
 	public ImageIcon getLoadedImage() {
-		if(loadedImage == null)
-		{
+		if (loadedImage == null) {
 			loadImage();
 		}
 		return loadedImage;
 	}
-	
+
 	/**
 	 * loads the image of the map
 	 */
@@ -155,7 +154,7 @@ public class RealMap implements IMap, java.io.Serializable {
 	 */
 	@Override
 	public boolean removePoint(IPoint point) {
-		//System.out.println("Remove: " + point.getId());
+		// System.out.println("Remove: " + point.getId());
 		ArrayList<IPoint> neighbors = point.getNeighborsP();
 		for (IPoint pointN : neighbors) {
 			if (!pointN.removeNeighbor(point))
@@ -163,7 +162,7 @@ public class RealMap implements IMap, java.io.Serializable {
 		}
 		point.removeAllNeighbors();
 		allPoints.remove(point.getId());
-		
+
 		return true;
 	}
 
@@ -183,7 +182,8 @@ public class RealMap implements IMap, java.io.Serializable {
 		this.allPoints.put(point.getId(), point);
 		return true;
 	}
-	//TODO maybe move this to a static method?
+
+	// TODO maybe move this to a static method?
 	/**
 	 * Adds an edge between two Points
 	 * 
@@ -194,7 +194,7 @@ public class RealMap implements IMap, java.io.Serializable {
 	 * @return true if the edge was added, false if one Points doesn't exist or
 	 *         if the edge already exists
 	 */
-	//TODO maybe move this to a static method?
+	// TODO maybe move this to a static method?
 	@Override
 	public boolean addEdge(IPoint point, IPoint other) {
 		if (point.equals(other)) {
@@ -239,23 +239,23 @@ public class RealMap implements IMap, java.io.Serializable {
 		allPoints.remove(p.getId());
 		allPoints.put(newName, p);
 	}
-	
+
 	/**
 	 * Uses the serializer to save the map data.
 	 */
 	@Override
 	public void save() {
-		for(RealPoint point: allPoints.values()){
+		for (RealPoint point : allPoints.values()) {
 			point.validateNeighbors();
 		}
 		Serializer.save(this);
 	}
-	
+
 	/**
 	 * Returns the hashCode of the map
 	 */
 	@Override
-	public int hashCode(){
+	public int hashCode() {
 		return name.hashCode();
 	}
 
