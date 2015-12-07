@@ -265,4 +265,10 @@ public class RealMap implements IMap, java.io.Serializable {
 		return (ArrayList<RealPoint>) new ArrayList<RealPoint>(temp);
 	}
 
+	@Override
+	public boolean connectedToCampus() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

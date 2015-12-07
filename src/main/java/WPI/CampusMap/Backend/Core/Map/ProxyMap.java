@@ -118,4 +118,10 @@ public class ProxyMap implements IMap, Serializable {
 		return realMap.getAllPoints();
 	}
 
+	@Override
+	public boolean connectedToCampus() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

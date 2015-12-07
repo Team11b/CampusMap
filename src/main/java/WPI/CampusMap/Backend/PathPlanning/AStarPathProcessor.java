@@ -17,6 +17,10 @@ public class AStarPathProcessor extends PathProcessor {
 		this.nProcessor = nProcessor;
 	}
 	
+	// on map with goal #1
+	// on building with goal #2
+	// on campus map #3
+	// anything else
 	private static class NodeComparator implements Comparator<Node>
 	 {
 	     public int compare(Node n1, Node n2)
