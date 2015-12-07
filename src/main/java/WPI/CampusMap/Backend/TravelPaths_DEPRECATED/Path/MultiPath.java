@@ -6,8 +6,8 @@ import java.util.Set;
 
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Map.IMap;
-import WPI.CampusMap.Backend.Core.Point.RealPoint;
-import WPI.CampusMap.Backend.PathPlanning.Node;
+import WPI.CampusMap.Backend.Core.Point.Point;
+import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.Node.Node;
 import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Path.Path;
 
 /**
@@ -121,7 +121,7 @@ public class MultiPath
 	
 	public void add(Node n)
 	{
-		RealPoint p = n.getPoint();
+		Point p = n.getPoint();
 		
 		Path path;
 		if(mp.size() == 0 || !mp.getLast().getMapName().equals(p.getMap()))

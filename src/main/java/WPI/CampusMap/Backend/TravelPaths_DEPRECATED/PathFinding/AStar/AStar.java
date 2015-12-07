@@ -1,11 +1,13 @@
 package WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.AStar;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
-import WPI.CampusMap.Backend.Core.Point.RealPoint;
+import WPI.CampusMap.Backend.Core.Map.Map;
+import WPI.CampusMap.Backend.Core.Point.Point;
 import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Path.MultiPath;
 import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Path.Path;
-import WPI.CampusMap.Backend.PathPlanning.Node;
+import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.Node.Node;
 
 /**
  * 
@@ -29,32 +31,32 @@ public class AStar {
 	// TODO This function should be able to replaced by _AStar, but that is not
 	// confirmed yet
 	@Deprecated
-	public static Path single_AStar(RealPoint start, RealPoint goal) {
-		/*if (start.equals(goal)) {
+	public static Path single_AStar(Point start, Point goal) {
+		if (start.equals(goal)) {
 			Path returnPath = new Path(Map.getMap(start.getMap()).getScale());
-			Node tempNode = new Node(start, null);
+			Node tempNode = new Node(start, null, goal);
 			returnPath.addNode(tempNode);
-			returnPath.addNode(new Node(goal, tempNode));
+			returnPath.addNode(new Node(goal, tempNode, goal));
 			return returnPath;
 		}
 
 		boolean goalFound = false;
 
 		// Instantiate frontier and explored lists
-		Frontier frontier = new Frontier(Frontier.stdNodeComp);
+		Frontier frontier = new Frontier();
 		Explored explored = new Explored();
 
 		// Instantiate path
 		Path returnPath = new Path(Map.getMap(start.getMap()).getScale());
 
-		Node tempNode = new Node(start, null);
+		Node tempNode = new Node(start, null, goal);
 		tempNode.setHeuristic(tempNode.calcHeuristic(goal));
 
 		// add start to frontier as a Node
-		frontier.add(tempNode);
+		frontier.addToFrontier(tempNode);
 
 		while ((!frontier.isEmpty()) && (!(goalFound))) {
-			goalFound = frontier.contains(new Node(goal, null));
+			goalFound = frontier.contains(new Node(goal, null, goal));
 
 			if (!(goalFound)) {
 				explored.add(frontier.getNext());
@@ -64,10 +66,10 @@ public class AStar {
 					// explored
 					// list
 					Node centerPoint = explored.getLast();
-					ArrayList<Point> neigh = centerPoint.getPoint().getValidNeighbors();
+					ArrayList<Point> neigh = centerPoint.getPoint().getValidNeighbors(null);
 					for (int j = 0; j < neigh.size(); j++) {
-						tempNode = new Node(null, null);
-						tempNode = new Node(neigh.get(j), explored.getLast());
+						tempNode = new Node(null, null, goal);
+						tempNode = new Node(neigh.get(j), explored.getLast(), goal);
 
 						tempNode.setCumulativeDist(explored.getLast().getCumulativeDist());
 						tempNode.setCurrentScore(
@@ -76,14 +78,13 @@ public class AStar {
 						// check if Node is in Explored
 						if (!(explored.containsSamePoint(tempNode))) {
 
-							frontier.isBetter(tempNode);
+//							frontier.isBetter(tempNode);
 						}
 					}
 				}
 			}
 		}
-		tempNode = new Node(null, null);
-		tempNode = frontier.find(new Node(goal, null));
+//		tempNode = frontier.find(new Node(goal, null, goal));
 		while ((tempNode != null) && (!(tempNode.getPoint().equals(start)))) {
 			returnPath.addNode(tempNode);
 			tempNode = tempNode.getParent();
@@ -91,8 +92,7 @@ public class AStar {
 		returnPath.addNode(tempNode);
 
 		returnPath.reverse();
-		return returnPath;*/
-		return null;
+		return returnPath;
 	}
 
 	/**
@@ -104,11 +104,11 @@ public class AStar {
 	 *            the goal Point located on goalMap
 	 * @return a Path which spans multiple maps
 	 */
-	public static MultiPath multi_AStar(RealPoint start, RealPoint goal) 
+	public static MultiPath multi_AStar(Point start, Point goal) 
 	{
 		Frontier frontier = new Frontier();
 		
-		Node startNode = new Node(start);
+		Node startNode = new Node(start, null, goal);
 		frontier.addToVisited(startNode);
 		start.buildFrontier(frontier, startNode, goal);
 		

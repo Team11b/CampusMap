@@ -8,13 +8,11 @@ package WPI.CampusMap.Backend.PathPlanning;
  */
 public abstract class NodeProcessor
 {
+	private NodeProcessor child;
 	/**
 	 * Creates a node processor.
 	 */
-	public NodeProcessor()
-	{
-		throw new UnsupportedOperationException("not implemented");
-	}
+	public NodeProcessor(){}
 	
 	/**
 	 * Creates a node processor to process after its child.
@@ -22,7 +20,7 @@ public abstract class NodeProcessor
 	 */
 	public NodeProcessor(NodeProcessor child)
 	{
-		throw new UnsupportedOperationException("not implemented");
+		this.child = child;
 	}
 	
 	/**
@@ -31,16 +29,24 @@ public abstract class NodeProcessor
 	 */
 	public NodeProcessor getChild()
 	{
-		throw new UnsupportedOperationException("not implemented");
+		return child;
 	}
 	
 	/**
-	 * Executes processing this node processor and all linked children.
+	 * Executes this node processor and all linked children on the given node.
+	 * @param node to process
 	 */
-	protected void execute()
+	protected void execute(Node node)
 	{
-		throw new UnsupportedOperationException("not implemented");
+		onProcessNode(node);
+		if(child != null){
+			child.execute(node);
+		}
 	}
-	
-	protected abstract void onProcessNode();
+
+	/**
+	 * Processes the given node.
+	 * @param node to process
+	 */
+	protected abstract void onProcessNode(Node node);
 }

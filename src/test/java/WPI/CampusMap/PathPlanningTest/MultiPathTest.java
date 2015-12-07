@@ -6,24 +6,24 @@ import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import WPI.CampusMap.Backend.Core.Point.RealPoint;
-import WPI.CampusMap.Backend.PathPlanning.Node;
+import WPI.CampusMap.Backend.Core.Point.Point;
+import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.Node.Node;
 import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Path.Path;
 import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Path.MultiPath;
 
 public class MultiPathTest {
-	public static RealPoint alpha;
-	public static RealPoint beta;
-	public static RealPoint gamma;
-	public static RealPoint delta;
-	public static RealPoint epsilon;
-	public static RealPoint zeta;
-	public static RealPoint eta;
-	public static RealPoint theta;
-	public static RealPoint iota;
-	public static RealPoint kappa;
-	public static RealPoint lambda;
-	public static RealPoint mu;
+	public static Point alpha;
+	public static Point beta;
+	public static Point gamma;
+	public static Point delta;
+	public static Point epsilon;
+	public static Point zeta;
+	public static Point eta;
+	public static Point theta;
+	public static Point iota;
+	public static Point kappa;
+	public static Point lambda;
+	public static Point mu;
 
 	public static Node nu;
 	public static Node xi;
@@ -55,31 +55,31 @@ public class MultiPathTest {
 
 	@BeforeClass
 	public static void setUpBeforeClass() throws Exception {
-		alpha = new RealPoint(null, null, "alpha", null);
-		beta = new RealPoint(null, null, "beta", null);
-		gamma = new RealPoint(null, null, "gamma", null);
-		delta = new RealPoint(null, null, "delta", null);
-		epsilon = new RealPoint(null, null, "epsilon", null);
-		zeta = new RealPoint(null, null, "zeta", null);
-		eta = new RealPoint(null, null, "eta", null);
-		theta = new RealPoint(null, null, "theta", null);
-		iota = new RealPoint(null, null, "iota", null);
-		kappa = new RealPoint(null, null, "kappa", null);
-		lambda = new RealPoint(null, null, "lambda", null);
-		mu = new RealPoint(null, null, "nu", null);
+		alpha = new Point(null, null, "alpha", null);
+		beta = new Point(null, null, "beta", null);
+		gamma = new Point(null, null, "gamma", null);
+		delta = new Point(null, null, "delta", null);
+		epsilon = new Point(null, null, "epsilon", null);
+		zeta = new Point(null, null, "zeta", null);
+		eta = new Point(null, null, "eta", null);
+		theta = new Point(null, null, "theta", null);
+		iota = new Point(null, null, "iota", null);
+		kappa = new Point(null, null, "kappa", null);
+		lambda = new Point(null, null, "lambda", null);
+		mu = new Point(null, null, "nu", null);
 
-		nu = new Node(alpha);
-		xi = new Node(beta);
-		omicron = new Node(gamma);
-		pi = new Node(delta);
-		rho = new Node(epsilon);
-		sigma = new Node(zeta);
-		tau = new Node(eta);
-		upsilon = new Node(theta);
-		phi = new Node(iota);
-		chi = new Node(kappa);
-		psi = new Node(lambda);
-		omega = new Node(mu);
+		nu = new Node(alpha, null, null);
+		xi = new Node(beta, null, null);
+		omicron = new Node(gamma, null, null);
+		pi = new Node(delta, null, null);
+		rho = new Node(epsilon, null, null);
+		sigma = new Node(zeta, null, null);
+		tau = new Node(eta, null, null);
+		upsilon = new Node(theta, null, null);
+		phi = new Node(iota, null, null);
+		chi = new Node(kappa, null, null);
+		psi = new Node(lambda, null, null);
+		omega = new Node(mu, null, null);
 
 		alef = new Path(1);
 		bet = new Path(1);

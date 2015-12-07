@@ -4,8 +4,8 @@ import java.util.Comparator;
 import java.util.HashMap;
 import java.util.PriorityQueue;
 
-import WPI.CampusMap.Backend.Core.Point.IPoint;
-import WPI.CampusMap.Backend.PathPlanning.Node;
+import WPI.CampusMap.Backend.Core.Point.Point;
+import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.Node.Node;
 
 /**
  * 
@@ -14,8 +14,8 @@ import WPI.CampusMap.Backend.PathPlanning.Node;
  */
 public class Frontier {
 	private PriorityQueue<Node> pq;
-	private HashMap<IPoint, Node> visited;
-	private HashMap<IPoint, Node> frontierSet;
+	private HashMap<Point, Node> visited;
+	private HashMap<Point, Node> frontierSet;
 	
 
 	public static final Comparator<Node> stdNodeComp = new Comparator<Node>() {
@@ -51,7 +51,7 @@ public class Frontier {
 		else if(!visited.containsKey(beta.getPoint()))
 		{
 			this.pq.add(beta);
-			this.frontierSet.put((IPoint) beta.getPoint(), beta);
+			this.frontierSet.put((Point) beta.getPoint(), beta);
 		}
 	}
 	

@@ -1,6 +1,6 @@
 package WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Route;
 
-import WPI.CampusMap.Backend.PathPlanning.Node;
+import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.Node.Node;
 
 /**
  * 

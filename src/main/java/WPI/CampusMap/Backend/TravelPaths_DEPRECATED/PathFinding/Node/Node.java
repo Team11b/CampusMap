@@ -1,8 +1,8 @@
 package WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.Node;
 
 import WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Weather.WeatherAnalysis;
-import WPI.CampusMap.Backend.Core.Map.AllMaps;
-import WPI.CampusMap.Backend.Core.Point.RealPoint;
+import WPI.CampusMap.Backend.Core.Map.Map;
+import WPI.CampusMap.Backend.Core.Point.Point;
 
 /**
  * 
@@ -11,7 +11,7 @@ import WPI.CampusMap.Backend.Core.Point.RealPoint;
  *
  */
 public class Node {
-	private RealPoint point;
+	private Point point;
 	private Node parent;
 	private double heuristic = 0;
 	private double cumulativeDist;
@@ -33,7 +33,7 @@ public class Node {
 	 * @param parent
 	 *            Parent Node
 	 */
-	public Node(RealPoint one, Node parent, RealPoint one2) {
+	public Node(Point one, Node parent, Point one2) {
 		this.point = one;
 		this.parent = parent;
 
@@ -46,11 +46,11 @@ public class Node {
 		this.currentScore = this.cumulativeDist + Node.stdH + (parent == null ? 0 : parent.calcHeuristic(one2));
 	}
 
-	public RealPoint getPoint() {
+	public Point getPoint() {
 		return point;
 	}
 
-	public void setPoint(RealPoint point) {
+	public void setPoint(Point point) {
 		this.point = point;
 	}
 
@@ -79,7 +79,7 @@ public class Node {
 		return this.heuristic;
 	}
 
-	public double calcHeuristic(RealPoint one2) {
+	public double calcHeuristic(Point one2) {
 		double temp = stdH;
 		double weather = WeatherAnalysis.getWeatherScore();
 		String building = one2.getMap();
@@ -120,7 +120,7 @@ public class Node {
 				}
 			}
 
-			RealPoint mapPoint = AllMaps.getInstance().getMap("CampusMap").getPoint(building);
+			Point mapPoint = Map.getMap("CampusMap").getPoint(building);
 			if (mapPoint != null) {
 				temp += this.getPoint().distance(mapPoint);
 			}

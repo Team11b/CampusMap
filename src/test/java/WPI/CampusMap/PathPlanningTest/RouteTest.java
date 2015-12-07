@@ -12,18 +12,17 @@ import org.junit.Test;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
-import WPI.CampusMap.Backend.Core.Map.ProxyMap;
-import WPI.CampusMap.Backend.Core.Map.RealMap;
-import WPI.CampusMap.Backend.Core.Point.RealPoint;
+import WPI.CampusMap.Backend.Core.Map.Map;
+import WPI.CampusMap.Backend.Core.Point.Point;
 import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Path.MultiPath;
 import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.AStar.AStar;
-import WPI.CampusMap.Backend.PathPlanning.Node;
+import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.Node.Node;
 import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Route.Route;
-import WPI.CampusMap.Recording.Serialization.Serializer;
+import WPI.CampusMap.Recording.Serialization.OLSSerializer;
 
 public class RouteTest {
-	static ProxyMap testMap5;
-	static RealMap testMap6;
+	static Map testMap5;
+	static Map testMap6;
 
 	@BeforeClass
 	public static void getMap() throws XMLStreamException {
@@ -36,33 +35,33 @@ public class RouteTest {
 		a = "MapA";
 		b = "MapB";
 
-		testMap5 = new ProxyMap(a);
+		testMap5 = new Map(a);
 		testMap5.setScale(100);
 
-		RealPoint zero = new RealPoint(new Coord(0, 0), "hallway", "0", a);
-		RealPoint one = new RealPoint(new Coord(1, 0), "hallway", "1", a);
-		RealPoint two = new RealPoint(new Coord(2, 0), "hallway", "2", a);
-		RealPoint three = new RealPoint(new Coord(3, 0), "hallway", "3", a);
-		RealPoint four = new RealPoint(new Coord(4, 0), "hallway", "4", a);//Connection
-		RealPoint five = new RealPoint(new Coord(0, 1), "hallway", "5", a);
-		RealPoint six = new RealPoint(new Coord(1, 1), "hallway", "6", a);
-		RealPoint seven = new RealPoint(new Coord(2, 1), "hallway", "7", a);
-		RealPoint eight = new RealPoint(new Coord(3, 1), "hallway", "8", a);
-		RealPoint nine = new RealPoint(new Coord(4, 1), "hallway", "9", a);
-		RealPoint ten = new RealPoint(new Coord(0, 2), "hallway", "10", a);
-		RealPoint eleven = new RealPoint(new Coord(1, 2), "hallway", "11", a);
-		RealPoint twelve = new RealPoint(new Coord(2, 2), "hallway", "12", a);
-		RealPoint fourteen = new RealPoint(new Coord(4, 2), "hallway", "14", a);
-		RealPoint fifteen = new RealPoint(new Coord(0, 3), "hallway", "15", a);
-		RealPoint sixteen = new RealPoint(new Coord(1, 3), "hallway", "16", a);
-		RealPoint seventeen = new RealPoint(new Coord(2, 3), "hallway", "17", a);
-		RealPoint eightteen = new RealPoint(new Coord(3, 3), "hallway", "18", a);
-		RealPoint nineteen = new RealPoint(new Coord(4, 3), "hallway", "19", a);
-		RealPoint twenty = new RealPoint(new Coord(0, 4), "hallway", "20", a);
-		RealPoint twentyone = new RealPoint(new Coord(1, 4), "hallway", "21", a);
-		RealPoint twentytwo = new RealPoint(new Coord(2, 4), "hallway", "22", a);
-		RealPoint twentythree = new RealPoint(new Coord(3, 4), "hallway", "23", a);
-		RealPoint twentyfour = new RealPoint(new Coord(4, 4), "hallway", "24", a);
+		Point zero = new Point(new Coord(0, 0), "hallway", "0", a);
+		Point one = new Point(new Coord(1, 0), "hallway", "1", a);
+		Point two = new Point(new Coord(2, 0), "hallway", "2", a);
+		Point three = new Point(new Coord(3, 0), "hallway", "3", a);
+		Point four = new Point(new Coord(4, 0), "hallway", "4", a);//Connection
+		Point five = new Point(new Coord(0, 1), "hallway", "5", a);
+		Point six = new Point(new Coord(1, 1), "hallway", "6", a);
+		Point seven = new Point(new Coord(2, 1), "hallway", "7", a);
+		Point eight = new Point(new Coord(3, 1), "hallway", "8", a);
+		Point nine = new Point(new Coord(4, 1), "hallway", "9", a);
+		Point ten = new Point(new Coord(0, 2), "hallway", "10", a);
+		Point eleven = new Point(new Coord(1, 2), "hallway", "11", a);
+		Point twelve = new Point(new Coord(2, 2), "hallway", "12", a);
+		Point fourteen = new Point(new Coord(4, 2), "hallway", "14", a);
+		Point fifteen = new Point(new Coord(0, 3), "hallway", "15", a);
+		Point sixteen = new Point(new Coord(1, 3), "hallway", "16", a);
+		Point seventeen = new Point(new Coord(2, 3), "hallway", "17", a);
+		Point eightteen = new Point(new Coord(3, 3), "hallway", "18", a);
+		Point nineteen = new Point(new Coord(4, 3), "hallway", "19", a);
+		Point twenty = new Point(new Coord(0, 4), "hallway", "20", a);
+		Point twentyone = new Point(new Coord(1, 4), "hallway", "21", a);
+		Point twentytwo = new Point(new Coord(2, 4), "hallway", "22", a);
+		Point twentythree = new Point(new Coord(3, 4), "hallway", "23", a);
+		Point twentyfour = new Point(new Coord(4, 4), "hallway", "24", a);
 
 		zero.addNeighbor(one);
 		zero.addNeighbor(five);
@@ -160,7 +159,7 @@ public class RouteTest {
 		twentyfour.addNeighbor(twentythree);
 		twentyfour.addNeighbor(nineteen);
 
-		RealPoint[] all = { zero, one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, fourteen,
+		Point[] all = { zero, one, two, three, four, five, six, seven, eight, nine, ten, eleven, twelve, fourteen,
 				fifteen, sixteen, seventeen, eightteen, nineteen, twenty, twentyone, twentytwo, twentythree,
 				twentyfour };
 
@@ -168,33 +167,33 @@ public class RouteTest {
 			testMap5.addPoint(all[k]);
 		}
 
-		testMap6 = new RealMap(b);
+		testMap6 = new Map(b);
 		testMap6.setScale(100);
 
-		RealPoint zero2 = new RealPoint(new Coord(0, 0), "hallway", "0", b);
-		RealPoint one2 = new RealPoint(new Coord(1, 0), "hallway", "1", b);
-		RealPoint two2 = new RealPoint(new Coord(2, 0), "hallway", "2", b);
-		RealPoint three2 = new RealPoint(new Coord(3, 0), "hallway", "3", b);
-		RealPoint four2 = new RealPoint(new Coord(4, 0), "elevator", "4", b);
-		RealPoint five2 = new RealPoint(new Coord(5, 0), "hallway", "5", b);
-		RealPoint six2 = new RealPoint(new Coord(6, 0), "hallway", "6", b);
-		RealPoint seven2 = new RealPoint(new Coord(7, 0), "hallway", "7", b);
-		RealPoint eight2 = new RealPoint(new Coord(8, 0), "hallway", "8", b);
-		RealPoint nine2 = new RealPoint(new Coord(9, 0), "hallway", "9", b);
-		RealPoint ten2 = new RealPoint(new Coord(10, 0), "hallway", "10", b);
-		RealPoint eleven2 = new RealPoint(new Coord(11, 0), "hallway", "11", b);
-		RealPoint twelve2 = new RealPoint(new Coord(12, 0), "hallway", "12", b);
-		RealPoint fourteen2 = new RealPoint(new Coord(14, 0), "hallway", "14", b);
-		RealPoint fifteen2 = new RealPoint(new Coord(15, 0), "hallway", "15", b);
-		RealPoint sixteen2 = new RealPoint(new Coord(16, 0), "hallway", "16", b);
-		RealPoint seventeen2 = new RealPoint(new Coord(17, 0), "hallway", "17", b);
-		RealPoint eightteen2 = new RealPoint(new Coord(18, 0), "hallway", "18", b);
-		RealPoint nineteen2 = new RealPoint(new Coord(19, 0), "hallway", "19", b);
-		RealPoint twenty2 = new RealPoint(new Coord(20, 0), "hallway", "20", b);
-		RealPoint twentyone2 = new RealPoint(new Coord(21, 0), "hallway", "21", b);
-		RealPoint twentytwo2 = new RealPoint(new Coord(22, 0), "hallway", "22", b);
-		RealPoint twentythree2 = new RealPoint(new Coord(23, 0), "hallway", "23", b);
-		RealPoint twentyfour2 = new RealPoint(new Coord(24, 0), "hallway", "24", b);
+		Point zero2 = new Point(new Coord(0, 0), "hallway", "0", b);
+		Point one2 = new Point(new Coord(1, 0), "hallway", "1", b);
+		Point two2 = new Point(new Coord(2, 0), "hallway", "2", b);
+		Point three2 = new Point(new Coord(3, 0), "hallway", "3", b);
+		Point four2 = new Point(new Coord(4, 0), "elevator", "4", b);
+		Point five2 = new Point(new Coord(5, 0), "hallway", "5", b);
+		Point six2 = new Point(new Coord(6, 0), "hallway", "6", b);
+		Point seven2 = new Point(new Coord(7, 0), "hallway", "7", b);
+		Point eight2 = new Point(new Coord(8, 0), "hallway", "8", b);
+		Point nine2 = new Point(new Coord(9, 0), "hallway", "9", b);
+		Point ten2 = new Point(new Coord(10, 0), "hallway", "10", b);
+		Point eleven2 = new Point(new Coord(11, 0), "hallway", "11", b);
+		Point twelve2 = new Point(new Coord(12, 0), "hallway", "12", b);
+		Point fourteen2 = new Point(new Coord(14, 0), "hallway", "14", b);
+		Point fifteen2 = new Point(new Coord(15, 0), "hallway", "15", b);
+		Point sixteen2 = new Point(new Coord(16, 0), "hallway", "16", b);
+		Point seventeen2 = new Point(new Coord(17, 0), "hallway", "17", b);
+		Point eightteen2 = new Point(new Coord(18, 0), "hallway", "18", b);
+		Point nineteen2 = new Point(new Coord(19, 0), "hallway", "19", b);
+		Point twenty2 = new Point(new Coord(20, 0), "hallway", "20", b);
+		Point twentyone2 = new Point(new Coord(21, 0), "hallway", "21", b);
+		Point twentytwo2 = new Point(new Coord(22, 0), "hallway", "22", b);
+		Point twentythree2 = new Point(new Coord(23, 0), "hallway", "23", b);
+		Point twentyfour2 = new Point(new Coord(24, 0), "hallway", "24", b);
 
 		zero2.addNeighbor(one2);
 		zero2.addNeighbor(five2);
@@ -292,7 +291,7 @@ public class RouteTest {
 		twentyfour2.addNeighbor(twentythree2);
 		twentyfour2.addNeighbor(nineteen2);
 
-		RealPoint[] all2 = { zero2, one2, two2, three2, four2, five2, six2, seven2, eight2, nine2, ten2, eleven2, twelve2,
+		Point[] all2 = { zero2, one2, two2, three2, four2, five2, six2, seven2, eight2, nine2, ten2, eleven2, twelve2,
 				fourteen2, fifteen2, sixteen2, seventeen2, eightteen2, nineteen2, twenty2, twentyone2, twentytwo2,
 				twentythree2, twentyfour2 };
 
@@ -301,15 +300,15 @@ public class RouteTest {
 		}
 		
 		testMap6.addEdge(four, four2);
-		Serializer.save(testMap5);
-		Serializer.save(testMap6);
+		OLSSerializer.write(testMap5);
+		OLSSerializer.write(testMap6);
 	}
 
 	@Ignore
 	@Test
 	public void testConnected() {
-		AllMaps.getInstance().addMap(testMap5);
-		RealPoint start, goal;
+		Map.addMap(testMap5);
+		Point start, goal;
 		start = testMap5.getPoint("0");
 		goal = testMap6.getPoint("12");
 

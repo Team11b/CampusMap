@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
-import WPI.CampusMap.Backend.Core.Point.RealPoint;
-import WPI.CampusMap.Backend.PathPlanning.Node;
+import WPI.CampusMap.Backend.Core.Point.Point;
+import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.Node.Node;
 
 /**
  * 
@@ -113,7 +113,7 @@ public class Path {
 	/**
 	 * Check if a point is in a vertical line between two other points
 	 * 
-	 * @param realPoint
+	 * @param Point
 	 *            Point before the current point
 	 * @param realPoint2
 	 *            Current point
@@ -121,8 +121,8 @@ public class Path {
 	 *            Point after the current point
 	 * @return Returns true if it's vertical aligned otherwise false
 	 */
-	public boolean checkVertical(RealPoint realPoint, RealPoint realPoint2, RealPoint realPoint3) {
-		float dif1 = Math.abs(realPoint2.getCoord().getX() - realPoint.getCoord().getX());
+	public boolean checkVertical(Point Point, Point realPoint2, Point realPoint3) {
+		float dif1 = Math.abs(realPoint2.getCoord().getX() - Point.getCoord().getX());
 		float dif2 = Math.abs(realPoint2.getCoord().getX() - realPoint3.getCoord().getX());
 		if (dif1 <= pathtolarence && dif2 <= pathtolarence) {
 			return true;
@@ -134,7 +134,7 @@ public class Path {
 	/**
 	 * Check if point is in a horizontal line between two other points
 	 * 
-	 * @param realPoint
+	 * @param Point
 	 *            Point before the current point
 	 * @param realPoint2
 	 *            Current point
@@ -142,9 +142,9 @@ public class Path {
 	 *            Point after the current point
 	 * @return Returns true if it's horizontal aligned otherwise false
 	 */
-	public boolean checkHorizontal(RealPoint realPoint, RealPoint realPoint2, RealPoint realPoint3) {
+	public boolean checkHorizontal(Point Point, Point realPoint2, Point realPoint3) {
 //		System.out.println("Before: "+before+", Current: " + current +" After: "+after);
-		float dif1 = Math.abs(realPoint2.getCoord().getY() - realPoint.getCoord().getY());
+		float dif1 = Math.abs(realPoint2.getCoord().getY() - Point.getCoord().getY());
 		float dif2 = Math.abs(realPoint2.getCoord().getY() - realPoint3.getCoord().getY());
 //		System.out.println(before.getCoord());
 //		System.out.println(current.getCoord());
@@ -170,7 +170,7 @@ public class Path {
 	 *            Point after the current point
 	 * @return Returns true if it's diagonal aligned otherwise false
 	 */
-	public boolean checkDiagonal(RealPoint before, RealPoint current, RealPoint after) {
+	public boolean checkDiagonal(Point before, Point current, Point after) {
 
 		Coord slope = new Coord(Math.abs(current.getCoord().getX() - before.getCoord().getX()),
 				Math.abs(current.getCoord().getY() - before.getCoord().getY()));
@@ -187,16 +187,16 @@ public class Path {
 	/**
 	 * Calculates the angle between to points
 	 * 
-	 * @param realPoint
+	 * @param Point
 	 *            Point 1
 	 * @param realPoint2
 	 *            Point 2
 	 * @return returns the angle.
 	 */
 
-	public float getAngle(RealPoint realPoint, RealPoint realPoint2) {
-		return (float) (-(float) Math.atan2((realPoint2.getCoord().getY() - realPoint.getCoord().getY()),
-				(realPoint2.getCoord().getX() - realPoint.getCoord().getX())) * 180 / Math.PI);
+	public float getAngle(Point Point, Point realPoint2) {
+		return (float) (-(float) Math.atan2((realPoint2.getCoord().getY() - Point.getCoord().getY()),
+				(realPoint2.getCoord().getX() - Point.getCoord().getX())) * 180 / Math.PI);
 	}
 
 	public Coord getNodePointCoord(Node node) {

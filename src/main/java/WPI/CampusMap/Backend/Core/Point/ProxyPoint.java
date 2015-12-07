@@ -92,13 +92,6 @@ public class ProxyPoint implements IPoint {
 	}
 
 	@Override
-	public void buildFrontier(Frontier frontier, Node fromNode, IPoint goal) {
-		load();
-		realPoint.buildFrontier(frontier, fromNode, goal);
-
-	}
-
-	@Override
 	public ArrayList<IPoint> getValidNeighbors(ArrayList<String> whitelist) {
 		load();
 		return realPoint.getValidNeighbors(whitelist);

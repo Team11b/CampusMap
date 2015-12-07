@@ -7,8 +7,6 @@ import java.util.UUID;
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Map.IMap;
-import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.AStar.Frontier;
-import WPI.CampusMap.Backend.PathPlanning.Node;
 
 public class RealPoint implements IPoint,java.io.Serializable {
 
@@ -184,12 +182,6 @@ public class RealPoint implements IPoint,java.io.Serializable {
 	public ArrayList<IPoint> getNeighborsP() {
 		ArrayList<IPoint> tempAL = new ArrayList<IPoint>(neighbors.values());
 		return tempAL;
-	}
-
-	@Override
-	public void buildFrontier(Frontier frontier, Node fromNode, IPoint goal) {
-		// TODO Auto-generated method stub
-
 	}
 
 	/**
