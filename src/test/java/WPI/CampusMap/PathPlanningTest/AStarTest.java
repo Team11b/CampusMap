@@ -309,8 +309,6 @@ public class AStarTest {
 		}
 		
 		testMap6.addEdge(four, four2);
-		Serializer.save(testMap5);
-		Serializer.save(testMap6);
 	}
 
 	@Test
