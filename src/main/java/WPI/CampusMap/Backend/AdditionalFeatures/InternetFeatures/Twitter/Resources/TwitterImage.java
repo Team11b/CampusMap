@@ -9,12 +9,13 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 public class TwitterImage {
-	ImageIcon icon;
+	private static TwitterImage ti;
+	private ImageIcon icon;
 	
 	public static final int width = 16;
 	public static final int height = 16;
 
-	public TwitterImage() {
+	private TwitterImage() {
 		icon = new ImageIcon();
 		this.loadIcon();
 	}
@@ -27,6 +28,17 @@ public class TwitterImage {
 		catch (IOException i) {
 			i.printStackTrace();
 		}		
+	}
+	
+	public static TwitterImage getInstance() {
+		if (TwitterImage.ti == null) {
+			TwitterImage.ti = new TwitterImage();
+		}
+		return TwitterImage.ti;
+	}
+	
+	public ImageIcon getIcon() {
+		return this.icon;
 	}
 
 }
