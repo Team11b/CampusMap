@@ -36,11 +36,11 @@ public abstract class NodeProcessor
 	 * Executes this node processor and all linked children on the given node.
 	 * @param node to process
 	 */
-	protected void execute(Node node)
+	protected void execute(Node node, Node goal)
 	{
-		onProcessNode(node);
+		onProcessNode(node, goal);
 		if(child != null){
-			child.execute(node);
+			child.execute(node, goal);
 		}
 	}
 
@@ -48,5 +48,5 @@ public abstract class NodeProcessor
 	 * Processes the given node.
 	 * @param node to process
 	 */
-	protected abstract void onProcessNode(Node node);
+	protected abstract void onProcessNode(Node node, Node goal);
 }

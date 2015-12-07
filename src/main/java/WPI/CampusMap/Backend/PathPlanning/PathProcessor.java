@@ -16,11 +16,11 @@ public abstract class PathProcessor
 	private ArrayList<Node> explored;
 	private PriorityQueue<Node> frontier;
 	private IPoint[] keyPoints;
+	static protected Node goal;
 	
 	public PathProcessor()
 	{
-		explored = new ArrayList<Node>();
-		frontier = new PriorityQueue<Node>(getNodeCompartor());
+		
 	}
 	
 	/**
@@ -42,20 +42,26 @@ public abstract class PathProcessor
 		this.keyPoints = keyPoints;
 		explored = new ArrayList<Node>();
 		frontier = new PriorityQueue<Node>(getNodeCompartor());
+		
 		//no previous end for the first node
 		Node previousEnd = null;
 		for(int i = 1; i < keyPoints.length; i++){
-			//continue route from previous destination
-			Node goal = new Node(keyPoints[i], null, 0);
+			goal = new Node(keyPoints[i], null, 0);
 			Node currentNode = new Node(keyPoints[i - 1], previousEnd , 0);
-			while(frontier.size() > 0 && !currentNode.equals(goal) ){
+			while(!currentNode.equals(goal) ){
 				expandNode(currentNode);
 				explored.add(currentNode);
 				currentNode = pullFromFrontier();
+				if(currentNode == null){
+					throw new PathNotFoundException(keyPoints[i-1], keyPoints[i]);
+				}
 			}
 			previousEnd = currentNode;
+			
 		}
-		return new Path(previousEnd);
+		goal = null;
+		Path path = new Path(previousEnd);
+		return path;
 	}
 	
 	/**
@@ -65,7 +71,7 @@ public abstract class PathProcessor
 	protected void processNode(Node node)
 	{
 		NodeProcessor nProcessor = getProcessorChain();
-		if(nProcessor != null) nProcessor.execute(node);
+		if(nProcessor != null) nProcessor.execute(node,goal);
 	}
 	
 	/**
@@ -103,7 +109,7 @@ public abstract class PathProcessor
 	{
 		for(Node fNode: frontier.toArray(new Node[0])){
 			if(fNode.equals(node)){
-				System.out.println("Frontier already contains node, replacing with shorter value");
+//				System.out.println("Frontier already contains " + node.point + ", replacing with shorter value");
 				frontier.remove(fNode);
 				if(node.getAccumulatedDistance() < fNode.getAccumulatedDistance()){
 					node = fNode;

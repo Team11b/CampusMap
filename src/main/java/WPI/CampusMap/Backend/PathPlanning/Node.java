@@ -11,7 +11,7 @@ import WPI.CampusMap.Backend.Core.Point.IPoint;
  */
 public final class Node
 {
-	private IPoint point;
+	protected IPoint point;
 	private Node last;
 	private float accumulatedDistance;
 	private float heuristic;
@@ -35,7 +35,11 @@ public final class Node
 	{
 		this.point = point;
 		this.last = last;
-		this.accumulatedDistance = last.getAccumulatedDistance()+ distanceFromLast;
+		if(last != null){
+			this.accumulatedDistance = last.getAccumulatedDistance()+ distanceFromLast;
+		} else {
+			this.accumulatedDistance = 0;
+		}
 		
 	}
 	
@@ -115,11 +119,7 @@ public final class Node
 	public boolean equals(Object other){
 		if (other instanceof Node) {
 			Node that = (Node) other;
-			boolean result = that.equals(point);
-			return result;
-		} else if (other instanceof IPoint) {
-			IPoint that = (IPoint) other;
-			boolean result = that.equals(point);
+			boolean result = that.point.equals(point);
 			return result;
 		}
 		return false;
