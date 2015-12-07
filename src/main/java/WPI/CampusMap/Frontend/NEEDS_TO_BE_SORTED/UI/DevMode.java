@@ -1,13 +1,16 @@
 package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI;
 
-public class DevMode extends UIMode {
+import java.awt.Graphics2D;
+
+public class DevMode extends UIMode 
+{
+	
 	//Singleton
 	private static DevMode instance;
 	
-	public static DevMode getInstance(){
-		if(instance == null)
-			instance = new DevMode();
-		return instance;
+	public static DevMode getInstance()
+	{
+		return null;
 	}
 	
 	private String currentEditMode;
@@ -20,7 +23,10 @@ public class DevMode extends UIMode {
 	public static final String EDGE_MODE = "edgemode";
 	public static final String REMOVE_EDGE_MODE = "removeedgemode";
 	
-	public DevMode(){
+	public DevMode(AppMainWindow window)
+	{
+		super(window);
+		
 		instance = this;
 		currentEditMode = SELECT_MODE;
 	}
@@ -184,5 +190,11 @@ public class DevMode extends UIMode {
 	private void clearNodeInfo(){
 		//typeSelector.setSelectedIndex(0);
 		//nodeTextField.setText("");
+	}
+
+	@Override
+	public void onDraw(Graphics2D graphics) {
+		// TODO Auto-generated method stub
+		
 	}
 }

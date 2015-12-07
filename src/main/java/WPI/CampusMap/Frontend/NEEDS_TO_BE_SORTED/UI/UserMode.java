@@ -1,5 +1,7 @@
 package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI;
 
+import java.awt.Graphics2D;
+
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.User.*;
 
@@ -7,16 +9,14 @@ public class UserMode extends UIMode{
 	//Singleton
 	private static UserMode instance;
 	
-	public UserMode(){
-		this.instance = this;		
+	public UserMode(AppMainWindow window)
+	{
+		super(window);	
 	}
 	
 	public static UserMode getInstance()
 	{
-		if(instance == null){		
-			instance = new UserMode();			
-		}
-		return instance;
+		return null;
 	}
 	
 	@Override
@@ -76,6 +76,12 @@ public class UserMode extends UIMode{
     public void outputDirections(){
     	
     }
+
+	@Override
+	public void onDraw(Graphics2D graphics) {
+		// TODO Auto-generated method stub
+		
+	}
 
 	
 	

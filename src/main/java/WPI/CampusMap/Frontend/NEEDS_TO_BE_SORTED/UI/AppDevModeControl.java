@@ -33,6 +33,7 @@ import javax.swing.JTextField;
 
 public class AppDevModeControl extends JComponent
 {
+	
 	public AppDevModeControl()
 	{
 		SpringLayout springLayout = new SpringLayout();
@@ -55,9 +56,21 @@ public class AppDevModeControl extends JComponent
 		AppDevModePointEditorControl panel = new AppDevModePointEditorControl();
 		springLayout.putConstraint(SpringLayout.NORTH, panel, 16, SpringLayout.SOUTH, comboBox);
 		springLayout.putConstraint(SpringLayout.WEST, panel, 0, SpringLayout.WEST, this);
-		springLayout.putConstraint(SpringLayout.SOUTH, panel, 0, SpringLayout.SOUTH, this);
 		springLayout.putConstraint(SpringLayout.EAST, panel, 0, SpringLayout.EAST, this);
 		add(panel);
+		
+		JSeparator separator = new JSeparator();
+		springLayout.putConstraint(SpringLayout.SOUTH, panel, 0, SpringLayout.SOUTH, separator);
+		springLayout.putConstraint(SpringLayout.WEST, separator, 0, SpringLayout.WEST, this);
+		springLayout.putConstraint(SpringLayout.SOUTH, separator, -40, SpringLayout.SOUTH, this);
+		springLayout.putConstraint(SpringLayout.EAST, separator, 0, SpringLayout.EAST, this);
+		add(separator);
+		
+		JButton btnSave = new JButton("Save");
+		springLayout.putConstraint(SpringLayout.NORTH, btnSave, 6, SpringLayout.SOUTH, separator);
+		springLayout.putConstraint(SpringLayout.WEST, btnSave, 80, SpringLayout.WEST, this);
+		springLayout.putConstraint(SpringLayout.EAST, btnSave, -80, SpringLayout.EAST, this);
+		add(btnSave);
 	}
 
 	/**

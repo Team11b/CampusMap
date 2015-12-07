@@ -1,5 +1,7 @@
 package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI;
 
+import java.awt.Graphics2D;
+
 import javax.xml.stream.XMLStreamException;
 
 abstract public class UIMode {
@@ -9,8 +11,11 @@ abstract public class UIMode {
 	public static final String USER_MODE = "usermode";
 	private static String currentGUIMode =  USER_MODE;
 	
-	public UIMode(){		
-		//this.currentGUIMode =
+	private AppMainWindow window;
+	
+	public UIMode(AppMainWindow window)
+	{		
+		this.window = window;
 	}
 	
 	public static String getCurrentMode(){
@@ -45,13 +50,10 @@ abstract public class UIMode {
 		System.out.println("Floor chosen");
 	}
 	
-	private void loadMap(String mapName) throws XMLStreamException {
+	private void loadMap(String mapName)
+	{
 		//mapPanel.loadMap(mapName);
 	}
 	
-	public void reDrawUI() {
-		//mapPanel.repaint();
-	}
-	
-
+	public abstract void onDraw(Graphics2D graphics);
 }

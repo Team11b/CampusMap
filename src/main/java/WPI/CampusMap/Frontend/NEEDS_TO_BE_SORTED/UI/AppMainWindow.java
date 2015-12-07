@@ -60,6 +60,8 @@ public class AppMainWindow extends JFrame implements Runnable
 	private final Action devModeAction = new DevModeAction();
 	private final Action printAction = new PrintAction();
 	
+	private Panel infoArea = new Panel();
+	
 	public AppMainWindow() {
 		super();
 		
@@ -75,7 +77,7 @@ public class AppMainWindow extends JFrame implements Runnable
 		splitPane.setDividerSize(5);
 		getContentPane().add(splitPane, BorderLayout.CENTER);
 		
-		Panel infoArea = new Panel();
+		
 		splitPane.setRightComponent(infoArea);
 		infoArea.setLayout(new BorderLayout(0, 0));
 		infoArea.setMinimumSize(new Dimension(300, 200));
@@ -84,8 +86,8 @@ public class AppMainWindow extends JFrame implements Runnable
 		devPanel = new AppDevModeControl();
 		infoArea.add(userPanel, BorderLayout.CENTER);
 		
-		JPanel panel = new JPanel();
-		splitPane.setLeftComponent(panel);
+		MapPanel mapPanel = new MapPanel();
+		splitPane.setLeftComponent(mapPanel);
 		
 		Panel bottomPane = new Panel();
 		getContentPane().add(bottomPane, BorderLayout.SOUTH);
@@ -161,6 +163,39 @@ public class AppMainWindow extends JFrame implements Runnable
 		renderThread.start();
 		
 		setVisible(true);
+	}
+	
+	/**
+	 * Gets the current UI mode.
+	 * @return The current UI mode.
+	 */
+	public UIMode getUIMode()
+	{
+		return currentMode;
+	}
+	
+	public void changeToDevMode()
+	{
+		Container parent = infoArea;
+		parent.remove(userPanel);
+		parent.add(devPanel);
+		parent.revalidate();
+		parent.repaint();
+		
+		currentMode = new DevMode(this);
+		currentMode.onModeEntered();
+	}
+	
+	public void changeToUserMode()
+	{
+		Container parent = infoArea;
+		parent.remove(devPanel);
+		parent.add(userPanel);
+		parent.revalidate();
+		parent.repaint();
+		
+		currentMode = new UserMode(this);
+		currentMode.onModeEntered();
 	}
 	
 	/**
@@ -241,7 +276,7 @@ public class AppMainWindow extends JFrame implements Runnable
 	}
 	
 	/**
-	 * Called whn an edge has been selected in dev mode.
+	 * Called when an edge has been selected in dev mode.
 	 * @param selectedEdge The selected edge.
 	 */
 	public void devEdgeSelected(DevEdgeGraphicsObject selectedEdge)
@@ -257,7 +292,8 @@ public class AppMainWindow extends JFrame implements Runnable
 			try 
 			{
 				Thread.sleep(33);
-			} catch (InterruptedException e)
+			}
+			catch (InterruptedException e)
 			{
 				return;
 			}
@@ -278,35 +314,17 @@ public class AppMainWindow extends JFrame implements Runnable
 		
 		public void actionPerformed(ActionEvent e)
 		{
-			if(!isDevMode)
+			JCheckBoxMenuItem item = (JCheckBoxMenuItem) e.getSource();
+			
+			if(item.isSelected())
 			{
-				isDevMode = true;
-				
-				Container parent = userPanel.getParent();
-				parent.remove(userPanel);
-				parent.add(devPanel);
-				parent.revalidate();
-				parent.repaint();
-				
-				currentMode = new DevMode();
+				changeToDevMode();
 			}
 			else
 			{
-				isDevMode = false;
-				
-				Container parent = devPanel.getParent();
-				parent.remove(devPanel);
-				parent.add(userPanel);
-				parent.revalidate();
-				parent.repaint();
-				
-				currentMode = new UserMode();
+				changeToUserMode();
 			}
-			
-			currentMode.onModeEntered();
 		}
-		
-		private boolean isDevMode;
 	}
 	
 	
