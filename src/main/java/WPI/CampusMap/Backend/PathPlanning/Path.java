@@ -48,6 +48,17 @@ public class Path implements Iterable<Path.Section>
 //			System.out.println(points.size());
 			return points.size();
 		}
+		
+
+		public LinkedList<IPoint> getPoints()
+		{
+//			System.out.println(points.size());
+			return points;
+		}
+
+		public String getMap() {
+			return map.getName();
+		}
 	}
 	
 	/**
@@ -56,22 +67,22 @@ public class Path implements Iterable<Path.Section>
 	 */
 	public Path(Node nodeChain)
 	{
-		String currentMap = nodeChain.point.getMap();
+		String currentMap = nodeChain.getPoint().getMap();
 		LinkedList<IPoint> currentSection = new LinkedList<IPoint>();
-		currentSection.add(nodeChain.point);
+		currentSection.add(nodeChain.getPoint());
 		Node temp = nodeChain;
 		nodeChain = nodeChain.getLast();
 		
 		while(nodeChain != null){
-//			System.out.println(temp.point);
-			if(!nodeChain.point.getMap().equals(currentMap) || temp.point.equals(nodeChain.point)){
+//			System.out.println(temp.getPoint());
+			if(!nodeChain.getPoint().getMap().equals(currentMap) || temp.getPoint().equals(nodeChain.getPoint())){
 				IMap map = AllMaps.getInstance().getMap(currentMap);
 				Collections.reverse(currentSection);
 				sections.add(new Section(map, currentSection));
-				currentMap = nodeChain.point.getMap();
+				currentMap = nodeChain.getPoint().getMap();
 				currentSection = new LinkedList<IPoint>();
 			}
-			currentSection.add(nodeChain.point);
+			currentSection.add(nodeChain.getPoint());
 			temp = nodeChain;
 			nodeChain = nodeChain.getLast();
 		}
@@ -123,7 +134,6 @@ public class Path implements Iterable<Path.Section>
 	/**
 	 * Gets the size of the path.
 	 * @return The size.
-	 * @return
 	 */
 	public int size(){
 		int size = 0;

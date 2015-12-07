@@ -9,7 +9,6 @@ import java.util.Hashtable;
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Pair.UnorderedPair;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
-import WPI.CampusMap.Backend.Core.Point.Point;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Dev.EditorToolMode;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicsObject;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.RealMouseEvent;

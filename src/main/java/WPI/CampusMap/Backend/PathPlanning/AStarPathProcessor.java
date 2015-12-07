@@ -21,9 +21,9 @@ public class AStarPathProcessor extends PathProcessor {
 	 {
 	     public int compare(Node n1, Node n2)
 	     {
-	    	 IPoint p1 = n1.point;
-	    	 IPoint p2 = n2.point;
-	    	 IPoint pGoal = goal.point;
+	    	 IPoint p1 = n1.getPoint();
+	    	 IPoint p2 = n2.getPoint();
+	    	 IPoint pGoal = goal.getPoint();
 	    	 if(p1.getMap().equals(p2.getMap())){
 	    		 return Float.compare(n1.getTotalCost(), n2.getTotalCost()); 
 	    	 } else if(p1.getMap().equals(pGoal.getMap())){

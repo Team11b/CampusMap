@@ -6,8 +6,6 @@ import java.util.UUID;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Map.Map;
-import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.AStar.Frontier;
-import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.Node.Node;
 
 /**
  * 
@@ -129,19 +127,6 @@ public class Point implements java.io.Serializable {
 				neighbors.put(neighbor, map.getPoint(neighbor));
 			else
 				neighbors.remove(neighbor);
-		}
-	}
-	
-	public void buildFrontier(Frontier frontier, Node fromNode, Point goal)
-	{
-		for(Point localPoint : getNeighborsP())
-		{
-			if(localPoint == null)
-				System.out.println("R");
-			if(localPoint.getId().equals(goal.id) && localPoint.getMap().equals(goal.getMap()))
-				System.out.println("T");
-//			Node newNode = new Node(localPoint, fromNode, goal);
-//			frontier.addToFrontier(newNode);
 		}
 	}
 

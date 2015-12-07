@@ -8,7 +8,7 @@ package WPI.CampusMap.Backend.PathPlanning;
  */
 public abstract class NodeProcessor
 {
-	private NodeProcessor child;
+	protected NodeProcessor child;
 	/**
 	 * Creates a node processor.
 	 */
@@ -36,7 +36,8 @@ public abstract class NodeProcessor
 	 * Executes this node processor and all linked children on the given node.
 	 * @param node to process
 	 */
-	protected void execute(Node node, Node goal)
+	//TODO public or private?
+	public void execute(Node node, Node goal)
 	{
 		onProcessNode(node, goal);
 		if(child != null){

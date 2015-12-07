@@ -11,7 +11,7 @@ import WPI.CampusMap.Backend.Core.Point.IPoint;
  */
 public final class Node
 {
-	protected IPoint point;
+	private IPoint point;
 	private Node last;
 	private float accumulatedDistance;
 	private float heuristic;
@@ -73,6 +73,7 @@ public final class Node
 	
 	/**
 	 * Gets distance  to the given point.
+	 * @param point Point to measure distance to
 	 * @return the distance
 	 */
 	public float getDistance(IPoint point)
@@ -134,6 +135,10 @@ public final class Node
 		}
 		return false;
 		
+	}
+	
+	public IPoint getPoint(){
+		return point;
 	}
 
 }

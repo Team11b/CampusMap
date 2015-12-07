@@ -12,7 +12,6 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import WPI.CampusMap.Backend.Core.Point.ConnectionPoint;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 
 public class ConnectionNodeList extends  JComponent

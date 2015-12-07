@@ -35,9 +35,7 @@ import javax.xml.stream.XMLStreamException;
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Map.ProxyMap;
 import WPI.CampusMap.Backend.Core.Point.RealPoint;
-import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Path.MultiPath;
-import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Route.Instruction;
-import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Route.Route;
+import WPI.CampusMap.Backend.PathPlanning.Path;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Dev.EditorToolMode;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.Dev.DevPointGraphicsObject;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.User.UserPathGraphicsObject;
@@ -52,7 +50,7 @@ public class AppUIObject {
 	}
 	
 	protected boolean devMode = false;
-	private MultiPath lastRoutedPath;
+	private Path lastRoutedPath;
 
 	// UI Elements
 	private final JFrame frame = new JFrame("Path Finder");
@@ -301,7 +299,7 @@ public class AppUIObject {
 				System.out.println("Send an Email!");
 				break;
 			case "Route me":				
-				MultiPath path = UserPointGraphicsObject.route();
+				Path path = UserPointGraphicsObject.route();
 				Route route = new Route(path);
 				for(Instruction i: route.getRoute()){
 					txtDirections.setText(txtDirections.getText() + i.getInstruction());
@@ -859,7 +857,7 @@ public class AppUIObject {
 		}
 	}*/
 	
-	public MultiPath getLastRoute()
+	public Path getLastRoute()
 	{
 		return lastRoutedPath;
 	}

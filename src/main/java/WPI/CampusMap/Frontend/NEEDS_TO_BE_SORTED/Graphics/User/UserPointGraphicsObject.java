@@ -1,14 +1,20 @@
 package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.User;
 
 import java.awt.Color;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
+import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.Core.Point.RealPoint;
 import WPI.CampusMap.Backend.Core.Ref.TypedRef;
-import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Path.MultiPath;
-import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Path.Path;
+import WPI.CampusMap.Backend.PathPlanning.AStarPathProcessor;
+import WPI.CampusMap.Backend.PathPlanning.DistanceProcessor;
+import WPI.CampusMap.Backend.PathPlanning.Path;
+import WPI.CampusMap.Backend.PathPlanning.Path.Section;
+import WPI.CampusMap.Backend.PathPlanning.PathFinder;
+import WPI.CampusMap.Backend.PathPlanning.PathNotFoundException;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.PointGraphicsObject;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.RealMouseEvent;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI.AppUIObject;
@@ -16,7 +22,7 @@ import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI.AppUIObject;
 public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMap>
 {
 	private static LinkedList<TypedRef<UserPointGraphicsObject>> selectedRoute = new LinkedList<>();
-	private static MultiPath lastRoutedPath;
+	private static Path lastRoutedPath;
 	
 	public static LinkedList<TypedRef<UserPointGraphicsObject>> getSelectedRoute()
 	{
@@ -62,28 +68,38 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 		selectedRoute.remove(index);
 	}
 	
-	public static MultiPath route()
+	public static Path route()
 	{
 		lastRoutedPath = null;
+
+
+		try {
+			lastRoutedPath = PathFinder.getPath(selectedRoute.toArray(new IPoint[0]), new AStarPathProcessor(new DistanceProcessor()));
+		} catch (PathNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
 		
-		for(int i = 1; i < selectedRoute.size(); i++)
-//		{
-//			TypedRef<UserPointGraphicsObject> current = selectedRoute.get(i);
-//			TypedRef<UserPointGraphicsObject> last = selectedRoute.get(i - 1);
-//			
-//			MultiPath subRoute = AStar.multi_AStar(last.getValue().getRepresentedObject(), current.getValue().getRepresentedObject());
-//			
-//			if(lastRoutedPath != null)
-//				lastRoutedPath = MultiPath.join(lastRoutedPath, subRoute);
-//			else
-//				lastRoutedPath = subRoute;
-//		}
-		
-		for(String map : lastRoutedPath.getReferencedMaps())
+		HashMap<String, LinkedList<Section>> holder = new HashMap<String, LinkedList<Section>>();
+		for(Section section : lastRoutedPath)
 		{
+			String map = section.getMap();
+			if(holder.get(map) == null){
+				LinkedList<Section> newLL = new LinkedList<Section>();
+				newLL.add(section);
+				holder.put(map, newLL);
+			}
+			else{
+				holder.get(map).add(section);
+			}
 			UserGraphicalMap graphicalMap = UserGraphicalMap.loadGraphicalMap(AllMaps.getInstance().getMap(map));
-//			Path path = lastRoutedPath.getMapPath(map);
-			graphicalMap.setPathSections(new LinkedList<Path>());
+			graphicalMap.setPathSections(new LinkedList<Section>());
+		}
+		
+		for(String map: holder.keySet()){
+			UserGraphicalMap graphicalMap = UserGraphicalMap.loadGraphicalMap(AllMaps.getInstance().getMap(map));
+			graphicalMap.setPathSections(holder.get(map));
+			
 		}
 		
 		//clearSelected();

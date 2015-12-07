@@ -6,7 +6,8 @@ import java.util.LinkedList;
 import WPI.CampusMap.Backend.Core.Map.IMap;
 import WPI.CampusMap.Backend.Core.Point.RealPoint;
 import WPI.CampusMap.Backend.Core.Ref.Ref;
-import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Path.Path;
+import WPI.CampusMap.Backend.PathPlanning.Path;
+import WPI.CampusMap.Backend.PathPlanning.Path.Section;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicalMap;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicsObject;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI.MapPanel;
@@ -50,11 +51,11 @@ public class UserGraphicalMap extends GraphicalMap
 		}
 	}
 	
-	public void setPathSections(LinkedList<Path> pathSections)
+	public void setPathSections(LinkedList<Section> pathSections)
 	{
-		for(Path path : pathSections)
+		for(Section section : pathSections)
 		{
-			UserPathGraphicsObject pathGraphics = new UserPathGraphicsObject(path, this);
+			UserPathGraphicsObject pathGraphics = new UserPathGraphicsObject(section, this);
 			addGraphicalObject(pathGraphics);
 		}
 	}

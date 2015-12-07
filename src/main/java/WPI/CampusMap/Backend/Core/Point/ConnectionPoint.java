@@ -5,8 +5,6 @@ import java.util.LinkedList;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Map.Map;
-import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.AStar.Frontier;
-import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.Node.Node;
 
 /**
  * 
@@ -81,24 +79,6 @@ public class ConnectionPoint extends Point {
 			return 0;
 		
 		return super.distance(other);
-	}
-	
-	@Override
-	public void buildFrontier(Frontier frontier, Node fromNode, Point goal) 
-	{
-		super.buildFrontier(frontier, fromNode, goal);
-		
-		System.out.println(getMap());
-		System.out.println(getId());
-		
-		for(java.util.Map.Entry<String, String> entry : linkedPoints.entrySet())
-		{
-			Map targetMap = Map.getMap(entry.getKey());
-			Point target = targetMap.getPoint(entry.getValue());
-			
-//			Node newNode = new Node(target, fromNode, goal);
-//			frontier.addToFrontier(newNode);
-		}
 	}
 
 	public LinkedList<String> getLinkedMaps() {

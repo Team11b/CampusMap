@@ -8,14 +8,14 @@ import java.util.Iterator;
 import java.util.LinkedList;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
-import WPI.CampusMap.Backend.Core.Point.Point;
+import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.Core.Ref.TypedRef;
-import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Path.Path;
-import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.Node.Node;
+import WPI.CampusMap.Backend.PathPlanning.Node;
+import WPI.CampusMap.Backend.PathPlanning.Path.Section;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicsObject;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.RealMouseEvent;
 
-public class UserPathGraphicsObject extends GraphicsObject<Path, UserGraphicalMap>
+public class UserPathGraphicsObject extends GraphicsObject<Section, UserGraphicalMap>
 {
 	private static LinkedList<TypedRef<UserPathGraphicsObject>> pathObjects = new LinkedList<>();
 	
@@ -29,9 +29,9 @@ public class UserPathGraphicsObject extends GraphicsObject<Path, UserGraphicalMa
 		pathObjects.clear();
 	}
 	
-	private Path backendPath;
+	private Section backendPath;
 	
-	public UserPathGraphicsObject(Path path, UserGraphicalMap owner)
+	public UserPathGraphicsObject(Section path, UserGraphicalMap owner)
 	{
 		super(path, owner);
 		this.backendPath = path;
@@ -64,19 +64,15 @@ public class UserPathGraphicsObject extends GraphicsObject<Path, UserGraphicalMa
 		BasicStroke dashed = new BasicStroke(3, BasicStroke.CAP_BUTT, BasicStroke.JOIN_BEVEL, 0, new float[]{9}, 0);
 		graphics.setStroke(dashed);
 		
-		ArrayList<Node> nodes = backendPath.getPath();
-		for(int i = 1; i < nodes.size(); i++)
+		IPoint last = null;
+		for(IPoint point: backendPath)
 		{
-			Node a = nodes.get(i - 1);
-			Node b = nodes.get(i);
-			
-			Point pa = a.getPoint();
-			Point pb = b.getPoint();
-			
-			Coord screenA = getOwner().getScreenCoord(pa.getCoord());
-			Coord screenB = getOwner().getScreenCoord(pb.getCoord());
-			
-			graphics.drawLine((int)screenA.getX(), (int)screenA.getY(), (int)screenB.getX(), (int)screenB.getY());
+			if(last != null){
+				Coord screenA = getOwner().getScreenCoord(point.getCoord());
+				Coord screenB = getOwner().getScreenCoord(last.getCoord());
+				graphics.drawLine((int)screenA.getX(), (int)screenA.getY(), (int)screenB.getX(), (int)screenB.getY());
+			}
+			last = point;
 		}
 		
 		graphics.setStroke(new BasicStroke(1.0f));
