@@ -29,7 +29,7 @@ public class DevMode extends UIMode
 		super(window);
 		
 		instance = this;
-		currentEditMode = SELECT_MODE;
+		setSelect();
 	}
 	
 	@Override
@@ -41,7 +41,11 @@ public class DevMode extends UIMode
 		//Show and hide UI elements
 	}
 	
-	
+	public void setSelect()
+	{
+		System.out.println("Place/create");
+		currentEditMode = SELECT_MODE;
+	}
 
 	public void setPlace(){
 		System.out.println("Place/create");

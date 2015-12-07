@@ -22,8 +22,13 @@ import java.awt.Component;
 
 public class AppUserModeControl extends JComponent
 {
+	AppMainWindow window;
+	
 	@SuppressWarnings("serial")
-	public AppUserModeControl() {
+	public AppUserModeControl(AppMainWindow window) 
+	{
+		this.window = window;
+		
 		SpringLayout springLayout = new SpringLayout();
 		setLayout(springLayout);
 		
@@ -50,6 +55,7 @@ public class AppUserModeControl extends JComponent
 		routeButton.setIcon(new ImageIcon(AppUserModeControl.class.getResource("/javax/swing/plaf/metal/icons/ocean/expanded.gif")));
 		routeButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		add(routeButton);
+		routeButton.addActionListener(new RouteMeActionListener());
 		
 		Label mapLabel = new Label("Map");
 		springLayout.putConstraint(SpringLayout.WEST, mapLabel, 0, SpringLayout.WEST, comboBox);
@@ -94,23 +100,16 @@ public class AppUserModeControl extends JComponent
 		));
 		scrollPane_1.setViewportView(tree);
 		add(label_1);
+	}
 	
-		//button handling		
-		ActionListener aL = new ActionListener() {
+	private class RouteMeActionListener implements ActionListener
+	{
+		@Override
+		public void actionPerformed(ActionEvent e) 
+		{
 			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				switch (e.getActionCommand()) {
-				case "Route Me!":
-					UserMode.getInstance().onRouteButton();
-						break;
-				
-				}
-				
-			}
-		};
-		routeButton.addActionListener(aL);
+		}
+		
 	}
 
 	/**

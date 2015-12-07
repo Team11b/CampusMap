@@ -2,13 +2,13 @@ package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI;
 
 public interface PointListEventHandler
 {
-	void PointDescriptorAdded(PointListElement element);
+	void pointDescriptorAdded(PointListElement element);
 	
-	void PointDescriptorRemoved(PointListElement element);
+	void pointDescriptorRemoved(PointListElement element);
 	
-	void PointDescriptorRenamed(PointListElement element);
+	void pointDescriptorRenamed(PointListElement element, String oldName);
 	
-	void PointDescriptorShow(PointListElement element);
+	void pointDescriptorShow(PointListElement element);
 	
-	void PointDescriptorMoved(PointListElement element);
+	void pointDescriptorMoved(PointListElement element);
 }

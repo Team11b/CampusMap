@@ -17,14 +17,19 @@ import java.awt.event.InputMethodEvent;
 
 public class PointListElement extends JComponent
 {
-	private LinkedList<PointListEventHandler> handlers = new LinkedList<>();
+	private PointList list;
+	private String currentName;
 	
-	public PointListElement() {
+	public PointListElement(PointList list, String name) 
+	{
+		this.list = list;
+		this.currentName = name;
+		
 		SpringLayout springLayout = new SpringLayout();
 		setLayout(springLayout);
 		
 		JButton removeButton = new JButton("");
-		removeButton.addActionListener(new RemoveButtonActionListener());
+		removeButton.addActionListener(new RemoveButtonActionListener(this));
 		springLayout.putConstraint(SpringLayout.NORTH, removeButton, 10, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.WEST, removeButton, -40, SpringLayout.EAST, this);
 		springLayout.putConstraint(SpringLayout.SOUTH, removeButton, -10, SpringLayout.SOUTH, this);
@@ -35,7 +40,7 @@ public class PointListElement extends JComponent
 		
 		
 		JButton goToButton = new JButton("");
-		goToButton.addActionListener(new GotoButtonActionListener());
+		goToButton.addActionListener(new GotoButtonActionListener(this));
 		springLayout.putConstraint(SpringLayout.WEST, goToButton, -40, SpringLayout.WEST, removeButton);
 		springLayout.putConstraint(SpringLayout.EAST, goToButton, -6, SpringLayout.WEST, removeButton);
 		springLayout.putConstraint(SpringLayout.NORTH, goToButton, 10, SpringLayout.NORTH, this);
@@ -44,18 +49,14 @@ public class PointListElement extends JComponent
 		goToButton.setMinimumSize(new Dimension(45, 25));
 		add(goToButton);
 		
-		JTextField nodeName = new JTextField();
-		nodeName.addInputMethodListener(new PointNameChanged());
+		nodeName = new JTextField();
+		nodeName.addInputMethodListener(new PointNameChanged(this));
+		nodeName.setText(name);
 		springLayout.putConstraint(SpringLayout.NORTH, nodeName, 10, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.SOUTH, nodeName, -10, SpringLayout.SOUTH, this);
 		springLayout.putConstraint(SpringLayout.WEST, nodeName, 10, SpringLayout.WEST, this);
 		springLayout.putConstraint(SpringLayout.EAST, nodeName, -10, SpringLayout.WEST, goToButton);
 		add(nodeName);
-	}
-	
-	public void addPointListEventHandler(PointListEventHandler handler)
-	{
-		handlers.add(handler);
 	}
 	
 	@Override
@@ -71,33 +72,66 @@ public class PointListElement extends JComponent
 	}
 	
 	@Override
-	public Dimension getMinimumSize() {
-		// TODO Auto-generated method stub
+	public Dimension getMinimumSize() 
+	{
 		return new Dimension(100, 45);
+	}
+	
+	public String getName()
+	{
+		return nodeName.getText();
+	}
+	
+	protected void setPointName(String name)
+	{
+		currentName = name;
+		nodeName.setText(name);
 	}
 	
 	private class RemoveButtonActionListener implements ActionListener
 	{
 
+		private PointListElement element;
+		
+		public RemoveButtonActionListener(PointListElement element)
+		{
+			this.element = element;
+		}
+		
 		@Override
 		public void actionPerformed(ActionEvent e) 
 		{
+			list.removePointElement(element);
 		}
 		
 	}
 	
 	private class GotoButtonActionListener implements ActionListener
 	{
-
+		private PointListElement element;
+		
+		public GotoButtonActionListener(PointListElement element)
+		{
+			this.element = element;
+		}
+		
 		@Override
 		public void actionPerformed(ActionEvent e) 
 		{
+			list.gotoPointElement(element);
 		}
 		
 	}
 	
 	private class PointNameChanged implements InputMethodListener
 	{
+		private PointListElement element;
+		
+		public PointNameChanged(PointListElement element)
+		{
+			this.element = element;
+		}
+		
 		public void caretPositionChanged(InputMethodEvent e)
 		{
 			
@@ -105,7 +139,7 @@ public class PointListElement extends JComponent
 		
 		public void inputMethodTextChanged(InputMethodEvent e)
 		{
-			System.out.println(e.getText());
+			list.renamePointElement(element, currentName);
 		}
 	}
 
@@ -113,4 +147,5 @@ public class PointListElement extends JComponent
 	 * 
 	 */
 	private static final long serialVersionUID = -2960582722911027050L;
+	private JTextField nodeName;
 }

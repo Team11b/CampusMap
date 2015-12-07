@@ -30,12 +30,17 @@ import javax.swing.JToggleButton;
 import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
+import javax.swing.Action;
 import javax.swing.Box;
 
 public class AppDevModePointEditorControl extends JComponent
 {
-	public AppDevModePointEditorControl()
+	private AppMainWindow window;
+	
+	public AppDevModePointEditorControl(AppMainWindow window)
 	{
+		this.window = window;
+		
 		SpringLayout springLayout = new SpringLayout();
 		setLayout(springLayout);
 		
@@ -47,18 +52,22 @@ public class AppDevModePointEditorControl extends JComponent
 		panel.setLayout(new GridLayout(0, 2, 10, 10));
 		
 		JToggleButton rdbtnCreate = new JToggleButton("Create");
+		rdbtnCreate.addActionListener(new PointEditorActionListener());
 		modeButtonGroup.add(rdbtnCreate);
 		panel.add(rdbtnCreate);
 		
 		JToggleButton rdbtnDelete = new JToggleButton("Delete");
+		rdbtnDelete.addActionListener(new DeleteEditorActionListener());
 		modeButtonGroup.add(rdbtnDelete);
 		panel.add(rdbtnDelete);
 		
 		JToggleButton rdbtnEdge = new JToggleButton("Edge");
+		rdbtnEdge.addActionListener(new EdgeEditorActionListener());
 		modeButtonGroup.add(rdbtnEdge);
 		panel.add(rdbtnEdge);
 		
 		JToggleButton rdbtnDeleteEdge = new JToggleButton("Delete Edge");
+		rdbtnDeleteEdge.addActionListener(new DeleteEdgeEditorActionListener());
 		modeButtonGroup.add(rdbtnDeleteEdge);
 		panel.add(rdbtnDeleteEdge);
 		
@@ -111,36 +120,58 @@ public class AppDevModePointEditorControl extends JComponent
 		springLayout.putConstraint(SpringLayout.WEST, separator_1, 0, SpringLayout.WEST, this);
 		springLayout.putConstraint(SpringLayout.EAST, separator_1, 0, SpringLayout.EAST, this);
 		add(separator_1);
+	}
 	
-		//button handling 	
-		ActionListener aL = new ActionListener() {
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				// TODO Auto-generated method stub
-				switch (e.getActionCommand()) {
-				case "Create":
-					DevMode.getInstance().setPlace();
-						break;
-				case "Delete":
-					DevMode.getInstance().setRemove();
-						break;
-				case "Edge":
-					DevMode.getInstance().setEdge();
-					break;
-				case "Delete Edge":
-					DevMode.getInstance().setRemoveEdge();
-					break;			
-				
-				}
-				
-			}
-		};
+	private abstract class EditorModeActionListener implements ActionListener
+	{
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			JToggleButton toggleButton = (JToggleButton) e.getSource();
+			if(toggleButton.isSelected())
+				onActionPerformed(e);
+			else
+				window.getDevMode().setSelect();
+		}
 		
-		rdbtnCreate.addActionListener(aL);
-		rdbtnDelete.addActionListener(aL);
-		rdbtnEdge.addActionListener(aL);
-		rdbtnDeleteEdge.addActionListener(aL);
+		protected abstract void onActionPerformed(ActionEvent e);
+		
+	}
+	
+	private class PointEditorActionListener extends EditorModeActionListener
+	{
+		@Override
+		protected void onActionPerformed(ActionEvent e)
+		{
+			window.getDevMode().setPlace();
+		}
+	}
+	
+	private class EdgeEditorActionListener extends EditorModeActionListener
+	{
+		@Override
+		protected void onActionPerformed(ActionEvent e)
+		{
+			window.getDevMode().setEdge();
+		}
+	}
+	
+	private class DeleteEditorActionListener extends EditorModeActionListener
+	{
+		@Override
+		protected void onActionPerformed(ActionEvent e)
+		{
+			window.getDevMode().setRemove();
+		}
+	}
+	
+	private class DeleteEdgeEditorActionListener extends EditorModeActionListener
+	{
+		@Override
+		protected void onActionPerformed(ActionEvent e)
+		{
+			window.getDevMode().setRemoveEdge();
+		}
 	}
 
 	/**

@@ -82,8 +82,8 @@ public class AppMainWindow extends JFrame implements Runnable
 		infoArea.setLayout(new BorderLayout(0, 0));
 		infoArea.setMinimumSize(new Dimension(300, 200));
 		
-		userPanel = new AppUserModeControl();
-		devPanel = new AppDevModeControl();
+		userPanel = new AppUserModeControl(this);
+		devPanel = new AppDevModeControl(this);
 		infoArea.add(userPanel, BorderLayout.CENTER);
 		
 		MapPanel mapPanel = new MapPanel();
@@ -179,6 +179,28 @@ public class AppMainWindow extends JFrame implements Runnable
 	public UIMode getUIMode()
 	{
 		return currentMode;
+	}
+	
+	/**
+	 * Gets the current UI mode as a DevMode.
+	 * @return The current UI mode as a DevMode, null if not in dev mode.
+	 */
+	public DevMode getDevMode()
+	{
+		if(currentMode instanceof DevMode)
+			return (DevMode)currentMode;
+		return null;
+	}
+	
+	/**
+	 * Gets the current UI mode as a UserMode.
+	 * @return The current UI mode as a UserMode, null if not in user mode.
+	 */
+	public UserMode getUserMode()
+	{
+		if(currentMode instanceof UserMode)
+			return (UserMode)currentMode;
+		return null;
 	}
 	
 	public void changeToDevMode()

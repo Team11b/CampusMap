@@ -6,6 +6,7 @@ import javax.swing.JComponent;
 import javax.swing.SpringLayout;
 
 @SuppressWarnings("serial")
+@Deprecated
 public class AppBaseModeControl extends JComponent
 {
 	protected SpringLayout springLayout = new SpringLayout();

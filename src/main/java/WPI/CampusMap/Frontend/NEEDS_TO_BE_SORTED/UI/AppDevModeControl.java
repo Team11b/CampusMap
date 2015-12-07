@@ -33,9 +33,12 @@ import javax.swing.JTextField;
 
 public class AppDevModeControl extends JComponent
 {
+	private AppMainWindow window;	
 	
-	public AppDevModeControl()
+	public AppDevModeControl(AppMainWindow window)
 	{
+		this.window = window;
+		
 		SpringLayout springLayout = new SpringLayout();
 		setLayout(springLayout);
 		
@@ -53,7 +56,7 @@ public class AppDevModeControl extends JComponent
 		springLayout.putConstraint(SpringLayout.SOUTH, mapLabel, 0, SpringLayout.NORTH, comboBox);
 		add(mapLabel);
 		
-		AppDevModePointEditorControl panel = new AppDevModePointEditorControl();
+		AppDevModePointEditorControl panel = new AppDevModePointEditorControl(window);
 		springLayout.putConstraint(SpringLayout.NORTH, panel, 16, SpringLayout.SOUTH, comboBox);
 		springLayout.putConstraint(SpringLayout.WEST, panel, 0, SpringLayout.WEST, this);
 		springLayout.putConstraint(SpringLayout.EAST, panel, 0, SpringLayout.EAST, this);

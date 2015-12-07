@@ -4,6 +4,8 @@ import java.awt.Panel;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.HashMap;
+import java.util.LinkedList;
 
 import javax.swing.JSeparator;
 import javax.swing.SpringLayout;
@@ -46,13 +48,63 @@ public class PointList extends Panel
 		listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
 	}
 	
-	private void addPointElement()
+	public PointListElement addPointElement(String name)
 	{
-		PointListElement element = new PointListElement();
+		if(elements.containsKey(name))
+			return null;
+		
+		PointListElement element = new PointListElement(this, name);
+		elements.put(name, element);
 		listPanel.add(element);
 		
 		listPanel.revalidate();
 		listPanel.repaint();
+		
+		return element;
+	}
+	
+	public void removePointElement(String name)
+	{
+		remove(elements.get(name));
+		elements.remove(name);
+	}
+	
+	public void renamePointElement(String oldName, String newName)
+	{
+		PointListElement element = elements.get(oldName);
+		
+		elements.remove(oldName);
+		elements.put(newName, element);
+		
+		
+	}
+	
+	protected void removePointElement(PointListElement element)
+	{
+		removePointElement(element.getName());
+		
+		for(PointListEventHandler handler : handlers)
+		{
+			handler.pointDescriptorRemoved(element);
+		}
+	}
+	
+	protected void gotoPointElement(PointListElement element)
+	{
+		for(PointListEventHandler handler : handlers)
+		{
+			handler.pointDescriptorShow(element);
+		}
+	}
+	
+	protected void renamePointElement(PointListElement element, String oldName)
+	{
+		renamePointElement(oldName, element.getName());
+		
+		for(PointListEventHandler handler : handlers)
+		{
+			handler.pointDescriptorRenamed(element, oldName);
+		}
 	}
 	
 	private class AddButtonActionListener implements ActionListener
@@ -60,7 +112,14 @@ public class PointList extends Panel
 		@Override
 		public void actionPerformed(ActionEvent e) 
 		{
-			addPointElement();
+			PointListElement newElement = addPointElement("");
+			if(newElement == null)
+				return;
+			
+			for(PointListEventHandler handler : handlers)
+			{
+				handler.pointDescriptorAdded(newElement);
+			}
 		}
 	}
 
@@ -70,5 +129,7 @@ public class PointList extends Panel
 	private static final long serialVersionUID = -1898176351964283864L;
 	private JPanel listPanel;
 	private JScrollPane scrollPane;
+	private LinkedList<PointListEventHandler> handlers = new LinkedList<>();
 
+	private HashMap<String, PointListElement> elements = new HashMap<>();
 }
