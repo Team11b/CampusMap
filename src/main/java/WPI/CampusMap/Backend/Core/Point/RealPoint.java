@@ -18,7 +18,6 @@ public class RealPoint implements IPoint,java.io.Serializable {
 	private String id;
 	private String map;
 	private transient HashMap<String, IPoint> neighbors = new HashMap<String, IPoint>();
-	//TODO: Make neighbors transient and make a list of strings of neighbor names that actually serializes
 	private ArrayList<String> neighborList = new ArrayList<String>();
 	
 	public static final String OUT_DOOR = "out_door";
@@ -202,16 +201,23 @@ public class RealPoint implements IPoint,java.io.Serializable {
 	 */
 	@Override
 	public ArrayList<IPoint> getValidNeighbors(ArrayList<String> whitelist) {
-		//TODO check white list when returning neighbors
-		ArrayList<IPoint> neigh = this.getNeighborsP();
-
+		ArrayList<IPoint> neigh = new ArrayList<IPoint>();
+		if(whitelist == null || whitelist.size() == 0){
+			neigh = this.getNeighborsP();
+		}else{
+			for(IPoint point: this.getNeighborsP()){
+				if(whitelist.contains(point.getMap())){
+					neigh.add(point);
+				}
+			}
+		}
 		return neigh;
 	}
 
 	@Override
 	public boolean removeNeighbor(IPoint point) {
 		boolean success = true;
-		if(point.getMap().equals(getMap())){
+		if(!point.getMap().equals(getMap())){
 			success = success && this.neighborList.remove(point.toString());
 		}else{
 			success = success && this.neighborList.remove(point.getId());
