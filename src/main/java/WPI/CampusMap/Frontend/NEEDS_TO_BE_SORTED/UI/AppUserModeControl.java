@@ -48,6 +48,7 @@ public class AppUserModeControl extends JComponent
 		add(scrollPane);
 		
 		JButton routeButton = new JButton("Route Me!");
+		routeButton.setToolTipText("Get turn-by-turn directions between each point");
 		springLayout.putConstraint(SpringLayout.SOUTH, scrollPane, -20, SpringLayout.NORTH, routeButton);
 		springLayout.putConstraint(SpringLayout.NORTH, routeButton, 373, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.WEST, routeButton, 54, SpringLayout.WEST, this);

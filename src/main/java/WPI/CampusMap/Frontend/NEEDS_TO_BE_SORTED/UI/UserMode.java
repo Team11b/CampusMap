@@ -84,10 +84,8 @@ public class UserMode extends UIMode{
     public static void onEmail() {
     	Email email = new SimpleEmail();
     	email.setHostName("smtp.googlemail.com");
-    	email.setSSL(true);
-    	email.setSSLOnConnect(true);
-    	email.setSmtpPort(587);
-    	email.setAuthenticator(new DefaultAuthenticator("team0011b@gmail.com", "SoftEng15"));
+    	email.setSmtpPort(465);
+    	email.setAuthenticator(new DefaultAuthenticator("team0011b", "SoftEng15"));
     	email.setSSLOnConnect(true);
     	try {
     		email.setFrom("team0011b@gmail.com");
@@ -95,6 +93,7 @@ public class UserMode extends UIMode{
 			email.setMsg("This is a test mail ... :-)");
 			email.addTo("wespurgeon@wpi.edu");
 	    	email.send();
+	    	System.out.println("Email sent");
 		} catch (EmailException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();

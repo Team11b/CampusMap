@@ -411,6 +411,7 @@ public class AppUIObject {
 		txtDevPass.setVisible(false);
 
 		btnGetDirections.setBounds(12, 211, 157, 36);
+		btnGetDirections.setToolTipText("Get turn-by-turn directions between each point");
 		directionsPanel.add(btnGetDirections);
 		btnGetDirections.setEnabled(false);
 
