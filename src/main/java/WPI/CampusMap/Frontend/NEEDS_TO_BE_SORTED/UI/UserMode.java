@@ -83,9 +83,11 @@ public class UserMode extends UIMode{
     
     public static void onEmail() {
     	Email email = new SimpleEmail();
-    	email.setHostName("smtp.googlemail.com");
     	email.setSmtpPort(465);
-    	email.setAuthenticator(new DefaultAuthenticator("team0011b", "SoftEng15"));
+    	email.setAuthentication("team0011b", "SoftEng15");
+    	email.setDebug(true);
+    	email.setHostName("smtp.gmail.com");
+    	email.setAuthenticator(new DefaultAuthenticator("team0011b@gmail.com", "SoftEng15"));
     	email.setSSLOnConnect(true);
     	try {
     		email.setFrom("team0011b@gmail.com");
