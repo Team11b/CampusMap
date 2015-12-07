@@ -3,14 +3,10 @@ package WPI.CampusMap.PathPlanningTest;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import org.junit.BeforeClass;
 import org.junit.Ignore;
 import org.junit.Test;
 
-import WPI.CampusMap.Backend.Core.Coordinate.Coord;
-import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Map.RealMap;
-import WPI.CampusMap.Backend.Core.Point.RealPoint;
 import WPI.CampusMap.Backend.PathPlanning.Node;
 import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.AStar.Frontier;
 
@@ -25,28 +21,28 @@ public class FrontierTest {
 	public static Node eta;
 	public static Node iota;
 
-	@BeforeClass
-	public static void beforeClass() {
-		AllMaps.getInstance().clearAllMaps();
-		testing = new Frontier();
-		testMap = new RealMap("testMap");
-		AllMaps.getInstance().addMap(testMap);
-
-		alpha = new Node(new RealPoint(new Coord(0.0, 0.0), RealPoint.HALLWAY, "alpha", "testMap"));
-		alpha.setAccumulatedDistance(9.0);
-		beta = new Node(new RealPoint(new Coord(1.0, 1.0), RealPoint.HALLWAY, "beta", "testMap"));
-		beta.setAccumulatedDistance(3.0);
-		gamma = new Node(new RealPoint(new Coord(2.0, 2.0), RealPoint.HALLWAY, "gamma", "testMap"));
-		gamma.setAccumulatedDistance(9.0);
-		
-		delta = new Node(new RealPoint(new Coord(2.0, 2.0), RealPoint.HALLWAY, "delta", "testMap"));
-		delta.setAccumulatedDistance(5.0);
-		
-		eta = new Node(new RealPoint(new Coord(2.0, 2.0), RealPoint.HALLWAY, "eta", "testMap"));
-		eta.setAccumulatedDistance(10.0);
-		
-		iota = new Node(new RealPoint(new Coord(5.0, 5.0), RealPoint.HALLWAY, "iota", "testMap"));
-	}
+//	@BeforeClass
+//	public static void beforeClass() {
+//		AllMaps.getInstance().clearAllMaps();
+//		testing = new Frontier();
+//		testMap = new RealMap("testMap");
+//		AllMaps.getInstance().addMap(testMap);
+//
+//		alpha = new Node(new RealPoint(new Coord(0.0, 0.0), RealPoint.HALLWAY, "alpha", "testMap"));
+//		alpha.setAccumulatedDistance(9.0);
+//		beta = new Node(new RealPoint(new Coord(1.0, 1.0), RealPoint.HALLWAY, "beta", "testMap"));
+//		beta.setAccumulatedDistance(3.0);
+//		gamma = new Node(new RealPoint(new Coord(2.0, 2.0), RealPoint.HALLWAY, "gamma", "testMap"));
+//		gamma.setAccumulatedDistance(9.0);
+//		
+//		delta = new Node(new RealPoint(new Coord(2.0, 2.0), RealPoint.HALLWAY, "delta", "testMap"));
+//		delta.setAccumulatedDistance(5.0);
+//		
+//		eta = new Node(new RealPoint(new Coord(2.0, 2.0), RealPoint.HALLWAY, "eta", "testMap"));
+//		eta.setAccumulatedDistance(10.0);
+//		
+//		iota = new Node(new RealPoint(new Coord(5.0, 5.0), RealPoint.HALLWAY, "iota", "testMap"));
+//	}
 	
 //	@Before
 //	public void before() {
