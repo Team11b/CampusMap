@@ -40,14 +40,22 @@ public abstract class PathProcessor
 	protected Path execute(IPoint[] keyPoints) throws PathNotFoundException
 	{
 		this.keyPoints = keyPoints;
-		explored = new ArrayList<Node>();
-		frontier = new PriorityQueue<Node>(getNodeCompartor());
 		
 		//no previous end for the first node
 		Node previousEnd = null;
 		for(int i = 1; i < keyPoints.length; i++){
+			explored = new ArrayList<Node>();
+			frontier = new PriorityQueue<Node>(getNodeCompartor());
+			
 			goal = new Node(keyPoints[i], null, 0);
 			Node currentNode = new Node(keyPoints[i - 1], previousEnd , 0);
+			
+//			System.out.println(currentNode.point);
+			if(previousEnd != null){
+//				System.out.println(previousEnd.point);
+			}
+//			System.out.println();
+			
 			while(!currentNode.equals(goal) ){
 				explored.add(currentNode);
 				expandNode(currentNode);

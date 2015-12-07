@@ -59,10 +59,12 @@ public class Path implements Iterable<Path.Section>
 		String currentMap = nodeChain.point.getMap();
 		LinkedList<IPoint> currentSection = new LinkedList<IPoint>();
 		currentSection.add(nodeChain.point);
+		Node temp = nodeChain;
 		nodeChain = nodeChain.getLast();
 		
 		while(nodeChain != null){
-			if(!nodeChain.point.getMap().equals(currentMap)){
+//			System.out.println(temp.point);
+			if(!nodeChain.point.getMap().equals(currentMap) || temp.point.equals(nodeChain.point)){
 				IMap map = AllMaps.getInstance().getMap(currentMap);
 				Collections.reverse(currentSection);
 				sections.add(new Section(map, currentSection));
@@ -70,6 +72,7 @@ public class Path implements Iterable<Path.Section>
 				currentSection = new LinkedList<IPoint>();
 			}
 			currentSection.add(nodeChain.point);
+			temp = nodeChain;
 			nodeChain = nodeChain.getLast();
 		}
 		
