@@ -30,6 +30,7 @@ public class PointList extends Panel
 		setLayout(springLayout);
 		
 		JButton btnAdd = new JButton("Add");
+		btnAdd.setToolTipText("Add a destination to your trip");
 		btnAdd.addActionListener(new AddButtonActionListener());
 		springLayout.putConstraint(SpringLayout.WEST, btnAdd, 108, SpringLayout.WEST, this);
 		springLayout.putConstraint(SpringLayout.SOUTH, btnAdd, -10, SpringLayout.SOUTH, this);

@@ -29,6 +29,7 @@ public class PointListElement extends JComponent
 		setLayout(springLayout);
 		
 		JButton removeButton = new JButton("");
+		removeButton.setToolTipText("Remove the destination from your itinerary");
 		removeButton.addActionListener(new RemoveButtonActionListener(this));
 		springLayout.putConstraint(SpringLayout.NORTH, removeButton, 10, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.WEST, removeButton, -40, SpringLayout.EAST, this);
@@ -40,6 +41,7 @@ public class PointListElement extends JComponent
 		
 		
 		JButton goToButton = new JButton("");
+		goToButton.setToolTipText("Get turn-by-turn directions to this destination");
 		goToButton.addActionListener(new GotoButtonActionListener(this));
 		springLayout.putConstraint(SpringLayout.WEST, goToButton, -40, SpringLayout.WEST, removeButton);
 		springLayout.putConstraint(SpringLayout.EAST, goToButton, -6, SpringLayout.WEST, removeButton);
