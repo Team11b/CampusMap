@@ -1,6 +1,8 @@
 package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI;
 
 import java.awt.Graphics2D;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.util.Properties;
 
@@ -8,6 +10,9 @@ import javax.mail.*;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
+import com.twilio.sdk.TwilioRestException;
+
+import WPI.CampusMap.Backend.Additional.InternetFeatures.SMS.SMSClient;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.User.*;
 
@@ -69,7 +74,7 @@ public class UserMode extends UIMode{
     	System.out.println("TXT");
 	}
     
-    public void onEmail(){
+    public static void onEmail(){
     	System.out.println("Email");
     	// Recipient's email ID needs to be mentioned.
         String to = "wespurgeon@wpi.edu";
@@ -113,8 +118,14 @@ public class UserMode extends UIMode{
         }
     }
     
-    public void onSMS(){
+    public static void onSMS(){
     	System.out.println("SMS");
+    	try {
+			SMSClient.SendText("18184411799", "HELLO WORLD");
+		} catch (TwilioRestException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
     }
     
     public void outputDirections(){
@@ -163,6 +174,17 @@ public class UserMode extends UIMode{
 	{
 	}
 
+	protected static ActionListener emailAction = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			onEmail();
+		}
+	};
 	
-	
+	protected static ActionListener SMSAction = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			onSMS();
+		}
+	};
 }
