@@ -23,6 +23,7 @@ import java.awt.Component;
 public class AppUserModeControl extends JComponent
 {
 	AppMainWindow window;
+	private JTree tree = new JTree();
 	
 	@SuppressWarnings("serial")
 	public AppUserModeControl(AppMainWindow window) 
@@ -86,7 +87,6 @@ public class AppUserModeControl extends JComponent
 		springLayout.putConstraint(SpringLayout.SOUTH, label_1, 0, SpringLayout.NORTH, scrollPane_1);
 		springLayout.putConstraint(SpringLayout.WEST, label_1, 10, SpringLayout.WEST, this);
 		
-		JTree tree = new JTree();
 		tree.setRootVisible(false);
 		tree.setModel(new DefaultTreeModel(
 			new DefaultMutableTreeNode("Directions") {
@@ -101,6 +101,11 @@ public class AppUserModeControl extends JComponent
 		));
 		scrollPane_1.setViewportView(tree);
 		add(label_1);
+	}
+	
+	public static String getDirections(){
+		//TODO: Get the actual directions.
+		return "Here are some directions";
 	}
 	
 	private class RouteMeActionListener implements ActionListener

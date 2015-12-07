@@ -21,14 +21,12 @@ import java.awt.GridBagConstraints;
 import java.awt.ScrollPane;
 import javax.swing.JPanel;
 
-public class PointList extends Panel
-{
-	public PointList()
-	{
+public class PointList extends Panel {
+	public PointList() {
 		setForeground(SystemColor.controlShadow);
 		SpringLayout springLayout = new SpringLayout();
 		setLayout(springLayout);
-		
+
 		JButton btnAdd = new JButton("Add");
 		btnAdd.setToolTipText("Add a destination to your trip");
 		btnAdd.addActionListener(new AddButtonActionListener());
@@ -36,89 +34,76 @@ public class PointList extends Panel
 		springLayout.putConstraint(SpringLayout.SOUTH, btnAdd, -10, SpringLayout.SOUTH, this);
 		springLayout.putConstraint(SpringLayout.EAST, btnAdd, -108, SpringLayout.EAST, this);
 		add(btnAdd);
-		
+
 		scrollPane = new JScrollPane();
 		springLayout.putConstraint(SpringLayout.NORTH, scrollPane, 0, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.WEST, scrollPane, 0, SpringLayout.WEST, this);
 		springLayout.putConstraint(SpringLayout.SOUTH, scrollPane, -7, SpringLayout.NORTH, btnAdd);
 		springLayout.putConstraint(SpringLayout.EAST, scrollPane, 0, SpringLayout.EAST, this);
 		add(scrollPane);
-		
+
 		listPanel = new JPanel();
 		scrollPane.setViewportView(listPanel);
 		listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
 	}
-	
-	public PointListElement addPointElement(String name)
-	{
-		if(elements.containsKey(name))
+
+	public PointListElement addPointElement(String name) {
+		if (elements.containsKey(name))
 			return null;
-		
+
 		PointListElement element = new PointListElement(this, name);
 		elements.put(name, element);
 		listPanel.add(element);
-		
+
 		listPanel.revalidate();
 		listPanel.repaint();
-		
+
 		return element;
 	}
-	
-	public void removePointElement(String name)
-	{
+
+	public void removePointElement(String name) {
 		remove(elements.get(name));
 		elements.remove(name);
 	}
-	
-	public void renamePointElement(String oldName, String newName)
-	{
+
+	public void renamePointElement(String oldName, String newName) {
 		PointListElement element = elements.get(oldName);
-		
+
 		elements.remove(oldName);
 		elements.put(newName, element);
-		
-		
+
 	}
-	
-	protected void removePointElement(PointListElement element)
-	{
+
+	protected void removePointElement(PointListElement element) {
 		removePointElement(element.getName());
-		
-		for(PointListEventHandler handler : handlers)
-		{
+
+		for (PointListEventHandler handler : handlers) {
 			handler.pointDescriptorRemoved(element);
 		}
 	}
-	
-	protected void gotoPointElement(PointListElement element)
-	{
-		for(PointListEventHandler handler : handlers)
-		{
+
+	protected void gotoPointElement(PointListElement element) {
+		for (PointListEventHandler handler : handlers) {
 			handler.pointDescriptorShow(element);
 		}
 	}
-	
-	protected void renamePointElement(PointListElement element, String oldName)
-	{
+
+	protected void renamePointElement(PointListElement element, String oldName) {
 		renamePointElement(oldName, element.getName());
-		
-		for(PointListEventHandler handler : handlers)
-		{
+
+		for (PointListEventHandler handler : handlers) {
 			handler.pointDescriptorRenamed(element, oldName);
 		}
 	}
-	
-	private class AddButtonActionListener implements ActionListener
-	{
+
+	private class AddButtonActionListener implements ActionListener {
 		@Override
-		public void actionPerformed(ActionEvent e) 
-		{
+		public void actionPerformed(ActionEvent e) {
 			PointListElement newElement = addPointElement("");
-			if(newElement == null)
+			if (newElement == null)
 				return;
-			
-			for(PointListEventHandler handler : handlers)
-			{
+
+			for (PointListEventHandler handler : handlers) {
 				handler.pointDescriptorAdded(newElement);
 			}
 		}

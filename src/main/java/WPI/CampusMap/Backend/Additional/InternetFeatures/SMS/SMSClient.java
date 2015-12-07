@@ -4,6 +4,9 @@ import com.twilio.sdk.TwilioRestClient;
 import com.twilio.sdk.TwilioRestException;
 import com.twilio.sdk.resource.factory.MessageFactory;
 import com.twilio.sdk.resource.instance.Message;
+
+import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI.AppUserModeControl;
+
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
  
@@ -18,7 +21,7 @@ public class SMSClient {
 	 public static void SendText(String to, String textMessage) throws TwilioRestException{
 		    // Build a filter for the MessageList
 		    List<NameValuePair> params = new ArrayList<NameValuePair>();
-		    params.add(new BasicNameValuePair("Body", "Jenny please?! I love you <3"));
+		    params.add(new BasicNameValuePair("Body", AppUserModeControl.getDirections()));
 		    params.add(new BasicNameValuePair("To", "+18184411799"));
 		    params.add(new BasicNameValuePair("From", "+16264145940"));
 		 
