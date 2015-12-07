@@ -63,4 +63,12 @@ public class Tweet {
 	public boolean hasLocation() {
 		return this.hasLocation;
 	}
+	
+	private String getScreenName() {
+		return this.user.getScreenName();
+	}
+	
+	private String getName() {
+		return this.user.getName();
+	}
 }

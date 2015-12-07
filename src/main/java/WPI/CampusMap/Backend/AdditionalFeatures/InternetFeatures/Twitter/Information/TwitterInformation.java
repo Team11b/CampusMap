@@ -1,6 +1,9 @@
 package WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Twitter.Information;
 
 import java.util.LinkedList;
+import java.util.MissingResourceException;
+
+import WPI.CampusMap.Backend.Exceptions.MissingKeyException;
 
 public class TwitterInformation {
 	private static final String publicKey = "FCK8MC0jOQza3FfE4zq8GPgsv";
@@ -40,25 +43,25 @@ public class TwitterInformation {
 		return TwitterInformation.publicKey;
 	}
 
-	public static String getPrivateKey() throws UnsupportedOperationException {
+	public static String getPrivateKey() throws MissingKeyException {
 		if (TwitterInformation.privateKey == null) {
-			throw new UnsupportedOperationException("No Private Key Entered.");
+			throw new MissingKeyException("No Private Key Entered.");
 		} else {
 			return TwitterInformation.privateKey;
 		}
 	}
 
-	public static String getPublicAccessToken() throws UnsupportedOperationException {
+	public static String getPublicAccessToken() throws MissingKeyException {
 		if (TwitterInformation.publicAccessToken == null) {
-			throw new UnsupportedOperationException("No Public Access Token Entered.");
+			throw new MissingKeyException("No Public Access Token Entered.");
 		} else {
 			return TwitterInformation.publicAccessToken;
 		}
 	}
 
-	public static String getPrivateAccessToken() throws UnsupportedOperationException {
+	public static String getPrivateAccessToken() throws MissingKeyException {
 		if (TwitterInformation.privateAccessToken == null) {
-			throw new UnsupportedOperationException("No Private Access Token Entered.");
+			throw new MissingKeyException("No Private Access Token Entered.");
 		} else {
 			return TwitterInformation.privateAccessToken;
 		}
