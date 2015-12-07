@@ -119,6 +119,13 @@ public class AppMainWindow extends JFrame implements Runnable
 		mnFile.add(mnSendAs);
 		
 		JMenuItem mntmEmail = new JMenuItem("Email");
+		ActionListener emailAction = new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				UserMode.getInstance().onEmail();
+			}
+		};
+		mntmEmail.addActionListener(emailAction);
 		mnSendAs.add(mntmEmail);
 		
 		JMenuItem mntmSms = new JMenuItem("SMS");
