@@ -10,6 +10,8 @@ public class UserMode extends UIMode{
 	//Singleton
 	private static UserMode instance;
 	
+	private UserGraphicalMap graphicalMap;
+	
 	public UserMode(AppMainWindow window)
 	{
 		super(window);	
@@ -26,14 +28,9 @@ public class UserMode extends UIMode{
 		
 	}
 	
-	public void onRouteButton(){
+	public void onRouteButton()
+	{
 		System.out.println("Route me");
-		/*MultiPath path = UserPointGraphicsObject.route();
-		Route route = new Route(path);
-		for(Instruction i: route.getRoute()){
-			//need directions output function
-			//txtDirections.setText(txtDirections.getText() + i.getInstruction());
-		}*/
 	}
 	
 	public void onClearButton(){
@@ -42,12 +39,13 @@ public class UserMode extends UIMode{
 		UserPathGraphicsObject.deleteAll();
 	}
 	
-	public void onAddDest(){
+	public void onAddDest(String destName)
+	{
 		System.out.println("AddDest");
 	}
 	
-	public void onPointAddedToRoute(IPoint newPoint){
-		//destinations.setDestination(newPoint.getId());
+	public void onPointAddedToRoute(IPoint newPoint)
+	{
 	}
 	
 	public void onWeatherChosen(String option){
@@ -109,9 +107,15 @@ public class UserMode extends UIMode{
 	}
 
 	@Override
-	public void onMouseDraggedOverMap(MouseEvent e) {
+	public void onMouseDraggedOverMap(MouseEvent e)
+	{
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public void loadMap(String mapName)
+	{
 	}
 
 	

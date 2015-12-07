@@ -228,4 +228,10 @@ public class DevMode extends UIMode
 		// TODO Auto-generated method stub
 		
 	}
+
+	@Override
+	public void loadMap(String mapName) {
+		// TODO Auto-generated method stub
+		
+	}
 }
