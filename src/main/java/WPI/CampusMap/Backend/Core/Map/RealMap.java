@@ -238,6 +238,7 @@ public class RealMap implements IMap, java.io.Serializable {
 	public void renamePoint(RealPoint p, String newName) {
 		allPoints.remove(p.getId());
 		allPoints.put(newName, p);
+		System.out.println("Renamed point to" + this.getPoint(newName));
 	}
 
 	/**

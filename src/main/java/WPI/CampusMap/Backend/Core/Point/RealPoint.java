@@ -159,20 +159,24 @@ public class RealPoint implements IPoint,java.io.Serializable {
 	@Override
 	public void setId(String id) {
 		// TODO Add check to see if id already exists?
-		IMap map = AllMaps.getInstance().getMap(getMap());
-		if(map != null)
-		{
-			map.renamePoint(this, id);
+		if(id != getId()){
+			for(IPoint n : getNeighborsP()){
+				n.removeNeighbor(this);	
+			}
+			
+			IMap map = AllMaps.getInstance().getMap(getMap());
+			if(map != null)
+			{
+				map.renamePoint(this, id);
+			}
+			
+			this.id = id;
+			for(IPoint n : getNeighborsP())
+			{
+				n.addNeighbor(this);
+				System.out.println("Replaced self in "+n+"'s neighbor list");
+			}
 		}
-		
-		for(IPoint n : getNeighborsP())
-		{
-			n.removeNeighbor(this);
-			n.addNeighbor(this);
-		}
-		
-		this.id = id;
-
 	}
 	
 	/**
