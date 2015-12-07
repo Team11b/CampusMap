@@ -4,15 +4,15 @@ import java.util.Comparator;
 
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 
-public class AStar extends PathProcessor {
+public class AStarPathProcessor extends PathProcessor {
 
 	NodeProcessor nProcessor;
 	
-	public AStar(){
+	public AStarPathProcessor(){
 		super();
 	}
 	
-	public AStar(NodeProcessor nProcessor){
+	public AStarPathProcessor(NodeProcessor nProcessor){
 		super();
 		this.nProcessor = nProcessor;
 	}

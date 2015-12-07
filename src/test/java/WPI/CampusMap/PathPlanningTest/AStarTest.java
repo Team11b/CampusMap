@@ -16,7 +16,7 @@ import WPI.CampusMap.Backend.Core.Map.ProxyMap;
 import WPI.CampusMap.Backend.Core.Map.RealMap;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.Core.Point.RealPoint;
-import WPI.CampusMap.Backend.PathPlanning.AStar;
+import WPI.CampusMap.Backend.PathPlanning.AStarPathProcessor;
 import WPI.CampusMap.Backend.PathPlanning.DistanceProcessor;
 import WPI.CampusMap.Backend.PathPlanning.Node;
 import WPI.CampusMap.Backend.PathPlanning.Path;
@@ -319,7 +319,7 @@ public class AStarTest {
 		
 		Path path = null;
 		try {
-			path = PathFinder.getPath(start, goal, new AStar(new DistanceProcessor()));
+			path = PathFinder.getPath(start, goal, new AStarPathProcessor(new DistanceProcessor()));
 		} catch (PathNotFoundException e) {
 			e.printStackTrace();
 		}
@@ -392,7 +392,7 @@ public class AStarTest {
 		
 		Path path = null;
 		try {
-			path = PathFinder.getPath(start, goal, new AStar(new DistanceProcessor()));
+			path = PathFinder.getPath(start, goal, new AStarPathProcessor(new DistanceProcessor()));
 		} catch (PathNotFoundException e) {
 			e.printStackTrace();
 		}
