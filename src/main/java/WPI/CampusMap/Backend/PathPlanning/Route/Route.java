@@ -53,7 +53,7 @@ public class Route {
 	}
 
 	public static LinkedList<Instruction> parse(Section current, int offset) {
-		ArrayList<IPoint> p = current.getTurns();
+		ArrayList<IPoint> p = GetTurns.getTurns(current);
 		LinkedList<Instruction> list = new LinkedList<Instruction>();
 		Instruction latest = null;
 		
@@ -71,8 +71,8 @@ public class Route {
 			String direction = "";
 			float dist = (float) p.get(i).distance(p.get(i - 1));
 
-			float angleBefore = p.getAngle(p.get(i - 1), p.get(i));
-			float angleAfter = p.getAngle(p.get(i), p.get(i + 1));
+			float angleBefore = GetTurns.getAngle(p.get(i - 1), p.get(i));
+			float angleAfter = GetTurns.getAngle(p.get(i), p.get(i + 1));
 			// System.out.printf("Angle Before: %f, Angle After: %f \n",
 			// angleBefore, angleAfter);
 

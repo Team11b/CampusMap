@@ -71,10 +71,17 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 	public static Path route()
 	{
 		lastRoutedPath = null;
+		
+		System.out.println(selectedRoute);
 
+		IPoint[] routeArray = new IPoint[selectedRoute.size()];
+		
+		for(int i = 0; i < selectedRoute.size(); i++){
+			routeArray[i] = selectedRoute.get(i).getValue().getRepresentedObject();
+		}
 
 		try {
-			lastRoutedPath = PathFinder.getPath(selectedRoute.toArray(new IPoint[0]), new AStarPathProcessor(new DistanceProcessor()));
+			lastRoutedPath = PathFinder.getPath(routeArray,	new AStarPathProcessor(new DistanceProcessor()));
 		} catch (PathNotFoundException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
