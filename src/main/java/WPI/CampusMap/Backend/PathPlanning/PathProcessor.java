@@ -49,8 +49,8 @@ public abstract class PathProcessor
 			goal = new Node(keyPoints[i], null, 0);
 			Node currentNode = new Node(keyPoints[i - 1], previousEnd , 0);
 			while(!currentNode.equals(goal) ){
-				expandNode(currentNode);
 				explored.add(currentNode);
+				expandNode(currentNode);
 				currentNode = pullFromFrontier();
 				if(currentNode == null){
 					throw new PathNotFoundException(keyPoints[i-1], keyPoints[i]);

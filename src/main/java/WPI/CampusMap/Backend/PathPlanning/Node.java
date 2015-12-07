@@ -54,11 +54,21 @@ public final class Node
 	
 	/**
 	 * Gets the valid neighbors of the contained point.
+	 * @param whitelist list of allowed maps
 	 * @return the valid neighbors
 	 */
 	public ArrayList<IPoint> getNeighbors(ArrayList<String> whitelist)
 	{
 		return point.getValidNeighbors(whitelist);
+	}
+	
+	/**
+	 * Gets the valid neighbors of the contained point.
+	 * @return the valid neighbors
+	 */
+	public ArrayList<IPoint> getNeighbors()
+	{
+		return point.getNeighborsP();
 	}
 	
 	/**
