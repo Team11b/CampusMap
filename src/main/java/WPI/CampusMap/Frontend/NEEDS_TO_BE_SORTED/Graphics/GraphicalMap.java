@@ -10,6 +10,7 @@ import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
 import java.awt.geom.Point2D.Float;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Hashtable;
@@ -82,6 +83,26 @@ public abstract class GraphicalMap
 		{
 			return graphicsObjectLookup.get(representedObject);
 		}
+	}
+	
+	@SuppressWarnings("unchecked")
+	public <T extends GraphicsObject<?, ?>> T[] getObjectsOfType(Class<T> type)
+	{
+		ArrayList<T> foundObjects = new ArrayList<>();
+		
+		synchronized (this)
+		{
+			for(GraphicsObject<?, ?> obj : graphicsObjectLookup.values())
+			{
+				if(type.isInstance(obj))
+					foundObjects.add((T)obj);
+			}
+		}
+		
+		T[] array = (T[])Array.newInstance(type, foundObjects.size());
+		foundObjects.toArray(array);
+		
+		return array;
 	}
 	
 	public UIMode getMode()
@@ -224,7 +245,7 @@ public abstract class GraphicalMap
 					
 					i--;
 				}
-				else
+				else if(go.isVisible())
 				{
 					Coord position = go.getWorldPosition();
 					position = getScreenFromWorld(position);

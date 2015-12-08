@@ -1,5 +1,6 @@
 package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.User;
 
+import java.util.HashSet;
 import java.util.Hashtable;
 import java.util.LinkedList;
 
@@ -16,7 +17,7 @@ import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI.UserMode;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI_OLD.MapPanel;
 
 public class UserGraphicalMap extends GraphicalMap
-{	
+{
 	public UserGraphicalMap(String map, UserMode mode)
 	{
 		super(map, mode);		
@@ -26,7 +27,7 @@ public class UserGraphicalMap extends GraphicalMap
 	@Override
 	public void spawnMap()
 	{
-		for(IPoint p : map.getAllPoints())
+		for(IPoint p : getMap().getAllPoints())
 		{
 			new UserPointGraphicsObject((RealPoint) p, this);
 		}
@@ -37,6 +38,37 @@ public class UserGraphicalMap extends GraphicalMap
 		for(Section section : pathSections)
 		{
 			new UserPathGraphicsObject(section, this);
+		}
+	}
+	
+	/**
+	 * Sets a section to be shown.
+	 * @param section The section to be shown.
+	 */
+	public void setShownSection(Section section)
+	{
+		for(UserPathGraphicsObject graphicalSection : getObjectsOfType(UserPathGraphicsObject.class))
+		{
+			graphicalSection.setVisible(graphicalSection.getRepresentedObject() == section);
+		}
+	}
+	
+	/**
+	 * Sets multiple sections to be shown.
+	 * @param sections The sections to be shown.
+	 */
+	public void setShownSections(Section[] sections)
+	{
+		HashSet<Section> sectionsSet = new HashSet<>();
+		
+		for(Section section : sections)
+		{
+			sectionsSet.add(section);
+		}
+		
+		for(UserPathGraphicsObject graphicalSection : getObjectsOfType(UserPathGraphicsObject.class))
+		{
+			graphicalSection.setVisible(sectionsSet.contains(graphicalSection.getRepresentedObject()));
 		}
 	}
 

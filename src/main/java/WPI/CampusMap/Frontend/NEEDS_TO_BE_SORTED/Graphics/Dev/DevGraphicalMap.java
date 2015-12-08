@@ -23,7 +23,7 @@ public class DevGraphicalMap extends GraphicalMap
 	{
 		DevEdgeGraphicsObject.cleanupEdges();
 		
-		for(IPoint p : map.getAllPoints())
+		for(IPoint p : getMap().getAllPoints())
 		{
 			new DevPointGraphicsObject((RealPoint)p, this);
 		}

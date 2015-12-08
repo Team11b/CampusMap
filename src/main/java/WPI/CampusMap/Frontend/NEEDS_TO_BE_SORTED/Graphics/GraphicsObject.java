@@ -18,6 +18,8 @@ public abstract class GraphicsObject<R, M extends GraphicalMap>
 	
 	private R representedObject;
 	
+	private boolean visible;
+	
 	private boolean deleted;
 	
 	/**
@@ -30,6 +32,7 @@ public abstract class GraphicsObject<R, M extends GraphicalMap>
 		this.graphicsOwner = owner;
 		this.representedObject = representedObject;
 		owner.addGraphicalObject(this);
+		visible = true;
 	}
 	
 	/**
@@ -44,6 +47,16 @@ public abstract class GraphicsObject<R, M extends GraphicalMap>
 	public <T> T getOwnerMode(Class<T> type)
 	{
 		return graphicsOwner.getMode(type);
+	}
+	
+	public boolean isVisible()
+	{
+		return visible;
+	}
+	
+	public void setVisible(boolean visible)
+	{
+		this.visible = visible;
 	}
 	
 	/**

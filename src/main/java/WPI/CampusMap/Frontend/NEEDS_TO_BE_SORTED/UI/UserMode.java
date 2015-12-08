@@ -28,6 +28,9 @@ import WPI.CampusMap.Backend.Additional.InternetFeatures.SMS.SMSClient;
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Map.IMap;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
+import WPI.CampusMap.Backend.PathPlanning.AStarPathProcessor;
+import WPI.CampusMap.Backend.PathPlanning.PathFinder;
+import WPI.CampusMap.Backend.PathPlanning.PathNotFoundException;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicalMap;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.User.*;
 
@@ -49,8 +52,27 @@ public class UserMode extends UIMode
 
 	}
 
-	public void onRouteButton() {
-		System.out.println("Route me");
+	public void onRouteButton() 
+	{
+		AStarPathProcessor processor = new AStarPathProcessor();
+		
+		IPoint[] points = new IPoint[route.size()];
+		
+		int i = 0;
+		for(UserPointGraphicsObject graphicsPoint : route)
+		{
+			points[i] = graphicsPoint.getRepresentedObject();
+			i++;
+		}
+		
+		try 
+		{
+			PathFinder.getPath(points, processor);
+		} 
+		catch (PathNotFoundException e) 
+		{
+			e.printStackTrace();
+		}
 	}
 	
 	public void onClearButton(){
@@ -148,7 +170,7 @@ public class UserMode extends UIMode
 			email.getMailSession().getProperties().put("mail.smtp.starttls.enable", "true");
 			email.setFrom("team0011b@gmail.com", "Team 0011b");
 			email.setSubject("Campus Directions");
-			email.setMsg(AppUserModeControl.getDirections());
+			//email.setMsg(AppUserModeControl.getDirections());
 			email.addTo("wespurgeon@wpi.edu", "WPI Campus Map User");
 			email.send();
 			System.out.println("Email sent");

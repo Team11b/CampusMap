@@ -101,27 +101,12 @@ public class AppUserModeControl extends JComponent {
 		add(label_1);
 	}
 
-	public static String getDirections() {
-		return RouteMeActionListener.getDirections();
-	}
-
-	private static class RouteMeActionListener implements ActionListener {
-		public static String getDirections() {
-			// TODO: Get the actual directions.
-			Path path = UserPointGraphicsObject.route();
-			Route route = new Route(path);
-			String output = new String();
-			for(Instruction i: route.getRoute()){
-				output = output + i.getInstruction();
-				System.out.println(i.getInstruction());
-			}
-			return output;
-		}
-
-
+	private static class RouteMeActionListener implements ActionListener
+	{
 		@Override
-		public void actionPerformed(ActionEvent e) {
-			getDirections();
+		public void actionPerformed(ActionEvent e)
+		{
+			window.getUserMode().onRouteButton();
 		}
 
 	}
