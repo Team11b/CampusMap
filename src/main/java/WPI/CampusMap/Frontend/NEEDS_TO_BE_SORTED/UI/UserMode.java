@@ -1,9 +1,17 @@
 package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI;
 
+import java.awt.FileDialog;
 import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
+
+import javax.swing.JFileChooser;
+
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
@@ -69,7 +77,24 @@ public class UserMode extends UIMode{
 		System.out.println("PDF");
 	}
 	
-    public void onTxt(){
+	
+	
+    public static void onTxt(){
+    	JFileChooser chooser = new JFileChooser();
+    	chooser.showSaveDialog(chooser);
+    	File destination = chooser.getSelectedFile();
+    	FileWriter write;
+    	//String directions = AppUserModeControl.getDirections();
+    	try {
+			write = new FileWriter(destination);
+			PrintWriter printLine = new PrintWriter(write);
+			printLine.print("This is a test.");
+			printLine.close();
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
     	System.out.println("TXT");
 	}
     
@@ -167,6 +192,13 @@ public class UserMode extends UIMode{
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			onSMS();
+		}
+	};
+
+	protected static ActionListener txtExpoterAction = new ActionListener() {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			onTxt();
 		}
 	};
 }
