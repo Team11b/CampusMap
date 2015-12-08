@@ -10,7 +10,7 @@ public class AutoCompleteTextField {
     private ArrayList<String> listSomeString = new ArrayList<String>();
     private Java2sAutoTextField someTextField = new Java2sAutoTextField(listSomeString);
     private ArrayList<String> listSomeAnotherString = new ArrayList<String>();
-    private Java2sAutoComboBox someComboBox = new Java2sAutoComboBox(listSomeAnotherString);
+//    private Java2sAutoComboBox someComboBox = new Java2sAutoComboBox(listSomeAnotherString);
 
     public AutoCompleteTextField() {
         listSomeString.add("-");
@@ -35,20 +35,11 @@ public class AutoCompleteTextField {
         someTextField.setName("someTextField");
         someTextField.setDataList(listSomeString);
 //
-        someComboBox.setPrototypeDisplayValue("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
-        someComboBox.setFont(new Font("Serif", Font.BOLD, 16));
-        someComboBox.setForeground(Color.black);
-        someComboBox.setBackground(Color.YELLOW);
-        someComboBox.getEditor().selectAll();
-        someComboBox.getEditor().getEditorComponent().setBackground(Color.YELLOW);
-        ((JTextField) someComboBox.getEditor().getEditorComponent()).setDisabledTextColor(Color.black);
-        someComboBox.setName("someComboBox");
-        someComboBox.setDataList(listSomeAnotherString);
+        
 //
         frame = new JFrame();
         frame.setLayout(new GridLayout(0, 1, 10, 10));
         frame.add(someTextField);
-        frame.add(someComboBox);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocation(100, 100);
         frame.pack();
@@ -58,9 +49,7 @@ public class AutoCompleteTextField {
 
             @Override
             public void run() {
-                someTextField.setText("-");
-                someComboBox.getEditor().setItem(0);
-                someComboBox.getEditor().selectAll();
+                someTextField.setText("");
                 someTextField.grabFocus();
                 someTextField.requestFocus();
                 someTextField.setText(someTextField.getText());
