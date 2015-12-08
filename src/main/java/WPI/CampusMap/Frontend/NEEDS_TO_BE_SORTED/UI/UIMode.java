@@ -3,8 +3,6 @@ package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
-import javax.xml.stream.XMLStreamException;
-
 public abstract class UIMode {
 	
 	//other members of class go here	

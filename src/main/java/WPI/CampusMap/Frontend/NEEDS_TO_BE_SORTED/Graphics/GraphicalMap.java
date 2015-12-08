@@ -14,7 +14,6 @@ import java.util.Hashtable;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Map.IMap;
-import WPI.CampusMap.Backend.Core.Map.Map;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI.UIMode;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI_OLD.AppUIObject;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI_OLD.MapPanel;

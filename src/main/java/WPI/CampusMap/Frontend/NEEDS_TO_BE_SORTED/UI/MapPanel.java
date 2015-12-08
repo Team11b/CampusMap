@@ -3,8 +3,6 @@ package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputListener;

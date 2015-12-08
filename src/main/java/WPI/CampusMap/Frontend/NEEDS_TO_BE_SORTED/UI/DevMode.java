@@ -3,14 +3,10 @@ package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
-import javax.xml.stream.XMLStreamException;
-
 import org.apache.commons.lang3.NotImplementedException;
 
 import WPI.CampusMap.Backend.Core.Map.IMap;
-import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicalMap;
-import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.Dev.DevGraphicalMap;
 
 public class DevMode extends UIMode 
 {
