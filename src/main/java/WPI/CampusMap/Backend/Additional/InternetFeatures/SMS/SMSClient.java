@@ -21,8 +21,9 @@ public class SMSClient {
 	 public static void SendText(String to, String textMessage) throws TwilioRestException{
 		    // Build a filter for the MessageList
 		    List<NameValuePair> params = new ArrayList<NameValuePair>();
-		    params.add(new BasicNameValuePair("Body", AppUserModeControl.getDirections()));
-		    params.add(new BasicNameValuePair("To", "+18184411799"));
+		    //params.add(new BasicNameValuePair("Body", AppUserModeControl.getDirections()));
+		    params.add(new BasicNameValuePair("Body", textMessage));
+		    params.add(new BasicNameValuePair("To", to));
 		    params.add(new BasicNameValuePair("From", "+16264145940"));
 		 
 		    MessageFactory messageFactory = client.getAccount().getMessageFactory();

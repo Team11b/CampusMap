@@ -127,7 +127,7 @@ public class UserMode extends UIMode {
 	public static void onSMS() {
 		System.out.println("SMS");
 		try {
-			SMSClient.SendText("18184411799", "HELLO WORLD");
+			SMSClient.SendText("+18184411799", "HELLO WORLD");
 		} catch (TwilioRestException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
@@ -196,21 +196,18 @@ public class UserMode extends UIMode {
 
 
 	protected static ActionListener emailAction = new ActionListener() {
-		@Override
 		public void actionPerformed(ActionEvent e) {
 			onEmail();
 		}
 	};
 
 	protected static ActionListener SMSAction = new ActionListener() {
-		@Override
 		public void actionPerformed(ActionEvent e) {
 			onSMS();
 		}
 	};
 
 	protected static ActionListener txtExporterAction = new ActionListener() {
-		@Override
 		public void actionPerformed(ActionEvent e) {
 			onTxt();
 		}
