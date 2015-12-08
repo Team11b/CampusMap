@@ -1,7 +1,7 @@
 package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.Dev;
 
 import WPI.CampusMap.Backend.Core.Map.IMap;
-import WPI.CampusMap.Backend.Core.Point.Point;
+import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.Core.Point.RealPoint;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Dev.EditorToolMode;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicalMap;
@@ -22,9 +22,9 @@ public class DevGraphicalMap extends GraphicalMap
 	{
 		DevEdgeGraphicsObject.cleanupEdges();
 		
-		for(RealPoint p : map.getAllPoints())
+		for(IPoint p : map.getAllPoints())
 		{
-			new DevPointGraphicsObject(p, this);
+			new DevPointGraphicsObject((RealPoint)p, this);
 		}
 	}
 	

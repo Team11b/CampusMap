@@ -40,7 +40,7 @@ public class AllPoints {
 		return true;
 	}
 
-	public ArrayList<IPoint> addAllPoints(ArrayList<IPoint> multiPoints) {
+	public ArrayList<IPoint> addAllPoints(ArrayList<RealPoint> multiPoints) {
 		ArrayList<IPoint> remaining = new ArrayList<IPoint>();
 		boolean result = false;
 
@@ -49,6 +49,21 @@ public class AllPoints {
 
 			if (!(result)) {
 				remaining.add(multiPoints.get(j));
+			}
+		}
+
+		return remaining;
+	}
+
+	public ArrayList<IPoint> addAllPoints(IPoint[] multiPoints) {
+		ArrayList<IPoint> remaining = new ArrayList<IPoint>();
+		boolean result = false;
+
+		for (int j = 0; j < multiPoints.length; j++) {
+			result = this.addPoint(multiPoints[j]);
+
+			if (!(result)) {
+				remaining.add(multiPoints[j]);
 			}
 		}
 
