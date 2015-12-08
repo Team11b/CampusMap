@@ -10,6 +10,7 @@ import WPI.CampusMap.Backend.PathPlanning.Path;
 import WPI.CampusMap.Backend.PathPlanning.Path.Section;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicalMap;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicsObject;
+import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI.UserMode;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI_OLD.MapPanel;
 
 public class UserGraphicalMap extends GraphicalMap
@@ -21,9 +22,10 @@ public class UserGraphicalMap extends GraphicalMap
 		return loadGraphicalMap(map, null);
 	}
 	
+	@Deprecated
 	public static UserGraphicalMap loadGraphicalMap(IMap map, MapPanel panel)
 	{
-		UserGraphicalMap graphicalMap = loadedMaps.get(map.getName());
+		/*UserGraphicalMap graphicalMap = loadedMaps.get(map.getName());
 		if(graphicalMap == null)
 		{
 			graphicalMap = new UserGraphicalMap(map, panel);
@@ -34,11 +36,12 @@ public class UserGraphicalMap extends GraphicalMap
 			graphicalMap.setPanel(panel);
 		}
 		
-		return graphicalMap;
+		return graphicalMap;*/
+		return null;
 	}
 	
-	private UserGraphicalMap(IMap map, MapPanel panel) {
-		super(map, panel);		
+	private UserGraphicalMap(String map, UserMode mode) {
+		super(map, mode);		
 		// TODO Auto-generated constructor stub
 	}
 

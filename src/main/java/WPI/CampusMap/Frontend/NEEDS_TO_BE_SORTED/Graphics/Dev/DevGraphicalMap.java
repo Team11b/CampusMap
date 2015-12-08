@@ -6,14 +6,17 @@ import WPI.CampusMap.Backend.Core.Point.RealPoint;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Dev.EditorToolMode;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicalMap;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.RealMouseEvent;
+import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI.DevMode;
+import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI.UIMode;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI_OLD.AppUIObject;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI_OLD.MapPanel;
 
 public class DevGraphicalMap extends GraphicalMap
 {
 	private EditorToolMode mode = EditorToolMode.None;	
-	public DevGraphicalMap(IMap map, MapPanel panel) {		
-		super(map, panel);	
+	public DevGraphicalMap(String map, DevMode mode)
+	{		
+		super(map, mode);	
 		System.out.println("Dev mode entered.");
 	}
 
