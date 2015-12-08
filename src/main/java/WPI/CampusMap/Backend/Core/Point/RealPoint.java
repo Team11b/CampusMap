@@ -290,7 +290,7 @@ public class RealPoint implements IPoint,java.io.Serializable {
 		HashMap<String, String> temp = new HashMap<String, String>();
 		for(IPoint point: this.getNeighborsP()){
 			if(point.getMap() != this.getMap()){
-				temp.put(point.getMap(), point.getId());
+				temp.put(point.getMap(), point.toString());
 			}
 		}
 		return temp;
