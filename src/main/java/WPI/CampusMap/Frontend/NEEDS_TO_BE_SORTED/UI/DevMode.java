@@ -3,11 +3,22 @@ package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
+import javax.xml.stream.XMLStreamException;
+
+import org.apache.commons.lang3.NotImplementedException;
+
+import WPI.CampusMap.Backend.Core.Map.IMap;
+import WPI.CampusMap.Backend.Core.Map.AllMaps;
+import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicalMap;
+import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.Dev.DevGraphicalMap;
+
 public class DevMode extends UIMode 
 {
 	
-	//Singleton
-	private static DevMode instance;
+	private GraphicalMap graphicsMap;
+	protected IMap currentMap;
+	
+	//private static DevMode instance;
 	
 	public static DevMode getInstance()
 	{
@@ -28,7 +39,7 @@ public class DevMode extends UIMode
 	{
 		super(window);
 		
-		instance = this;
+		//instance = this;
 		setSelect();
 	}
 	
@@ -39,11 +50,14 @@ public class DevMode extends UIMode
 		//UIMode.setWindowText("Dev Mode");		
 		//Switch label to textbox for scale
 		//Show and hide UI elements
+		//if(currentMap != null)
+			//graphicsMap = new DevGraphicalMap(currentMap, this);
+			throw new NotImplementedException("getMap?");
 	}
 	
 	public void setSelect()
 	{
-		System.out.println("Place/create");
+		System.out.println("Select Mode");
 		currentEditMode = SELECT_MODE;
 	}
 
@@ -234,8 +248,22 @@ public class DevMode extends UIMode
 	}
 
 	@Override
-	public void loadMap(String mapName) {
-		// TODO Auto-generated method stub
+	public void loadMap(String mapName){
+		System.out.println("UI: " + mapName);
 		
+		synchronized(this)
+		{
+			System.out.println(mapName);
+			//IMap newMap = new Map(mapName);
+			//System.out.println(newMap.getAllPoints().keySet());
+			//currentMap = AllMaps.getMap(mapName);
+			
+			if(graphicsMap != null)
+				graphicsMap.unload();
+			
+			onModeEntered();
+			throw new NotImplementedException("getMap?");
+			
+		}
 	}
 }
