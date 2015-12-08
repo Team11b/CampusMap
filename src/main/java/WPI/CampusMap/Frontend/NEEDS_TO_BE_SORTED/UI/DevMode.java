@@ -23,8 +23,6 @@ public class DevMode extends UIMode
 	private GraphicalMap graphicsMap;
 	protected IMap currentMap;
 	
-	//private static DevMode instance;
-	
 	public static DevMode getInstance()
 	{
 		return null;
@@ -43,8 +41,6 @@ public class DevMode extends UIMode
 	public DevMode(AppMainWindow window)
 	{
 		super(window);
-		
-		//instance = this;
 		setSelect();
 	}
 	

@@ -3,16 +3,19 @@ package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics;
 import java.awt.AlphaComposite;
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.Rectangle;
 import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 import java.awt.geom.AffineTransform;
 import java.awt.geom.NoninvertibleTransformException;
 import java.awt.geom.Point2D;
+import java.awt.geom.Point2D.Float;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Hashtable;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
+import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Map.IMap;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI.UIMode;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI_OLD.AppUIObject;
@@ -29,11 +32,16 @@ public abstract class GraphicalMap
 	private Hashtable<Object, GraphicsObject<?, ?>> graphicsObjectLookup = new Hashtable<>();
 	
 	private IMap map;
-	private MapPanel panel;
+	
+	private Rectangle lastClip;
 	
 	private GraphicsObject<?, ?> over;
 	
 	private AffineTransform transform;
+	
+	private Coord cameraPosition = new Coord(0, 0);
+	
+	private UIMode mode;
 	
 	/**
 	 * Creates a new graphical map from a backend map.
@@ -42,19 +50,12 @@ public abstract class GraphicalMap
 	 */
 	public GraphicalMap(String map, UIMode mode) 
 	{
-		throw new UnsupportedOperationException("not implemented");
-	}
-	
-	@Deprecated
-	public void setPanel(MapPanel panel)
-	{
-		this.panel = panel;
-	}
-	
-	@Deprecated
-	public MapPanel getPanel()
-	{
-		return this.panel;
+		this.mode = mode;
+		this.map = AllMaps.getInstance().getMap(map);
+		
+		cameraPosition = new Coord(this.map.getLoadedImage().getIconWidth() * 0.5f, this.map.getLoadedImage().getIconHeight() * 0.5f);
+		
+		spawnMap();
 	}
 	
 	/**
@@ -83,15 +84,125 @@ public abstract class GraphicalMap
 		}
 	}
 	
+	public UIMode getMode()
+	{
+		return mode;
+	}
+	
+	@SuppressWarnings("unchecked")
+	public <T> T getMode(Class<T> type)
+	{
+		if(mode != null && type.isInstance(mode))
+			return (T)mode;
+		return null;
+	}
+	
+	public AffineTransform getCameraTransform()
+	{
+		Rectangle viewRect = lastClip;
+		
+		float halfWidth = viewRect.width * 0.5f;
+		float halfHeight = viewRect.height * 0.5f;		
+		
+		AffineTransform transform = AffineTransform.getTranslateInstance(halfWidth, halfHeight);
+		transform.concatenate(AffineTransform.getTranslateInstance(-cameraPosition.getX(), -cameraPosition.getY()));
+		
+		return transform;
+	}
+	
+	/**
+	 * A matrix for converting image<->world.
+	 * @return The transform for image to world.
+	 */
+	public AffineTransform getImageToWorldTransform()
+	{
+		float invPixelsPerInch = 1.0f / 72.0f;
+		float invInchesPerFoot = 1.0f / map.getScale();
+		
+		AffineTransform pixelsToInches = AffineTransform.getScaleInstance(invPixelsPerInch, invInchesPerFoot);
+		AffineTransform inchesToFeet = AffineTransform.getScaleInstance(invInchesPerFoot, invInchesPerFoot);
+		
+		inchesToFeet.concatenate(pixelsToInches);
+		
+		return inchesToFeet;
+	}
+	
+	/**
+	 * A matrix for converting world<->image.
+	 * @return The transform for world to image.
+	 */
+	public AffineTransform getWorldToImageTransform()
+	{
+		float pixelsPerInch = 72.0f;
+		float inchesPerFoot = map.getScale();
+		
+		AffineTransform inchesToPixels = AffineTransform.getScaleInstance(pixelsPerInch, pixelsPerInch);
+		AffineTransform feetToInches = AffineTransform.getScaleInstance(inchesPerFoot, inchesPerFoot);
+		
+		inchesToPixels.concatenate(feetToInches);
+		
+		return inchesToPixels;
+	}
+	
+	public AffineTransform getImageToScreenTransform()
+	{
+		return getCameraTransform();
+	}
+	
+	public AffineTransform getScreenToImageTransform()
+	{
+		try {
+			return getCameraTransform().createInverse();
+		} catch (NoninvertibleTransformException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+	
+	/**
+	 * A matrix for converting world<->screen.
+	 * @return The transform for world to screen.
+	 */
+	public AffineTransform getWorldToScreenTransform()
+	{
+		AffineTransform invCameraTransform = getCameraTransform();
+		AffineTransform worldToImage = getWorldToImageTransform();
+		
+		invCameraTransform.concatenate(worldToImage);
+		
+		return invCameraTransform;
+	}
+	
+	/**
+	 * A matrix for converting screen<->world.
+	 * @return The transform for screen to world.
+	 */
+	public AffineTransform getScreenToWorldTransform()
+	{
+		AffineTransform cameraTransform = getCameraTransform();
+		AffineTransform imageToWorld = getImageToWorldTransform();
+		
+		imageToWorld.concatenate(cameraTransform);
+		
+		return imageToWorld;
+	}
+	
 	/**
 	 * Called every time the map is drawn.
 	 * @param graphics The graphics to use to draw.
 	 */
 	public final void onDraw(Graphics2D graphics)
 	{		
-		graphics.clearRect(0, 0, panel.getWidth(), panel.getWidth());
+		Rectangle view = graphics.getClipBounds();
+		lastClip = view;
+		
+		graphics.clearRect(0, 0, view.width, view.height);
 		
 		graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		
+		AffineTransform transform = getCameraTransform();
+		transform.concatenate(AffineTransform.getTranslateInstance(0, 22));
 		
 		graphics.setTransform(transform);
 
@@ -101,7 +212,7 @@ public abstract class GraphicalMap
 		synchronized (this)
 		{
 			graphics.setColor(Color.white);
-			graphics.drawImage(map.getLoadedImage().getImage(), 0, 0, panel.getWidth(), panel.getHeight(), null);
+			graphics.drawImage(map.getLoadedImage().getImage(), 0, 0, map.getLoadedImage().getIconWidth(), map.getLoadedImage().getIconHeight(), null);
 			
 			batchList.sort(new GraphicsBatchComparator());
 			for(int i = 0; i < batchList.size(); i++)
@@ -115,6 +226,14 @@ public abstract class GraphicalMap
 				}
 				else
 				{
+					Coord position = go.getWorldPosition();
+					position = getScreenFromWorld(position);
+					AffineTransform objectTransform = AffineTransform.getTranslateInstance(position.getX(), position.getY());
+					//objectTransform.concatenate(getWorldToScreenTransform());
+					objectTransform.concatenate(AffineTransform.getTranslateInstance(0, 22));
+					
+					graphics.setTransform(objectTransform);
+					
 					graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, go.getAlpha()));
 					graphics.setColor(go.getColor());
 					go.onDraw(graphics);
@@ -151,10 +270,8 @@ public abstract class GraphicalMap
 	
 	/**
 	 * Called when a map should be converted into graphics objects.
-	 * @param map The map to read in.
 	 */
-	@Deprecated
-	public abstract void spawnMap(IMap map);
+	public abstract void spawnMap();
 	
 	/**
 	 * Called to unload this graphical map.
@@ -311,53 +428,71 @@ public abstract class GraphicalMap
 	}
 	
 	/**
-	 * Converts screen coordinates to world coordinates.
-	 * @param screenX The x screen coordinate.
-	 * @param screenY The y screen coordinate.
-	 * @return The world coordinates.
+	 * Gets the current position of the camera.
+	 * @return The current position of the camera (Image coordinates).
 	 */
-	public final Coord getWorldCoord(int screenX, int screenY)
+	public final Coord getCameraPosition()
 	{
-		float imageX = (float)screenX / (float)panel.getWidth() * map.getLoadedImage().getIconWidth();
-		float imageY = (float)screenY / (float)panel.getHeight() * map.getLoadedImage().getIconHeight();
-
-		float inchesX = imageX / 72.0f;
-		float inchesY = imageY / 72.0f;
-
-		float feetX = inchesX / map.getScale();
-		float feetY = inchesY / map.getScale();
-
-		return new Coord(feetX, feetY);
+		return cameraPosition;
 	}
 	
-	/**
-	 * Converts world coordinates to screen coordinates.
-	 * @param worldCoord The world coordinates.
-	 * @return The screen coordinates.
-	 */
-	public final Coord getScreenCoord(Coord worldCoord)
+	public final void setCameraPosition(Coord newPosition)
 	{
-		return getScreenCoord(worldCoord.getX(), worldCoord.getY());
+		cameraPosition = newPosition;
 	}
 	
-	/**
-	 * Converts world coordinates to screen coordinates.
-	 * @param worldX The x world coordinates.
-	 * @param worldY The y world coordinates.
-	 * @return The screen coordinates.
-	 */
-	public final Coord getScreenCoord(float worldX, float worldY)
+	public final Coord getRenderFromWorld(Coord worldCoord)
 	{
-		float inchesX = worldX * map.getScale();
-		float inchesY = worldY * map.getScale();
-
-		float imageX = inchesX * 72.0f;
-		float imageY = inchesY * 72.0f;
-
-		float screenX = imageX / map.getLoadedImage().getIconWidth() * panel.getWidth();
-		float screenY = imageY / map.getLoadedImage().getIconHeight() * panel.getHeight();
-
-		return new Coord(screenX, screenY);
+		Point2D.Float src = new Point2D.Float(worldCoord.getX(), worldCoord.getY());
+		
+		Point2D.Float dst = (Float) getWorldToImageTransform().transform(src, null);
+		
+		return new Coord(dst.getX(), dst.getY());
+	}
+	
+	public final Coord getWorldFromRender(Coord renderCoord)
+	{
+		Point2D.Float src = new Point2D.Float(renderCoord.getX(), renderCoord.getY());
+		
+		Point2D.Float dst = (Float) getImageToWorldTransform().transform(src, null);
+		
+		return new Coord(dst.getX(), dst.getY());
+	}
+	
+	public final Coord getRenderFromScreen(Coord screenCoord)
+	{
+		Point2D.Float src = new Point2D.Float(screenCoord.getX(), screenCoord.getY());
+		
+		Point2D.Float dst = (Float) getScreenToImageTransform().transform(src, null);
+		
+		return new Coord(dst.getX(), dst.getY());
+	}
+	
+	public final Coord getScreenFromRender(Coord renderCoord)
+	{
+		Point2D.Float src = new Point2D.Float(renderCoord.getX(), renderCoord.getY());
+		
+		Point2D.Float dst = (Float) getImageToScreenTransform().transform(src, null);
+		
+		return new Coord(dst.getX(), dst.getY());
+	}
+	
+	public final Coord getScreenFromWorld(Coord worldCoord)
+	{
+		Point2D.Float src = new Point2D.Float(worldCoord.getX(), worldCoord.getY());
+		
+		Point2D.Float dst = (Float) getWorldToScreenTransform().transform(src, null);
+		
+		return new Coord(dst.getX(), dst.getY());
+	}
+	
+	public final Coord getWorldFromScreen(Coord screenCoord)
+	{
+		Point2D.Float src = new Point2D.Float(screenCoord.getX(), screenCoord.getY());
+		
+		Point2D.Float dst = (Float) getScreenToWorldTransform().transform(src, null);
+		
+		return new Coord(dst.getX(), dst.getY());
 	}
 	
 	protected final void updateReferencedObject(Object oldReference, Object newReference)
@@ -371,19 +506,15 @@ public abstract class GraphicalMap
 		}
 	}
 	
+	
+	
 	private final RealMouseEvent transformMouseEvent(MouseEvent e)
 	{
-		Point2D.Float src = new Point2D.Float(e.getX(), e.getY());
-		Point2D dst = null;
-		try {
-			dst = transform.inverseTransform(src, null);
-		} catch (NoninvertibleTransformException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
-			return null;
-		}
+		Coord screenCoords = new Coord(e.getX(), e.getY());
+		Coord imageCoords = getRenderFromScreen(screenCoords);
+		Coord worldCoords = getWorldFromRender(imageCoords);
 		
-		return new RealMouseEvent((float)dst.getX(), (float)dst.getY(), e.getButton(), e.isAltDown(), e.isControlDown(), e.isShiftDown());
+		return new RealMouseEvent(worldCoords, imageCoords, e.getButton(), e.isAltDown(), e.isControlDown(), e.isShiftDown());
 	}
 	
 	public class GraphicsBatchComparator implements Comparator<GraphicsObject<?, ?>>
@@ -393,12 +524,6 @@ public abstract class GraphicalMap
 		{
 			return arg0.getDrawBatch() - arg1.getDrawBatch();
 		}
-	}
-
-
-	@Deprecated
-	public final AppUIObject getUI()	{
-		return panel.uiObject;
 	}
 
 

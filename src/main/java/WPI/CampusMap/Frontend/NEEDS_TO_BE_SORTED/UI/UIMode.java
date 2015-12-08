@@ -10,11 +10,14 @@ public abstract class UIMode {
 	public static final String USER_MODE = "usermode";
 	private static String currentGUIMode =  USER_MODE;
 	
+	private static final String DEFAULT_MAP = "Atwater_Kent-0";
+	
 	private AppMainWindow window;
 	
 	public UIMode(AppMainWindow window)
 	{		
 		this.window = window;
+		loadMap(DEFAULT_MAP);
 	}
 
 	protected abstract void onModeEntered();

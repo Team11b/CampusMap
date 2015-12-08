@@ -301,12 +301,8 @@ public class AppUIObject {
 				System.out.println("Send an Email!");
 				break;
 			case "Route me":				
-				Path path = UserPointGraphicsObject.route();
-				Route route = new Route(path);
-				for(Instruction i: route.getRoute()){
-					txtDirections.setText(txtDirections.getText() + i.getInstruction());
-				}
-				
+				//Path path = UserPointGraphicsObject.route();
+				//Route route = new Route(path);
 				break;
 			case "Print":
 				printDirections();
@@ -802,14 +798,6 @@ public class AppUIObject {
 		/*if(typeSelector.getSelectedIndex() == -1){
 			typeSelector.setSelectedIndex(0);
 		}*/
-		
-		btnClear.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
-				destinations.resetLastPoint();
-				UserPointGraphicsObject.clearSelected();
-				UserPathGraphicsObject.deleteAll();
-			}
-		});
 
 		txtScale = new JTextField();
 		txtScale.setBounds(37, 0, 130, 19);

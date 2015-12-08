@@ -4,6 +4,10 @@ import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+import java.io.UnsupportedEncodingException;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Properties;
 
 import org.apache.commons.lang3.NotImplementedException;
 import java.io.File;
@@ -27,23 +31,18 @@ import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicalMap;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.User.*;
 
-public class UserMode extends UIMode {
-	// Singleton
-	private static UserMode instance;
+public class UserMode extends UIMode
+{
+	private UserGraphicalMap graphicalMap;
 	
-	//private UserGraphicalMap graphicalMap;
-	private GraphicalMap graphicsMap;
-	protected IMap currentMap;
-
-	public UserMode(AppMainWindow window) {
-		super(window);
+	private LinkedList<UserPointGraphicsObject> route = new LinkedList<>();
+	private HashSet<UserPointGraphicsObject> routeSet = new HashSet<>();
+	
+	public UserMode(AppMainWindow window)
+	{
+		super(window);	
 	}
-
-	public static UserMode getInstance() {
-
-		return null;
-	}
-
+	
 	@Override
 	public void onModeEntered() {
 		// Execute changes to UI
@@ -53,18 +52,47 @@ public class UserMode extends UIMode {
 	public void onRouteButton() {
 		System.out.println("Route me");
 	}
-
-	public void onClearButton() {
-		// destinations.resetLastPoint();
-		UserPointGraphicsObject.clearSelected();
-		UserPathGraphicsObject.deleteAll();
+	
+	public void onClearButton(){
+		//destinations.resetLastPoint();
+		clearRoute();
+		//UserPathGraphicsObject.deleteAll();
 	}
 
 	public void onAddDest(String destName) {
 		System.out.println("AddDest");
 	}
-
-	public void onPointAddedToRoute(IPoint newPoint) {
+	
+	public void onPointAddedToRoute(UserPointGraphicsObject newPoint)
+	{
+		if(!routeSet.contains(newPoint))
+		{
+			routeSet.add(newPoint);
+			route.add(newPoint);
+		}
+	}
+	
+	public void clearRoute()
+	{
+		routeSet.clear();
+		route.clear();
+		
+		//TODO: Call UI code
+	}
+	
+	public boolean containsInRoute(UserPointGraphicsObject point)
+	{
+		return routeSet.contains(point);
+	}
+	
+	public boolean isRouteStart(UserPointGraphicsObject point)
+	{
+		return route.getFirst() == point;
+	}
+	
+	public boolean isRouteEnd(UserPointGraphicsObject point)
+	{
+		return route.getLast() == point;
 	}
 
 	public void onWeatherChosen(String option) {
@@ -145,59 +173,53 @@ public class UserMode extends UIMode {
 	}
 
 	@Override
-	public void onDraw(Graphics2D graphics) {
-		// TODO Auto-generated method stub
-
+	public void onDraw(Graphics2D graphics) 
+	{
+		if(graphicalMap != null)
+			graphicalMap.onDraw(graphics);
 	}
 
 	@Override
-	public void onMouseClickMap(MouseEvent e) {
-		// TODO Auto-generated method stub
-
+	public void onMouseClickMap(MouseEvent e) 
+	{
+		if(graphicalMap != null)
+			graphicalMap.mouseClick(e);
 	}
 
 	@Override
-	public void onMouseEnterMap(MouseEvent e) {
-		// TODO Auto-generated method stub
-
+	public void onMouseEnterMap(MouseEvent e) 
+	{
+		if(graphicalMap != null)
+			graphicalMap.mouseEnter(e);
 	}
 
 	@Override
-	public void onMouseLeaveMap(MouseEvent e) {
-		// TODO Auto-generated method stub
-
+	public void onMouseLeaveMap(MouseEvent e) 
+	{
+		if(graphicalMap != null)
+			graphicalMap.mouseExit(e);
 	}
 
 	@Override
-	public void onMouseMoveOverMap(MouseEvent e) {
-		// TODO Auto-generated method stub
-
+	public void onMouseMoveOverMap(MouseEvent e) 
+	{
+		if(graphicalMap != null)
+			graphicalMap.mouseMove(e);
 	}
 
 	@Override
-	public void onMouseDraggedOverMap(MouseEvent e) {
-		// TODO Auto-generated method stub
-
+	public void onMouseDraggedOverMap(MouseEvent e)
+	{
+		if(graphicalMap != null)
+			graphicalMap.mouseDrag(e);
 	}
 
 	@Override
-	public void loadMap(String mapName){
-		System.out.println("UI: " + mapName);
-		
-		synchronized(this)
-		{
-			System.out.println(mapName);
-			//IMap newMap = new Map(mapName);
-			//System.out.println(newMap.getAllPoints().keySet());
-			currentMap = AllMaps.getInstance().getMap(mapName);
-			
-			if(graphicsMap != null)
-				graphicsMap.unload();
-			
-			onModeEntered();
-			throw new NotImplementedException("getMap?");
-			
-		}
+	public void loadMap(String mapName)
+	{
+		if(graphicalMap != null)
+			graphicalMap.unload();
+		graphicalMap = new UserGraphicalMap(mapName, this);
 	}
 
 

@@ -2,6 +2,7 @@ package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics;
 
 import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.geom.Ellipse2D;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Point.RealPoint;
@@ -23,14 +24,18 @@ public abstract class PointGraphicsObject<M extends GraphicalMap> extends Graphi
 		// TODO Auto-generated method stub
 		return 0;
 	}
+	
+	@Override
+	public Coord getWorldPosition() 
+	{
+		return getRepresentedObject().getCoord();
+	}
 
 	@Override
 	public void onDraw(Graphics2D graphics) 
 	{
-		Coord screenPoint = getOwner().getScreenCoord(backendPoint.getCoord().getX(), backendPoint.getCoord().getY());
-		final float ovalSize = 10;
-		
-		graphics.fillOval((int)(screenPoint.getX() - ovalSize * 0.5f), (int)(screenPoint.getY() - ovalSize * 0.5f), (int)ovalSize, (int)ovalSize);
+		Ellipse2D ellipse = new Ellipse2D.Float(-5, -5, 10, 10);
+		graphics.fill(ellipse);
 	}
 	
 	@Override
@@ -72,8 +77,10 @@ public abstract class PointGraphicsObject<M extends GraphicalMap> extends Graphi
 	@Override
 	public boolean isMouseOver(RealMouseEvent e) {
 		// TODO Auto-generated method stub
-		Coord mouseCoord = new Coord(e.getX(), e.getY());
-		Coord screenPosition = getOwner().getScreenCoord(backendPoint.getCoord());
-		return mouseCoord.distance(screenPosition) <= 5;
+		Coord mouseCoord = e.getImageCoord();
+		Coord screenPosition = getOwner().getRenderFromWorld(backendPoint.getCoord());
+		float distance = mouseCoord.distance(screenPosition);
+		
+		return distance <= 5;
 	}
 }

@@ -1,29 +1,31 @@
 package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics;
 
+import WPI.CampusMap.Backend.Core.Coordinate.Coord;
+
 public class RealMouseEvent
 {
-	private float x, y;
+	private Coord worldCoords, imageCoords;
 	private boolean isAlt, isCtrl, isShift;
 	private int button;
 	
-	public RealMouseEvent(float x, float y, int button, boolean isAlt, boolean isCtrl, boolean isShift)
+	public RealMouseEvent(Coord worldCoords, Coord imageCoords, int button, boolean isAlt, boolean isCtrl, boolean isShift)
 	{
-		this.x = x;
-		this.y = y;
+		this.worldCoords = worldCoords;
+		this.imageCoords = imageCoords;
 		this.button = button;
 		this.isAlt = isAlt;
 		this.isCtrl = isCtrl;
 		this.isShift = isShift;
 	}
 	
-	public float getX()
+	public Coord getWorldCoords()
 	{
-		return x;
+		return worldCoords;
 	}
 	
-	public float getY()
+	public Coord getImageCoord()
 	{
-		return y;
+		return imageCoords;
 	}
 	
 	public boolean isAltDown()

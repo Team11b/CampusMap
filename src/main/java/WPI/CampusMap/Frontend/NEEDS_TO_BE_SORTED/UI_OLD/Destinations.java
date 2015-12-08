@@ -70,8 +70,7 @@ public class Destinations {
 		System.out.println(size);
 		
 		//Unselect point on map
-		if(id.isEmpty() == false){
-			UserPointGraphicsObject.pullPointOnRoute(lastPoint);					
+		if(id.isEmpty() == false){				
 			lastPoint--;
 		}				
 	}

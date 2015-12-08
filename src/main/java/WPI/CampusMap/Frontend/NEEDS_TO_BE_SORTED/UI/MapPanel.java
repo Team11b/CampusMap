@@ -11,6 +11,9 @@ public class MapPanel extends JPanel
 {
 	public MapPanel()
 	{
+		MouseEvents events = new MouseEvents();
+		addMouseListener(events);
+		addMouseMotionListener(events);
 	}
 	
 	/**
@@ -28,6 +31,8 @@ public class MapPanel extends JPanel
 		UIMode mode = window.getUIMode();
 		if(mode != null)
 			window.getUIMode().onDraw(newGraphics);
+		
+		newGraphics.dispose();
 	}
 	
 	

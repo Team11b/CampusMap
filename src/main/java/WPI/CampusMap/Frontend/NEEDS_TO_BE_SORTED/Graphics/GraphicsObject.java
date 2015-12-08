@@ -3,6 +3,8 @@ package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
+import WPI.CampusMap.Backend.Core.Coordinate.Coord;
+
 /**
  * An object that represents a piece of data graphically.
  * @author Benny
@@ -32,11 +34,16 @@ public abstract class GraphicsObject<R, M extends GraphicalMap>
 	
 	/**
 	 * Gets the graphical map that owns this object.
-	 * @return M BENNY FILL THIS IN
+	 * @return The owner of this graphics object.
 	 */
 	public M getOwner()
 	{
 		return graphicsOwner;
+	}
+	
+	public <T> T getOwnerMode(Class<T> type)
+	{
+		return graphicsOwner.getMode(type);
 	}
 	
 	/**
@@ -62,6 +69,8 @@ public abstract class GraphicsObject<R, M extends GraphicalMap>
 	 * @return The drawing batch to draw this object in.
 	 */
 	public abstract int getDrawBatch();
+	
+	public abstract Coord getWorldPosition();
 	
 	/**
 	 * Is called when this object should be drawn.

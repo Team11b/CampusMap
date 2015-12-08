@@ -19,7 +19,7 @@ public class DevGraphicalMap extends GraphicalMap
 	}
 
 	@Override
-	public void spawnMap(IMap map)
+	public void spawnMap()
 	{
 		DevEdgeGraphicsObject.cleanupEdges();
 		
@@ -33,7 +33,7 @@ public class DevGraphicalMap extends GraphicalMap
 	 * Get what mode the editor is in.
 	 * @return The editor mode.
 	 */
-	public final EditorToolMode getMode()
+	public final EditorToolMode getToolMode()
 	{
 		return mode;
 	}
@@ -42,37 +42,15 @@ public class DevGraphicalMap extends GraphicalMap
 	 * Sets the editor mode.
 	 * @param mode The new mode for the editor.
 	 */
-	public final void setMode(EditorToolMode mode)
+	public final void setToolMode(EditorToolMode mode)
 	{
 		this.mode = mode;
 		DevPointGraphicsObject.clearSelection();
 	}
 	
 	@Override
-	public boolean onMouseClick(RealMouseEvent e) {
-		if (mode == EditorToolMode.Point && getHoverObject() == null)
-		{
-			RealPoint newPoint = new RealPoint(getMap().getName());
-			System.out.println(newPoint.getMap());
-			newPoint.setCoord(getWorldCoord((int) e.getX(), (int) e.getY()));
-			getMap().addPoint(newPoint);
-
-			// Update with point name(id)
-			getUI().setNodeTextField(newPoint.getId());
-
-			DevPointGraphicsObject go = new DevPointGraphicsObject(newPoint, this);
-			addGraphicalObject(go);
-
-			go.select();
-
-			return true;
-		} 
-		else if (getHoverObject() == null) {
-			DevPointGraphicsObject.clearSelection();
-			AppUIObject.getInstance().onPointSelected(null);
-			return true;
-		}
-
+	public boolean onMouseClick(RealMouseEvent e) 
+	{
 		return false;
 	}
 }

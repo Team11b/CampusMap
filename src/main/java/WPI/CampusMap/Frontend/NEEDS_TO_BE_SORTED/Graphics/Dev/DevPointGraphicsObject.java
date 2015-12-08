@@ -109,7 +109,7 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 	@Override
 	public Color getColor() 
 	{
-		EditorToolMode mode = getOwner().getMode();
+		EditorToolMode mode = getOwner().getToolMode();
 		if(mode == EditorToolMode.Point || mode == EditorToolMode.Edge || mode == EditorToolMode.DeletePoint || mode == EditorToolMode.None)
 		{
 			if(selected == this)
@@ -160,7 +160,7 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 	@Override
 	public void onMouseClick(RealMouseEvent e) 
 	{
-		EditorToolMode mode = getOwner().getMode();
+		EditorToolMode mode = getOwner().getToolMode();
 		switch(mode)
 		{
 		case DeletePoint:
@@ -194,7 +194,7 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 	@Override
 	public boolean isMouseOver(RealMouseEvent e)
 	{
-		if(getOwner().getMode() == EditorToolMode.DeleteEdge)
+		if(getOwner().getToolMode() == EditorToolMode.DeleteEdge)
 			return false;
 		
 		return super.isMouseOver(e);

@@ -35,10 +35,13 @@ public class AllMaps {
 	}
 
 	public IMap getMap(String mapKey) {
-//		if (!(AllMaps.allMaps.containsKey(mapKey))) {
-//			OLSSerializer.read(mapKey);
-//		}
-		return AllMaps.allMaps.get(mapKey);
+		if(allMaps.keySet().contains(mapKey)){
+			return AllMaps.allMaps.get(mapKey);
+		}else{
+			ProxyMap temp = new ProxyMap(mapKey);
+			addMap(temp);
+			return temp;
+		}
 	}
 
 	public boolean addMap(IMap mapValue) {

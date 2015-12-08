@@ -150,6 +150,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 		renderThread = new Thread(this, "Render Thread");
 		renderThread.start();
 
+		changeToUserMode();
 		setVisible(true);
 	}
 

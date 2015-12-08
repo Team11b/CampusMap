@@ -95,7 +95,6 @@ public class MapPanel extends JPanel implements Runnable{
 	{
 		synchronized(this)
 		{
-			((DevGraphicalMap)graphicsMap).setMode(mode);
 		}
 	}
 	
@@ -103,7 +102,7 @@ public class MapPanel extends JPanel implements Runnable{
 	{
 		synchronized(this)
 		{
-			return ((DevGraphicalMap)graphicsMap).getMode();
+			return null;
 		}
 	}
 	

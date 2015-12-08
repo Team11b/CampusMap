@@ -79,8 +79,8 @@ public class DevEdgeGraphicsObject extends GraphicsObject<UnorderedPair<IPoint, 
 	@Override
 	public void onDraw(Graphics2D graphics)
 	{
-		Coord screenCoord1 = getOwner().getScreenCoord(edge.getA().getCoord());
-		Coord screenCoord2 = getOwner().getScreenCoord(edge.getB().getCoord());
+		Coord screenCoord1 = getOwner().getRenderFromWorld(edge.getA().getCoord());
+		Coord screenCoord2 = getOwner().getRenderFromWorld(edge.getB().getCoord());
 		
 		graphics.setStroke(new BasicStroke(3));
 		graphics.drawLine((int)screenCoord1.getX(), (int)screenCoord1.getY(), (int)screenCoord2.getX(), (int)screenCoord2.getY());
@@ -121,7 +121,7 @@ public class DevEdgeGraphicsObject extends GraphicsObject<UnorderedPair<IPoint, 
 	@Override
 	public void onMouseClick(RealMouseEvent e) 
 	{
-		if(getOwner().getMode() != EditorToolMode.DeleteEdge)
+		if(getOwner().getToolMode() != EditorToolMode.DeleteEdge)
 			return;
 		
 		delete();
@@ -136,14 +136,20 @@ public class DevEdgeGraphicsObject extends GraphicsObject<UnorderedPair<IPoint, 
 	@Override
 	public boolean isMouseOver(RealMouseEvent e)
 	{
-		if(getOwner().getMode() != EditorToolMode.DeleteEdge)
+		if(getOwner().getToolMode() != EditorToolMode.DeleteEdge)
 			return false;
 		
-		Coord screenCoord1 = getOwner().getScreenCoord(edge.getA().getCoord());
-		Coord screenCoord2 = getOwner().getScreenCoord(edge.getB().getCoord());
+		Coord screenCoord1 = getOwner().getRenderFromWorld(edge.getA().getCoord());
+		Coord screenCoord2 = getOwner().getRenderFromWorld(edge.getB().getCoord());
 		
 		Line2D.Float line = new Line2D.Float(screenCoord1.getX(), screenCoord1.getY(), screenCoord2.getX(), screenCoord2.getY());
 		
-		return line.ptSegDist(e.getX(), e.getY()) <= 5.0f;
+		return true;//line.ptSegDist(e.getX(), e.getY()) <= 5.0f;
+	}
+
+	@Override
+	public Coord getWorldPosition() {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }
