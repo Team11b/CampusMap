@@ -148,15 +148,9 @@ public abstract class PathProcessor
 	}
 	
 	/**
-<<<<<<< HEAD
 	 * Checks if a node has already been explored.
 	 * @param node The node to check.
 	 * @return If the node has been checked
-=======
-	 * Adds a node to the expored set.
-	 * @param node The node to add to the expored set.
-	 * @return the node to add
->>>>>>> dev
 	 */
 	protected final boolean alreadyExplored(Node node)
 	{
