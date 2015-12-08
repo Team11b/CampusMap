@@ -1,10 +1,12 @@
-package WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Route;
+package WPI.CampusMap.Backend.PathPlanning.Route;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
-import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Path.MultiPath;
-import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Path.Path;
+import WPI.CampusMap.Backend.Core.Point.IPoint;
+import WPI.CampusMap.Backend.PathPlanning.Path;
+import WPI.CampusMap.Backend.PathPlanning.Path.Section;
 
 /**
  * 
@@ -22,7 +24,7 @@ public class Route {
 		this.route = new LinkedList<Instruction>();
 	}
 
-	public Route(MultiPath mp) {
+	public Route(Path mp) {
 		this.route = new LinkedList<Instruction>();
 		parse(mp);
 	}
@@ -41,44 +43,36 @@ public class Route {
 		}
 	}
 
-	public void parse(MultiPath mp) {
-		LinkedList<Path> allPaths = mp.getMp();
-		Path current = null;
-		int offset = 0;
+	public void parse(Path mp) {
 
-		for (int j = 0; j < allPaths.size(); j++) {
-			current = allPaths.get(j);
-			this.append(Route.parse(current, offset));
-			offset += current.getPath().size();
+		for (Section current: mp) {;
+			this.append(Route.parse(current));
 		}
 	}
 
-	public static LinkedList<Instruction> parse(Path origP, int offset) {
-		Path p = origP.getTurns();
+	public static LinkedList<Instruction> parse(Section current) {
+		ArrayList<IPoint> p = GetTurns.getTurns(current);
 		LinkedList<Instruction> list = new LinkedList<Instruction>();
 		Instruction latest = null;
 		
-		String route = "";
-		route += "Start: " + p.getPath().get(0).getPoint().getCoord().toString() + "\n";
-		route += "Face " + p.getPath().get(1).getPoint().getId() + " and walk "
-				+  new DecimalFormat("#.").format(p.getPath().get(0).getPoint().distance(p.getPath().get(1).getPoint())) + " feet.\n";
-		latest = new Instruction(route, 0, p.getPath().get(0), offset);
+		latest = new Instruction(p.get(0),true);
 		list.add(latest);
-		route = "";
+		latest = new Instruction(p.get(0).distance(p.get(1)), p.get(0), p.get(1));
+		list.add(latest);
 		float totalDist = 0;
 
-		for (int i = 1; i < p.getPath().size() - 1; i++) {
+		for (int i = 1; i < p.size() - 1; i++) {
 			String turn = "";
 			String direction = "";
-			float dist = (float) p.getPath().get(i).getPoint().distance(p.getPath().get(i - 1).getPoint());
+			float dist = (float) p.get(i).distance(p.get(i + 1));
 
-			float angleBefore = p.getAngle(p.getPath().get(i - 1).getPoint(), p.getPath().get(i).getPoint());
-			float angleAfter = p.getAngle(p.getPath().get(i).getPoint(), p.getPath().get(i + 1).getPoint());
+			float angleBefore = GetTurns.getAngle(p.get(i - 1), p.get(i));
+			float angleAfter = GetTurns.getAngle(p.get(i), p.get(i + 1));
 			// System.out.printf("Angle Before: %f, Angle After: %f \n",
 			// angleBefore, angleAfter);
 
-//			route += p.getPath().get(i).getPoint().getCoord().toString() + " to "
-//					+ p.getPath().get(i+1).getPoint().getCoord().toString() + "";
+//			route += p.get(i).getPoint().getCoord().toString() + " to "
+//					+ p.get(i+1).getPoint().getCoord().toString() + "";
 
 			int quad1 = (int) (((angleBefore < 0 ? 360 : 0) + angleBefore) / 90 + 1);
 			int quad2 = (int) (((angleAfter < 0 ? 360 : 0) + angleAfter) / 90 + 1);
@@ -107,19 +101,20 @@ public class Route {
 			} else {
 				direction = "";
 			}
-			route += "Turn " + direction + turn + " and walk " +  new DecimalFormat("#.").format(dist) + " feet.\n";
 
-			latest = new Instruction(route, dist, p.getPath().get(0), offset + i);
+			latest = new Instruction(direction + turn, p.get(i));
+			list.add(latest);
+			latest = new Instruction(dist, p.get(i), p.get(i + 1));
 			list.add(latest);
 			totalDist += dist;
-			route = "";
 		}
 		
 		float walkingSpeed = (float) 4.11; //feet per sec
 		float seconds = (totalDist / walkingSpeed);
-		String time = "ETA: " + (int)(seconds/60) + " minutes and " + new DecimalFormat("#.").format(seconds%60) +" seconds."; 
 
-		latest = new Instruction(time, 0, p.getPath().get(p.getPath().size()-1), p.getPath().size()-1);
+		latest = new Instruction(p.get(p.size()-1), false);
+		list.add(latest);
+		latest = new Instruction(seconds);
 		list.add(latest);
 
 		return list;

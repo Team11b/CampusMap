@@ -24,6 +24,6 @@ public interface IPoint extends Serializable {
 	public String toString();
 	public boolean exists();
 	public HashMap<String, String> getNeighborPointsOnOtherMaps();
-	boolean connectToCampus();
-	String getBuilding();
+	public boolean connectToCampus();
+	public String getBuilding();
 }

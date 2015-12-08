@@ -5,7 +5,9 @@ import java.util.HashMap;
 import java.util.HashSet;
 
 public class AllMaps {
-    private static volatile AllMaps instance;
+    public final String CampusMap = "CampusMap";
+    
+	private static volatile AllMaps instance;
 	private static HashMap<String, ProxyMap> allMaps = new HashMap<String, ProxyMap>();
 	
 	private AllMaps(){}
@@ -61,7 +63,7 @@ public class AllMaps {
 			buildingDepthFirstSearch(startMap,destinationMap,new ArrayList<String>(), whitelist);
 			return whitelist;
 		}
-		HashSet<String> connectedToCampus =((ProxyMap)getMap("CampusMap")).getConnectedMaps();
+		HashSet<String> connectedToCampus =((ProxyMap)getMap(CampusMap)).getConnectedMaps();
 		whitelist.addAll(connectedToCampus);
 		
 		boolean startW = false,destW = false;

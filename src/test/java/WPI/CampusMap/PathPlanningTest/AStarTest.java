@@ -2,8 +2,6 @@ package WPI.CampusMap.PathPlanningTest;
 
 import static org.junit.Assert.assertEquals;
 
-import java.util.ArrayList;
-
 import javax.xml.stream.XMLStreamException;
 
 import org.junit.BeforeClass;
@@ -14,12 +12,14 @@ import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Map.ProxyMap;
 import WPI.CampusMap.Backend.Core.Map.RealMap;
+import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.Core.Point.RealPoint;
-import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Path.MultiPath;
-import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Path.Path;
-import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.AStar.AStar;
-import WPI.CampusMap.Backend.PathPlanning.Node;
-import WPI.CampusMap.Recording.Serialization.Serializer;
+import WPI.CampusMap.Backend.PathPlanning.AStarPathProcessor;
+import WPI.CampusMap.Backend.PathPlanning.DistanceProcessor;
+import WPI.CampusMap.Backend.PathPlanning.Path;
+import WPI.CampusMap.Backend.PathPlanning.Path.Section;
+import WPI.CampusMap.Backend.PathPlanning.PathFinder;
+import WPI.CampusMap.Backend.PathPlanning.PathNotFoundException;
 
 public class AStarTest {
 	static ProxyMap testMap, testMap2, testMap5;
@@ -28,17 +28,15 @@ public class AStarTest {
 	@BeforeClass
 	public static void getMap() throws XMLStreamException {
 		AllMaps.getInstance().clearAllMaps();
-		
-		testMap = Serializer.proxyLoad("5x5Test");
-		testMap2 = Serializer.proxyLoad("5x5Test2");
 
 		setupMaps();
 	}
 
 	private static void setupMaps() {
-		String a, b;
+		String a, b, c;
 		a = "MapA";
 		b = "MapB";
+		c = "MapC";
 
 		testMap5 = new ProxyMap(a);
 		testMap5.setScale(100);
@@ -172,33 +170,33 @@ public class AStarTest {
 			testMap5.addPoint(all[k]);
 		}
 
-		testMap6 = new RealMap(b);
+		testMap6 = new RealMap(c);
 		testMap6.setScale(100);
 
-		RealPoint zero2 = new RealPoint(new Coord(0, 0), "hallway", "0", b);
-		RealPoint one2 = new RealPoint(new Coord(1, 0), "hallway", "1", b);
-		RealPoint two2 = new RealPoint(new Coord(2, 0), "hallway", "2", b);
-		RealPoint three2 = new RealPoint(new Coord(3, 0), "hallway", "3", b);
-		RealPoint four2 = new RealPoint(new Coord(4, 0), "elevator", "4", b);
-		RealPoint five2 = new RealPoint(new Coord(5, 0), "hallway", "5", b);
-		RealPoint six2 = new RealPoint(new Coord(6, 0), "hallway", "6", b);
-		RealPoint seven2 = new RealPoint(new Coord(7, 0), "hallway", "7", b);
-		RealPoint eight2 = new RealPoint(new Coord(8, 0), "hallway", "8", b);
-		RealPoint nine2 = new RealPoint(new Coord(9, 0), "hallway", "9", b);
-		RealPoint ten2 = new RealPoint(new Coord(10, 0), "hallway", "10", b);
-		RealPoint eleven2 = new RealPoint(new Coord(11, 0), "hallway", "11", b);
-		RealPoint twelve2 = new RealPoint(new Coord(12, 0), "hallway", "12", b);
-		RealPoint fourteen2 = new RealPoint(new Coord(14, 0), "hallway", "14", b);
-		RealPoint fifteen2 = new RealPoint(new Coord(15, 0), "hallway", "15", b);
-		RealPoint sixteen2 = new RealPoint(new Coord(16, 0), "hallway", "16", b);
-		RealPoint seventeen2 = new RealPoint(new Coord(17, 0), "hallway", "17", b);
-		RealPoint eightteen2 = new RealPoint(new Coord(18, 0), "hallway", "18", b);
-		RealPoint nineteen2 = new RealPoint(new Coord(19, 0), "hallway", "19", b);
-		RealPoint twenty2 = new RealPoint(new Coord(20, 0), "hallway", "20", b);
-		RealPoint twentyone2 = new RealPoint(new Coord(21, 0), "hallway", "21", b);
-		RealPoint twentytwo2 = new RealPoint(new Coord(22, 0), "hallway", "22", b);
-		RealPoint twentythree2 = new RealPoint(new Coord(23, 0), "hallway", "23", b);
-		RealPoint twentyfour2 = new RealPoint(new Coord(24, 0), "hallway", "24", b);
+		RealPoint zero2 = new RealPoint(new Coord(0, 0), "hallway", "0", c);
+		RealPoint one2 = new RealPoint(new Coord(1, 0), "hallway", "1", c);
+		RealPoint two2 = new RealPoint(new Coord(2, 0), "hallway", "2", c);
+		RealPoint three2 = new RealPoint(new Coord(3, 0), "hallway", "3", c);
+		RealPoint four2 = new RealPoint(new Coord(4, 0), "elevator", "4", c);
+		RealPoint five2 = new RealPoint(new Coord(5, 0), "hallway", "5", c);
+		RealPoint six2 = new RealPoint(new Coord(6, 0), "hallway", "6", c);
+		RealPoint seven2 = new RealPoint(new Coord(7, 0), "hallway", "7", c);
+		RealPoint eight2 = new RealPoint(new Coord(8, 0), "hallway", "8", c);
+		RealPoint nine2 = new RealPoint(new Coord(9, 0), "hallway", "9", c);
+		RealPoint ten2 = new RealPoint(new Coord(10, 0), "hallway", "10", c);
+		RealPoint eleven2 = new RealPoint(new Coord(11, 0), "hallway", "11", c);
+		RealPoint twelve2 = new RealPoint(new Coord(12, 0), "hallway", "12", c);
+		RealPoint fourteen2 = new RealPoint(new Coord(14, 0), "hallway", "14", c);
+		RealPoint fifteen2 = new RealPoint(new Coord(15, 0), "hallway", "15", c);
+		RealPoint sixteen2 = new RealPoint(new Coord(16, 0), "hallway", "16", c);
+		RealPoint seventeen2 = new RealPoint(new Coord(17, 0), "hallway", "17", c);
+		RealPoint eightteen2 = new RealPoint(new Coord(18, 0), "hallway", "18", c);
+		RealPoint nineteen2 = new RealPoint(new Coord(19, 0), "hallway", "19", c);
+		RealPoint twenty2 = new RealPoint(new Coord(20, 0), "hallway", "20", c);
+		RealPoint twentyone2 = new RealPoint(new Coord(21, 0), "hallway", "21", c);
+		RealPoint twentytwo2 = new RealPoint(new Coord(22, 0), "hallway", "22", c);
+		RealPoint twentythree2 = new RealPoint(new Coord(23, 0), "hallway", "23", c);
+		RealPoint twentyfour2 = new RealPoint(new Coord(24, 0), "hallway", "24", c);
 
 		zero2.addNeighbor(one2);
 		zero2.addNeighbor(five2);
@@ -305,26 +303,142 @@ public class AStarTest {
 		}
 		
 		testMap6.addEdge(four, four2);
-		Serializer.save(testMap5);
-		Serializer.save(testMap6);
+		
+
+		testMap = new ProxyMap(c);
+		testMap.setScale(100);
+
+		RealPoint zero3 = new RealPoint(new Coord(0, 0), "hallway", "0", b);
+		RealPoint one3 = new RealPoint(new Coord(1, 0), "hallway", "1", b);
+		RealPoint two3 = new RealPoint(new Coord(2, 0), "hallway", "2", b);
+		RealPoint three3 = new RealPoint(new Coord(3, 0), "hallway", "3", b);
+		RealPoint four3 = new RealPoint(new Coord(4, 0), "elevator", "4", b);
+		RealPoint five3 = new RealPoint(new Coord(0, 2), "hallway", "5", b);
+		RealPoint nine3 = new RealPoint(new Coord(4, 2), "hallway", "9", b);
+		RealPoint ten3 = new RealPoint(new Coord(0, 4), "hallway", "10", b);
+		RealPoint eleven3 = new RealPoint(new Coord(1, 4), "hallway", "11", b);
+		RealPoint twelve3 = new RealPoint(new Coord(3, 4), "hallway", "12", b);
+		RealPoint fourteen3 = new RealPoint(new Coord(4, 4), "hallway", "14", b);
+		RealPoint fifteen3 = new RealPoint(new Coord(0, 6), "hallway", "15", b);
+		RealPoint sixteen3 = new RealPoint(new Coord(1, 6), "hallway", "16", b);
+		RealPoint seventeen3 = new RealPoint(new Coord(2, 6), "hallway", "17", b);
+		RealPoint eightteen3 = new RealPoint(new Coord(3, 6), "hallway", "18", b);
+		RealPoint nineteen3 = new RealPoint(new Coord(4, 6), "hallway", "19", b);
+		RealPoint twenty3 = new RealPoint(new Coord(0, 8), "hallway", "20", b);
+		RealPoint twentyone3 = new RealPoint(new Coord(1, 8), "hallway", "21", b);
+		RealPoint twentytwo3 = new RealPoint(new Coord(2, 8), "hallway", "22", b);
+		RealPoint twentythree3 = new RealPoint(new Coord(3, 8), "hallway", "23", b);
+		RealPoint twentyfour3 = new RealPoint(new Coord(4, 8), "hallway", "24", b);
+
+		zero3.addNeighbor(one3);
+		zero3.addNeighbor(five3);
+
+		one3.addNeighbor(zero3);
+		one3.addNeighbor(two3);
+
+		two3.addNeighbor(one3);
+		two3.addNeighbor(three3);
+
+		three3.addNeighbor(two3);
+		three3.addNeighbor(four3);
+
+		four3.addNeighbor(nine3);
+		four3.addNeighbor(three3);
+
+		five3.addNeighbor(zero3);
+		five3.addNeighbor(ten3);
+
+		nine3.addNeighbor(four3);
+		nine3.addNeighbor(fourteen3);
+
+		ten3.addNeighbor(five3);
+		ten3.addNeighbor(eleven3);
+		ten3.addNeighbor(fifteen3);
+
+		eleven3.addNeighbor(ten3);
+		eleven3.addNeighbor(twelve3);
+		eleven3.addNeighbor(sixteen3);
+
+		twelve3.addNeighbor(eleven3);
+		twelve3.addNeighbor(seventeen3);
+
+		fourteen3.addNeighbor(nine3);
+		fourteen3.addNeighbor(nineteen3);
+
+		fifteen3.addNeighbor(ten3);
+		fifteen3.addNeighbor(twenty3);
+		fifteen3.addNeighbor(sixteen3);
+
+		sixteen3.addNeighbor(fifteen3);
+		sixteen3.addNeighbor(seventeen3);
+		sixteen3.addNeighbor(eleven3);
+		sixteen3.addNeighbor(twentyone3);
+
+		seventeen3.addNeighbor(twelve3);
+		seventeen3.addNeighbor(sixteen3);
+		seventeen3.addNeighbor(eightteen3);
+		seventeen3.addNeighbor(twentytwo3);
+
+		eightteen3.addNeighbor(seventeen3);
+		eightteen3.addNeighbor(nineteen3);
+		eightteen3.addNeighbor(twentythree3);
+
+		nineteen3.addNeighbor(fourteen3);
+		nineteen3.addNeighbor(twentyfour3);
+		nineteen3.addNeighbor(eightteen3);
+
+		twenty3.addNeighbor(fifteen3);
+		twenty3.addNeighbor(twentyone3);
+
+		twentyone3.addNeighbor(twenty3);
+		twentyone3.addNeighbor(sixteen3);
+		twentyone3.addNeighbor(twentytwo3);
+
+		twentytwo3.addNeighbor(twentyone3);
+		twentytwo3.addNeighbor(twentythree3);
+		twentytwo3.addNeighbor(seventeen3);
+
+		twentythree3.addNeighbor(eightteen3);
+		twentythree3.addNeighbor(twentytwo3);
+		twentythree3.addNeighbor(twentyfour3);
+
+		twentyfour3.addNeighbor(twentythree3);
+		twentyfour3.addNeighbor(nineteen3);
+
+		RealPoint[] all3 = { zero3, one3, two3, three3, four3, five3, nine3, ten3, eleven3, twelve3,
+				fourteen3, fifteen3, sixteen3, seventeen3, eightteen3, nineteen3, twenty3, twentyone3, twentytwo3,
+				twentythree3, twentyfour3 };
+
+		for (int k = 0; k < all3.length; k++) {
+			testMap.addPoint(all3[k]);
+		}
 	}
-	
 	@Ignore
 	@Test
 	public void testAStar4to12() {
-		RealPoint start, goal;		start = testMap.getPoint("4");
+		RealPoint start, goal;
+		start = testMap.getPoint("4");
 		goal = testMap.getPoint("12");
-
-		Path path = AStar.multi_AStar(start, goal).get(0);
-		ArrayList<Node> pathNodes = path.getPath();
-		assertEquals(7, path.getPath().size());
-		assertEquals(pathNodes.get(0).getPoint().getId(), "4");
-		assertEquals(pathNodes.get(1).getPoint().getId(), "9");
-		assertEquals(pathNodes.get(2).getPoint().getId(), "14");
-		assertEquals(pathNodes.get(3).getPoint().getId(), "19");
-		assertEquals(pathNodes.get(4).getPoint().getId(), "18");
-		assertEquals(pathNodes.get(5).getPoint().getId(), "17");
-		assertEquals(pathNodes.get(6).getPoint().getId(), "12");
+		
+		Path path = null;
+		try {
+			path = PathFinder.getPath(start, goal, new AStarPathProcessor(new DistanceProcessor()));
+		} catch (PathNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		
+//		assertEquals(7, path.size());
+		String[] expectedPath = {"4", "9", "14", "19", "18", "17", "12"};
+		
+		int i = 0;
+		
+		for(Section section: path){
+			for(IPoint point: section){
+				assertEquals(expectedPath[i],point.getId());
+				i++;
+			}
+		}
 	}
 	@Ignore
 	@Test
@@ -332,38 +446,26 @@ public class AStarTest {
 		RealPoint start, goal;
 		start = testMap.getPoint("4");
 		goal = testMap.getPoint("11");
-
-		Path path = AStar.multi_AStar(start, goal).get(0);
-		ArrayList<Node> pathNodes = path.getPath();
-
-		assertEquals(path.getPath().size(), 8);
-		assertEquals(pathNodes.get(0).getPoint().getId(), "4");
-		assertEquals(pathNodes.get(1).getPoint().getId(), "3");
-		assertEquals(pathNodes.get(2).getPoint().getId(), "2");
-		assertEquals(pathNodes.get(3).getPoint().getId(), "1");
-		assertEquals(pathNodes.get(4).getPoint().getId(), "0");
-		assertEquals(pathNodes.get(5).getPoint().getId(), "5");
-		assertEquals(pathNodes.get(6).getPoint().getId(), "10");
-		assertEquals(pathNodes.get(7).getPoint().getId(), "11");
-	}
-	@Ignore
-	@Test
-	public void testAStar4to12_2() {
-		RealPoint start, goal;
-		start = testMap2.getPoint("4");
-		goal = testMap2.getPoint("12");
-
-		Path path = AStar.multi_AStar(start, goal).get(0);
-		ArrayList<Node> pathNodes = path.getPath();
-
-		assertEquals(path.getPath().size(), 7);
-		assertEquals(pathNodes.get(0).getPoint().getId(), "4");
-		assertEquals(pathNodes.get(1).getPoint().getId(), "9");
-		assertEquals(pathNodes.get(2).getPoint().getId(), "14");
-		assertEquals(pathNodes.get(3).getPoint().getId(), "19");
-		assertEquals(pathNodes.get(4).getPoint().getId(), "18");
-		assertEquals(pathNodes.get(5).getPoint().getId(), "17");
-		assertEquals(pathNodes.get(6).getPoint().getId(), "12");
+		
+		Path path = null;
+		try {
+			path = PathFinder.getPath(start, goal, new AStarPathProcessor(new DistanceProcessor()));
+		} catch (PathNotFoundException e) {
+			e.printStackTrace();
+		}
+		
+		assertEquals(8, path.size());
+		String[] expectedPath = {"4", "3", "2", "1", "0", "5", "10", "11"};
+		
+		int i = 0;
+		
+		for(Section section: path){
+			for(IPoint point: section){
+				assertEquals(expectedPath[i],point.getId());
+				i++;
+			
+			}
+		}
 	}
 	@Ignore
 	@Test
@@ -371,24 +473,101 @@ public class AStarTest {
 		AllMaps.getInstance().addMap(testMap5);
 		RealPoint start, goal;
 		start = testMap5.getPoint("0");
-		goal = testMap6.getPoint("12");
+		goal = testMap6.getPoint("24");
+		
+		Path path = null;
+		try {
+			path = PathFinder.getPath(start, goal, new AStarPathProcessor(new DistanceProcessor()));
+		} catch (PathNotFoundException e) {
+			e.printStackTrace();
+		}
 
-		MultiPath grandPath = AStar.multi_AStar(start, goal);
-		ArrayList<Node> pathNodes = grandPath.get(0).getPath();
-		assertEquals(5, pathNodes.size());
-		assertEquals(pathNodes.get(0).getPoint().getId(), "0");
-		assertEquals(pathNodes.get(1).getPoint().getId(), "1");
-		assertEquals(pathNodes.get(2).getPoint().getId(), "2");
-		assertEquals(pathNodes.get(3).getPoint().getId(), "3");
-		assertEquals(pathNodes.get(4).getPoint().getId(), "4");
+		String[][] expectedPath = {{"0","1","2","3","4"},{"4","9","14","19","24"}};
+		int i = 0;
+		int j = 0;
+		
+		assertEquals(10,path.size());
+		for(Section section: path){
+			assertEquals(5,section.size());
+			i = 0;
+			for(IPoint point: section){
+				assertEquals(expectedPath[j][i],point.getId());
+				i++;
+			}
+			j++;
+		}
 
-		pathNodes = grandPath.get(1).getPath();
-		assertEquals(5, pathNodes.size());
-		assertEquals(pathNodes.get(0).getPoint().getId(), "4");
-		assertEquals(pathNodes.get(1).getPoint().getId(), "9");
-		assertEquals(pathNodes.get(2).getPoint().getId(), "8");
-		assertEquals(pathNodes.get(3).getPoint().getId(), "7");
-		assertEquals(pathNodes.get(4).getPoint().getId(), "12");
+	}
+	
+	@Test
+	public void multiDestinationTestSameMap() {
+		AllMaps.getInstance().addMap(testMap5);
+		RealPoint[] destinations = {testMap5.getPoint("0"), 
+									testMap5.getPoint("2"), 
+									testMap5.getPoint("22"),
+									testMap5.getPoint("24")};
+		
+		Path path = null;
+		try {
+			path = PathFinder.getPath(destinations, new AStarPathProcessor(new DistanceProcessor()));
+		} catch (PathNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		String[][] expectedPath = {{"0","1","2"},{"2","7","12","17","22"},{"22","23","24"}};
+		int[] expectedSectionSize = {3,5,3};
+		int i = 0;
+		int j = 0;
+		
+		assertEquals(11,path.size());
+		for(Section section: path){
+			assertEquals(expectedSectionSize[j],section.size());
+			i = 0;
+			for(IPoint point: section){
+				assertEquals(expectedPath[j][i],point.getId());
+				i++;
+			}
+			j++;
+		}
+	}
+	
+	@Test
+	public void multiDestinationTestDiffMap() {
+		AllMaps.getInstance().addMap(testMap5);
+		RealPoint[] destinations = {testMap5.getPoint("0"), 
+									testMap6.getPoint("24"), 
+									testMap5.getPoint("20"),
+									testMap5.getPoint("4")};
+		
+		Path path = null;
+		try {
+			path = PathFinder.getPath(destinations, new AStarPathProcessor(new DistanceProcessor()));
+		} catch (PathNotFoundException e) {
+			e.printStackTrace();
+		}
+
+		String[][] expectedPath = {{"0","1","2","3","4"},
+									{"4","9","14","19","24"},
+									{"24","19","14","9","4"},
+									{"4","3","2","1","6","11","10","15","20"},
+									{"20","15","10","5","6","7","8","9","4"},
+									{"0","1","2","3","4"},
+									};
+		int[] expectedSectionSize = {5,5,5,9,9,5};
+		int i = 0;
+		int j = 0;
+		
+		assertEquals(33,path.size());
+		for(Section section: path){
+			assertEquals(expectedSectionSize[j],section.size());
+			i = 0;
+			for(IPoint point: section){
+//				System.out.println(point);
+				assertEquals(expectedPath[j][i],point.getId());
+				i++;
+			}
+			j++;
+		}
 
 	}
 

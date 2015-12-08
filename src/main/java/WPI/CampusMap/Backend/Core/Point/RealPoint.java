@@ -298,14 +298,12 @@ public class RealPoint implements IPoint,java.io.Serializable {
 
 	@Override
 	public boolean connectToCampus() {
-		// TODO Auto-generated method stub
-		return false;
+		throw new UnsupportedOperationException("connectToCampus not yet implemented.");
 	}
-
+	
 	@Override
 	public String getBuilding() {
-		// TODO Auto-generated method stub
-		return null;
+		throw new UnsupportedOperationException("getBuilding not yet implemented.");
 	}
 
 }
