@@ -73,13 +73,14 @@ public class ProxyPoint implements IPoint {
 
 	@Override
 	public String getId() {
-		load();
+		if(realPoint != null) return realPoint.getId();
 		return pointId;
 	}
 
 	@Override
 	public void setId(String id) {
 		load();
+		pointId = id;
 		realPoint.setId(id);
 	}
 
@@ -121,6 +122,7 @@ public class ProxyPoint implements IPoint {
 
 	@Override
 	public String getMap() {
+		if(mapName != null) return mapName;
 		load();
 		return realPoint.getMap();
 	}
