@@ -1,4 +1,4 @@
-package WPI.CampusMap.Frontend.Searchv2;
+package WPI.CampusMap.Frontend.Search.Searchv2;
 
 import java.awt.GridLayout;
 import java.util.ArrayList;
