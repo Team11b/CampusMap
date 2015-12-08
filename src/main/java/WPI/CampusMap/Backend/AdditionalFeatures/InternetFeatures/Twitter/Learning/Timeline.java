@@ -31,9 +31,8 @@ public class Timeline {
 			twitter.setOAuthAccessToken(accessToken);
 
 			List<Status> statuses = twitter.getMentionsTimeline();
-			System.out.println("Showing home timeline.");
 			for (Status status : statuses) {
-				System.out.println(status.getUser().getName() + ": @" + status.getUser().getScreenName() + " : " + "#" + status.getHashtagEntities()[0].getText() + " #" + status.getHashtagEntities()[1].getText());
+				System.out.println("@" + status.getUser().getScreenName() + " : " + status.getText());
 			}
 
 		} catch (TwitterException te) {
