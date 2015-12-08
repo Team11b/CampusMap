@@ -21,6 +21,7 @@ import org.apache.commons.mail.SimpleEmail;
 import com.twilio.sdk.TwilioRestException;
 
 import WPI.CampusMap.Backend.Additional.InternetFeatures.SMS.SMSClient;
+import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Map.IMap;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicalMap;
@@ -81,6 +82,11 @@ public class UserMode extends UIMode {
 	public static void onTxt() {
 		JFileChooser chooser = new JFileChooser();
 		chooser.showSaveDialog(chooser);
+		if(chooser.getSelectedFile() == null)
+		{
+			System.out.println("Cancel pressed on txt");
+			return;
+		}
 		File destination = chooser.getSelectedFile();
 		FileWriter write;
 		// String directions = AppUserModeControl.getDirections();
@@ -183,7 +189,7 @@ public class UserMode extends UIMode {
 			System.out.println(mapName);
 			//IMap newMap = new Map(mapName);
 			//System.out.println(newMap.getAllPoints().keySet());
-			//currentMap = AllMaps.getMap(mapName);
+			currentMap = AllMaps.getInstance().getMap(mapName);
 			
 			if(graphicsMap != null)
 				graphicsMap.unload();

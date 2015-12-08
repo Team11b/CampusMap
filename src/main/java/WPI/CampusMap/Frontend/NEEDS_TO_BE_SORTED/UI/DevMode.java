@@ -8,6 +8,7 @@ import java.awt.event.MouseEvent;
 
 import org.apache.commons.lang3.NotImplementedException;
 
+import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Map.IMap;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicalMap;
 
@@ -313,7 +314,7 @@ public class DevMode extends UIMode
 			System.out.println(mapName);
 			//IMap newMap = new Map(mapName);
 			//System.out.println(newMap.getAllPoints().keySet());
-			//currentMap = AllMaps.getMap(mapName);
+			currentMap = AllMaps.getInstance().getMap(mapName);
 			
 			if(graphicsMap != null)
 				graphicsMap.unload();
