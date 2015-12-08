@@ -10,7 +10,7 @@ public class AutoCompleteTextField {
     private ArrayList<String> listSomeString = new ArrayList<String>();
     private Java2sAutoTextField someTextField = new Java2sAutoTextField(listSomeString);
     private ArrayList<String> listSomeAnotherString = new ArrayList<String>();
-//    private Java2sAutoComboBox someComboBox = new Java2sAutoComboBox(listSomeAnotherString);
+    private Java2sAutoComboBox someComboBox = new Java2sAutoComboBox(listSomeAnotherString);
 
     public AutoCompleteTextField() {
         listSomeString.add("");
@@ -34,12 +34,20 @@ public class AutoCompleteTextField {
         someTextField.setBackground(Color.orange);
         someTextField.setName("someTextField");
         someTextField.setDataList(listSomeString);
+        
+
+        someComboBox.setFont(new Font("Serif", Font.BOLD, 16));
+        someComboBox.setForeground(Color.black);
+        someComboBox.setBackground(Color.orange);
+        someComboBox.setName("someTextField");
+        someComboBox.setDataList(listSomeString);
 //
         
 //
         frame = new JFrame();
         frame.setLayout(new GridLayout(0, 1, 10, 10));
         frame.add(someTextField);
+        frame.add(someComboBox);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLocation(100, 100);
         frame.pack();

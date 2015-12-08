@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import javax.swing.ImageIcon;
 
+import WPI.CampusMap.Backend.Core.Point.AllPoints;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.Core.Point.RealPoint;
 import WPI.CampusMap.Recording.Serialization.Serializer;
@@ -29,6 +30,8 @@ public class ProxyMap implements IMap, Serializable {
 				realMap = new RealMap(mapName);
 			}
 			realMap.validatePoints();
+			
+			AllPoints.getInstance().addAllPoints(realMap.getAllPoints().toArray(new IPoint[realMap.getAllPoints().size()]));
 		}
 	}
 

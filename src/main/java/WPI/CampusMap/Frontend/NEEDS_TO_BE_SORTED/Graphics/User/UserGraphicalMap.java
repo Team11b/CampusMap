@@ -4,6 +4,7 @@ import java.util.Hashtable;
 import java.util.LinkedList;
 
 import WPI.CampusMap.Backend.Core.Map.IMap;
+import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.Core.Point.RealPoint;
 import WPI.CampusMap.Backend.Core.Ref.Ref;
 import WPI.CampusMap.Backend.PathPlanning.Path.Section;
@@ -47,9 +48,9 @@ public class UserGraphicalMap extends GraphicalMap
 	@Override
 	public void spawnMap(IMap map)
 	{
-		for(RealPoint p : map.getAllPoints())
+		for(IPoint p : map.getAllPoints())
 		{
-			new UserPointGraphicsObject(p, this);
+			new UserPointGraphicsObject((RealPoint) p, this);
 		}
 	}
 	
