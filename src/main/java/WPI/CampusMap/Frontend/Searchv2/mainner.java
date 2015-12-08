@@ -26,7 +26,7 @@ public class mainner {
 		ArrayList<String> keywords;
 		// Our words to complete
 		keywords = new ArrayList<String>(5);
-		        keywords.add("FL102");
+		        keywords.add("fl102");
 		        keywords.add("AtwaterKent");
 		        keywords.add("stackabuse");
 		        keywords.add("java");
