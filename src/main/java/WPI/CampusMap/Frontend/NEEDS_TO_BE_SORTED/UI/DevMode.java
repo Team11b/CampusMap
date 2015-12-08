@@ -258,12 +258,8 @@ public class DevMode extends UIMode
 
 	@Override
 	public void onMouseClickMap(MouseEvent e) {
-		// TODO Auto-generated method stub
-		/*synchronized (panel)
-		{
-			panel.graphicsMap.mouseClick(e);
-		}*/
-		throw new NotImplementedException("Do you even graphical wapper");
+		graphicsMap.mouseClick(e);	
+		
 	}
 
 	@Override
@@ -274,35 +270,31 @@ public class DevMode extends UIMode
 
 	@Override
 	public void onMouseLeaveMap(MouseEvent e) {
-		/*
-		if(panel.graphicsMap == null)
-			return;
 		
-		synchronized (panel)
-		{
-			panel.graphicsMap.mouseExit(e);
-		}*/
-		throw new NotImplementedException("Do you even graphical wapper");
+		if(graphicsMap == null)
+			return;		
+		
+		graphicsMap.mouseExit(e);
+		
+		
 		
 	}
 
 	@Override
 	public void onMouseMoveOverMap(MouseEvent e) {
 		// TODO Auto-generated method stub
+		//who knows what this is used for if anything
 		throw new NotImplementedException("Do you even graphical wapper");
 	}
 
 	@Override
 	public void onMouseDraggedOverMap(MouseEvent e) {
 		// TODO Auto-generated method stub
-		/*if(panel.graphicsMap == null)
-			return;
+		if(graphicsMap == null)
+			return;		
 		
-		synchronized (panel)
-		{
-			panel.graphicsMap.mouseDrag(e);
-		}*/
-		throw new NotImplementedException("Do you even graphical wapper");
+		graphicsMap.mouseDrag(e);		
+		
 	}
 
 	@Override
@@ -319,8 +311,7 @@ public class DevMode extends UIMode
 			if(graphicsMap != null)
 				graphicsMap.unload();
 			
-			onModeEntered();
-			throw new NotImplementedException("getMap?");
+			onModeEntered();			
 			
 		}
 	}
