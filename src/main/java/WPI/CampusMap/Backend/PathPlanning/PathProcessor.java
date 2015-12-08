@@ -35,7 +35,7 @@ public abstract class PathProcessor
 	/**
 	 * Executes the path processors path finding.
 	 * @return The found path.
-	 * @throws PathNotFoundException
+	 * @throws PathNotFoundException thrown when no path is found
 	 */
 	protected Path execute(IPoint[] keyPoints) throws PathNotFoundException
 	{
@@ -148,9 +148,15 @@ public abstract class PathProcessor
 	}
 	
 	/**
+<<<<<<< HEAD
 	 * Checks if a node has already been explored.
 	 * @param node The node to check.
 	 * @return If the node has been checked
+=======
+	 * Adds a node to the expored set.
+	 * @param node The node to add to the expored set.
+	 * @return the node to add
+>>>>>>> dev
 	 */
 	protected final boolean alreadyExplored(Node node)
 	{

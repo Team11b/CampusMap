@@ -44,7 +44,7 @@ public class RealPoint implements IPoint,java.io.Serializable {
 	
 	/**
 	 * Creates a new RealPoint with the given map and default values
-	 * @param map
+	 * @param map name of the Map this point is located in
 	 */
 	public RealPoint(String map)
 	{
@@ -152,25 +152,29 @@ public class RealPoint implements IPoint,java.io.Serializable {
 	/**|
 	 * Sets the id of the point
 	 * 
-	 * @param The new id
+	 * @param id the new id
 	 */
 	@Override
 	public void setId(String id) {
 		// TODO Add check to see if id already exists?
-		IMap map = AllMaps.getInstance().getMap(getMap());
-		if(map != null)
-		{
-			map.renamePoint(this, id);
+		if(id != getId()){
+			for(IPoint n : getNeighborsP()){
+				n.removeNeighbor(this);	
+			}
+			
+			IMap map = AllMaps.getInstance().getMap(getMap());
+			if(map != null)
+			{
+				map.renamePoint(this, id);
+			}
+			
+			this.id = id;
+			for(IPoint n : getNeighborsP())
+			{
+				n.addNeighbor(this);
+				System.out.println("Replaced self in "+n+"'s neighbor list");
+			}
 		}
-		
-		for(IPoint n : getNeighborsP())
-		{
-			n.removeNeighbor(this);
-			n.addNeighbor(this);
-		}
-		
-		this.id = id;
-
 	}
 	
 	/**
