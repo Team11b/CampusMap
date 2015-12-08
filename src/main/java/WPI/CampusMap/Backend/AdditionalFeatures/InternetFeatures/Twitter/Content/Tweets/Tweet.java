@@ -10,7 +10,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Twitter.Content.Support.Hashtag;
-import WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Twitter.Information.Location;
+import WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Twitter.Content.Support.Location;
 import WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Twitter.Resources.TwitterImage;
 import twitter4j.Status;
 import twitter4j.User;
