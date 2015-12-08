@@ -4,7 +4,7 @@ import java.util.HashMap;
 
 public class AllMaps {
     private static volatile AllMaps instance;
-	private static HashMap<String, IMap> allMaps = new HashMap<String, IMap>();
+	private static HashMap<String, ProxyMap> allMaps = new HashMap<String, ProxyMap>();
 	
 	private AllMaps(){}
 	
@@ -24,12 +24,8 @@ public class AllMaps {
 	}
 	
 	@Deprecated
-	public HashMap<String, IMap> getAllMaps() {
+	public HashMap<String, ? extends IMap> getAllMaps() {
 		return allMaps;
-	}
-
-	public void setAllMaps(HashMap<String, IMap> allMaps) {
-		AllMaps.allMaps = allMaps;
 	}
 
 	public IMap getMap(String mapKey) {
@@ -39,7 +35,7 @@ public class AllMaps {
 		return AllMaps.allMaps.get(mapKey);
 	}
 
-	public boolean addMap(IMap mapValue) {
+	public boolean addMap(ProxyMap mapValue) {
 		if ((AllMaps.allMaps.containsKey(mapValue.getName()))) {
 			return false;
 		}

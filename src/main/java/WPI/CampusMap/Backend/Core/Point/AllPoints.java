@@ -3,9 +3,12 @@ package WPI.CampusMap.Backend.Core.Point;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import WPI.CampusMap.Backend.Core.Map.AllMaps;
+
 public class AllPoints {
 	private static volatile AllPoints instance;
-	private static HashMap<String, IPoint> allPoints = new HashMap<String, IPoint>();
+	//Contains only named points, key is the name of the point and value is the fullName
+	private static HashMap<String, String> allPoints = new HashMap<String, String>();
 
 	private AllPoints() {
 	}
@@ -25,23 +28,28 @@ public class AllPoints {
 		allPoints.clear();
 	}
 
-	public IPoint getMap(String pointKey) {
+	public String getPointFullName(String pointKey) {
 		return AllPoints.allPoints.get(pointKey);
 	}
+	
+	public IPoint getPoint(String pointKey) {
+		String[] fullName = AllPoints.allPoints.get(pointKey).split("/");
+		
+		return AllMaps.getInstance().getMap(fullName[0]).getPoint(fullName[1]);
+	}
 
-	public boolean addPoint(IPoint pointValue) {
-		if ((AllPoints.allPoints.containsKey(pointValue.getId()))) {
-			if (!(pointValue.getId().contains("-"))) {
+	public boolean addPoint(String pointFullName) {
+		String pointName = pointFullName.split("/")[1];
+		if ((AllPoints.allPoints.containsKey(pointName))) {
 				return false;
-			}
 		}
 
-		AllPoints.allPoints.put(pointValue.getId(), pointValue);
+		AllPoints.allPoints.put(pointName, pointFullName);
 		return true;
 	}
 
-	public ArrayList<IPoint> addAllPoints(ArrayList<RealPoint> multiPoints) {
-		ArrayList<IPoint> remaining = new ArrayList<IPoint>();
+	public ArrayList<String> addAllPoints(ArrayList<String> multiPoints) {
+		ArrayList<String> remaining = new ArrayList<String>();
 		boolean result = false;
 
 		for (int j = 0; j < multiPoints.size(); j++) {
@@ -55,8 +63,8 @@ public class AllPoints {
 		return remaining;
 	}
 
-	public ArrayList<IPoint> addAllPoints(IPoint[] multiPoints) {
-		ArrayList<IPoint> remaining = new ArrayList<IPoint>();
+	public ArrayList<String> addAllPoints(String[] multiPoints) {
+		ArrayList<String> remaining = new ArrayList<String>();
 		boolean result = false;
 
 		for (int j = 0; j < multiPoints.length; j++) {

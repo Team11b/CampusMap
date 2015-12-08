@@ -2,6 +2,8 @@ package WPI.CampusMap.Backend.Core.Map;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.HashSet;
 
 import javax.swing.ImageIcon;
 
@@ -15,9 +17,13 @@ public class ProxyMap implements IMap, Serializable {
 	private static final long serialVersionUID = 4921953163121951580L;
 	private String mapName;
 	private transient RealMap realMap;
+	private ArrayList<String> namedPoints;
+	private HashSet<String> connectedMaps;
 	
 	public ProxyMap(String name){
 		this.mapName = name;
+		
+		AllPoints.getInstance().addAllPoints(namedPoints);
 	}
 	
 	private void load(){
@@ -30,8 +36,6 @@ public class ProxyMap implements IMap, Serializable {
 				realMap = new RealMap(mapName);
 			}
 			realMap.validatePoints();
-			
-			AllPoints.getInstance().addAllPoints(realMap.getAllPoints().toArray(new IPoint[realMap.getAllPoints().size()]));
 		}
 	}
 
@@ -104,6 +108,20 @@ public class ProxyMap implements IMap, Serializable {
 	public void save() {
 		if(realMap != null){
 			realMap.save();
+			
+			
+			namedPoints = new ArrayList<String>();
+			connectedMaps = new HashSet<String>(8);
+			for(RealPoint point: realMap.getAllPoints()){
+				String type = point.getType();
+				if(!point.getId().contains("-") && !type.equals(RealPoint.ELEVATOR) && !type.equals(RealPoint.STAIRS)){
+					namedPoints.add(point.toString());
+				}
+				for(String connectedMap: point.getNeighborPointsOnOtherMaps().keySet()){
+					if(!connectedMaps.contains(connectedMap)) connectedMaps.add(connectedMap);
+				}
+			}
+
 			Serializer.save(this);
 			// TODO Add methods to save metadata
 		}

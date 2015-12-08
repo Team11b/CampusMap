@@ -20,7 +20,6 @@ public class ProxyPoint implements IPoint {
 		}else if(splitName.length == 2){
 			this.pointId = splitName[1];
 			this.mapName = splitName[0];
-			
 		}
 	}
 
@@ -73,7 +72,7 @@ public class ProxyPoint implements IPoint {
 
 	@Override
 	public String getId() {
-		if(realPoint != null) return realPoint.getId();
+		if(realPoint != null) pointId= realPoint.getId();
 		return pointId;
 	}
 
@@ -122,9 +121,9 @@ public class ProxyPoint implements IPoint {
 
 	@Override
 	public String getMap() {
-		if(mapName != null) return mapName;
-		load();
-		return realPoint.getMap();
+		if(mapName == null) load();
+		if(realPoint != null) mapName = realPoint.getMap();
+		return mapName;
 	}
 	
 	@Override
@@ -146,8 +145,7 @@ public class ProxyPoint implements IPoint {
 	
 	@Override
 	public String toString() {
-		load();
-		return realPoint.toString();
+		return getMap()+"/"+getId();
 	}
 
 	@Override
