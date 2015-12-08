@@ -57,7 +57,7 @@ public abstract class PathProcessor
 //			System.out.println();
 			
 			while(!currentNode.equals(goal) ){
-				explored.add(currentNode);
+				addToExplored(currentNode);
 				expandNode(currentNode);
 				currentNode = pullFromFrontier();
 				if(currentNode == null){
