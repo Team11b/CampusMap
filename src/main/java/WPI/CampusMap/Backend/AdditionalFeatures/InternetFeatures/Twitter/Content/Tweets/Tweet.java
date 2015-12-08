@@ -10,8 +10,10 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Twitter.Content.Support.Hashtag;
+import WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Twitter.Content.Support.ILocation;
 import WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Twitter.Content.Support.Location;
 import WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Twitter.Resources.TwitterImage;
+import twitter4j.HashtagEntity;
 import twitter4j.Status;
 import twitter4j.User;
 
@@ -21,17 +23,38 @@ public class Tweet {
 	private TwitterImage twitterIcon;
 	private User user;
 	private ImageIcon profileImage;
-	private LinkedList<Location> locations;
+	private LinkedList<Hashtag> hashtags;
 
 	private static final int width = 100;
 	private static final int height = 100;
 
-	public Tweet(Status status, String userID) {
+	public Tweet(Status status) {
 		this.status = status;
 		this.user = this.status.getUser();
 		this.twitterIcon = TwitterImage.getInstance();
-		this.locations = new LinkedList<Location>();
+		this.hashtags = parseValidHashtags();
+		saveProfileImage();
 		setValid();
+	}
+
+	private LinkedList<Hashtag> parseValidHashtags() {
+		HashtagEntity[] tags = this.status.getHashtagEntities();
+		LinkedList<Hashtag> validtags = new LinkedList<Hashtag>();
+		
+		ILocation loc;
+		
+		for (int j = 0; j < tags.length; j++) {
+			loc = Location.getBuilding(tags[j]);
+			
+			if (loc.locationFound()) {
+				validtags.add(new Hashtag((Location) loc));
+			}
+		}
+		
+		return validtags;
+	}
+
+	public Tweet() {
 	}
 
 	public String getScreenName() {
@@ -54,8 +77,8 @@ public class Tweet {
 		return this.status.getText();
 	}
 	
-	public void addLocation(Location loc) {
-		this.locations.add(loc);
+	public void addHashtag(Hashtag tag) {
+		this.hashtags.add(tag);
 	}
 
 	private boolean sensitivity() {
@@ -74,6 +97,10 @@ public class Tweet {
 	
 	private void setValid() {
 		this.isValid = ((!(sensitivity()) && (hasLocation())));
+	}
+	
+	public boolean getValid() {
+		return this.isValid;
 	}
 
 	private boolean hasLocation() {

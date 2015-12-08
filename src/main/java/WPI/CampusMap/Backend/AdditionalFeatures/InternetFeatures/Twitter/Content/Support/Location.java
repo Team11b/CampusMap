@@ -7,6 +7,8 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import twitter4j.HashtagEntity;
+
 public class Location implements ILocation {
 
 	private String name;
@@ -69,13 +71,13 @@ public class Location implements ILocation {
 		return this.name;
 	}
 
-	public static ILocation getBuilding(Hashtag hashtag) {
+	public static ILocation getBuilding(HashtagEntity tags) {
 
 		if (!(filesFound)) {
 			getPossibleTags();
 		}
 
-		String tag = hashtag.getTag();
+		String tag = tags.getText();
 		tag = Location.processString(tag);
 
 		if (Location.p85list.contains(tag)) {

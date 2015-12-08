@@ -11,10 +11,10 @@ import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 
 public class Timeline {
-	static String consumerKeyStr;
-	static String consumerSecretStr;
-	static String accessTokenStr;
-	static String accessTokenSecretStr;
+	private static String consumerKeyStr;
+	private static String consumerSecretStr;
+	private static String accessTokenStr;
+	private static String accessTokenSecretStr;
 
 	public static void main(String[] args) throws MissingKeyException {
 		consumerKeyStr = TwitterInformation.getPublicKey();
