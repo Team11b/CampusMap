@@ -19,9 +19,7 @@ import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicalMap.GraphicsB
 
 
 public class DevMode extends UIMode 
-{
-	
-	//private GraphicalMap graphicsMap;
+{	
 	private DevGraphicalMap graphicsMap;
 	protected IMap currentMap;
 	
@@ -47,7 +45,8 @@ public class DevMode extends UIMode
 		//Switch label to textbox for scale
 		//Show and hide UI elements
 		//if(currentMap != null)
-		//	graphicsMap = new DevGraphicalMap(currentMap, this);
+			//graphicsMap = new DevGraphicalMap(currentMap, this);
+			
 			throw new NotImplementedException("getMap?");
 	}
 	

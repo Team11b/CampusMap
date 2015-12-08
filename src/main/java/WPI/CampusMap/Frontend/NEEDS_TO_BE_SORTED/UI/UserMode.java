@@ -91,7 +91,7 @@ public class UserMode extends UIMode
 			e.printStackTrace();
 		}
 		
-		clearRoute();
+		//clearRoute();
 	}
 	
 	public void onClearButton(){
@@ -108,9 +108,11 @@ public class UserMode extends UIMode
 	{
 		if(routedPath != null)
 		{
+			clearRoute();
 			routedPath = null;
 			graphicalMap.setPathSections(getRoutedPath());
 		}
+		
 		
 		if(!routeSet.contains(newPoint))
 		{
