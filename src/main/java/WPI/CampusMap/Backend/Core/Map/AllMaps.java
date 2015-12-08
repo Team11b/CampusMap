@@ -3,7 +3,9 @@ package WPI.CampusMap.Backend.Core.Map;
 import java.util.HashMap;
 
 public class AllMaps {
-    private static volatile AllMaps instance;
+    public final String CampusMap = "Campus";
+    
+	private static volatile AllMaps instance;
 	private static HashMap<String, IMap> allMaps = new HashMap<String, IMap>();
 	
 	private AllMaps(){}

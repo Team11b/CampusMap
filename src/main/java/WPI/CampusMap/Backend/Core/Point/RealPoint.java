@@ -292,4 +292,14 @@ public class RealPoint implements IPoint,java.io.Serializable {
 		return temp;
 	}
 
+	@Override
+	public boolean connectToCampus() {
+		throw new UnsupportedOperationException("connectToCampus not yet implemented.");
+	}
+	
+	@Override
+	public String getBuilding() {
+		throw new UnsupportedOperationException("getBuilding not yet implemented.");
+	}
+
 }
