@@ -22,8 +22,9 @@ public class ProxyMap implements IMap, Serializable {
 	
 	public ProxyMap(String name){
 		this.mapName = name;
-		
-		AllPoints.getInstance().addAllPoints(namedPoints);
+        namedPoints = new ArrayList<String>();
+        connectedMaps =new HashSet<String>(); 
+
 	}
 	
 	private void load(){
@@ -143,7 +144,10 @@ public class ProxyMap implements IMap, Serializable {
 		load();
 		return connectedMaps;
 	}
-
+	
+	public void onLoad(){
+        AllPoints.getInstance().addAllPoints(namedPoints);
+    }
 
 	@Override
 	public boolean connectedToCampus() {
