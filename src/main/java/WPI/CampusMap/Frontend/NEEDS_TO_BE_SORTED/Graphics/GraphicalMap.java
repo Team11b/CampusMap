@@ -55,8 +55,6 @@ public abstract class GraphicalMap
 		this.map = AllMaps.getInstance().getMap(map);
 		
 		cameraPosition = new Coord(this.map.getLoadedImage().getIconWidth() * 0.5f, this.map.getLoadedImage().getIconHeight() * 0.5f);
-		
-		spawnMap();
 	}
 	
 	/**

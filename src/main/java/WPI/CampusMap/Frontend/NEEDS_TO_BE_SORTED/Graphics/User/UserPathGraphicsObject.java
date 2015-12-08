@@ -17,9 +17,12 @@ import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.RealMouseEvent;
 
 public class UserPathGraphicsObject extends GraphicsObject<Section, UserGraphicalMap>
 {
+	private float phase;
+	
 	public UserPathGraphicsObject(Section path, UserGraphicalMap owner)
 	{
 		super(path, owner);
+		setVisible(false);
 	}
 	
 	@Override
@@ -36,7 +39,8 @@ public class UserPathGraphicsObject extends GraphicsObject<Section, UserGraphica
 	@Override
 	public void onDraw(Graphics2D graphics)
 	{
-		graphics.setStroke(new BasicStroke(3.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 10.0f, new float[]{10.0f}, 0.0f));
+		graphics.setStroke(new BasicStroke(3.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 10.0f, new float[]{10.0f}, phase));
+		phase += 0.33f;
 		
 		LinkedList<IPoint> points = getRepresentedObject().getPoints();
 		
@@ -48,8 +52,7 @@ public class UserPathGraphicsObject extends GraphicsObject<Section, UserGraphica
 			Coord currentRenderCoord = getOwner().getRenderFromWorld(currentPoint.getCoord());
 			Coord lastRenderCoord = getOwner().getRenderFromWorld(lastPoint.getCoord());
 			
-			Line2D.Float line = new Line2D.Float(lastRenderCoord.getX(), lastRenderCoord.getY(), currentRenderCoord.getX(), currentRenderCoord.getY());
-			
+			Line2D.Float line = new Line2D.Float(currentRenderCoord.getX(), currentRenderCoord.getY(), lastRenderCoord.getX(), lastRenderCoord.getY());
 			
 			graphics.draw(line);
 		}

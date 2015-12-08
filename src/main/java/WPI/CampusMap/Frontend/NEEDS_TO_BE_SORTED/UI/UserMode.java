@@ -29,6 +29,8 @@ import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Map.IMap;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.PathPlanning.AStarPathProcessor;
+import WPI.CampusMap.Backend.PathPlanning.Path;
+import WPI.CampusMap.Backend.PathPlanning.Path.Section;
 import WPI.CampusMap.Backend.PathPlanning.PathFinder;
 import WPI.CampusMap.Backend.PathPlanning.PathNotFoundException;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicalMap;
@@ -41,6 +43,8 @@ public class UserMode extends UIMode
 	private LinkedList<UserPointGraphicsObject> route = new LinkedList<>();
 	private HashSet<UserPointGraphicsObject> routeSet = new HashSet<>();
 	
+	private Path routedPath;
+	
 	public UserMode(AppMainWindow window)
 	{
 		super(window);	
@@ -50,6 +54,17 @@ public class UserMode extends UIMode
 	public void onModeEntered() {
 		// Execute changes to UI
 
+	}
+	
+	/**
+	 * Gets the routed path sections for the loaded map.
+	 * @return The routed path sections for the loaded map.
+	 */
+	public LinkedList<Section> getRoutedPath()
+	{
+		if(routedPath == null)
+			return new LinkedList<>();
+		return routedPath.getSections(graphicalMap.getMap());
 	}
 
 	public void onRouteButton() 
@@ -67,12 +82,16 @@ public class UserMode extends UIMode
 		
 		try 
 		{
-			PathFinder.getPath(points, processor);
+			routedPath = PathFinder.getPath(points, processor);
+			graphicalMap.setPathSections(getRoutedPath());
+			graphicalMap.setShownSection(getRoutedPath().getFirst());
 		} 
 		catch (PathNotFoundException e) 
 		{
 			e.printStackTrace();
 		}
+		
+		clearRoute();
 	}
 	
 	public void onClearButton(){
@@ -87,6 +106,12 @@ public class UserMode extends UIMode
 	
 	public void onPointAddedToRoute(UserPointGraphicsObject newPoint)
 	{
+		if(routedPath != null)
+		{
+			routedPath = null;
+			graphicalMap.setPathSections(getRoutedPath());
+		}
+		
 		if(!routeSet.contains(newPoint))
 		{
 			routeSet.add(newPoint);
@@ -242,6 +267,7 @@ public class UserMode extends UIMode
 		if(graphicalMap != null)
 			graphicalMap.unload();
 		graphicalMap = new UserGraphicalMap(mapName, this);
+		graphicalMap.spawnMap();
 	}
 
 
