@@ -15,6 +15,7 @@ import java.util.Hashtable;
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Map.IMap;
 import WPI.CampusMap.Backend.Core.Map.Map;
+import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI.UIMode;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI_OLD.AppUIObject;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI_OLD.MapPanel;
 
@@ -35,20 +36,12 @@ public abstract class GraphicalMap
 	
 	private AffineTransform transform;
 	
-	@Deprecated
-	public GraphicalMap(IMap map, MapPanel panel)
-	{
-		this.panel = panel;
-		this.map = map;
-		transform = AffineTransform.getScaleInstance(1, 1);
-		this.spawnMap(map);
-	}
-	
 	/**
 	 * Creates a new graphical map from a backend map.
 	 * @param map The backend map to create from.
+	 * @param mode The ui mode that is the owner of this.
 	 */
-	public GraphicalMap(IMap map) 
+	public GraphicalMap(String map, UIMode mode) 
 	{
 		throw new UnsupportedOperationException("not implemented");
 	}
