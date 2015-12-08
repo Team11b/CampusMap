@@ -9,10 +9,10 @@ import java.nio.file.Files;
 import java.nio.file.NoSuchFileException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.Collection;
 
-import org.junit.After;
 import org.junit.AfterClass;
-import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -21,6 +21,7 @@ import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Map.ProxyMap;
 import WPI.CampusMap.Backend.Core.Map.RealMap;
 import WPI.CampusMap.Backend.Core.Point.RealPoint;
+import WPI.CampusMap.Backend.PathPlanning.Node;
 import WPI.CampusMap.Recording.Serialization.Serializer;
 
 public class SerializationTest {
@@ -107,27 +108,24 @@ public class SerializationTest {
 		pm.save();
 		connected.save();
 		
-		System.out.println(pm.getName());
 		ProxyMap newPm = Serializer.proxyLoad(pm.getName());
 		ProxyMap newCon = Serializer.proxyLoad(connected.getName());
-		System.out.println(newPm.getName());
 
 		RealMap newRPm = Serializer.realLoad(newPm.getName());
 		RealMap newRCon = Serializer.realLoad(newCon.getName());
 		newRPm.validatePoints();
 		newRCon.validatePoints();
+		RealPoint[] t1 = newPm.getAllPoints().toArray(new RealPoint[1]);
+		RealPoint[] t2 = pm.getAllPoints().toArray(new RealPoint[pm.getAllPoints().size()]);
 		
-		//System.out.println(newPm.getAllPoints().size());
-		//System.out.println(pm.getAllPoints().size());
-		
-		assertTrue(newPm.getAllPoints().equals(pm.getAllPoints()));
-		assertTrue(newCon.getAllPoints().equals(connected.getAllPoints()));
+		assertTrue(Arrays.equals(t1, t2));
+		assertTrue(Arrays.equals(newCon.getAllPoints().toArray(new RealPoint[1]),connected.getAllPoints().toArray(new RealPoint[1])));
 		
 		assertTrue(newPm.getPoint("1").getNeighborsP().equals(pm.getPoint("1").getNeighborsP()));
 		assertTrue(newCon.getPoint("1").getNeighborsP().equals(connected.getPoint("1").getNeighborsP()));
-		
-		assertTrue(newPm.getAllPoints().equals(newRPm.getAllPoints()));
-		assertTrue(newCon.getAllPoints().equals(newRCon.getAllPoints()));
+
+		assertTrue(Arrays.equals(newPm.getAllPoints().toArray(new RealPoint[1]),newRPm.getAllPoints().toArray(new RealPoint[1])));
+		assertTrue(Arrays.equals(newCon.getAllPoints().toArray(new RealPoint[1]),newRCon.getAllPoints().toArray(new RealPoint[1])));
 		
 		assertTrue(newPm.getPoint("1").getNeighborsP().equals(newRPm.getPoint("1").getNeighborsP()));
 		assertTrue(newCon.getPoint("1").getNeighborsP().equals(newRCon.getPoint("1").getNeighborsP()));

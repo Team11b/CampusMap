@@ -132,6 +132,7 @@ public final class Node
 		if (other instanceof Node) {
 			Node that = (Node) other;
 			boolean result = that.point.equals(point);
+			System.out.println("Result"+ result);
 			return result;
 		}
 		return false;
