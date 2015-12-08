@@ -6,8 +6,6 @@ import java.util.HashMap;
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Map.IMap;
-import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.AStar.Frontier;
-import WPI.CampusMap.Backend.PathPlanning.Node;
 
 public class ProxyPoint implements IPoint {
 
@@ -75,13 +73,14 @@ public class ProxyPoint implements IPoint {
 
 	@Override
 	public String getId() {
-		load();
+		if(realPoint != null) return realPoint.getId();
 		return pointId;
 	}
 
 	@Override
 	public void setId(String id) {
 		load();
+		pointId = id;
 		realPoint.setId(id);
 	}
 
@@ -89,13 +88,6 @@ public class ProxyPoint implements IPoint {
 	public ArrayList<IPoint> getNeighborsP() {
 		load();
 		return realPoint.getNeighborsP();
-	}
-
-	@Override
-	public void buildFrontier(Frontier frontier, Node fromNode, IPoint goal) {
-		load();
-		realPoint.buildFrontier(frontier, fromNode, goal);
-
 	}
 
 	@Override
@@ -130,6 +122,7 @@ public class ProxyPoint implements IPoint {
 
 	@Override
 	public String getMap() {
+		if(mapName != null) return mapName;
 		load();
 		return realPoint.getMap();
 	}
@@ -161,5 +154,15 @@ public class ProxyPoint implements IPoint {
 	public HashMap<String, String> getNeighborPointsOnOtherMaps() {
 		load();
 		return realPoint.getNeighborPointsOnOtherMaps();
+	}
+
+	@Override
+	public boolean connectToCampus() {
+		throw new UnsupportedOperationException("connectToCampus not yet implemented.");
+	}
+
+	@Override
+	public String getBuilding() {
+		throw new UnsupportedOperationException("getBuilding not yet implemented.");
 	}
 }

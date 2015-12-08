@@ -13,7 +13,7 @@ public class AutoCompleteTextField {
 //    private Java2sAutoComboBox someComboBox = new Java2sAutoComboBox(listSomeAnotherString);
 
     public AutoCompleteTextField() {
-        listSomeString.add("-");
+        listSomeString.add("");
         listSomeString.add("Snowboarding");
         listSomeString.add("Rowing");
         listSomeString.add("Knitting");
