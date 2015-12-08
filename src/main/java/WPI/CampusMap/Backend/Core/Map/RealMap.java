@@ -261,9 +261,8 @@ public class RealMap implements IMap, java.io.Serializable {
 	}
 
 	@Override
-	public ArrayList<RealPoint> getAllPoints() {
-		Collection<RealPoint> temp = allPoints.values();
-		return (ArrayList<RealPoint>) new ArrayList<RealPoint>(temp);
+	public Collection<RealPoint>getAllPoints() {
+		return allPoints.values();
 	}
 
 	@Override

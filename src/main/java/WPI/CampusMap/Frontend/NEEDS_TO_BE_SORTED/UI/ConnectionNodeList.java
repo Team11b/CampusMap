@@ -5,6 +5,7 @@ import java.awt.FlowLayout;
 import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -93,7 +94,7 @@ public class ConnectionNodeList extends  JComponent
 	
 	public void removeElement(ConnectionNodeElement element)
 	{
-		HashMap<String, String> connections = editingPoint.getNeighborPointsOnOtherMaps();
+		HashMap<String, ArrayList<String>> connections = editingPoint.getNeighborPointsOnOtherMaps();
 		connections.remove(element.getMapName());
 		
 		displayPanel.remove(element);
@@ -103,7 +104,7 @@ public class ConnectionNodeList extends  JComponent
 	
 	private void addBlankConnection()
 	{
-		HashMap<String, String> connections = editingPoint.getNeighborPointsOnOtherMaps();
+		HashMap<String,  ArrayList<String>> connections = editingPoint.getNeighborPointsOnOtherMaps();
 		
 		String mapName = "None";
 		if(connections.containsKey(mapName))
@@ -111,7 +112,8 @@ public class ConnectionNodeList extends  JComponent
 		
 		String nodeName = "";
 		
-		connections.put(mapName, nodeName);
+		connections.get(mapName).clear();
+		connections.get(mapName).add(nodeName);
 		
 		ConnectionNodeElement element = new ConnectionNodeElement(editingPoint, mapName, nodeName);
 		displayPanel.add(element);

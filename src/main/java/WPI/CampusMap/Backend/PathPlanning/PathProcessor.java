@@ -1,9 +1,12 @@
 package WPI.CampusMap.Backend.PathPlanning;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashSet;
 import java.util.PriorityQueue;
 
+import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 
 /**
@@ -48,6 +51,9 @@ public abstract class PathProcessor
 			explored = new ArrayList<Node>();
 			frontier = new PriorityQueue<Node>(getNodeCompartor());
 			
+			HashSet<String> whiteList = AllMaps.getInstance().generateWhitelist(keyPoints[i-1].getMap(), keyPoints[i].getMap());
+			System.out.println("WhiteList:" + whiteList);
+			
 			goal = new Node(keyPoints[i], null, 0);
 			Node currentNode = new Node(keyPoints[i - 1], previousEnd , 0);
 			
@@ -56,10 +62,11 @@ public abstract class PathProcessor
 //				System.out.println(previousEnd.point);
 			}
 //			System.out.println();
-			
+			int count = 0;
 			while(!currentNode.equals(goal) ){
+				count++;
 				addToExplored(currentNode);
-				expandNode(currentNode);
+				expandNode(currentNode, whiteList);
 				currentNode = pullFromFrontier();
 				if(currentNode == null){
 					throw new PathNotFoundException(keyPoints[i-1], keyPoints[i]);
@@ -69,10 +76,11 @@ public abstract class PathProcessor
 			
 		}
 		goal = null;
+		if(previousEnd == null) throw new PathNotFoundException(keyPoints[0], keyPoints[keyPoints.length]);
 		Path path = new Path(previousEnd);
 		return path;
 	}
-	
+
 	/**
 	 * Processes a node.
 	 * @param node The node to process.
@@ -89,12 +97,25 @@ public abstract class PathProcessor
 	 */
 	protected void expandNode(Node node)
 	{
-		ArrayList<IPoint> neighbors= node.getNeighbors(new ArrayList<String>());
+		expandNode(node, new HashSet<String>());
+	}
+
+	/**
+	 * Expands a node to all valid neighbors.
+	 * @param node The node to expand.
+	 * @param whiteList list of maps allowed to load
+	 */
+	private void expandNode(Node node, HashSet<String> whiteList) {
+		ArrayList<IPoint> neighbors= node.getNeighbors(whiteList);
 		for(IPoint point: neighbors){
 			Node newNode = new Node(point, node, node.getDistance(point));
 			processNode(newNode);
-			if(!alreadyExplored(newNode))pushToFrontier(newNode);
+			if(!alreadyExplored(newNode)){
+				if(point.getMap().split("-")[0].equals("Gordon_Library")) System.out.println("Found goardon library");
+				pushToFrontier(newNode);
+			}
 		}
+		
 	}
 	
 	/**

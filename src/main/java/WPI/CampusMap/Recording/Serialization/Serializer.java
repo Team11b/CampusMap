@@ -29,6 +29,7 @@ public class Serializer {
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 
 			out.writeObject(tosave);
+			System.out.println("Saved");
 
 			out.close();
 			fileOut.close();

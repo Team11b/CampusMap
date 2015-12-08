@@ -2,6 +2,7 @@ package WPI.CampusMap.Backend.Core.Point;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
@@ -90,7 +91,7 @@ public class ProxyPoint implements IPoint {
 	}
 
 	@Override
-	public ArrayList<IPoint> getValidNeighbors(ArrayList<String> whitelist) {
+	public ArrayList<IPoint> getValidNeighbors(HashSet<String> whitelist) {
 		load();
 		return realPoint.getValidNeighbors(whitelist);
 	}
@@ -149,7 +150,7 @@ public class ProxyPoint implements IPoint {
 	}
 
 	@Override
-	public HashMap<String, String> getNeighborPointsOnOtherMaps() {
+	public HashMap<String, ArrayList<String>> getNeighborPointsOnOtherMaps() {
 		load();
 		return realPoint.getNeighborPointsOnOtherMaps();
 	}

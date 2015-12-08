@@ -1,8 +1,11 @@
 package WPI.CampusMap.Backend.Core.Map;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
+
+import WPI.CampusMap.Recording.Serialization.Serializer;
 
 public class AllMaps {
     public final String CampusMap = "CampusMap";
@@ -33,9 +36,11 @@ public class AllMaps {
 	}
 
 	public IMap getMap(String mapKey) {
-//		if (!(AllMaps.allMaps.containsKey(mapKey))) {
-//			OLSSerializer.read(mapKey);
-//		}
+		if (!(AllMaps.allMaps.containsKey(mapKey))) {
+			ProxyMap map = Serializer.proxyLoad(mapKey);
+			addMap(map);
+			return map;
+		}
 		return AllMaps.allMaps.get(mapKey);
 	}
 
@@ -53,33 +58,45 @@ public class AllMaps {
 		whitelist.add(startMap);
 		
 		//If same map
-		if(startMap.equals(destinationMap)) return whitelist;
+		if(startMap.equals(destinationMap)) {
+			System.out.println("Same map");
+			return whitelist;
+		}
 		
 		String startBuilding = startMap.split("-")[0];
 		String destBuilding = destinationMap.split("-")[0];
 		
 		//If same building
 		if(startBuilding.equals(destBuilding)){
+			System.out.println("Same building");
 			buildingDepthFirstSearch(startMap,destinationMap,new ArrayList<String>(), whitelist);
 			return whitelist;
 		}
-		HashSet<String> connectedToCampus =((ProxyMap)getMap(CampusMap)).getConnectedMaps();
-		whitelist.addAll(connectedToCampus);
-		
-		boolean startW = false,destW = false;
+		String[] connectedToCampus = ((ProxyMap)getMap(CampusMap)).getConnectedMaps();
+		System.out.println("Adding campus connected maps");
 		for(String map: connectedToCampus){
+			whitelist.add(map);
+		}
+		
+		boolean startW = false, destW = false;
+		for(String map: connectedToCampus){
+			whitelist.add(CampusMap);
 			String floorBuilding = map.split("-")[0];
+			System.out.println("Ground floor: "+floorBuilding);
 			if(floorBuilding.equals(startBuilding)){
+				System.out.println("Found ground floor of startbuilding:");
 				startW=true;
-				buildingDepthFirstSearch(startMap,floorBuilding,new ArrayList<String>(), whitelist);
+				buildingDepthFirstSearch(startMap,map,new ArrayList<String>(), whitelist);
 			}else if(floorBuilding.equals(destBuilding)){
+				System.out.println("Found ground floor of destbuilding:");
 				destW=true;
-				buildingDepthFirstSearch(floorBuilding,destBuilding,new ArrayList<String>(), whitelist);
+				buildingDepthFirstSearch(map,destinationMap,new ArrayList<String>(), whitelist);
 			}
 		}
 		
 		//if path found between campus map and both start and dest floors
 		if(startW && destW){
+			System.out.println("Returning full whitelist");
 			return whitelist;
 		}
 		//no path found return empty list
@@ -92,25 +109,31 @@ public class AllMaps {
 		String currentBuilding = current.split("-")[0];
 		String destBuilding = dest.split("-")[0];
 		
-		if(!currentBuilding.equals(destBuilding)) return false;
+		if(!currentBuilding.equals(destBuilding)){
+			System.out.println("Different buildings");
+			return false;
+		}
 		
 		visited.add(current);
 		if(current.equals(dest)){
+			System.out.println("Found path:"+ current);
 			whiteList.add(current);
 			return true;
 		}
-		
+
 		for(String neighbor: ((ProxyMap) getMap(current)).getConnectedMaps()){
 			String neighborBuilding = neighbor.split("-")[0];
 			
 			if(!visited.contains(neighbor)&& neighborBuilding.equals(currentBuilding)){
 				if(buildingDepthFirstSearch(neighbor, dest, visited, whiteList)){
 					whiteList.add(current);
+					System.out.println(current);
 					return true;
 				}
 			}
 			
 		}
+//		System.out.println(Arrays.toString(((ProxyMap) getMap(current)).getConnectedMaps()));
 		return false;
 	}
 	

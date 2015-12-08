@@ -182,7 +182,7 @@ public class AppUIObject {
 	    {
 	    	if(mapXMLStrings.get(j) != null){
 	    		String fileName = mapXMLStrings.get(j);
-	    		AllMaps.getInstance().addMap(new ProxyMap(fileName));
+	    		AllMaps.getInstance().getMap(fileName);
 	    		mapDropDown.addItem(fileName);
 	    	}
 	    }

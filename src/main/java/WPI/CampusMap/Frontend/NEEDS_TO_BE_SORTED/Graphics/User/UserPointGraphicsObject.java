@@ -72,7 +72,7 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 	{
 		lastRoutedPath = null;
 		
-		System.out.println(selectedRoute);
+//		System.out.println(selectedRoute);
 
 		IPoint[] routeArray = new IPoint[selectedRoute.size()];
 		

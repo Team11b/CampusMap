@@ -2,6 +2,8 @@ package WPI.CampusMap.Backend.Core.Map;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashSet;
 
 import javax.swing.ImageIcon;
@@ -13,21 +15,25 @@ import WPI.CampusMap.Recording.Serialization.Serializer;
 
 public class ProxyMap implements IMap, Serializable {
 
-	private static final long serialVersionUID = 4921953163121951580L;
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 8163839906797395312L;
 	private String mapName;
 	private transient RealMap realMap;
-	private ArrayList<String> namedPoints;
-	private HashSet<String> connectedMaps;
+	private String[] namedPoints;
+	private String[] connectedMaps;
 	
 	public ProxyMap(String name){
 		this.mapName = name;
-        namedPoints = new ArrayList<String>();
-        connectedMaps =new HashSet<String>(); 
+        namedPoints = new String[0];
+        connectedMaps = new String[0]; 
 
 	}
 	
 	private void load(){
 		if(realMap == null){
+//			System.out.println("Connected Map:" + Arrays.toString(connectedMaps));
 			realMap = Serializer.realLoad(mapName);
 			
 			//incase the map has not been created, create a new one
@@ -107,23 +113,27 @@ public class ProxyMap implements IMap, Serializable {
 	@Override
 	public void save() {
 		if(realMap != null){
+//			System.out.println(this.getName());
 			realMap.save();
 			
+			ArrayList<String> tempNamedPoints = new ArrayList<String>(8);
+			HashSet<String> tempConnectedMaps = new HashSet<String>(6);
 			
-			namedPoints = new ArrayList<String>();
-			connectedMaps = new HashSet<String>(8);
 			for(RealPoint point: realMap.getAllPoints()){
 				String type = point.getType();
-				if(!point.getId().contains("-") && !type.equals(RealPoint.ELEVATOR) && !type.equals(RealPoint.STAIRS)){
-					namedPoints.add(point.toString());
+				if(!point.getId().contains("-")){
+//					System.out.println("Named Point");
+					tempNamedPoints.add(point.toString());
 				}
 				for(String connectedMap: point.getNeighborPointsOnOtherMaps().keySet()){
-					if(!connectedMaps.contains(connectedMap)) connectedMaps.add(connectedMap);
+//					System.out.println("Connecting map: " + connectedMap);
+					tempConnectedMaps.add(connectedMap);
 				}
 			}
-
+			namedPoints = tempNamedPoints.toArray(new String[tempNamedPoints.size()]);
+			connectedMaps = tempConnectedMaps.toArray(new String[tempConnectedMaps.size()]);
+			
 			Serializer.save(this);
-			// TODO Add methods to save metadata
 		}
 
 	}
@@ -134,16 +144,16 @@ public class ProxyMap implements IMap, Serializable {
 	}
 
 	@Override
-	public ArrayList<RealPoint> getAllPoints() {
+	public Collection<RealPoint> getAllPoints() {
 		load();
 		return realMap.getAllPoints();
 	}
 	
-	public HashSet<String> getConnectedMaps() {
+	public String[] getConnectedMaps() {
 		return connectedMaps;
 	}
 	
-	public ArrayList<String> getNamedPoints() {
+	public String[] getNamedPoints() {
 		return namedPoints;
 	}
 	
@@ -155,6 +165,11 @@ public class ProxyMap implements IMap, Serializable {
 	public boolean connectedToCampus() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+	
+	@Override
+	public String toString(){
+		return mapName;
 	}
 
 }
