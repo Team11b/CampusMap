@@ -4,6 +4,8 @@ import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
+
+import org.apache.commons.lang3.NotImplementedException;
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
@@ -12,14 +14,18 @@ import org.apache.commons.mail.SimpleEmail;
 import com.twilio.sdk.TwilioRestException;
 
 import WPI.CampusMap.Backend.Additional.InternetFeatures.SMS.SMSClient;
+import WPI.CampusMap.Backend.Core.Map.IMap;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
+import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicalMap;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.User.*;
 
 public class UserMode extends UIMode{
 	//Singleton
 	private static UserMode instance;
 	
-	private UserGraphicalMap graphicalMap;
+	//private UserGraphicalMap graphicalMap;
+	private GraphicalMap graphicsMap;
+	protected IMap currentMap;
 	
 	public UserMode(AppMainWindow window)
 	{
@@ -152,8 +158,23 @@ public class UserMode extends UIMode{
 	}
 
 	@Override
-	public void loadMap(String mapName)
-	{
+	public void loadMap(String mapName){
+		System.out.println("UI: " + mapName);
+		
+		synchronized(this)
+		{
+			System.out.println(mapName);
+			//IMap newMap = new Map(mapName);
+			//System.out.println(newMap.getAllPoints().keySet());
+			//currentMap = AllMaps.getMap(mapName);
+			
+			if(graphicsMap != null)
+				graphicsMap.unload();
+			
+			onModeEntered();
+			throw new NotImplementedException("getMap?");
+			
+		}
 	}
 
 	protected static ActionListener emailAction = new ActionListener() {

@@ -1,6 +1,9 @@
 package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI;
 
+import java.awt.AlphaComposite;
+import java.awt.Color;
 import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.event.MouseEvent;
 
 import javax.xml.stream.XMLStreamException;
@@ -10,7 +13,9 @@ import org.apache.commons.lang3.NotImplementedException;
 import WPI.CampusMap.Backend.Core.Map.IMap;
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicalMap;
+import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicsObject;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.Dev.DevGraphicalMap;
+import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicalMap.GraphicsBatchComparator;
 
 public class DevMode extends UIMode 
 {
@@ -71,6 +76,7 @@ public class DevMode extends UIMode
 		}
 		
 		clearNodeInfo();
+		
 		/*if(mapPanel.getDevMode() != EditorToolMode.Point){
 			mapPanel.setDevMode(EditorToolMode.Point);
 		}
@@ -94,6 +100,7 @@ public class DevMode extends UIMode
 			currentEditMode = SELECT_MODE;
 		}
 		clearNodeInfo();
+		
 		/*if(mapPanel.getDevMode() != EditorToolMode.DeletePoint){
 		mapPanel.setDevMode(EditorToolMode.DeletePoint);
 		}
@@ -212,39 +219,90 @@ public class DevMode extends UIMode
 	}
 
 	@Override
-	public void onDraw(Graphics2D graphics) {
-		// TODO Auto-generated method stub
+	public final void onDraw(Graphics2D graphics)
+	{		
+		/*graphics.clearRect(0, 0, panel.getWidth(), panel.getWidth());
 		
+		graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		
+		graphics.setTransform(transform);
+
+		if (map == null)
+			return;
+		
+		synchronized (this)
+		{
+			graphics.setColor(Color.white);
+			graphics.drawImage(map.getLoadedImage().getImage(), 0, 0, panel.getWidth(), panel.getHeight(), null);
+			
+			batchList.sort(new GraphicsBatchComparator());
+			for(int i = 0; i < batchList.size(); i++)
+			{
+				GraphicsObject<?, ?> go = batchList.get(i);
+				if(go.isDelelted())
+				{
+					batchList.remove(i);
+					
+					i--;
+				}
+				else
+				{
+					graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, go.getAlpha()));
+					graphics.setColor(go.getColor());
+					go.onDraw(graphics);
+				}
+			}
+		}*/
+		throw new NotImplementedException("Do you even graphical wapper");
 	}
 
 	@Override
 	public void onMouseClickMap(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+		/*synchronized (panel)
+		{
+			panel.graphicsMap.mouseClick(e);
+		}*/
+		throw new NotImplementedException("Do you even graphical wapper");
 	}
 
 	@Override
 	public void onMouseEnterMap(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+		//mappanel didn't use it.
 	}
 
 	@Override
 	public void onMouseLeaveMap(MouseEvent e) {
-		// TODO Auto-generated method stub
+		/*
+		if(panel.graphicsMap == null)
+			return;
+		
+		synchronized (panel)
+		{
+			panel.graphicsMap.mouseExit(e);
+		}*/
+		throw new NotImplementedException("Do you even graphical wapper");
 		
 	}
 
 	@Override
 	public void onMouseMoveOverMap(MouseEvent e) {
 		// TODO Auto-generated method stub
-		
+		throw new NotImplementedException("Do you even graphical wapper");
 	}
 
 	@Override
 	public void onMouseDraggedOverMap(MouseEvent e) {
 		// TODO Auto-generated method stub
+		/*if(panel.graphicsMap == null)
+			return;
 		
+		synchronized (panel)
+		{
+			panel.graphicsMap.mouseDrag(e);
+		}*/
+		throw new NotImplementedException("Do you even graphical wapper");
 	}
 
 	@Override

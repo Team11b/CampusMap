@@ -387,7 +387,7 @@ public abstract class GraphicalMap
 		return new RealMouseEvent((float)dst.getX(), (float)dst.getY(), e.getButton(), e.isAltDown(), e.isControlDown(), e.isShiftDown());
 	}
 	
-	private class GraphicsBatchComparator implements Comparator<GraphicsObject<?, ?>>
+	public class GraphicsBatchComparator implements Comparator<GraphicsObject<?, ?>>
 	{
 		@Override
 		public int compare(GraphicsObject<?, ?> arg0, GraphicsObject<?, ?> arg1) 
