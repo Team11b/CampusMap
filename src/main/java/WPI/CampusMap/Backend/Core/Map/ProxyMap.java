@@ -2,7 +2,6 @@ package WPI.CampusMap.Backend.Core.Map;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.HashSet;
 
 import javax.swing.ImageIcon;
@@ -141,8 +140,11 @@ public class ProxyMap implements IMap, Serializable {
 	}
 	
 	public HashSet<String> getConnectedMaps() {
-		load();
 		return connectedMaps;
+	}
+	
+	public ArrayList<String> getNamedPoints() {
+		return namedPoints;
 	}
 	
 	public void onLoad(){
