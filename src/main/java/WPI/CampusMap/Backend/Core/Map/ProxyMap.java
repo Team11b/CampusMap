@@ -138,5 +138,11 @@ public class ProxyMap implements IMap, Serializable {
 		load();
 		return realMap.getAllPoints();
 	}
+	
+	public HashSet<String> getConnectedMaps() {
+		load();
+		return connectedMaps;
+	}
+
 
 }
