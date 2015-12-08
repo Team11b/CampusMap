@@ -31,7 +31,7 @@ public class AStarPathProcessor extends PathProcessor {
 			// on map with goal
 			if ((p1.getMap().equals(pGoal.getMap()) && (!(p2.getMap().equals(pGoal.getMap()))))) {
 				return -1;
-			} else if ((!(p1.getMap().equals(pGoal.getMap())) && (!(p2.getMap().equals(pGoal.getMap()))))) {
+			} else if ((!(p1.getMap().equals(pGoal.getMap())) && ((p2.getMap().equals(pGoal.getMap()))))) {
 				return 1;
 			} else if ((p1.getMap().equals(pGoal.getMap()) && (p2.getMap().equals(pGoal.getMap())))) {
 				return Float.compare(n1.getTotalCost(), n2.getTotalCost());
@@ -54,12 +54,12 @@ public class AStarPathProcessor extends PathProcessor {
 			}
 			
 			// connects to campus
-			if ((p1.connectToCampus()) && (!(p2.connectToCampus()))) {
-				return -1;
-			}
-			else if ((!(p1.connectToCampus())) && (p2.connectToCampus())) {
-				return 1;
-			}
+//			if ((p1.connectToCampus()) && (!(p2.connectToCampus()))) {
+//				return -1;
+//			}
+//			else if ((!(p1.connectToCampus())) && (p2.connectToCampus())) {
+//				return 1;
+//			}
 
 			return Float.compare(n1.getTotalCost(), n2.getTotalCost());
 

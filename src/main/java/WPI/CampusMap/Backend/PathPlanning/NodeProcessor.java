@@ -35,6 +35,7 @@ public abstract class NodeProcessor
 	/**
 	 * Executes this node processor and all linked children on the given node.
 	 * @param node to process
+	 * @param goal the goal get the heuristic to.
 	 */
 	//TODO public or private?
 	public void execute(Node node, Node goal)
@@ -48,6 +49,7 @@ public abstract class NodeProcessor
 	/**
 	 * Processes the given node.
 	 * @param node to process
+	 * @param goal the goal get the heuristic to.
 	 */
 	protected abstract void onProcessNode(Node node, Node goal);
 }
