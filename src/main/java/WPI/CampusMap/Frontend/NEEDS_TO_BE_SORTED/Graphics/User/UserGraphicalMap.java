@@ -31,10 +31,21 @@ public class UserGraphicalMap extends GraphicalMap
 		{
 			new UserPointGraphicsObject((RealPoint) p, this);
 		}
+		
+		setPathSections(getMode(UserMode.class).getRoutedPath());
 	}
 	
+	/**
+	 * Refreshes the routed path sections to a new list of path sections.
+	 * @param pathSections The new path sections.
+	 */
 	public void setPathSections(LinkedList<Section> pathSections)
 	{
+		for(UserPathGraphicsObject graphicalSection : getObjectsOfType(UserPathGraphicsObject.class))
+		{
+			graphicalSection.delete();
+		}
+		
 		for(Section section : pathSections)
 		{
 			new UserPathGraphicsObject(section, this);
