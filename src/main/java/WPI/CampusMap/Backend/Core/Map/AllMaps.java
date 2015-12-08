@@ -38,6 +38,9 @@ public class AllMaps {
 	public IMap getMap(String mapKey) {
 		if (!(AllMaps.allMaps.containsKey(mapKey))) {
 			ProxyMap map = Serializer.proxyLoad(mapKey);
+			if(map == null){
+				map = new ProxyMap(mapKey);
+			}
 			addMap(map);
 			return map;
 		}

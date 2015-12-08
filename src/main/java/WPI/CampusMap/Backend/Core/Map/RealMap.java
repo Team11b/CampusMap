@@ -22,7 +22,7 @@ public class RealMap implements IMap, java.io.Serializable {
 	private float scale;
 	private String name;
 	private HashMap<String, RealPoint> allPoints;
-	private ImageIcon loadedImage;
+	private transient ImageIcon loadedImage;
 
 	/**
 	 * Creates a map with the given name and default values
