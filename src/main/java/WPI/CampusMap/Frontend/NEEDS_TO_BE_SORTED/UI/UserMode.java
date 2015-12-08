@@ -185,7 +185,7 @@ public class UserMode extends UIMode {
 		}
 	};
 
-	protected static ActionListener txtExpoterAction = new ActionListener() {
+	protected static ActionListener txtExporterAction = new ActionListener() {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			onTxt();

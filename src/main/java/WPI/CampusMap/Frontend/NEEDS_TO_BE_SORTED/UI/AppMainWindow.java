@@ -98,7 +98,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 		mnFile.add(mntmSaveAsPdf);
 
 		JMenuItem mntmSaveAsTxt = new JMenuItem("Save As TXT");
-		mntmSaveAsTxt.addActionListener(UserMode.txtExpoterAction);
+		mntmSaveAsTxt.addActionListener(UserMode.txtExporterAction);
 		mnFile.add(mntmSaveAsTxt);
 
 		JMenu mnSendAs = new JMenu("Send As...");
