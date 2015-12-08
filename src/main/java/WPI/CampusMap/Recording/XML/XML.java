@@ -28,6 +28,7 @@ import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Map.Map;
 import WPI.CampusMap.Backend.Core.Point.Point;
 
+@Deprecated
 public class XML {
 	public static final String filePath = "XML/";
 	public static final String fileEnd = ".xml";

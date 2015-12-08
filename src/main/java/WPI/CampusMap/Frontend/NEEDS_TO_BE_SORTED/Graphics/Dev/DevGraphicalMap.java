@@ -1,7 +1,8 @@
 package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.Dev;
 
-import WPI.CampusMap.Backend.Core.Map.Map;
+import WPI.CampusMap.Backend.Core.Map.IMap;
 import WPI.CampusMap.Backend.Core.Point.Point;
+import WPI.CampusMap.Backend.Core.Point.RealPoint;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Dev.EditorToolMode;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicalMap;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.RealMouseEvent;
@@ -11,17 +12,17 @@ import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI_OLD.MapPanel;
 public class DevGraphicalMap extends GraphicalMap
 {
 	private EditorToolMode mode = EditorToolMode.None;	
-	public DevGraphicalMap(Map map, MapPanel panel) {		
+	public DevGraphicalMap(IMap map, MapPanel panel) {		
 		super(map, panel);	
 		System.out.println("Dev mode entered.");
 	}
 
 	@Override
-	public void spawnMap(Map map)
+	public void spawnMap(IMap map)
 	{
 		DevEdgeGraphicsObject.cleanupEdges();
 		
-		for(Point p : map.getAllPoints().values())
+		for(RealPoint p : map.getAllPoints())
 		{
 			new DevPointGraphicsObject(p, this);
 		}
@@ -50,7 +51,8 @@ public class DevGraphicalMap extends GraphicalMap
 	public boolean onMouseClick(RealMouseEvent e) {
 		if (mode == EditorToolMode.Point && getHoverObject() == null)
 		{
-			Point newPoint = new Point(getMap().getName());
+			RealPoint newPoint = new RealPoint(getMap().getName());
+			System.out.println(newPoint.getMap());
 			newPoint.setCoord(getWorldCoord((int) e.getX(), (int) e.getY()));
 			getMap().addPoint(newPoint);
 

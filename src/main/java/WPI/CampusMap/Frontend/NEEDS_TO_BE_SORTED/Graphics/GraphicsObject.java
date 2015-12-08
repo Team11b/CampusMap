@@ -3,8 +3,6 @@ package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics;
 import java.awt.Color;
 import java.awt.Graphics2D;
 
-import WPI.CampusMap.Backend.Core.Ref.Ref;
-
 /**
  * An object that represents a piece of data graphically.
  * @author Benny
@@ -34,7 +32,7 @@ public abstract class GraphicsObject<R, M extends GraphicalMap>
 	
 	/**
 	 * Gets the graphical map that owns this object.
-	 * @return
+	 * @return M BENNY FILL THIS IN
 	 */
 	public M getOwner()
 	{

@@ -1,5 +1,7 @@
 package WPI.CampusMap.Backend.PathPlanning;
 
+import java.util.ArrayList;
+
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 
 /**
@@ -9,13 +11,18 @@ import WPI.CampusMap.Backend.Core.Point.IPoint;
  */
 public final class Node
 {
+	private IPoint point;
+	private Node last;
+	private float accumulatedDistance;
+	private float heuristic;
 	/**
 	 * Represents a root node.
 	 * @param point The point that this node represents.
 	 */
 	public Node(IPoint point)
 	{
-		throw new UnsupportedOperationException("not implemented");
+		this.point = point;
+		this.accumulatedDistance = 0;
 	}
 	
 	/**
@@ -26,16 +33,52 @@ public final class Node
 	 */
 	public Node(IPoint point, Node last, float distanceFromLast)
 	{
-		throw new UnsupportedOperationException("not implemented");
+		this.point = point;
+		this.last = last;
+		if(last != null){
+			this.accumulatedDistance = last.getAccumulatedDistance()+ distanceFromLast;
+		} else {
+			this.accumulatedDistance = 0;
+		}
+		
 	}
 	
 	/**
 	 * Gets the last node traveled.
-	 * @return
+	 * @return last traveled node
 	 */
 	public Node getLast()
 	{
-		throw new UnsupportedOperationException("not implemented");
+		return last;
+	}
+	
+	/**
+	 * Gets the valid neighbors of the contained point.
+	 * @param whitelist list of allowed maps
+	 * @return the valid neighbors
+	 */
+	public ArrayList<IPoint> getNeighbors(ArrayList<String> whitelist)
+	{
+		return point.getValidNeighbors(whitelist);
+	}
+	
+	/**
+	 * Gets the valid neighbors of the contained point.
+	 * @return the valid neighbors
+	 */
+	public ArrayList<IPoint> getNeighbors()
+	{
+		return point.getNeighborsP();
+	}
+	
+	/**
+	 * Gets distance  to the given point.
+	 * @param point Point to measure distance to
+	 * @return the distance
+	 */
+	public float getDistance(IPoint point)
+	{
+		return (float) this.point.distance(point);
 	}
 	
 	/**
@@ -44,7 +87,7 @@ public final class Node
 	 */
 	public float getTotalCost()
 	{
-		throw new UnsupportedOperationException("not implemented");
+		return accumulatedDistance + heuristic;
 	}
 	
 	/**
@@ -53,7 +96,7 @@ public final class Node
 	 */
 	public float getAccumulatedDistance()
 	{
-		throw new UnsupportedOperationException("not implemented");
+		return accumulatedDistance;
 	}
 	
 	/**
@@ -62,7 +105,7 @@ public final class Node
 	 */
 	public float getHeuristicCost()
 	{
-		throw new UnsupportedOperationException("not implemented");
+		return heuristic;
 	}
 	
 	/**
@@ -71,7 +114,7 @@ public final class Node
 	 */
 	protected void modifyHeuristicCost(float delta)
 	{
-		throw new UnsupportedOperationException("not implemented");
+		heuristic += delta;
 	}
 	
 	/**
@@ -80,6 +123,22 @@ public final class Node
 	 */
 	protected void setHeuristicCost(float newCost)
 	{
-		throw new UnsupportedOperationException("not implemented");
+		this.heuristic = newCost;
 	}
+	
+	@Override
+	public boolean equals(Object other){
+		if (other instanceof Node) {
+			Node that = (Node) other;
+			boolean result = that.point.equals(point);
+			return result;
+		}
+		return false;
+		
+	}
+	
+	public IPoint getPoint(){
+		return point;
+	}
+
 }

@@ -1,14 +1,20 @@
 package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.User;
 
 import java.awt.Color;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
-import WPI.CampusMap.Backend.Core.Map.Map;
-import WPI.CampusMap.Backend.Core.Point.Point;
+import WPI.CampusMap.Backend.Core.Map.AllMaps;
+import WPI.CampusMap.Backend.Core.Point.IPoint;
+import WPI.CampusMap.Backend.Core.Point.RealPoint;
 import WPI.CampusMap.Backend.Core.Ref.TypedRef;
-import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Path.MultiPath;
-import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.AStar.AStar;
+import WPI.CampusMap.Backend.PathPlanning.AStarPathProcessor;
+import WPI.CampusMap.Backend.PathPlanning.DistanceProcessor;
+import WPI.CampusMap.Backend.PathPlanning.Path;
+import WPI.CampusMap.Backend.PathPlanning.Path.Section;
+import WPI.CampusMap.Backend.PathPlanning.PathFinder;
+import WPI.CampusMap.Backend.PathPlanning.PathNotFoundException;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.PointGraphicsObject;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.RealMouseEvent;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI_OLD.AppUIObject;
@@ -16,7 +22,7 @@ import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI_OLD.AppUIObject;
 public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMap>
 {
 	private static LinkedList<TypedRef<UserPointGraphicsObject>> selectedRoute = new LinkedList<>();
-	private static MultiPath lastRoutedPath;
+	private static Path lastRoutedPath;
 	
 	public static LinkedList<TypedRef<UserPointGraphicsObject>> getSelectedRoute()
 	{
@@ -62,27 +68,45 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 		selectedRoute.remove(index);
 	}
 	
-	public static MultiPath route()
+	public static Path route()
 	{
 		lastRoutedPath = null;
 		
-		for(int i = 1; i < selectedRoute.size(); i++)
-		{
-			TypedRef<UserPointGraphicsObject> current = selectedRoute.get(i);
-			TypedRef<UserPointGraphicsObject> last = selectedRoute.get(i - 1);
-			
-			MultiPath subRoute = AStar.multi_AStar(last.getValue().getRepresentedObject(), current.getValue().getRepresentedObject());
-			
-			if(lastRoutedPath != null)
-				lastRoutedPath = MultiPath.join(lastRoutedPath, subRoute);
-			else
-				lastRoutedPath = subRoute;
+		System.out.println(selectedRoute);
+
+		IPoint[] routeArray = new IPoint[selectedRoute.size()];
+		
+		for(int i = 0; i < selectedRoute.size(); i++){
+			routeArray[i] = selectedRoute.get(i).getValue().getRepresentedObject();
+		}
+
+		try {
+			lastRoutedPath = PathFinder.getPath(routeArray,	new AStarPathProcessor(new DistanceProcessor()));
+		} catch (PathNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
-		for(String map : lastRoutedPath.getReferencedMaps())
+		HashMap<String, LinkedList<Section>> holder = new HashMap<String, LinkedList<Section>>();
+		for(Section section : lastRoutedPath)
 		{
-			UserGraphicalMap graphicalMap = UserGraphicalMap.loadGraphicalMap(Map.getMap(map));
-			graphicalMap.setPathSections(lastRoutedPath.getMapPath(map));
+			String map = section.getMap();
+			if(holder.get(map) == null){
+				LinkedList<Section> newLL = new LinkedList<Section>();
+				newLL.add(section);
+				holder.put(map, newLL);
+			}
+			else{
+				holder.get(map).add(section);
+			}
+			UserGraphicalMap graphicalMap = UserGraphicalMap.loadGraphicalMap(AllMaps.getInstance().getMap(map));
+			graphicalMap.setPathSections(new LinkedList<Section>());
+		}
+		
+		for(String map: holder.keySet()){
+			UserGraphicalMap graphicalMap = UserGraphicalMap.loadGraphicalMap(AllMaps.getInstance().getMap(map));
+			graphicalMap.setPathSections(holder.get(map));
+			
 		}
 		
 		//clearSelected();
@@ -102,7 +126,7 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 		AppUIObject.getInstance().onRouteCleared();
 	}
 	
-	public UserPointGraphicsObject(Point backend, UserGraphicalMap owner) 
+	public UserPointGraphicsObject(RealPoint backend, UserGraphicalMap owner) 
 	{
 		super(backend, owner);		
 		

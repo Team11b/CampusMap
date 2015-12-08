@@ -6,14 +6,13 @@ import java.util.UUID;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Map.Map;
-import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.AStar.Frontier;
-import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.Node.Node;
 
 /**
  * 
  * @author Max Stenke
  *
  */
+@Deprecated
 public class Point implements java.io.Serializable {
 	/**
 	 * 
@@ -130,23 +129,12 @@ public class Point implements java.io.Serializable {
 				neighbors.remove(neighbor);
 		}
 	}
-	
-	public void buildFrontier(Frontier frontier, Node fromNode, Point goal)
-	{
-		for(Point localPoint : getNeighborsP())
-		{
-			if(localPoint == null)
-				System.out.println("R");
-			if(localPoint.getId().equals(goal.id) && localPoint.getMap().equals(goal.getMap()))
-				System.out.println("T");
-			Node newNode = new Node(localPoint, fromNode, goal);
-			frontier.addToFrontier(newNode);
-		}
-	}
 
 	/**
 	 * returns a list of all neighbors of this point which are valid locations a
 	 * valid location is any Point which does not have a type of wall
+	 * 
+	 * @param whitelist Names of maps allowed to be loaded
 	 * 
 	 * @return an array of any neighbor points which do not have a type wall
 	 */

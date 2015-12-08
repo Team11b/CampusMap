@@ -73,8 +73,8 @@ public class MapPanel extends JPanel implements Runnable{
 	{
 		synchronized (this)
 		{
-			if(currentMap != null)
-				graphicsMap = UserGraphicalMap.loadGraphicalMap(currentMap, this);
+			//if(currentMap != null)
+				//graphicsMap = UserGraphicalMap.loadGraphicalMap(currentMap, this);
 			
 			isDevMode = false;
 		}
@@ -84,8 +84,8 @@ public class MapPanel extends JPanel implements Runnable{
 	{
 		synchronized (this)
 		{
-			if(currentMap != null)
-				graphicsMap = new DevGraphicalMap(currentMap, this);
+			//if(currentMap != null)
+				//graphicsMap = new DevGraphicalMap(currentMap, this);
 			
 			isDevMode = true;
 		}

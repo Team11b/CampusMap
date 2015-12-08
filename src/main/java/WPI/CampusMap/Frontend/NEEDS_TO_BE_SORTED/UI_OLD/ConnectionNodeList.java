@@ -12,12 +12,11 @@ import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 
-import WPI.CampusMap.Backend.Core.Point.ConnectionPoint;
-import WPI.CampusMap.Backend.Core.Point.Point;
+import WPI.CampusMap.Backend.Core.Point.IPoint;
 
 public class ConnectionNodeList extends  JComponent
 {
-	private ConnectionPoint editingPoint;
+	private IPoint editingPoint;
 	private Panel displayPanel;
 	
 	public ConnectionNodeList()
@@ -38,14 +37,21 @@ public class ConnectionNodeList extends  JComponent
 		btnAdd.addActionListener(new AddButtonListener());
 	}
 	
-	public void setConnectionPoint(Point point)
+	public void setConnectionPoint(IPoint point)
 	{
-		if(point instanceof ConnectionPoint)
+		if(point != null && !point.getType().equals("hallway"))
 		{
-			editingPoint = (ConnectionPoint)point;
+			System.out.println("Point: " + point + "'s type: "+ point.getType());
+			editingPoint = point;
 			clearElements();
 			
-			HashMap<String, String> connections = editingPoint.getLinkedPoints();
+			HashMap<String, String> connections= new HashMap<String, String>();
+			for(IPoint nPoint : editingPoint.getNeighborsP()){
+				if(!nPoint.getMap().equals(editingPoint.getMap())){
+					connections.put(nPoint.getMap(), nPoint.getId());
+				}
+			}
+			
 			for(Map.Entry<String, String> entry : connections.entrySet())
 			{
 				createElementFor(entry.getKey(), entry.getValue());
@@ -70,7 +76,12 @@ public class ConnectionNodeList extends  JComponent
 	
 	private void createElementFor(String mapName, String nodeName)
 	{
-		HashMap<String, String> connections = editingPoint.getLinkedPoints();
+		HashMap<String, String> connections= new HashMap<String, String>();
+		for(IPoint nPoint : editingPoint.getNeighborsP()){
+			if(!nPoint.getMap().equals(editingPoint.getMap())){
+				connections.put(nPoint.getMap(), nPoint.getId());
+			}
+		}
 		if(!nodeName.equals(connections.get(mapName)))
 			return;
 		
@@ -82,7 +93,7 @@ public class ConnectionNodeList extends  JComponent
 	
 	public void removeElement(ConnectionNodeElement element)
 	{
-		HashMap<String, String> connections = editingPoint.getLinkedPoints();
+		HashMap<String, String> connections = editingPoint.getNeighborPointsOnOtherMaps();
 		connections.remove(element.getMapName());
 		
 		displayPanel.remove(element);
@@ -92,7 +103,7 @@ public class ConnectionNodeList extends  JComponent
 	
 	private void addBlankConnection()
 	{
-		HashMap<String, String> connections = editingPoint.getLinkedPoints();
+		HashMap<String, String> connections = editingPoint.getNeighborPointsOnOtherMaps();
 		
 		String mapName = "None";
 		if(connections.containsKey(mapName))

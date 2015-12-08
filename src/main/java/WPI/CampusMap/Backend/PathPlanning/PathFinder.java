@@ -13,7 +13,7 @@ public class PathFinder
 	 */
 	public static Path getPath(IPoint[] destinations, PathProcessor processor) throws PathNotFoundException
 	{
-		throw new UnsupportedOperationException("not implemented");
+		return processor.execute(destinations);
 	}
 	
 	/**
@@ -53,6 +53,10 @@ public class PathFinder
 	 */
 	public static Path getPath(IPoint a, IPoint b) throws PathNotFoundException
 	{
-		throw new UnsupportedOperationException("not implemented");
+		IPoint[] destinations = new IPoint[2];
+		destinations[0] = a;
+		destinations[1] = b;
+		
+		return getPath(destinations);
 	}
 }

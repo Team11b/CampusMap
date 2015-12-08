@@ -6,6 +6,7 @@ import java.awt.Font;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
+import java.io.FilenameFilter;
 import java.util.ArrayList;
 
 import javax.swing.AbstractAction;
@@ -23,6 +24,7 @@ import javax.swing.JTextField;
 import javax.swing.JTextPane;
 import javax.swing.JToggleButton;
 import javax.swing.SwingConstants;
+import javax.swing.WindowConstants;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
@@ -30,15 +32,16 @@ import javax.swing.text.StyleContext;
 import javax.swing.text.StyledDocument;
 import javax.xml.stream.XMLStreamException;
 
-import WPI.CampusMap.Backend.Core.Point.Point;
-import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Path.MultiPath;
-import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Route.Instruction;
-import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Route.Route;
+import WPI.CampusMap.Backend.Core.Map.AllMaps;
+import WPI.CampusMap.Backend.Core.Map.ProxyMap;
+import WPI.CampusMap.Backend.Core.Point.RealPoint;
+import WPI.CampusMap.Backend.PathPlanning.Path;
+import WPI.CampusMap.Backend.PathPlanning.Route.Instruction;
+import WPI.CampusMap.Backend.PathPlanning.Route.Route;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Dev.EditorToolMode;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.Dev.DevPointGraphicsObject;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.User.UserPathGraphicsObject;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.User.UserPointGraphicsObject;
-import WPI.CampusMap.Recording.Serialization.OLSSerializer;
 
 public class AppUIObject {
 	private static AppUIObject instance;
@@ -49,7 +52,7 @@ public class AppUIObject {
 	}
 	
 	protected boolean devMode = false;
-	private MultiPath lastRoutedPath;
+	private Path lastRoutedPath;
 
 	// UI Elements
 	private final JFrame frame = new JFrame("Path Finder");
@@ -67,7 +70,7 @@ public class AppUIObject {
 	private final JLabel lblMapColon = new JLabel("Map:");
 	private final JButton btnDevMode = new JButton("Dev Mode");
 	private final JButton btnSave = new JButton("Save");
-	private final String[] pointTypes = {Point.HALLWAY, Point.STAIRS, Point.ELEVATOR, Point.OUT_DOOR};
+	private final String[] pointTypes = {RealPoint.HALLWAY, RealPoint.STAIRS, RealPoint.ELEVATOR, RealPoint.OUT_DOOR};
 	private JComboBox<String> typeSelector = new JComboBox<String>();
 	private final String[] weatherTypes = {"Weather", "No Preference", "Prefer Outside", "Prefer Inside"};	private final JTextPane txtDirections = new JTextPane();
 	private JComboBox<String> comboWeather = new JComboBox<String>(weatherTypes);
@@ -78,7 +81,7 @@ public class AppUIObject {
 	//private JToggleButton btnUseWeather = new JToggleButton("Use Weather");
 	private final ArrayList<String> mapXMLStrings = new ArrayList<String>();
 	private JComboBox<String> mapDropDown = new JComboBox<String>();
-	private String[] mapStrings;
+//	private String[] mapStrings;
 	private final SwingAction actionHandler = new SwingAction();
 
 	private final JToggleButton btnRemoveEdge = new JToggleButton("Remove Edge");
@@ -154,10 +157,11 @@ public class AppUIObject {
 	
 	public void resetDropDown(){
 		//get all the files in the directory
-		File[] listOfFiles = new File("maps/").listFiles();
-		int oldIndex = mapDropDown.getSelectedIndex();
-		String oldString = (String) mapDropDown.getItemAt(oldIndex);
-		System.out.println("Oldstring is " + oldString);
+		File[] listOfFiles = new File("maps/").listFiles((new FilenameFilter() {
+		    public boolean accept(File dir, String name) {
+		        return name.toLowerCase().endsWith(".png");
+		    }
+		}));
 		mapXMLStrings.clear();
 	    for (int i = 0; i < listOfFiles.length; i++) {
 	      if (listOfFiles[i].isFile()) {					        
@@ -167,31 +171,24 @@ public class AppUIObject {
 	    }
 	    //put in alphabetical order and convert to string array
 	    mapXMLStrings.sort(null);
-	    mapStrings = new String[mapXMLStrings.size()];
-	    mapStrings = (String[]) mapXMLStrings.toArray(mapStrings);
 	    if(mapDropDown == null){
 	    	mapDropDown = new JComboBox<String>();
 	    }
 	    else{
 	    	mapDropDown.removeAllItems();
 	    }
-	    int q = listOfFiles.length - 1; //because of dat org folder.
-	    for(int j = 0; j < q; j++)
+	    
+	    for(int j = 0; j < listOfFiles.length; j++)
 	    {
-	    	if(mapStrings[j] != null){
-	    		mapDropDown.addItem(mapStrings[j]);
-	    		if(mapStrings[j].equals(oldString)){
-	    			mapDropDown.setSelectedIndex(j);
-	    		}
-	    		
+	    	if(mapXMLStrings.get(j) != null){
+	    		String fileName = mapXMLStrings.get(j);
+	    		AllMaps.getInstance().addMap(new ProxyMap(fileName));
+	    		mapDropDown.addItem(fileName);
 	    	}
 	    }
-	    //mapDropDown = new JComboBox<Object>(mapStrings);	    
-	    // mapDropDown.setSelectedIndex(oldIndex);
-	    System.out.println("old index is " + oldIndex);
 	}
 	
-	public void onPointAddedToRoute(Point newPoint)
+	public void onPointAddedToRoute(RealPoint newPoint)
 	{
 		btnGetDirections.setEnabled(true);
 		
@@ -211,9 +208,9 @@ public class AppUIObject {
 		//TODO: Clear destinations
 	}
 	
-	private Point lastPoint;
+	private RealPoint lastPoint;
 	
-	public void onPointSelected(Point point)
+	public void onPointSelected(RealPoint point)
 	{
 		if(lastPoint != null)
 		{
@@ -235,16 +232,16 @@ public class AppUIObject {
 			switch(typeString)
 			{
 			case "":
-			case Point.HALLWAY:
+			case RealPoint.HALLWAY:
 				index = 0;
 				break;
-			case Point.STAIRS:
+			case RealPoint.STAIRS:
 				index = 1;
 				break;
-			case Point.ELEVATOR:
+			case RealPoint.ELEVATOR:
 				index = 2;
 				break;
-			case Point.OUT_DOOR:
+			case RealPoint.OUT_DOOR:
 				index = 3;
 				break;
 			}
@@ -304,7 +301,7 @@ public class AppUIObject {
 				System.out.println("Send an Email!");
 				break;
 			case "Route me":				
-				MultiPath path = UserPointGraphicsObject.route();
+				Path path = UserPointGraphicsObject.route();
 				Route route = new Route(path);
 				for(Instruction i: route.getRoute()){
 					txtDirections.setText(txtDirections.getText() + i.getInstruction());
@@ -375,6 +372,8 @@ public class AppUIObject {
 
 	public AppUIObject() {
 
+		frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
+		
 		instance = this;
 		
 		// debug statements
@@ -632,7 +631,7 @@ public class AppUIObject {
 				btnRemoveEdge.setSelected(false);
 				btnEdgeMode.setSelected(false);
 				
-				OLSSerializer.write(mapPanel.currentMap);
+				//mapPanel.currentMap.save();
 				//XML.writePoints(mapPanel.currentMap);
 				lblScale.setText("Scale: " + mapPanel.currentMap.getScale() + " inches per ft");
 			}
@@ -765,15 +764,16 @@ public class AppUIObject {
 					
 					if(getTypeSelector().equalsIgnoreCase(DevPointGraphicsObject.getSelected().getRepresentedObject().getType()))
 						return;
+					DevPointGraphicsObject.getSelected().setType(getTypeSelector());
 					
-					if (getTypeSelector() != pointTypes[0])
-					{
-						DevPointGraphicsObject.getSelected().convertToConnectionPoint(getTypeSelector());
-					} 
-					else 
-					{
-						DevPointGraphicsObject.getSelected().convertToNormalPoint(getTypeSelector());
-					}
+//					if (getTypeSelector() != pointTypes[0])
+//					{
+//						DevPointGraphicsObject.getSelected().convertToConnectionPoint(getTypeSelector());
+//					} 
+//					else 
+//					{
+//						DevPointGraphicsObject.getSelected().convertToNormalPoint(getTypeSelector());
+//					}
 				}
 		});
 		
@@ -831,7 +831,7 @@ public class AppUIObject {
 		//typeSelector.setVisible(true);
 		
 		try {
-			loadMap(mapStrings[0]);
+			loadMap(mapDropDown.getItemAt(0));
 		} catch (XMLStreamException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
@@ -860,7 +860,7 @@ public class AppUIObject {
 		}
 	}*/
 	
-	public MultiPath getLastRoute()
+	public Path getLastRoute()
 	{
 		return lastRoutedPath;
 	}

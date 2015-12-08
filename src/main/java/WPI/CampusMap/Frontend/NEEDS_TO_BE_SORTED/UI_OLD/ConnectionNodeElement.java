@@ -5,14 +5,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
-import java.util.HashMap;
 
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 
-import WPI.CampusMap.Backend.Core.Point.ConnectionPoint;
+import WPI.CampusMap.Backend.Core.Map.AllMaps;
+import WPI.CampusMap.Backend.Core.Point.IPoint;
 
 public class ConnectionNodeElement extends JComponent
 {
@@ -22,9 +22,9 @@ public class ConnectionNodeElement extends JComponent
 	private String mapName;
 	private String nodeName;
 	
-	private ConnectionPoint editingPoint;
+	private IPoint editingPoint;
 	
-	public ConnectionNodeElement(ConnectionPoint editingPoint, String mapName, String nodeName)
+	public ConnectionNodeElement(IPoint editingPoint, String mapName, String nodeName)
 	{
 		super();
 		
@@ -87,17 +87,16 @@ public class ConnectionNodeElement extends JComponent
 			String newNodeName = nodeNameField.getText();
 			if(!newMapName.equals(mapName))
 			{
-				HashMap<String, String> connectionMap = editingPoint.getLinkedPoints();
-				connectionMap.remove(mapName);
-				connectionMap.put(newMapName, newNodeName);
+				editingPoint.removeNeighbor(mapName+"/"+nodeName);
+				System.out.println(AllMaps.getInstance().getMap(newMapName).getAllPoints());
+				editingPoint.addNeighbor(AllMaps.getInstance().getMap(newMapName).getPoint(newNodeName));
 				
 				mapName = newMapName;
 				nodeName = newNodeName;
 			}
 			else if(!newNodeName.equals(nodeName))
 			{
-				HashMap<String, String> connectionMap = editingPoint.getLinkedPoints();
-				connectionMap.put(newMapName, newNodeName);
+				editingPoint.addNeighbor(AllMaps.getInstance().getMap(newMapName).getPoint(newNodeName));
 				
 				nodeName = newNodeName;
 			}
