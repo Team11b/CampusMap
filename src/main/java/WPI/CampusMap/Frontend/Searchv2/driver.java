@@ -7,9 +7,9 @@ import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 
-public class mainner {
+public class driver {
 
-	public mainner() {
+	public driver() {
 		// TODO Auto-generated constructor stub
 	}
 
