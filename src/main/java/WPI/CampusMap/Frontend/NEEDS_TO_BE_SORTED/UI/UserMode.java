@@ -83,18 +83,24 @@ public class UserMode extends UIMode{
     
     public static void onEmail() {
     	Email email = new SimpleEmail();
-    	email.setSmtpPort(465);
-    	email.setAuthentication("team0011b", "SoftEng15");
     	email.setDebug(true);
     	email.setHostName("smtp.gmail.com");
+      	email.setSmtpPort(587);
     	email.setAuthenticator(new DefaultAuthenticator("team0011b@gmail.com", "SoftEng15"));
-    	email.setSSLOnConnect(true);
+    	//email.setSSLOnConnect(true);
     	try {
-    		email.setFrom("team0011b@gmail.com");
-        	email.setSubject("TestMail");
-			email.setMsg("This is a test mail ... :-)");
-			email.addTo("wespurgeon@wpi.edu");
-	    	email.send();
+    		email.getMailSession().getProperties().put("mail.smtp.auth", "true");
+    		email.getMailSession().getProperties().put("mail.debug", "true");
+    		email.getMailSession().getProperties().put("mail.smtp.port", "587");
+    		email.getMailSession().getProperties().put("mail.smtp.socketFactory.port", "587");
+    		email.getMailSession().getProperties().put("mail.smtp.socketFactory.class",   "javax.net.ssl.SSLSocketFactory");
+    		email.getMailSession().getProperties().put("mail.smtp.socketFactory.fallback", "false");
+    		email.getMailSession().getProperties().put("mail.smtp.starttls.enable", "true");
+    		email.setFrom("team0011b@gmail.com", "Team 0011b");
+    		email.setSubject("Campus Direction");
+    		email.setMsg("Directions coming soon!");
+    		email.addTo("wespurgeon@wpi.edu", "WPI Campus Map User");
+    		email.send();
 	    	System.out.println("Email sent");
 		} catch (EmailException e) {
 			// TODO Auto-generated catch block
