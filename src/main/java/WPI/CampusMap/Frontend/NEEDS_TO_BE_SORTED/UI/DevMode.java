@@ -10,6 +10,7 @@ import org.apache.commons.lang3.NotImplementedException;
 
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Map.IMap;
+import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Dev.EditorToolMode;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicalMap;
 
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicsObject;
@@ -20,23 +21,18 @@ import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicalMap.GraphicsB
 public class DevMode extends UIMode 
 {
 	
-	private GraphicalMap graphicsMap;
+	//private GraphicalMap graphicsMap;
+	private DevGraphicalMap graphicsMap;
 	protected IMap currentMap;
 	
 	public static DevMode getInstance()
 	{
 		return null;
-	}
+	}	
 	
-	private String currentEditMode;
 	private String pointID;
-	private String pointType;
-	
-	public static final String SELECT_MODE = "selectmode";
-	public static final String PLACE_MODE = "placemode";
-	public static final String REMOVE_MODE = "removemode";
-	public static final String EDGE_MODE = "edgemode";
-	public static final String REMOVE_EDGE_MODE = "removeedgemode";
+	private String pointType;	
+
 	
 	public DevMode(AppMainWindow window)
 	{
@@ -45,135 +41,58 @@ public class DevMode extends UIMode
 	}
 	
 	@Override
-	public void onModeEntered(){
-		//UIMode.switchCurrentMode();
-		currentEditMode = SELECT_MODE;
+	public void onModeEntered(){		
+		graphicsMap.setToolMode(EditorToolMode.None);
 		//UIMode.setWindowText("Dev Mode");		
 		//Switch label to textbox for scale
 		//Show and hide UI elements
 		//if(currentMap != null)
-			//graphicsMap = new DevGraphicalMap(currentMap, this);
+		//	graphicsMap = new DevGraphicalMap(currentMap, this);
 			throw new NotImplementedException("getMap?");
 	}
 	
-	public void setSelect()
-	{
+	public void setSelect(){		
 		System.out.println("Select Mode");
-		currentEditMode = SELECT_MODE;
+		graphicsMap.setToolMode(EditorToolMode.None);
 	}
 
 	public void setPlace(){
 		System.out.println("Place/create");
-		if(currentEditMode != PLACE_MODE){
-			currentEditMode = PLACE_MODE;
-		}
-		else{				
-			currentEditMode = SELECT_MODE;
-		}
-		
-		clearNodeInfo();
-		
-		/*if(mapPanel.getDevMode() != EditorToolMode.Point){
-			mapPanel.setDevMode(EditorToolMode.Point);
-		}
-		else{
-		mapPanel.setDevMode(EditorToolMode.None);				
-		}
-	
-		btnDelNode.setSelected(false);
-		btnRemoveEdge.setSelected(false);
-		btnEdgeMode.setSelected(false);*/
-			
-			
+		clearNodeInfo();		
+				
+		graphicsMap.setToolMode(EditorToolMode.Point);					
 	}
 	
 	public void setRemove(){
 		System.out.println("Delete/remove");
-		if(currentEditMode != REMOVE_MODE){
-			currentEditMode = REMOVE_MODE;
-		}
-		else{				
-			currentEditMode = SELECT_MODE;
-		}
 		clearNodeInfo();
 		
-		/*if(mapPanel.getDevMode() != EditorToolMode.DeletePoint){
-		mapPanel.setDevMode(EditorToolMode.DeletePoint);
-		}
-		else{
-		mapPanel.setDevMode(EditorToolMode.None);	
-		}
-		
-		btnNode.setSelected(false);
-		btnRemoveEdge.setSelected(false);
-		btnEdgeMode.setSelected(false);*/
+		graphicsMap.setToolMode(EditorToolMode.DeletePoint);			
 	}
 	
-	public void setEdge(){
+	public void setEdge(){		
 		System.out.println("Edge");
-		if(currentEditMode != EDGE_MODE){
-			currentEditMode = EDGE_MODE;
-		}
-		else{				
-			currentEditMode = SELECT_MODE;
-		}
-		
 		clearNodeInfo();
-		/*if(mapPanel.getDevMode() != EditorToolMode.Edge){
-		mapPanel.setDevMode(EditorToolMode.Edge);
-		}
-		else{
-		mapPanel.setDevMode(EditorToolMode.None);
-		}
 		
-		btnNode.setSelected(false);
-		btnDelNode.setSelected(false);
-		btnRemoveEdge.setSelected(false);*/
+		graphicsMap.setToolMode(EditorToolMode.Edge);				
 	}
 	
 	public void setRemoveEdge(){
 		System.out.println("Delete Edge");
-		if(currentEditMode != REMOVE_EDGE_MODE){
-			currentEditMode = REMOVE_EDGE_MODE;
-		}
-		else{				
-			currentEditMode = SELECT_MODE;
-		}
 		clearNodeInfo();
-		/*if(mapPanel.getDevMode() != EditorToolMode.DeleteEdge){
-		mapPanel.setDevMode(EditorToolMode.DeleteEdge);
-		}
-		else{
-		mapPanel.setDevMode(EditorToolMode.None);
-		}
-
-		btnNode.setSelected(false);
-		btnDelNode.setSelected(false);
-		btnEdgeMode.setSelected(false);*/
+		
+		graphicsMap.setToolMode(EditorToolMode.DeleteEdge);			
 	}
 	
 	public void save(){
 		System.out.println("Save");
-		if(currentEditMode != SELECT_MODE){
-			currentEditMode = SELECT_MODE;
-		}
-		/*System.out.println(txtScale.getText());
-		mapPanel.currentMap.setScale(Float.parseFloat(txtScale.getText()));
-		System.out.println("SAVING!");
+		graphicsMap.setToolMode(EditorToolMode.None);		
 		
-		//clearNodeInfo();
+		clearNodeInfo();		
 		
-		//toggle buttons
-		currentDevMode = DevMode.none;				
-		System.out.println("null mode");
-		btnNode.setSelected(false);
-		btnDelNode.setSelected(false);
-		btnRemoveEdge.setSelected(false);
-		btnEdgeMode.setSelected(false);
-		
-		Serializer.write(mapPanel.currentMap);
-		//XML.writePoints(mapPanel.currentMap);
-		lblScale.setText("Scale: " + mapPanel.currentMap.getScale() + " inches per ft");*/
+		/*Serializer.write(currentMap);
+		XML.writePoints(currentMap);
+		lblScale.setText("Scale: " + currentMap.getScale() + " inches per ft");*/
 	}
 	
 	public void setType(String Type){		
@@ -187,8 +106,8 @@ public class DevMode extends UIMode
 		
 	}
 	
-	public String getcurrentEditMode(){
-		return currentEditMode; 
+	public EditorToolMode getcurrentEditMode(){
+		return graphicsMap.getToolMode();
 	}
 	
 	public String getType(){
