@@ -1,4 +1,4 @@
-package WPI.CampusMap.Frontend.Search;
+package WPI.CampusMap.Frontend.Search.Searchv1;
 
 /* From http://java.sun.com/docs/books/tutorial/index.html */
 
