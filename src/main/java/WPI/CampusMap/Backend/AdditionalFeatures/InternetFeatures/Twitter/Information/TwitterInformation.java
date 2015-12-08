@@ -1,8 +1,5 @@
 package WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Twitter.Information;
 
-import java.util.LinkedList;
-import java.util.MissingResourceException;
-
 import WPI.CampusMap.Backend.Exceptions.MissingKeyException;
 
 public class TwitterInformation {
@@ -45,18 +42,6 @@ public class TwitterInformation {
 
 	public static String getUsername() {
 		return TwitterInformation.username;
-	}
-
-	public static String getBuilding(String hashtag) {
-		throw new UnsupportedOperationException("getBuilding not yet implemented.");
-	}
-
-	private static void loadBuildingHashtags() {
-		throw new UnsupportedOperationException("loadBuildingHashtags not yet implemented.");
-	}
-	
-	private static String fixHashtag(String hashtag) {
-		throw new UnsupportedOperationException("fixHashtag not yet implemented.");
 	}
 
 }

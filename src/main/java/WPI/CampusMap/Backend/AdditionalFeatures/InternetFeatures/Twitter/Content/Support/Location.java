@@ -7,15 +7,11 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
 
-import WPI.CampusMap.Backend.Core.Map.AllMaps;
-import WPI.CampusMap.Backend.Core.Map.IMap;
-import WPI.CampusMap.Backend.Core.Map.ProxyMap;
-
 public class Location implements ILocation {
 
 	private String name;
 
-	private static final String locationssPath = "src/main/java/WPI/CampusMap/Backend/AdditionalFeatures/InternetFeatures/Twitter/Information/";
+	private static final String locationsPath = "src/main/java/WPI/CampusMap/Backend/AdditionalFeatures/InternetFeatures/Twitter/Information/";
 
 	// Buildings
 	public static final String CC = "CC";
@@ -68,33 +64,66 @@ public class Location implements ILocation {
 	public boolean locationFound() {
 		return true;
 	}
+	
+	public String getName() {
+		return this.name;
+	}
 
 	public static ILocation getBuilding(Hashtag hashtag) {
-		
+
 		if (!(filesFound)) {
 			getPossibleTags();
 		}
-		
-		throw new UnsupportedOperationException("getBuilding() not implemented");
-		
-//		String tag = hashtag.getTag();
-//		tag = Location.processString(tag);
-//		
-//		if (Location.p85list.contains(tag)) {
-//			return new Location(Location.p85);
-//		}
-//		else if (Location.AGlist.contains(tag)) {
-//			return new Location(Location.AG);
-//		}
-//		else if (Location.AHlist.contains(tag)) {
-//			return new Location(Location.AH);
-//		}
-		
-		
+
+		String tag = hashtag.getTag();
+		tag = Location.processString(tag);
+
+		if (Location.p85list.contains(tag)) {
+			return new Location(Location.p85);
+		} else if (Location.AGlist.contains(tag)) {
+			return new Location(Location.AG);
+		} else if (Location.AHlist.contains(tag)) {
+			return new Location(Location.AH);
+		} else if (Location.AKlist.contains(tag)) {
+			return new Location(Location.AK);
+		} else if (Location.BClist.contains(tag)) {
+			return new Location(Location.BC);
+		} else if (Location.BHlist.contains(tag)) {
+			return new Location(Location.BH);
+		} else if (Location.CClist.contains(tag)) {
+			return new Location(Location.CC);
+		} else if (Location.FLlist.contains(tag)) {
+			return new Location(Location.FL);
+		} else if (Location.GLlist.contains(tag)) {
+			return new Location(Location.GL);
+		} else if (Location.GPlist.contains(tag)) {
+			return new Location(Location.GP);
+		} else if (Location.HAlist.contains(tag)) {
+			return new Location(Location.HA);
+		} else if (Location.HHlist.contains(tag)) {
+			return new Location(Location.HH);
+		} else if (Location.PClist.contains(tag)) {
+			return new Location(Location.PC);
+		} else if (Location.PGlist.contains(tag)) {
+			return new Location(Location.PG);
+		} else if (Location.SDCClist.contains(tag)) {
+			return new Location(Location.SDCC);
+		} else if (Location.SHlist.contains(tag)) {
+			return new Location(Location.SH);
+		} else if (Location.SLlist.contains(tag)) {
+			return new Location(Location.SL);
+		} else if (Location.SRlist.contains(tag)) {
+			return new Location(Location.SR);
+		} else if (Location.WSlist.contains(tag)) {
+			return new Location(Location.WS);
+		} else {
+			return new NoLocation();
+		}
+
 	}
 
 	private static void getPossibleTags() {
-		File folder = new File(Location.locationssPath);
+		File folder = new File(Location.locationsPath);
 		File[] listOfFiles = folder.listFiles();
 		String fileName, fileCore;
 
@@ -173,24 +202,23 @@ public class Location implements ILocation {
 
 	private static ArrayList<String> addAll(File file) {
 		ArrayList<String> options = new ArrayList<String>();
-		
-		try(BufferedReader br = new BufferedReader(new FileReader(file))) {
-		    for(String line; (line = br.readLine()) != null; ) {
-		        line = processString(line);
-		        options.add(line);
-		    }
-		}
-		catch (FileNotFoundException f) {
+
+		try (BufferedReader br = new BufferedReader(new FileReader(file))) {
+			for (String line; (line = br.readLine()) != null;) {
+				line = processString(line);
+				options.add(line);
+			}
+		} catch (FileNotFoundException f) {
 			f.printStackTrace();
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-	    return options;
+
+		return options;
 	}
 
 	private static String processString(String line) {
-		line.replaceAll("\\s+","");
+		line.replaceAll("\\s+", "");
 		line.replaceAll("[^A-Za-z0-9]", "");
 		return line.toLowerCase();
 	}
