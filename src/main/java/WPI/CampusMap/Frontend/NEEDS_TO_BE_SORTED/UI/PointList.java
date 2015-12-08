@@ -7,18 +7,10 @@ import java.awt.event.ActionListener;
 import java.util.HashMap;
 import java.util.LinkedList;
 
-import javax.swing.JSeparator;
 import javax.swing.SpringLayout;
 import javax.swing.JButton;
 import javax.swing.JScrollPane;
-import javax.swing.ScrollPaneConstants;
-import java.awt.FlowLayout;
 import javax.swing.BoxLayout;
-import javax.swing.JList;
-import java.awt.GridLayout;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.ScrollPane;
 import javax.swing.JPanel;
 
 public class PointList extends Panel {

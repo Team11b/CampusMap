@@ -17,6 +17,7 @@ public class App
     {
     	if(System.getProperty("os.name").startsWith("Windows"))
     		UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
-    	AppMainWindow uiInstance = new AppMainWindow();
+    	@SuppressWarnings("unused")
+		AppMainWindow uiInstance = new AppMainWindow();
     }
 }

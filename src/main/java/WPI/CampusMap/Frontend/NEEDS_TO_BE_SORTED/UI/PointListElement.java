@@ -6,11 +6,8 @@ import javax.swing.JButton;
 import javax.swing.ImageIcon;
 
 import java.awt.Dimension;
-import java.awt.event.TextListener;
-import java.util.LinkedList;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.TextEvent;
 import javax.swing.JTextField;
 import java.awt.event.InputMethodListener;
 import java.awt.event.InputMethodEvent;

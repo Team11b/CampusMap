@@ -5,39 +5,26 @@ import javax.swing.JSplitPane;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Panel;
-import java.awt.Button;
-import java.awt.Canvas;
-import javax.swing.SpringLayout;
-
 import WPI.CampusMap.Backend.Core.Map.IMap;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.PathPlanning.Path;
-import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.PointGraphicsObject;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.Dev.DevEdgeGraphicsObject;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.Dev.DevPointGraphicsObject;
 
-import javax.swing.JComboBox;
-import java.awt.Choice;
 import javax.swing.JLabel;
-import javax.swing.BoxLayout;
 import java.awt.Component;
 import java.awt.Container;
 
 import javax.swing.Box;
-import javax.swing.JRadioButton;
 import javax.swing.JProgressBar;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JRadioButtonMenuItem;
-import javax.swing.JPanel;
 import javax.swing.AbstractAction;
-import java.awt.event.ActionEvent;
 import javax.swing.Action;
 import java.awt.event.KeyEvent;
 import javax.swing.KeyStroke;
@@ -111,6 +98,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 		mnFile.add(mntmSaveAsPdf);
 
 		JMenuItem mntmSaveAsTxt = new JMenuItem("Save As TXT");
+		mntmSaveAsTxt.addActionListener(UserMode.txtExporterAction);
 		mnFile.add(mntmSaveAsTxt);
 
 		JMenu mnSendAs = new JMenu("Send As...");

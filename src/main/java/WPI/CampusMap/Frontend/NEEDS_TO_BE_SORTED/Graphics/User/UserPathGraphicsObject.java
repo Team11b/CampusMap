@@ -3,14 +3,12 @@ package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.User;
 import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedList;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.Core.Ref.TypedRef;
-import WPI.CampusMap.Backend.PathPlanning.Node;
 import WPI.CampusMap.Backend.PathPlanning.Path.Section;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicsObject;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.RealMouseEvent;
