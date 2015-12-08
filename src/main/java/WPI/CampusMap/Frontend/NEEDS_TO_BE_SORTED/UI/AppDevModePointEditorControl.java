@@ -1,37 +1,18 @@
 package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI;
 
 import java.awt.Choice;
-import java.awt.Component;
-import java.awt.Font;
 import java.awt.Label;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JComponent;
-import javax.swing.JScrollPane;
 import javax.swing.JSeparator;
-import javax.swing.JTree;
 import javax.swing.SpringLayout;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
-
-import org.eclipse.wb.swing.FocusTraversalOnArray;
-import java.beans.PropertyChangeListener;
-import java.beans.PropertyChangeEvent;
 import javax.swing.JPanel;
 import java.awt.GridLayout;
-import javax.swing.JRadioButton;
-import java.awt.GridBagLayout;
-import java.awt.GridBagConstraints;
-import java.awt.Insets;
 import javax.swing.JToggleButton;
-import javax.swing.ButtonGroup;
 import javax.swing.JLabel;
 import javax.swing.JTextField;
-import javax.swing.Action;
-import javax.swing.Box;
 
 public class AppDevModePointEditorControl extends JComponent {
 	private AppMainWindow window;

@@ -4,14 +4,6 @@ import java.awt.Graphics2D;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-import java.io.UnsupportedEncodingException;
-import java.util.Properties;
-
-import javax.mail.*;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
 import org.apache.commons.mail.EmailException;
@@ -98,7 +90,7 @@ public class UserMode extends UIMode{
     		email.getMailSession().getProperties().put("mail.smtp.starttls.enable", "true");
     		email.setFrom("team0011b@gmail.com", "Team 0011b");
     		email.setSubject("Campus Direction");
-    		email.setMsg("Directions coming soon!");
+    		email.setMsg(AppUserModeControl.getDirections());
     		email.addTo("wespurgeon@wpi.edu", "WPI Campus Map User");
     		email.send();
 	    	System.out.println("Email sent");

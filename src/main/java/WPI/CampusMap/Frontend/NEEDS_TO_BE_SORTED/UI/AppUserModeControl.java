@@ -1,9 +1,7 @@
 package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI;
 
 import javax.swing.SpringLayout;
-import javax.swing.JComboBox;
 import javax.swing.JComponent;
-import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -13,12 +11,15 @@ import javax.swing.JTree;
 import java.awt.Font;
 import javax.swing.ImageIcon;
 import java.awt.Label;
-import javax.swing.DefaultComboBoxModel;
 import javax.swing.tree.DefaultTreeModel;
+
+import WPI.CampusMap.Backend.PathPlanning.Path;
+import WPI.CampusMap.Backend.PathPlanning.Route.Instruction;
+import WPI.CampusMap.Backend.PathPlanning.Route.Route;
+import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.User.UserPointGraphicsObject;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.Choice;
-import java.awt.Component;
 
 public class AppUserModeControl extends JComponent {
 	public static AppMainWindow window;
@@ -105,18 +106,18 @@ public class AppUserModeControl extends JComponent {
 	}
 
 	private static class RouteMeActionListener implements ActionListener {
-		private static AppMainWindow mainWindow;
-
 		public static String getDirections() {
 			// TODO: Get the actual directions.
-			
-			System.out.println("Getting directions");
-			return "Here are some directions";
+			Path path = UserPointGraphicsObject.route();
+			Route route = new Route(path);
+			String output = new String();
+			for(Instruction i: route.getRoute()){
+				output = output + i.getInstruction();
+				System.out.println(i.getInstruction());
+			}
+			return output;
 		}
 
-		public RouteMeActionListener() {
-			this.mainWindow = window;
-		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
