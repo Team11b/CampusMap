@@ -34,6 +34,7 @@ public abstract class PathProcessor
 	
 	/**
 	 * Executes the path processors path finding.
+	 * @param keyPoints the destinations to pathfind to
 	 * @return The found path.
 	 * @throws PathNotFoundException thrown when no path is found
 	 */
