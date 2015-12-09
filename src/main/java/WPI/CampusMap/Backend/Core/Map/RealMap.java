@@ -157,8 +157,7 @@ public class RealMap implements IMap, java.io.Serializable {
 		// System.out.println("Remove: " + point.getId());
 		ArrayList<IPoint> neighbors = point.getNeighborsP();
 		for (IPoint pointN : neighbors) {
-			if (!pointN.removeNeighbor(point))
-				return false;
+			if (!pointN.removeNeighbor(point))	return false;
 		}
 		point.removeAllNeighbors();
 		allPoints.remove(point.getId());

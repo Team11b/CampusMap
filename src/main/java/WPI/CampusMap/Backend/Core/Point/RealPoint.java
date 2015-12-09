@@ -216,6 +216,11 @@ public class RealPoint implements IPoint,java.io.Serializable {
 		boolean firstSuccess = (this.neighbors.remove(point.getId()) != null) || (this.neighbors.remove(point.toString()) != null);
 		boolean secondSuccess = this.neighborList.remove(point.toString()) || this.neighborList.remove(point.getId());
 		System.out.println("First Success: "+firstSuccess+" Second Success: "+secondSuccess);
+		if(!firstSuccess || !secondSuccess){
+			System.out.println("First Point: "+this+" Second point: "+point);
+			System.out.println(this.neighbors.keySet());
+			System.out.println(this.neighborList);
+		}
 		return firstSuccess && secondSuccess;
 	}
 	
