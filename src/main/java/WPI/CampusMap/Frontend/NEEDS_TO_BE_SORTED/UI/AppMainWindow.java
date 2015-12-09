@@ -40,6 +40,9 @@ import java.util.ArrayList;
 
 import javax.swing.KeyStroke;
 import java.awt.event.InputEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
+
 import javax.swing.SpringLayout;
 import java.awt.Choice;
 import java.awt.Label;
@@ -62,6 +65,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 	private final Action printAction = new PrintAction();
 	
 	private JMenu mnMaps = new JMenu("Maps");
+	private Choice mapDropdown;
 
 	private Panel sharedArea = new Panel();
 	private Panel infoArea = new Panel();
@@ -96,7 +100,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 		sl_sharedArea.putConstraint(SpringLayout.EAST, infoArea, 0, SpringLayout.EAST, sharedArea);
 		sharedArea.add(infoArea);
 		
-		Choice mapDropdown = new Choice();
+		mapDropdown = new Choice();
 		sl_sharedArea.putConstraint(SpringLayout.NORTH, infoArea, 10, SpringLayout.SOUTH, mapDropdown);
 		sl_sharedArea.putConstraint(SpringLayout.NORTH, mapDropdown, 25, SpringLayout.NORTH, sharedArea);
 		sl_sharedArea.putConstraint(SpringLayout.WEST, mapDropdown, 10, SpringLayout.WEST, sharedArea);
@@ -311,7 +315,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 		    		JMenuItem mntmFloor = new JMenuItem(aMap.getName());
 		    		if(mnEx != null){
 		    			mnEx.add(mntmFloor);
-		    			makeALMenuItem(mntmFloor, aMap.getName());		    			
+		    			makeALMenuItem(mntmFloor, aMap.getName(), mnEx);		    			
 		    		}
 		    			
 		    	}
@@ -319,10 +323,60 @@ public class AppMainWindow extends JFrame implements Runnable {
      }
 	
 	//Creates a custom handler to load a map
-	private void makeALMenuItem(JMenuItem aMenuItem, String mapName){
+	private void makeALMenuItem(JMenuItem aMenuItem, String mapName, JMenu building){
+		//incase we start polling maps again ...
+		if(aMenuItem.getActionListeners().length == 0) 
 		aMenuItem.addActionListener(new ActionListener(){
 			public void actionPerformed(ActionEvent e) {
-				currentMode.loadMap(mapName);				
+				currentMode.loadMap(mapName);
+				makeOtherDropDown(mapName, building);
+				
+			}
+		});
+	}
+	
+	//called when a map is loaded from the topbar dropdown
+	private void makeOtherDropDown(String mapName, JMenu building) {
+		// clear the dropdown
+		mapDropdown.removeAll();
+
+		//if its a normal map
+		if (!mapName.equals("CampusMap")) {
+			// Add the buildings
+			mapDropdown.add("CampusMap");
+			for (int i = 0; i < building.getItemCount(); i++) {
+				mapDropdown.add(building.getItem(i).getText());
+			}
+		} else {
+			//load all the base
+			for (int i = 0; i < mnMaps.getItemCount(); i++) {
+				mapDropdown.add(mnMaps.getItem(i).getText());
+			}
+		}
+
+		// Clear all item listeners in the dropdown.
+		for (ItemListener act : mapDropdown.getItemListeners()) {
+			mapDropdown.removeItemListener(act);
+		}
+
+		// show the current map when selecting from the other dropdown
+		mapDropdown.select(mapName);
+
+		// add the listeners
+		mapDropdown.addItemListener(new ItemListener() {
+
+			@Override
+			public void itemStateChanged(ItemEvent e) {
+				// TODO Auto-generated method stub
+				String selectedMap =  e.getItem().toString();
+				System.out.println("item selected " + selectedMap);
+				
+				//load zero floor in case of CampusMap
+				if(mapName.equals("CampusMap"))
+					selectedMap = selectedMap + "-0";
+					
+				currentMode.loadMap(selectedMap);
+
 			}
 		});
 	}
