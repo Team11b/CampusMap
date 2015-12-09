@@ -199,7 +199,6 @@ public class UserMode extends UIMode
 		email.setHostName("smtp.gmail.com");
 		email.setSmtpPort(587);
 		email.setAuthenticator(new DefaultAuthenticator("team0011b@gmail.com", "SoftEng15"));
-		// email.setSSLOnConnect(true);
 		try {
 			email.getMailSession().getProperties().put("mail.smtp.auth", "true");
 			email.getMailSession().getProperties().put("mail.debug", "true");
@@ -217,7 +216,7 @@ public class UserMode extends UIMode
 			email.send();
 			System.out.println("Email sent");
 		} catch (EmailException e) {
-			// TODO Auto-generated catch block
+			System.out.println("Could not send email.");
 			e.printStackTrace();
 		}
 	}
