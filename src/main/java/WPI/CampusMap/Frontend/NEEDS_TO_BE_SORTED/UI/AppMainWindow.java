@@ -63,10 +63,11 @@ public class AppMainWindow extends JFrame implements Runnable {
 		super();
 
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-
-		setSize(new Dimension(1200, 800));
+		
+		setSize(new Dimension(1200, 1900));
 		// setMinimumSize(new Dimension(600, 400));
-		setLocation(200, 200);
+		setLocation(100, 100);
+		setBounds(0, 0, 1300, 1000);
 		getContentPane().setLayout(new BorderLayout(0, 0));
 
 		JSplitPane splitPane = new JSplitPane();
