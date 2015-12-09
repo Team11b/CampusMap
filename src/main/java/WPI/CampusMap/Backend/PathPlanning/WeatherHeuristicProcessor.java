@@ -3,9 +3,7 @@ package WPI.CampusMap.Backend.PathPlanning;
 import WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Weather.WeatherAnalysis;
 
 public class WeatherHeuristicProcessor extends NodeProcessor {
-	private boolean usingWeather;
-	private boolean outside;
-	private boolean pref;
+	private LocationPref pref;
 	
 	//TODO check that this is right
 	private static final String campus = "CampusMap";
@@ -16,19 +14,17 @@ public class WeatherHeuristicProcessor extends NodeProcessor {
 	public WeatherHeuristicProcessor() {
 	}
 	
-	public WeatherHeuristicProcessor(NodeProcessor child, boolean usingWeather, boolean outside, boolean pref) {
+	public WeatherHeuristicProcessor(NodeProcessor child, LocationPref pref) {
 		super(child);
-		this.usingWeather = usingWeather;
-		this.outside = outside;
 		this.pref = pref;
 	}
 
 	@Override
 	protected void onProcessNode(Node node, Node goal) {
-		if (this.usingWeather) {
+		if (pref == LocationPref.WEATHER) {
 			node.modifyHeuristicCost((float)WeatherAnalysis.getWeatherScore());
 		}
-		else if (pref && outside) {
+		else if (pref == LocationPref.OUTSIDE) {
 			if (node.getPoint().getMap().equals(WeatherHeuristicProcessor.campus)) {
 				node.modifyHeuristicCost(WeatherHeuristicProcessor.modifier);
 			}
@@ -36,7 +32,7 @@ public class WeatherHeuristicProcessor extends NodeProcessor {
 				node.modifyHeuristicCost((-1) * WeatherHeuristicProcessor.modifier);
 			}
 		}
-		else if (pref && (!(outside))) {
+		else if (pref == LocationPref.INSIDE) {
 			if (node.getPoint().getMap().equals(WeatherHeuristicProcessor.campus)) {
 				node.modifyHeuristicCost((-1) * WeatherHeuristicProcessor.modifier);
 			}
