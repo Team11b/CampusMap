@@ -112,8 +112,8 @@ public class ConnectionNodeList extends  JComponent
 		
 		String nodeName = "";
 		
-		connections.get(mapName).clear();
-		connections.get(mapName).add(nodeName);
+		//connections.get(mapName).clear();
+		//connections.get(mapName).add(nodeName);
 		
 		ConnectionNodeElement element = new ConnectionNodeElement(editingPoint, mapName, nodeName);
 		displayPanel.add(element);
