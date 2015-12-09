@@ -49,7 +49,8 @@ public class ProxyMap implements IMap, Serializable {
 
 	@Override
 	public String getName() {
-		return this.mapName;
+		if(realMap != null) return realMap.getName();
+		return mapName;
 	}
 
 	@Override
@@ -125,6 +126,11 @@ public class ProxyMap implements IMap, Serializable {
 	public boolean connectedToCampus() {
 		// TODO Auto-generated method stub
 		return false;
+	}
+
+	@Override
+	public String getBuilding() {
+		return getName().split("-")[0];
 	}
 
 }
