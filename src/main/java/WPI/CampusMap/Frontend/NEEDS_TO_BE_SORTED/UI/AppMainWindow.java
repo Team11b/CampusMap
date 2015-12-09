@@ -5,7 +5,10 @@ import javax.swing.JSplitPane;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.Panel;
+
+import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Map.IMap;
+import WPI.CampusMap.Backend.Core.Map.ProxyMap;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.PathPlanning.Path;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.Dev.DevEdgeGraphicsObject;
@@ -23,10 +26,15 @@ import javax.swing.JMenuItem;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JComboBox;
 import javax.swing.JRadioButtonMenuItem;
 import javax.swing.AbstractAction;
 import javax.swing.Action;
 import java.awt.event.KeyEvent;
+import java.io.File;
+import java.io.FilenameFilter;
+import java.util.ArrayList;
+
 import javax.swing.KeyStroke;
 import java.awt.event.InputEvent;
 
@@ -43,8 +51,11 @@ public class AppMainWindow extends JFrame implements Runnable {
 	private UIMode currentMode;
 	private AppUserModeControl userPanel;
 	private AppDevModeControl devPanel;
+	private final ArrayList<String> mapStrings = new ArrayList<String>();
 	private final Action devModeAction = new DevModeAction();
 	private final Action printAction = new PrintAction();
+	
+	private JMenu mnMaps = new JMenu("Maps");
 
 	private Panel infoArea = new Panel();
 
@@ -131,14 +142,16 @@ public class AppMainWindow extends JFrame implements Runnable {
 		JRadioButtonMenuItem rdbtnmntmUseWeather = new JRadioButtonMenuItem("Use Weather");
 		mnIndooroutdoor.add(rdbtnmntmUseWeather);
 
-		JMenu mnMaps = new JMenu("Maps");
+		//JMenu mnMaps = new JMenu("Maps");
 		menuBar.add(mnMaps);
+		
+		getMaps();
 
-		JMenu mnAk = new JMenu("AK");
+		/*JMenu mnAk = new JMenu("AK");
 		mnMaps.add(mnAk);
 
 		JMenuItem mntmFirstFloor = new JMenuItem("First Floor");
-		mnAk.add(mntmFirstFloor);
+		mnAk.add(mntmFirstFloor);*/
 
 		JMenu mnSettings = new JMenu("Settings");
 		menuBar.add(mnSettings);
@@ -225,6 +238,43 @@ public class AppMainWindow extends JFrame implements Runnable {
 	 */
 	public void clearMaps() {
 		throw new UnsupportedOperationException("not implemented");
+	}
+	
+	public void getMaps(){
+		//get all the files in the directory
+				File[] listOfFiles = new File("maps/").listFiles((new FilenameFilter() {
+				    public boolean accept(File dir, String name) {
+				        return name.toLowerCase().endsWith(".png");
+				    }
+				}));
+				mapStrings.clear();
+			    for (int i = 0; i < listOfFiles.length; i++) {
+			      if (listOfFiles[i].isFile()) {					        
+			        int ext = listOfFiles[i].getName().lastIndexOf(".png"); //snip extension     
+			        mapStrings.add(listOfFiles[i].getName().substring(0, ext));	       	        
+			      } 
+			    }
+			    //put in alphabetical order and convert to string array
+			    mapStrings.sort(null);
+			    /*JMenu mnAk = new JMenu("AK");
+				mnMaps.add(mnAk);*/
+			    if(mnMaps.getItemCount() == 0){			    	
+			    	System.out.println("itemcount 0");
+			    }
+			    else{
+			    	//mapDropDown.removeAllItems();
+			    	mnMaps.removeAll();
+			    }
+			    
+			    for(int j = 0; j < listOfFiles.length; j++)
+			    {
+			    	if(mapStrings.get(j) != null){
+			    		String fileName = mapStrings.get(j);
+			    		//AllMaps.getInstance().addMap(new ProxyMap(fileName));
+			    		IMap aMap = AllMaps.getInstance().getMap(fileName);			    		
+			    		//mapDropDown.addItem(fileName);
+			    	}
+			    }
 	}
 
 	/**
