@@ -90,9 +90,8 @@ public class DevMode extends UIMode
 		
 		clearNodeInfo();		
 		
-		/*Serializer.write(currentMap);
-		XML.writePoints(currentMap);
-		lblScale.setText("Scale: " + currentMap.getScale() + " inches per ft");*/
+		currentMap.save();
+		//lblScale.setText("Scale: " + currentMap.getScale() + " inches per ft");
 	}
 	
 	public void setType(String Type){		

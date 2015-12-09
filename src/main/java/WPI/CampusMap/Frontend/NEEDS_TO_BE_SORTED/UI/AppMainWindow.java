@@ -190,11 +190,11 @@ public class AppMainWindow extends JFrame implements Runnable {
 		parent.remove(userPanel);
 		parent.add(devPanel);
 		parent.revalidate();
-		parent.repaint();
+		parent.repaint();		
 		
-		
+		this.setTitle("Dev Mode");
 		currentMode = new DevMode(this);
-		currentMode.onModeEntered();
+		currentMode.onModeEntered();		
 	}
 
 	public void changeToUserMode() {
@@ -204,6 +204,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 		parent.revalidate();
 		parent.repaint();
 
+		this.setTitle("Path Finder");
 		currentMode = new UserMode(this);
 		currentMode.onModeEntered();
 	}
@@ -295,7 +296,8 @@ public class AppMainWindow extends JFrame implements Runnable {
 	 */
 	public void devEdgeSelected(DevEdgeGraphicsObject selectedEdge) {
 		throw new UnsupportedOperationException("not implemented");
-	}
+	}	
+
 
 	@Override
 	public void run() {
