@@ -214,7 +214,7 @@ public class UserMode extends UIMode
 		try {
 			write = new FileWriter(destination);
 			PrintWriter printLine = new PrintWriter(write);
-			printLine.print("This is a test.");
+			printLine.print(directions);
 			printLine.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
@@ -267,7 +267,8 @@ public class UserMode extends UIMode
 	public void onSMS() {
 		System.out.println("SMS");
 		try {
-			SMSClient.SendText("+18184411799", "HELLO WORLD");
+			Route sendingRoute = new Route(routedPath);
+			SMSClient.SendText("+18184411799", sendingRoute.toString());
 		} catch (TwilioRestException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
