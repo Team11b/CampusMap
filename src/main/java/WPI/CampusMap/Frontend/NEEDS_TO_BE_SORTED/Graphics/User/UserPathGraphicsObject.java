@@ -19,10 +19,11 @@ public class UserPathGraphicsObject extends GraphicsObject<Section, UserGraphica
 {
 	private float phase;
 	
+	private boolean selected;
+	
 	public UserPathGraphicsObject(Section path, UserGraphicalMap owner)
 	{
 		super(path, owner);
-		setVisible(false);
 	}
 	
 	@Override
@@ -58,6 +59,12 @@ public class UserPathGraphicsObject extends GraphicsObject<Section, UserGraphica
 		}
 		
 		graphics.setStroke(new BasicStroke(1));
+	}
+	
+	@Override
+	public float getAlpha()
+	{
+		return selected ? 1 : 0.3f;
 	}
 	
 	@Override
@@ -106,5 +113,15 @@ public class UserPathGraphicsObject extends GraphicsObject<Section, UserGraphica
 	public Coord getWorldPosition() 
 	{
 		return new Coord(0, 0);
+	}
+
+	public void setSelected(boolean isSelected) 
+	{
+		selected = isSelected;
+	}
+	
+	public boolean getIsSelected()
+	{
+		return selected;
 	}
 }

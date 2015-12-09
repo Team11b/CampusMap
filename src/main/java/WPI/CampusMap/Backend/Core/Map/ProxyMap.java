@@ -113,7 +113,7 @@ public class ProxyMap implements IMap, Serializable {
 	
 	@Override
 	public int hashCode(){
-		return mapName.hashCode();
+		return getName().hashCode();
 	}
 
 	@Override

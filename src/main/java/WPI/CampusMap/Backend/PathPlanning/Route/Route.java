@@ -2,6 +2,7 @@ package WPI.CampusMap.Backend.PathPlanning.Route;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.LinkedList;
 
 import WPI.CampusMap.Backend.Core.Point.IPoint;
@@ -15,6 +16,7 @@ import WPI.CampusMap.Backend.PathPlanning.Path.Section;
  */
 public class Route {
 	private LinkedList<Instruction> route;
+	private HashMap<Section, LinkedList<Instruction>> routeTable = new HashMap<>();
 
 	public Route(LinkedList<Instruction> route) {
 		this.route = route;
@@ -32,25 +34,34 @@ public class Route {
 	public LinkedList<Instruction> getRoute() {
 		return route;
 	}
+	
+	public LinkedList<Instruction> getRoute(Section section)
+	{
+		return routeTable.get(section);
+	}
 
 	public void setRoute(LinkedList<Instruction> route) {
 		this.route = route;
 	}
 
-	public void append(LinkedList<Instruction> newPart) {
+	public void append(LinkedList<Instruction> newPart, Section section) {
+		LinkedList<Instruction> sectionList = new LinkedList<>();
 		for (int i = 0; i < newPart.size(); i++) {
 			this.route.add(newPart.get(i));
+			sectionList.add(newPart.get(i));
 		}
+		
+		routeTable.put(section, sectionList);
 	}
 
 	public void parse(Path mp) {
 
 		for (Section current: mp) {;
-			this.append(Route.parse(current));
+			this.append(Route.parse(current), current);
 		}
 	}
 
-	public static LinkedList<Instruction> parse(Section current) {
+	private static LinkedList<Instruction> parse(Section current) {
 		ArrayList<IPoint> p = GetTurns.getTurns(current);
 		LinkedList<Instruction> list = new LinkedList<Instruction>();
 		Instruction latest = null;

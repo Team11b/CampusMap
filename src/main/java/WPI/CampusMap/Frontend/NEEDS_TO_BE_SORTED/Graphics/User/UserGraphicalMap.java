@@ -60,7 +60,7 @@ public class UserGraphicalMap extends GraphicalMap
 	{
 		for(UserPathGraphicsObject graphicalSection : getObjectsOfType(UserPathGraphicsObject.class))
 		{
-			graphicalSection.setVisible(graphicalSection.getRepresentedObject() == section);
+			graphicalSection.setSelected(graphicalSection.getRepresentedObject() == section);
 		}
 	}
 	

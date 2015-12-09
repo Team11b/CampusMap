@@ -22,6 +22,11 @@ public abstract class UIMode {
 
 	protected abstract void onModeEntered();
 	
+	protected AppMainWindow getWindow()
+	{
+		return window;
+	}
+	
 	public abstract void loadMap(String mapName);
 	
 	public abstract void onDraw(Graphics2D graphics);

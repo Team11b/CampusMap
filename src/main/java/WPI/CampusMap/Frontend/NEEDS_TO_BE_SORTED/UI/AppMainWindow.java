@@ -361,7 +361,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 	 *            The new route.
 	 */
 	public void setRoute(Path path) {
-		throw new UnsupportedOperationException("not implemented");
+		userPanel.setRoute(path);
 	}
 
 	/**
