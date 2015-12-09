@@ -3,7 +3,7 @@ package WPI.CampusMap.BackendTest;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import java.util.ArrayList;
+import java.util.Collection;
 
 import javax.xml.stream.XMLStreamException;
 
@@ -21,7 +21,7 @@ public class RemovePointTest {
 		IMap testMap = AllMaps.getInstance().getMap("AK");
 		assertTrue(testMap.removePoint("b9e43a3e-c47d-4f7b-b63c-f874c94f4cde"));
 		
-		ArrayList<RealPoint> points = testMap.getAllPoints();
+		Collection<RealPoint> points = testMap.getAllPoints();
 		
 		//checking points
 		assertEquals(4, points.size());

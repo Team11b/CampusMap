@@ -7,16 +7,17 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
+import WPI.CampusMap.Backend.Core.Map.AllMaps;
+import WPI.CampusMap.Backend.Core.Map.RealMap;
 import WPI.CampusMap.Backend.Core.Point.RealPoint;
 import WPI.CampusMap.Backend.PathPlanning.Node;
 import WPI.CampusMap.Backend.PathPlanning.Path;
 
-
 public class NodePathTest {
 	static Coord cOne, cTwo, cThree, cFour;
 	static RealPoint one, two, three;
+	static RealMap temp;
 	static Node nOne, nTwo, nThree;
-	static Path aPath;
 
 	@BeforeClass
 	public static void beforeClass() {
@@ -25,16 +26,14 @@ public class NodePathTest {
 		cThree = new Coord(2, 1);
 		cFour = new Coord(1, 2);
 
-		one = new RealPoint(cOne, RealPoint.OUT_DOOR, "alpha", "");
-		two = new RealPoint(cTwo, RealPoint.ELEVATOR, "beta", "");
-		three = new RealPoint(cThree, RealPoint.STAIRS, "gamma", "");
-		three = new RealPoint(cThree, RealPoint.STAIRS, "gamma", "");
+		one = new RealPoint(cOne, RealPoint.OUT_DOOR, "alpha", "temp");
+		two = new RealPoint(cTwo, RealPoint.ELEVATOR, "beta", "temp");
+		three = new RealPoint(cThree, RealPoint.STAIRS, "gamma", "temp");
+		three = new RealPoint(cThree, RealPoint.STAIRS, "gamma", "temp");
 
 		nOne = new Node(one,null,0);
 		nTwo = new Node(two,nOne,0);
 		nThree = new Node(three,nTwo,0);
-		
-		aPath = new Path(nOne);
 	}
 
 	@Test

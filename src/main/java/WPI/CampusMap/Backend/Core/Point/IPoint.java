@@ -3,6 +3,7 @@ package WPI.CampusMap.Backend.Core.Point;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 
@@ -15,7 +16,7 @@ public interface IPoint extends Serializable {
 	public String getId();
 	public void setId(String id);
 	public ArrayList<IPoint> getNeighborsP();
-	public ArrayList<IPoint> getValidNeighbors(ArrayList<String> whitelist);
+	public ArrayList<IPoint> getValidNeighbors(HashSet<String> whitelist);
 	public boolean removeNeighbor(IPoint point);
 	public boolean removeNeighbor(String pointId);
 	public void removeAllNeighbors();
@@ -23,7 +24,7 @@ public interface IPoint extends Serializable {
 	public String getMap();
 	public String toString();
 	public boolean exists();
-	public HashMap<String, String> getNeighborPointsOnOtherMaps();
+	public HashMap<String, ArrayList<String>> getNeighborPointsOnOtherMaps();
 	public boolean connectToCampus();
 	public String getBuilding();
 }
