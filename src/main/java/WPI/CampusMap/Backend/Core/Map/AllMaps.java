@@ -12,7 +12,7 @@ public class AllMaps {
     public final String CampusMap = "CampusMap";
     
 	private static volatile AllMaps instance;
-	private static HashMap<String, ProxyMap> allMaps = new HashMap<String, ProxyMap>();
+	private static HashMap<String, IMap> allMaps = new HashMap<String, IMap>();
 	
 	private AllMaps(){}
 	
