@@ -71,9 +71,9 @@ public class AllMaps {
 	}
 	
 	public HashSet<String> generateWhitelist(String startMap, String destinationMap){
-//		System.out.println("Creating whitelist");
+		System.out.println("Creating whitelist");
 		HashSet<String> whitelist = new HashSet<String>();
-		whitelist.add(startMap);
+//		whitelist.add(startMap);
 		
 		//If same map
 		if(startMap.equals(destinationMap)) {
@@ -92,11 +92,12 @@ public class AllMaps {
 		}
 		String[] connectedToCampus = ((ProxyMap)getMap(CampusMap)).getConnectedMaps();
 //		System.out.println("Adding campus connected maps");
+		whitelist.add(CampusMap);
 		for(String map: connectedToCampus){
 			whitelist.add(map);
 		}
 		
-		boolean startW = false, destW = false;
+		boolean startW = startMap.equals(CampusMap), destW = destinationMap.equals(CampusMap);
 		for(String map: connectedToCampus){
 //			whitelist.add(CampusMap);
 			String floorBuilding = map.split("-")[0];
@@ -138,7 +139,7 @@ public class AllMaps {
 			whiteList.add(current);
 			return true;
 		}
-		System.out.println(((ProxyMap) getMap(current)).getConnectedMaps());
+//		System.out.println(((ProxyMap) getMap(current)).getConnectedMaps());
 		System.out.println(Arrays.toString(((ProxyMap) getMap(current)).getConnectedMaps()));
 		for(String neighbor: ((ProxyMap) getMap(current)).getConnectedMaps()){
 			String neighborBuilding = neighbor.split("-")[0];
