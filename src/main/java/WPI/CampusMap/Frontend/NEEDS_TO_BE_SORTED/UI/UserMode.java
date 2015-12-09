@@ -16,6 +16,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
@@ -179,6 +181,17 @@ public class UserMode extends UIMode
 		System.out.println("TXT");
 	}
 
+	public static String popUp() {
+        final JFrame parent = new JFrame();
+        //parent.add(button);
+        parent.pack();
+        parent.setVisible(true);
+
+        String email = JOptionPane.showInputDialog(parent, "What is your email address?", null);
+        return email;
+      
+    }
+	
 	public static void onEmail() {
 		Email email = new SimpleEmail();
 		email.setDebug(true);
@@ -198,7 +211,8 @@ public class UserMode extends UIMode
 			email.setFrom("team0011b@gmail.com", "Team 0011b");
 			email.setSubject("Campus Directions");
 			//email.setMsg(AppUserModeControl.getDirections());
-			email.addTo("wespurgeon@wpi.edu", "WPI Campus Map User");
+			String emailAddress = popUp();
+			email.addTo(emailAddress, "WPI Campus Map User");
 			email.send();
 			System.out.println("Email sent");
 		} catch (EmailException e) {
