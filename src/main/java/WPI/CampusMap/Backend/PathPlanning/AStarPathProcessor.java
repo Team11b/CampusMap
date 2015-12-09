@@ -1,9 +1,13 @@
 package WPI.CampusMap.Backend.PathPlanning;
 
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.Comparator;
 
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
+import WPI.CampusMap.Backend.Core.Map.ProxyMap;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
+import WPI.CampusMap.Backend.Core.Point.RealPoint;
 
 public class AStarPathProcessor extends PathProcessor {
 
@@ -44,14 +48,19 @@ public class AStarPathProcessor extends PathProcessor {
 			else if ((!(p1.getBuilding().equals(pGoal.getBuilding()))) && (p2.getBuilding().equals(pGoal.getBuilding()))) {
 				return 1;
 			}
-			
+			String campusMap = AllMaps.getInstance().CampusMap;
 			// on campus map
-//			if ((p1.getMap().equals(AllMaps.getInstance().CampusMap)) && (!(p2.getMap().equals(AllMaps.getInstance().CampusMap)))) {
-//				return -1;
-//			}
-//			else if (!(p1.getMap().equals(AllMaps.getInstance().CampusMap)) && (p2.getMap().equals(AllMaps.getInstance().CampusMap))) {
-//				return 1;
-//			}
+			if ((p1.getMap().equals(campusMap) && ((p2.getMap().equals(campusMap))))) {
+//				System.out.println("Both Points on campus");
+				String[] buildingConnections = ((ProxyMap)AllMaps.getInstance().getMap(campusMap)).getNamedPoints();
+//				System.out.println("Goal building: "+pGoal.getBuilding());
+				System.out.println(Arrays.toString(buildingConnections));
+				if(Arrays.asList(buildingConnections).contains(campusMap+"/"+pGoal.getBuilding())){
+//					System.out.println("Campus contains building point");
+					IPoint buildingPoint = AllMaps.getInstance().getMap(campusMap).getPoint(pGoal.getBuilding());
+					return Double.compare(p1.distance(buildingPoint), p2.distance(buildingPoint));
+				}
+			}
 			
 			// connects to campus
 //			if ((p1.connectToCampus()) && (!(p2.connectToCampus()))) {

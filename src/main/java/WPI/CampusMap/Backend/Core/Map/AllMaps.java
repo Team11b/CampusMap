@@ -73,7 +73,7 @@ public class AllMaps {
 	public HashSet<String> generateWhitelist(String startMap, String destinationMap){
 		System.out.println("Creating whitelist");
 		HashSet<String> whitelist = new HashSet<String>();
-//		whitelist.add(startMap);
+		whitelist.add(startMap);
 		
 		//If same map
 		if(startMap.equals(destinationMap)) {
@@ -86,7 +86,7 @@ public class AllMaps {
 		
 		//If same building
 		if(startBuilding.equals(destBuilding)){
-//			System.out.println("Same building");
+			System.out.println("Same building");
 			buildingDepthFirstSearch(startMap,destinationMap,new ArrayList<String>(), whitelist);
 			return whitelist;
 		}

@@ -2,12 +2,12 @@ package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI;
 
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
-import java.util.HashSet;
-import java.util.LinkedList;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashSet;
+import java.util.LinkedList;
 
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
@@ -25,12 +25,18 @@ import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Point.AllPoints;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.PathPlanning.AStarPathProcessor;
+import WPI.CampusMap.Backend.PathPlanning.BetweenMapsProcessor;
+import WPI.CampusMap.Backend.PathPlanning.DistanceProcessor;
+import WPI.CampusMap.Backend.PathPlanning.LocationPref;
+import WPI.CampusMap.Backend.PathPlanning.NodeProcessor;
 import WPI.CampusMap.Backend.PathPlanning.Path;
 import WPI.CampusMap.Backend.PathPlanning.Path.Section;
 import WPI.CampusMap.Backend.PathPlanning.PathFinder;
 import WPI.CampusMap.Backend.PathPlanning.PathNotFoundException;
+import WPI.CampusMap.Backend.PathPlanning.WeatherHeuristicProcessor;
 import WPI.CampusMap.Backend.PathPlanning.Route.Route;
-import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.User.*;
+import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.User.UserGraphicalMap;
+import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.User.UserPointGraphicsObject;
 
 public class UserMode extends UIMode
 {
@@ -40,6 +46,7 @@ public class UserMode extends UIMode
 	private HashSet<IPoint> routeSet = new HashSet<>();
 	
 	private Path routedPath;
+	private LocationPref pref;
 	
 	public UserMode(AppMainWindow window)
 	{
@@ -72,7 +79,8 @@ public class UserMode extends UIMode
 
 	public void onRouteButton() 
 	{
-		AStarPathProcessor processor = new AStarPathProcessor();
+		NodeProcessor nP = new DistanceProcessor(new BetweenMapsProcessor(new WeatherHeuristicProcessor(null, pref)));	
+		AStarPathProcessor processor = new AStarPathProcessor(nP);
 		
 		IPoint[] points = new IPoint[route.size()];
 		route.toArray(points);
@@ -91,7 +99,7 @@ public class UserMode extends UIMode
 		}
 		
 		getWindow().clearDestinations();
-		//clearRoute();
+		clearRoute();
 	}
 	
 	public void selectRouteSection(Section section)
@@ -132,6 +140,7 @@ public class UserMode extends UIMode
 		
 		if(!routeSet.contains(newPoint))
 		{
+			System.out.println("Added " +newPoint+" to route");
 			routeSet.add(newPoint);
 			route.add(newPoint);
 		}
@@ -186,8 +195,9 @@ public class UserMode extends UIMode
 		return route.getLast().equals(point.getRepresentedObject());
 	}
 
-	public void onWeatherChosen(String option) {
+	public void onWeatherChosen(LocationPref option) {
 		System.out.println("Weather chosen is " + option);
+		this.pref = option;
 	}
 
 	public void onPrint() {

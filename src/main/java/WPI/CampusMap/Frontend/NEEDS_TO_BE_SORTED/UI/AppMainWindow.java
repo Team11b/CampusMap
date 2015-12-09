@@ -13,6 +13,7 @@ import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Map.IMap;
 import WPI.CampusMap.Backend.Core.Map.ProxyMap;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
+import WPI.CampusMap.Backend.PathPlanning.LocationPref;
 import WPI.CampusMap.Backend.PathPlanning.Path;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.Dev.DevEdgeGraphicsObject;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.Dev.DevPointGraphicsObject;
@@ -173,12 +174,15 @@ public class AppMainWindow extends JFrame implements Runnable {
 
 		JRadioButtonMenuItem rdbtnmntmPreferIndoor = new JRadioButtonMenuItem("Prefer Indoor");
 		mnIndooroutdoor.add(rdbtnmntmPreferIndoor);
+		makeRoutingMenuItem(rdbtnmntmPreferIndoor,LocationPref.INSIDE,mnIndooroutdoor);
 
 		JRadioButtonMenuItem rdbtnmntmPreferOutdoor = new JRadioButtonMenuItem("Prefer Outdoor");
 		mnIndooroutdoor.add(rdbtnmntmPreferOutdoor);
+		makeRoutingMenuItem(rdbtnmntmPreferOutdoor,LocationPref.OUTSIDE,mnIndooroutdoor);
 
 		JRadioButtonMenuItem rdbtnmntmUseWeather = new JRadioButtonMenuItem("Use Weather");
 		mnIndooroutdoor.add(rdbtnmntmUseWeather);
+		makeRoutingMenuItem(rdbtnmntmUseWeather,LocationPref.WEATHER,mnIndooroutdoor);
 
 		menuBar.add(mnMaps);		
 		getMaps();
@@ -195,6 +199,10 @@ public class AppMainWindow extends JFrame implements Runnable {
 		renderThread.start();
 
 		changeToUserMode();
+
+		getUserMode().onWeatherChosen(LocationPref.WEATHER);
+		rdbtnmntmUseWeather.setSelected(true);
+		
 		setVisible(true);
 	}
 
@@ -557,4 +565,37 @@ public class AppMainWindow extends JFrame implements Runnable {
 			getUserMode().onTxt();
 		}
 	};
+	
+
+	private void makeRoutingMenuItem(JMenuItem aMenuItem, LocationPref prefName, JMenu building){
+		//incase we start polling maps again ...
+		if(aMenuItem.getActionListeners().length == 0) 
+		aMenuItem.addActionListener(new topRouteActionListener(prefName, building, aMenuItem));
+	}
+	
+	private class topRouteActionListener implements ActionListener{
+		private JMenu prefMenu;
+		private LocationPref pref;
+		private JMenuItem aMenuItem;
+		
+		public topRouteActionListener(LocationPref pref, JMenu prefMenu,JMenuItem aMenuItem)
+		{
+			this.prefMenu = prefMenu;
+			this.pref = pref;
+			this.aMenuItem = aMenuItem;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			if(prefMenu.getText().equals("Indoor/Outdoor")){
+				getUserMode().onWeatherChosen(pref);
+				for(int i =0; i < prefMenu.getItemCount(); i++){
+					if(!prefMenu.getItem(i).getText().equals(aMenuItem.getText())){
+						prefMenu.getItem(i).setSelected(false);
+					}
+				}
+			}
+			
+		}	
+	}
 }
