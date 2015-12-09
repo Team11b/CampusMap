@@ -158,7 +158,7 @@ public class ProxyMap implements IMap, Serializable {
 	}
 	
 	public void onLoad(){
-        AllPoints.getInstance().addAllPoints(namedPoints);
+//        AllPoints.getInstance().addAllPoints(namedPoints);
     }
 
 	@Override
