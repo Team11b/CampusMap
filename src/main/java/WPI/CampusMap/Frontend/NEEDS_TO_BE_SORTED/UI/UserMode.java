@@ -25,6 +25,8 @@ import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Point.AllPoints;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.PathPlanning.AStarPathProcessor;
+import WPI.CampusMap.Backend.PathPlanning.BetweenMapsProcessor;
+import WPI.CampusMap.Backend.PathPlanning.DistanceProcessor;
 import WPI.CampusMap.Backend.PathPlanning.Path;
 import WPI.CampusMap.Backend.PathPlanning.Path.Section;
 import WPI.CampusMap.Backend.PathPlanning.PathFinder;
@@ -72,7 +74,7 @@ public class UserMode extends UIMode
 
 	public void onRouteButton() 
 	{
-		AStarPathProcessor processor = new AStarPathProcessor();
+		AStarPathProcessor processor = new AStarPathProcessor(new DistanceProcessor(new BetweenMapsProcessor()));
 		
 		IPoint[] points = new IPoint[route.size()];
 		route.toArray(points);

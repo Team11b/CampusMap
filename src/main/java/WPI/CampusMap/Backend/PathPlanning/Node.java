@@ -143,6 +143,12 @@ public final class Node
 		
 	}
 	
+	@Override
+	public int hashCode() 
+	{
+		return point.hashCode();
+	}
+	
 	public IPoint getPoint(){
 		return point;
 	}

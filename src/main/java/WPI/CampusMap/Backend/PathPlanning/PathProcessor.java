@@ -16,7 +16,7 @@ import WPI.CampusMap.Backend.Core.Point.IPoint;
  */
 public abstract class PathProcessor
 {
-	private ArrayList<Node> explored;
+	private HashSet<Node> explored;
 	private PriorityQueue<Node> frontier;
 	private IPoint[] keyPoints;
 	static protected Node goal;
@@ -48,7 +48,7 @@ public abstract class PathProcessor
 		//no previous end for the first node
 		Node previousEnd = null;
 		for(int i = 1; i < keyPoints.length; i++){
-			explored = new ArrayList<Node>();
+			explored = new HashSet<Node>();
 			frontier = new PriorityQueue<Node>(getNodeCompartor());
 			
 			HashSet<String> whiteList = AllMaps.getInstance().generateWhitelist(keyPoints[i-1].getMap(), keyPoints[i].getMap());
@@ -105,7 +105,8 @@ public abstract class PathProcessor
 	 * @param node The node to expand.
 	 * @param whiteList list of maps allowed to load
 	 */
-	private void expandNode(Node node, HashSet<String> whiteList) {
+	private void expandNode(Node node, HashSet<String> whiteList)
+	{
 		ArrayList<IPoint> neighbors= node.getNeighbors(whiteList);
 		for(IPoint point: neighbors){
 			if(point.getId().equals("SL2BDST")){
