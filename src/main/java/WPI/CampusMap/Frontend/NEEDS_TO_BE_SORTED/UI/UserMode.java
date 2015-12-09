@@ -188,6 +188,7 @@ public class UserMode extends UIMode
         parent.setVisible(true);
 
         String email = JOptionPane.showInputDialog(parent, "What is your email address?", null);
+        parent.setVisible(false);
         return email;
       
     }

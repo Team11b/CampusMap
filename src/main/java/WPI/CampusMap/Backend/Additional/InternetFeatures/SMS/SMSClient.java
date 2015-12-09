@@ -31,8 +31,8 @@ public class SMSClient {
 		        parent.setVisible(true);
 
 		        String number = JOptionPane.showInputDialog(parent, "What is your phone number?", null);
+		        parent.setVisible(false);
 		        return number;
-		      
 		    }
 	 }
 	 
