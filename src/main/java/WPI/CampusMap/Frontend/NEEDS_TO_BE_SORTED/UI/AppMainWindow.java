@@ -288,8 +288,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 		    if(mnMaps.getItemCount() == 0){			    	
 		    	System.out.println("itemcount 0");
 		    }
-		    else{
-		    	//mapDropDown.removeAllItems();
+		    else{		    	
 		    	mnMaps.removeAll();
 		    }
 		    
@@ -315,6 +314,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 		    					mnEx = (JMenu)mnMaps.getItem(i);
 		    			}			    			
 		    		}
+		    		//add the floor to the top dropdown and setup for other dropdown
 		    		JMenuItem mntmFloor = new JMenuItem(aMap.getName());
 		    		if(mnEx != null){
 		    			mnEx.add(mntmFloor);
@@ -329,17 +329,29 @@ public class AppMainWindow extends JFrame implements Runnable {
 	private void makeALMenuItem(JMenuItem aMenuItem, String mapName, JMenu building){
 		//incase we start polling maps again ...
 		if(aMenuItem.getActionListeners().length == 0) 
-		aMenuItem.addActionListener(new ActionListener(){
-			public void actionPerformed(ActionEvent e) {
-				currentMode.loadMap(mapName);
-				makeOtherDropDown(mapName, building);
-				
-			}
-		});
+		aMenuItem.addActionListener(new topMapActionListener(mapName, building));
 		
 		//hardcode for initial load
 		if(mapName.equals("Atwater_Kent-3"))
 			makeOtherDropDown("Atwater_Kent-0", building);
+	}
+	
+	private class topMapActionListener implements ActionListener{
+		private String mapName;
+		private JMenu building;
+		
+		public topMapActionListener(String mapName, JMenu building)
+		{
+			this.mapName = mapName;
+			this.building = building;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			currentMode.loadMap(mapName);
+			makeOtherDropDown(mapName, building);
+			
+		}	
 	}
 	
 	//called when a map is loaded from the topbar dropdown
@@ -369,23 +381,29 @@ public class AppMainWindow extends JFrame implements Runnable {
 		// show the current map when selecting from the other dropdown
 		mapDropdown.select(mapName);
 
-		// add the listeners
-		mapDropdown.addItemListener(new ItemListener() {
-
-			@Override
-			public void itemStateChanged(ItemEvent e) {
-				// TODO Auto-generated method stub
-				String selectedMap =  e.getItem().toString();
-				System.out.println("item selected " + selectedMap);
+		// add the listener
+		mapDropdown.addItemListener(new mapDropDownItemListener(mapName));	
+	}
+	
+	private class mapDropDownItemListener implements ItemListener{
+		private String mapName;		
+		
+		public mapDropDownItemListener(String mapName)
+		{
+			this.mapName = mapName;			
+		}
+		
+		@Override
+		public void itemStateChanged(ItemEvent e) {			
+			String selectedMap =  e.getItem().toString();
+			System.out.println("item selected " + selectedMap);
+			
+			//load zero floor in case of CampusMap
+			if(mapName.equals("CampusMap"))
+				selectedMap = selectedMap + "-0";
 				
-				//load zero floor in case of CampusMap
-				if(mapName.equals("CampusMap"))
-					selectedMap = selectedMap + "-0";
-					
-				currentMode.loadMap(selectedMap);
-
-			}
-		});
+			currentMode.loadMap(selectedMap);
+		}
 	}
 
 	/**
