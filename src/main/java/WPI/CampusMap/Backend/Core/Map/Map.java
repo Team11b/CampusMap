@@ -11,6 +11,7 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
+import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.Core.Point.Point;
 import WPI.CampusMap.Recording.Serialization.OLSSerializer;
 
@@ -376,5 +377,4 @@ public class Map implements java.io.Serializable {
 		allPoints.remove(p.getId());
 		allPoints.put(newName, p);
 	}
-
 }
