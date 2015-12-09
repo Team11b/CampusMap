@@ -131,7 +131,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 		progressBar = new JProgressBar();
 		bottomPane.add(progressBar, BorderLayout.EAST);
 
-		taskName = new JLabel("<Task Name>");
+		taskName = new JLabel("");
 		bottomPane.add(taskName, BorderLayout.WEST);
 
 		Component verticalStrut = Box.createVerticalStrut(20);
@@ -166,10 +166,10 @@ public class AppMainWindow extends JFrame implements Runnable {
 		mntmPrint.setAction(printAction);
 		mnFile.add(mntmPrint);
 
-		JMenu mnRouting = new JMenu("Routing");
-		menuBar.add(mnRouting);
+		//JMenu mnRouting = new JMenu("Routing");
+		//menuBar.add(mnRouting);
 
-		JMenu mnIndooroutdoor = new JMenu("Indoor/Outdoor");
+		/*JMenu mnIndooroutdoor = new JMenu("Indoor/Outdoor");
 		mnRouting.add(mnIndooroutdoor);
 
 		JRadioButtonMenuItem rdbtnmntmPreferIndoor = new JRadioButtonMenuItem("Prefer Indoor");
@@ -182,7 +182,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 
 		JRadioButtonMenuItem rdbtnmntmUseWeather = new JRadioButtonMenuItem("Use Weather");
 		mnIndooroutdoor.add(rdbtnmntmUseWeather);
-		makeRoutingMenuItem(rdbtnmntmUseWeather,LocationPref.WEATHER,mnIndooroutdoor);
+		makeRoutingMenuItem(rdbtnmntmUseWeather,LocationPref.WEATHER,mnIndooroutdoor);*/
 
 		menuBar.add(mnMaps);		
 		getMaps();
@@ -200,8 +200,8 @@ public class AppMainWindow extends JFrame implements Runnable {
 
 		changeToUserMode();
 
-		getUserMode().onWeatherChosen(LocationPref.WEATHER);
-		rdbtnmntmUseWeather.setSelected(true);
+		//getUserMode().onWeatherChosen(LocationPref.WEATHER);
+		//rdbtnmntmUseWeather.setSelected(true);
 		
 		setVisible(true);
 	}
