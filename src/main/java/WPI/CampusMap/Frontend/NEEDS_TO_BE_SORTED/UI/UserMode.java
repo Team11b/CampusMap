@@ -1,15 +1,9 @@
 package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI;
 
 import java.awt.Graphics2D;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
-import java.io.UnsupportedEncodingException;
 import java.util.HashSet;
 import java.util.LinkedList;
-import java.util.Properties;
-
-import org.apache.commons.lang3.NotImplementedException;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -28,7 +22,6 @@ import com.twilio.sdk.TwilioRestException;
 
 import WPI.CampusMap.Backend.Additional.InternetFeatures.SMS.SMSClient;
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
-import WPI.CampusMap.Backend.Core.Map.IMap;
 import WPI.CampusMap.Backend.Core.Point.AllPoints;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.PathPlanning.AStarPathProcessor;
@@ -37,7 +30,6 @@ import WPI.CampusMap.Backend.PathPlanning.Path.Section;
 import WPI.CampusMap.Backend.PathPlanning.PathFinder;
 import WPI.CampusMap.Backend.PathPlanning.PathNotFoundException;
 import WPI.CampusMap.Backend.PathPlanning.Route.Route;
-import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicalMap;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.User.*;
 
 public class UserMode extends UIMode
