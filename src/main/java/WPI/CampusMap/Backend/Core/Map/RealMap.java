@@ -272,4 +272,9 @@ public class RealMap implements IMap, java.io.Serializable {
 		return false;
 	}
 
+	@Override
+	public String getBuilding() {
+		return getName().split("-")[0];
+	}
+
 }

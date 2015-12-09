@@ -1,5 +1,6 @@
 package WPI.CampusMap.Backend.Core.Map;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 
 public class AllMaps {
@@ -32,6 +33,16 @@ public class AllMaps {
 
 	public void setAllMaps(HashMap<String, IMap> allMaps) {
 		AllMaps.allMaps = allMaps;
+	}
+	
+	public ArrayList<IMap> getMapsInBuilding(String building){
+		ArrayList<IMap> temp = new ArrayList<IMap>();
+		for(IMap map:allMaps.values()){
+			if(map.getBuilding().equals(building)){
+				temp.add(map);
+			}
+		}
+		return temp;
 	}
 
 	public IMap getMap(String mapKey) {

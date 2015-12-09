@@ -9,6 +9,7 @@ import WPI.CampusMap.Backend.Core.Point.RealPoint;
 
 public interface IMap {
 	public float getScale();
+	public String getBuilding();
 	public void setScale(float f);
 	public String getName();
 	public ImageIcon getLoadedImage();
