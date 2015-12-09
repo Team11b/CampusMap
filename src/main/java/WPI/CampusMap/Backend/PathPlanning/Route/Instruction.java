@@ -49,11 +49,13 @@ public class Instruction {
 		this.map = this.start.getMap();
 	}
 
-	public Instruction(float seconds) {
+	public Instruction(float seconds, IPoint end) {
 		int min = (int)seconds/60;
 		seconds = seconds%60;
 		this.instruction = "ETA: " + min + " minutes and " + seconds + " seconds.\n";
 		this.type = InstructionType.time;
+		this.end = end;
+		this.map = this.end.getMap();
 	}
 
 	public String getInstruction() {

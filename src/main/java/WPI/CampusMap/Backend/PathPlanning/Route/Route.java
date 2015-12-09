@@ -114,7 +114,7 @@ public class Route {
 
 		latest = new Instruction(p.get(p.size()-1), false);
 		list.add(latest);
-		latest = new Instruction(seconds);
+		latest = new Instruction(seconds, p.get(p.size() - 1));
 		list.add(latest);
 
 		return list;
