@@ -147,18 +147,18 @@ public class AppMainWindow extends JFrame implements Runnable {
 		mnFile.add(mntmSaveAsPdf);
 
 		JMenuItem mntmSaveAsTxt = new JMenuItem("Save As TXT");
-		mntmSaveAsTxt.addActionListener(UserMode.txtExporterAction);
+		mntmSaveAsTxt.addActionListener(txtExporterAction);
 		mnFile.add(mntmSaveAsTxt);
 
 		JMenu mnSendAs = new JMenu("Send As...");
 		mnFile.add(mnSendAs);
 
 		JMenuItem mntmEmail = new JMenuItem("Email");
-		mntmEmail.addActionListener(UserMode.emailAction);
+		mntmEmail.addActionListener(emailAction);
 		mnSendAs.add(mntmEmail);
 
 		JMenuItem mntmSms = new JMenuItem("SMS");
-		mntmSms.addActionListener(UserMode.SMSAction);
+		mntmSms.addActionListener(SMSAction);
 		mnSendAs.add(mntmSms);
 
 		JMenuItem mntmPrint = new JMenuItem("Print");
@@ -539,4 +539,22 @@ public class AppMainWindow extends JFrame implements Runnable {
 		public void actionPerformed(ActionEvent e) {
 		}
 	}
+	
+	protected ActionListener emailAction = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			getUserMode().onEmail();
+		}
+	};
+
+	protected ActionListener SMSAction = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			getUserMode().onSMS();
+		}
+	};
+
+	protected ActionListener txtExporterAction = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			getUserMode().onTxt();
+		}
+	};
 }

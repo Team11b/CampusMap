@@ -36,6 +36,7 @@ import WPI.CampusMap.Backend.PathPlanning.Path;
 import WPI.CampusMap.Backend.PathPlanning.Path.Section;
 import WPI.CampusMap.Backend.PathPlanning.PathFinder;
 import WPI.CampusMap.Backend.PathPlanning.PathNotFoundException;
+import WPI.CampusMap.Backend.PathPlanning.Route.Route;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicalMap;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.User.*;
 
@@ -97,6 +98,7 @@ public class UserMode extends UIMode
 			e.printStackTrace();
 		}
 		
+		getWindow().clearDestinations();
 		//clearRoute();
 	}
 	
@@ -204,7 +206,7 @@ public class UserMode extends UIMode
 		System.out.println("PDF");
 	}
 
-	public static void onTxt() {
+	public void onTxt() {
 		JFileChooser chooser = new JFileChooser();
 		chooser.showSaveDialog(chooser);
 		if(chooser.getSelectedFile() == null)
@@ -214,7 +216,7 @@ public class UserMode extends UIMode
 		}
 		File destination = chooser.getSelectedFile();
 		FileWriter write;
-		// String directions = AppUserModeControl.getDirections();
+		String directions = (new Route(routedPath).toString());
 		try {
 			write = new FileWriter(destination);
 			PrintWriter printLine = new PrintWriter(write);
@@ -227,7 +229,7 @@ public class UserMode extends UIMode
 		System.out.println("TXT");
 	}
 
-	public static String popUp() {
+	public String popUp() {
         final JFrame parent = new JFrame();
         //parent.add(button);
         parent.pack();
@@ -239,7 +241,7 @@ public class UserMode extends UIMode
       
     }
 	
-	public static void onEmail() {
+	public void onEmail() {
 		Email email = new SimpleEmail();
 		email.setDebug(true);
 		email.setHostName("smtp.gmail.com");
@@ -256,7 +258,8 @@ public class UserMode extends UIMode
 			email.getMailSession().getProperties().put("mail.smtp.starttls.enable", "true");
 			email.setFrom("team0011b@gmail.com", "Team 0011b");
 			email.setSubject("Campus Directions");
-			//email.setMsg(AppUserModeControl.getDirections());
+			Route sendingRoute = new Route(routedPath);
+			email.setMsg(sendingRoute.toString());
 			String emailAddress = popUp();
 			email.addTo(emailAddress, "WPI Campus Map User");
 			email.send();
@@ -267,7 +270,7 @@ public class UserMode extends UIMode
 		}
 	}
 
-	public static void onSMS() {
+	public void onSMS() {
 		System.out.println("SMS");
 		try {
 			SMSClient.SendText("+18184411799", "HELLO WORLD");
@@ -339,23 +342,4 @@ public class UserMode extends UIMode
 		graphicalMap = new UserGraphicalMap(mapName, this);
 		graphicalMap.spawnMap();
 	}
-
-
-	protected static ActionListener emailAction = new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-			onEmail();
-		}
-	};
-
-	protected static ActionListener SMSAction = new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-			onSMS();
-		}
-	};
-
-	protected static ActionListener txtExporterAction = new ActionListener() {
-		public void actionPerformed(ActionEvent e) {
-			onTxt();
-		}
-	};
 }
