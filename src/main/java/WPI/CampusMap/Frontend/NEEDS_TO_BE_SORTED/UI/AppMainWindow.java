@@ -2,8 +2,11 @@ package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI;
 
 import javax.swing.JFrame;
 import javax.swing.JSplitPane;
+
+import java.awt.AWTEvent;
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.Event;
 import java.awt.Panel;
 
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
@@ -333,6 +336,10 @@ public class AppMainWindow extends JFrame implements Runnable {
 				
 			}
 		});
+		
+		//hardcode for initial load
+		if(mapName.equals("Atwater_Kent-3"))
+			makeOtherDropDown("Atwater_Kent-0", building);
 	}
 	
 	//called when a map is loaded from the topbar dropdown
