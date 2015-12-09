@@ -212,7 +212,7 @@ public class UserMode extends UIMode
 		try {
 			write = new FileWriter(destination);
 			PrintWriter printLine = new PrintWriter(write);
-			printLine.print("This is a test.");
+			printLine.print(directions);
 			printLine.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
