@@ -38,20 +38,20 @@ public class AStarPathProcessor extends PathProcessor {
 			}
 			
 			// on building with goal
-//			if ((p1.getBuilding().equals(pGoal.getBuilding())) && (!(p2.getBuilding().equals(pGoal.getBuilding())))) {
-//				return -1;
-//			}
-//			else if ((!(p1.getBuilding().equals(pGoal.getBuilding()))) && (p2.getBuilding().equals(pGoal.getBuilding()))) {
-//				return 1;
-//			}
-			
-			// on campus map
-			if ((p1.getMap().equals(AllMaps.getInstance().CampusMap)) && (!(p2.getMap().equals(AllMaps.getInstance().CampusMap)))) {
+			if ((p1.getBuilding().equals(pGoal.getBuilding())) && (!(p2.getBuilding().equals(pGoal.getBuilding())))) {
 				return -1;
 			}
-			else if (!(p1.getMap().equals(AllMaps.getInstance().CampusMap)) && (p2.getMap().equals(AllMaps.getInstance().CampusMap))) {
+			else if ((!(p1.getBuilding().equals(pGoal.getBuilding()))) && (p2.getBuilding().equals(pGoal.getBuilding()))) {
 				return 1;
 			}
+			
+			// on campus map
+//			if ((p1.getMap().equals(AllMaps.getInstance().CampusMap)) && (!(p2.getMap().equals(AllMaps.getInstance().CampusMap)))) {
+//				return -1;
+//			}
+//			else if (!(p1.getMap().equals(AllMaps.getInstance().CampusMap)) && (p2.getMap().equals(AllMaps.getInstance().CampusMap))) {
+//				return 1;
+//			}
 			
 			// connects to campus
 //			if ((p1.connectToCampus()) && (!(p2.connectToCampus()))) {

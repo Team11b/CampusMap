@@ -10,7 +10,9 @@ public class DistanceProcessor extends NodeProcessor {
 
 	@Override
 	protected void onProcessNode(Node node, Node goal) {
-		node.modifyHeuristicCost(node.getDistance(goal.getPoint()));
+		if(node.getPoint().getMap().equals(goal.getPoint().getMap())){
+			node.modifyHeuristicCost(node.getDistance(goal.getPoint()));
+		}
 	}
 
 }

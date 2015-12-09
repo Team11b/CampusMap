@@ -163,6 +163,6 @@ public class ProxyPoint implements IPoint {
 
 	@Override
 	public String getBuilding() {
-		throw new UnsupportedOperationException("getBuilding not yet implemented.");
+		return this.getMap().split("-")[0];
 	}
 }

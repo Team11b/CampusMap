@@ -303,7 +303,7 @@ public class RealPoint implements IPoint,java.io.Serializable {
 	
 	@Override
 	public String getBuilding() {
-		throw new UnsupportedOperationException("getBuilding not yet implemented.");
+		return this.getMap().split("-")[0];
 	}
 
 }
