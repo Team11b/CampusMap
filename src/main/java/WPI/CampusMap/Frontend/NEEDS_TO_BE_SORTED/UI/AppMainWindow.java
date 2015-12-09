@@ -25,6 +25,8 @@ import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JComboBox;
 import javax.swing.JRadioButtonMenuItem;
@@ -142,16 +144,9 @@ public class AppMainWindow extends JFrame implements Runnable {
 		JRadioButtonMenuItem rdbtnmntmUseWeather = new JRadioButtonMenuItem("Use Weather");
 		mnIndooroutdoor.add(rdbtnmntmUseWeather);
 
-		//JMenu mnMaps = new JMenu("Maps");
-		menuBar.add(mnMaps);
-		
+		menuBar.add(mnMaps);		
 		getMaps();
-
-		/*JMenu mnAk = new JMenu("AK");
-		mnMaps.add(mnAk);
-
-		JMenuItem mntmFirstFloor = new JMenuItem("First Floor");
-		mnAk.add(mntmFirstFloor);*/
+		//mnMaps.addActionListener(topMapAction);
 
 		JMenu mnSettings = new JMenu("Settings");
 		menuBar.add(mnSettings);
@@ -240,7 +235,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 		throw new UnsupportedOperationException("not implemented");
 	}
 	
-	public void getMaps(){
+	private void getMaps(){
 	//get all the files in the directory
 			File[] listOfFiles = new File("maps/").listFiles((new FilenameFilter() {
 			    public boolean accept(File dir, String name) {
@@ -288,12 +283,23 @@ public class AppMainWindow extends JFrame implements Runnable {
 		    			}			    			
 		    		}
 		    		JMenuItem mntmFloor = new JMenuItem(aMap.getName());
-		    		if(mnEx != null)
+		    		if(mnEx != null){
 		    			mnEx.add(mntmFloor);
+		    			makeALMenuItem(mntmFloor, aMap.getName());		    			
+		    		}
 		    			
 		    	}
 		    }
      }
+	
+	//Creates a custom handler to load a map
+	private void makeALMenuItem(JMenuItem aMenuItem, String mapName){
+		aMenuItem.addActionListener(new ActionListener(){
+			public void actionPerformed(ActionEvent e) {
+				currentMode.loadMap(mapName);				
+			}
+		});
+	}
 
 	/**
 	 * Forces the map to switch to a new map. This method acts like the drop
