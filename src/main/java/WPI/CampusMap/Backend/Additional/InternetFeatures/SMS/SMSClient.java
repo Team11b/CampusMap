@@ -13,17 +13,36 @@ import org.apache.http.message.BasicNameValuePair;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.swing.JButton;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+
 public class SMSClient {
 	 public static final String ACCOUNT_SID = "AC56aa68555da13ed4a250116aac6a1e53";
 	 public static final String AUTH_TOKEN = "f1b36697734210d80f9225cc5a404a3a"; 
 	 private static TwilioRestClient client = new TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN);
 	 
+	 private static class CreateDialogFromOptionPane {
+
+		    public static String popUp() {
+		        final JFrame parent = new JFrame();
+		        //parent.add(button);
+		        parent.pack();
+		        parent.setVisible(true);
+
+		        String number = JOptionPane.showInputDialog(parent, "What is your phone number?", null);
+		        return number;
+		      
+		    }
+	 }
+	 
 	 public static void SendText(String to, String textMessage) throws TwilioRestException{
 		    // Build a filter for the MessageList
 		    List<NameValuePair> params = new ArrayList<NameValuePair>();
+		    String number = CreateDialogFromOptionPane.popUp();
 		    //params.add(new BasicNameValuePair("Body", AppUserModeControl.getDirections()));
 		    params.add(new BasicNameValuePair("Body", textMessage));
-		    params.add(new BasicNameValuePair("To", to));
+		    params.add(new BasicNameValuePair("To", "+1" + number));
 		    params.add(new BasicNameValuePair("From", "+16264145940"));
 		 
 		    MessageFactory messageFactory = client.getAccount().getMessageFactory();

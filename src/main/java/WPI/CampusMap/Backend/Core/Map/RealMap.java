@@ -275,6 +275,17 @@ public class RealMap implements IMap, java.io.Serializable {
 	@Override
 	public String getBuilding() {
 		return getName().split("-")[0];
+	}	
+	
+	@Override
+	public boolean equals(Object other) {
+		if (other instanceof IMap) {
+			IMap that = (IMap) other;
+			boolean result = getName().equals(that.getName());
+			return result;
+		}
+		return false;
 	}
+
 
 }
