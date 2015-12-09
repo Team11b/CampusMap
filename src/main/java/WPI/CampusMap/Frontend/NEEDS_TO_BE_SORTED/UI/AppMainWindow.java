@@ -144,12 +144,12 @@ public class AppMainWindow extends JFrame implements Runnable {
 		JMenu mnFile = new JMenu("File");
 		menuBar.add(mnFile);
 
-		JMenuItem mntmSaveAsPdf = new JMenuItem("Save As PDF");
-		mnFile.add(mntmSaveAsPdf);
+		//JMenuItem mntmSaveAsPdf = new JMenuItem("Save As PDF");
+		//mnFile.add(mntmSaveAsPdf);
 
-		JMenuItem mntmSaveAsTxt = new JMenuItem("Save As TXT");
-		mntmSaveAsTxt.addActionListener(txtExporterAction);
-		mnFile.add(mntmSaveAsTxt);
+		//JMenuItem mntmSaveAsTxt = new JMenuItem("Save As TXT");
+		//mntmSaveAsTxt.addActionListener(txtExporterAction);
+		//mnFile.add(mntmSaveAsTxt);
 
 		JMenu mnSendAs = new JMenu("Send As...");
 		mnFile.add(mnSendAs);
@@ -188,12 +188,12 @@ public class AppMainWindow extends JFrame implements Runnable {
 		getMaps();
 		//mnMaps.addActionListener(topMapAction);
 
-		JMenu mnSettings = new JMenu("Settings");
-		menuBar.add(mnSettings);
+		//JMenu mnSettings = new JMenu("Settings");
+		//menuBar.add(mnSettings);
 
-		JCheckBoxMenuItem chckbxmntmDevMode = new JCheckBoxMenuItem("Dev Mode");
-		chckbxmntmDevMode.setAction(devModeAction);
-		mnSettings.add(chckbxmntmDevMode);
+		//JCheckBoxMenuItem chckbxmntmDevMode = new JCheckBoxMenuItem("Dev Mode");
+		//chckbxmntmDevMode.setAction(devModeAction);
+		//mnSettings.add(chckbxmntmDevMode);
 
 		renderThread = new Thread(this, "Render Thread");
 		renderThread.start();
