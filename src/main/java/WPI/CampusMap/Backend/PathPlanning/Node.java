@@ -131,6 +131,10 @@ public final class Node
 	public boolean equals(Object other){
 		if (other instanceof Node) {
 			Node that = (Node) other;
+			if(!that.point.exists()){
+				System.out.println("Can not compute equals due to unavailible point: "+this.point+", "+ that.point);
+//				return false;
+			}
 			boolean result = that.point.equals(point);
 //			System.out.println("Result"+ result);
 			return result;

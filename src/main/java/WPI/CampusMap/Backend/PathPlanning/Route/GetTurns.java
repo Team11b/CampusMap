@@ -26,12 +26,12 @@ public class GetTurns {
 		for (int i = 1; i < path.size() - 1; i++) {
 			// check if next point is on the same level as i - 1 and i + 1
 			if (checkHorizontal(path.get(i - 1), path.get(i), path.get(i + 1))) {
-				 System.out.println("Abridge one node horizontal");
+//				 System.out.println("Abridge one node horizontal");
 				continue;
 				// check if next point is on the same level as i - 1 and i +
 				// 1
 			} else if (checkVertical(path.get(i - 1), path.get(i), path.get(i + 1))) {
-				 System.out.println("Abridge one node vertical");
+//				 System.out.println("Abridge one node vertical");
 				continue;
 			} else {
 

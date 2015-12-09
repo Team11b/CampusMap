@@ -108,10 +108,17 @@ public abstract class PathProcessor
 	private void expandNode(Node node, HashSet<String> whiteList) {
 		ArrayList<IPoint> neighbors= node.getNeighbors(whiteList);
 		for(IPoint point: neighbors){
-			Node newNode = new Node(point, node, node.getDistance(point));
-			processNode(newNode);
-			if(!alreadyExplored(newNode)){
-				pushToFrontier(newNode);
+			if(point.getId().equals("SL2BDST")){
+				System.out.println("SL2BDST's neighbor:" + node.getPoint());
+			}
+			if(point.exists()){
+				Node newNode = new Node(point, node, node.getDistance(point));
+				processNode(newNode);
+				if(!alreadyExplored(newNode)){
+					pushToFrontier(newNode);
+				}
+			}else{
+				System.out.println(node.getPoint()+"'s neighbor: "+ point+" does not exist, not adding to front end");
 			}
 		}
 		

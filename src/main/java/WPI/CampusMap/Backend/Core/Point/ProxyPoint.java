@@ -31,6 +31,7 @@ public class ProxyPoint implements IPoint {
 				realPoint = (RealPoint) temp.getPoint(pointId);
 				if(realPoint == null){
 					System.out.println("Point not found: "+pointId);
+					System.out.println(temp.getAllPoints());
 				}else{
 					realPoint.constructNeighbors();
 				}
