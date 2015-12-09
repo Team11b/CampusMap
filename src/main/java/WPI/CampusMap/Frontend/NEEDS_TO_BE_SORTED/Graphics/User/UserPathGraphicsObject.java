@@ -34,7 +34,7 @@ public class UserPathGraphicsObject extends GraphicsObject<Section, UserGraphica
 	@Override
 	public int getDrawBatch() 
 	{
-		return 1;
+		return -1;
 	}
 
 	@Override
@@ -70,7 +70,7 @@ public class UserPathGraphicsObject extends GraphicsObject<Section, UserGraphica
 	@Override
 	public Color getColor() 
 	{
-		return new Color(204, 0, 204);
+		return new Color(120, 0, 120);
 	}
 
 	@Override

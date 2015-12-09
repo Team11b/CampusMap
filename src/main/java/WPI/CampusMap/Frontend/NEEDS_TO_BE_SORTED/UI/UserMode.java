@@ -29,6 +29,7 @@ import com.twilio.sdk.TwilioRestException;
 import WPI.CampusMap.Backend.Additional.InternetFeatures.SMS.SMSClient;
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Map.IMap;
+import WPI.CampusMap.Backend.Core.Point.AllPoints;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.PathPlanning.AStarPathProcessor;
 import WPI.CampusMap.Backend.PathPlanning.Path;
@@ -61,6 +62,8 @@ public class UserMode extends UIMode
 	@Override
 	public void gotoPoint(String name) 
 	{
+		IPoint point = AllPoints.getInstance().getPoint(name);
+		loadMap(point.getMap());
 	}
 	
 	/**

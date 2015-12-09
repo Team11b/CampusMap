@@ -42,6 +42,7 @@ import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
+import java.util.Comparator;
 
 import javax.swing.KeyStroke;
 import java.awt.event.InputEvent;
@@ -335,7 +336,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 		
 		//hardcode for initial load
 		if(mapName.equals("Atwater_Kent-3"))
-			makeOtherDropDown("Atwater_Kent-0", building);
+			makeOtherDropDown("Atwater_Kent-0");
 	}
 	
 	private class topMapActionListener implements ActionListener{
@@ -351,13 +352,15 @@ public class AppMainWindow extends JFrame implements Runnable {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			currentMode.loadMap(mapName);
-			makeOtherDropDown(mapName, building);
+			makeOtherDropDown(mapName);
 			
 		}	
 	}
 	
 	//called when a map is loaded from the topbar dropdown
-	private void makeOtherDropDown(String mapName, JMenu building) {
+	protected void makeOtherDropDown(String mapName) {
+		IMap currentMap = AllMaps.getInstance().getMap(mapName);
+		
 		// clear the dropdown
 		mapDropdown.removeAll();
 
@@ -365,8 +368,18 @@ public class AppMainWindow extends JFrame implements Runnable {
 		if (!mapName.equals("CampusMap")) {
 			// Add the buildings
 			mapDropdown.add("CampusMap");
-			for (int i = 0; i < building.getItemCount(); i++) {
-				mapDropdown.add(building.getItem(i).getText());
+			
+			ArrayList<IMap> otherMapsInBuilding = AllMaps.getInstance().getMapsInBuilding(currentMap.getBuilding());
+			otherMapsInBuilding.sort(new Comparator<IMap>() {
+				@Override
+				public int compare(IMap o1, IMap o2) 
+				{
+					return o1.getName().compareTo(o2.getName());
+				}
+			});
+			for(IMap map : otherMapsInBuilding)
+			{
+				mapDropdown.add(map.getName());
 			}
 		} else {
 			//load all the base
@@ -414,8 +427,10 @@ public class AppMainWindow extends JFrame implements Runnable {
 	 * 
 	 * @param map
 	 */
-	public void forceMapSwitch(IMap map) {
-		throw new UnsupportedOperationException("not implemented");
+	public void forceMapSwitch(String map)
+	{
+		makeOtherDropDown(map);
+		currentMode.loadMap(map);
 	}
 
 	/**

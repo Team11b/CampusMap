@@ -278,7 +278,7 @@ public class AppUserModeControl extends JComponent {
 		@Override
 		public void onSelected() 
 		{
-			window.getUserMode().loadMap(source.getMap());
+			window.forceMapSwitch(section.getMap());
 			window.getUserMode().selectRouteSection(section);
 		}
 	}
@@ -296,7 +296,7 @@ public class AppUserModeControl extends JComponent {
 		@Override
 		public void onSelected()
 		{
-			window.getUserMode().loadMap(section.getMap());
+			window.forceMapSwitch(section.getMap());
 			window.getUserMode().selectRouteSection(section);
 		}
 	}
@@ -316,7 +316,7 @@ public class AppUserModeControl extends JComponent {
 		@Override
 		public void onSelected() 
 		{
-			window.getUserMode().loadMap(mapName);
+			window.forceMapSwitch(mapName);
 			window.getUserMode().selectRouteSection(firstSection);
 		}
 		
