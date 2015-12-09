@@ -1,6 +1,7 @@
 package WPI.CampusMap.Backend.PathPlanning;
 
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 
@@ -16,6 +17,8 @@ import WPI.CampusMap.Backend.Core.Point.IPoint;
 public class Path implements Iterable<Path.Section>
 {	
 	LinkedList<Section> sections = new LinkedList<Section>();
+	HashMap<IMap, LinkedList<Section>> sectionsMap = new HashMap<>();
+	
 	/**
 	 * A section of a path.
 	 * @author Benny
@@ -78,7 +81,7 @@ public class Path implements Iterable<Path.Section>
 			if(!nodeChain.getPoint().getMap().equals(currentMap) || temp.getPoint().equals(nodeChain.getPoint())){
 				IMap map = AllMaps.getInstance().getMap(currentMap);
 				Collections.reverse(currentSection);
-				sections.add(new Section(map, currentSection));
+				storeSection(map, new Section(map, currentSection));
 				currentMap = nodeChain.getPoint().getMap();
 				currentSection = new LinkedList<IPoint>();
 			}
@@ -89,7 +92,7 @@ public class Path implements Iterable<Path.Section>
 		
 		IMap map = AllMaps.getInstance().getMap(currentMap);
 		Collections.reverse(currentSection);
-		sections.add(new Section(map, currentSection));
+		storeSection(map, new Section(map, currentSection));
 		Collections.reverse(sections);
 	}
 	
@@ -105,14 +108,14 @@ public class Path implements Iterable<Path.Section>
 		for(int i = 1; i < points.length; i++){
 			if(!points[0].getMap().equals(currentMap)){
 				IMap map = AllMaps.getInstance().getMap(currentMap);
-				sections.add(new Section(map, currentSection));
+				storeSection(map, new Section(map, currentSection));
 				currentSection = new LinkedList<IPoint>();
 				currentMap = points[0].getMap();
 			}
 			currentSection.add(points[i]);
 		}
 		IMap map = AllMaps.getInstance().getMap(currentMap);
-		sections.add(new Section(map, currentSection));
+		storeSection(map, new Section(map, currentSection));
 	}
 
 	@Override
@@ -128,7 +131,7 @@ public class Path implements Iterable<Path.Section>
 	 */
 	public LinkedList<Section> getSections(IMap map)
 	{
-		return sections;	
+		return sectionsMap.get(map);
 	}
 	
 	/**
@@ -141,5 +144,17 @@ public class Path implements Iterable<Path.Section>
 			size += section.size();
 		}
 		return size;
+	}
+	
+	private void storeSection(IMap map, Section section)
+	{
+		LinkedList<Section> sections = sectionsMap.get(map);
+		if(sections == null)
+			sections = new LinkedList<>();
+		
+		sections.addFirst(section);
+		
+		sectionsMap.put(map, sections);
+		this.sections.addLast(section);
 	}
 }

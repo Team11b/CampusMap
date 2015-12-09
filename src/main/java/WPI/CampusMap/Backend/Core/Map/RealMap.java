@@ -257,7 +257,7 @@ public class RealMap implements IMap, java.io.Serializable {
 	 */
 	@Override
 	public int hashCode() {
-		return name.hashCode();
+		return getName().hashCode();
 	}
 
 	@Override
@@ -286,6 +286,5 @@ public class RealMap implements IMap, java.io.Serializable {
 		}
 		return false;
 	}
-
 
 }

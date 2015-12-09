@@ -87,6 +87,8 @@ public class UserMode extends UIMode
 			routedPath = PathFinder.getPath(points, processor);
 			graphicalMap.setPathSections(getRoutedPath());
 			graphicalMap.setShownSection(getRoutedPath().getFirst());
+			
+			getWindow().setRoute(routedPath);
 		} 
 		catch (PathNotFoundException e) 
 		{
@@ -94,6 +96,11 @@ public class UserMode extends UIMode
 		}
 		
 		//clearRoute();
+	}
+	
+	public void selectRouteSection(Section section)
+	{
+		graphicalMap.setShownSection(section);
 	}
 	
 	public void onClearButton(){
@@ -199,7 +206,6 @@ public class UserMode extends UIMode
 		email.setHostName("smtp.gmail.com");
 		email.setSmtpPort(587);
 		email.setAuthenticator(new DefaultAuthenticator("team0011b@gmail.com", "SoftEng15"));
-		// email.setSSLOnConnect(true);
 		try {
 			email.getMailSession().getProperties().put("mail.smtp.auth", "true");
 			email.getMailSession().getProperties().put("mail.debug", "true");
@@ -217,7 +223,7 @@ public class UserMode extends UIMode
 			email.send();
 			System.out.println("Email sent");
 		} catch (EmailException e) {
-			// TODO Auto-generated catch block
+			System.out.println("Could not send email.");
 			e.printStackTrace();
 		}
 	}
@@ -281,8 +287,16 @@ public class UserMode extends UIMode
 	@Override
 	public void loadMap(String mapName)
 	{
+		if(mapName == null)
+			return;
+		
 		if(graphicalMap != null)
+		{
+			if(graphicalMap.getMap().equals(AllMaps.getInstance().getMap(mapName)))
+				return;
+			
 			graphicalMap.unload();
+		}
 		graphicalMap = new UserGraphicalMap(mapName, this);
 		graphicalMap.spawnMap();
 	}

@@ -25,7 +25,6 @@ public class SMSClient {
 
 	private static String popUp() {
 		final JFrame parent = new JFrame();
-		//parent.add(button);
 		parent.pack();
 		parent.setVisible(true);
 
