@@ -16,6 +16,7 @@ import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicalMap;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicsObject;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.Dev.DevGraphicalMap;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicalMap.GraphicsBatchComparator;
+import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.User.UserGraphicalMap;
 
 
 public class DevMode extends UIMode 
@@ -40,14 +41,14 @@ public class DevMode extends UIMode
 	
 	@Override
 	public void onModeEntered(){		
-		graphicsMap.setToolMode(EditorToolMode.None);
+		
 		//UIMode.setWindowText("Dev Mode");		
 		//Switch label to textbox for scale
 		//Show and hide UI elements
 		//if(currentMap != null)
 			//graphicsMap = new DevGraphicalMap(currentMap, this);
-			
-			throw new NotImplementedException("getMap?");
+		graphicsMap.setToolMode(EditorToolMode.None);
+			//throw new NotImplementedException("getMap?");
 	}
 	
 	public void setSelect(){		
@@ -135,6 +136,9 @@ public class DevMode extends UIMode
 	@Override
 	public final void onDraw(Graphics2D graphics)
 	{		
+		System.out.println("On Draw");
+		if(graphicsMap != null)
+			graphicsMap.onDraw(graphics);
 		/*graphics.clearRect(0, 0, panel.getWidth(), panel.getWidth());
 		
 		graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
@@ -166,48 +170,41 @@ public class DevMode extends UIMode
 					go.onDraw(graphics);
 				}
 			}
-		}*/
-		throw new NotImplementedException("Do you even graphical wapper");
+		}*/		
 	}
 
 	@Override
 	public void onMouseClickMap(MouseEvent e) {
-		graphicsMap.mouseClick(e);	
+		if(graphicsMap != null)
+			graphicsMap.mouseClick(e);	
 		
 	}
 
 	@Override
 	public void onMouseEnterMap(MouseEvent e) {
 		// TODO Auto-generated method stub
-		//mappanel didn't use it.
+		if(graphicsMap != null)
+			graphicsMap.mouseEnter(e);
 	}
 
 	@Override
 	public void onMouseLeaveMap(MouseEvent e) {
 		
-		if(graphicsMap == null)
-			return;		
-		
-		graphicsMap.mouseExit(e);
-		
-		
+		if(graphicsMap != null)
+			graphicsMap.mouseExit(e);		
 		
 	}
 
 	@Override
 	public void onMouseMoveOverMap(MouseEvent e) {
-		// TODO Auto-generated method stub
-		//who knows what this is used for if anything
-		throw new NotImplementedException("Do you even graphical wapper");
+		if(graphicsMap != null)
+			graphicsMap.mouseMove(e);
 	}
 
 	@Override
 	public void onMouseDraggedOverMap(MouseEvent e) {
-		// TODO Auto-generated method stub
-		if(graphicsMap == null)
-			return;		
-		
-		graphicsMap.mouseDrag(e);		
+		if(graphicsMap != null)		
+			graphicsMap.mouseDrag(e);		
 		
 	}
 
@@ -218,14 +215,13 @@ public class DevMode extends UIMode
 		synchronized(this)
 		{
 			System.out.println(mapName);
-			//IMap newMap = new Map(mapName);
-			//System.out.println(newMap.getAllPoints().keySet());
-			currentMap = AllMaps.getInstance().getMap(mapName);
+		
+			currentMap = AllMaps.getInstance().getMap(mapName);			
 			
 			if(graphicsMap != null)
 				graphicsMap.unload();
-			
-			onModeEntered();			
+			graphicsMap = new DevGraphicalMap(mapName, this);
+			graphicsMap.spawnMap();			
 			
 		}
 	}

@@ -191,7 +191,8 @@ public class AppMainWindow extends JFrame implements Runnable {
 		parent.add(devPanel);
 		parent.revalidate();
 		parent.repaint();
-
+		
+		
 		currentMode = new DevMode(this);
 		currentMode.onModeEntered();
 	}
