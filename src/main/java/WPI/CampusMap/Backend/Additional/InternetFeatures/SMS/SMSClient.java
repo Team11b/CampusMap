@@ -5,6 +5,7 @@ import com.twilio.sdk.TwilioRestException;
 import com.twilio.sdk.resource.factory.MessageFactory;
 import com.twilio.sdk.resource.instance.Message;
 
+import WPI.CampusMap.Backend.PathPlanning.Route.Route;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI.AppUserModeControl;
 
 import org.apache.http.NameValuePair;
@@ -38,7 +39,7 @@ public class SMSClient {
 		// Build a filter for the MessageList
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		String number = popUp();
-		//params.add(new BasicNameValuePair("Body", AppUserModeControl.getDirections()));
+		
 		params.add(new BasicNameValuePair("Body", textMessage));
 		params.add(new BasicNameValuePair("To", "+1" + number));
 		params.add(new BasicNameValuePair("From", "+16264145940"));

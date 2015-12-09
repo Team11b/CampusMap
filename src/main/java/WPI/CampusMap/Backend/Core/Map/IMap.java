@@ -23,5 +23,6 @@ public interface IMap {
 	public boolean removeEdge(IPoint point, IPoint other);
 	public void renamePoint(RealPoint p, String newName);
 	public boolean connectedToCampus();
+	public ArrayList<IPoint> pointsConnectedToOtherMaps();
 	public void save();
 }

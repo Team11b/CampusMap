@@ -285,4 +285,16 @@ public class RealMap implements IMap, java.io.Serializable {
 		return false;
 	}
 
+	@Override
+	public ArrayList<IPoint> pointsConnectedToOtherMaps() {
+		ArrayList<IPoint> points = new ArrayList<IPoint>();
+		for(IPoint point: getAllPoints()){
+			if(!point.getNeighborPointsOnOtherMaps().isEmpty()){
+				points.add(point);
+			}
+		}
+		
+		return points;
+	}
+
 }
