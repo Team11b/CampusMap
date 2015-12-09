@@ -242,41 +242,59 @@ public class AppMainWindow extends JFrame implements Runnable {
 	}
 	
 	public void getMaps(){
-		//get all the files in the directory
-				File[] listOfFiles = new File("maps/").listFiles((new FilenameFilter() {
-				    public boolean accept(File dir, String name) {
-				        return name.toLowerCase().endsWith(".png");
-				    }
-				}));
-				mapStrings.clear();
-			    for (int i = 0; i < listOfFiles.length; i++) {
-			      if (listOfFiles[i].isFile()) {					        
-			        int ext = listOfFiles[i].getName().lastIndexOf(".png"); //snip extension     
-			        mapStrings.add(listOfFiles[i].getName().substring(0, ext));	       	        
-			      } 
+	//get all the files in the directory
+			File[] listOfFiles = new File("maps/").listFiles((new FilenameFilter() {
+			    public boolean accept(File dir, String name) {
+			        return name.toLowerCase().endsWith(".png");
 			    }
-			    //put in alphabetical order and convert to string array
-			    mapStrings.sort(null);
-			    /*JMenu mnAk = new JMenu("AK");
-				mnMaps.add(mnAk);*/
-			    if(mnMaps.getItemCount() == 0){			    	
-			    	System.out.println("itemcount 0");
-			    }
-			    else{
-			    	//mapDropDown.removeAllItems();
-			    	mnMaps.removeAll();
-			    }
-			    
-			    for(int j = 0; j < listOfFiles.length; j++)
-			    {
-			    	if(mapStrings.get(j) != null){
-			    		String fileName = mapStrings.get(j);
-			    		//AllMaps.getInstance().addMap(new ProxyMap(fileName));
-			    		IMap aMap = AllMaps.getInstance().getMap(fileName);			    		
-			    		//mapDropDown.addItem(fileName);
-			    	}
-			    }
-	}
+			}));
+			mapStrings.clear();
+		    for (int i = 0; i < listOfFiles.length; i++) {
+		      if (listOfFiles[i].isFile()) {					        
+		        int ext = listOfFiles[i].getName().lastIndexOf(".png"); //snip extension     
+		        mapStrings.add(listOfFiles[i].getName().substring(0, ext));	       	        
+		      } 
+		    }
+		    //put in alphabetical order and convert to string array
+		    mapStrings.sort(null);
+		   
+		    if(mnMaps.getItemCount() == 0){			    	
+		    	System.out.println("itemcount 0");
+		    }
+		    else{
+		    	//mapDropDown.removeAllItems();
+		    	mnMaps.removeAll();
+		    }
+		    
+		    String currentBuilding, currentFloor;
+		    ArrayList<String> ddBuildings = new ArrayList<String>();
+		    for(int j = 0; j < listOfFiles.length; j++)
+		    {
+		    	if(mapStrings.get(j) != null){
+		    		String fileName = mapStrings.get(j);			    		
+		    		IMap aMap = AllMaps.getInstance().getMap(fileName);		
+		    		currentBuilding = aMap.getBuilding();
+		    		JMenu mnEx = null;
+		    		//System.out.println("currentBuilding is "+ currentBuilding);
+		    		if(!ddBuildings.contains(currentBuilding)){
+		    			ddBuildings.add(currentBuilding);
+		    			mnEx = new JMenu(currentBuilding);
+		    			mnMaps.add(mnEx);
+		    		}
+		    		else{
+		    			//System.out.println("Building found!");
+		    			for(int i = 0; i < mnMaps.getItemCount(); i++){
+		    				if(mnMaps.getItem(i).getText().equals(currentBuilding))
+		    					mnEx = (JMenu)mnMaps.getItem(i);
+		    			}			    			
+		    		}
+		    		JMenuItem mntmFloor = new JMenuItem(aMap.getName());
+		    		if(mnEx != null)
+		    			mnEx.add(mntmFloor);
+		    			
+		    	}
+		    }
+     }
 
 	/**
 	 * Forces the map to switch to a new map. This method acts like the drop
