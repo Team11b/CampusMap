@@ -22,7 +22,7 @@ public class RealMap implements IMap, java.io.Serializable {
 	private float scale;
 	private String name;
 	private HashMap<String, RealPoint> allPoints;
-	private ImageIcon loadedImage;
+	private transient ImageIcon loadedImage;
 
 	/**
 	 * Creates a map with the given name and default values
@@ -157,8 +157,7 @@ public class RealMap implements IMap, java.io.Serializable {
 		// System.out.println("Remove: " + point.getId());
 		ArrayList<IPoint> neighbors = point.getNeighborsP();
 		for (IPoint pointN : neighbors) {
-			if (!pointN.removeNeighbor(point))
-				return false;
+			if (!pointN.removeNeighbor(point))	return false;
 		}
 		point.removeAllNeighbors();
 		allPoints.remove(point.getId());
@@ -261,9 +260,8 @@ public class RealMap implements IMap, java.io.Serializable {
 	}
 
 	@Override
-	public ArrayList<RealPoint> getAllPoints() {
-		Collection<RealPoint> temp = allPoints.values();
-		return (ArrayList<RealPoint>) new ArrayList<RealPoint>(temp);
+	public Collection<RealPoint>getAllPoints() {
+		return allPoints.values();
 	}
 
 	@Override

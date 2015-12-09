@@ -21,7 +21,7 @@ import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI.UserMode;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI_OLD.AppUIObject;
 
 public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMap>
-{		
+{
 	public UserPointGraphicsObject(RealPoint backend, UserGraphicalMap owner) 
 	{
 		super(backend, owner);		

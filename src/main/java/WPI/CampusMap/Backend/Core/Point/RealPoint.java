@@ -2,6 +2,7 @@ package WPI.CampusMap.Backend.Core.Point;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.UUID;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
@@ -152,26 +153,26 @@ public class RealPoint implements IPoint,java.io.Serializable {
 	/**|
 	 * Sets the id of the point
 	 * 
-	 * @param id the new id
+	 * @param newId the new id
 	 */
 	@Override
-	public void setId(String id) {
+	public void setId(String newId) {
 		// TODO Add check to see if id already exists?
-		if(id != getId()){
+		if((!newId.equals(getId())) && !newId.equals("")){
 			for(IPoint n : getNeighborsP()){
-				n.removeNeighbor(this);	
+				System.out.println("Removed neighbor: "+n.removeNeighbor(this));	
 			}
-			
+
+			this.id = newId;
 			IMap map = AllMaps.getInstance().getMap(getMap());
 			if(map != null)
 			{
-				map.renamePoint(this, id);
+				map.renamePoint(this, newId);
 			}
-			
-			this.id = id;
 			for(IPoint n : getNeighborsP())
 			{
 				n.addNeighbor(this);
+				n.getNeighborsP().contains(this);
 				System.out.println("Replaced self in "+n+"'s neighbor list");
 			}
 		}
@@ -196,7 +197,7 @@ public class RealPoint implements IPoint,java.io.Serializable {
 	 * @return The list of only neighbors that exists on the specifies maps
 	 */
 	@Override
-	public ArrayList<IPoint> getValidNeighbors(ArrayList<String> whitelist) {
+	public ArrayList<IPoint> getValidNeighbors(HashSet<String> whitelist) {
 		ArrayList<IPoint> neigh = new ArrayList<IPoint>();
 		if(whitelist == null || whitelist.size() == 0){
 			neigh = this.getNeighborsP();
@@ -212,14 +213,15 @@ public class RealPoint implements IPoint,java.io.Serializable {
 
 	@Override
 	public boolean removeNeighbor(IPoint point) {
-		boolean success = true;
-		if(!point.getMap().equals(getMap())){
-			success = success && this.neighborList.remove(point.toString());
-		}else{
-			success = success && this.neighborList.remove(point.getId());
+		boolean firstSuccess = (this.neighbors.remove(point.getId()) != null) || (this.neighbors.remove(point.toString()) != null);
+		boolean secondSuccess = this.neighborList.remove(point.toString()) || this.neighborList.remove(point.getId());
+		System.out.println("First Success: "+firstSuccess+" Second Success: "+secondSuccess);
+		if(!firstSuccess || !secondSuccess){
+			System.out.println("First Point: "+this+" Second point: "+point);
+			System.out.println(this.neighbors.keySet());
+			System.out.println(this.neighborList);
 		}
-		success = success && (this.neighbors.remove(point.getId()) != null);
-		return success;
+		return firstSuccess && secondSuccess;
 	}
 	
 	@Override
@@ -232,7 +234,7 @@ public class RealPoint implements IPoint,java.io.Serializable {
 		if (this.neighbors.containsValue(point))
 			return false;
 		
-		if(point.getMap() == this.getMap()){
+		if(point.getMap().equals(this.getMap())){
 			this.neighbors.put(point.getId(), point);
 			this.neighborList.add(point.getId());
 		}else{
@@ -286,11 +288,14 @@ public class RealPoint implements IPoint,java.io.Serializable {
 	}
 
 	@Override
-	public HashMap<String, String> getNeighborPointsOnOtherMaps() {
-		HashMap<String, String> temp = new HashMap<String, String>();
+	public HashMap<String, ArrayList<String>> getNeighborPointsOnOtherMaps() {
+		HashMap<String, ArrayList<String>> temp = new HashMap<String, ArrayList<String>>();
 		for(IPoint point: this.getNeighborsP()){
-			if(point.getMap() != this.getMap()){
-				temp.put(point.getMap(), point.getId());
+			String map = point.getMap();
+			if(!map.equals(this.getMap())){
+				if(!temp.keySet().contains(map)) temp.put(map, new ArrayList<String>());
+
+				temp.get(map).add(point.toString());
 			}
 		}
 		return temp;
@@ -304,6 +309,7 @@ public class RealPoint implements IPoint,java.io.Serializable {
 	@Override
 	public String getBuilding() {
 		return this.getMap().split("-")[0];
+
 	}
 
 }

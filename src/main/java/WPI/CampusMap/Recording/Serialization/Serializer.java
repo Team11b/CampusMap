@@ -29,6 +29,7 @@ public class Serializer {
 			ObjectOutputStream out = new ObjectOutputStream(fileOut);
 
 			out.writeObject(tosave);
+			System.out.println("Saved");
 
 			out.close();
 			fileOut.close();
@@ -80,6 +81,7 @@ public class Serializer {
 			ObjectInputStream in = new ObjectInputStream(fileIn);
 
 			pm = (ProxyMap) in.readObject();
+            pm.onLoad();
 
 			in.close();
 			fileIn.close();

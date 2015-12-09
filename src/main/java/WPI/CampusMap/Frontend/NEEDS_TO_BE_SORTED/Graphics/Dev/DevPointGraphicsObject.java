@@ -153,7 +153,9 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 		for(IPoint other : connections)
 		{
 			DevEdgeGraphicsObject edge = DevEdgeGraphicsObject.getGraphicsEdge(ourPoint, other, getOwner());
-			edge.delete();
+			if(ourPoint.getMap().equals(other.getMap())){
+				edge.delete();
+			}
 		}
 	}
 	

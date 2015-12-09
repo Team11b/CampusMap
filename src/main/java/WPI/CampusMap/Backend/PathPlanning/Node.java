@@ -1,6 +1,7 @@
 package WPI.CampusMap.Backend.PathPlanning;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 
@@ -57,7 +58,7 @@ public final class Node
 	 * @param whitelist list of allowed maps
 	 * @return the valid neighbors
 	 */
-	public ArrayList<IPoint> getNeighbors(ArrayList<String> whitelist)
+	public ArrayList<IPoint> getNeighbors(HashSet<String> whitelist)
 	{
 		return point.getValidNeighbors(whitelist);
 	}
@@ -131,6 +132,7 @@ public final class Node
 		if (other instanceof Node) {
 			Node that = (Node) other;
 			boolean result = that.point.equals(point);
+//			System.out.println("Result"+ result);
 			return result;
 		}
 		return false;

@@ -22,8 +22,7 @@ import WPI.CampusMap.Backend.PathPlanning.PathFinder;
 import WPI.CampusMap.Backend.PathPlanning.PathNotFoundException;
 
 public class AStarTest {
-	static ProxyMap testMap, testMap2, testMap5;
-	static RealMap testMap6;
+	static ProxyMap testMap, testMap2, testMap5, testMap6;
 
 	@BeforeClass
 	public static void getMap() throws XMLStreamException {
@@ -39,6 +38,7 @@ public class AStarTest {
 		c = "MapC";
 
 		testMap5 = new ProxyMap(a);
+		AllMaps.getInstance().addMap(testMap5);
 		testMap5.setScale(100);
 
 		RealPoint zero = new RealPoint(new Coord(0, 0), "hallway", "0", a);
@@ -170,7 +170,8 @@ public class AStarTest {
 			testMap5.addPoint(all[k]);
 		}
 
-		testMap6 = new RealMap(c);
+		testMap6 = new ProxyMap(c);
+		AllMaps.getInstance().addMap(testMap6);
 		testMap6.setScale(100);
 
 		RealPoint zero2 = new RealPoint(new Coord(0, 0), "hallway", "0", c);
