@@ -21,11 +21,11 @@ public class AllPoints {
 		return instance;
 	}
 
-	public void clearAllMaps() {
+	public void clearAllPoints() {
 		allPoints.clear();
 	}
 
-	public IPoint getMap(String pointKey) {
+	public IPoint getPoint(String pointKey) {
 		return AllPoints.allPoints.get(pointKey);
 	}
 
