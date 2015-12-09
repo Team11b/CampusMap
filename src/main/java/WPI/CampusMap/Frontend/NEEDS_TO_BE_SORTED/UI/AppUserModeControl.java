@@ -20,6 +20,8 @@ import javax.swing.tree.TreePath;
 
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Map.IMap;
+import WPI.CampusMap.Backend.Core.Point.AllPoints;
+import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.PathPlanning.Path;
 import WPI.CampusMap.Backend.PathPlanning.Path.Section;
 import WPI.CampusMap.Backend.PathPlanning.Route.Instruction;
@@ -35,6 +37,8 @@ import java.awt.GridLayout;
 public class AppUserModeControl extends JComponent {
 	public static AppMainWindow window;
 	private JTree tree = new JTree();
+	
+	PointList scrollPane = new PointList();
 
 	@SuppressWarnings("serial")
 	public AppUserModeControl(AppMainWindow window) {
@@ -43,7 +47,8 @@ public class AppUserModeControl extends JComponent {
 		SpringLayout springLayout = new SpringLayout();
 		setLayout(springLayout);
 
-		PointList scrollPane = new PointList();
+		
+		scrollPane.addListener(new DestinationListListener());
 		springLayout.putConstraint(SpringLayout.NORTH, scrollPane, 25, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.WEST, scrollPane, 10, SpringLayout.WEST, this);
 		springLayout.putConstraint(SpringLayout.EAST, scrollPane, -10, SpringLayout.EAST, this);
@@ -147,6 +152,16 @@ public class AppUserModeControl extends JComponent {
 		}
 	}
 	
+	public void addDestination(UserPointGraphicsObject point)
+	{
+		scrollPane.addPointElement(point.getRepresentedObject().toString());
+	}
+	
+	public void clearDestinations()
+	{
+		scrollPane.clearPointElements();
+	}
+	
 	private static class RouteMeActionListener implements ActionListener
 	{
 		@Override
@@ -203,6 +218,39 @@ public class AppUserModeControl extends JComponent {
 			
 			tree.setSelectionRow(selectedIndex);
 		}
+	}
+	
+	private class DestinationListListener implements PointListEventHandler
+	{
+		@Override
+		public void pointDescriptorAdded(PointListElement element)
+		{
+			IPoint point = AllPoints.getInstance().getPoint(element.getName());
+			window.getUserMode().onPointAddedToRoute(point);
+		}
+
+		@Override
+		public void pointDescriptorRemoved(PointListElement element) 
+		{
+			IPoint point = AllPoints.getInstance().getPoint(element.getName());
+			window.getUserMode().onPointRemovedFromRoute(point);
+		}
+
+		@Override
+		public void pointDescriptorRenamed(PointListElement element, String oldName) 
+		{
+		}
+
+		@Override
+		public void pointDescriptorShow(PointListElement element) 
+		{
+		}
+
+		@Override
+		public void pointDescriptorMoved(PointListElement element) 
+		{
+		}
+		
 	}
 	
 	private abstract class DirectionsBaseTreeNode extends DefaultMutableTreeNode

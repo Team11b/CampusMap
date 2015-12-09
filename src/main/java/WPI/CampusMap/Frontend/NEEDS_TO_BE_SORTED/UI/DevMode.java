@@ -51,6 +51,11 @@ public class DevMode extends UIMode
 			//throw new NotImplementedException("getMap?");
 	}
 	
+	@Override
+	public void gotoPoint(String name) 
+	{
+	}
+	
 	public void setSelect(){		
 		System.out.println("Select Mode");
 		graphicsMap.setToolMode(EditorToolMode.None);

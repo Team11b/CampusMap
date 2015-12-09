@@ -8,6 +8,9 @@ import javax.swing.ImageIcon;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+
 import javax.swing.JTextField;
 import java.awt.event.InputMethodListener;
 import java.awt.event.InputMethodEvent;
@@ -48,7 +51,9 @@ public class PointListElement extends JComponent {
 		add(goToButton);
 
 		nodeName = new JTextField();
-		nodeName.addInputMethodListener(new PointNameChanged(this));
+		PointNameChanged nameChangeEvent = new PointNameChanged(this);
+		nodeName.addActionListener(nameChangeEvent);
+		nodeName.addFocusListener(nameChangeEvent);
 		nodeName.setText(name);
 		springLayout.putConstraint(SpringLayout.NORTH, nodeName, 10, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.SOUTH, nodeName, -10, SpringLayout.SOUTH, this);
@@ -58,27 +63,32 @@ public class PointListElement extends JComponent {
 	}
 
 	@Override
-	public Dimension getPreferredSize() {
+	public Dimension getPreferredSize()
+	{
 		return new Dimension(200, 45);
 	}
 
 	@Override
-	public Dimension getMaximumSize() {
+	public Dimension getMaximumSize()
+	{
 		return new Dimension(Integer.MAX_VALUE, 45);
 	}
 
 	@Override
-	public Dimension getMinimumSize() {
+	public Dimension getMinimumSize()
+	{
 		return new Dimension(100, 45);
 	}
 
-	public String getName() {
+	public String getName()
+	{
 		return nodeName.getText();
 	}
 
-	protected void setPointName(String name) {
-		currentName = name;
+	protected void setPointName(String name)
+	{
 		nodeName.setText(name);
+		currentName = name;
 	}
 
 	private class RemoveButtonActionListener implements ActionListener {
@@ -91,7 +101,7 @@ public class PointListElement extends JComponent {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			list.removePointElement(element);
+			list.removePointElement(element.getName());
 		}
 
 	}
@@ -105,24 +115,32 @@ public class PointListElement extends JComponent {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			list.gotoPointElement(element);
+			list.gotoPointElement(element.getName());
 		}
 
 	}
 
-	private class PointNameChanged implements InputMethodListener {
+	private class PointNameChanged implements FocusListener, ActionListener
+	{
 		private PointListElement element;
 
 		public PointNameChanged(PointListElement element) {
 			this.element = element;
 		}
 
-		public void caretPositionChanged(InputMethodEvent e) {
-
+		@Override
+		public void focusLost(FocusEvent arg0)
+		{
+			
 		}
 
-		public void inputMethodTextChanged(InputMethodEvent e) {
-			list.renamePointElement(element, currentName);
+		@Override
+		public void focusGained(FocusEvent e) {	}
+
+		@Override
+		public void actionPerformed(ActionEvent e)
+		{
+			list.guiRenameElement(element, currentName);
 		}
 	}
 

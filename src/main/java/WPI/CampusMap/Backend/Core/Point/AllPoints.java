@@ -32,10 +32,22 @@ public class AllPoints {
 		return AllPoints.allPoints.get(pointKey);
 	}
 	
-	public IPoint getPoint(String pointKey) {
-		String[] fullName = AllPoints.allPoints.get(pointKey).split("/");
+	public IPoint getPoint(String pointKey)
+	{
+		String fullName;
+		if(!allPoints.containsKey(pointKey))
+			fullName = pointKey;
+		else
+			fullName = allPoints.get(pointKey);
 		
-		return AllMaps.getInstance().getMap(fullName[0]).getPoint(fullName[1]);
+		if(fullName == null)
+			return null;
+		
+		String[] splitName = fullName.split("/");
+		if(splitName.length != 2)
+			return null;
+		
+		return AllMaps.getInstance().getMap(splitName[0]).getPoint(splitName[1]);
 	}
 
 	public boolean addPoint(String pointFullName) {

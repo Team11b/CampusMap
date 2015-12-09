@@ -131,7 +131,11 @@ public class Path implements Iterable<Path.Section>
 	 */
 	public LinkedList<Section> getSections(IMap map)
 	{
-		return sectionsMap.get(map);
+		LinkedList<Section> result = sectionsMap.get(map);
+		if(result == null)
+			return new LinkedList<>();
+		
+		return result;
 	}
 	
 	/**

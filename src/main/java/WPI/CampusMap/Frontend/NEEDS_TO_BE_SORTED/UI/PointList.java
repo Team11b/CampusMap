@@ -19,18 +19,19 @@ public class PointList extends Panel {
 		SpringLayout springLayout = new SpringLayout();
 		setLayout(springLayout);
 
-		JButton btnAdd = new JButton("Add");
+		//TODO: Add in 
+		/*JButton btnAdd = new JButton("Add");
 		btnAdd.setToolTipText("Add a destination to your trip");
 		btnAdd.addActionListener(new AddButtonActionListener());
 		springLayout.putConstraint(SpringLayout.WEST, btnAdd, 108, SpringLayout.WEST, this);
 		springLayout.putConstraint(SpringLayout.SOUTH, btnAdd, -10, SpringLayout.SOUTH, this);
 		springLayout.putConstraint(SpringLayout.EAST, btnAdd, -108, SpringLayout.EAST, this);
-		add(btnAdd);
+		add(btnAdd);*/
 
 		scrollPane = new JScrollPane();
 		springLayout.putConstraint(SpringLayout.NORTH, scrollPane, 0, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.WEST, scrollPane, 0, SpringLayout.WEST, this);
-		springLayout.putConstraint(SpringLayout.SOUTH, scrollPane, -7, SpringLayout.NORTH, btnAdd);
+		springLayout.putConstraint(SpringLayout.SOUTH, scrollPane, 0, SpringLayout.SOUTH, this);
 		springLayout.putConstraint(SpringLayout.EAST, scrollPane, 0, SpringLayout.EAST, this);
 		add(scrollPane);
 
@@ -39,7 +40,13 @@ public class PointList extends Panel {
 		listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
 	}
 
-	public PointListElement addPointElement(String name) {
+	public void addListener(PointListEventHandler handler)
+	{
+		handlers.add(handler);
+	}
+	
+	public PointListElement addPointElement(String name)
+	{
 		if (elements.containsKey(name))
 			return null;
 
@@ -49,55 +56,87 @@ public class PointList extends Panel {
 
 		listPanel.revalidate();
 		listPanel.repaint();
+		
+		for (PointListEventHandler handler : handlers)
+		{
+			handler.pointDescriptorAdded(element);
+		}
 
 		return element;
 	}
-
-	public void removePointElement(String name) {
-		remove(elements.get(name));
+	
+	public void removePointElement(String name)
+	{
+		if(!elements.containsKey(name))
+			return;
+		
+		PointListElement element = elements.get(name);
+		listPanel.remove(element);
 		elements.remove(name);
-	}
-
-	public void renamePointElement(String oldName, String newName) {
-		PointListElement element = elements.get(oldName);
-
-		elements.remove(oldName);
-		elements.put(newName, element);
-
-	}
-
-	protected void removePointElement(PointListElement element) {
-		removePointElement(element.getName());
-
-		for (PointListEventHandler handler : handlers) {
+		
+		listPanel.revalidate();
+		listPanel.repaint();
+		
+		for (PointListEventHandler handler : handlers)
+		{
 			handler.pointDescriptorRemoved(element);
 		}
 	}
-
-	protected void gotoPointElement(PointListElement element) {
-		for (PointListEventHandler handler : handlers) {
+	
+	public void clearPointElements()
+	{
+		for(PointListElement element : elements.values())
+		{
+			listPanel.remove(element);
+		}
+		
+		listPanel.revalidate();
+		listPanel.repaint();
+	}
+	
+	public void gotoPointElement(String name)
+	{
+		if(!elements.containsKey(name))
+			return;
+		
+		PointListElement element = elements.get(name);
+		
+		for (PointListEventHandler handler : handlers)
+		{
 			handler.pointDescriptorShow(element);
 		}
 	}
-
-	protected void renamePointElement(PointListElement element, String oldName) {
-		renamePointElement(oldName, element.getName());
-
-		for (PointListEventHandler handler : handlers) {
+	
+	public void renamePointElement(String oldName, String newName)
+	{
+		if(!elements.containsKey(oldName))
+			return;
+		
+		PointListElement element = elements.get(oldName);
+		
+		element.setPointName(newName);
+	}
+	
+	protected void guiRenameElement(PointListElement element, String oldName)
+	{
+		if(!elements.containsKey(oldName))
+			return;
+		
+		elements.remove(oldName);
+		elements.put(element.getName(), element);
+		
+		for(PointListEventHandler handler : handlers)
+		{
 			handler.pointDescriptorRenamed(element, oldName);
 		}
 	}
 
-	private class AddButtonActionListener implements ActionListener {
+	private class AddButtonActionListener implements ActionListener
+	{
 		@Override
-		public void actionPerformed(ActionEvent e) {
-			PointListElement newElement = addPointElement("");
-			if (newElement == null)
-				return;
-
-			for (PointListEventHandler handler : handlers) {
-				handler.pointDescriptorAdded(newElement);
-			}
+		public void actionPerformed(ActionEvent e)
+		{
+			addPointElement("");			
 		}
 	}
 

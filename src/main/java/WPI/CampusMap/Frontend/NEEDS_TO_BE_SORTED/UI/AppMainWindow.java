@@ -16,6 +16,8 @@ import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.PathPlanning.Path;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.Dev.DevEdgeGraphicsObject;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.Dev.DevPointGraphicsObject;
+import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.User.UserGraphicalMap;
+import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.User.UserPointGraphicsObject;
 
 import javax.swing.JLabel;
 import java.awt.Component;
@@ -419,18 +421,19 @@ public class AppMainWindow extends JFrame implements Runnable {
 	/**
 	 * Adds a destination to the destination list.
 	 * 
-	 * @param point
-	 *            The point that represents the destination.
+	 * @param point The point that represents the destination.
 	 */
-	public void addDestination(IPoint point) {
-		throw new UnsupportedOperationException("not implemented");
+	public void addDestination(UserPointGraphicsObject point) 
+	{
+		userPanel.addDestination(point);
 	}
 
 	/**
 	 * Clears the destination list.
 	 */
-	public void clearDestinations() {
-		throw new UnsupportedOperationException("not implemented");
+	public void clearDestinations() 
+	{
+		userPanel.clearDestinations();
 	}
 
 	/**

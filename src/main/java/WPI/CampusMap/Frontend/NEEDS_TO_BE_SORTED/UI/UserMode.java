@@ -42,8 +42,8 @@ public class UserMode extends UIMode
 {
 	private UserGraphicalMap graphicalMap;
 	
-	private LinkedList<UserPointGraphicsObject> route = new LinkedList<>();
-	private HashSet<UserPointGraphicsObject> routeSet = new HashSet<>();
+	private LinkedList<IPoint> route = new LinkedList<>();
+	private HashSet<IPoint> routeSet = new HashSet<>();
 	
 	private Path routedPath;
 	
@@ -56,6 +56,11 @@ public class UserMode extends UIMode
 	public void onModeEntered() {
 		// Execute changes to UI
 
+	}
+	
+	@Override
+	public void gotoPoint(String name) 
+	{
 	}
 	
 	/**
@@ -74,13 +79,7 @@ public class UserMode extends UIMode
 		AStarPathProcessor processor = new AStarPathProcessor();
 		
 		IPoint[] points = new IPoint[route.size()];
-		
-		int i = 0;
-		for(UserPointGraphicsObject graphicsPoint : route)
-		{
-			points[i] = graphicsPoint.getRepresentedObject();
-			i++;
-		}
+		route.toArray(points);
 		
 		try 
 		{
@@ -115,6 +114,17 @@ public class UserMode extends UIMode
 	
 	public void onPointAddedToRoute(UserPointGraphicsObject newPoint)
 	{
+		onPointAddedToRoute(newPoint.getRepresentedObject());
+		
+		if(newPoint != null && routeSet.contains(newPoint.getRepresentedObject()))
+			getWindow().addDestination(newPoint);
+	}
+	
+	public void onPointAddedToRoute(IPoint newPoint)
+	{
+		if(newPoint == null)
+			return;
+		
 		if(routedPath != null)
 		{
 			clearRoute();
@@ -135,22 +145,48 @@ public class UserMode extends UIMode
 		routeSet.clear();
 		route.clear();
 		
+		getWindow().clearDestinations();
+		
 		//TODO: Call UI code
+	}
+	
+	public void onPointRemovedFromRoute(UserPointGraphicsObject point)
+	{
+		onPointRemovedFromRoute(point.getRepresentedObject());
+	}
+	
+	public void onPointRemovedFromRoute(IPoint point)
+	{
+		if(point == null)
+			return;
+		
+		if(routedPath != null)
+		{
+			clearRoute();
+			routedPath = null;
+			graphicalMap.setPathSections(null);
+		}
+		
+		if(routeSet.contains(point))
+		{
+			routeSet.remove(point);
+			route.remove(point);
+		}
 	}
 	
 	public boolean containsInRoute(UserPointGraphicsObject point)
 	{
-		return routeSet.contains(point);
+		return routeSet.contains(point.getRepresentedObject());
 	}
 	
 	public boolean isRouteStart(UserPointGraphicsObject point)
 	{
-		return route.getFirst() == point;
+		return route.getFirst().equals(point.getRepresentedObject());
 	}
 	
 	public boolean isRouteEnd(UserPointGraphicsObject point)
 	{
-		return route.getLast() == point;
+		return route.getLast().equals(point.getRepresentedObject());
 	}
 
 	public void onWeatherChosen(String option) {
