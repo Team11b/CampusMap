@@ -16,34 +16,20 @@ public class AppDevModeControl extends JComponent {
 		SpringLayout springLayout = new SpringLayout();
 		setLayout(springLayout);
 
-		Choice comboBox = new Choice();
-		springLayout.putConstraint(SpringLayout.NORTH, comboBox, 35, SpringLayout.NORTH, this);
-		springLayout.putConstraint(SpringLayout.WEST, comboBox, 10, SpringLayout.WEST, this);
-		springLayout.putConstraint(SpringLayout.EAST, comboBox, -10, SpringLayout.EAST, this);
-		comboBox.add("AK");
-		comboBox.add("FL");
-		comboBox.add("Campus Map");
-		add(comboBox);
-
-		Label mapLabel = new Label("Map");
-		springLayout.putConstraint(SpringLayout.WEST, mapLabel, 0, SpringLayout.WEST, comboBox);
-		springLayout.putConstraint(SpringLayout.SOUTH, mapLabel, 0, SpringLayout.NORTH, comboBox);
-		add(mapLabel);
-
 		AppDevModePointEditorControl panel = new AppDevModePointEditorControl(window);
-		springLayout.putConstraint(SpringLayout.NORTH, panel, 16, SpringLayout.SOUTH, comboBox);
+		springLayout.putConstraint(SpringLayout.NORTH, panel, 10, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.WEST, panel, 0, SpringLayout.WEST, this);
 		springLayout.putConstraint(SpringLayout.EAST, panel, 0, SpringLayout.EAST, this);
 		add(panel);
 
 		JSeparator separator = new JSeparator();
-		springLayout.putConstraint(SpringLayout.SOUTH, panel, 0, SpringLayout.SOUTH, separator);
 		springLayout.putConstraint(SpringLayout.WEST, separator, 0, SpringLayout.WEST, this);
 		springLayout.putConstraint(SpringLayout.SOUTH, separator, -40, SpringLayout.SOUTH, this);
 		springLayout.putConstraint(SpringLayout.EAST, separator, 0, SpringLayout.EAST, this);
 		add(separator);
 
 		JButton btnSave = new JButton("Save");
+		springLayout.putConstraint(SpringLayout.SOUTH, panel, -6, SpringLayout.NORTH, btnSave);
 		btnSave.setToolTipText("Save the current map");
 		springLayout.putConstraint(SpringLayout.NORTH, btnSave, 6, SpringLayout.SOUTH, separator);
 		springLayout.putConstraint(SpringLayout.WEST, btnSave, 80, SpringLayout.WEST, this);

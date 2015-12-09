@@ -19,6 +19,7 @@ import java.awt.Component;
 import java.awt.Container;
 
 import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.JProgressBar;
 import javax.swing.JMenuBar;
 import javax.swing.JMenu;
@@ -39,6 +40,9 @@ import java.util.ArrayList;
 
 import javax.swing.KeyStroke;
 import java.awt.event.InputEvent;
+import javax.swing.SpringLayout;
+import java.awt.Choice;
+import java.awt.Label;
 
 public class AppMainWindow extends JFrame implements Runnable {
 	/**
@@ -59,6 +63,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 	
 	private JMenu mnMaps = new JMenu("Maps");
 
+	private Panel sharedArea = new Panel();
 	private Panel infoArea = new Panel();
 
 	public AppMainWindow() {
@@ -77,13 +82,33 @@ public class AppMainWindow extends JFrame implements Runnable {
 		splitPane.setDividerSize(5);
 		getContentPane().add(splitPane, BorderLayout.CENTER);
 
-		splitPane.setRightComponent(infoArea);
-		infoArea.setLayout(new BorderLayout(0, 0));
-		infoArea.setMinimumSize(new Dimension(300, 200));
+		splitPane.setRightComponent(sharedArea);
+		sharedArea.setMinimumSize(new Dimension(300, 200));
 
 		userPanel = new AppUserModeControl(this);
 		devPanel = new AppDevModeControl(this);
-		infoArea.add(userPanel, BorderLayout.CENTER);
+		
+		SpringLayout sl_sharedArea = new SpringLayout();
+		sharedArea.setLayout(sl_sharedArea);
+		
+		sl_sharedArea.putConstraint(SpringLayout.WEST, infoArea, 0, SpringLayout.WEST, sharedArea);
+		sl_sharedArea.putConstraint(SpringLayout.SOUTH, infoArea, 0, SpringLayout.SOUTH, sharedArea);
+		sl_sharedArea.putConstraint(SpringLayout.EAST, infoArea, 0, SpringLayout.EAST, sharedArea);
+		sharedArea.add(infoArea);
+		
+		Choice mapDropdown = new Choice();
+		sl_sharedArea.putConstraint(SpringLayout.NORTH, infoArea, 10, SpringLayout.SOUTH, mapDropdown);
+		sl_sharedArea.putConstraint(SpringLayout.NORTH, mapDropdown, 25, SpringLayout.NORTH, sharedArea);
+		sl_sharedArea.putConstraint(SpringLayout.WEST, mapDropdown, 10, SpringLayout.WEST, sharedArea);
+		sl_sharedArea.putConstraint(SpringLayout.EAST, mapDropdown, -10, SpringLayout.EAST, sharedArea);
+		sharedArea.add(mapDropdown);
+		
+		infoArea.setLayout(new BorderLayout());
+		
+		Label label = new Label("Map");
+		sl_sharedArea.putConstraint(SpringLayout.WEST, label, 0, SpringLayout.WEST, mapDropdown);
+		sl_sharedArea.putConstraint(SpringLayout.SOUTH, label, 0, SpringLayout.NORTH, mapDropdown);
+		sharedArea.add(label);
 
 		MapPanel mapPanel = new MapPanel();
 		splitPane.setLeftComponent(mapPanel);
@@ -197,19 +222,19 @@ public class AppMainWindow extends JFrame implements Runnable {
 	public void changeToDevMode() {
 		Container parent = infoArea;
 		parent.remove(userPanel);
-		parent.add(devPanel);
+		parent.add(devPanel, BorderLayout.CENTER);
 		parent.revalidate();
 		parent.repaint();		
 		
 		this.setTitle("Dev Mode");
 		currentMode = new DevMode(this);
-		currentMode.onModeEntered();		
+		currentMode.onModeEntered();
 	}
 
 	public void changeToUserMode() {
 		Container parent = infoArea;
 		parent.remove(devPanel);
-		parent.add(userPanel);
+		parent.add(userPanel, BorderLayout.CENTER);
 		parent.revalidate();
 		parent.repaint();
 

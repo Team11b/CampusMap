@@ -32,17 +32,8 @@ public class AppUserModeControl extends JComponent {
 		SpringLayout springLayout = new SpringLayout();
 		setLayout(springLayout);
 
-		Choice comboBox = new Choice();
-		comboBox.add("AK");
-		comboBox.add("FL");
-		comboBox.add("Campus Map");
-		springLayout.putConstraint(SpringLayout.NORTH, comboBox, 35, SpringLayout.NORTH, this);
-		add(comboBox);
-
 		PointList scrollPane = new PointList();
-		springLayout.putConstraint(SpringLayout.NORTH, scrollPane, 80, SpringLayout.NORTH, this);
-		springLayout.putConstraint(SpringLayout.WEST, comboBox, 0, SpringLayout.WEST, scrollPane);
-		springLayout.putConstraint(SpringLayout.EAST, comboBox, 0, SpringLayout.EAST, scrollPane);
+		springLayout.putConstraint(SpringLayout.NORTH, scrollPane, 25, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.WEST, scrollPane, 10, SpringLayout.WEST, this);
 		springLayout.putConstraint(SpringLayout.EAST, scrollPane, -10, SpringLayout.EAST, this);
 		add(scrollPane);
@@ -58,11 +49,6 @@ public class AppUserModeControl extends JComponent {
 		routeButton.setFont(new Font("Tahoma", Font.PLAIN, 15));
 		add(routeButton);
 		routeButton.addActionListener(new RouteMeActionListener());
-
-		Label mapLabel = new Label("Map");
-		springLayout.putConstraint(SpringLayout.WEST, mapLabel, 0, SpringLayout.WEST, comboBox);
-		springLayout.putConstraint(SpringLayout.SOUTH, mapLabel, 0, SpringLayout.NORTH, comboBox);
-		add(mapLabel);
 
 		Label label = new Label("Destinations");
 		springLayout.putConstraint(SpringLayout.WEST, label, 10, SpringLayout.WEST, this);
@@ -80,7 +66,7 @@ public class AppUserModeControl extends JComponent {
 		springLayout.putConstraint(SpringLayout.NORTH, scrollPane_1, 25, SpringLayout.SOUTH, separator);
 		springLayout.putConstraint(SpringLayout.WEST, scrollPane_1, 10, SpringLayout.WEST, this);
 		springLayout.putConstraint(SpringLayout.SOUTH, scrollPane_1, -10, SpringLayout.SOUTH, this);
-		springLayout.putConstraint(SpringLayout.EAST, scrollPane_1, 0, SpringLayout.EAST, comboBox);
+		springLayout.putConstraint(SpringLayout.EAST, scrollPane_1, -10, SpringLayout.EAST, this);
 		add(scrollPane_1);
 
 		Label label_1 = new Label("Directions");
