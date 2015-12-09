@@ -28,6 +28,7 @@ public class ProxyMap implements IMap, Serializable {
 		this.mapName = name;
         namedPoints = new String[0];
         connectedMaps = new String[0]; 
+//        System.out.println("Made new " + name);
 
 	}
 	
@@ -133,7 +134,9 @@ public class ProxyMap implements IMap, Serializable {
 			}
 			namedPoints = tempNamedPoints.toArray(new String[tempNamedPoints.size()]);
 			connectedMaps = tempConnectedMaps.toArray(new String[tempConnectedMaps.size()]);
-			
+
+//			System.out.println(Arrays.toString(connectedMaps));
+//			System.out.println(Arrays.toString(namedPoints));
 			Serializer.save(this);
 		}
 

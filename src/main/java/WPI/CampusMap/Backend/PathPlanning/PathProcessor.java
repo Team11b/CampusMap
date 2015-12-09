@@ -111,7 +111,6 @@ public abstract class PathProcessor
 			Node newNode = new Node(point, node, node.getDistance(point));
 			processNode(newNode);
 			if(!alreadyExplored(newNode)){
-				if(point.getMap().split("-")[0].equals("Gordon_Library")) System.out.println("Found goardon library");
 				pushToFrontier(newNode);
 			}
 		}
