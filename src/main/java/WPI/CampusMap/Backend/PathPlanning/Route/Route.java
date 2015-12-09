@@ -70,7 +70,7 @@ public class Route {
 		list.add(latest);
 		latest = new Instruction(p.get(0).distance(p.get(1)), p.get(0), p.get(1));
 		list.add(latest);
-		float totalDist = 0;
+		float totalDist = (float) p.get(0).distance(p.get(1));
 
 		for (int i = 1; i < p.size() - 1; i++) {
 			String turn = "";
