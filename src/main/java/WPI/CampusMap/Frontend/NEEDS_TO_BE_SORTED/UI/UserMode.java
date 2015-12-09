@@ -265,7 +265,8 @@ public class UserMode extends UIMode
 	public void onSMS() {
 		System.out.println("SMS");
 		try {
-			SMSClient.SendText("+18184411799", "HELLO WORLD");
+			Route sendingRoute = new Route(routedPath);
+			SMSClient.SendText("+18184411799", sendingRoute.toString());
 		} catch (TwilioRestException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
