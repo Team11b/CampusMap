@@ -76,7 +76,7 @@ public abstract class PathProcessor
 			
 		}
 		goal = null;
-		if(previousEnd == null) throw new PathNotFoundException(keyPoints[0], keyPoints[keyPoints.length]);
+		if(previousEnd == null) throw new PathNotFoundException(keyPoints[0], keyPoints[keyPoints.length-1]);
 		Path path = new Path(previousEnd);
 		return path;
 	}
