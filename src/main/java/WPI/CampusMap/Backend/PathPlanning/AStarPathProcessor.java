@@ -54,7 +54,7 @@ public class AStarPathProcessor extends PathProcessor {
 //				System.out.println("Both Points on campus");
 				String[] buildingConnections = ((ProxyMap)AllMaps.getInstance().getMap(campusMap)).getNamedPoints();
 //				System.out.println("Goal building: "+pGoal.getBuilding());
-				System.out.println(Arrays.toString(buildingConnections));
+//				System.out.println(Arrays.toString(buildingConnections));
 				if(Arrays.asList(buildingConnections).contains(campusMap+"/"+pGoal.getBuilding())){
 //					System.out.println("Campus contains building point");
 					IPoint buildingPoint = AllMaps.getInstance().getMap(campusMap).getPoint(pGoal.getBuilding());
