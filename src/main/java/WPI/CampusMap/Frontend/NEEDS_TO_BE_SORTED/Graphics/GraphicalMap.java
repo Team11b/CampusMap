@@ -19,8 +19,6 @@ import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Map.IMap;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI.UIMode;
-import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI_OLD.AppUIObject;
-import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI_OLD.MapPanel;
 
 /**
  * A graphical map represents a container of graphical objects for a map. It is the equivalent of a map in the backend.

@@ -8,7 +8,6 @@ import WPI.CampusMap.Backend.Core.Point.RealPoint;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Dev.EditorToolMode;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.PointGraphicsObject;
 import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.RealMouseEvent;
-import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI_OLD.AppUIObject;
 
 public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 {
@@ -166,7 +165,7 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 		switch(mode)
 		{
 		case DeletePoint:
-			AppUIObject.getInstance().onPointSelected(null);
+			selected = null;
 			delete();
 			break;
 		case None:
@@ -207,7 +206,7 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 	 */
 	private void onSelected()
 	{
-		AppUIObject.getInstance().onPointSelected(getRepresentedObject());
+		selected = this;
 	}
 	
 	private void createGraphicsEdge(IPoint other)
