@@ -1,4 +1,4 @@
-package WPI.CampusMap.Backend.Additional.InternetFeatures.SMS;
+package WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.SMS;
 
 import com.twilio.sdk.TwilioRestClient;
 import com.twilio.sdk.TwilioRestException;

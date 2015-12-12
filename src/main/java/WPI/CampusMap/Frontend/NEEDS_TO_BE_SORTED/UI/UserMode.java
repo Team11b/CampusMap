@@ -20,7 +20,7 @@ import org.apache.commons.mail.SimpleEmail;
 
 import com.twilio.sdk.TwilioRestException;
 
-import WPI.CampusMap.Backend.Additional.InternetFeatures.SMS.SMSClient;
+import WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.SMS.SMSClient;
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Point.AllPoints;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
