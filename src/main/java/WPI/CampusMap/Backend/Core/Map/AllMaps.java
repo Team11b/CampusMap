@@ -74,9 +74,18 @@ public class AllMaps {
 		System.out.println("Creating whitelist");
 		HashSet<String> whitelist = new HashSet<String>();
 		whitelist.add(startMap);
+		String[] connectedToCampus = ((ProxyMap)getMap(CampusMap)).getConnectedMaps();
 		
 		//If same map
 		if(startMap.equals(destinationMap)) {
+			if(startMap.equals(CampusMap)){
+				for(String map: connectedToCampus){
+					whitelist.add(map);
+				}
+			}
+			if(Arrays.asList(connectedToCampus).contains(startMap)){
+				whitelist.add(CampusMap);
+			}
 //			System.out.println("Same map");
 			return whitelist;
 		}
@@ -90,7 +99,6 @@ public class AllMaps {
 			buildingDepthFirstSearch(startMap,destinationMap,new ArrayList<String>(), whitelist);
 			return whitelist;
 		}
-		String[] connectedToCampus = ((ProxyMap)getMap(CampusMap)).getConnectedMaps();
 //		System.out.println("Adding campus connected maps");
 		whitelist.add(CampusMap);
 		for(String map: connectedToCampus){

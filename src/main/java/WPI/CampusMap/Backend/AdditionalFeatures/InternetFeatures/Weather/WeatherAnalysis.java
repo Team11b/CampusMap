@@ -16,21 +16,21 @@ public class WeatherAnalysis {
 	private static final int breezyThreshold = 15;
 	private static final int windyThreshold = 25;
 
-	private static final double breezyCost = -2.5;
-	private static final double windyCost = -5.0;
+	private static final double breezyCost = 2.5;
+	private static final double windyCost = 5.0;
 
-	private static final double sunnyCost = 5.0;
-	private static final double percipCost = -100.0;
+	private static final double sunnyCost = -5.0;
+	private static final double percipCost = 50.0;
 
 	private static final double rfDegCost = 0.5;
 	private static double rfPosDegCost = rfDegCost;
 	private static double rfNegDegCost = rfDegCost;
 
-	private static final double wPosDegCost = 1.0;
-	private static final double wNegDegCost = -1.0;
+	private static final double wPosDegCost = -1.0;
+	private static final double wNegDegCost = 1.0;
 
-	private static final double sPosDegCost = -1.0;
-	private static final double sNegDegCost = 1.0;
+	private static final double sPosDegCost = 1.0;
+	private static final double sNegDegCost = -1.0;
 
 	// see
 	// http://discovernewengland.org/about-new-england/new-england-usa-quick-facts-0

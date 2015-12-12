@@ -158,7 +158,8 @@ public class ProxyPoint implements IPoint {
 
 	@Override
 	public boolean connectToCampus() {
-		throw new UnsupportedOperationException("connectToCampus not yet implemented.");
+		load();
+		return realPoint.connectToCampus();
 	}
 
 	@Override

@@ -33,7 +33,7 @@ public class WeatherHeuristicProcessor extends NodeProcessor {
 				node.modifyHeuristicCost((-1) * score);
 				node.setAccumulatedDistance(previousDist + segment *(scoreDivisor - score)/scoreDivisor);
 			}
-		} else if (pref == LocationPref.OUTSIDE) {
+		} else if (pref == LocationPref.INSIDE) {
 			if (node.getPoint().getMap().equals(WeatherHeuristicProcessor.campus)) {
 				node.modifyHeuristicCost(WeatherHeuristicProcessor.modifier);
 				node.setAccumulatedDistance(previousDist + segment *(scoreDivisor + modifier)/scoreDivisor);
@@ -41,7 +41,7 @@ public class WeatherHeuristicProcessor extends NodeProcessor {
 				node.modifyHeuristicCost((-1) * WeatherHeuristicProcessor.modifier);
 				node.setAccumulatedDistance(previousDist + segment *(scoreDivisor - modifier)/scoreDivisor);
 			}
-		} else if (pref == LocationPref.INSIDE) {
+		} else if (pref == LocationPref.OUTSIDE) {
 			if (node.getPoint().getMap().equals(WeatherHeuristicProcessor.campus)) {
 				node.modifyHeuristicCost((-1) * WeatherHeuristicProcessor.modifier);
 				node.setAccumulatedDistance(previousDist + segment *(scoreDivisor - modifier)/scoreDivisor);

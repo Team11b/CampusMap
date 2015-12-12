@@ -144,17 +144,22 @@ public abstract class PathProcessor
 	 */
 	protected final boolean pushToFrontier(Node node)
 	{
+		if(explored.contains(node)){
+			System.out.println("Found node in explored");
+		}
 		for(Node fNode: frontier.toArray(new Node[0])){
 			if(fNode.equals(node)){
-//				System.out.println("Frontier already contains " + node.point + ", replacing with shorter value");
+//				System.out.println("Frontier already contains " + node.getPoint() + ", replacing with shorter value");
+//				System.out.println("Current: "+ fNode.getAccumulatedDistance() +" New: " + node.getAccumulatedDistance() );
 				frontier.remove(fNode);
-				if(node.getAccumulatedDistance() < fNode.getAccumulatedDistance()){
+				if(fNode.getAccumulatedDistance() < node.getAccumulatedDistance()){
 					node = fNode;
 				}
+//				System.out.println("Adding node with value: "+ node.getAccumulatedDistance());
+//				System.out.println();
 				break;
 			}
 		}
-		
 		return frontier.add(node);
 	}
 	

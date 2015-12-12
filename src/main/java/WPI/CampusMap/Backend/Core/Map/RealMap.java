@@ -4,6 +4,7 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 
@@ -266,8 +267,8 @@ public class RealMap implements IMap, java.io.Serializable {
 
 	@Override
 	public boolean connectedToCampus() {
-		// TODO Auto-generated method stub
-		return false;
+		if(getName() == "CampusMap") return true;
+		return Arrays.asList(((ProxyMap) AllMaps.getInstance().getMap("CampusMap")).getConnectedMaps()).contains(getName());
 	}
 
 	@Override

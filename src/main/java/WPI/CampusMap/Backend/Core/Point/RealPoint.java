@@ -8,6 +8,7 @@ import java.util.UUID;
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Map.IMap;
+import WPI.CampusMap.Backend.Core.Map.ProxyMap;
 
 public class RealPoint implements IPoint,java.io.Serializable {
 
@@ -303,7 +304,7 @@ public class RealPoint implements IPoint,java.io.Serializable {
 
 	@Override
 	public boolean connectToCampus() {
-		throw new UnsupportedOperationException("connectToCampus not yet implemented.");
+		return ((ProxyMap) AllMaps.getInstance().getMap(getMap())).connectedToCampus();
 	}
 	
 	@Override
