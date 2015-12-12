@@ -1,4 +1,4 @@
-package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.User;
+package WPI.CampusMap.Frontend.Graphics.User;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -12,8 +12,8 @@ import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.Core.Ref.TypedRef;
 import WPI.CampusMap.Backend.PathPlanning.Path.Section;
-import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicsObject;
-import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.RealMouseEvent;
+import WPI.CampusMap.Frontend.Graphics.GraphicsObject;
+import WPI.CampusMap.Frontend.Graphics.RealMouseEvent;
 
 public class UserPathGraphicsObject extends GraphicsObject<Section, UserGraphicalMap>
 {

@@ -1,4 +1,4 @@
-package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI;
+package WPI.CampusMap.Frontend.UI;
 
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
@@ -35,8 +35,8 @@ import WPI.CampusMap.Backend.PathPlanning.PathFinder;
 import WPI.CampusMap.Backend.PathPlanning.PathNotFoundException;
 import WPI.CampusMap.Backend.PathPlanning.WeatherHeuristicProcessor;
 import WPI.CampusMap.Backend.PathPlanning.Route.Route;
-import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.User.UserGraphicalMap;
-import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.User.UserPointGraphicsObject;
+import WPI.CampusMap.Frontend.Graphics.User.UserGraphicalMap;
+import WPI.CampusMap.Frontend.Graphics.User.UserPointGraphicsObject;
 
 public class UserMode extends UIMode
 {

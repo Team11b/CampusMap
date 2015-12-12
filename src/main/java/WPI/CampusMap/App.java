@@ -4,7 +4,7 @@ package WPI.CampusMap;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 
-import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI.AppMainWindow;
+import WPI.CampusMap.Frontend.UI.AppMainWindow;
 
 /**
  * Hello world!

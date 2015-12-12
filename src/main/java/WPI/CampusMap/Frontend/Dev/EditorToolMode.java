@@ -1,4 +1,4 @@
-package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Dev;
+package WPI.CampusMap.Frontend.Dev;
 
 /**
  * Describes what tool mode the editor is in.

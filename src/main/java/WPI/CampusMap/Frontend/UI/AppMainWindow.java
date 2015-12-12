@@ -1,4 +1,4 @@
-package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI;
+package WPI.CampusMap.Frontend.UI;
 
 import javax.swing.JFrame;
 import javax.swing.JSplitPane;
@@ -15,10 +15,10 @@ import WPI.CampusMap.Backend.Core.Map.ProxyMap;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.PathPlanning.LocationPref;
 import WPI.CampusMap.Backend.PathPlanning.Path;
-import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.Dev.DevEdgeGraphicsObject;
-import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.Dev.DevPointGraphicsObject;
-import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.User.UserGraphicalMap;
-import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.User.UserPointGraphicsObject;
+import WPI.CampusMap.Frontend.Graphics.Dev.DevEdgeGraphicsObject;
+import WPI.CampusMap.Frontend.Graphics.Dev.DevPointGraphicsObject;
+import WPI.CampusMap.Frontend.Graphics.User.UserGraphicalMap;
+import WPI.CampusMap.Frontend.Graphics.User.UserPointGraphicsObject;
 
 import javax.swing.JLabel;
 import java.awt.Component;

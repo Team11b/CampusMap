@@ -1,4 +1,4 @@
-package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI;
+package WPI.CampusMap.Frontend.UI;
 
 public interface PointListEventHandler
 {

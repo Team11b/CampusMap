@@ -1,4 +1,4 @@
-package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.User;
+package WPI.CampusMap.Frontend.Graphics.User;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -6,8 +6,8 @@ import java.util.LinkedList;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.Core.Point.RealPoint;
 import WPI.CampusMap.Backend.PathPlanning.Path.Section;
-import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicalMap;
-import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI.UserMode;
+import WPI.CampusMap.Frontend.Graphics.GraphicalMap;
+import WPI.CampusMap.Frontend.UI.UserMode;
 
 public class UserGraphicalMap extends GraphicalMap
 {

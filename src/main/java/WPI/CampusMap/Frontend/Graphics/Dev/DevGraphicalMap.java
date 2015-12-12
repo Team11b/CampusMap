@@ -1,11 +1,11 @@
-package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.Dev;
+package WPI.CampusMap.Frontend.Graphics.Dev;
 
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.Core.Point.RealPoint;
-import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Dev.EditorToolMode;
-import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicalMap;
-import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.RealMouseEvent;
-import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI.DevMode;
+import WPI.CampusMap.Frontend.Dev.EditorToolMode;
+import WPI.CampusMap.Frontend.Graphics.GraphicalMap;
+import WPI.CampusMap.Frontend.Graphics.RealMouseEvent;
+import WPI.CampusMap.Frontend.UI.DevMode;
 
 public class DevGraphicalMap extends GraphicalMap
 {

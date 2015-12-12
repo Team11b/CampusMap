@@ -1,10 +1,10 @@
-package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.User;
+package WPI.CampusMap.Frontend.Graphics.User;
 
 import java.awt.Color;
 import WPI.CampusMap.Backend.Core.Point.RealPoint;
-import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.PointGraphicsObject;
-import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.RealMouseEvent;
-import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI.UserMode;
+import WPI.CampusMap.Frontend.Graphics.PointGraphicsObject;
+import WPI.CampusMap.Frontend.Graphics.RealMouseEvent;
+import WPI.CampusMap.Frontend.UI.UserMode;
 
 public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMap>
 {

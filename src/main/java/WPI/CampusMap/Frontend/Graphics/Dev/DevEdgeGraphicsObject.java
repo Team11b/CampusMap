@@ -1,4 +1,4 @@
-package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.Dev;
+package WPI.CampusMap.Frontend.Graphics.Dev;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -9,9 +9,9 @@ import java.util.Hashtable;
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Pair.UnorderedPair;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
-import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Dev.EditorToolMode;
-import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.GraphicsObject;
-import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.RealMouseEvent;
+import WPI.CampusMap.Frontend.Dev.EditorToolMode;
+import WPI.CampusMap.Frontend.Graphics.GraphicsObject;
+import WPI.CampusMap.Frontend.Graphics.RealMouseEvent;
 
 /**
  * A visual representation of an edge between two s.

@@ -1,13 +1,13 @@
-package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.Dev;
+package WPI.CampusMap.Frontend.Graphics.Dev;
 
 import java.awt.Color;
 import java.util.ArrayList;
 
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.Core.Point.RealPoint;
-import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Dev.EditorToolMode;
-import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.PointGraphicsObject;
-import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.RealMouseEvent;
+import WPI.CampusMap.Frontend.Dev.EditorToolMode;
+import WPI.CampusMap.Frontend.Graphics.PointGraphicsObject;
+import WPI.CampusMap.Frontend.Graphics.RealMouseEvent;
 
 public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 {

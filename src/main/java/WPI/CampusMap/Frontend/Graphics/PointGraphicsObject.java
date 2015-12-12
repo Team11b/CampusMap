@@ -1,4 +1,4 @@
-package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics;
+package WPI.CampusMap.Frontend.Graphics;
 
 import java.awt.Color;
 import java.awt.Graphics2D;

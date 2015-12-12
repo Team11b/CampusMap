@@ -1,12 +1,12 @@
-package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI;
+package WPI.CampusMap.Frontend.UI;
 
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Map.IMap;
-import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Dev.EditorToolMode;
-import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.Dev.DevGraphicalMap;
+import WPI.CampusMap.Frontend.Dev.EditorToolMode;
+import WPI.CampusMap.Frontend.Graphics.Dev.DevGraphicalMap;
 
 
 public class DevMode extends UIMode 

@@ -1,4 +1,4 @@
-package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI;
+package WPI.CampusMap.Frontend.UI;
 
 import javax.swing.SpringLayout;
 import javax.swing.event.TreeSelectionEvent;
@@ -26,7 +26,7 @@ import WPI.CampusMap.Backend.PathPlanning.Path;
 import WPI.CampusMap.Backend.PathPlanning.Path.Section;
 import WPI.CampusMap.Backend.PathPlanning.Route.Instruction;
 import WPI.CampusMap.Backend.PathPlanning.Route.Route;
-import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics.User.UserPointGraphicsObject;
+import WPI.CampusMap.Frontend.Graphics.User.UserPointGraphicsObject;
 
 import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.Choice;

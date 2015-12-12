@@ -1,4 +1,4 @@
-package WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.Graphics;
+package WPI.CampusMap.Frontend.Graphics;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 

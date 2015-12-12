@@ -6,7 +6,7 @@ import com.twilio.sdk.resource.factory.MessageFactory;
 import com.twilio.sdk.resource.instance.Message;
 
 import WPI.CampusMap.Backend.PathPlanning.Route.Route;
-import WPI.CampusMap.Frontend.NEEDS_TO_BE_SORTED.UI.AppUserModeControl;
+import WPI.CampusMap.Frontend.UI.AppUserModeControl;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
