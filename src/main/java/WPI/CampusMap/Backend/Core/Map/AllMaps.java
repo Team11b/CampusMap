@@ -140,7 +140,7 @@ public class AllMaps {
 			return true;
 		}
 //		System.out.println(((ProxyMap) getMap(current)).getConnectedMaps());
-		System.out.println(Arrays.toString(((ProxyMap) getMap(current)).getConnectedMaps()));
+//		System.out.println(Arrays.toString(((ProxyMap) getMap(current)).getConnectedMaps()));
 		for(String neighbor: ((ProxyMap) getMap(current)).getConnectedMaps()){
 			String neighborBuilding = neighbor.split("-")[0];
 			
