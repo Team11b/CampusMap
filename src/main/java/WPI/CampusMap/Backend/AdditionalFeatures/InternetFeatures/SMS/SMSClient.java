@@ -1,22 +1,18 @@
 package WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.SMS;
 
-import com.twilio.sdk.TwilioRestClient;
-import com.twilio.sdk.TwilioRestException;
-import com.twilio.sdk.resource.factory.MessageFactory;
-import com.twilio.sdk.resource.instance.Message;
+import java.util.ArrayList;
+import java.util.List;
 
-import WPI.CampusMap.Backend.PathPlanning.Route.Route;
-import WPI.CampusMap.Frontend.UI.AppUserModeControl;
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import javax.swing.JButton;
-import javax.swing.JFrame;
-import javax.swing.JOptionPane;
+import com.twilio.sdk.TwilioRestClient;
+import com.twilio.sdk.TwilioRestException;
+import com.twilio.sdk.resource.factory.MessageFactory;
+import com.twilio.sdk.resource.instance.Message;
 
 public class SMSClient {
 	public static final String ACCOUNT_SID = "AC56aa68555da13ed4a250116aac6a1e53";
@@ -44,7 +40,7 @@ public class SMSClient {
 		params.add(new BasicNameValuePair("To", "+1" + number));
 		params.add(new BasicNameValuePair("From", "+16264145940"));
 
-		MessageFactory messageFactory = client.getAccount().getMessageFactory();
+		MessageFactory messageFactory = (MessageFactory) client.getAccount().getSmsFactory();
 		Message message = messageFactory.create(params);
 		System.out.println(message.getSid());
 	}
