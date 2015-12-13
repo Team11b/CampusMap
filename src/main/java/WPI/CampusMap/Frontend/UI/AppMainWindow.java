@@ -15,6 +15,7 @@ import WPI.CampusMap.Backend.Core.Map.ProxyMap;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.PathPlanning.LocationPref;
 import WPI.CampusMap.Backend.PathPlanning.Path;
+import WPI.CampusMap.Backend.PathPlanning.Route.Instruction;
 import WPI.CampusMap.Frontend.Graphics.Dev.DevEdgeGraphicsObject;
 import WPI.CampusMap.Frontend.Graphics.Dev.DevPointGraphicsObject;
 import WPI.CampusMap.Frontend.Graphics.User.UserGraphicalMap;
@@ -69,6 +70,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 	private AppDevModeControl devPanel;
 	private final ArrayList<String> mapStrings = new ArrayList<String>();
 	private final Action devModeAction = new DevModeAction();
+	private final Action unitAction = new UnitAction();
 	private final Action printAction = new PrintAction();
 
 	private JMenu mnMaps = new JMenu("Maps");
@@ -199,13 +201,19 @@ public class AppMainWindow extends JFrame implements Runnable {
 		getMaps();
 		// mnMaps.addActionListener(topMapAction);
 
-		// JMenu mnSettings = new JMenu("Settings");
-		// menuBar.add(mnSettings);
+		 JMenu mnSettings = new JMenu("Settings");
+		 menuBar.add(mnSettings);
 
 		// JCheckBoxMenuItem chckbxmntmDevMode = new JCheckBoxMenuItem("Dev
 		// Mode");
-		// chckbxmntmDevMode.setAction(devModeAction);
+//		 chckbxmntmDevMode.setAction(devModeAction);
 		// mnSettings.add(chckbxmntmDevMode);
+		 
+		 JMenu mnUnit = new JMenu("Units");
+		 mnSettings.add(mnUnit);
+		 JCheckBoxMenuItem chckbxUnit = new JCheckBoxMenuItem("Metric");
+		 chckbxUnit.setAction(unitAction);
+		 mnUnit.add(chckbxUnit);
 
 		renderThread = new Thread(this, "Render Thread");
 		renderThread.start();
@@ -271,6 +279,14 @@ public class AppMainWindow extends JFrame implements Runnable {
 		this.setTitle("Path Finder");
 		currentMode = new UserMode(this);
 		currentMode.onModeEntered();
+	}
+	
+	public void changeToMetric() {
+		Instruction.setMetric(true);
+	}
+	
+	public void changeToCustomary() {
+		Instruction.setMetric(false);
 	}
 
 	/**
@@ -536,6 +552,25 @@ public class AppMainWindow extends JFrame implements Runnable {
 				changeToDevMode();
 			} else {
 				changeToUserMode();
+			}
+		}
+	}
+	
+	@SuppressWarnings("serial")
+	private class UnitAction extends AbstractAction {
+		public UnitAction() {
+			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_MASK));
+			putValue(NAME, "Unit");
+			putValue(SHORT_DESCRIPTION, "Switch metric and customary units.");
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			JCheckBoxMenuItem item = (JCheckBoxMenuItem) e.getSource();
+
+			if (item.isSelected()) {
+				changeToMetric();
+			} else {
+				changeToCustomary();
 			}
 		}
 	}

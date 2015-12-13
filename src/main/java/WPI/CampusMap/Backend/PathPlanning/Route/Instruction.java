@@ -17,7 +17,7 @@ public class Instruction {
 	private String map;
 	private InstructionType type;
 
-	private static boolean metric = true;
+	private static boolean metric = false;
 	private static double ftToM = 0.3048;
 
 	public Instruction(IPoint point, boolean start) {
