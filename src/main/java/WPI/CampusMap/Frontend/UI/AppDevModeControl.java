@@ -1,7 +1,5 @@
 package WPI.CampusMap.Frontend.UI;
 
-import java.awt.Choice;
-import java.awt.Label;
 import javax.swing.JButton;
 import javax.swing.JComponent;
 import javax.swing.JSeparator;

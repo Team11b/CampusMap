@@ -1,19 +1,16 @@
 package WPI.CampusMap.Frontend.UI;
 
-import javax.swing.JComponent;
-import javax.swing.SpringLayout;
-import javax.swing.JButton;
-import javax.swing.ImageIcon;
-
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 
+import javax.swing.ImageIcon;
+import javax.swing.JButton;
+import javax.swing.JComponent;
 import javax.swing.JTextField;
-import java.awt.event.InputMethodListener;
-import java.awt.event.InputMethodEvent;
+import javax.swing.SpringLayout;
 
 public class PointListElement extends JComponent {
 	private PointList list;
@@ -63,30 +60,25 @@ public class PointListElement extends JComponent {
 	}
 
 	@Override
-	public Dimension getPreferredSize()
-	{
+	public Dimension getPreferredSize() {
 		return new Dimension(200, 45);
 	}
 
 	@Override
-	public Dimension getMaximumSize()
-	{
+	public Dimension getMaximumSize() {
 		return new Dimension(Integer.MAX_VALUE, 45);
 	}
 
 	@Override
-	public Dimension getMinimumSize()
-	{
+	public Dimension getMinimumSize() {
 		return new Dimension(100, 45);
 	}
 
-	public String getName()
-	{
+	public String getName() {
 		return nodeName.getText();
 	}
 
-	protected void setPointName(String name)
-	{
+	protected void setPointName(String name) {
 		nodeName.setText(name);
 		currentName = name;
 	}
@@ -120,8 +112,7 @@ public class PointListElement extends JComponent {
 
 	}
 
-	private class PointNameChanged implements FocusListener, ActionListener
-	{
+	private class PointNameChanged implements FocusListener, ActionListener {
 		private PointListElement element;
 
 		public PointNameChanged(PointListElement element) {
@@ -129,17 +120,16 @@ public class PointListElement extends JComponent {
 		}
 
 		@Override
-		public void focusLost(FocusEvent arg0)
-		{
-			
+		public void focusLost(FocusEvent arg0) {
+
 		}
 
 		@Override
-		public void focusGained(FocusEvent e) {	}
+		public void focusGained(FocusEvent e) {
+		}
 
 		@Override
-		public void actionPerformed(ActionEvent e)
-		{
+		public void actionPerformed(ActionEvent e) {
 			list.guiRenameElement(element, currentName);
 		}
 	}

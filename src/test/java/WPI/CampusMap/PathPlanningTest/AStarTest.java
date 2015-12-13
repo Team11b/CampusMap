@@ -11,7 +11,6 @@ import org.junit.Test;
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Map.ProxyMap;
-import WPI.CampusMap.Backend.Core.Map.RealMap;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.Core.Point.RealPoint;
 import WPI.CampusMap.Backend.PathPlanning.AStarPathProcessor;
@@ -46,7 +45,7 @@ public class AStarTest {
 		RealPoint one = new RealPoint(new Coord(1, 0), "hallway", "1", a);
 		RealPoint two = new RealPoint(new Coord(2, 0), "hallway", "2", a);
 		RealPoint three = new RealPoint(new Coord(3, 0), "hallway", "3", a);
-		RealPoint four = new RealPoint(new Coord(4, 0), "hallway", "4", a);//Connection
+		RealPoint four = new RealPoint(new Coord(4, 0), "hallway", "4", a);// Connection
 		RealPoint five = new RealPoint(new Coord(0, 1), "hallway", "5", a);
 		RealPoint six = new RealPoint(new Coord(1, 1), "hallway", "6", a);
 		RealPoint seven = new RealPoint(new Coord(2, 1), "hallway", "7", a);
@@ -296,16 +295,15 @@ public class AStarTest {
 		twentyfour2.addNeighbor(twentythree2);
 		twentyfour2.addNeighbor(nineteen2);
 
-		RealPoint[] all2 = { zero2, one2, two2, three2, four2, five2, six2, seven2, eight2, nine2, ten2, eleven2, twelve2,
-				fourteen2, fifteen2, sixteen2, seventeen2, eightteen2, nineteen2, twenty2, twentyone2, twentytwo2,
-				twentythree2, twentyfour2 };
+		RealPoint[] all2 = { zero2, one2, two2, three2, four2, five2, six2, seven2, eight2, nine2, ten2, eleven2,
+				twelve2, fourteen2, fifteen2, sixteen2, seventeen2, eightteen2, nineteen2, twenty2, twentyone2,
+				twentytwo2, twentythree2, twentyfour2 };
 
 		for (int k = 0; k < all2.length; k++) {
 			testMap6.addPoint(all2[k]);
 		}
-		
+
 		testMap6.addEdge(four, four2);
-		
 
 		testMap = new ProxyMap(c);
 		testMap.setScale(100);
@@ -407,21 +405,22 @@ public class AStarTest {
 		twentyfour3.addNeighbor(twentythree3);
 		twentyfour3.addNeighbor(nineteen3);
 
-		RealPoint[] all3 = { zero3, one3, two3, three3, four3, five3, nine3, ten3, eleven3, twelve3,
-				fourteen3, fifteen3, sixteen3, seventeen3, eightteen3, nineteen3, twenty3, twentyone3, twentytwo3,
-				twentythree3, twentyfour3 };
+		RealPoint[] all3 = { zero3, one3, two3, three3, four3, five3, nine3, ten3, eleven3, twelve3, fourteen3,
+				fifteen3, sixteen3, seventeen3, eightteen3, nineteen3, twenty3, twentyone3, twentytwo3, twentythree3,
+				twentyfour3 };
 
 		for (int k = 0; k < all3.length; k++) {
 			testMap.addPoint(all3[k]);
 		}
 	}
+
 	@Ignore
 	@Test
 	public void testAStar4to12() {
 		RealPoint start, goal;
 		start = testMap.getPoint("4");
 		goal = testMap.getPoint("12");
-		
+
 		Path path = null;
 		try {
 			path = PathFinder.getPath(start, goal, new AStarPathProcessor(new DistanceProcessor()));
@@ -431,27 +430,27 @@ public class AStarTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		
-//		assertEquals(7, path.size());
-		String[] expectedPath = {"4", "9", "14", "19", "18", "17", "12"};
-		
+
+		// assertEquals(7, path.size());
+		String[] expectedPath = { "4", "9", "14", "19", "18", "17", "12" };
+
 		int i = 0;
-		
-		for(Section section: path){
-			for(IPoint point: section){
-				assertEquals(expectedPath[i],point.getId());
+
+		for (Section section : path) {
+			for (IPoint point : section) {
+				assertEquals(expectedPath[i], point.getId());
 				i++;
 			}
 		}
 	}
+
 	@Ignore
 	@Test
 	public void testAStar4to11() {
 		RealPoint start, goal;
 		start = testMap.getPoint("4");
 		goal = testMap.getPoint("11");
-		
+
 		Path path = null;
 		try {
 			path = PathFinder.getPath(start, goal, new AStarPathProcessor(new DistanceProcessor()));
@@ -461,20 +460,21 @@ public class AStarTest {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
+
 		assertEquals(8, path.size());
-		String[] expectedPath = {"4", "3", "2", "1", "0", "5", "10", "11"};
-		
+		String[] expectedPath = { "4", "3", "2", "1", "0", "5", "10", "11" };
+
 		int i = 0;
-		
-		for(Section section: path){
-			for(IPoint point: section){
-				assertEquals(expectedPath[i],point.getId());
+
+		for (Section section : path) {
+			for (IPoint point : section) {
+				assertEquals(expectedPath[i], point.getId());
 				i++;
-			
+
 			}
 		}
 	}
+
 	@Ignore
 	@Test
 	public void testConnected() {
@@ -482,7 +482,7 @@ public class AStarTest {
 		RealPoint start, goal;
 		start = testMap5.getPoint("0");
 		goal = testMap6.getPoint("24");
-		
+
 		Path path = null;
 		try {
 			path = PathFinder.getPath(start, goal, new AStarPathProcessor(new DistanceProcessor()));
@@ -493,31 +493,29 @@ public class AStarTest {
 			e.printStackTrace();
 		}
 
-		String[][] expectedPath = {{"0","1","2","3","4"},{"4","9","14","19","24"}};
+		String[][] expectedPath = { { "0", "1", "2", "3", "4" }, { "4", "9", "14", "19", "24" } };
 		int i = 0;
 		int j = 0;
-		
-		assertEquals(10,path.size());
-		for(Section section: path){
-			assertEquals(5,section.size());
+
+		assertEquals(10, path.size());
+		for (Section section : path) {
+			assertEquals(5, section.size());
 			i = 0;
-			for(IPoint point: section){
-				assertEquals(expectedPath[j][i],point.getId());
+			for (IPoint point : section) {
+				assertEquals(expectedPath[j][i], point.getId());
 				i++;
 			}
 			j++;
 		}
 
 	}
-	
+
 	@Test
 	public void multiDestinationTestSameMap() {
 		AllMaps.getInstance().addMap(testMap5);
-		RealPoint[] destinations = {testMap5.getPoint("0"), 
-									testMap5.getPoint("2"), 
-									testMap5.getPoint("22"),
-									testMap5.getPoint("24")};
-		
+		RealPoint[] destinations = { testMap5.getPoint("0"), testMap5.getPoint("2"), testMap5.getPoint("22"),
+				testMap5.getPoint("24") };
+
 		Path path = null;
 		try {
 			path = PathFinder.getPath(destinations, new AStarPathProcessor(new DistanceProcessor()));
@@ -528,31 +526,29 @@ public class AStarTest {
 			e.printStackTrace();
 		}
 
-		String[][] expectedPath = {{"0","1","2"},{"2","7","12","17","22"},{"22","23","24"}};
-		int[] expectedSectionSize = {3,5,3};
+		String[][] expectedPath = { { "0", "1", "2" }, { "2", "7", "12", "17", "22" }, { "22", "23", "24" } };
+		int[] expectedSectionSize = { 3, 5, 3 };
 		int i = 0;
 		int j = 0;
-		
-		assertEquals(11,path.size());
-		for(Section section: path){
-			assertEquals(expectedSectionSize[j],section.size());
+
+		assertEquals(11, path.size());
+		for (Section section : path) {
+			assertEquals(expectedSectionSize[j], section.size());
 			i = 0;
-			for(IPoint point: section){
-				assertEquals(expectedPath[j][i],point.getId());
+			for (IPoint point : section) {
+				assertEquals(expectedPath[j][i], point.getId());
 				i++;
 			}
 			j++;
 		}
 	}
-	
+
 	@Test
 	public void multiDestinationTestDiffMap() {
 		AllMaps.getInstance().addMap(testMap5);
-		RealPoint[] destinations = {testMap5.getPoint("0"), 
-									testMap6.getPoint("24"), 
-									testMap5.getPoint("20"),
-									testMap5.getPoint("4")};
-		
+		RealPoint[] destinations = { testMap5.getPoint("0"), testMap6.getPoint("24"), testMap5.getPoint("20"),
+				testMap5.getPoint("4") };
+
 		Path path = null;
 		try {
 			path = PathFinder.getPath(destinations, new AStarPathProcessor(new DistanceProcessor()));
@@ -563,32 +559,28 @@ public class AStarTest {
 			e.printStackTrace();
 		}
 
-//		String[][] expectedPath = {{"0","1","2","3","4"},
-//									{"4","9","14","19","24"},
-//									{"24","19","14","9","4"},
-//									{"4","3","2","1","6","11","10","15","20"},
-//									{"20","15","10","5","6","7","8","9","4"},
-//									{"0","1","2","3","4"},
-//									};
-		
-		String[][] expectedPath = {{"0","5","6","7","8","9","4"},
-									{"4","9","14","19","24"},
-									{"24","19","14","9","4"},
-									{"4","9","14","19","18","17","22","21","20"},
-									{"20","15","10","5","6","7","8","9","4"},
-									{"0","1","2","3","4"},
-									};
-		int[] expectedSectionSize = {7,5,5,9,9,5};
+		// String[][] expectedPath = {{"0","1","2","3","4"},
+		// {"4","9","14","19","24"},
+		// {"24","19","14","9","4"},
+		// {"4","3","2","1","6","11","10","15","20"},
+		// {"20","15","10","5","6","7","8","9","4"},
+		// {"0","1","2","3","4"},
+		// };
+
+		String[][] expectedPath = { { "0", "5", "6", "7", "8", "9", "4" }, { "4", "9", "14", "19", "24" },
+				{ "24", "19", "14", "9", "4" }, { "4", "9", "14", "19", "18", "17", "22", "21", "20" },
+				{ "20", "15", "10", "5", "6", "7", "8", "9", "4" }, { "0", "1", "2", "3", "4" }, };
+		int[] expectedSectionSize = { 7, 5, 5, 9, 9, 5 };
 		int i = 0;
 		int j = 0;
-		
-		assertEquals(35,path.size());
-		for(Section section: path){
-			assertEquals(expectedSectionSize[j],section.size());
+
+		assertEquals(35, path.size());
+		for (Section section : path) {
+			assertEquals(expectedSectionSize[j], section.size());
 			i = 0;
-			for(IPoint point: section){
-//				System.out.println(point);
-				assertEquals(expectedPath[j][i],point.getId());
+			for (IPoint point : section) {
+				// System.out.println(point);
+				assertEquals(expectedPath[j][i], point.getId());
 				i++;
 			}
 			j++;

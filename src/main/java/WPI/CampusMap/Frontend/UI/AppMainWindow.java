@@ -1,59 +1,46 @@
 package WPI.CampusMap.Frontend.UI;
 
-import javax.swing.JFrame;
-import javax.swing.JSplitPane;
-
-import java.awt.AWTEvent;
 import java.awt.BorderLayout;
-import java.awt.Dimension;
-import java.awt.Event;
-import java.awt.Panel;
-
-import WPI.CampusMap.Backend.Core.Map.AllMaps;
-import WPI.CampusMap.Backend.Core.Map.IMap;
-import WPI.CampusMap.Backend.Core.Map.ProxyMap;
-import WPI.CampusMap.Backend.Core.Point.IPoint;
-import WPI.CampusMap.Backend.PathPlanning.LocationPref;
-import WPI.CampusMap.Backend.PathPlanning.Path;
-import WPI.CampusMap.Backend.PathPlanning.Route.Instruction;
-import WPI.CampusMap.Frontend.Graphics.Dev.DevEdgeGraphicsObject;
-import WPI.CampusMap.Frontend.Graphics.Dev.DevPointGraphicsObject;
-import WPI.CampusMap.Frontend.Graphics.User.UserGraphicalMap;
-import WPI.CampusMap.Frontend.Graphics.User.UserPointGraphicsObject;
-
-import javax.swing.JLabel;
+import java.awt.Choice;
 import java.awt.Component;
 import java.awt.Container;
-
-import javax.swing.Box;
-import javax.swing.BoxLayout;
-import javax.swing.JProgressBar;
-import javax.swing.JMenuBar;
-import javax.swing.JMenu;
-import javax.swing.JMenuItem;
+import java.awt.Dimension;
+import java.awt.Label;
+import java.awt.Panel;
 import java.awt.SystemColor;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
-import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JComboBox;
-import javax.swing.JRadioButtonMenuItem;
-import javax.swing.AbstractAction;
-import javax.swing.Action;
+import java.awt.event.InputEvent;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.awt.event.KeyEvent;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.util.ArrayList;
 import java.util.Comparator;
 
+import javax.swing.AbstractAction;
+import javax.swing.Action;
+import javax.swing.Box;
+import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JFrame;
+import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
+import javax.swing.JProgressBar;
+import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
-import java.awt.event.InputEvent;
-import java.awt.event.ItemEvent;
-import java.awt.event.ItemListener;
-
 import javax.swing.SpringLayout;
-import java.awt.Choice;
-import java.awt.Label;
+
+import WPI.CampusMap.Backend.Core.Map.AllMaps;
+import WPI.CampusMap.Backend.Core.Map.IMap;
+import WPI.CampusMap.Backend.PathPlanning.LocationPref;
+import WPI.CampusMap.Backend.PathPlanning.Path;
+import WPI.CampusMap.Backend.PathPlanning.Route.Instruction;
+import WPI.CampusMap.Frontend.Graphics.Dev.DevEdgeGraphicsObject;
+import WPI.CampusMap.Frontend.Graphics.Dev.DevPointGraphicsObject;
+import WPI.CampusMap.Frontend.Graphics.User.UserPointGraphicsObject;
 
 public class AppMainWindow extends JFrame implements Runnable {
 	/**
@@ -201,19 +188,19 @@ public class AppMainWindow extends JFrame implements Runnable {
 		getMaps();
 		// mnMaps.addActionListener(topMapAction);
 
-		 JMenu mnSettings = new JMenu("Settings");
-		 menuBar.add(mnSettings);
+		JMenu mnSettings = new JMenu("Settings");
+		menuBar.add(mnSettings);
 
 		// JCheckBoxMenuItem chckbxmntmDevMode = new JCheckBoxMenuItem("Dev
 		// Mode");
-//		 chckbxmntmDevMode.setAction(devModeAction);
+		// chckbxmntmDevMode.setAction(devModeAction);
 		// mnSettings.add(chckbxmntmDevMode);
-		 
-		 JMenu mnUnit = new JMenu("Units");
-		 mnSettings.add(mnUnit);
-		 JCheckBoxMenuItem chckbxUnit = new JCheckBoxMenuItem("Metric");
-		 chckbxUnit.setAction(unitAction);
-		 mnUnit.add(chckbxUnit);
+
+		JMenu mnUnit = new JMenu("Units");
+		mnSettings.add(mnUnit);
+		JCheckBoxMenuItem chckbxUnit = new JCheckBoxMenuItem("Metric");
+		chckbxUnit.setAction(unitAction);
+		mnUnit.add(chckbxUnit);
 
 		renderThread = new Thread(this, "Render Thread");
 		renderThread.start();
@@ -280,11 +267,11 @@ public class AppMainWindow extends JFrame implements Runnable {
 		currentMode = new UserMode(this);
 		currentMode.onModeEntered();
 	}
-	
+
 	public void changeToMetric() {
 		Instruction.setMetric(true);
 	}
-	
+
 	public void changeToCustomary() {
 		Instruction.setMetric(false);
 	}
@@ -555,7 +542,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 			}
 		}
 	}
-	
+
 	@SuppressWarnings("serial")
 	private class UnitAction extends AbstractAction {
 		public UnitAction() {

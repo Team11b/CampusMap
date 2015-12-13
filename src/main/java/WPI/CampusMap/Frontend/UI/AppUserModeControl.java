@@ -1,27 +1,29 @@
 package WPI.CampusMap.Frontend.UI;
 
-import javax.swing.SpringLayout;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
-import javax.swing.JComponent;
-import javax.swing.JSeparator;
+import java.awt.Font;
+import java.awt.GridLayout;
+import java.awt.Label;
+import java.awt.Panel;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.LinkedList;
 
-import javax.swing.JButton;
-import javax.swing.JScrollPane;
-import javax.swing.JTree;
-import java.awt.Font;
-
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import java.awt.Label;
+import javax.swing.JButton;
+import javax.swing.JComponent;
+import javax.swing.JScrollPane;
+import javax.swing.JSeparator;
+import javax.swing.JTree;
+import javax.swing.SpringLayout;
+import javax.swing.event.TreeSelectionEvent;
+import javax.swing.event.TreeSelectionListener;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
-import WPI.CampusMap.Backend.Core.Map.IMap;
 import WPI.CampusMap.Backend.Core.Point.AllPoints;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.PathPlanning.Path;
@@ -30,28 +32,18 @@ import WPI.CampusMap.Backend.PathPlanning.Route.Instruction;
 import WPI.CampusMap.Backend.PathPlanning.Route.Route;
 import WPI.CampusMap.Frontend.Graphics.User.UserPointGraphicsObject;
 
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeCellRenderer;
-
-import java.awt.Choice;
-import java.awt.Panel;
-import java.awt.BorderLayout;
-import java.awt.GridLayout;
-
 public class AppUserModeControl extends JComponent {
 	public static AppMainWindow window;
 	private JTree tree = new JTree();
-	
+
 	PointList scrollPane = new PointList();
 
-	@SuppressWarnings("serial")
 	public AppUserModeControl(AppMainWindow window) {
 		this.window = window;
 
 		SpringLayout springLayout = new SpringLayout();
 		setLayout(springLayout);
 
-		
 		scrollPane.addListener(new DestinationListListener());
 		springLayout.putConstraint(SpringLayout.NORTH, scrollPane, 25, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.WEST, scrollPane, 10, SpringLayout.WEST, this);
@@ -92,22 +84,21 @@ public class AppUserModeControl extends JComponent {
 		springLayout.putConstraint(SpringLayout.SOUTH, label_1, 0, SpringLayout.NORTH, scrollPane_1);
 		springLayout.putConstraint(SpringLayout.WEST, label_1, 10, SpringLayout.WEST, this);
 
-		
-		 DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer) tree.getCellRenderer();
-	     Icon closedIcon = new ImageIcon("icon.png");
-	        Icon openIcon = new ImageIcon("icon.png");
-	        Icon leafIcon = new ImageIcon("icon.png");
-	        renderer.setClosedIcon(closedIcon);
-	        renderer.setOpenIcon(openIcon);
-	        renderer.setLeafIcon(leafIcon);
-	        System.out.println("H: " + openIcon.getIconHeight() + "W: " + openIcon.getIconWidth());
-		
+		DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer) tree.getCellRenderer();
+		Icon closedIcon = new ImageIcon("icon.png");
+		Icon openIcon = new ImageIcon("icon.png");
+		Icon leafIcon = new ImageIcon("icon.png");
+		renderer.setClosedIcon(closedIcon);
+		renderer.setOpenIcon(openIcon);
+		renderer.setLeafIcon(leafIcon);
+		System.out.println("H: " + openIcon.getIconHeight() + "W: " + openIcon.getIconWidth());
+
 		tree.setRootVisible(false);
 		tree.setModel(null);
 		tree.addTreeSelectionListener(new DirectionsSelectionListener());
 		scrollPane_1.setViewportView(tree);
 		add(label_1);
-		
+
 		Panel panel = new Panel();
 		springLayout.putConstraint(SpringLayout.SOUTH, panel, -10, SpringLayout.SOUTH, this);
 		springLayout.putConstraint(SpringLayout.SOUTH, scrollPane_1, -10, SpringLayout.NORTH, panel);
@@ -116,224 +107,208 @@ public class AppUserModeControl extends JComponent {
 		springLayout.putConstraint(SpringLayout.EAST, panel, 0, SpringLayout.EAST, scrollPane);
 		add(panel);
 		panel.setLayout(new GridLayout(0, 2, 0, 0));
-		
+
 		JButton btnPrevious = new JButton("Previous");
 		btnPrevious.addActionListener(new PrevButtonSelectionListener());
 		panel.add(btnPrevious);
-		
+
 		JButton btnNext = new JButton("Next");
 		btnNext.addActionListener(new NextButtonSelectionListener());
 		panel.add(btnNext);
 	}
 
-	public void setRoute(Path path) 
-	{
+	public void setRoute(Path path) {
 		Route directions = new Route(path);
-		
+
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Directions");
-		
+
 		String currentMap = null;
 		DefaultMutableTreeNode mapRoot = null;
-		for(Section section : path)
-		{
-			if(currentMap == null || !section.getMap().equals(currentMap))
-			{
+		for (Section section : path) {
+			if (currentMap == null || !section.getMap().equals(currentMap)) {
 				currentMap = section.getMap();
 				mapRoot = new MapSectionTreeNode(currentMap, section);
 				root.add(mapRoot);
 			}
-			
+
 			LinkedList<Section> sectionsInCurrentMap = path.getSections(AllMaps.getInstance().getMap(currentMap));
 			int routeNumber = sectionsInCurrentMap.indexOf(section) + 1;
-			
+
 			PathSectionTreeNode sectionRoot = new PathSectionTreeNode(section, routeNumber);
 			mapRoot.add(sectionRoot);
-			
+
 			LinkedList<Instruction> instructions = directions.getRoute(section);
-			for(Instruction instruction : instructions)
-			{
+			for (Instruction instruction : instructions) {
 				InstructionTreeNode instructionLeaf = new InstructionTreeNode(instruction, section);
 				sectionRoot.add(instructionLeaf);
 			}
 		}
-		
+
 		tree.setModel(new DefaultTreeModel(root));
 		tree.setSelectionPath(new TreePath(root.getFirstChild()));
-		
-		for(int i = 0; i < tree.getRowCount(); i++)
-		{
+
+		for (int i = 0; i < tree.getRowCount(); i++) {
 			tree.expandRow(i);
 		}
 	}
-	
-	public void addDestination(UserPointGraphicsObject point)
-	{
+
+	public void addDestination(UserPointGraphicsObject point) {
 		scrollPane.addPointElement(point.getRepresentedObject().toString());
 	}
-	
-	public void clearDestinations()
-	{
+
+	public void clearDestinations() {
 		scrollPane.clearPointElements();
 	}
-	
-	private static class RouteMeActionListener implements ActionListener
-	{
+
+	private static class RouteMeActionListener implements ActionListener {
 		@Override
-		public void actionPerformed(ActionEvent e)
-		{
+		public void actionPerformed(ActionEvent e) {
 			window.getUserMode().onRouteButton();
 		}
 
 	}
-	
-	private class DirectionsSelectionListener implements TreeSelectionListener
-	{
+
+	private class DirectionsSelectionListener implements TreeSelectionListener {
 		@Override
-		public void valueChanged(TreeSelectionEvent e) 
-		{
-			if(e.getPath().getLastPathComponent() instanceof DirectionsBaseTreeNode)
-			{
-				DirectionsBaseTreeNode node = (DirectionsBaseTreeNode)e.getPath().getLastPathComponent();
+		public void valueChanged(TreeSelectionEvent e) {
+			if (e.getPath().getLastPathComponent() instanceof DirectionsBaseTreeNode) {
+				DirectionsBaseTreeNode node = (DirectionsBaseTreeNode) e.getPath().getLastPathComponent();
 				node.onSelected();
 			}
 		}
-		
+
 	}
-	
-	private class NextButtonSelectionListener implements ActionListener
-	{
+
+	private class NextButtonSelectionListener implements ActionListener {
 		@Override
-		public void actionPerformed(ActionEvent e) 
-		{
+		public void actionPerformed(ActionEvent e) {
 			int[] selected = tree.getSelectionRows();
-			if(selected == null || selected.length == 0)
+			if (selected == null || selected.length == 0)
 				return;
-			
+
 			int selectedIndex = selected[0] + 1;
-			if(selectedIndex >= tree.getRowCount())
+			if (selectedIndex >= tree.getRowCount())
 				selectedIndex = tree.getRowCount() - 1;
-			
+
 			tree.setSelectionRow(selectedIndex);
 		}
 	}
-	
-	private class PrevButtonSelectionListener implements ActionListener
-	{
+
+	private class PrevButtonSelectionListener implements ActionListener {
 		@Override
-		public void actionPerformed(ActionEvent e) 
-		{
+		public void actionPerformed(ActionEvent e) {
 			int[] selected = tree.getSelectionRows();
-			if(selected == null || selected.length == 0)
+			if (selected == null || selected.length == 0)
 				return;
-			
+
 			int selectedIndex = selected[0] - 1;
-			if(selectedIndex < 0)
+			if (selectedIndex < 0)
 				selectedIndex = 0;
-			
+
 			tree.setSelectionRow(selectedIndex);
 		}
 	}
-	
-	private class DestinationListListener implements PointListEventHandler
-	{
+
+	private class DestinationListListener implements PointListEventHandler {
 		@Override
-		public void pointDescriptorAdded(PointListElement element)
-		{
+		public void pointDescriptorAdded(PointListElement element) {
 			IPoint point = AllPoints.getInstance().getPoint(element.getName());
 			window.getUserMode().onPointAddedToRoute(point);
 		}
 
 		@Override
-		public void pointDescriptorRemoved(PointListElement element) 
-		{
+		public void pointDescriptorRemoved(PointListElement element) {
 			IPoint point = AllPoints.getInstance().getPoint(element.getName());
 			window.getUserMode().onPointRemovedFromRoute(point);
 		}
 
 		@Override
-		public void pointDescriptorRenamed(PointListElement element, String oldName) 
-		{
+		public void pointDescriptorRenamed(PointListElement element, String oldName) {
 		}
 
 		@Override
-		public void pointDescriptorShow(PointListElement element) 
-		{
+		public void pointDescriptorShow(PointListElement element) {
 		}
 
 		@Override
-		public void pointDescriptorMoved(PointListElement element) 
-		{
+		public void pointDescriptorMoved(PointListElement element) {
 		}
-		
+
 	}
-	
-	private abstract class DirectionsBaseTreeNode extends DefaultMutableTreeNode
-	{
-		public DirectionsBaseTreeNode(Object userObject, boolean allowChildren)
-		{
+
+	private abstract class DirectionsBaseTreeNode extends DefaultMutableTreeNode {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 123464203285703937L;
+
+		public DirectionsBaseTreeNode(Object userObject, boolean allowChildren) {
 			super(userObject, allowChildren);
 		}
-		
+
 		public abstract void onSelected();
 	}
-	
-	private class InstructionTreeNode extends DirectionsBaseTreeNode
-	{
+
+	private class InstructionTreeNode extends DirectionsBaseTreeNode {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 9130117587484385937L;
 		private Instruction source;
 		private Section section;
-		
-		public InstructionTreeNode(Instruction source, Section section)
-		{
+
+		public InstructionTreeNode(Instruction source, Section section) {
 			super(source.getInstruction(), false);
 			this.source = source;
 			this.section = section;
 		}
 
 		@Override
-		public void onSelected() 
-		{
+		public void onSelected() {
 			window.forceMapSwitch(section.getMap());
 			window.getUserMode().selectRouteSection(section);
 		}
 	}
-	
-	public class PathSectionTreeNode extends DirectionsBaseTreeNode
-	{
+
+	public class PathSectionTreeNode extends DirectionsBaseTreeNode {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 8463985454935131567L;
 		private Section section;
-		
-		public PathSectionTreeNode(Section section, int sectionCount) 
-		{
+
+		public PathSectionTreeNode(Section section, int sectionCount) {
 			super(String.format("%s [Route %s]", section.getMap(), sectionCount), true);
 			this.section = section;
 		}
 
 		@Override
-		public void onSelected()
-		{
+		public void onSelected() {
 			window.forceMapSwitch(section.getMap());
 			window.getUserMode().selectRouteSection(section);
 		}
 	}
-	
-	public class MapSectionTreeNode extends DirectionsBaseTreeNode
-	{
+
+	public class MapSectionTreeNode extends DirectionsBaseTreeNode {
+		/**
+		 * 
+		 */
+		private static final long serialVersionUID = 2289516290900523443L;
 		private String mapName;
 		private Section firstSection;
-		
-		public MapSectionTreeNode(String mapName, Section firstSection) 
-		{
+
+		public MapSectionTreeNode(String mapName, Section firstSection) {
 			super(mapName, true);
 			this.mapName = mapName;
 			this.firstSection = firstSection;
 		}
 
 		@Override
-		public void onSelected() 
-		{
+		public void onSelected() {
 			window.forceMapSwitch(mapName);
 			window.getUserMode().selectRouteSection(firstSection);
 		}
-		
+
 	}
 
 	/**

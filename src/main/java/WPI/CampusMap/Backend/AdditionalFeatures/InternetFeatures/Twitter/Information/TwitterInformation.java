@@ -1,9 +1,5 @@
 package WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Twitter.Information;
 
-import java.io.BufferedReader;
-import java.io.FileNotFoundException;
-import java.io.FileReader;
-import java.io.IOException;
 import java.util.LinkedList;
 
 public class TwitterInformation {
@@ -14,8 +10,10 @@ public class TwitterInformation {
 	private static final String username = "team11b";
 	private static final String buildingHashtagsPath = "src/main/java/WPI/CampusMap/Backend/AdditionalFeatures/InternetFeatures/Twitter/Information/LocationNames.txt";
 	private static final String noBuildingFound = "nobuilding";
-	private static LinkedList<String> buildingHashtags; // lines starts at index 1 to ease copy over from the txt file
-	
+	private static LinkedList<String> buildingHashtags; // lines starts at index
+														// 1 to ease copy over
+														// from the txt file
+
 	// Buildings
 	public static final String CC = "CC";
 	public static final String FL = "FL";
@@ -79,7 +77,7 @@ public class TwitterInformation {
 	private static void loadBuildingHashtags() {
 		throw new UnsupportedOperationException("loadBuildingHashtags not yet implemented.");
 	}
-	
+
 	private static String fixHashtag(String hashtag) {
 		throw new UnsupportedOperationException("fixHashtag not yet implemented.");
 	}
