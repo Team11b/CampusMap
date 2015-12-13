@@ -106,7 +106,7 @@ public class AppUserModeControl extends JComponent {
 		springLayout.putConstraint(SpringLayout.WEST, panel, 0, SpringLayout.WEST, scrollPane);
 		springLayout.putConstraint(SpringLayout.EAST, panel, 0, SpringLayout.EAST, scrollPane);
 		add(panel);
-		panel.setLayout(new GridLayout(0, 2, 0, 0));
+		panel.setLayout(new GridLayout(2, 2, 0, 0));
 
 		JButton btnPrevious = new JButton("Previous");
 		btnPrevious.addActionListener(new PrevButtonSelectionListener());
@@ -115,6 +115,14 @@ public class AppUserModeControl extends JComponent {
 		JButton btnNext = new JButton("Next");
 		btnNext.addActionListener(new NextButtonSelectionListener());
 		panel.add(btnNext);
+		
+		JButton btnPreviousMap = new JButton("Previous Map");
+		btnPreviousMap.addActionListener(new PrevMapButtonSelectionListener());
+		panel.add(btnPreviousMap);
+		
+		JButton btnNextMap = new JButton("Next Map");
+		btnNextMap.addActionListener(new NextMapButtonSelectionListener());
+		panel.add(btnNextMap);
 	}
 
 	public void setRoute(Path path) {
@@ -193,8 +201,30 @@ public class AppUserModeControl extends JComponent {
 			tree.setSelectionRow(selectedIndex);
 		}
 	}
+	
+	private class NextMapButtonSelectionListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			System.out.println("** -> " + tree.getLocation());
+		}
+	}
 
 	private class PrevButtonSelectionListener implements ActionListener {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			int[] selected = tree.getSelectionRows();
+			if (selected == null || selected.length == 0)
+				return;
+
+			int selectedIndex = selected[0] - 1;
+			if (selectedIndex < 0)
+				selectedIndex = 0;
+
+			tree.setSelectionRow(selectedIndex);
+		}
+	}
+	
+	private class PrevMapButtonSelectionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			int[] selected = tree.getSelectionRows();
