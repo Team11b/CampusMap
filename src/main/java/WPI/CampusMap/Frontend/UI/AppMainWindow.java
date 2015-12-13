@@ -390,7 +390,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 		mapDropdown.removeAll();
 
 		// if its a normal map
-		if (!mapName.equals("Campus Map")) {
+		if (!mapName.equals("Campus_Map")) {
 			// Add the buildings
 			mapDropdown.add("Campus Map");
 
@@ -417,7 +417,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 		}
 
 		// show the current map when selecting from the other dropdown
-		mapDropdown.select(mapName);
+		mapDropdown.select(mapName.replace('_', ' '));
 
 		// add the listener
 		mapDropdown.addItemListener(new mapDropDownItemListener(mapName));
@@ -434,10 +434,14 @@ public class AppMainWindow extends JFrame implements Runnable {
 		public void itemStateChanged(ItemEvent e) {
 			String selectedMap = e.getItem().toString().replace(' ', '_');
 			System.out.println("item selected " + selectedMap);
-
+            System.out.println("mapname is "+mapName );
 			// load zero floor in case of CampusMap
-			if (mapName.equals("Campus Map"))
-				selectedMap = "Campus_Map" + "-0";
+			
+            /*if (mapName.equals("Campus_Map")){
+				//selectedMap = "Campus_Map" + "-0";
+				selectedMap = selectedMap + "-0";
+				System.out.println("fucked");
+			}*/
 
 			currentMode.loadMap(selectedMap);
 		}
