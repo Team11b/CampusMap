@@ -358,11 +358,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 	private void makeALMenuItem(JMenuItem aMenuItem, String mapName, JMenu building) {
 		// incase we start polling maps again ...
 		if (aMenuItem.getActionListeners().length == 0)
-			aMenuItem.addActionListener(new topMapActionListener(mapName, building));
-
-		// hardcode for initial load
-		if (mapName.equals("Atwater_Kent-3"))
-			makeOtherDropDown("Atwater_Kent-0");
+			aMenuItem.addActionListener(new topMapActionListener(mapName, building));		
 	}
 
 	private class topMapActionListener implements ActionListener {
@@ -443,9 +439,8 @@ public class AppMainWindow extends JFrame implements Runnable {
 				//System.out.println("");
             	makeOtherDropDown("Campus_Map");
 			}
-            else{
-            	if(selectedMap.indexOf("-") == -1)
-            		if(selectedMap.equals("Project_Center"))
+            else  	if(selectedMap.indexOf("-") == -1){
+            		if(!selectedMap.equals("Project_Center"))
             		selectedMap = selectedMap + "-0";
             		else
             			selectedMap = selectedMap + "-1";

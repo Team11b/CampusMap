@@ -54,10 +54,10 @@ public class Instruction {
 
 	public Instruction(double distance, IPoint start, IPoint end) {
 		if (Instruction.metric) {
-			this.instruction = "Walk " + new DecimalFormat("#.##").format((distance * Instruction.ftToM))
+			this.instruction = "Walk " + new DecimalFormat("#").format((distance * Instruction.ftToM))
 					+ " meters.\n";
 		} else {
-			this.instruction = "Walk " + new DecimalFormat("#.##").format(distance) + " feet.\n";
+			this.instruction = "Walk " + new DecimalFormat("#").format(distance) + " feet.\n";
 		}
 
 		this.distance = distance;
