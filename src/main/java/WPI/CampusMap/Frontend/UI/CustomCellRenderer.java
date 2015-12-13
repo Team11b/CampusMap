@@ -31,9 +31,9 @@ class CustomCellRenderer implements TreeCellRenderer{
 			}else if(text.contains("Walk")){
 				icon = new ImageIcon("straight.png");
 			}else if(text.contains("elevator")){
-				icon = new ImageIcon("left-turn.png");
+				icon = new ImageIcon("elevator.png");
 			}else if(text.contains("stair")){
-				icon = new ImageIcon("left-turn.png");
+				icon = new ImageIcon("stairs.png");
 			}else{
 				icon = new ImageIcon("icon.png");
 			}
