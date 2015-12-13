@@ -444,6 +444,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 	 * down menu selected a new map, so loading should not occur on the backend.
 	 * 
 	 * @param map
+	 *            new map to switch to
 	 */
 	public void forceMapSwitch(String map) {
 		makeOtherDropDown(map);

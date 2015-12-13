@@ -42,6 +42,8 @@ public abstract class PathProcessor {
 	 * @throws PathNotFoundException
 	 *             thrown when no path is found
 	 * @throws NotEnoughPointsException
+	 *             thrown when not enough points are present to create a path
+	 *             {0,1}
 	 */
 	protected Path execute(IPoint[] keyPoints) throws PathNotFoundException, NotEnoughPointsException {
 		if (keyPoints.length < 2) {
