@@ -32,8 +32,6 @@ public class UserPathGraphicsObject extends GraphicsObject<Section, UserGraphica
 
 	@Override
 	public void onDraw(Graphics2D graphics) {
-		graphics.setStroke(new BasicStroke(3.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 10.0f,
-				new float[] { 10.0f }, phase));
 		phase += 0.33f;
 
 		LinkedList<IPoint> points = getRepresentedObject().getPoints();
@@ -45,6 +43,18 @@ public class UserPathGraphicsObject extends GraphicsObject<Section, UserGraphica
 			Coord currentRenderCoord = getOwner().getRenderFromWorld(currentPoint.getCoord());
 			Coord lastRenderCoord = getOwner().getRenderFromWorld(lastPoint.getCoord());
 
+			//draw background line
+			graphics.setColor(new Color(0,240,0));
+			graphics.setStroke(new BasicStroke(3.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 10.0f));
+			Line2D.Float bLine = new Line2D.Float(currentRenderCoord.getX(), currentRenderCoord.getY(),
+					lastRenderCoord.getX(), lastRenderCoord.getY());
+			graphics.draw(bLine);
+			
+
+			graphics.setStroke(new BasicStroke(3.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 10.0f,
+					new float[] { 10.0f }, phase));
+			
+			graphics.setColor(getColor());
 			Line2D.Float line = new Line2D.Float(currentRenderCoord.getX(), currentRenderCoord.getY(),
 					lastRenderCoord.getX(), lastRenderCoord.getY());
 
