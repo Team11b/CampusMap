@@ -1,5 +1,6 @@
 package WPI.CampusMap.Frontend.UI;
 
+import java.awt.FlowLayout;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.io.File;
@@ -353,8 +354,12 @@ public class UserMode extends UIMode
 		JOptionPane aboutWindow = new JOptionPane();
 		JFrame aboutFrame = new JFrame("About Campus Mapper");
 		aboutFrame.setSize(500, 500);
-		aboutFrame.add(new JLabel("HELLO WOLRD"));
-		aboutFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		aboutFrame.setLayout(new FlowLayout());
+		aboutFrame.getContentPane().add(new JLabel("Worcester Polytechnic Institute"));
+		aboutFrame.getContentPane().add(new JLabel("CS3733 2015 B-Term"));
+		aboutFrame.getContentPane().add(new JLabel("Team 0011b"));
+		aboutFrame.getContentPane().add(new JLabel("Prof. Wilson Wong"));
+		//aboutFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		aboutWindow.createDialog(aboutFrame, "About Campus Mapper");
 		aboutFrame.setVisible(true);
 		aboutWindow.setVisible(true);
