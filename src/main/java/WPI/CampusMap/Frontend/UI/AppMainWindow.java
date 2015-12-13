@@ -132,13 +132,21 @@ public class AppMainWindow extends JFrame implements Runnable {
 
 		JMenu mnFile = new JMenu("File");
 		menuBar.add(mnFile);
+		
+		JMenuItem mntmAbout = new JMenuItem("About");
+		mntmAbout.addActionListener(aboutAction);
+		mnFile.add(mntmAbout);
+		
+		JMenuItem mntmGuide = new JMenuItem("User Guide");
+		mntmGuide.addActionListener(guideAction);
+		mnFile.add(mntmGuide);
 
 		// JMenuItem mntmSaveAsPdf = new JMenuItem("Save As PDF");
 		// mnFile.add(mntmSaveAsPdf);
 
-		// JMenuItem mntmSaveAsTxt = new JMenuItem("Save As TXT");
-		// mntmSaveAsTxt.addActionListener(txtExporterAction);
-		// mnFile.add(mntmSaveAsTxt);
+		JMenuItem mntmSaveAsTxt = new JMenuItem("Save As TXT");
+		mntmSaveAsTxt.addActionListener(txtExporterAction);
+		mnFile.add(mntmSaveAsTxt);
 
 		JMenu mnSendAs = new JMenu("Send As...");
 		mnFile.add(mnSendAs);
@@ -154,10 +162,6 @@ public class AppMainWindow extends JFrame implements Runnable {
 		JMenuItem mntmPrint = new JMenuItem("Print");
 		mntmPrint.setAction(printAction);
 		mnFile.add(mntmPrint);
-
-		JMenuItem mntmAbout = new JMenuItem("About");
-		mntmAbout.addActionListener(aboutAction);
-		mnFile.add(mntmAbout);
 
 		// JMenu mnRouting = new JMenu("Routing");
 		// menuBar.add(mnRouting);
@@ -385,7 +389,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 		mapDropdown.removeAll();
 
 		// if its a normal map
-		if (!mapName.equals("Campus Map")) {
+		if (!mapName.equals("Campus_Map")) {
 			// Add the buildings
 			mapDropdown.add("Campus Map");
 
@@ -412,7 +416,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 		}
 
 		// show the current map when selecting from the other dropdown
-		mapDropdown.select(mapName);
+		mapDropdown.select(mapName.replace('_', ' '));
 
 		// add the listener
 		mapDropdown.addItemListener(new mapDropDownItemListener(mapName));
@@ -429,11 +433,23 @@ public class AppMainWindow extends JFrame implements Runnable {
 		public void itemStateChanged(ItemEvent e) {
 			String selectedMap = e.getItem().toString().replace(' ', '_');
 			System.out.println("item selected " + selectedMap);
-
+            System.out.println("mapname is "+mapName );
 			// load zero floor in case of CampusMap
-			if (mapName.equals("Campus Map"))
-				selectedMap = "Campus_Map" + "-0";
-
+			
+            if (selectedMap.equals("Campus_Map")){
+				//selectedMap = "Campus_Map" + "-0";
+				//selectedMap = selectedMap + "-0";
+				//System.out.println("");
+            	makeOtherDropDown("Campus_Map");
+			}
+            else{
+            	if(selectedMap.indexOf("-") == -1)
+            		if(selectedMap.equals("Project_Center"))
+            		selectedMap = selectedMap + "-0";
+            		else
+            			selectedMap = selectedMap + "-1";
+            }
+            
 			currentMode.loadMap(selectedMap);
 		}
 	}
@@ -574,6 +590,12 @@ public class AppMainWindow extends JFrame implements Runnable {
 		}
 	}
 
+	protected ActionListener guideAction = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			getUserMode().onGuide();
+		}
+	};
+	
 	protected ActionListener aboutAction = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			getUserMode().onAbout();

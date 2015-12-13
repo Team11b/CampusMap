@@ -46,8 +46,11 @@ public abstract class PathProcessor {
 	 *             {0,1}
 	 */
 	protected Path execute(IPoint[] keyPoints) throws PathNotFoundException, NotEnoughPointsException {
-		if (keyPoints.length < 2) {
+		if (keyPoints.length == 0) {
 			throw new NotEnoughPointsException("Only " + keyPoints.length + " points provided. Minimum of 2 required.");
+		}
+		if (keyPoints.length == 1) {
+			throw new NotEnoughPointsException("Only " + keyPoints.length + " point provided. Minimum of 2 required.");
 		}
 		this.keyPoints = keyPoints;
 
