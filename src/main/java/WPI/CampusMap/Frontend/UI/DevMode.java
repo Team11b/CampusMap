@@ -126,7 +126,7 @@ public class DevMode extends UIMode
 	
 	/**
 	 * Gets the number of points that have been marked as selected.
-	 * @return
+	 * @return Number of Points that have been marked.
 	 */
 	public int getSelectedPointCount()
 	{

@@ -149,7 +149,7 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 	/**
 	 * Changes the id of the point.
 	 * @param newId The new id for the point to go by.
-	 * @return
+	 * @return Returns if successful.
 	 */
 	public boolean setId(String newId)
 	{
