@@ -4,6 +4,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
@@ -34,6 +35,7 @@ public class NodePathTest {
 		nThree = new Node(three, nTwo, 0);
 	}
 
+	@Ignore
 	@Test
 	public void testCoordDist() {
 		assertTrue(cOne.distance(cTwo) == 0);
