@@ -89,5 +89,9 @@ public class AllPoints {
 
 		return remaining;
 	}
+	
+	public HashMap<String, String> getAllpoints(){
+		return allPoints;
+	}
 
 }
