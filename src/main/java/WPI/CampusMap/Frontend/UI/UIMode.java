@@ -16,7 +16,7 @@ public abstract class UIMode {
 	
 	public UIMode(AppMainWindow window)
 	{		
-		this.window = window;
+		this.window = window;		
 		loadMap(DEFAULT_MAP);
 		window.makeOtherDropDown(DEFAULT_MAP);
 	}

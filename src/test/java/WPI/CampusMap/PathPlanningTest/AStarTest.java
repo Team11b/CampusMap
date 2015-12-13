@@ -510,6 +510,7 @@ public class AStarTest {
 
 	}
 
+	@Ignore
 	@Test
 	public void multiDestinationTestSameMap() {
 		AllMaps.getInstance().addMap(testMap5);
