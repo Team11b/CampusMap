@@ -249,6 +249,9 @@ public class AppMainWindow extends JFrame implements Runnable {
 		return null;
 	}
 
+	/**
+	 * Changes the mode to dev mode.
+	 */
 	public void changeToDevMode() {
 		Container parent = infoArea;
 		parent.remove(userPanel);
@@ -261,6 +264,9 @@ public class AppMainWindow extends JFrame implements Runnable {
 		currentMode.onModeEntered();
 	}
 
+	/**
+	 * Change to User Mode
+	 */
 	public void changeToUserMode() {
 		Container parent = infoArea;
 		parent.remove(devPanel);
@@ -273,10 +279,16 @@ public class AppMainWindow extends JFrame implements Runnable {
 		currentMode.onModeEntered();
 	}
 
+	/**
+	 * Changes the user scaling to metric.
+	 */
 	public void changeToMetric() {
 		Instruction.setMetric(true);
 	}
 
+	/**
+	 * Changes the user sccaling to US Customary Units.
+	 */
 	public void changeToCustomary() {
 		Instruction.setMetric(false);
 	}

@@ -38,6 +38,9 @@ public class AppUserModeControl extends JComponent {
 
 	PointList scrollPane = new PointList();
 
+	/** Creates a new User Mode Control in the given window.
+	 * @param window Window to create the User Mode Control
+	 */
 	public AppUserModeControl(AppMainWindow window) {
 		this.window = window;
 
@@ -96,6 +99,7 @@ public class AppUserModeControl extends JComponent {
 		tree.setRootVisible(false);
 		tree.setModel(null);
 		tree.addTreeSelectionListener(new DirectionsSelectionListener());
+		tree.setCellRenderer(new CustomCellRenderer());
 		scrollPane_1.setViewportView(tree);
 		add(label_1);
 
@@ -117,6 +121,9 @@ public class AppUserModeControl extends JComponent {
 		panel.add(btnNext);
 	}
 
+	/** Sets the directions for the given path.
+	 * @param path The directions for the given path.
+	 */
 	public void setRoute(Path path) {
 		Route directions = new Route(path);
 
@@ -128,6 +135,7 @@ public class AppUserModeControl extends JComponent {
 			if (currentMap == null || !section.getMap().equals(currentMap)) {
 				currentMap = section.getMap();
 				mapRoot = new MapSectionTreeNode(currentMap, section);
+				mapRoot.getUserObject();
 				root.add(mapRoot);
 			}
 
@@ -152,10 +160,16 @@ public class AppUserModeControl extends JComponent {
 		}
 	}
 
+	/** Adds a destination
+	 * @param point Point to add as destionation.
+	 */
 	public void addDestination(UserPointGraphicsObject point) {
 		scrollPane.addPointElement(point.getRepresentedObject().toString());
 	}
 
+	/**
+	 * Clears the destination.
+	 */
 	public void clearDestinations() {
 		scrollPane.clearPointElements();
 	}
@@ -241,7 +255,6 @@ public class AppUserModeControl extends JComponent {
 		 * 
 		 */
 		private static final long serialVersionUID = 123464203285703937L;
-
 		public DirectionsBaseTreeNode(Object userObject, boolean allowChildren) {
 			super(userObject, allowChildren);
 		}
@@ -256,7 +269,6 @@ public class AppUserModeControl extends JComponent {
 		private static final long serialVersionUID = 9130117587484385937L;
 		private Instruction source;
 		private Section section;
-
 		public InstructionTreeNode(Instruction source, Section section) {
 			super(source.getInstruction(), false);
 			this.source = source;
