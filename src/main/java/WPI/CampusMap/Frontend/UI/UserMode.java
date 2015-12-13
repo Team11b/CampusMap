@@ -91,9 +91,10 @@ public class UserMode extends UIMode {
 
 			getWindow().setRoute(routedPath);
 		} catch (PathNotFoundException e) {
+			JOptionPane.showMessageDialog(null, e.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		} catch (NotEnoughPointsException n) {
-			n.printStackTrace();
+			JOptionPane.showMessageDialog(null, n.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 		}
 
 		getWindow().clearDestinations();
