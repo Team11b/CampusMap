@@ -437,12 +437,20 @@ public class AppMainWindow extends JFrame implements Runnable {
             System.out.println("mapname is "+mapName );
 			// load zero floor in case of CampusMap
 			
-            /*if (mapName.equals("Campus_Map")){
+            if (selectedMap.equals("Campus_Map")){
 				//selectedMap = "Campus_Map" + "-0";
-				selectedMap = selectedMap + "-0";
-				System.out.println("fucked");
-			}*/
-
+				//selectedMap = selectedMap + "-0";
+				//System.out.println("");
+            	makeOtherDropDown("Campus_Map");
+			}
+            else{
+            	if(selectedMap.indexOf("-") == -1)
+            		if(selectedMap.equals("Project_Center"))
+            		selectedMap = selectedMap + "-0";
+            		else
+            			selectedMap = selectedMap + "-1";
+            }
+            
 			currentMode.loadMap(selectedMap);
 		}
 	}
