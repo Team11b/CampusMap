@@ -191,16 +191,15 @@ public class AppMainWindow extends JFrame implements Runnable {
 		JMenu mnSettings = new JMenu("Settings");
 		menuBar.add(mnSettings);
 
-		// JCheckBoxMenuItem chckbxmntmDevMode = new JCheckBoxMenuItem("Dev
-		// Mode");
-		// chckbxmntmDevMode.setAction(devModeAction);
-		// mnSettings.add(chckbxmntmDevMode);
-
 		JMenu mnUnit = new JMenu("Units");
 		mnSettings.add(mnUnit);
 		JCheckBoxMenuItem chckbxUnit = new JCheckBoxMenuItem("Metric");
 		chckbxUnit.setAction(unitAction);
 		mnUnit.add(chckbxUnit);
+
+		JCheckBoxMenuItem chckbxmntmDevMode = new JCheckBoxMenuItem("Dev Mode");
+		chckbxmntmDevMode.setAction(devModeAction);
+		mnSettings.add(chckbxmntmDevMode);
 
 		renderThread = new Thread(this, "Render Thread");
 		renderThread.start();
