@@ -433,7 +433,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 
 			// load zero floor in case of CampusMap
 			if (mapName.equals("Campus Map"))
-				selectedMap = "CampusMap" + "-0";
+				selectedMap = "Campus_Map" + "-0";
 
 			currentMode.loadMap(selectedMap);
 		}
