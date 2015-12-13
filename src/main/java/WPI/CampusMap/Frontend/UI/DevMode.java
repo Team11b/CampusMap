@@ -70,6 +70,8 @@ public class DevMode extends UIMode
 	public void clearSelectedPoints()
 	{
 		selectedPoints.clear();
+		
+		getWindow().devClearAllSelection();
 	}
 	
 	public DevPointGraphicsObject[] getSelectedPoints()
@@ -78,26 +80,54 @@ public class DevMode extends UIMode
 		return selectedPoints.toArray(array);
 	}
 	
+	/**
+	 * Clears the selection and sets the current selected point.
+	 * @param point The current selected point.
+	 */
 	public void setSelectedPoint(DevPointGraphicsObject point)
 	{
 		selectedPoints.clear();
-		selectedPoints.add(point);
-		
-		point.onSelected();
+		addSelectedPoint(point);
 	}
 	
+	/**
+	 * Adds a new point to the selected points list.
+	 * @param point The point to add to the selection.
+	 */
 	public void addSelectedPoint(DevPointGraphicsObject point)
 	{
 		selectedPoints.add(point);
 		
+		if(getSelectedPointCount() > 1)
+		{
+			
+		}
+		else if(getSelectedPointCount() == 1)
+		{
+			getWindow().devPointSelected(point);
+		}
+		else
+		{
+			getWindow().devClearAllSelection();
+		}
+		
 		point.onSelected();
 	}
 	
+	/**
+	 * Checks to see if a point is marked as being selected.
+	 * @param point The point to check.
+	 * @return True if the point is marked as being selected.
+	 */
 	public boolean isPointSelected(DevPointGraphicsObject point)
 	{
 		return selectedPoints.contains(point);
 	}
 	
+	/**
+	 * Gets the number of points that have been marked as selected.
+	 * @return
+	 */
 	public int getSelectedPointCount()
 	{
 		return selectedPoints.size();

@@ -15,24 +15,27 @@ import javax.swing.SpringLayout;
 
 import WPI.CampusMap.Frontend.Graphics.Dev.DevPointGraphicsObject;
 
-public class AppDevModeControl extends JComponent {
+public class AppDevModeControl extends JComponent
+{
 	private AppMainWindow window;
+	private Panel editorPanel = new Panel();
 
-	public AppDevModeControl(AppMainWindow window) {
+	public AppDevModeControl(AppMainWindow window) 
+	{
 		this.window = window;
 
 		SpringLayout springLayout = new SpringLayout();
 		setLayout(springLayout);
 
-		Panel panel = new Panel();
-		panel.setLayout(new BorderLayout());
-		springLayout.putConstraint(SpringLayout.WEST, panel, 0, SpringLayout.WEST, this);
-		springLayout.putConstraint(SpringLayout.EAST, panel, 0, SpringLayout.EAST, this);
-		add(panel);
+		
+		editorPanel.setLayout(new BorderLayout());
+		springLayout.putConstraint(SpringLayout.WEST, editorPanel, 0, SpringLayout.WEST, this);
+		springLayout.putConstraint(SpringLayout.EAST, editorPanel, 0, SpringLayout.EAST, this);
+		add(editorPanel);
 		
 		JPanel buttonPanel = new JPanel();
 		springLayout.putConstraint(SpringLayout.SOUTH, buttonPanel, 100, SpringLayout.NORTH, this);
-		springLayout.putConstraint(SpringLayout.NORTH, panel, 10, SpringLayout.SOUTH, buttonPanel);
+		springLayout.putConstraint(SpringLayout.NORTH, editorPanel, 10, SpringLayout.SOUTH, buttonPanel);
 		springLayout.putConstraint(SpringLayout.NORTH, buttonPanel, 10, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.WEST, buttonPanel, 10, SpringLayout.WEST, this);
 		springLayout.putConstraint(SpringLayout.EAST, buttonPanel, -10, SpringLayout.EAST, this);
@@ -64,7 +67,7 @@ public class AppDevModeControl extends JComponent {
 		buttonPanel.add(rdbtnDeleteEdge);
 
 		JSeparator separator = new JSeparator();
-		springLayout.putConstraint(SpringLayout.SOUTH, panel, -6, SpringLayout.NORTH, separator);
+		springLayout.putConstraint(SpringLayout.SOUTH, editorPanel, -6, SpringLayout.NORTH, separator);
 		springLayout.putConstraint(SpringLayout.WEST, separator, 0, SpringLayout.WEST, this);
 		springLayout.putConstraint(SpringLayout.SOUTH, separator, -40, SpringLayout.SOUTH, this);
 		springLayout.putConstraint(SpringLayout.EAST, separator, 0, SpringLayout.EAST, this);
@@ -78,9 +81,25 @@ public class AppDevModeControl extends JComponent {
 		add(btnSave);
 	}
 	
+	/**
+	 * Changes the dev mode content to be editing a point.
+	 * @param point The point to edit.
+	 */
 	public void editPoint(DevPointGraphicsObject point)
 	{
+		editorPanel.removeAll();
 		
+		AppDevModePointEditorControl pointEditor = new AppDevModePointEditorControl(point);
+		editorPanel.add(pointEditor, BorderLayout.CENTER);
+		
+		revalidate();
+	}
+	
+	public void clearSelection()
+	{
+		editorPanel.removeAll();
+		
+		revalidate();
 	}
 	
 	private abstract class EditorModeActionListener implements ActionListener {

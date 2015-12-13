@@ -12,8 +12,11 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SpringLayout;
 
-public class PointList extends Panel {
-	public PointList() {
+public class PointList extends Panel
+{
+	
+	public PointList()
+	{
 		setForeground(SystemColor.controlShadow);
 		SpringLayout springLayout = new SpringLayout();
 		setLayout(springLayout);
@@ -43,11 +46,13 @@ public class PointList extends Panel {
 		listPanel.setLayout(new BoxLayout(listPanel, BoxLayout.Y_AXIS));
 	}
 
-	public void addListener(PointListEventHandler handler) {
+	public void addListener(PointListEventHandler handler)
+	{
 		handlers.add(handler);
 	}
 
-	public PointListElement addPointElement(String name) {
+	public PointListElement addPointElement(String name)
+	{
 		if (elements.containsKey(name))
 			return null;
 		PointListElement element;

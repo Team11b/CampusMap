@@ -2,8 +2,13 @@ package WPI.CampusMap.Frontend.UI;
 
 import java.awt.Choice;
 import java.awt.Label;
+import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.FocusEvent;
+import java.awt.event.FocusListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 
 import javax.swing.JComponent;
 import javax.swing.JSeparator;
@@ -33,7 +38,11 @@ public class AppDevModePointEditorControl extends JComponent {
 		add(lblName);
 
 		nameField = new JTextField();
+		nameField.setText(point.getPointId());
 		nameField.setToolTipText("Enter a name for the selected node");
+		PointNameChangedAction nameChangedEvent = new PointNameChangedAction();
+		nameField.addFocusListener(nameChangedEvent);
+		nameField.addActionListener(nameChangedEvent);
 		springLayout.putConstraint(SpringLayout.WEST, nameField, 0, SpringLayout.EAST, lblName);
 		springLayout.putConstraint(SpringLayout.NORTH, lblName, 0, SpringLayout.NORTH, nameField);
 		springLayout.putConstraint(SpringLayout.SOUTH, lblName, 0, SpringLayout.SOUTH, nameField);
@@ -45,6 +54,7 @@ public class AppDevModePointEditorControl extends JComponent {
 		typeSelector.add(RealPoint.ELEVATOR);
 		typeSelector.add(RealPoint.HALLWAY);
 		typeSelector.add(RealPoint.STAIRS);
+		typeSelector.addItemListener(new PointTypeChangedAction());
 		typeSelector.select(point.getPointType());
 		springLayout.putConstraint(SpringLayout.NORTH, typeSelector, 10, SpringLayout.SOUTH, nameField);
 		springLayout.putConstraint(SpringLayout.WEST, typeSelector, 0, SpringLayout.WEST, nameField);
@@ -82,6 +92,44 @@ public class AppDevModePointEditorControl extends JComponent {
 		springLayout.putConstraint(SpringLayout.WEST, separator_1, 0, SpringLayout.WEST, this);
 		springLayout.putConstraint(SpringLayout.EAST, separator_1, 0, SpringLayout.EAST, this);
 		add(separator_1);
+	}
+	
+	private class PointTypeChangedAction implements ItemListener
+	{
+		@Override
+		public void itemStateChanged(ItemEvent e)
+		{
+			point.setType((String)e.getItem());
+		}
+	}
+	
+	private class PointNameChangedAction implements ActionListener, FocusListener
+	{
+		private String currentText;
+		
+		@Override
+		public void focusGained(FocusEvent e) 
+		{
+			JTextField field = (JTextField)e.getComponent();
+			currentText = field.getText();
+		}
+
+		@Override
+		public void focusLost(FocusEvent e) 
+		{
+			JTextField field = (JTextField)e.getComponent();
+			field.setText(currentText);
+		}
+
+		@Override
+		public void actionPerformed(ActionEvent e) 
+		{
+			JTextField field = (JTextField)e.getSource();
+			if(!point.setId(field.getText()))
+				field.setText(currentText);
+			else
+				currentText = field.getText();
+		}
 	}
 
 	/**

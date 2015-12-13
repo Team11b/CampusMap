@@ -221,7 +221,8 @@ public class AppMainWindow extends JFrame implements Runnable {
 	 * 
 	 * @return The current UI mode.
 	 */
-	public UIMode getUIMode() {
+	public UIMode getUIMode()
+	{
 		return currentMode;
 	}
 
@@ -230,7 +231,8 @@ public class AppMainWindow extends JFrame implements Runnable {
 	 * 
 	 * @return The current UI mode as a DevMode, null if not in dev mode.
 	 */
-	public DevMode getDevMode() {
+	public DevMode getDevMode()
+	{
 		if (currentMode instanceof DevMode)
 			return (DevMode) currentMode;
 		return null;
@@ -472,7 +474,8 @@ public class AppMainWindow extends JFrame implements Runnable {
 	 * @param point
 	 *            The point that represents the destination.
 	 */
-	public void addDestination(UserPointGraphicsObject point) {
+	public void addDestination(UserPointGraphicsObject point) 
+	{
 		userPanel.addDestination(point);
 	}
 
@@ -489,15 +492,9 @@ public class AppMainWindow extends JFrame implements Runnable {
 	 * @param path
 	 *            The new route.
 	 */
-	public void setRoute(Path path) {
+	public void setRoute(Path path)
+	{
 		userPanel.setRoute(path);
-	}
-
-	/**
-	 * Removes the current route in the GUI without loading in another one.
-	 */
-	public void clearRoute() {
-		throw new UnsupportedOperationException("not implemented");
 	}
 
 	/**
@@ -506,15 +503,17 @@ public class AppMainWindow extends JFrame implements Runnable {
 	 * @param selectedPoint
 	 *            The graphical point that has been selected.
 	 */
-	public void devPointSelected(DevPointGraphicsObject selectedPoint) {
-		throw new UnsupportedOperationException("not implemented");
+	public void devPointSelected(DevPointGraphicsObject selectedPoint)
+	{
+		devPanel.editPoint(selectedPoint);
 	}
 
 	/**
 	 * Clears the selection from the UI.
 	 */
-	public void devClearPointSelection() {
-		throw new UnsupportedOperationException("not implemented");
+	public void devClearAllSelection()
+	{
+		devPanel.clearSelection();
 	}
 
 	/**
@@ -523,7 +522,8 @@ public class AppMainWindow extends JFrame implements Runnable {
 	 * @param selectedEdge
 	 *            The selected edge.
 	 */
-	public void devEdgeSelected(DevEdgeGraphicsObject selectedEdge) {
+	public void devEdgeSelected(DevEdgeGraphicsObject selectedEdge)
+	{
 		throw new UnsupportedOperationException("not implemented");
 	}
 

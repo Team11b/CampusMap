@@ -156,19 +156,28 @@ public class RealPoint implements IPoint,java.io.Serializable {
 	 * @param newId the new id
 	 */
 	@Override
-	public void setId(String newId) {
+	public boolean setId(String newId) {
 		// TODO Add check to see if id already exists?
 		if((!newId.equals(getId())) && !newId.equals("")){
 			for(IPoint n : getNeighborsP()){
 				System.out.println("Removed neighbor: "+n.removeNeighbor(this));	
 			}
 
-			this.id = newId;
 			IMap map = AllMaps.getInstance().getMap(getMap());
 			if(map != null)
 			{
+				if(map.getPoint(newId) != null)
+					return false;
+				
 				map.renamePoint(this, newId);
 			}
+			else
+			{
+				return false;
+			}
+			
+			this.id = newId;
+			
 			for(IPoint n : getNeighborsP())
 			{
 				n.addNeighbor(this);
@@ -176,6 +185,8 @@ public class RealPoint implements IPoint,java.io.Serializable {
 				System.out.println("Replaced self in "+n+"'s neighbor list");
 			}
 		}
+		
+		return true;
 	}
 	
 	/**

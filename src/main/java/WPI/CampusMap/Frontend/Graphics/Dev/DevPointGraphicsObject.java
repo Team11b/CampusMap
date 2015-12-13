@@ -136,8 +136,24 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 		DevEdgeGraphicsObject.createGraphicsEdge(getRepresentedObject(), other, getOwner());
 	}
 
-	public void setType(String type) {
+	/**
+	 * Changes the underlying type of the point.
+	 * @param type The new type of the point.
+	 */
+	public void setType(String type)
+	{
 		IPoint point = getRepresentedObject();
 		point.setType(type);
+	}
+	
+	/**
+	 * Changes the id of the point.
+	 * @param newId The new id for the point to go by.
+	 * @return
+	 */
+	public boolean setId(String newId)
+	{
+		IPoint point = getRepresentedObject();
+		return point.setId(newId);
 	}
 }
