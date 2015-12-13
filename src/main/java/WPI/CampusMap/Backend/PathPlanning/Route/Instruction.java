@@ -22,13 +22,21 @@ public class Instruction {
 
 	public Instruction(IPoint point, boolean start) {
 		if (start) {
-			this.instruction = "Start at " + point.getId() + ".\n";
+			if (point.getId().length() > 15) {
+				this.instruction = "Start at " + point.getMap() + ".\n";
+			} else {
+				this.instruction = "Start at " + point.getId() + ".\n";
+			}
 			this.start = point;
 			this.type = InstructionType.start;
 			this.map = this.start.getMap();
 
 		} else {
-			this.instruction = "You have arrived at " + point.getId() + ".\n";
+			if (point.getId().length() > 15) {
+				this.instruction = "You have arrived at your destination" + ".\n";
+			} else {
+				this.instruction = "You have arrived at " + point.getId() + ".\n";
+			}
 			this.end = point;
 			this.type = InstructionType.end;
 			this.map = this.end.getMap();
@@ -45,7 +53,8 @@ public class Instruction {
 
 	public Instruction(double distance, IPoint start, IPoint end) {
 		if (Instruction.metric) {
-			this.instruction = "Walk " + new DecimalFormat("#.##").format((distance * Instruction.ftToM)) + " meters.\n";
+			this.instruction = "Walk " + new DecimalFormat("#.##").format((distance * Instruction.ftToM))
+					+ " meters.\n";
 		} else {
 			this.instruction = "Walk " + new DecimalFormat("#").format(distance) + " feet.\n";
 		}
