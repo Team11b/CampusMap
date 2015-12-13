@@ -35,7 +35,6 @@ public class ProxyMap implements IMap, Serializable {
 			// System.out.println("Connected Map:" +
 			// Arrays.toString(connectedMaps));
 			realMap = Serializer.realLoad(mapName);
-
 			// incase the map has not been created, create a new one
 			if (realMap == null) {
 				// System.out.printf("Real Map (%s) not found, making a new

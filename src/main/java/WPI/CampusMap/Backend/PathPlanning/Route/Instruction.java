@@ -3,6 +3,7 @@ package WPI.CampusMap.Backend.PathPlanning.Route;
 import java.text.DecimalFormat;
 
 import WPI.CampusMap.Backend.Core.Point.IPoint;
+import WPI.CampusMap.Backend.Core.Point.RealPoint;
 
 /**
  * 
@@ -56,10 +57,36 @@ public class Instruction {
 			this.instruction = "Walk " + new DecimalFormat("#.##").format((distance * Instruction.ftToM))
 					+ " meters.\n";
 		} else {
-			this.instruction = "Walk " + new DecimalFormat("#").format(distance) + " feet.\n";
+			this.instruction = "Walk " + new DecimalFormat("#.##").format(distance) + " feet.\n";
 		}
 
 		this.distance = distance;
+		this.start = start;
+		this.end = end;
+		this.type = InstructionType.walk;
+		this.map = this.start.getMap();
+	}
+	
+	public Instruction(String type, IPoint start, IPoint end) {
+		System.out.println(type);
+		switch(type){
+		case RealPoint.ELEVATOR:
+			this.instruction = "Take the elevator to floor " + end.getMap().split("-")[1];
+			break;
+		case RealPoint.OUT_DOOR:
+			if(end.getMap() == "Campus_Map"){
+				this.instruction = "Go outside";
+			}else{
+				this.instruction = "Go into" + end.getMap().split("/")[0].replace("_", " ");
+			}
+			break;
+		case RealPoint.STAIRS:
+			this.instruction = "Take the stairs to floor "+ end.getMap().split("-")[1];
+			break;
+		default:
+			this.instruction = "";
+			break;
+		}
 		this.start = start;
 		this.end = end;
 		this.type = InstructionType.walk;
@@ -69,7 +96,7 @@ public class Instruction {
 	public Instruction(float seconds, IPoint end) {
 		int min = (int) seconds / 60;
 		seconds = seconds % 60;
-		this.instruction = "ETA: " + min + " minutes and " + seconds + " seconds.\n";
+		this.instruction = "ETA: " + min + " minutes and " + new DecimalFormat("#").format(seconds) + " seconds.\n";
 		this.type = InstructionType.time;
 		this.end = end;
 		this.map = this.end.getMap();

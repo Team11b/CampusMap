@@ -129,13 +129,13 @@ public class AllMaps {
 		String destBuilding = dest.split("-")[0];
 
 		if (!currentBuilding.equals(destBuilding)) {
-			// System.out.println("Different buildings");
+			 System.out.println("Different buildings");
 			return false;
 		}
 
 		visited.add(current);
 		if (current.equals(dest)) {
-			// System.out.println("Found path:"+ current);
+			 System.out.println("Found path:"+ current);
 			whiteList.add(current);
 			return true;
 		}
@@ -148,7 +148,7 @@ public class AllMaps {
 			if (!visited.contains(neighbor) && neighborBuilding.equals(currentBuilding)) {
 				if (buildingDepthFirstSearch(neighbor, dest, visited, whiteList)) {
 					whiteList.add(current);
-					// System.out.println(current);
+					System.out.println(current);
 					return true;
 				}
 			}
