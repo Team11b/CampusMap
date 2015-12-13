@@ -5,7 +5,9 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 
+import org.junit.AfterClass;
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import WPI.CampusMap.Backend.Core.Point.AllPoints;
@@ -13,6 +15,12 @@ import WPI.CampusMap.Backend.Core.Point.AllPoints;
 public class AllPointsTest {
 	private AllPoints points;
 
+	@BeforeClass
+	@AfterClass
+	public void clean(){
+		AllPoints.getInstance().clearAllPoints();
+	}
+	
 	@Before
 	public void initialize() {
 		points = AllPoints.getInstance();
