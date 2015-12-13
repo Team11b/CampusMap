@@ -22,7 +22,7 @@ import WPI.CampusMap.Backend.Core.Map.ProxyMap;
 import WPI.CampusMap.Backend.Core.Map.RealMap;
 import WPI.CampusMap.Backend.Core.Point.RealPoint;
 import WPI.CampusMap.Recording.Serialization.Serializer;
-
+@Ignore
 public class SerializationTest {
 
 	static ProxyMap pm;
