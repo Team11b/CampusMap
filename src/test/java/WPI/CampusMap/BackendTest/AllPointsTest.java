@@ -13,11 +13,11 @@ import org.junit.Test;
 import WPI.CampusMap.Backend.Core.Point.AllPoints;
 
 public class AllPointsTest {
-	private AllPoints points;
+	private static AllPoints points;
 
 	@BeforeClass
 	@AfterClass
-	public void clean(){
+	public static void clean(){
 		AllPoints.getInstance().clearAllPoints();
 	}
 	
