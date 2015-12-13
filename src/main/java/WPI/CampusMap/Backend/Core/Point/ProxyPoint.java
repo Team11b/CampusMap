@@ -13,35 +13,34 @@ public class ProxyPoint implements IPoint {
 	private static final long serialVersionUID = 4456203165550908105L;
 	String pointId, mapName;
 	RealPoint realPoint;
-	
-	protected ProxyPoint(String fullName){
+
+	protected ProxyPoint(String fullName) {
 		String[] splitName = fullName.split("/");
-		if(splitName.length == 1){
+		if (splitName.length == 1) {
 			this.pointId = splitName[0];
-		}else if(splitName.length == 2){
+		} else if (splitName.length == 2) {
 			this.pointId = splitName[1];
 			this.mapName = splitName[0];
 		}
 	}
 
-	private void load(){
-		if(realPoint == null){
+	private void load() {
+		if (realPoint == null) {
 			IMap temp = AllMaps.getInstance().getMap(mapName);
-			if(temp != null){
+			if (temp != null) {
 				realPoint = (RealPoint) temp.getPoint(pointId);
-				if(realPoint == null){
-					System.out.println("Point not found: "+pointId);
+				if (realPoint == null) {
+					System.out.println("Point not found: " + pointId);
 					System.out.println(temp.getAllPoints());
-				}else{
+				} else {
 					realPoint.constructNeighbors();
 				}
-			}else{
-				System.out.println("Map "+ this.mapName+" does not exist, cannot get real point");
-				System.out.println(AllMaps.getInstance().getAllMaps().keySet());
+			} else {
+				System.out.println("Map " + this.mapName + " does not exist, cannot get real point");
 			}
 		}
 	}
-	
+
 	@Override
 	public double distance(IPoint other) {
 		load();
@@ -74,7 +73,8 @@ public class ProxyPoint implements IPoint {
 
 	@Override
 	public String getId() {
-		if(realPoint != null) pointId= realPoint.getId();
+		if (realPoint != null)
+			pointId = realPoint.getId();
 		return pointId;
 	}
 
@@ -123,11 +123,13 @@ public class ProxyPoint implements IPoint {
 
 	@Override
 	public String getMap() {
-		if(mapName == null) load();
-		if(realPoint != null) mapName = realPoint.getMap();
+		if (mapName == null)
+			load();
+		if (realPoint != null)
+			mapName = realPoint.getMap();
 		return mapName;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return (this.getMap() + "/" + getId()).hashCode();
@@ -144,10 +146,10 @@ public class ProxyPoint implements IPoint {
 		load();
 		return realPoint.equals(other);
 	}
-	
+
 	@Override
 	public String toString() {
-		return getMap()+"/"+getId();
+		return getMap() + "/" + getId();
 	}
 
 	@Override

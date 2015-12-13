@@ -7,10 +7,14 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
-import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Map.ProxyMap;
 import WPI.CampusMap.Backend.Core.Map.RealMap;
 
+/**
+ * 
+ * @author Jacob Zizmor
+ *
+ */
 public class Serializer {
 
 	private static final String folder = "serialized/";
@@ -20,7 +24,9 @@ public class Serializer {
 
 	/**
 	 * Saves the ProxyMap to a serial file
-	 * @param tosave ProxyMap to save
+	 * 
+	 * @param tosave
+	 *            ProxyMap to save
 	 */
 	public static void save(ProxyMap tosave) {
 		try {
@@ -41,11 +47,12 @@ public class Serializer {
 			i.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Saves the RealMap to a serial file
 	 * 
-	 * @param tosave RealMap to save
+	 * @param tosave
+	 *            RealMap to save
 	 */
 	public static void save(RealMap tosave) {
 		try {
@@ -81,16 +88,16 @@ public class Serializer {
 			ObjectInputStream in = new ObjectInputStream(fileIn);
 
 			pm = (ProxyMap) in.readObject();
-            pm.onLoad();
+			pm.onLoad();
 
 			in.close();
 			fileIn.close();
 
-//			AllMaps.getInstance().clearAllMaps();
+			// AllMaps.getInstance().clearAllMaps();
 			return pm;
 		} catch (FileNotFoundException f) {
-//			System.out.println("NOT LOADED");
-//			f.printStackTrace();
+			// System.out.println("NOT LOADED");
+			// f.printStackTrace();
 		} catch (IOException i) {
 			System.out.println("NOT LOADED");
 			i.printStackTrace();
@@ -122,8 +129,8 @@ public class Serializer {
 
 			return rm;
 		} catch (FileNotFoundException f) {
-//			System.out.println("NOT LOADED");
-//			f.printStackTrace();
+			// System.out.println("NOT LOADED");
+			// f.printStackTrace();
 		} catch (IOException i) {
 			System.out.println("NOT LOADED");
 			i.printStackTrace();
