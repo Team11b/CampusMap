@@ -330,20 +330,19 @@ public class AppMainWindow extends JFrame implements Runnable {
 				IMap aMap = AllMaps.getInstance().getMap(fileName);
 				currentBuilding = aMap.getBuilding();
 				JMenu mnEx = null;
-				// System.out.println("currentBuilding is "+ currentBuilding);
+				
 				if (!ddBuildings.contains(currentBuilding)) {
 					ddBuildings.add(currentBuilding);
 					mnEx = new JMenu(currentBuilding);
 					mnMaps.add(mnEx);
 				} else {
-					// System.out.println("Building found!");
+					
 					for (int i = 0; i < mnMaps.getItemCount(); i++) {
 						if (mnMaps.getItem(i).getText().equals(currentBuilding))
 							mnEx = (JMenu) mnMaps.getItem(i);
 					}
 				}
-				// add the floor to the top dropdown and setup for other
-				// dropdown
+				// add the floor to the top dropdown and setup for other				
 				JMenuItem mntmFloor = new JMenuItem(aMap.getName().replace('_', ' '));
 				if (mnEx != null) {
 					mnEx.add(mntmFloor);
@@ -372,8 +371,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			currentMode.loadMap(mapName);
-			makeOtherDropDown(mapName);
+			forceMapSwitch(mapName);			
 
 		}
 	}
@@ -388,7 +386,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 		// if its a normal map
 		if (!mapName.equals("Campus_Map")) {
 			// Add the buildings
-			mapDropdown.add("Campus Map");
+			mapDropdown.add("Back to Campus Map");
 
 			ArrayList<IMap> otherMapsInBuilding = AllMaps.getInstance().getMapsInBuilding(currentMap.getBuilding());
 			otherMapsInBuilding.sort(new Comparator<IMap>() {
@@ -397,14 +395,16 @@ public class AppMainWindow extends JFrame implements Runnable {
 					return o1.getName().compareTo(o2.getName());
 				}
 			});
-			for (IMap map : otherMapsInBuilding) {
+			for (IMap map : otherMapsInBuilding) {				
 				mapDropdown.add(map.getName().replace('_', ' '));
 			}
+			
 		} else {
 			// load all the base
 			for (int i = 0; i < mnMaps.getItemCount(); i++) {
 				mapDropdown.add(mnMaps.getItem(i).getText().replace('_', ' '));
 			}
+			
 		}
 
 		// Clear all item listeners in the dropdown.
@@ -428,25 +428,24 @@ public class AppMainWindow extends JFrame implements Runnable {
 
 		@Override
 		public void itemStateChanged(ItemEvent e) {
+			//for when a map is selected in the dropdown
 			String selectedMap = e.getItem().toString().replace(' ', '_');
 			System.out.println("item selected " + selectedMap);
-            System.out.println("mapname is "+mapName );
-			// load zero floor in case of CampusMap
+            System.out.println("mapname is "+mapName );			
 			
-            if (selectedMap.equals("Campus_Map")){
-				//selectedMap = "Campus_Map" + "-0";
-				//selectedMap = selectedMap + "-0";
-				//System.out.println("");
-            	makeOtherDropDown("Campus_Map");
+            //get the proper map name
+            if (selectedMap.indexOf("-") == -1){
+            	if(!selectedMap.equals("Campus_Map")){
+            		if(selectedMap.equals("Back_to_Campus_Map"))
+            			selectedMap = "Campus_Map";                	
+            		else if(!selectedMap.equals("Project_Center"))
+	           		    selectedMap = selectedMap + "-0";
+	           		else
+	           		    selectedMap = selectedMap + "-1";
+	           	}
 			}
-            else  	if(selectedMap.indexOf("-") == -1){
-            		if(!selectedMap.equals("Project_Center"))
-            		selectedMap = selectedMap + "-0";
-            		else
-            			selectedMap = selectedMap + "-1";
-            }
-            
-			currentMode.loadMap(selectedMap);
+            //finally load it 
+            forceMapSwitch(selectedMap);            
 		}
 	}
 
