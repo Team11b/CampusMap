@@ -9,9 +9,12 @@ import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.LinkedList;
 
+import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPopupMenu;
 
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
@@ -344,5 +347,17 @@ public class UserMode extends UIMode
 		}
 		graphicalMap = new UserGraphicalMap(mapName, this);
 		graphicalMap.spawnMap();
+	}
+
+	public void onAbout() {
+		JOptionPane aboutWindow = new JOptionPane();
+		JFrame aboutFrame = new JFrame("About Campus Mapper");
+		aboutFrame.setSize(500, 500);
+		aboutFrame.add(new JLabel("HELLO WOLRD"));
+		aboutFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		aboutWindow.createDialog(aboutFrame, "About Campus Mapper");
+		aboutFrame.setVisible(true);
+		aboutWindow.setVisible(true);
+		
 	}
 }

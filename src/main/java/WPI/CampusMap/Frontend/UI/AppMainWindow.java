@@ -165,6 +165,10 @@ public class AppMainWindow extends JFrame implements Runnable {
 		JMenuItem mntmPrint = new JMenuItem("Print");
 		mntmPrint.setAction(printAction);
 		mnFile.add(mntmPrint);
+		
+		JMenuItem mntmAbout = new JMenuItem("About");
+		mntmAbout.addActionListener(aboutAction);
+		mnFile.add(mntmAbout);
 
 		//JMenu mnRouting = new JMenu("Routing");
 		//menuBar.add(mnRouting);
@@ -547,6 +551,12 @@ public class AppMainWindow extends JFrame implements Runnable {
 		public void actionPerformed(ActionEvent e) {
 		}
 	}
+	
+	protected ActionListener aboutAction = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			getUserMode().onAbout();
+		}
+	};
 	
 	protected ActionListener emailAction = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
