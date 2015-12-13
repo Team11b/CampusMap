@@ -120,7 +120,9 @@ public class Route {
 			totalDist += dist;
 		}
 		
-		float walkingSpeed = (float) 4.11; //feet per sec
+		// http://www.bellaonline.com/articles/art20257.asp
+		float walkingSpeed = (float) 2.93; //feet per sec
+//		float walkingSpeed = (float) 4.11; //feet per sec
 		float seconds = (totalDist / walkingSpeed);
 
 		latest = new Instruction(p.get(p.size()-1), false);
