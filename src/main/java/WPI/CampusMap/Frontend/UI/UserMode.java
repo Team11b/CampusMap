@@ -1,5 +1,6 @@
 package WPI.CampusMap.Frontend.UI;
 
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
@@ -14,6 +15,9 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextPane;
+import javax.swing.UIManager;
 
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
@@ -345,28 +349,48 @@ public class UserMode extends UIMode {
 		// TODO Auto-generated method stub
 		JOptionPane aboutWindow = new JOptionPane();
 		JFrame guideFrame = new JFrame("User Guide");
-		JLabel textLabel = new JLabel();
-		textLabel.setText("<html><p style=\"text-align: center;\"><span style=\"font-size: medium;\"><strong>About Campus Mapper</strong></span></p>\n"+
-"<p style=\"text-align: center;\"><span style=\"font-size: medium;\"><strong>CS 3733: Software Engineering</strong></span></p>\n"+
-"<p style=\"text-align: center;\"><span style=\"font-size: medium;\">Prof. Wilson Wong</span></p>\n"+
-"<p style=\"text-align: center;\"><span style=\"font-size: medium;\">Worcester Polytechnic Institute</span></p>\n"+
-"<p style=\"text-align: center;\">&nbsp;</p>\n"+
-"<p style=\"text-align: left;\"><span style=\"font-size: medium;\">Team 0011b:</span></p>\n"+
-"<p style=\"text-align: left;\"><span style=\"font-size: medium;\">Chris Cormier</span></p>\n"+
-"<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><span style=\"font-size: medium;\">Will Craft</span></span></p>\n"+
-"<p style=\"text-align: left;\"><span style=\"font-size: medium;\">Gavin Hayes</span></p>\n"+
-"<p style=\"text-align: left;\"><span style=\"font-size: medium;\">Michael LoTurco</span></p>\n"+
-"<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><span style=\"font-size: medium;\">Benny Peake</span></span></p>\n"+
-"<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><span style=\"font-size: medium;\">Will Spurgeon</span></span></p>\n"+
-"<p style=\"text-align: left;\"><span style=\"font-size: medium;\">Max Stenke</span></p>\n"+
-"<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><span>Jake Zizmor</span></span></p>\n"+
-"<p style=\"text-align: left;\"><span style=\"font-size: medium;\">&nbsp;</span></p>\n"+
-"<p style=\"text-align: left;\">&nbsp;</p>\n"+
-"<p style=\"text-align: center;\">&nbsp;</p>\n"+
-"<p style=\"text-align: center;\">&nbsp;</p>\n"+
-"<p style=\"text-align: center;\">&nbsp;</p></html>");
+		JTextPane textLabel = new JTextPane();
+		textLabel.setContentType("text/html");
+		//textLabel.setWrapStyleWord(true);
+		//textLabel.setLineWrap(true);
+		textLabel.setOpaque(false);
+		textLabel.setEditable(false);
+		textLabel.setFocusable(false);
+		textLabel.setBackground(UIManager.getColor("Label.background"));
+	    textLabel.setFont(UIManager.getFont("Label.font"));
+	    textLabel.setBorder(UIManager.getBorder("Label.border"));
+		textLabel.setText("<html><h1><span style=\"font-family: 'arial black', 'avant garde'; font-size: large;\">Campus Mapper <span style=\"font-family: 'arial black', 'avant garde';\">User</span> Guide</span></strong></p>"+
+"<p><span style=\"font-family: 'arial black', 'avant garde';\"><strong>Find a route:</strong></span></p>"+
+"<ol>"+
+"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Navigate to the map with the desired starting point. </span><span style=\"font-family: arial, helvetica, sans-serif;\"><br>Maps can be selected by going to the \"Maps\" menu and selecting the desired building and floor.</span></li>"+
+"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">The red dots on the maps represent potential starting or ending positions. Click on one of the red dots.</span></li>"+
+"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Select another point on a map. You may navigate to a different floor or building if you wish to.</span></li>"+
+"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Additional points may be selected on any of the maps before a route is found.</span></li>"+
+"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">When you have selected all of the points you would like to visit, press the \"Route Me!\" button.<br>A route will be drawn between all of your points on the map and textual instructions will appear in the \"Directions\" box.</span></li>"+
+"</ol>"+
+"<p><span style=\"font-family: 'arial black', 'avant garde';\"><strong><strong><strong><strong><strong><strong>Navigate through a route:</strong></strong></strong></strong></strong></strong></span></p>"+
+"<ol>"+
+"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Once a route has been created, you may step through it by selecting an instruction <br>in the \"Directions\" box and pressing the \"Next\" and \"Previous\" buttons.</span></li>"+
+"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Stepping between buildings will cause the map view to change to the correct building. <br>Likewise, selecting a specific route will highlight that path within the map view.</span></li>"+
+"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">You may expand or hide the instructions within each route in the \"Directions\" box.</span></li>"+
+"</ol>"+
+"<p><span style=\"font-family: 'arial black', 'avant garde';\"><strong><strong><strong><strong>Editing a route:</strong></strong></strong></strong></span></p>"+
+"<ol>"+
+"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Routes may be edited by removing points listed in the \"Destinations\" box. <br>Once two or points have been selected, click on the button with an \"X\" on it to remove that point from your route. </span></li>"+
+"</ol>"+
+"<p><span style=\"font-family: 'arial black', 'avant garde';\"><strong><strong><strong><strong>Building a map in Dev Mode:</strong></strong></strong></strong></span></p>"+
+"<ol>"+
+"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Enter Dev Mode by selecting Settings->Dev Mode. <br>You may exit Dev Mode at any time by deselecting Settings->Dev Mode.</span></li>"+
+"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Select a the map you would like to work on from the \"Map\" dropdown.</span></li>"+
+"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Create nodes by clicking on the \"Create\" button. You may now click anywhere on the map to add a node.</span></li>"+
+"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Create edges by clicking on the \"Edge\" button. Select the two nodes you would like to connect. <br>Once the second node is selected, an edge will be created between the two nodes.</span></li>"+
+"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Delete nodes by clicking on the \"Delete\" button. If you click on an existing node, it will be deleted.</span></li>"+
+"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Delete edges by clicking on the \"Delete Edge\" button. Click on the two nodes you would like to dissconnect. </span></li>"+
+"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Once you have made all of your changes to the map, click on the \"Save\" button to save the changes to disk.</span></li>"+
+"</ol>"+
+"<p> </p></html>");
 		guideFrame.add(textLabel);
-		guideFrame.setSize(500, 500);
+		guideFrame.setBounds(100, 100, 850, 750);
 		guideFrame.setVisible(true);
 		guideFrame.setLayout(new FlowLayout());
 		
