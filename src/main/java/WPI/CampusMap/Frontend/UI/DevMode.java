@@ -2,6 +2,7 @@ package WPI.CampusMap.Frontend.UI;
 
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
+import java.util.HashSet;
 
 import WPI.CampusMap.Frontend.Dev.EditorToolMode;
 import WPI.CampusMap.Frontend.Graphics.Dev.DevGraphicalMap;
@@ -14,8 +15,7 @@ public class DevMode extends UIMode
 	
 	private EditorToolMode currentToolMode;
 	
-	private DevPointGraphicsObject selectedPoint;
-
+	private HashSet<DevPointGraphicsObject> selectedPoints = new HashSet<>();
 	
 	public DevMode(AppMainWindow window)
 	{
@@ -67,14 +67,40 @@ public class DevMode extends UIMode
 		return currentToolMode;
 	}
 	
-	public void setSelectedPoint(DevPointGraphicsObject point)
+	public void clearSelectedPoints()
 	{
-		selectedPoint = point;
+		selectedPoints.clear();
 	}
 	
-	public DevPointGraphicsObject getSelectedPoint()
+	public DevPointGraphicsObject[] getSelectedPoints()
 	{
-		return selectedPoint;
+		DevPointGraphicsObject[] array = new DevPointGraphicsObject[selectedPoints.size()];
+		return selectedPoints.toArray(array);
+	}
+	
+	public void setSelectedPoint(DevPointGraphicsObject point)
+	{
+		selectedPoints.clear();
+		selectedPoints.add(point);
+		
+		point.onSelected();
+	}
+	
+	public void addSelectedPoint(DevPointGraphicsObject point)
+	{
+		selectedPoints.add(point);
+		
+		point.onSelected();
+	}
+	
+	public boolean isPointSelected(DevPointGraphicsObject point)
+	{
+		return selectedPoints.contains(point);
+	}
+	
+	public int getSelectedPointCount()
+	{
+		return selectedPoints.size();
 	}
 
 	@Override

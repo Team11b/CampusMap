@@ -6,6 +6,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.UUID;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -163,6 +164,15 @@ public class RealMap implements IMap, java.io.Serializable {
 		allPoints.remove(point.getId());
 
 		return true;
+	}
+	
+	@Override
+	public IPoint createPoint(Coord location)
+	{
+		RealPoint point = new RealPoint(location, RealPoint.HALLWAY, UUID.randomUUID().toString(), getName());
+		addPoint(point);
+		
+		return point;
 	}
 
 	/**

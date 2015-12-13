@@ -116,7 +116,7 @@ public class DevEdgeGraphicsObject extends GraphicsObject<UnorderedPair<IPoint, 
 		
 		Line2D.Float line = new Line2D.Float(screenCoord1.getX(), screenCoord1.getY(), screenCoord2.getX(), screenCoord2.getY());
 		
-		return true;//line.ptSegDist(e.getX(), e.getY()) <= 5.0f;
+		return line.ptSegDist(e.getImageCoord().getX(), e.getImageCoord().getY()) <= 5.0f;
 	}
 
 	@Override

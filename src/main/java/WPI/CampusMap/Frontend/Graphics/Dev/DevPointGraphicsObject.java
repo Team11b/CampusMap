@@ -13,7 +13,7 @@ import WPI.CampusMap.Frontend.UI.DevMode;
 
 public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 {	
-	public DevPointGraphicsObject(RealPoint backend, DevGraphicalMap owner)
+	public DevPointGraphicsObject(IPoint backend, DevGraphicalMap owner)
 	{
 		super(backend, owner);
 		
@@ -30,10 +30,10 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 	public Color getColor() 
 	{
 		EditorToolMode mode = getOwnerMode(DevMode.class).getCurrentToolMode();
-		DevPointGraphicsObject selected = getOwnerMode(DevMode.class).getSelectedPoint();
+		boolean isSelected = getOwnerMode(DevMode.class).isPointSelected(this);
 		if(mode == EditorToolMode.Point || mode == EditorToolMode.Edge || mode == EditorToolMode.DeletePoint || mode == EditorToolMode.None)
 		{
-			if(selected == this)
+			if(isSelected)
 			{
 				return Color.yellow;
 			}
@@ -62,13 +62,13 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 	public void onDeleted() 
 	{
 		removeEdges();
-		RealPoint ourPoint = getRepresentedObject();
+		IPoint ourPoint = getRepresentedObject();
 		getOwner().getMap().removePoint(ourPoint);
 	}
 	
 	public void removeEdges()
 	{
-		RealPoint ourPoint = getRepresentedObject();
+		IPoint ourPoint = getRepresentedObject();
 		ArrayList<IPoint> connections = ourPoint.getNeighborsP();
 		
 		for(IPoint other : connections)
@@ -91,10 +91,14 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 			break;
 		case None:
 		case Point:
-			getOwnerMode(DevMode.class).setSelectedPoint(this);
+			if(!e.isShiftDown())
+				getOwnerMode(DevMode.class).setSelectedPoint(this);
+			else
+				getOwnerMode(DevMode.class).addSelectedPoint(this);
 			break;
 		case Edge:
-			getOwnerMode(DevMode.class).setSelectedPoint(this);
+			getOwnerMode(DevMode.class).addSelectedPoint(this);
+			getOwner().makeEdgeBetweenSelected();
 			break;
 			default:
 				break;
@@ -123,7 +127,7 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 	}
 
 	public void setType(String type) {
-		RealPoint point = getRepresentedObject();
+		IPoint point = getRepresentedObject();
 		point.setType(type);
 	}
 }

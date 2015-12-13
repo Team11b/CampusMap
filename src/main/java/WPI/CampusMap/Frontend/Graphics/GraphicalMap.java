@@ -134,7 +134,7 @@ public abstract class GraphicalMap {
 		float invPixelsPerInch = 1.0f / 72.0f;
 		float invInchesPerFoot = 1.0f / map.getScale();
 
-		AffineTransform pixelsToInches = AffineTransform.getScaleInstance(invPixelsPerInch, invInchesPerFoot);
+		AffineTransform pixelsToInches = AffineTransform.getScaleInstance(invPixelsPerInch, invPixelsPerInch);
 		AffineTransform inchesToFeet = AffineTransform.getScaleInstance(invInchesPerFoot, invInchesPerFoot);
 
 		inchesToFeet.concatenate(pixelsToInches);

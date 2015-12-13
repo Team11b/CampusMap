@@ -5,6 +5,7 @@ import java.util.Collection;
 
 import javax.swing.ImageIcon;
 
+import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.Core.Point.RealPoint;
 
@@ -19,6 +20,7 @@ public interface IMap {
 	public boolean removePoint(String id);
 	public boolean removePoint(IPoint point);
 	public boolean addPoint(RealPoint point);
+	public IPoint createPoint(Coord location);
 	public boolean addEdge(IPoint point, IPoint other);
 	public boolean removeEdge(IPoint point, IPoint other);
 	public void renamePoint(RealPoint p, String newName);

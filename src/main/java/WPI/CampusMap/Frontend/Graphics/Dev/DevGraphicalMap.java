@@ -31,7 +31,39 @@ public class DevGraphicalMap extends GraphicalMap
 	@Override
 	public boolean onMouseClick(RealMouseEvent e) 
 	{
-		return false;
+		if(getMode(DevMode.class).getCurrentToolMode() != EditorToolMode.Point)
+			return false;
+		
+		if(getHoverObject() instanceof DevPointGraphicsObject)
+			return false;
+		
+		new DevPointGraphicsObject(getMap().createPoint(e.getWorldCoords()), this);
+		
+		return true;
+	}
+	
+	@Override
+	public boolean onMouseMove(RealMouseEvent e) {
+		System.out.println("Image: " + e.getImageCoord());
+		System.out.println("World: " + e.getWorldCoords());
+		return super.onMouseMove(e);
+	}
+	
+	public void makeEdgeBetweenSelected()
+	{
+		if(getMode(DevMode.class).getSelectedPointCount() >= 2)
+		{
+			DevPointGraphicsObject[] selectedPoints = getMode(DevMode.class).getSelectedPoints();
+			for(int i = 1; i < selectedPoints.length; i++)
+			{
+				DevPointGraphicsObject current = selectedPoints[i];
+				DevPointGraphicsObject last = selectedPoints[i - 1];
+				
+				current.addEdgeTo(last);
+			}
+			
+			getMode(DevMode.class).clearSelectedPoints();
+		}
 	}
 	
 	/**

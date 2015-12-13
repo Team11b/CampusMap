@@ -7,6 +7,7 @@ import java.util.HashSet;
 
 import javax.swing.ImageIcon;
 
+import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.Core.Point.RealPoint;
 import WPI.CampusMap.Recording.Serialization.Serializer;
@@ -88,6 +89,12 @@ public class ProxyMap implements IMap, Serializable {
 		return realMap.removePoint(point);
 	}
 
+	@Override
+	public IPoint createPoint(Coord location) {
+		load();
+		return realMap.createPoint(location);
+	}
+	
 	@Override
 	public boolean addPoint(RealPoint point) {
 		load();
