@@ -97,7 +97,12 @@ public class OrgSync {
 			String title = event.getString("title");
 			String description = event.getString("description");
 			String link =  event.getJSONObject("links").getString("web");
-			String location = "Campus Center"; //event.getString("location");
+			String location = "";
+			if(!event.get("location").toString().equals("null")){
+				location = (String) event.get("location");
+			}else{
+				System.out.println("Found null location, event name :"+title);
+			}
 			String start = event.getJSONArray("dates").getJSONObject(0).getString("starts_at");
 			String end = event.getJSONArray("dates").getJSONObject(0).getString("starts_at");
 			String organizer = event.getJSONObject("portal").getString("name");

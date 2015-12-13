@@ -39,7 +39,7 @@ public class AppUserModeControl extends JComponent {
 	PointList scrollPane = new PointList();
 
 	public AppUserModeControl(AppMainWindow window) {
-		this.window = window;
+		AppUserModeControl.window = window;
 
 		SpringLayout springLayout = new SpringLayout();
 		setLayout(springLayout);
