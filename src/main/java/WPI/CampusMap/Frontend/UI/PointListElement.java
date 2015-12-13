@@ -51,7 +51,12 @@ public class PointListElement extends JComponent {
 		PointNameChanged nameChangeEvent = new PointNameChanged(this);
 		nodeName.addActionListener(nameChangeEvent);
 		nodeName.addFocusListener(nameChangeEvent);
-		nodeName.setText(name);
+		//if(name.substring(name.indexOf("/")).length() < 29){
+			nodeName.setText(name);
+//		}
+//		else{
+//			nodeName.setText(name.substring(0, name.indexOf("/")));
+//		}
 		springLayout.putConstraint(SpringLayout.NORTH, nodeName, 10, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.SOUTH, nodeName, -10, SpringLayout.SOUTH, this);
 		springLayout.putConstraint(SpringLayout.WEST, nodeName, 10, SpringLayout.WEST, this);
