@@ -19,27 +19,28 @@ class CustomCellRenderer implements TreeCellRenderer{
 	
 	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
 		Object o = ((DefaultMutableTreeNode) value).getUserObject();
-		URL imageUrl = null;
-		if (o instanceof PathSectionTreeNode) {
-			PathSectionTreeNode node = (PathSectionTreeNode) o;
-			try {
-				System.out.println("About to find image");
-				imageUrl = new URL("left-turn.png");
-				System.out.println("Found image");
-			} catch (MalformedURLException e) {
-				// TODO Auto-generated catch block
-				System.out.println("Can't find image");
-				e.printStackTrace();
+		ImageIcon icon = null;
+		JLabel label = new JLabel();
+		if (o instanceof String) {
+			String text = (String) o;
+
+			if(text.contains("left")){
+				icon = new ImageIcon("left-turn.png");
+			}else if(text.contains("right")){
+				icon = new ImageIcon("right-turn.png");
+			}else if(text.contains("Walk")){
+				icon = new ImageIcon("straight.png");
+			}else if(text.contains("elevator")){
+				icon = new ImageIcon("left-turn.png");
+			}else if(text.contains("stair")){
+				icon = new ImageIcon("left-turn.png");
+			}else{
+				icon = new ImageIcon("icon.png");
 			}
-			if (imageUrl != null) {
-				icon.setIcon(new ImageIcon(imageUrl));
-			}
-		} else {
-			System.out.println("Found image1");
-			icon.setIcon(new ImageIcon("left-turn.png"));
-			icon.setText("" + value);
+			label.setIcon(icon);
+			label.setText(text);
 		}
-		return icon;
+		return label;
 	}
 
 
