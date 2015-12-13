@@ -91,9 +91,10 @@ public class UserMode extends UIMode {
 
 			getWindow().setRoute(routedPath);
 		} catch (PathNotFoundException e) {
+			JOptionPane.showMessageDialog(null, e.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		} catch (NotEnoughPointsException n) {
-			n.printStackTrace();
+			JOptionPane.showMessageDialog(null, n.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 		}
 
 		getWindow().clearDestinations();
@@ -326,14 +327,48 @@ public class UserMode extends UIMode {
 		JFrame aboutFrame = new JFrame("About Campus Mapper");
 		aboutFrame.setSize(500, 500);
 		aboutFrame.setLayout(new FlowLayout());
-		aboutFrame.getContentPane().add(new JLabel("Worcester Polytechnic Institute"));
-		aboutFrame.getContentPane().add(new JLabel("CS3733 2015 B-Term"));
-		aboutFrame.getContentPane().add(new JLabel("Team 0011b"));
-		aboutFrame.getContentPane().add(new JLabel("Prof. Wilson Wong"));
+		JLabel textLabel = new JLabel();
+		textLabel.setText("<html>Worcester Polytechnic Institute<br>CS3733 2015 B-Term<br>Team 0011b<br>Prof. Wilson Wong</html>");
+		aboutFrame.add(textLabel);
+		//aboutFrame.getContentPane().add(new JLabel("Worcester Polytechnic Institute"));
+		//aboutFrame.getContentPane().add(new JLabel("CS3733 2015 B-Term"));
+		//aboutFrame.getContentPane().add(new JLabel("Team 0011b"));
+		//aboutFrame.getContentPane().add(new JLabel("Prof. Wilson Wong"));
 		// aboutFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		aboutWindow.createDialog(aboutFrame, "About Campus Mapper");
 		aboutFrame.setVisible(true);
 		aboutWindow.setVisible(true);
 
+	}
+
+	public void onGuide() {
+		// TODO Auto-generated method stub
+		JOptionPane aboutWindow = new JOptionPane();
+		JFrame guideFrame = new JFrame("User Guide");
+		JLabel textLabel = new JLabel();
+		textLabel.setText("<html><p style=\"text-align: center;\"><span style=\"font-size: medium;\"><strong>About Campus Mapper</strong></span></p>\n"+
+"<p style=\"text-align: center;\"><span style=\"font-size: medium;\"><strong>CS 3733: Software Engineering</strong></span></p>\n"+
+"<p style=\"text-align: center;\"><span style=\"font-size: medium;\">Prof. Wilson Wong</span></p>\n"+
+"<p style=\"text-align: center;\"><span style=\"font-size: medium;\">Worcester Polytechnic Institute</span></p>\n"+
+"<p style=\"text-align: center;\">&nbsp;</p>\n"+
+"<p style=\"text-align: left;\"><span style=\"font-size: medium;\">Team 0011b:</span></p>\n"+
+"<p style=\"text-align: left;\"><span style=\"font-size: medium;\">Chris Cormier</span></p>\n"+
+"<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><span style=\"font-size: medium;\">Will Craft</span></span></p>\n"+
+"<p style=\"text-align: left;\"><span style=\"font-size: medium;\">Gavin Hayes</span></p>\n"+
+"<p style=\"text-align: left;\"><span style=\"font-size: medium;\">Michael LoTurco</span></p>\n"+
+"<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><span style=\"font-size: medium;\">Benny Peake</span></span></p>\n"+
+"<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><span style=\"font-size: medium;\">Will Spurgeon</span></span></p>\n"+
+"<p style=\"text-align: left;\"><span style=\"font-size: medium;\">Max Stenke</span></p>\n"+
+"<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><span>Jake Zizmor</span></span></p>\n"+
+"<p style=\"text-align: left;\"><span style=\"font-size: medium;\">&nbsp;</span></p>\n"+
+"<p style=\"text-align: left;\">&nbsp;</p>\n"+
+"<p style=\"text-align: center;\">&nbsp;</p>\n"+
+"<p style=\"text-align: center;\">&nbsp;</p>\n"+
+"<p style=\"text-align: center;\">&nbsp;</p></html>");
+		guideFrame.add(textLabel);
+		guideFrame.setSize(500, 500);
+		guideFrame.setVisible(true);
+		guideFrame.setLayout(new FlowLayout());
+		
 	}
 }
