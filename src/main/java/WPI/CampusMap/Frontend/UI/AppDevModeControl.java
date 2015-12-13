@@ -8,6 +8,9 @@ import javax.swing.SpringLayout;
 public class AppDevModeControl extends JComponent {
 	private AppMainWindow window;
 
+	/** Creates a new AppDevModeControl with the given window.
+	 * @param window The window to create the control in.
+	 */
 	public AppDevModeControl(AppMainWindow window) {
 		this.window = window;
 

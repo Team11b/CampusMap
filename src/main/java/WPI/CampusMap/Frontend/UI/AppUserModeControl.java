@@ -38,6 +38,9 @@ public class AppUserModeControl extends JComponent {
 
 	PointList scrollPane = new PointList();
 
+	/** Creates a new User Mode Control in the given window.
+	 * @param window Window to create the User Mode Control
+	 */
 	public AppUserModeControl(AppMainWindow window) {
 		this.window = window;
 
@@ -117,6 +120,9 @@ public class AppUserModeControl extends JComponent {
 		panel.add(btnNext);
 	}
 
+	/** Sets the directions for the given path.
+	 * @param path The directions for the given path.
+	 */
 	public void setRoute(Path path) {
 		Route directions = new Route(path);
 
@@ -152,10 +158,16 @@ public class AppUserModeControl extends JComponent {
 		}
 	}
 
+	/** Adds a destination
+	 * @param point Point to add as destionation.
+	 */
 	public void addDestination(UserPointGraphicsObject point) {
 		scrollPane.addPointElement(point.getRepresentedObject().toString());
 	}
 
+	/**
+	 * Clears the destination.
+	 */
 	public void clearDestinations() {
 		scrollPane.clearPointElements();
 	}
