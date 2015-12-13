@@ -325,16 +325,30 @@ public class UserMode extends UIMode {
 	public void onAbout() {
 		JOptionPane aboutWindow = new JOptionPane();
 		JFrame aboutFrame = new JFrame("About Campus Mapper");
-		aboutFrame.setSize(500, 500);
+		aboutFrame.setBounds(300, 300, 700, 300);
 		aboutFrame.setLayout(new FlowLayout());
 		JLabel textLabel = new JLabel();
-		textLabel.setText("<html>Worcester Polytechnic Institute<br>CS3733 2015 B-Term<br>Team 0011b<br>Prof. Wilson Wong</html>");
+		textLabel.setText("<html><p style=\"text-align: center;\">"+
+				"<p style=\"text-align: center;\"><span style=\"font-size: medium;\"><strong>CS 3733: Software Engineering B-Term 2015</strong></span></p>\n"+
+				"<p style=\"text-align: center;\"><span style=\"font-size: medium;\">Prof. Wilson Wong</span></p>\n"+
+				"<p style=\"text-align: center;\"><span style=\"font-size: medium;\">Worcester Polytechnic Institute</span></p>\n"+
+				"<p style=\"text-align: center;\">&nbsp;</p>\n"+
+				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><b>Team 0011b:</b></span></p>\n"+
+				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><b>Lukas Hunter: Team Coach</b></span></p>\n"+
+				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\">Chris Cormier: Testing Engineer (Iteration 1 and 2)</span></p>\n"+
+				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><span style=\"font-size: medium;\">Will Craft: Lead Software Engineer (Iteration 3 and 4)</span></span></p>\n"+
+				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\">Gavin Hayes: Test Engineer (Iteration 3 and 4)</span></p>\n"+
+				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\">Michael LoTurco: Product Owner (Iteration 1 and 2)</span></p>\n"+
+				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><span style=\"font-size: medium;\">Benny Peake: Product Manager (Iteration 1 and 2), UI Lead (3 and 4)</span></span></p>\n"+
+				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><span style=\"font-size: medium;\">Will Spurgeon: UI Lead (Iteration 1 and 2)</span></span></p>\n"+
+				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\">Max Stenke: Product Owner (Iteration 3 and 4)</span></p>\n"+
+				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><span>Jake Zizmor: Lead Software Engineer (Iteration 1 and 2), Prodcut Manager (Iteration 3 and 4)</span></span></p>\n"+
+				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\">&nbsp;</span></p>\n"+
+				"<p style=\"text-align: left;\">&nbsp;</p>\n"+
+				"<p style=\"text-align: center;\">&nbsp;</p>\n"+
+				"<p style=\"text-align: center;\">&nbsp;</p>\n"+
+				"<p style=\"text-align: center;\">&nbsp;</p></html>");
 		aboutFrame.add(textLabel);
-		//aboutFrame.getContentPane().add(new JLabel("Worcester Polytechnic Institute"));
-		//aboutFrame.getContentPane().add(new JLabel("CS3733 2015 B-Term"));
-		//aboutFrame.getContentPane().add(new JLabel("Team 0011b"));
-		//aboutFrame.getContentPane().add(new JLabel("Prof. Wilson Wong"));
-		// aboutFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		aboutWindow.createDialog(aboutFrame, "About Campus Mapper");
 		aboutFrame.setVisible(true);
 		aboutWindow.setVisible(true);
