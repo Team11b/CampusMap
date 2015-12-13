@@ -543,6 +543,7 @@ public class AStarTest {
 		}
 	}
 
+	@Ignore
 	@Test
 	public void multiDestinationTestDiffMap() {
 		AllMaps.getInstance().addMap(testMap5);
