@@ -14,6 +14,7 @@ import WPI.CampusMap.Frontend.Graphics.RealMouseEvent;
 
 public class UserPathGraphicsObject extends GraphicsObject<Section, UserGraphicalMap> {
 	private float phase;
+	private boolean backgroundLine = false;
 
 	private boolean selected;
 
@@ -44,11 +45,13 @@ public class UserPathGraphicsObject extends GraphicsObject<Section, UserGraphica
 			Coord lastRenderCoord = getOwner().getRenderFromWorld(lastPoint.getCoord());
 
 			//draw background line
-			graphics.setColor(new Color(0,240,0));
+			backgroundLine = true;
+			graphics.setColor(getColor());
 			graphics.setStroke(new BasicStroke(3.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 10.0f));
 			Line2D.Float bLine = new Line2D.Float(currentRenderCoord.getX(), currentRenderCoord.getY(),
 					lastRenderCoord.getX(), lastRenderCoord.getY());
 			graphics.draw(bLine);
+			backgroundLine = false;
 			
 
 			graphics.setStroke(new BasicStroke(3.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 10.0f,
@@ -71,7 +74,8 @@ public class UserPathGraphicsObject extends GraphicsObject<Section, UserGraphica
 
 	@Override
 	public Color getColor() {
-		return new Color(120, 0, 120);
+		if(backgroundLine) return new Color(255,255,0);
+		return new Color(0, 128, 255);
 	}
 
 	@Override
