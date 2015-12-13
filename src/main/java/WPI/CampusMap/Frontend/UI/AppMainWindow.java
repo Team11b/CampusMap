@@ -28,6 +28,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
@@ -528,6 +529,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 			try {
 				Thread.sleep(33);
 			} catch (InterruptedException e) {
+				JOptionPane.showMessageDialog(null, e.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 
