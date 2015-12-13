@@ -132,13 +132,21 @@ public class AppMainWindow extends JFrame implements Runnable {
 
 		JMenu mnFile = new JMenu("File");
 		menuBar.add(mnFile);
+		
+		JMenuItem mntmAbout = new JMenuItem("About");
+		mntmAbout.addActionListener(aboutAction);
+		mnFile.add(mntmAbout);
+		
+		JMenuItem mntmGuide = new JMenuItem("User Guide");
+		mntmGuide.addActionListener(aboutAction);
+		mnFile.add(mntmGuide);
 
 		// JMenuItem mntmSaveAsPdf = new JMenuItem("Save As PDF");
 		// mnFile.add(mntmSaveAsPdf);
 
-		// JMenuItem mntmSaveAsTxt = new JMenuItem("Save As TXT");
-		// mntmSaveAsTxt.addActionListener(txtExporterAction);
-		// mnFile.add(mntmSaveAsTxt);
+		JMenuItem mntmSaveAsTxt = new JMenuItem("Save As TXT");
+		mntmSaveAsTxt.addActionListener(txtExporterAction);
+		mnFile.add(mntmSaveAsTxt);
 
 		JMenu mnSendAs = new JMenu("Send As...");
 		mnFile.add(mnSendAs);
@@ -154,10 +162,6 @@ public class AppMainWindow extends JFrame implements Runnable {
 		JMenuItem mntmPrint = new JMenuItem("Print");
 		mntmPrint.setAction(printAction);
 		mnFile.add(mntmPrint);
-
-		JMenuItem mntmAbout = new JMenuItem("About");
-		mntmAbout.addActionListener(aboutAction);
-		mnFile.add(mntmAbout);
 
 		// JMenu mnRouting = new JMenu("Routing");
 		// menuBar.add(mnRouting);
