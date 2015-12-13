@@ -13,6 +13,8 @@ import javax.swing.JButton;
 import javax.swing.JScrollPane;
 import javax.swing.JTree;
 import java.awt.Font;
+
+import javax.swing.Icon;
 import javax.swing.ImageIcon;
 import java.awt.Label;
 import javax.swing.tree.DefaultTreeModel;
@@ -29,6 +31,8 @@ import WPI.CampusMap.Backend.PathPlanning.Route.Route;
 import WPI.CampusMap.Frontend.Graphics.User.UserPointGraphicsObject;
 
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeCellRenderer;
+
 import java.awt.Choice;
 import java.awt.Panel;
 import java.awt.BorderLayout;
@@ -88,6 +92,16 @@ public class AppUserModeControl extends JComponent {
 		springLayout.putConstraint(SpringLayout.SOUTH, label_1, 0, SpringLayout.NORTH, scrollPane_1);
 		springLayout.putConstraint(SpringLayout.WEST, label_1, 10, SpringLayout.WEST, this);
 
+		
+		 DefaultTreeCellRenderer renderer = (DefaultTreeCellRenderer) tree.getCellRenderer();
+	     Icon closedIcon = new ImageIcon("icon.png");
+	        Icon openIcon = new ImageIcon("icon.png");
+	        Icon leafIcon = new ImageIcon("icon.png");
+	        renderer.setClosedIcon(closedIcon);
+	        renderer.setOpenIcon(openIcon);
+	        renderer.setLeafIcon(leafIcon);
+	        System.out.println("H: " + openIcon.getIconHeight() + "W: " + openIcon.getIconWidth());
+		
 		tree.setRootVisible(false);
 		tree.setModel(null);
 		tree.addTreeSelectionListener(new DirectionsSelectionListener());
