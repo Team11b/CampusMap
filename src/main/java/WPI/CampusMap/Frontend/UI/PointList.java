@@ -50,11 +50,17 @@ public class PointList extends Panel {
 	public PointListElement addPointElement(String name) {
 		if (elements.containsKey(name))
 			return null;
-
-		PointListElement element = new PointListElement(this, name);
-		elements.put(name, element);
-		listPanel.add(element);
-
+		PointListElement element;
+		if(name.substring(name.indexOf("/")).length() < 15){
+			element = new PointListElement(this, name);
+			elements.put(name, element);
+			listPanel.add(element);
+		}
+		else{
+			element = new PointListElement(this, name.substring(0,name.indexOf("/")));
+			elements.put(name, element);
+			listPanel.add(element);
+		}
 		listPanel.revalidate();
 		listPanel.repaint();
 
