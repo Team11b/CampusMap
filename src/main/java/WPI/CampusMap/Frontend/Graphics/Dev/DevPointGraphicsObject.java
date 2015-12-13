@@ -45,10 +45,20 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 		
 		return super.getColor();
 	}
+	
+	public String getPointId()
+	{
+		return getRepresentedObject().getId();
+	}
+	
+	public String getPointType()
+	{
+		return getRepresentedObject().getType();
+	}
 
 	/**
 	 * Adds an edge between this node and another.
-	 * @param other The other graphical node to add an edge betwee.
+	 * @param other The other graphical node to add an edge between.
 	 */
 	public void addEdgeTo(DevPointGraphicsObject other)
 	{

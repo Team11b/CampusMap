@@ -8,6 +8,10 @@ import java.awt.event.ActionListener;
 import javax.swing.JComponent;
 import javax.swing.JSeparator;
 import javax.swing.SpringLayout;
+
+import WPI.CampusMap.Backend.Core.Point.RealPoint;
+import WPI.CampusMap.Frontend.Graphics.Dev.DevPointGraphicsObject;
+
 import javax.swing.JPanel;
 import java.awt.GridLayout;
 import javax.swing.JToggleButton;
@@ -15,44 +19,14 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 public class AppDevModePointEditorControl extends JComponent {
-	private AppMainWindow window;
+	DevPointGraphicsObject point;
 
-	public AppDevModePointEditorControl(AppMainWindow window) {
-		this.window = window;
-
+	public AppDevModePointEditorControl(DevPointGraphicsObject point) 
+	{
+		this.point = point;
+		
 		SpringLayout springLayout = new SpringLayout();
 		setLayout(springLayout);
-
-		JPanel panel = new JPanel();
-		springLayout.putConstraint(SpringLayout.NORTH, panel, 10, SpringLayout.NORTH, this);
-		springLayout.putConstraint(SpringLayout.WEST, panel, 10, SpringLayout.WEST, this);
-		springLayout.putConstraint(SpringLayout.EAST, panel, -10, SpringLayout.EAST, this);
-		add(panel);
-		panel.setLayout(new GridLayout(0, 2, 10, 10));
-
-		JToggleButton rdbtnCreate = new JToggleButton("Create");
-		rdbtnCreate.setToolTipText("Create a new node on the map");
-		rdbtnCreate.addActionListener(new PointEditorActionListener());
-		modeButtonGroup.add(rdbtnCreate);
-		panel.add(rdbtnCreate);
-
-		JToggleButton rdbtnDelete = new JToggleButton("Delete");
-		rdbtnDelete.setToolTipText("Delete a node on the map");
-		rdbtnDelete.addActionListener(new DeleteEditorActionListener());
-		modeButtonGroup.add(rdbtnDelete);
-		panel.add(rdbtnDelete);
-
-		JToggleButton rdbtnEdge = new JToggleButton("Edge");
-		rdbtnEdge.setToolTipText("Create a new edge between two nodes on the map");
-		rdbtnEdge.addActionListener(new EdgeEditorActionListener());
-		modeButtonGroup.add(rdbtnEdge);
-		panel.add(rdbtnEdge);
-
-		JToggleButton rdbtnDeleteEdge = new JToggleButton("Delete Edge");
-		rdbtnDeleteEdge.setToolTipText("Delete an existing edge on the map");
-		rdbtnDeleteEdge.addActionListener(new DeleteEdgeEditorActionListener());
-		modeButtonGroup.add(rdbtnDeleteEdge);
-		panel.add(rdbtnDeleteEdge);
 
 		JLabel lblName = new JLabel("Name: ");
 		springLayout.putConstraint(SpringLayout.WEST, lblName, 10, SpringLayout.WEST, this);
@@ -68,6 +42,10 @@ public class AppDevModePointEditorControl extends JComponent {
 		nameField.setColumns(10);
 
 		Choice typeSelector = new Choice();
+		typeSelector.add(RealPoint.ELEVATOR);
+		typeSelector.add(RealPoint.HALLWAY);
+		typeSelector.add(RealPoint.STAIRS);
+		typeSelector.select(point.getPointType());
 		springLayout.putConstraint(SpringLayout.NORTH, typeSelector, 10, SpringLayout.SOUTH, nameField);
 		springLayout.putConstraint(SpringLayout.WEST, typeSelector, 0, SpringLayout.WEST, nameField);
 		springLayout.putConstraint(SpringLayout.EAST, typeSelector, 0, SpringLayout.EAST, nameField);
@@ -91,9 +69,9 @@ public class AppDevModePointEditorControl extends JComponent {
 		add(connectionsLabel);
 
 		JSeparator separator = new JSeparator();
-		springLayout.putConstraint(SpringLayout.NORTH, nameField, 10, SpringLayout.SOUTH, separator);
-		springLayout.putConstraint(SpringLayout.NORTH, separator, 120, SpringLayout.NORTH, this);
-		springLayout.putConstraint(SpringLayout.SOUTH, panel, -10, SpringLayout.SOUTH, separator);
+		springLayout.putConstraint(SpringLayout.NORTH, nameField, 10, SpringLayout.NORTH, separator);
+		springLayout.putConstraint(SpringLayout.NORTH, separator, 10, SpringLayout.NORTH, this);
+		springLayout.putConstraint(SpringLayout.SOUTH, this, -10, SpringLayout.SOUTH, separator);
 		springLayout.putConstraint(SpringLayout.WEST, separator, 0, SpringLayout.WEST, this);
 		springLayout.putConstraint(SpringLayout.EAST, separator, 0, SpringLayout.EAST, this);
 		add(separator);
@@ -104,48 +82,6 @@ public class AppDevModePointEditorControl extends JComponent {
 		springLayout.putConstraint(SpringLayout.WEST, separator_1, 0, SpringLayout.WEST, this);
 		springLayout.putConstraint(SpringLayout.EAST, separator_1, 0, SpringLayout.EAST, this);
 		add(separator_1);
-	}
-
-	private abstract class EditorModeActionListener implements ActionListener {
-		@Override
-		public void actionPerformed(ActionEvent e) {
-			JToggleButton toggleButton = (JToggleButton) e.getSource();
-			if (toggleButton.isSelected())
-				onActionPerformed(e);
-			else
-				window.getDevMode().setSelect();
-		}
-
-		protected abstract void onActionPerformed(ActionEvent e);
-
-	}
-
-	private class PointEditorActionListener extends EditorModeActionListener {
-		@Override
-		protected void onActionPerformed(ActionEvent e) {
-			window.getDevMode().setPlace();
-		}
-	}
-
-	private class EdgeEditorActionListener extends EditorModeActionListener {
-		@Override
-		protected void onActionPerformed(ActionEvent e) {
-			window.getDevMode().setEdge();
-		}
-	}
-
-	private class DeleteEditorActionListener extends EditorModeActionListener {
-		@Override
-		protected void onActionPerformed(ActionEvent e) {
-			window.getDevMode().setRemove();
-		}
-	}
-
-	private class DeleteEdgeEditorActionListener extends EditorModeActionListener {
-		@Override
-		protected void onActionPerformed(ActionEvent e) {
-			window.getDevMode().setRemoveEdge();
-		}
 	}
 
 	/**
