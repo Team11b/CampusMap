@@ -25,30 +25,30 @@ public class AllPointsTest {
 
 	@Test
 	public void testIfAddPointsDetectsMultiplePoints() {
-		int count1 = points.getAllpoints().size();
+		int count1 = points.getAllPointsShortName().size();
 
 		assertFalse(points.addPoint("3/three"));
 
-		int count2 = points.getAllpoints().size();
+		int count2 = points.getAllPointsShortName().size();
 
 		assertTrue(count1 == count2);
 	}
 
 	@Test
 	public void testIfAddingMorePointsDetectsMultiplePointsWithArray() {
-		int count1 = points.getAllpoints().size();
+		int count1 = points.getAllPointsShortName().size();
 		String[] strings = { "2/two", "4/four", "5/five" };
 
 		assertTrue(3 == points.addAllPoints(strings).size());
 
-		int count2 = points.getAllpoints().size();
+		int count2 = points.getAllPointsShortName().size();
 
 		assertTrue(count1 == count2);
 	}
 
 	@Test
 	public void testIfAddingMorePointsDetectsMultiplePointsWithArrayList() {
-		int count1 = points.getAllpoints().size();
+		int count1 = points.getAllPointsShortName().size();
 		ArrayList<String> list = new ArrayList<String>();
 		list.add("2/two");
 		list.add("4/four");
@@ -56,7 +56,7 @@ public class AllPointsTest {
 
 		assertTrue(3 == points.addAllPoints(list).size());
 
-		int count2 = points.getAllpoints().size();
+		int count2 = points.getAllPointsShortName().size();
 
 		assertTrue(count1 == count2);
 	}
