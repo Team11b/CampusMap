@@ -138,7 +138,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 		mnFile.add(mntmAbout);
 		
 		JMenuItem mntmGuide = new JMenuItem("User Guide");
-		mntmGuide.addActionListener(aboutAction);
+		mntmGuide.addActionListener(guideAction);
 		mnFile.add(mntmGuide);
 
 		// JMenuItem mntmSaveAsPdf = new JMenuItem("Save As PDF");
@@ -579,6 +579,12 @@ public class AppMainWindow extends JFrame implements Runnable {
 		}
 	}
 
+	protected ActionListener guideAction = new ActionListener() {
+		public void actionPerformed(ActionEvent e) {
+			getUserMode().onGuide();
+		}
+	};
+	
 	protected ActionListener aboutAction = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			getUserMode().onAbout();
