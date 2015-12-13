@@ -40,9 +40,13 @@ public abstract class PathProcessor
 	 * @param keyPoints the destinations to pathfind to
 	 * @return The found path.
 	 * @throws PathNotFoundException thrown when no path is found
+	 * @throws NotEnoughPointsException 
 	 */
-	protected Path execute(IPoint[] keyPoints) throws PathNotFoundException
+	protected Path execute(IPoint[] keyPoints) throws PathNotFoundException, NotEnoughPointsException
 	{
+		if (keyPoints.length < 2) {
+			throw new NotEnoughPointsException("Only " + keyPoints.length + " points provided. Minimum of 2 required.");
+		}
 		this.keyPoints = keyPoints;
 		
 		//no previous end for the first node

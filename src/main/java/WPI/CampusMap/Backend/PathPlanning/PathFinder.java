@@ -10,8 +10,9 @@ public class PathFinder
 	 * @param processor The path processor to use for processing the path finding.
 	 * @return The path between all destinations
 	 * @throws PathNotFoundException Thrown when no path can be found.
+	 * @throws NotEnoughPointsException 
 	 */
-	public static Path getPath(IPoint[] destinations, PathProcessor processor) throws PathNotFoundException
+	public static Path getPath(IPoint[] destinations, PathProcessor processor) throws PathNotFoundException, NotEnoughPointsException
 	{
 		return processor.execute(destinations);
 	}
@@ -34,8 +35,9 @@ public class PathFinder
 	 * @param processor The path processor to use for processing the path finding.
 	 * @return A path between the start and end point.
 	 * @throws PathNotFoundException Thrown when no path can be found.
+	 * @throws NotEnoughPointsException 
 	 */
-	public static Path getPath(IPoint a, IPoint b, PathProcessor processor) throws PathNotFoundException
+	public static Path getPath(IPoint a, IPoint b, PathProcessor processor) throws PathNotFoundException, NotEnoughPointsException
 	{
 		IPoint[] destinations = new IPoint[2];
 		destinations[0] = a;

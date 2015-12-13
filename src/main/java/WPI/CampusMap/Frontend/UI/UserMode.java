@@ -10,12 +10,10 @@ import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.LinkedList;
 
-import javax.swing.JButton;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
-import javax.swing.JPopupMenu;
 
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
@@ -33,6 +31,7 @@ import WPI.CampusMap.Backend.PathPlanning.BetweenMapsProcessor;
 import WPI.CampusMap.Backend.PathPlanning.DistanceProcessor;
 import WPI.CampusMap.Backend.PathPlanning.LocationPref;
 import WPI.CampusMap.Backend.PathPlanning.NodeProcessor;
+import WPI.CampusMap.Backend.PathPlanning.NotEnoughPointsException;
 import WPI.CampusMap.Backend.PathPlanning.Path;
 import WPI.CampusMap.Backend.PathPlanning.Path.Section;
 import WPI.CampusMap.Backend.PathPlanning.PathFinder;
@@ -42,160 +41,141 @@ import WPI.CampusMap.Backend.PathPlanning.Route.Route;
 import WPI.CampusMap.Frontend.Graphics.User.UserGraphicalMap;
 import WPI.CampusMap.Frontend.Graphics.User.UserPointGraphicsObject;
 
-public class UserMode extends UIMode
-{
+public class UserMode extends UIMode {
 	private UserGraphicalMap graphicalMap;
-	
+
 	private LinkedList<IPoint> route = new LinkedList<>();
 	private HashSet<IPoint> routeSet = new HashSet<>();
-	
+
 	private Path routedPath;
 	private LocationPref pref;
-	
-	public UserMode(AppMainWindow window)
-	{
-		super(window);	
+
+	public UserMode(AppMainWindow window) {
+		super(window);
 	}
-	
+
 	@Override
 	public void onModeEntered() {
 		// Execute changes to UI
 
 	}
-	
+
 	@Override
-	public void gotoPoint(String name) 
-	{
+	public void gotoPoint(String name) {
 		IPoint point = AllPoints.getInstance().getPoint(name);
 		loadMap(point.getMap());
 	}
-	
+
 	/**
 	 * Gets the routed path sections for the loaded map.
+	 * 
 	 * @return The routed path sections for the loaded map.
 	 */
-	public LinkedList<Section> getRoutedPath()
-	{
-		if(routedPath == null)
+	public LinkedList<Section> getRoutedPath() {
+		if (routedPath == null)
 			return new LinkedList<>();
 		return routedPath.getSections(graphicalMap.getMap());
 	}
 
-	public void onRouteButton() 
-	{
-		NodeProcessor nP = new DistanceProcessor(new BetweenMapsProcessor(new WeatherHeuristicProcessor(null, pref)));	
+	public void onRouteButton() {
+		NodeProcessor nP = new DistanceProcessor(new BetweenMapsProcessor(new WeatherHeuristicProcessor(null, pref)));
 		AStarPathProcessor processor = new AStarPathProcessor(nP);
-		
+
 		IPoint[] points = new IPoint[route.size()];
 		route.toArray(points);
-		
-		try 
-		{
+
+		try {
 			routedPath = PathFinder.getPath(points, processor);
 			graphicalMap.setPathSections(getRoutedPath());
 			graphicalMap.setShownSection(getRoutedPath().getFirst());
-			
+
 			getWindow().setRoute(routedPath);
-		} 
-		catch (PathNotFoundException e) 
-		{
+		} catch (PathNotFoundException e) {
 			e.printStackTrace();
+		} catch (NotEnoughPointsException n) {
+			n.printStackTrace();
 		}
-		
+
 		getWindow().clearDestinations();
 		clearRoute();
 	}
-	
-	public void selectRouteSection(Section section)
-	{
+
+	public void selectRouteSection(Section section) {
 		graphicalMap.setShownSection(section);
 	}
-	
-	public void onClearButton(){
-		//destinations.resetLastPoint();
+
+	public void onClearButton() {
+		// destinations.resetLastPoint();
 		clearRoute();
-		//UserPathGraphicsObject.deleteAll();
+		// UserPathGraphicsObject.deleteAll();
 	}
 
 	public void onAddDest(String destName) {
 		System.out.println("AddDest");
 	}
-	
-	public void onPointAddedToRoute(UserPointGraphicsObject newPoint)
-	{
+
+	public void onPointAddedToRoute(UserPointGraphicsObject newPoint) {
 		onPointAddedToRoute(newPoint.getRepresentedObject());
-		
-		if(newPoint != null && routeSet.contains(newPoint.getRepresentedObject()))
+
+		if (newPoint != null && routeSet.contains(newPoint.getRepresentedObject()))
 			getWindow().addDestination(newPoint);
 	}
-	
-	public void onPointAddedToRoute(IPoint newPoint)
-	{
-		if(newPoint == null)
+
+	public void onPointAddedToRoute(IPoint newPoint) {
+		if (newPoint == null)
 			return;
-		
-		if(routedPath != null)
-		{
+
+		if (routedPath != null) {
 			clearRoute();
 			routedPath = null;
 			graphicalMap.setPathSections(getRoutedPath());
 		}
-		
-		
-		if(!routeSet.contains(newPoint))
-		{
-			System.out.println("Added " +newPoint+" to route");
+
+		if (!routeSet.contains(newPoint)) {
+			System.out.println("Added " + newPoint + " to route");
 			routeSet.add(newPoint);
 			route.add(newPoint);
 		}
 	}
-	
-	public void clearRoute()
-	{
+
+	public void clearRoute() {
 		routeSet.clear();
 		route.clear();
-		
+
 		getWindow().clearDestinations();
-		
-		//TODO: Call UI code
+
+		// TODO: Call UI code
 	}
-	
-	public void onPointRemovedFromRoute(UserPointGraphicsObject point)
-	{
+
+	public void onPointRemovedFromRoute(UserPointGraphicsObject point) {
 		onPointRemovedFromRoute(point.getRepresentedObject());
 	}
-	
-	public void onPointRemovedFromRoute(IPoint point)
-	{
-		if(point == null)
+
+	public void onPointRemovedFromRoute(IPoint point) {
+		if (point == null)
 			return;
-		
-		if(routedPath != null)
-		{
+
+		if (routedPath != null) {
 			clearRoute();
 			routedPath = null;
 			graphicalMap.setPathSections(null);
 		}
-		
-		if(routeSet.contains(point))
-		{
+
+		if (routeSet.contains(point)) {
 			routeSet.remove(point);
 			route.remove(point);
 		}
 	}
-	
-	public boolean containsInRoute(UserPointGraphicsObject point)
-	{
+
+	public boolean containsInRoute(UserPointGraphicsObject point) {
 		return routeSet.contains(point.getRepresentedObject());
 	}
-	
-	public boolean isRouteStart(UserPointGraphicsObject point)
-	{
+
+	public boolean isRouteStart(UserPointGraphicsObject point) {
 		return route.getFirst().equals(point.getRepresentedObject());
 	}
-	
-	public boolean isRouteEnd(UserPointGraphicsObject point)
-	{
+
+	public boolean isRouteEnd(UserPointGraphicsObject point) {
 		return route.getLast().equals(point.getRepresentedObject());
 	}
 
@@ -215,8 +195,7 @@ public class UserMode extends UIMode
 	public void onTxt() {
 		JFileChooser chooser = new JFileChooser();
 		chooser.showSaveDialog(chooser);
-		if(chooser.getSelectedFile() == null)
-		{
+		if (chooser.getSelectedFile() == null) {
 			System.out.println("Cancel pressed on txt");
 			return;
 		}
@@ -236,17 +215,17 @@ public class UserMode extends UIMode
 	}
 
 	public String popUp() {
-        final JFrame parent = new JFrame();
-        //parent.add(button);
-        parent.pack();
-        parent.setVisible(true);
+		final JFrame parent = new JFrame();
+		// parent.add(button);
+		parent.pack();
+		parent.setVisible(true);
 
-        String email = JOptionPane.showInputDialog(parent, "What is your email address?", null);
-        parent.setVisible(false);
-        return email;
-      
-    }
-	
+		String email = JOptionPane.showInputDialog(parent, "What is your email address?", null);
+		parent.setVisible(false);
+		return email;
+
+	}
+
 	public void onEmail() {
 		Email email = new SimpleEmail();
 		email.setDebug(true);
@@ -292,58 +271,50 @@ public class UserMode extends UIMode
 	}
 
 	@Override
-	public void onDraw(Graphics2D graphics) 
-	{
-		if(graphicalMap != null)
+	public void onDraw(Graphics2D graphics) {
+		if (graphicalMap != null)
 			graphicalMap.onDraw(graphics);
 	}
 
 	@Override
-	public void onMouseClickMap(MouseEvent e) 
-	{
-		if(graphicalMap != null)
+	public void onMouseClickMap(MouseEvent e) {
+		if (graphicalMap != null)
 			graphicalMap.mouseClick(e);
 	}
 
 	@Override
-	public void onMouseEnterMap(MouseEvent e) 
-	{
-		if(graphicalMap != null)
+	public void onMouseEnterMap(MouseEvent e) {
+		if (graphicalMap != null)
 			graphicalMap.mouseEnter(e);
 	}
 
 	@Override
-	public void onMouseLeaveMap(MouseEvent e) 
-	{
-		if(graphicalMap != null)
+	public void onMouseLeaveMap(MouseEvent e) {
+		if (graphicalMap != null)
 			graphicalMap.mouseExit(e);
 	}
 
 	@Override
-	public void onMouseMoveOverMap(MouseEvent e) 
-	{
-		if(graphicalMap != null)
+	public void onMouseMoveOverMap(MouseEvent e) {
+		if (graphicalMap != null)
 			graphicalMap.mouseMove(e);
 	}
 
 	@Override
-	public void onMouseDraggedOverMap(MouseEvent e)
-	{
-		if(graphicalMap != null)
+	public void onMouseDraggedOverMap(MouseEvent e) {
+		if (graphicalMap != null)
 			graphicalMap.mouseDrag(e);
 	}
 
 	@Override
-	public void loadMap(String mapName)
-	{
-		if(mapName == null)
+	public void loadMap(String mapName) {
+		if (mapName == null)
 			return;
-		
-		if(graphicalMap != null)
-		{
-			if(graphicalMap.getMap().equals(AllMaps.getInstance().getMap(mapName)))
+
+		if (graphicalMap != null) {
+			if (graphicalMap.getMap().equals(AllMaps.getInstance().getMap(mapName)))
 				return;
-			
+
 			graphicalMap.unload();
 		}
 		graphicalMap = new UserGraphicalMap(mapName, this);
@@ -359,10 +330,10 @@ public class UserMode extends UIMode
 		aboutFrame.getContentPane().add(new JLabel("CS3733 2015 B-Term"));
 		aboutFrame.getContentPane().add(new JLabel("Team 0011b"));
 		aboutFrame.getContentPane().add(new JLabel("Prof. Wilson Wong"));
-		//aboutFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		// aboutFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		aboutWindow.createDialog(aboutFrame, "About Campus Mapper");
 		aboutFrame.setVisible(true);
 		aboutWindow.setVisible(true);
-		
+
 	}
 }
