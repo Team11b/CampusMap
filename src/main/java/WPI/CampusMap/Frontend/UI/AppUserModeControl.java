@@ -96,6 +96,7 @@ public class AppUserModeControl extends JComponent {
 		tree.setRootVisible(false);
 		tree.setModel(null);
 		tree.addTreeSelectionListener(new DirectionsSelectionListener());
+		tree.setCellRenderer(new CustomCellRenderer());
 		scrollPane_1.setViewportView(tree);
 		add(label_1);
 
@@ -128,6 +129,7 @@ public class AppUserModeControl extends JComponent {
 			if (currentMap == null || !section.getMap().equals(currentMap)) {
 				currentMap = section.getMap();
 				mapRoot = new MapSectionTreeNode(currentMap, section);
+				mapRoot.getUserObject();
 				root.add(mapRoot);
 			}
 
@@ -241,7 +243,6 @@ public class AppUserModeControl extends JComponent {
 		 * 
 		 */
 		private static final long serialVersionUID = 123464203285703937L;
-
 		public DirectionsBaseTreeNode(Object userObject, boolean allowChildren) {
 			super(userObject, allowChildren);
 		}
@@ -256,7 +257,6 @@ public class AppUserModeControl extends JComponent {
 		private static final long serialVersionUID = 9130117587484385937L;
 		private Instruction source;
 		private Section section;
-
 		public InstructionTreeNode(Instruction source, Section section) {
 			super(source.getInstruction(), false);
 			this.source = source;
