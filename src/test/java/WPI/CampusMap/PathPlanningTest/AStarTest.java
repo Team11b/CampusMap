@@ -16,6 +16,7 @@ import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.Core.Point.RealPoint;
 import WPI.CampusMap.Backend.PathPlanning.AStarPathProcessor;
 import WPI.CampusMap.Backend.PathPlanning.DistanceProcessor;
+import WPI.CampusMap.Backend.PathPlanning.NotEnoughPointsException;
 import WPI.CampusMap.Backend.PathPlanning.Path;
 import WPI.CampusMap.Backend.PathPlanning.Path.Section;
 import WPI.CampusMap.Backend.PathPlanning.PathFinder;
@@ -426,6 +427,9 @@ public class AStarTest {
 			path = PathFinder.getPath(start, goal, new AStarPathProcessor(new DistanceProcessor()));
 		} catch (PathNotFoundException e) {
 			e.printStackTrace();
+		} catch (NotEnoughPointsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 		
 		
@@ -452,6 +456,9 @@ public class AStarTest {
 		try {
 			path = PathFinder.getPath(start, goal, new AStarPathProcessor(new DistanceProcessor()));
 		} catch (PathNotFoundException e) {
+			e.printStackTrace();
+		} catch (NotEnoughPointsException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		
@@ -480,6 +487,9 @@ public class AStarTest {
 		try {
 			path = PathFinder.getPath(start, goal, new AStarPathProcessor(new DistanceProcessor()));
 		} catch (PathNotFoundException e) {
+			e.printStackTrace();
+		} catch (NotEnoughPointsException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
@@ -513,6 +523,9 @@ public class AStarTest {
 			path = PathFinder.getPath(destinations, new AStarPathProcessor(new DistanceProcessor()));
 		} catch (PathNotFoundException e) {
 			e.printStackTrace();
+		} catch (NotEnoughPointsException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
 		}
 
 		String[][] expectedPath = {{"0","1","2"},{"2","7","12","17","22"},{"22","23","24"}};
@@ -544,6 +557,9 @@ public class AStarTest {
 		try {
 			path = PathFinder.getPath(destinations, new AStarPathProcessor(new DistanceProcessor()));
 		} catch (PathNotFoundException e) {
+			e.printStackTrace();
+		} catch (NotEnoughPointsException e) {
+			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 
