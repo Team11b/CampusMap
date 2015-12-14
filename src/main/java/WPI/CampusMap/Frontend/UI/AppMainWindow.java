@@ -356,7 +356,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 					}
 				}
 				// add the floor to the top dropdown and setup for other				
-				JMenuItem mntmFloor = new JMenuItem(aMap.getName().replace('_', ' '));
+				JMenuItem mntmFloor = new JMenuItem(aMap.getDisplayName());
 				if (mnEx != null) {
 					mnEx.add(mntmFloor);
 					makeALMenuItem(mntmFloor, aMap.getName(), mnEx);
@@ -409,7 +409,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 				}
 			});
 			for (IMap map : otherMapsInBuilding) {				
-				mapDropdown.add(map.getName().replace('_', ' '));
+				mapDropdown.add(map.getDisplayName());
 			}
 			
 		} else {
@@ -426,7 +426,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 		}
 
 		// show the current map when selecting from the other dropdown
-		mapDropdown.select(mapName.replace('_', ' '));
+		mapDropdown.select(currentMap.getDisplayName());
 
 		// add the listener
 		mapDropdown.addItemListener(new mapDropDownItemListener(mapName));

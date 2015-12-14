@@ -313,5 +313,10 @@ public class RealMap implements IMap, java.io.Serializable {
 	public void changed(){
 		unsavedChanges = true;
 	}
+	
+	public String getDisplayName() {
+		// TODO Auto-generated method stub
+		return getName().replace('_', ' ');
+	}
 
 }
