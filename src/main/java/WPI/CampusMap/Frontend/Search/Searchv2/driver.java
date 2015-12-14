@@ -7,6 +7,8 @@ import javax.swing.JFrame;
 import javax.swing.JTextField;
 import javax.swing.KeyStroke;
 
+import WPI.CampusMap.Backend.Core.Point.AllPoints;
+
 public class driver {
 
 	public driver() {
@@ -25,11 +27,7 @@ public class driver {
 		mainTextField.setFocusTraversalKeysEnabled(false);
 		ArrayList<String> keywords;
 		// Our words to complete
-		keywords = new ArrayList<String>(5);
-		        keywords.add("fl102");
-		        keywords.add("AtwaterKent");
-		        keywords.add("stackabuse");
-		        keywords.add("java");
+		keywords = AllPoints.getInstance().getAllPointsShortName();
 		Autocomplete autoComplete = new Autocomplete(mainTextField, keywords);
 		mainTextField.getDocument().addDocumentListener(autoComplete);
 

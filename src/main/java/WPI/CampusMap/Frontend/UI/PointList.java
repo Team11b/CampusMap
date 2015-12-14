@@ -51,23 +51,20 @@ public class PointList extends Panel {
 		if (elements.containsKey(name))
 			return null;
 		PointListElement element;
-		if(name.substring(name.indexOf("/")).length() < 15){
-			element = new PointListElement(this, name);
-			elements.put(name, element);
-			listPanel.add(element);
-		}
-		else{
-			element = new PointListElement(this, name.substring(0,name.indexOf("/")));
-			elements.put(name, element);
-			listPanel.add(element);
-		}
+		element = new PointListElement(this, name);
+		elements.put(name, element);
+		listPanel.add(element);
 		listPanel.revalidate();
 		listPanel.repaint();
-
 		for (PointListEventHandler handler : handlers) {
 			handler.pointDescriptorAdded(element);
 		}
-
+		
+		//For removing underscores
+		renamePointElement(name, name.replace('_', ' '));
+		guiRenameElement(element, name);
+		renamePointElement(name.replace(' ', '_'), name);
+		
 		return element;
 	}
 

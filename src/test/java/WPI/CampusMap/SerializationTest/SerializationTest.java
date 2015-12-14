@@ -13,6 +13,7 @@ import java.util.Arrays;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
@@ -21,12 +22,13 @@ import WPI.CampusMap.Backend.Core.Map.ProxyMap;
 import WPI.CampusMap.Backend.Core.Map.RealMap;
 import WPI.CampusMap.Backend.Core.Point.RealPoint;
 import WPI.CampusMap.Recording.Serialization.Serializer;
-
+@Ignore
 public class SerializationTest {
 
 	static ProxyMap pm;
 	static ProxyMap connected;
 
+	@Ignore
 	@BeforeClass
 	public static void setup() {
 		AllMaps.getInstance().clearAllMaps();
@@ -44,6 +46,7 @@ public class SerializationTest {
 		connected.addEdge(connected.getPoint("1"), pm.getPoint("1"));
 	}
 
+	@Ignore
 	@AfterClass
 	public static void cleanup() {
 		AllMaps.getInstance().clearAllMaps();
@@ -101,6 +104,7 @@ public class SerializationTest {
 		}
 	}
 
+	@Ignore
 	@Test
 	public void testProxy() {
 		pm.save();
@@ -138,6 +142,7 @@ public class SerializationTest {
 		assertTrue(true);
 	}
 
+	@Ignore
 	@Test
 	public void test() {
 		AllMaps.getInstance().clearAllMaps();

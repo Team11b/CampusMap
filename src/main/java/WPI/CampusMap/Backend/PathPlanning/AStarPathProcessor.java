@@ -11,10 +11,9 @@ public class AStarPathProcessor extends PathProcessor {
 
 	NodeProcessor nProcessor;
 
-	public AStarPathProcessor() {
-		super();
-	}
-
+	/** Creates a new AStarPathProcessor
+	 * @param nProcessor The first node processor in the node processor chain
+	 */
 	public AStarPathProcessor(NodeProcessor nProcessor) {
 		super();
 		this.nProcessor = nProcessor;
@@ -24,6 +23,7 @@ public class AStarPathProcessor extends PathProcessor {
 	// on building with goal #2
 	// on campus map #3
 	// anything else
+	
 	private static class NodeComparator implements Comparator<Node> {
 		public int compare(Node n1, Node n2) {
 			IPoint p1 = n1.getPoint();
@@ -52,7 +52,7 @@ public class AStarPathProcessor extends PathProcessor {
 				// System.out.println("Both Points on campus");
 				String[] buildingConnections = ((ProxyMap) AllMaps.getInstance().getMap(campusMap)).getNamedPoints();
 				// System.out.println("Goal building: "+pGoal.getBuilding());
-				System.out.println(Arrays.toString(buildingConnections));
+//				System.out.println(Arrays.toString(buildingConnections));
 				if (Arrays.asList(buildingConnections).contains(campusMap + "/" + pGoal.getBuilding())) {
 					// System.out.println("Campus contains building point");
 					IPoint buildingPoint = AllMaps.getInstance().getMap(campusMap).getPoint(pGoal.getBuilding());

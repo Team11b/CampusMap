@@ -14,7 +14,7 @@ public class ProxyPoint implements IPoint {
 	String pointId, mapName;
 	RealPoint realPoint;
 
-	protected ProxyPoint(String fullName) {
+	public ProxyPoint(String fullName) {
 		String[] splitName = fullName.split("/");
 		if (splitName.length == 1) {
 			this.pointId = splitName[0];
@@ -144,6 +144,7 @@ public class ProxyPoint implements IPoint {
 	@Override
 	public boolean equals(Object other) {
 		load();
+		if(realPoint == null) return false;
 		return realPoint.equals(other);
 	}
 

@@ -13,6 +13,7 @@ public interface IMap {
 	public String getBuilding();
 	public void setScale(float f);
 	public String getName();
+	public String getDisplayName();
 	public ImageIcon getLoadedImage();
 	public RealPoint getPoint(String id);
 	public Collection<RealPoint> getAllPoints();
@@ -25,4 +26,6 @@ public interface IMap {
 	public boolean connectedToCampus();
 	public ArrayList<IPoint> pointsConnectedToOtherMaps();
 	public void save();
+	public boolean unsavedChanged();
+	public void changed();
 }

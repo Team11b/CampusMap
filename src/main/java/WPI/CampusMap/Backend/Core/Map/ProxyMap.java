@@ -7,6 +7,7 @@ import java.util.HashSet;
 
 import javax.swing.ImageIcon;
 
+import WPI.CampusMap.Backend.Core.Point.AllPoints;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.Core.Point.RealPoint;
 import WPI.CampusMap.Recording.Serialization.Serializer;
@@ -125,6 +126,7 @@ public class ProxyMap implements IMap, Serializable {
 				if (!point.getId().contains("-")) {
 					// System.out.println("Named Point");
 					tempNamedPoints.add(point.toString());
+					AllPoints.getInstance().addPoint(point.toString());
 				}
 				for (String connectedMap : point.getNeighborPointsOnOtherMaps().keySet()) {
 					// System.out.println("Connecting map: " + connectedMap);
@@ -133,7 +135,7 @@ public class ProxyMap implements IMap, Serializable {
 			}
 			namedPoints = tempNamedPoints.toArray(new String[tempNamedPoints.size()]);
 			connectedMaps = tempConnectedMaps.toArray(new String[tempConnectedMaps.size()]);
-
+			AllPoints.getInstance().save();
 			// System.out.println(Arrays.toString(connectedMaps));
 			// System.out.println(Arrays.toString(namedPoints));
 			Serializer.save(this);
@@ -194,6 +196,23 @@ public class ProxyMap implements IMap, Serializable {
 	public ArrayList<IPoint> pointsConnectedToOtherMaps() {
 		load();
 		return realMap.pointsConnectedToOtherMaps();
+	}
+
+	@Override
+	public boolean unsavedChanged() {
+		load();
+		return realMap.unsavedChanged();
+	}
+
+	@Override
+	public void changed() {
+		load();
+		realMap.changed();
+	}
+		
+	public String getDisplayName() {
+		// TODO Auto-generated method stub
+		return getName().replace('_', ' ');
 	}
 
 }

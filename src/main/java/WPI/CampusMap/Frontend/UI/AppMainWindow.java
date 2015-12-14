@@ -28,6 +28,7 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
@@ -248,6 +249,9 @@ public class AppMainWindow extends JFrame implements Runnable {
 		return null;
 	}
 
+	/**
+	 * Changes the mode to dev mode.
+	 */
 	public void changeToDevMode() {
 		Container parent = infoArea;
 		parent.remove(userPanel);
@@ -260,6 +264,9 @@ public class AppMainWindow extends JFrame implements Runnable {
 		currentMode.onModeEntered();
 	}
 
+	/**
+	 * Change to User Mode
+	 */
 	public void changeToUserMode() {
 		Container parent = infoArea;
 		parent.remove(devPanel);
@@ -272,10 +279,16 @@ public class AppMainWindow extends JFrame implements Runnable {
 		currentMode.onModeEntered();
 	}
 
+	/**
+	 * Changes the user scaling to metric.
+	 */
 	public void changeToMetric() {
 		Instruction.setMetric(true);
 	}
 
+	/**
+	 * Changes the user sccaling to US Customary Units.
+	 */
 	public void changeToCustomary() {
 		Instruction.setMetric(false);
 	}
@@ -330,21 +343,20 @@ public class AppMainWindow extends JFrame implements Runnable {
 				IMap aMap = AllMaps.getInstance().getMap(fileName);
 				currentBuilding = aMap.getBuilding();
 				JMenu mnEx = null;
-				// System.out.println("currentBuilding is "+ currentBuilding);
+				
 				if (!ddBuildings.contains(currentBuilding)) {
 					ddBuildings.add(currentBuilding);
 					mnEx = new JMenu(currentBuilding);
 					mnMaps.add(mnEx);
 				} else {
-					// System.out.println("Building found!");
+					
 					for (int i = 0; i < mnMaps.getItemCount(); i++) {
 						if (mnMaps.getItem(i).getText().equals(currentBuilding))
 							mnEx = (JMenu) mnMaps.getItem(i);
 					}
 				}
-				// add the floor to the top dropdown and setup for other
-				// dropdown
-				JMenuItem mntmFloor = new JMenuItem(aMap.getName().replace('_', ' '));
+				// add the floor to the top dropdown and setup for other				
+				JMenuItem mntmFloor = new JMenuItem(aMap.getDisplayName());
 				if (mnEx != null) {
 					mnEx.add(mntmFloor);
 					makeALMenuItem(mntmFloor, aMap.getName(), mnEx);
@@ -358,11 +370,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 	private void makeALMenuItem(JMenuItem aMenuItem, String mapName, JMenu building) {
 		// incase we start polling maps again ...
 		if (aMenuItem.getActionListeners().length == 0)
-			aMenuItem.addActionListener(new topMapActionListener(mapName, building));
-
-		// hardcode for initial load
-		if (mapName.equals("Atwater_Kent-3"))
-			makeOtherDropDown("Atwater_Kent-0");
+			aMenuItem.addActionListener(new topMapActionListener(mapName, building));		
 	}
 
 	private class topMapActionListener implements ActionListener {
@@ -376,8 +384,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			currentMode.loadMap(mapName);
-			makeOtherDropDown(mapName);
+			forceMapSwitch(mapName);			
 
 		}
 	}
@@ -392,7 +399,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 		// if its a normal map
 		if (!mapName.equals("Campus_Map")) {
 			// Add the buildings
-			mapDropdown.add("Campus Map");
+			mapDropdown.add("Back to Campus Map");
 
 			ArrayList<IMap> otherMapsInBuilding = AllMaps.getInstance().getMapsInBuilding(currentMap.getBuilding());
 			otherMapsInBuilding.sort(new Comparator<IMap>() {
@@ -401,14 +408,16 @@ public class AppMainWindow extends JFrame implements Runnable {
 					return o1.getName().compareTo(o2.getName());
 				}
 			});
-			for (IMap map : otherMapsInBuilding) {
-				mapDropdown.add(map.getName().replace('_', ' '));
+			for (IMap map : otherMapsInBuilding) {				
+				mapDropdown.add(map.getDisplayName());
 			}
+			
 		} else {
 			// load all the base
 			for (int i = 0; i < mnMaps.getItemCount(); i++) {
 				mapDropdown.add(mnMaps.getItem(i).getText().replace('_', ' '));
 			}
+			
 		}
 
 		// Clear all item listeners in the dropdown.
@@ -417,7 +426,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 		}
 
 		// show the current map when selecting from the other dropdown
-		mapDropdown.select(mapName.replace('_', ' '));
+		mapDropdown.select(currentMap.getDisplayName());
 
 		// add the listener
 		mapDropdown.addItemListener(new mapDropDownItemListener(mapName));
@@ -432,18 +441,24 @@ public class AppMainWindow extends JFrame implements Runnable {
 
 		@Override
 		public void itemStateChanged(ItemEvent e) {
+			//for when a map is selected in the dropdown
 			String selectedMap = e.getItem().toString().replace(' ', '_');
 			System.out.println("item selected " + selectedMap);
-            System.out.println("mapname is "+mapName );
-			// load zero floor in case of CampusMap
+            System.out.println("mapname is "+mapName );			
 			
-            /*if (mapName.equals("Campus_Map")){
-				//selectedMap = "Campus_Map" + "-0";
-				selectedMap = selectedMap + "-0";
-				System.out.println("fucked");
-			}*/
-
-			currentMode.loadMap(selectedMap);
+            //get the proper map name
+            if (selectedMap.indexOf("-") == -1){
+            	if(!selectedMap.equals("Campus_Map")){
+            		if(selectedMap.equals("Back_to_Campus_Map"))
+            			selectedMap = "Campus_Map";                	
+            		else if(!selectedMap.equals("Project_Center"))
+	           		    selectedMap = selectedMap + "-0";
+	           		else
+	           		    selectedMap = selectedMap + "-1";
+	           	}
+			}
+            //finally load it 
+            forceMapSwitch(selectedMap);            
 		}
 	}
 
@@ -526,6 +541,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 			try {
 				Thread.sleep(33);
 			} catch (InterruptedException e) {
+				JOptionPane.showMessageDialog(null, e.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 

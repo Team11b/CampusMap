@@ -15,6 +15,8 @@ import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Hashtable;
 
+import javax.swing.JOptionPane;
+
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Map.IMap;
@@ -33,7 +35,7 @@ public abstract class GraphicalMap {
 
 	private IMap map;
 
-	private Rectangle lastClip;
+	private Rectangle lastClip = new Rectangle();
 
 	private GraphicsObject<?, ?> over;
 
@@ -168,6 +170,7 @@ public abstract class GraphicalMap {
 			return getCameraTransform().createInverse();
 		} catch (NoninvertibleTransformException e) {
 			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(null, e.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 			return null;
 		}
