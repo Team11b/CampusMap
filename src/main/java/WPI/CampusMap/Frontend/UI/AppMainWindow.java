@@ -599,30 +599,47 @@ public class AppMainWindow extends JFrame implements Runnable {
 		}
 	}
 
+	/**
+	 * Displays the User Guide pop up.
+	 */
 	protected ActionListener guideAction = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			getUserMode().onGuide();
 		}
 	};
 	
+	/**
+	 * Displays the About pop up.
+	 */
 	protected ActionListener aboutAction = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			getUserMode().onAbout();
 		}
 	};
 
+	/**
+	 * This calls the onEmail() method. The onEmail() method displays a pop up prompting the user to enter an email address.
+	 * It then sends an email with the directions included.
+	 */
 	protected ActionListener emailAction = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			getUserMode().onEmail();
 		}
 	};
 
+	/**
+	 * This calls the onSMS() method. The onSMS() method displays a pop up prompting the user to enter a phone number.
+	 * It then sends an SMS message with the directions included.
+	 */
 	protected ActionListener SMSAction = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			getUserMode().onSMS();
 		}
 	};
 
+	/**
+	 * Calls the onTxt() method. This displays a pop up asking where to save the text file.
+	 */
 	protected ActionListener txtExporterAction = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			getUserMode().onTxt();
