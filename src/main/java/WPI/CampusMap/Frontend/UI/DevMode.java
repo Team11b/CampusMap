@@ -58,10 +58,6 @@ public class DevMode extends UIMode
 		currentToolMode = EditorToolMode.DeleteEdge;	
 	}
 	
-	public void save()
-	{
-	}
-	
 	public EditorToolMode getCurrentToolMode()
 	{
 		return currentToolMode;
@@ -131,6 +127,11 @@ public class DevMode extends UIMode
 	public int getSelectedPointCount()
 	{
 		return selectedPoints.size();
+	}
+	
+	public void save()
+	{
+		graphicsMap.getMap().save();
 	}
 
 	@Override
