@@ -69,7 +69,7 @@ public class DevEdgeGraphicsObject extends GraphicsObject<UnorderedPair<IPoint, 
 	@Override
 	public Color getColor()
 	{
-		return isOver ? Color.yellow : Color.gray;
+		return isOver ? Color.yellow : Color.CYAN;
 	}
 
 	@Override
