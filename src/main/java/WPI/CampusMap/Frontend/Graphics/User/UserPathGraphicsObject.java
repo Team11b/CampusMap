@@ -69,13 +69,17 @@ public class UserPathGraphicsObject extends GraphicsObject<Section, UserGraphica
 
 	@Override
 	public float getAlpha() {
-		return selected ? 1 : 0.3f;
+		return 1;
 	}
 
 	@Override
 	public Color getColor() {
-		if(backgroundLine) return new Color(255,255,0);
-		return new Color(0, 128, 255);
+		Color color;
+		if(backgroundLine) color =  new Color(255,255,0);
+		else color = new Color(0, 128, 255);
+		int avg = (int) Math.sqrt(Math.pow(color.getRed(),2)+(Math.pow(color.getGreen(),2)+(Math.pow(color.getBlue(),2))))/3;
+		if(!selected) color = new Color(avg,avg,avg);
+		return color;
 	}
 
 	@Override
