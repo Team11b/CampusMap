@@ -24,7 +24,7 @@ public class Autocomplete implements DocumentListener {
 	static class CustomComparator implements Comparator<String> {
 		@Override
 		public int compare(String o1, String o2) {
-			System.out.println(o1 + ", " + o2 + ": " + o1.toLowerCase().compareTo(o2.toLowerCase()));
+//			System.out.println(o1 + ", " + o2 + ": " + o1.toLowerCase().compareTo(o2.toLowerCase()));
 			return o1.toLowerCase().compareTo(o2.toLowerCase());
 		}
 	}
