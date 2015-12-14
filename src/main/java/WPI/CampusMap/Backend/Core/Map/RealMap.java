@@ -24,6 +24,7 @@ public class RealMap implements IMap, java.io.Serializable {
 	private String name;
 	private HashMap<String, RealPoint> allPoints;
 	private transient ImageIcon loadedImage;
+	private transient boolean unsavedChanges;
 
 	/**
 	 * Creates a map with the given name and default values
@@ -301,6 +302,18 @@ public class RealMap implements IMap, java.io.Serializable {
 	}
 
 	@Override
+	public boolean unsavedChanged() {
+		if(unsavedChanges){
+			unsavedChanges = false;
+			return true;
+		}
+		return false;
+	}
+	
+	public void changed(){
+		unsavedChanges = true;
+	}
+	
 	public String getDisplayName() {
 		// TODO Auto-generated method stub
 		return getName().replace('_', ' ');

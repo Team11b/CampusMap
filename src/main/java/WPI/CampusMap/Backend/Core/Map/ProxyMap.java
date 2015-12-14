@@ -199,6 +199,17 @@ public class ProxyMap implements IMap, Serializable {
 	}
 
 	@Override
+	public boolean unsavedChanged() {
+		load();
+		return realMap.unsavedChanged();
+	}
+
+	@Override
+	public void changed() {
+		load();
+		realMap.changed();
+	}
+		
 	public String getDisplayName() {
 		// TODO Auto-generated method stub
 		return getName().replace('_', ' ');

@@ -44,6 +44,13 @@ public class RealPoint implements IPoint,java.io.Serializable {
 	}
 	
 	/**
+	 * Marks the containing map as changed.
+	 */
+	private void changed(){
+		AllMaps.getInstance().getMap(map).changed();
+	}
+	
+	/**
 	 * Creates a new RealPoint with the given map and default values
 	 * @param map name of the Map this point is located in
 	 */
@@ -213,6 +220,7 @@ public class RealPoint implements IPoint,java.io.Serializable {
 
 	@Override
 	public boolean removeNeighbor(IPoint point) {
+		changed();
 		boolean firstSuccess = (this.neighbors.remove(point.getId()) != null) || (this.neighbors.remove(point.toString()) != null);
 		boolean secondSuccess = this.neighborList.remove(point.toString()) || this.neighborList.remove(point.getId());
 		System.out.println("First Success: "+firstSuccess+" Second Success: "+secondSuccess);
@@ -226,11 +234,13 @@ public class RealPoint implements IPoint,java.io.Serializable {
 	
 	@Override
 	public boolean removeNeighbor(String pointId) {
+		changed();
 		return this.neighbors.remove(pointId) != null;
 	}
 
 	@Override
 	public boolean addNeighbor(IPoint point) {
+		changed();
 		if (this.neighbors.containsValue(point))
 			return false;
 		
@@ -272,6 +282,7 @@ public class RealPoint implements IPoint,java.io.Serializable {
 
 	@Override
 	public void removeAllNeighbors() {
+		changed();
 		this.neighbors.clear();
 		this.neighborList = new ArrayList<String>();
 	}
