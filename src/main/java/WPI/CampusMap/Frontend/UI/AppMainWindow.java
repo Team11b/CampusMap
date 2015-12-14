@@ -570,9 +570,9 @@ public class AppMainWindow extends JFrame implements Runnable {
 	@SuppressWarnings("serial")
 	private class UnitAction extends AbstractAction {
 		public UnitAction() {
-			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_MASK));
-			putValue(NAME, "Unit");
-			putValue(SHORT_DESCRIPTION, "Switch metric and customary units.");
+			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_U, InputEvent.CTRL_MASK));
+			putValue(NAME, "Metric");
+			putValue(SHORT_DESCRIPTION, "Switch between metric and customary units.");
 		}
 
 		public void actionPerformed(ActionEvent e) {
