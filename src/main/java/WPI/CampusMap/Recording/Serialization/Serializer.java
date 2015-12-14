@@ -59,6 +59,7 @@ public class Serializer {
 	 *            RealMap to save
 	 */
 	public static void save(RealMap tosave) {
+		
 		try {
 			FileOutputStream fileOut = new FileOutputStream(
 					Serializer.folderReal + tosave.getName() + Serializer.fileType);
@@ -89,6 +90,7 @@ public class Serializer {
 	 */
 	public static ProxyMap proxyLoad(String mapName) {
 		try {
+			mapName = mapName.replace(' ', '_');
 			ProxyMap pm;
 			FileInputStream fileIn = new FileInputStream(Serializer.folderProxy + mapName + Serializer.fileType);
 			ObjectInputStream in = new ObjectInputStream(fileIn);
@@ -127,6 +129,7 @@ public class Serializer {
 	 */
 	public static RealMap realLoad(String mapName) {
 		try {
+			mapName = mapName.replace(' ', '_');
 			RealMap rm;
 			FileInputStream fileIn = new FileInputStream(Serializer.folderReal + mapName + Serializer.fileType);
 			ObjectInputStream in = new ObjectInputStream(fileIn);

@@ -59,7 +59,12 @@ public class PointList extends Panel {
 		for (PointListEventHandler handler : handlers) {
 			handler.pointDescriptorAdded(element);
 		}
-
+		
+		//For removing underscores
+		renamePointElement(name, name.replace('_', ' '));
+		guiRenameElement(element, name);
+		renamePointElement(name.replace(' ', '_'), name);
+		
 		return element;
 	}
 
