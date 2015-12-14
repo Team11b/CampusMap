@@ -2,8 +2,10 @@ package WPI.CampusMap.Backend.Core.Point;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
+import WPI.CampusMap.Recording.Serialization.Serializer;
 
 public class AllPoints {
 	private static volatile AllPoints instance;
@@ -21,6 +23,12 @@ public class AllPoints {
 			synchronized (AllPoints.class) {
 				if (instance == null) {
 					instance = new AllPoints();
+					LinkedList<String> temp = Serializer.allPointsLoad(); 
+					if(temp != null){
+						for(String point: temp){
+							allPoints.put(point.split("/")[1], point);
+						}
+					}
 				}
 			}
 		}
@@ -122,6 +130,18 @@ public class AllPoints {
 	 */
 	public ArrayList<String> getAllPointsShortName(){
 		return new ArrayList<String>(allPoints.keySet());
+	}
+
+	public void save() {
+		for(String point : allPoints.keySet()){
+			if(!getPoint(allPoints.get(point)).exists()){
+				System.out.println("Point " + point + "does not exist, removing from allPoints.");
+				allPoints.remove(point);
+			}
+		}
+		
+		Serializer.save(new LinkedList<String>(allPoints.values()));
+		
 	}
 
 }
