@@ -184,7 +184,6 @@ public class Serializer {
 			ObjectInputStream in = new ObjectInputStream(fileIn);
 
 			allPoints = (ArrayList<String>) in.readObject();
-			System.out.println(allPoints);
 			in.close();
 			fileIn.close();
 

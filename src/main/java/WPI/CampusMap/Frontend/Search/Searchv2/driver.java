@@ -28,7 +28,6 @@ public class driver {
 		ArrayList<String> keywords;
 		// Our words to complete
 		keywords = AllPoints.getInstance().getAllPoints();
-		System.out.println(keywords);
 		Autocomplete autoComplete = new Autocomplete(mainTextField, keywords);
 		mainTextField.getDocument().addDocumentListener(autoComplete);
 

@@ -29,7 +29,7 @@ public class AllPoints implements Serializable{
 					for(String name : Serializer.allPointsLoad()){
 						if(name.contains("/")){
 							AllPoints.allPoints.put(name.split("/")[1], name);
-						}else System.out.println("Not full name " + name);
+						}
 					}
 					if(allPoints == null){
 						allPoints = new HashMap<String, String>();
@@ -148,7 +148,7 @@ public class AllPoints implements Serializable{
 	}
 
 	public void save() {
-		System.out.println("Saving: " +getAllPoints());
+//		System.out.println("Saving: " +getAllPoints());
 		Serializer.save(this);
 		
 	}
