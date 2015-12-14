@@ -25,4 +25,6 @@ public interface IMap {
 	public boolean connectedToCampus();
 	public ArrayList<IPoint> pointsConnectedToOtherMaps();
 	public void save();
+	public boolean unsavedChanged();
+	public void changed();
 }

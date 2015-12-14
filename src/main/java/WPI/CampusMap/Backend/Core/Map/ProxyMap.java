@@ -198,4 +198,16 @@ public class ProxyMap implements IMap, Serializable {
 		return realMap.pointsConnectedToOtherMaps();
 	}
 
+	@Override
+	public boolean unsavedChanged() {
+		load();
+		return realMap.unsavedChanged();
+	}
+
+	@Override
+	public void changed() {
+		load();
+		realMap.changed();
+	}
+
 }
