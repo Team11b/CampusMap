@@ -196,4 +196,10 @@ public class ProxyMap implements IMap, Serializable {
 		return realMap.pointsConnectedToOtherMaps();
 	}
 
+	@Override
+	public String getDisplayName() {
+		// TODO Auto-generated method stub
+		return getName().replace('_', ' ');
+	}
+
 }

@@ -13,6 +13,7 @@ public interface IMap {
 	public String getBuilding();
 	public void setScale(float f);
 	public String getName();
+	public String getDisplayName();
 	public ImageIcon getLoadedImage();
 	public RealPoint getPoint(String id);
 	public Collection<RealPoint> getAllPoints();

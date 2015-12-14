@@ -300,4 +300,10 @@ public class RealMap implements IMap, java.io.Serializable {
 		return points;
 	}
 
+	@Override
+	public String getDisplayName() {
+		// TODO Auto-generated method stub
+		return getName().replace('_', ' ');
+	}
+
 }

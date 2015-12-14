@@ -291,7 +291,7 @@ public class AppUserModeControl extends JComponent {
 
 		public PathSectionTreeNode(Section section, int sectionCount) {
 			super(String.format("%s [Route %s]", section.getMap(), sectionCount), true);
-			this.section = section;
+			this.section = section;			
 		}
 
 		@Override
