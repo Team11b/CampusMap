@@ -8,6 +8,8 @@ import WPI.CampusMap.Frontend.UI.UserMode;
 
 public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMap>
 {
+	private boolean selected;
+	
 	public UserPointGraphicsObject(RealPoint backend, UserGraphicalMap owner) 
 	{
 		super(backend, owner);		
@@ -18,15 +20,34 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 	@Override
 	public Color getColor() 
 	{
-		if(getOwnerMode(UserMode.class).containsInRoute(this))
+		if(getOwnerMode(UserMode.class).containsInDest(this))
 		{
 			if(getOwnerMode(UserMode.class).isRouteStart(this))
 				return Color.green;
 			else if(getOwnerMode(UserMode.class).isRouteEnd(this))
 				return Color.blue;
+			else if(getOwnerMode(UserMode.class).isSectionStart(this))
+				return Color.magenta;
+			else if(getOwnerMode(UserMode.class).isSectionEnd(this))
+				return Color.pink;
+			//else if(getOwnerMode(UserMode.class).isCurrentDirectionNode(this))
+			//	return Color.cyan;
 			else
 				return Color.yellow;
 		}
+		else if(selected == true){
+//			if(getOwnerMode(UserMode.class).isRouteStart(this))
+//				return Color.green;
+//			else if(getOwnerMode(UserMode.class).isRouteEnd(this))
+//				return Color.blue;
+			
+			if(getOwnerMode(UserMode.class).isSectionEnd(this))
+				return Color.blue;
+			else if(getOwnerMode(UserMode.class).isSectionStart(this))
+				return Color.green;
+			
+		}
+		
 		
 		return super.getColor();
 	}
@@ -41,5 +62,17 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 	public void onMouseClick(RealMouseEvent e)
 	{
 		getOwnerMode(UserMode.class).onPointAddedToRoute(this);
+	}
+	
+	/** getter for selected
+	 * 
+	 * @return
+	 */
+	public boolean getSelected(){
+		return selected;
+	}
+	
+	public void setSelected(boolean isSelected){
+		selected = isSelected;
 	}
 }

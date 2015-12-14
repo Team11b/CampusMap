@@ -44,8 +44,8 @@ import WPI.CampusMap.Frontend.Graphics.User.UserPointGraphicsObject;
 public class UserMode extends UIMode {
 	private UserGraphicalMap graphicalMap;
 
-	private LinkedList<IPoint> route = new LinkedList<>();
-	private HashSet<IPoint> routeSet = new HashSet<>();
+	private LinkedList<IPoint> dest = new LinkedList<>();
+	private HashSet<IPoint> destSet = new HashSet<>();
 
 	private Path routedPath;
 	private LocationPref pref;
@@ -81,8 +81,8 @@ public class UserMode extends UIMode {
 		NodeProcessor nP = new DistanceProcessor(new BetweenMapsProcessor(new WeatherHeuristicProcessor(null, pref)));
 		AStarPathProcessor processor = new AStarPathProcessor(nP);
 
-		IPoint[] points = new IPoint[route.size()];
-		route.toArray(points);
+		IPoint[] points = new IPoint[dest.size()];
+		dest.toArray(points);
 
 		try {
 			routedPath = PathFinder.getPath(points, processor);
@@ -118,7 +118,7 @@ public class UserMode extends UIMode {
 	public void onPointAddedToRoute(UserPointGraphicsObject newPoint) {
 		onPointAddedToRoute(newPoint.getRepresentedObject());
 
-		if (newPoint != null && routeSet.contains(newPoint.getRepresentedObject()))
+		if (newPoint != null && destSet.contains(newPoint.getRepresentedObject()))
 			getWindow().addDestination(newPoint);
 	}
 
@@ -132,16 +132,16 @@ public class UserMode extends UIMode {
 			graphicalMap.setPathSections(getRoutedPath());
 		}
 
-		if (!routeSet.contains(newPoint)) {
+		if (!destSet.contains(newPoint)) {
 			System.out.println("Added " + newPoint + " to route");
-			routeSet.add(newPoint);
-			route.add(newPoint);
+			destSet.add(newPoint);
+			dest.add(newPoint);
 		}
 	}
 
 	public void clearRoute() {
-		routeSet.clear();
-		route.clear();
+		destSet.clear();
+		dest.clear();
 
 		getWindow().clearDestinations();
 
@@ -162,23 +162,49 @@ public class UserMode extends UIMode {
 			graphicalMap.setPathSections(null);
 		}
 
-		if (routeSet.contains(point)) {
-			routeSet.remove(point);
-			route.remove(point);
+		if (destSet.contains(point)) {
+			destSet.remove(point);
+			dest.remove(point);
 		}
 	}
-
-	public boolean containsInRoute(UserPointGraphicsObject point) {
-		return routeSet.contains(point.getRepresentedObject());
+//	public boolean containsInRoute(UserPointGraphicsObject point){
+//		return false;
+//	}
+	
+	public boolean containsInDest(UserPointGraphicsObject point) {
+		return destSet.contains(point.getRepresentedObject());
 	}
+	
 
 	public boolean isRouteStart(UserPointGraphicsObject point) {
-		return route.getFirst().equals(point.getRepresentedObject());
+		return dest.getFirst().equals(point.getRepresentedObject());
 	}
 
 	public boolean isRouteEnd(UserPointGraphicsObject point) {
-		return route.getLast().equals(point.getRepresentedObject());
+		return dest.getLast().equals(point.getRepresentedObject());
 	}
+	
+	public boolean isSectionStart(UserPointGraphicsObject point) {
+		System.out.println(point.getRepresentedObject().getMap());
+		LinkedList<Section> toSearch = routedPath.getSections(AllMaps.getInstance().getMap(point.getRepresentedObject().getMap()));
+		for(int i = 0; i < toSearch.size(); i++){
+			if(toSearch.get(i).getPoints().getFirst().equals(point.getRepresentedObject())){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public boolean isSectionEnd(UserPointGraphicsObject point) {
+		LinkedList<Section> toSearch = routedPath.getSections(AllMaps.getInstance().getMap(point.getRepresentedObject().getMap()));
+		for(int i = 0; i < toSearch.size(); i++){
+			if(toSearch.get(i).getPoints().getLast().equals(point.getRepresentedObject())){
+				return true;
+			}
+		}
+		return false;
+	}
+	
 
 	public void onWeatherChosen(LocationPref option) {
 		System.out.println("Weather chosen is " + option);
