@@ -17,7 +17,7 @@ public interface PointListEventHandler
 	/**
 	 * Called when a point descriptor is renamed. This is only called if the name check passes, the element will contain old name information.
 	 * @param element The element being renamed.
-	 * @param oldname The old name of the element.
+	 * @param oldName The old name of the element.
 	 */
 	void pointDescriptorRenamed(PointListElement element, String oldName);
 	
