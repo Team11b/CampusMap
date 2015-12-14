@@ -122,9 +122,9 @@ public abstract class PathProcessor {
 	private void expandNode(Node node, HashSet<String> whiteList) {
 		ArrayList<IPoint> neighbors = node.getNeighbors(whiteList);
 		for (IPoint point : neighbors) {
-			if (point.getId().equals("SL2BDST")) {
-				System.out.println("SL2BDST's neighbor:" + node.getPoint());
-			}
+//			if (point.getId().equals("SL2BDST")) {
+//				System.out.println("SL2BDST's neighbor:" + node.getPoint());
+//			}
 			if (point.exists()) {
 				Node newNode = new Node(point, node, node.getDistance(point));
 				processNode(newNode);

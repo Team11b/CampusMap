@@ -7,7 +7,7 @@ import java.util.HashSet;
 import WPI.CampusMap.Recording.Serialization.Serializer;
 
 public class AllMaps {
-	public final String CampusMap = "CampusMap";
+	public final String CampusMap = "Campus_Map";
 	private static volatile AllMaps instance;
 	private static HashMap<String, IMap> allMaps = new HashMap<String, IMap>();
 
@@ -92,10 +92,14 @@ public class AllMaps {
 //		System.out.println("Creating whitelist");
 		HashSet<String> whitelist = new HashSet<String>();
 		whitelist.add(startMap);
-
+		String[] connectedToCampus = ((ProxyMap) getMap(CampusMap)).getConnectedMaps();
+		
 		// If same map
 		if (startMap.equals(destinationMap)) {
 			// System.out.println("Same map");
+			for (String map : connectedToCampus) {
+				whitelist.add(map);
+			}
 			return whitelist;
 		}
 
@@ -108,7 +112,6 @@ public class AllMaps {
 			buildingDepthFirstSearch(startMap, destinationMap, new ArrayList<String>(), whitelist);
 			return whitelist;
 		}
-		String[] connectedToCampus = ((ProxyMap) getMap(CampusMap)).getConnectedMaps();
 		// System.out.println("Adding campus connected maps");
 		whitelist.add(CampusMap);
 		for (String map : connectedToCampus) {
@@ -153,7 +156,7 @@ public class AllMaps {
 
 		visited.add(current);
 		if (current.equals(dest)) {
-			 System.out.println("Found path:"+ current);
+//			 System.out.println("Found path:"+ current);
 			whiteList.add(current);
 			return true;
 		}
@@ -166,7 +169,7 @@ public class AllMaps {
 			if (!visited.contains(neighbor) && neighborBuilding.equals(currentBuilding)) {
 				if (buildingDepthFirstSearch(neighbor, dest, visited, whiteList)) {
 					whiteList.add(current);
-					System.out.println(current);
+//					System.out.println(current);
 					return true;
 				}
 			}
