@@ -163,15 +163,16 @@ public class AppUserModeControl extends JComponent {
 	/** Adds a destination
 	 * @param point Point to add as destionation.
 	 */
-	public void addDestination(UserPointGraphicsObject point) {
-		scrollPane.addPointElement(point.getRepresentedObject().toString());
+	public void addDestination(UserPointGraphicsObject point)
+	{
+		//scrollPane.addPointElement(point.getRepresentedObject().toString());
 	}
 
 	/**
 	 * Clears the destination.
 	 */
 	public void clearDestinations() {
-		scrollPane.clearPointElements();
+		//scrollPane.clearPointElements();
 	}
 
 	private static class RouteMeActionListener implements ActionListener {
@@ -223,31 +224,50 @@ public class AppUserModeControl extends JComponent {
 		}
 	}
 
-	private class DestinationListListener implements PointListEventHandler {
+	private class DestinationListListener implements PointListEventHandler
+	{
+
 		@Override
 		public void pointDescriptorAdded(PointListElement element) {
-			IPoint point = AllPoints.getInstance().getPoint(element.getName());
-			window.getUserMode().onPointAddedToRoute(point);
+			// TODO Auto-generated method stub
+			
 		}
 
 		@Override
 		public void pointDescriptorRemoved(PointListElement element) {
-			IPoint point = AllPoints.getInstance().getPoint(element.getName());
-			window.getUserMode().onPointRemovedFromRoute(point);
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public boolean pointDescriptorNameCheck(PointListElement element, String newName) {
+			// TODO Auto-generated method stub
+			return false;
 		}
 
 		@Override
 		public void pointDescriptorRenamed(PointListElement element, String oldName) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void pointDescriptorNameCheckFailed(PointListElement element, String failedName) {
+			// TODO Auto-generated method stub
+			
 		}
 
 		@Override
 		public void pointDescriptorShow(PointListElement element) {
+			// TODO Auto-generated method stub
+			
 		}
 
 		@Override
 		public void pointDescriptorMoved(PointListElement element) {
+			// TODO Auto-generated method stub
+			
 		}
-
 	}
 
 	private abstract class DirectionsBaseTreeNode extends DefaultMutableTreeNode {
