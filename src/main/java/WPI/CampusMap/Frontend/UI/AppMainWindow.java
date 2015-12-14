@@ -415,7 +415,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 		} else {
 			// load all the base
 			for (int i = 0; i < mnMaps.getItemCount(); i++) {
-				mapDropdown.add(mnMaps.getItem(i).getText().replace('_', ' '));
+				mapDropdown.add(mnMaps.getItem(i).getText().replace('_', ' ')); //add under displayName
 			}
 			
 		}
@@ -442,7 +442,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 		@Override
 		public void itemStateChanged(ItemEvent e) {
 			//for when a map is selected in the dropdown
-			String selectedMap = e.getItem().toString().replace(' ', '_');
+			String selectedMap = e.getItem().toString().replace(' ', '_'); //get realName from displayName
 			System.out.println("item selected " + selectedMap);
             System.out.println("mapname is "+mapName );			
 			

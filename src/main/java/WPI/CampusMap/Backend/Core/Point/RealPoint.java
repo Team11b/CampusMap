@@ -312,4 +312,14 @@ public class RealPoint implements IPoint,java.io.Serializable {
 
 	}
 
+	@Override
+	public String getMapDisplayName() {		
+		return getMap().replace('_', ' ');
+	}
+
+	@Override
+	public String getDisplayName() {
+		// TODO Auto-generated method stub		
+		return getId().replace('_', ' ');
+	}
 }

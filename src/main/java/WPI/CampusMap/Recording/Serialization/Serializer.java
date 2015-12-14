@@ -118,7 +118,7 @@ public class Serializer {
 	 */
 	public static ProxyMap proxyLoad(String mapName) {
 		try {
-			mapName = mapName.replace(' ', '_');
+			mapName = mapName.replace(' ', '_'); //if proxyLoad is passed a displayName
 			ProxyMap pm;
 			FileInputStream fileIn = new FileInputStream(Serializer.folderProxy + mapName + Serializer.fileType);
 			ObjectInputStream in = new ObjectInputStream(fileIn);
@@ -157,7 +157,7 @@ public class Serializer {
 	 */
 	public static RealMap realLoad(String mapName) {
 		try {
-			mapName = mapName.replace(' ', '_');
+			mapName = mapName.replace(' ', '_'); //if realLoad is passed a displayName
 			RealMap rm;
 			FileInputStream fileIn = new FileInputStream(Serializer.folderReal + mapName + Serializer.fileType);
 			ObjectInputStream in = new ObjectInputStream(fileIn);

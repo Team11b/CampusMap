@@ -130,10 +130,12 @@ public class AppUserModeControl extends JComponent {
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Directions");
 
 		String currentMap = null;
+		String displayName = null;
 		DefaultMutableTreeNode mapRoot = null;
 		for (Section section : path) {
 			if (currentMap == null || !section.getMap().equals(currentMap)) {
 				currentMap = section.getMap();
+				displayName = section.getDisplayName();
 				mapRoot = new MapSectionTreeNode(currentMap, section);
 				mapRoot.getUserObject();
 				root.add(mapRoot);
@@ -290,7 +292,7 @@ public class AppUserModeControl extends JComponent {
 		private Section section;
 
 		public PathSectionTreeNode(Section section, int sectionCount) {
-			super(String.format("%s [Route %s]", section.getMap(), sectionCount), true);
+			super(String.format("%s [Route %s]", section.getDisplayName(), sectionCount), true);
 			this.section = section;			
 		}
 
@@ -310,7 +312,7 @@ public class AppUserModeControl extends JComponent {
 		private Section firstSection;
 
 		public MapSectionTreeNode(String mapName, Section firstSection) {
-			super(mapName, true);
+			super(firstSection.getDisplayName(), true);
 			this.mapName = mapName;
 			this.firstSection = firstSection;
 		}
