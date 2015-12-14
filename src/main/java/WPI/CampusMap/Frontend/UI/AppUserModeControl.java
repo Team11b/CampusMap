@@ -103,6 +103,21 @@ public class AppUserModeControl extends JComponent {
 		scrollPane_1.setViewportView(tree);
 		add(label_1);
 
+		JButton expandAllBtn = new JButton("Expand All");
+		expandAllBtn.addActionListener(new ExpandAllButtonListener());
+		JButton collapseAllBtn = new JButton("Collapse All");
+		collapseAllBtn.addActionListener(new CollapseAllButtonListener());
+		
+		springLayout.putConstraint(SpringLayout.WEST, collapseAllBtn, 180, SpringLayout.WEST, this);
+		springLayout.putConstraint(SpringLayout.SOUTH, collapseAllBtn, 3, SpringLayout.NORTH, scrollPane_1);
+		
+		springLayout.putConstraint(SpringLayout.WEST, expandAllBtn, 80, SpringLayout.WEST, this);
+		springLayout.putConstraint(SpringLayout.SOUTH, expandAllBtn, 3, SpringLayout.NORTH, scrollPane_1);
+		//springLayout.putConstraint(SpringLayout.EAST, label_1, 10, SpringLayout.WEST, expandAllBtn);
+		
+		add(expandAllBtn);
+		add(collapseAllBtn);
+		
 		Panel panel = new Panel();
 		springLayout.putConstraint(SpringLayout.SOUTH, panel, -10, SpringLayout.SOUTH, this);
 		springLayout.putConstraint(SpringLayout.SOUTH, scrollPane_1, -10, SpringLayout.NORTH, panel);
@@ -195,6 +210,27 @@ public class AppUserModeControl extends JComponent {
 
 	}
 
+	private class CollapseAllButtonListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			collapseTree();
+			
+		}
+		
+	}
+	
+	
+	private class ExpandAllButtonListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			expandTree();
+			
+		}
+		
+	}
+	
 	private class NextButtonSelectionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -323,6 +359,18 @@ public class AppUserModeControl extends JComponent {
 			window.getUserMode().selectRouteSection(firstSection);
 		}
 
+	}
+	
+	private void expandTree(){
+		for (int i = 0; i < tree.getRowCount(); i++) {
+	         tree.expandRow(i);
+		}	
+	}
+	
+	private void collapseTree(){
+		for (int i = 0; i < tree.getRowCount(); i++) {
+	         tree.collapseRow(i);
+		}
 	}
 
 	/**
