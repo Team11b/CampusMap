@@ -65,6 +65,7 @@ public class DevMode extends UIMode
 	public void clearSelectedPoints()
 	{
 		selectedPoints.clear();
+		selectedPointsList.clear();
 		
 		getWindow().devClearAllSelection();
 	}
@@ -82,6 +83,7 @@ public class DevMode extends UIMode
 	public void setSelectedPoint(DevPointGraphicsObject point)
 	{
 		selectedPoints.clear();
+		selectedPointsList.clear();
 		addSelectedPoint(point);
 	}
 	
