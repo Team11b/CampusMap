@@ -7,14 +7,16 @@ import java.util.HashSet;
 import WPI.CampusMap.Recording.Serialization.Serializer;
 
 public class AllMaps {
-	public final String CampusMap = "CampusMap";
-
+	public final String CampusMap = "Campus_Map";
 	private static volatile AllMaps instance;
 	private static HashMap<String, IMap> allMaps = new HashMap<String, IMap>();
 
 	private AllMaps() {
 	}
 
+	/** Gets the instance of the singleton
+	 * @return The instance of the singleton
+	 */
 	public static AllMaps getInstance() {
 		if (instance == null) {
 			synchronized (AllMaps.class) {
@@ -26,6 +28,9 @@ public class AllMaps {
 		return instance;
 	}
 
+	/**
+	 * Resets the instance to its initial state
+	 */
 	public void clearAllMaps() {
 		allMaps.clear();
 	}
@@ -35,10 +40,10 @@ public class AllMaps {
 		return allMaps;
 	}
 
-	public void setAllMaps(HashMap<String, IMap> allMaps) {
-		AllMaps.allMaps = allMaps;
-	}
-
+	/** Gets all the maps in given building
+	 * @param building The building to get the maps in
+	 * @return The maps in the specified building
+	 */
 	public ArrayList<IMap> getMapsInBuilding(String building) {
 		ArrayList<IMap> temp = new ArrayList<IMap>();
 		for (IMap map : allMaps.values()) {
@@ -49,6 +54,10 @@ public class AllMaps {
 		return temp;
 	}
 
+	/** Gets the map with the specified name
+	 * @param mapKey The name of the desired map.
+	 * @return The map with the given name.
+	 */
 	public IMap getMap(String mapKey) {
 		if (allMaps.keySet().contains(mapKey)) {
 			return AllMaps.allMaps.get(mapKey);
@@ -61,6 +70,10 @@ public class AllMaps {
 		}
 	}
 
+	/** Adds a map to the instance
+	 * @param mapValue The map to add.
+	 * @return Weather the addition was successful.
+	 */
 	public boolean addMap(ProxyMap mapValue) {
 		if ((AllMaps.allMaps.containsKey(mapValue.getName()))) {
 			return false;
@@ -70,13 +83,24 @@ public class AllMaps {
 		return true;
 	}
 
+	/** Generates a whitelist of maps for pathifinding
+	 * @param startMap The map with the start point.
+	 * @param destinationMap The map with the goal point.
+	 * @return the whitelist.
+	 */
 	public HashSet<String> generateWhitelist(String startMap, String destinationMap) {
-		System.out.println("Creating whitelist");
+//		System.out.println("Creating whitelist");
 		HashSet<String> whitelist = new HashSet<String>();
 		whitelist.add(startMap);
+		String[] connectedToCampus = ((ProxyMap) getMap(CampusMap)).getConnectedMaps();
 
 		// If same map
 		if (startMap.equals(destinationMap)) {
+			if(startMap.equals(CampusMap)){
+				for (String map : connectedToCampus) {
+					whitelist.add(map);
+				}
+			}
 			// System.out.println("Same map");
 			return whitelist;
 		}
@@ -86,11 +110,10 @@ public class AllMaps {
 
 		// If same building
 		if (startBuilding.equals(destBuilding)) {
-			System.out.println("Same building");
+//			System.out.println("Same building");
 			buildingDepthFirstSearch(startMap, destinationMap, new ArrayList<String>(), whitelist);
 			return whitelist;
 		}
-		String[] connectedToCampus = ((ProxyMap) getMap(CampusMap)).getConnectedMaps();
 		// System.out.println("Adding campus connected maps");
 		whitelist.add(CampusMap);
 		for (String map : connectedToCampus) {

@@ -9,6 +9,8 @@ import java.io.ObjectOutputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 
+import javax.swing.JOptionPane;
+
 import WPI.CampusMap.Backend.Core.Map.ProxyMap;
 import WPI.CampusMap.Backend.Core.Map.RealMap;
 import WPI.CampusMap.Backend.Core.Point.AllPoints;
@@ -44,9 +46,11 @@ public class Serializer {
 			fileOut.close();
 		} catch (FileNotFoundException f) {
 			System.out.println("NOT SAVED");
+			JOptionPane.showMessageDialog(null, f.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 			f.printStackTrace();
 		} catch (IOException i) {
 			System.out.println("NOT SAVED");
+			JOptionPane.showMessageDialog(null, i.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 			i.printStackTrace();
 		}
 	}
@@ -69,9 +73,11 @@ public class Serializer {
 			fileOut.close();
 		} catch (FileNotFoundException f) {
 			System.out.println("NOT SAVED");
+			JOptionPane.showMessageDialog(null, f.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 			f.printStackTrace();
 		} catch (IOException i) {
 			System.out.println("NOT SAVED");
+			JOptionPane.showMessageDialog(null, i.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 			i.printStackTrace();
 		}
 	}
@@ -101,11 +107,14 @@ public class Serializer {
 		} catch (FileNotFoundException f) {
 			// System.out.println("NOT LOADED");
 			// f.printStackTrace();
+			JOptionPane.showMessageDialog(null, f.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 		} catch (IOException i) {
 			System.out.println("NOT LOADED");
+			JOptionPane.showMessageDialog(null, i.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 			i.printStackTrace();
 		} catch (ClassNotFoundException c) {
 			System.out.println("NOT LOADED");
+			JOptionPane.showMessageDialog(null, c.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 			c.printStackTrace();
 		}
 
@@ -134,12 +143,15 @@ public class Serializer {
 		} catch (FileNotFoundException f) {
 			// System.out.println("NOT LOADED");
 			// f.printStackTrace();
+			JOptionPane.showMessageDialog(null, f.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 		} catch (IOException i) {
 			System.out.println("NOT LOADED");
 			i.printStackTrace();
+			JOptionPane.showMessageDialog(null, i.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 		} catch (ClassNotFoundException c) {
 			System.out.println("NOT LOADED");
 			c.printStackTrace();
+			JOptionPane.showMessageDialog(null, c.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 		}
 
 		return null;

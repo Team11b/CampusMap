@@ -20,6 +20,9 @@ public class AppDevModeControl extends JComponent
 	private AppMainWindow window;
 	private Panel editorPanel = new Panel();
 
+	/** Creates a new AppDevModeControl with the given window.
+	 * @param window The window to create the control in.
+	 */
 	public AppDevModeControl(AppMainWindow window) 
 	{
 		this.window = window;
@@ -74,6 +77,7 @@ public class AppDevModeControl extends JComponent
 		add(separator);
 
 		JButton btnSave = new JButton("Save");
+		btnSave.addActionListener(new SaveActionListener());
 		btnSave.setToolTipText("Save the current map");
 		springLayout.putConstraint(SpringLayout.NORTH, btnSave, 6, SpringLayout.SOUTH, separator);
 		springLayout.putConstraint(SpringLayout.WEST, btnSave, 80, SpringLayout.WEST, this);
@@ -141,6 +145,15 @@ public class AppDevModeControl extends JComponent
 		@Override
 		protected void onActionPerformed(ActionEvent e) {
 			window.getDevMode().setRemoveEdge();
+		}
+	}
+	
+	private class SaveActionListener implements ActionListener
+	{
+		@Override
+		public void actionPerformed(ActionEvent e) 
+		{
+			window.getDevMode().save();
 		}
 	}
 

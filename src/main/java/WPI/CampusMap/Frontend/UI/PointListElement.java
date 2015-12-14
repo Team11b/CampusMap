@@ -1,5 +1,6 @@
 package WPI.CampusMap.Frontend.UI;
 
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -9,17 +10,23 @@ import java.awt.event.FocusListener;
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 
-public class PointListElement extends JComponent {
-	private PointList list;
+public class PointListElement extends JPanel
+{
 	private String currentName;
-
-	public PointListElement(PointList list, String name) {
+	private PointList list;
+	private int index;
+	private boolean valid;
+	
+	public PointListElement(String name, int index, PointList list)
+	{
 		this.list = list;
+		this.index = index;
 		this.currentName = name;
-
+		
 		SpringLayout springLayout = new SpringLayout();
 		setLayout(springLayout);
 
@@ -30,8 +37,7 @@ public class PointListElement extends JComponent {
 		springLayout.putConstraint(SpringLayout.WEST, removeButton, -40, SpringLayout.EAST, this);
 		springLayout.putConstraint(SpringLayout.SOUTH, removeButton, -10, SpringLayout.SOUTH, this);
 		springLayout.putConstraint(SpringLayout.EAST, removeButton, -10, SpringLayout.EAST, this);
-		removeButton.setIcon(new ImageIcon(
-				PointListElement.class.getResource("/javax/swing/plaf/metal/icons/ocean/paletteClose.gif")));
+		removeButton.setIcon(new ImageIcon(	PointListElement.class.getResource("/javax/swing/plaf/metal/icons/ocean/paletteClose.gif")));
 		removeButton.setMinimumSize(new Dimension(45, 25));
 		add(removeButton);
 
@@ -42,95 +48,167 @@ public class PointListElement extends JComponent {
 		springLayout.putConstraint(SpringLayout.EAST, goToButton, -6, SpringLayout.WEST, removeButton);
 		springLayout.putConstraint(SpringLayout.NORTH, goToButton, 10, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.SOUTH, goToButton, -10, SpringLayout.SOUTH, this);
-		goToButton.setIcon(
-				new ImageIcon(PointListElement.class.getResource("/javax/swing/plaf/metal/icons/ocean/minimize.gif")));
+		goToButton.setIcon(new ImageIcon(PointListElement.class.getResource("/javax/swing/plaf/metal/icons/ocean/minimize.gif")));
 		goToButton.setMinimumSize(new Dimension(45, 25));
 		add(goToButton);
 
-		nodeName = new JTextField();
+		pointNameField = new JTextField();
 		PointNameChanged nameChangeEvent = new PointNameChanged(this);
-		nodeName.addActionListener(nameChangeEvent);
-		nodeName.addFocusListener(nameChangeEvent);
-		nodeName.setText(name);
-		springLayout.putConstraint(SpringLayout.NORTH, nodeName, 10, SpringLayout.NORTH, this);
-		springLayout.putConstraint(SpringLayout.SOUTH, nodeName, -10, SpringLayout.SOUTH, this);
-		springLayout.putConstraint(SpringLayout.WEST, nodeName, 10, SpringLayout.WEST, this);
-		springLayout.putConstraint(SpringLayout.EAST, nodeName, -10, SpringLayout.WEST, goToButton);
-		add(nodeName);
+		pointNameField.addActionListener(nameChangeEvent);
+		pointNameField.addFocusListener(nameChangeEvent);
+		pointNameField.setText(currentName);
+		springLayout.putConstraint(SpringLayout.NORTH, pointNameField, 10, SpringLayout.NORTH, this);
+		springLayout.putConstraint(SpringLayout.SOUTH, pointNameField, -10, SpringLayout.SOUTH, this);
+		springLayout.putConstraint(SpringLayout.WEST, pointNameField, 10, SpringLayout.WEST, this);
+		springLayout.putConstraint(SpringLayout.EAST, pointNameField, -10, SpringLayout.WEST, goToButton);
+		add(pointNameField);
+		
+		validateName();
 	}
 
 	@Override
-	public Dimension getPreferredSize() {
+	public Dimension getPreferredSize()
+	{
 		return new Dimension(200, 45);
 	}
 
 	@Override
-	public Dimension getMaximumSize() {
+	public Dimension getMaximumSize()
+	{
 		return new Dimension(Integer.MAX_VALUE, 45);
 	}
 
 	@Override
-	public Dimension getMinimumSize() {
+	public Dimension getMinimumSize()
+	{
 		return new Dimension(100, 45);
 	}
-
-	public String getName() {
-		return nodeName.getText();
+	
+	/**
+	 * Gets the current name used to represent this element. This is not necessarily the name that is displayed.
+	 * @return The name that is currently use to represent this element.
+	 */
+	public String getCurrentName()
+	{
+		return currentName;
 	}
-
-	protected void setPointName(String name) {
-		nodeName.setText(name);
-		currentName = name;
+	
+	public int getIndex()
+	{
+		return index;
+	}
+	
+	protected void setIndex(int newIndex)
+	{
+		index = newIndex;
+	}
+	
+	public boolean isValid()
+	{
+		return valid;
+	}
+	
+	/**
+	 * Validates the current text in the name field.
+	 * @return
+	 */
+	protected boolean validateName()
+	{
+		String newName = pointNameField.getText();
+		
+		if(!newName.contains("/"))
+		{
+			valid = false;
+			setBackground(new Color(255, 201, 201));
+			return false;
+		}
+		
+		valid = list.onElementCheckName(this, newName);
+		
+		if(valid)
+		{
+			setBackground(Color.lightGray);
+			currentName = newName;
+		}
+		else
+		{
+			setBackground(new Color(255, 201, 201));
+		}
+		
+		return valid;
+	}
+	
+	/**
+	 * Triggered when the text in the name field is changed.
+	 */
+	protected void onNameChanged()
+	{
+		String oldName = currentName;
+		if(validateName())
+		{
+			list.onElementRenamed(this, oldName);
+		}
+		else
+		{
+			list.onElementNameCheckFailed(this, pointNameField.getText());
+		}
 	}
 
 	private class RemoveButtonActionListener implements ActionListener {
 
 		private PointListElement element;
 
-		public RemoveButtonActionListener(PointListElement element) {
+		public RemoveButtonActionListener(PointListElement element)
+		{
 			this.element = element;
 		}
 
 		@Override
-		public void actionPerformed(ActionEvent e) {
-			list.removePointElement(element.getName());
+		public void actionPerformed(ActionEvent e) 
+		{
+			list.onElementRemoved(element);
 		}
-
 	}
 
 	private class GotoButtonActionListener implements ActionListener {
 		private PointListElement element;
 
-		public GotoButtonActionListener(PointListElement element) {
+		public GotoButtonActionListener(PointListElement element) 
+		{
 			this.element = element;
 		}
 
 		@Override
-		public void actionPerformed(ActionEvent e) {
-			list.gotoPointElement(element.getName());
+		public void actionPerformed(ActionEvent e) 
+		{
+			list.onElementShown(element);
 		}
-
 	}
 
-	private class PointNameChanged implements FocusListener, ActionListener {
+	private class PointNameChanged implements FocusListener, ActionListener 
+	{
 		private PointListElement element;
 
-		public PointNameChanged(PointListElement element) {
-			this.element = element;
+		public PointNameChanged(PointListElement element)
+		{
 		}
 
 		@Override
-		public void focusLost(FocusEvent arg0) {
-
+		public void focusLost(FocusEvent e) 
+		{
+			//pointNameField.setText(getCurrentName());
 		}
 
 		@Override
-		public void focusGained(FocusEvent e) {
+		public void focusGained(FocusEvent e)
+		{
+			currentName = pointNameField.getText();
 		}
 
 		@Override
-		public void actionPerformed(ActionEvent e) {
-			list.guiRenameElement(element, currentName);
+		public void actionPerformed(ActionEvent e) 
+		{
+			onNameChanged();
 		}
 	}
 
@@ -138,5 +216,5 @@ public class PointListElement extends JComponent {
 	 * 
 	 */
 	private static final long serialVersionUID = -2960582722911027050L;
-	private JTextField nodeName;
+	private JTextField pointNameField;
 }

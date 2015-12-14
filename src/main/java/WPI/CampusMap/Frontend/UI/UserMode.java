@@ -214,6 +214,7 @@ public class UserMode extends UIMode {
 			printLine.close();
 		} catch (IOException e) {
 			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(null, e.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
 		System.out.println("TXT");
@@ -255,6 +256,7 @@ public class UserMode extends UIMode {
 			email.send();
 			System.out.println("Email sent");
 		} catch (EmailException e) {
+			JOptionPane.showMessageDialog(null, e.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 			System.out.println("Could not send email.");
 			e.printStackTrace();
 		}
@@ -267,6 +269,7 @@ public class UserMode extends UIMode {
 			SMSClient.SendText("+18184411799", sendingRoute.toString());
 		} catch (TwilioRestException e) {
 			// TODO Auto-generated catch block
+			JOptionPane.showMessageDialog(null, e.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
 	}
@@ -329,16 +332,30 @@ public class UserMode extends UIMode {
 	public void onAbout() {
 		JOptionPane aboutWindow = new JOptionPane();
 		JFrame aboutFrame = new JFrame("About Campus Mapper");
-		aboutFrame.setSize(500, 500);
+		aboutFrame.setBounds(300, 300, 700, 300);
 		aboutFrame.setLayout(new FlowLayout());
 		JLabel textLabel = new JLabel();
-		textLabel.setText("<html>Worcester Polytechnic Institute<br>CS3733 2015 B-Term<br>Team 0011b<br>Prof. Wilson Wong</html>");
+		textLabel.setText("<html><p style=\"text-align: center;\">"+
+				"<p style=\"text-align: center;\"><span style=\"font-size: medium;\"><strong>CS 3733: Software Engineering B-Term 2015</strong></span></p>\n"+
+				"<p style=\"text-align: center;\"><span style=\"font-size: medium;\">Prof. Wilson Wong</span></p>\n"+
+				"<p style=\"text-align: center;\"><span style=\"font-size: medium;\">Worcester Polytechnic Institute</span></p>\n"+
+				"<p style=\"text-align: center;\">&nbsp;</p>\n"+
+				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><b>Team 0011b:</b></span></p>\n"+
+				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><b>Lukas Hunter: Team Coach</b></span></p>\n"+
+				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\">Chris Cormier: Testing Engineer (Iteration 1 and 2)</span></p>\n"+
+				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><span style=\"font-size: medium;\">Will Craft: Lead Software Engineer (Iteration 3 and 4)</span></span></p>\n"+
+				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\">Gavin Hayes: Test Engineer (Iteration 3 and 4)</span></p>\n"+
+				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\">Michael LoTurco: Product Owner (Iteration 1 and 2)</span></p>\n"+
+				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><span style=\"font-size: medium;\">Benny Peake: Product Manager (Iteration 1 and 2), UI Lead (3 and 4)</span></span></p>\n"+
+				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><span style=\"font-size: medium;\">Will Spurgeon: UI Lead (Iteration 1 and 2)</span></span></p>\n"+
+				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\">Max Stenke: Product Owner (Iteration 3 and 4)</span></p>\n"+
+				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><span>Jake Zizmor: Lead Software Engineer (Iteration 1 and 2), Prodcut Manager (Iteration 3 and 4)</span></span></p>\n"+
+				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\">&nbsp;</span></p>\n"+
+				"<p style=\"text-align: left;\">&nbsp;</p>\n"+
+				"<p style=\"text-align: center;\">&nbsp;</p>\n"+
+				"<p style=\"text-align: center;\">&nbsp;</p>\n"+
+				"<p style=\"text-align: center;\">&nbsp;</p></html>");
 		aboutFrame.add(textLabel);
-		//aboutFrame.getContentPane().add(new JLabel("Worcester Polytechnic Institute"));
-		//aboutFrame.getContentPane().add(new JLabel("CS3733 2015 B-Term"));
-		//aboutFrame.getContentPane().add(new JLabel("Team 0011b"));
-		//aboutFrame.getContentPane().add(new JLabel("Prof. Wilson Wong"));
-		// aboutFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		aboutWindow.createDialog(aboutFrame, "About Campus Mapper");
 		aboutFrame.setVisible(true);
 		aboutWindow.setVisible(true);
@@ -349,50 +366,31 @@ public class UserMode extends UIMode {
 		// TODO Auto-generated method stub
 		JOptionPane aboutWindow = new JOptionPane();
 		JFrame guideFrame = new JFrame("User Guide");
-		JTextPane textLabel = new JTextPane();
-		textLabel.setContentType("text/html");
-		//textLabel.setWrapStyleWord(true);
-		//textLabel.setLineWrap(true);
-		textLabel.setOpaque(false);
-		textLabel.setEditable(false);
-		textLabel.setFocusable(false);
-		textLabel.setBackground(UIManager.getColor("Label.background"));
-	    textLabel.setFont(UIManager.getFont("Label.font"));
-	    textLabel.setBorder(UIManager.getBorder("Label.border"));
-		textLabel.setText("<html><h1><span style=\"font-family: 'arial black', 'avant garde'; font-size: large;\">Campus Mapper <span style=\"font-family: 'arial black', 'avant garde';\">User</span> Guide</span></strong></p>"+
-"<p><span style=\"font-family: 'arial black', 'avant garde';\"><strong>Find a route:</strong></span></p>"+
-"<ol>"+
-"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Navigate to the map with the desired starting point. </span><span style=\"font-family: arial, helvetica, sans-serif;\"><br>Maps can be selected by going to the \"Maps\" menu and selecting the desired building and floor.</span></li>"+
-"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">The red dots on the maps represent potential starting or ending positions. Click on one of the red dots.</span></li>"+
-"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Select another point on a map. You may navigate to a different floor or building if you wish to.</span></li>"+
-"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Additional points may be selected on any of the maps before a route is found.</span></li>"+
-"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">When you have selected all of the points you would like to visit, press the \"Route Me!\" button.<br>A route will be drawn between all of your points on the map and textual instructions will appear in the \"Directions\" box.</span></li>"+
-"</ol>"+
-"<p><span style=\"font-family: 'arial black', 'avant garde';\"><strong><strong><strong><strong><strong><strong>Navigate through a route:</strong></strong></strong></strong></strong></strong></span></p>"+
-"<ol>"+
-"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Once a route has been created, you may step through it by selecting an instruction <br>in the \"Directions\" box and pressing the \"Next\" and \"Previous\" buttons.</span></li>"+
-"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Stepping between buildings will cause the map view to change to the correct building. <br>Likewise, selecting a specific route will highlight that path within the map view.</span></li>"+
-"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">You may expand or hide the instructions within each route in the \"Directions\" box.</span></li>"+
-"</ol>"+
-"<p><span style=\"font-family: 'arial black', 'avant garde';\"><strong><strong><strong><strong>Editing a route:</strong></strong></strong></strong></span></p>"+
-"<ol>"+
-"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Routes may be edited by removing points listed in the \"Destinations\" box. <br>Once two or points have been selected, click on the button with an \"X\" on it to remove that point from your route. </span></li>"+
-"</ol>"+
-"<p><span style=\"font-family: 'arial black', 'avant garde';\"><strong><strong><strong><strong>Building a map in Dev Mode:</strong></strong></strong></strong></span></p>"+
-"<ol>"+
-"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Enter Dev Mode by selecting Settings->Dev Mode. <br>You may exit Dev Mode at any time by deselecting Settings->Dev Mode.</span></li>"+
-"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Select a the map you would like to work on from the \"Map\" dropdown.</span></li>"+
-"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Create nodes by clicking on the \"Create\" button. You may now click anywhere on the map to add a node.</span></li>"+
-"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Create edges by clicking on the \"Edge\" button. Select the two nodes you would like to connect. <br>Once the second node is selected, an edge will be created between the two nodes.</span></li>"+
-"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Delete nodes by clicking on the \"Delete\" button. If you click on an existing node, it will be deleted.</span></li>"+
-"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Delete edges by clicking on the \"Delete Edge\" button. Click on the two nodes you would like to dissconnect. </span></li>"+
-"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Once you have made all of your changes to the map, click on the \"Save\" button to save the changes to disk.</span></li>"+
-"</ol>"+
-"<p> </p></html>");
+		JLabel textLabel = new JLabel();
+		textLabel.setText(
+				"<html><p style=\"text-align: center;\"><span style=\"font-size: medium;\"><strong>About Campus Mapper</strong></span></p>\n"
+						+ "<p style=\"text-align: center;\"><span style=\"font-size: medium;\"><strong>CS 3733: Software Engineering</strong></span></p>\n"
+						+ "<p style=\"text-align: center;\"><span style=\"font-size: medium;\">Prof. Wilson Wong</span></p>\n"
+						+ "<p style=\"text-align: center;\"><span style=\"font-size: medium;\">Worcester Polytechnic Institute</span></p>\n"
+						+ "<p style=\"text-align: center;\">&nbsp;</p>\n"
+						+ "<p style=\"text-align: left;\"><span style=\"font-size: medium;\">Team 0011b:</span></p>\n"
+						+ "<p style=\"text-align: left;\"><span style=\"font-size: medium;\">Chris Cormier</span></p>\n"
+						+ "<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><span style=\"font-size: medium;\">Will Craft</span></span></p>\n"
+						+ "<p style=\"text-align: left;\"><span style=\"font-size: medium;\">Gavin Hayes</span></p>\n"
+						+ "<p style=\"text-align: left;\"><span style=\"font-size: medium;\">Michael LoTurco</span></p>\n"
+						+ "<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><span style=\"font-size: medium;\">Benny Peake</span></span></p>\n"
+						+ "<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><span style=\"font-size: medium;\">Will Spurgeon</span></span></p>\n"
+						+ "<p style=\"text-align: left;\"><span style=\"font-size: medium;\">Max Stenke</span></p>\n"
+						+ "<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><span>Jake Zizmor</span></span></p>\n"
+						+ "<p style=\"text-align: left;\"><span style=\"font-size: medium;\">&nbsp;</span></p>\n"
+						+ "<p style=\"text-align: left;\">&nbsp;</p>\n"
+						+ "<p style=\"text-align: center;\">&nbsp;</p>\n"
+						+ "<p style=\"text-align: center;\">&nbsp;</p>\n"
+						+ "<p style=\"text-align: center;\">&nbsp;</p></html>");
 		guideFrame.add(textLabel);
 		guideFrame.setBounds(100, 100, 850, 750);
 		guideFrame.setVisible(true);
 		guideFrame.setLayout(new FlowLayout());
-		
+
 	}
 }

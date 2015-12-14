@@ -2,6 +2,8 @@ package WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Twitter.Learni
 
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Twitter.Information.TwitterInformation;
 import twitter4j.Status;
 import twitter4j.Twitter;
@@ -27,10 +29,12 @@ public class Timeline {
 			List<Status> statuses = twitter.getMentionsTimeline();
 			System.out.println("Showing home timeline.");
 			for (Status status : statuses) {
-				System.out.println(status.getUser().getName() + " : " + "#" + status.getHashtagEntities()[0].getText() + " #" + status.getHashtagEntities()[1].getText());
+				System.out.println(status.getUser().getName() + " : " + "#" + status.getHashtagEntities()[0].getText()
+						+ " #" + status.getHashtagEntities()[1].getText());
 			}
 
 		} catch (TwitterException te) {
+			JOptionPane.showMessageDialog(null, te.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 			te.printStackTrace();
 		}
 	}

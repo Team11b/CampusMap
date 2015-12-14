@@ -8,9 +8,12 @@ import java.util.HashMap;
 import java.util.LinkedList;
 
 import javax.swing.BoxLayout;
+import javax.swing.JButton;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.SpringLayout;
+
+import WPI.CampusMap.Backend.Core.Point.IPoint;
 
 public class PointList extends Panel
 {
@@ -21,18 +24,13 @@ public class PointList extends Panel
 		SpringLayout springLayout = new SpringLayout();
 		setLayout(springLayout);
 
-		// TODO: Add in
-		/*
-		 * JButton btnAdd = new JButton("Add"); btnAdd.setToolTipText(
-		 * "Add a destination to your trip"); btnAdd.addActionListener(new
-		 * AddButtonActionListener());
-		 * springLayout.putConstraint(SpringLayout.WEST, btnAdd, 108,
-		 * SpringLayout.WEST, this);
-		 * springLayout.putConstraint(SpringLayout.SOUTH, btnAdd, -10,
-		 * SpringLayout.SOUTH, this);
-		 * springLayout.putConstraint(SpringLayout.EAST, btnAdd, -108,
-		 * SpringLayout.EAST, this); add(btnAdd);
-		 */
+		
+		JButton btnAdd = new JButton("Add");
+		//btnAdd.setToolTipText("Add a destination to your trip");
+		btnAdd.addActionListener(new AddButtonActionListener());
+		springLayout.putConstraint(SpringLayout.WEST, btnAdd, 108, SpringLayout.WEST, this);
+		springLayout.putConstraint(SpringLayout.SOUTH, btnAdd, -10, SpringLayout.SOUTH, this);
+		springLayout.putConstraint(SpringLayout.EAST, btnAdd, -108, SpringLayout.EAST, this); add(btnAdd);
 
 		scrollPane = new JScrollPane();
 		springLayout.putConstraint(SpringLayout.NORTH, scrollPane, 0, SpringLayout.NORTH, this);
@@ -50,93 +48,144 @@ public class PointList extends Panel
 	{
 		handlers.add(handler);
 	}
-
-	public PointListElement addPointElement(String name)
+	
+	/**
+	 * Adds a new point descriptor to the list.
+	 * @param name The name of the new point descriptor.
+	 * @return True if the point descriptor could be added.
+	 */
+	public boolean addPointDescriptor(String name)
 	{
-		if (elements.containsKey(name))
-			return null;
-		PointListElement element;
-		if(name.substring(name.indexOf("/")).length() < 15){
-			element = new PointListElement(this, name);
-			elements.put(name, element);
-			listPanel.add(element);
-		}
-		else{
-			element = new PointListElement(this, name.substring(0,name.indexOf("/")));
-			elements.put(name, element);
-			listPanel.add(element);
-		}
-		listPanel.revalidate();
-		listPanel.repaint();
+		if(elements.containsKey(name))
+			return false;
+		
+		PointListElement newElement = new PointListElement(name, elements.size(), this);
+		return onElementAdded(newElement);
+	}
+	
+	/**
+	 * Adds a point descriptor to the list using an existing point.
+	 * @param point The point to use as the point descriptor.
+	 * @return True if the point could be added.
+	 */
+	public boolean addPoint(IPoint point)
+	{
+		return addPointDescriptor(point.toString());
+	}
+	
+	public boolean removePointDescriptor(String name)
+	{
+		if(!elements.containsKey(name))
+			return false;
+		
+		PointListElement element = elements.get(name);
+		onElementRemoved(element);
+		
+		refreshIndicies();
+		
+		return true;
+	}
 
-		for (PointListEventHandler handler : handlers) {
+	/**
+	 * Adds an element to the list.
+	 * @param element The element to add.
+	 * @return False if the element could not be added to the list, true otherwise.
+	 */
+	protected boolean onElementAdded(PointListElement element)
+	{
+		if(elements.containsKey(element.getCurrentName()))
+			return false;
+		
+		elements.put(element.getCurrentName(), element);
+		listPanel.add(element);
+		
+		for(PointListEventHandler handler : handlers)
+		{
 			handler.pointDescriptorAdded(element);
 		}
-
-		return element;
+		
+		revalidate();
+		
+		return true;
 	}
-
-	public void removePointElement(String name) {
-		if (!elements.containsKey(name))
-			return;
-
-		PointListElement element = elements.get(name);
+	
+	/**
+	 * Removes an element from the list.
+	 * @param element The element to remove.
+	 */
+	protected void onElementRemoved(PointListElement element)
+	{
+		elements.remove(element.getCurrentName());
 		listPanel.remove(element);
-		elements.remove(name);
-
-		listPanel.revalidate();
-		listPanel.repaint();
-
-		for (PointListEventHandler handler : handlers) {
+		
+		for(PointListEventHandler handler : handlers)
+		{
 			handler.pointDescriptorRemoved(element);
 		}
+		
+		revalidate();
 	}
-
-	public void clearPointElements() {
-		for (PointListElement element : elements.values()) {
-			listPanel.remove(element);
-		}
-
-		listPanel.revalidate();
-		listPanel.repaint();
-	}
-
-	public void gotoPointElement(String name) {
-		if (!elements.containsKey(name))
-			return;
-
-		PointListElement element = elements.get(name);
-
-		for (PointListEventHandler handler : handlers) {
+	
+	/**
+	 * Called when an element is told to show itself.
+	 * @param element The element to show on the map.
+	 */
+	protected void onElementShown(PointListElement element)
+	{
+		for(PointListEventHandler handler : handlers)
+		{
 			handler.pointDescriptorShow(element);
 		}
 	}
-
-	public void renamePointElement(String oldName, String newName) {
-		if (!elements.containsKey(oldName))
-			return;
-
-		PointListElement element = elements.get(oldName);
-
-		element.setPointName(newName);
+	
+	protected boolean onElementCheckName(PointListElement element, String newName)
+	{
+		if(elements.containsKey(newName))
+			return false;
+		
+		for(PointListEventHandler handler : handlers)
+		{
+			if(!handler.pointDescriptorNameCheck(element, newName))
+				return false;
+		}
+		
+		return true;
 	}
-
-	protected void guiRenameElement(PointListElement element, String oldName) {
-		if (!elements.containsKey(oldName))
-			return;
-
-		elements.remove(oldName);
-		elements.put(element.getName(), element);
-
-		for (PointListEventHandler handler : handlers) {
+	
+	protected void onElementRenamed(PointListElement element, String oldName)
+	{
+		for(PointListEventHandler handler : handlers)
+		{
 			handler.pointDescriptorRenamed(element, oldName);
 		}
+		
+		elements.remove(oldName);
+		elements.put(element.getCurrentName(), element);
 	}
-
-	private class AddButtonActionListener implements ActionListener {
+	
+	protected void onElementNameCheckFailed(PointListElement element, String failedName)
+	{
+		for(PointListEventHandler handler : handlers)
+		{
+			handler.pointDescriptorNameCheckFailed(element, failedName);
+		}
+	}
+	
+	private void refreshIndicies()
+	{
+		for(int i = 0; i < listPanel.getComponentCount(); i++)
+		{
+			PointListElement element = (PointListElement)listPanel.getComponent(i);
+			element.setIndex(i);
+		}
+	}
+	
+	private class AddButtonActionListener implements ActionListener
+	{
 		@Override
-		public void actionPerformed(ActionEvent e) {
-			addPointElement("");
+		public void actionPerformed(ActionEvent e) 
+		{
+			addPointDescriptor("");
 		}
 	}
 
