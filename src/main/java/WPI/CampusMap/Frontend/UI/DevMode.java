@@ -180,6 +180,7 @@ public class DevMode extends UIMode
 		clearSelectedPoints();
 		graphicsMap = new DevGraphicalMap(mapName, this);
 		graphicsMap.spawnMap();
+		getWindow().devLoadMap(graphicsMap.getMap());
 	}
 	
 	protected void pointDescriptorAdded(PointListElement element)
@@ -215,6 +216,12 @@ public class DevMode extends UIMode
 	
 	protected void pointDescriptorRemoved(PointListElement element)
 	{
-		
+		IPoint point = selectedPointsList.getFirst().getRepresentedObject();
+		point.removeNeighbor(element.getCurrentName());
+	}
+
+	protected void onMapScaleChanged(float newScale) 
+	{
+		graphicsMap.getMap().setScale(newScale);
 	}
 }

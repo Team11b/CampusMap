@@ -533,6 +533,11 @@ public class AppMainWindow extends JFrame implements Runnable {
 	{
 		throw new UnsupportedOperationException("not implemented");
 	}
+	
+	public void devLoadMap(IMap newMap)
+	{
+		devPanel.changeMapInfo(newMap);
+	}
 
 	@Override
 	public void run() {

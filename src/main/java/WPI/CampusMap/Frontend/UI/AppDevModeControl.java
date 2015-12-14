@@ -11,9 +11,15 @@ import javax.swing.JComponent;
 import javax.swing.JPanel;
 import javax.swing.JSeparator;
 import javax.swing.JToggleButton;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SpringLayout;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
+import WPI.CampusMap.Backend.Core.Map.IMap;
 import WPI.CampusMap.Frontend.Graphics.Dev.DevPointGraphicsObject;
+import javax.swing.JSpinner;
+import javax.swing.JLabel;
 
 public class AppDevModeControl extends JComponent
 {
@@ -37,9 +43,7 @@ public class AppDevModeControl extends JComponent
 		add(editorPanel);
 		
 		JPanel buttonPanel = new JPanel();
-		springLayout.putConstraint(SpringLayout.SOUTH, buttonPanel, 100, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.NORTH, editorPanel, 10, SpringLayout.SOUTH, buttonPanel);
-		springLayout.putConstraint(SpringLayout.NORTH, buttonPanel, 10, SpringLayout.NORTH, this);
 		springLayout.putConstraint(SpringLayout.WEST, buttonPanel, 10, SpringLayout.WEST, this);
 		springLayout.putConstraint(SpringLayout.EAST, buttonPanel, -10, SpringLayout.EAST, this);
 		add(buttonPanel);
@@ -83,6 +87,21 @@ public class AppDevModeControl extends JComponent
 		springLayout.putConstraint(SpringLayout.WEST, btnSave, 80, SpringLayout.WEST, this);
 		springLayout.putConstraint(SpringLayout.EAST, btnSave, -80, SpringLayout.EAST, this);
 		add(btnSave);
+		
+		scaleSpinner = new JSpinner();
+		scaleSpinner.addChangeListener(new ScaleChangedListener());
+		springLayout.putConstraint(SpringLayout.WEST, scaleSpinner, -130, SpringLayout.EAST, this);
+		springLayout.putConstraint(SpringLayout.NORTH, buttonPanel, 10, SpringLayout.SOUTH, scaleSpinner);
+		springLayout.putConstraint(SpringLayout.SOUTH, buttonPanel, 100, SpringLayout.NORTH, scaleSpinner);
+		springLayout.putConstraint(SpringLayout.NORTH, scaleSpinner, 10, SpringLayout.NORTH, this);
+		springLayout.putConstraint(SpringLayout.EAST, scaleSpinner, -10, SpringLayout.EAST, this);
+		add(scaleSpinner);
+		
+		JLabel lblNewLabel = new JLabel("Scale (Inches/Feet): ");
+		springLayout.putConstraint(SpringLayout.NORTH, lblNewLabel, 0, SpringLayout.NORTH, scaleSpinner);
+		springLayout.putConstraint(SpringLayout.SOUTH, lblNewLabel, 0, SpringLayout.SOUTH, scaleSpinner);
+		springLayout.putConstraint(SpringLayout.EAST, lblNewLabel, 0, SpringLayout.WEST, scaleSpinner);
+		add(lblNewLabel);
 	}
 	
 	/**
@@ -97,6 +116,11 @@ public class AppDevModeControl extends JComponent
 		editorPanel.add(pointEditor, BorderLayout.CENTER);
 		
 		revalidate();
+	}
+	
+	public void changeMapInfo(IMap newMap)
+	{
+		scaleSpinner.setModel(new SpinnerNumberModel(newMap.getScale(), 0, Double.MAX_VALUE, 0.1));
 	}
 	
 	public void clearSelection()
@@ -156,10 +180,25 @@ public class AppDevModeControl extends JComponent
 			window.getDevMode().save();
 		}
 	}
+	
+	private class ScaleChangedListener implements ChangeListener
+	{
+
+		@Override
+		public void stateChanged(ChangeEvent e)
+		{
+			JSpinner spinner = (JSpinner) e.getSource();
+			Double value = (Double) spinner.getValue();
+			
+			window.getDevMode().onMapScaleChanged(value.floatValue());
+		}
+		
+	}
 
 	/**
 	 * 
 	 */
 	private static final long serialVersionUID = -7831300945301622071L;
 	private final NoneSelectedButtonGroup modeButtonGroup = new NoneSelectedButtonGroup();
+	private JSpinner scaleSpinner;
 }
