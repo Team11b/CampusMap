@@ -38,6 +38,7 @@ package WPI.CampusMap.Frontend.Search.Searchv1;
 
 import java.util.List;
 
+import javax.swing.JOptionPane;
 import javax.swing.JTextField;
 import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
@@ -94,6 +95,8 @@ public class Java2sAutoTextField extends JTextField {
 				setSelectionStart(k);
 				setSelectionEnd(getLength());
 			} catch (Exception exception) {
+				JOptionPane.showMessageDialog(null, exception.getLocalizedMessage(), "ERROR",
+						JOptionPane.ERROR_MESSAGE);
 			}
 		}
 
@@ -156,6 +159,8 @@ public class Java2sAutoTextField extends JTextField {
 				int j = Math.max(getCaret().getDot(), getCaret().getMark());
 				_lb.replace(i, j - i, s, null);
 			} catch (Exception exception) {
+				JOptionPane.showMessageDialog(null, exception.getLocalizedMessage(), "ERROR",
+						JOptionPane.ERROR_MESSAGE);
 			}
 	}
 
