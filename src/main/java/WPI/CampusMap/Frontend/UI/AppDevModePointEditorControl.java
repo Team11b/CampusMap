@@ -9,6 +9,8 @@ import java.awt.event.FocusEvent;
 import java.awt.event.FocusListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import javax.swing.JComponent;
 import javax.swing.JSeparator;
@@ -17,6 +19,7 @@ import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
+import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.Core.Point.RealPoint;
 import WPI.CampusMap.Frontend.Graphics.Dev.DevPointGraphicsObject;
 
@@ -29,11 +32,13 @@ import javax.swing.JTextField;
 import javax.swing.JSpinner;
 
 public class AppDevModePointEditorControl extends JComponent {
-	DevPointGraphicsObject point;
+	private DevPointGraphicsObject point;
+	private AppMainWindow window;
 
-	public AppDevModePointEditorControl(DevPointGraphicsObject point) 
+	public AppDevModePointEditorControl(DevPointGraphicsObject point, AppMainWindow window) 
 	{
 		this.point = point;
+		this.window = window;
 		
 		SpringLayout springLayout = new SpringLayout();
 		setLayout(springLayout);
@@ -72,11 +77,24 @@ public class AppDevModePointEditorControl extends JComponent {
 		springLayout.putConstraint(SpringLayout.EAST, lblType, 0, SpringLayout.EAST, lblName);
 		add(lblType);
 
-		JPanel connectionsList = new JPanel();
+		PointList connectionsList = new PointList();
 		springLayout.putConstraint(SpringLayout.WEST, connectionsList, 10, SpringLayout.WEST, this);
 		springLayout.putConstraint(SpringLayout.SOUTH, connectionsList, -10, SpringLayout.SOUTH, this);
 		springLayout.putConstraint(SpringLayout.EAST, connectionsList, -10, SpringLayout.EAST, this);
 		add(connectionsList);
+		
+		HashMap<String, ArrayList<String>> pointsMap = point.getRepresentedObject().getNeighborPointsOnOtherMaps();
+		for(String mapName : pointsMap.keySet())
+		{
+			ArrayList<String> pointsOnMap = pointsMap.get(mapName);
+			
+			for(String pointName : pointsOnMap)
+			{
+				connectionsList.addPointDescriptor(pointName);
+			}
+		}
+		
+		connectionsList.addListener(new ConnectionListEventHandler());
 
 		Label connectionsLabel = new Label("Connections");
 		springLayout.putConstraint(SpringLayout.SOUTH, connectionsLabel, 0, SpringLayout.NORTH, connectionsList);
@@ -184,6 +202,53 @@ public class AppDevModePointEditorControl extends JComponent {
 			JSpinner spinner = (JSpinner)e.getSource();
 			Double y = (Double)spinner.getValue();
 			point.getRepresentedObject().setCoord(new Coord(point.getWorldPosition().getX(), y.floatValue()));
+		}
+	}
+	
+	private class ConnectionListEventHandler implements PointListEventHandler
+	{
+
+		@Override
+		public void pointDescriptorAdded(PointListElement element) 
+		{
+			window.getDevMode().pointDescriptorAdded(element);
+		}
+
+		@Override
+		public void pointDescriptorRemoved(PointListElement element)
+		{
+			window.getDevMode().pointDescriptorRemoved(element);
+		}
+
+		@Override
+		public boolean pointDescriptorNameCheck(PointListElement element, String newName)
+		{
+			return window.getDevMode().pointDescriptorNameCheck(element, newName);
+		}
+
+		@Override
+		public void pointDescriptorRenamed(PointListElement element, String oldName) 
+		{
+			window.getDevMode().pointDescriptorRenamed(element, oldName);			
+		}
+
+		@Override
+		public void pointDescriptorNameCheckFailed(PointListElement element, String failedName)
+		{
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void pointDescriptorShow(PointListElement element) 
+		{
+			window.getDevMode().pointDescriptorShown(element);
+		}
+
+		@Override
+		public void pointDescriptorMoved(PointListElement element)
+		{
+			
 		}
 	}
 

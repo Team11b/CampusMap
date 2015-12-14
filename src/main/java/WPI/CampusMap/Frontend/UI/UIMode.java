@@ -16,12 +16,14 @@ public abstract class UIMode {
 	
 	public UIMode(AppMainWindow window)
 	{		
-		this.window = window;		
-		loadMap(DEFAULT_MAP);
+		this.window = window;
 		window.makeOtherDropDown(DEFAULT_MAP);
 	}
 
-	protected abstract void onModeEntered();
+	protected void onModeEntered()
+	{
+		loadMap(DEFAULT_MAP);
+	}
 	
 	protected AppMainWindow getWindow()
 	{

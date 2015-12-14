@@ -93,7 +93,7 @@ public class AppDevModeControl extends JComponent
 	{
 		editorPanel.removeAll();
 		
-		AppDevModePointEditorControl pointEditor = new AppDevModePointEditorControl(point);
+		AppDevModePointEditorControl pointEditor = new AppDevModePointEditorControl(point, window);
 		editorPanel.add(pointEditor, BorderLayout.CENTER);
 		
 		revalidate();

@@ -124,6 +124,7 @@ public class PointList extends Panel
 		}
 		
 		revalidate();
+		repaint();
 	}
 	
 	/**

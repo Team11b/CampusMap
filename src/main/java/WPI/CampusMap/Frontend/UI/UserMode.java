@@ -59,12 +59,6 @@ public class UserMode extends UIMode {
 	}
 
 	@Override
-	public void onModeEntered() {
-		// Execute changes to UI
-
-	}
-
-	@Override
 	public void gotoPoint(String name) {
 		IPoint point = AllPoints.getInstance().getPoint(name);
 		loadMap(point.getMap());

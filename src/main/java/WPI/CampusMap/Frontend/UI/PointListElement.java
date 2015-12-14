@@ -103,7 +103,7 @@ public class PointListElement extends JPanel
 		index = newIndex;
 	}
 	
-	public boolean isValid()
+	public boolean isNameValid()
 	{
 		return valid;
 	}
@@ -127,7 +127,7 @@ public class PointListElement extends JPanel
 		
 		if(valid)
 		{
-			setBackground(Color.lightGray);
+			setBackground(new Color(240, 240, 240));
 			currentName = newName;
 		}
 		else

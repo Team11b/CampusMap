@@ -3,7 +3,10 @@ package WPI.CampusMap.Frontend.UI;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
 import java.util.HashSet;
+import java.util.LinkedList;
 
+import WPI.CampusMap.Backend.Core.Point.AllPoints;
+import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Frontend.Dev.EditorToolMode;
 import WPI.CampusMap.Frontend.Graphics.Dev.DevGraphicalMap;
 import WPI.CampusMap.Frontend.Graphics.Dev.DevPointGraphicsObject;
@@ -16,16 +19,12 @@ public class DevMode extends UIMode
 	private EditorToolMode currentToolMode;
 	
 	private HashSet<DevPointGraphicsObject> selectedPoints = new HashSet<>();
+	private LinkedList<DevPointGraphicsObject> selectedPointsList = new LinkedList<>();
 	
 	public DevMode(AppMainWindow window)
 	{
 		super(window);
 		setSelect();
-	}
-	
-	@Override
-	public void onModeEntered()
-	{		
 	}
 	
 	@Override
@@ -93,6 +92,7 @@ public class DevMode extends UIMode
 	public void addSelectedPoint(DevPointGraphicsObject point)
 	{
 		selectedPoints.add(point);
+		selectedPointsList.add(point);
 		
 		if(getSelectedPointCount() > 1)
 		{
@@ -177,7 +177,44 @@ public class DevMode extends UIMode
 	@Override
 	public void loadMap(String mapName)
 	{
+		clearSelectedPoints();
 		graphicsMap = new DevGraphicalMap(mapName, this);
 		graphicsMap.spawnMap();
+	}
+	
+	protected void pointDescriptorAdded(PointListElement element)
+	{
+		IPoint point = AllPoints.getInstance().getPoint(element.getCurrentName());
+		if(point == null)
+			return;
+		
+		selectedPointsList.getFirst().getRepresentedObject().addNeighbor(point);
+	}
+	
+	protected boolean pointDescriptorNameCheck(PointListElement element, String newName) 
+	{
+		IPoint point = AllPoints.getInstance().getPoint(newName);
+		return point != null;
+	}
+	
+	protected void pointDescriptorRenamed(PointListElement element, String oldName)
+	{
+		IPoint point = selectedPointsList.getFirst().getRepresentedObject();
+		point.removeNeighbor(oldName);
+		
+		IPoint neighbor = AllPoints.getInstance().getPoint(element.getCurrentName());
+		point.addNeighbor(neighbor);
+	}
+	
+	protected void pointDescriptorShown(PointListElement element)
+	{
+		IPoint neighbor = AllPoints.getInstance().getPoint(element.getCurrentName());
+		loadMap(neighbor.getMap());
+		setSelectedPoint((DevPointGraphicsObject) graphicsMap.getObject(neighbor));
+	}
+	
+	protected void pointDescriptorRemoved(PointListElement element)
+	{
+		
 	}
 }
