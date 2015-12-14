@@ -15,11 +15,7 @@ import WPI.CampusMap.Backend.Core.Point.AllPoints;
 public class AllPointsTest {
 	private static AllPoints points;
 
-	@BeforeClass
-	@AfterClass
-	public static void clean(){
-		AllPoints.getInstance().clearAllPoints();
-	}
+	
 	
 	@Before
 	public void initialize() {

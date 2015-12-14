@@ -3,12 +3,15 @@ package WPI.CampusMap.InternetTest;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Twitter.Information.TwitterInformation;
 import WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Weather.Wunderground;
 import twitter4j.Status;
 import twitter4j.Twitter;
+import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 
@@ -19,6 +22,8 @@ import java.net.UnknownHostException;
 import java.util.List;
 
 public class TestConnection {
+	@Rule
+	 public final ExpectedException exception = ExpectedException.none();
 	
 	@Before
 	public void initialize() {
@@ -57,24 +62,28 @@ public class TestConnection {
 	
 	@Test
 	public void testPullTwitter(){
+		exception.expect(UnsupportedOperationException.class);
 		//needs private twitter information
 		String consumerKeyStr = TwitterInformation.getPublicKey();
 		String consumerSecretStr = TwitterInformation.getPrivateKey();
 		String accessTokenStr = TwitterInformation.getPublicAccessToken();
 		String accessTokenSecretStr = TwitterInformation.getPrivateAccessToken();
-		try{
+		
 		Twitter twitter = new TwitterFactory().getInstance();
 		twitter.setOAuthConsumer(consumerKeyStr, consumerSecretStr);
 		AccessToken accessToken = new AccessToken(accessTokenStr, accessTokenSecretStr);
 
 		twitter.setOAuthAccessToken(accessToken);
-		List<Status> statuses = twitter.getMentionsTimeline();		
-		assertTrue(true); 
-		}		
-		catch(Exception e){ //thrown when statuses is null or there isn't a private key.
+		try {
+			List<Status> statuses = twitter.getMentionsTimeline();
+			assertTrue(true);
+		} catch (TwitterException e) {			
+			e.printStackTrace();
 			assertTrue(false);
-		}
+		}		
+		
 	}
+	
 
 }
 
