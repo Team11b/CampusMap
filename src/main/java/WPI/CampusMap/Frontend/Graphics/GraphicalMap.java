@@ -35,7 +35,7 @@ public abstract class GraphicalMap {
 
 	private IMap map;
 
-	private Rectangle lastClip;
+	private Rectangle lastClip = new Rectangle();
 
 	private GraphicsObject<?, ?> over;
 
