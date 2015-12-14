@@ -1,12 +1,17 @@
 package WPI.CampusMap.Backend.Core.Point;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
+import WPI.CampusMap.Recording.Serialization.Serializer;
 
-public class AllPoints {
-	private static volatile AllPoints instance;
+public class AllPoints implements Serializable{
+
+
+	private static final long serialVersionUID = -6405416499845660178L;
+	private transient static volatile AllPoints instance;
 	//Contains only named points, key is the name of the point and value is the fullName
 	private static HashMap<String, String> allPoints = new HashMap<String, String>();
 
@@ -18,6 +23,15 @@ public class AllPoints {
 			synchronized (AllPoints.class) {
 				if (instance == null) {
 					instance = new AllPoints();
+					for(String name : Serializer.allPointsLoad()){
+						if(name.contains("/")){
+							AllPoints.allPoints.put(name.split("/")[1], name);
+						}else System.out.println("Not full name " + name);
+					}
+					if(allPoints == null){
+						allPoints = new HashMap<String, String>();
+						System.out.println("Still Null");
+					}
 				}
 			}
 		}
@@ -88,6 +102,21 @@ public class AllPoints {
 		}
 
 		return remaining;
+	}
+
+	public ArrayList<String> getAllPoints() {
+		return new ArrayList<String>(allPoints.keySet());
+	}
+	
+
+	public ArrayList<String> getAllPointsFull() {
+		return new ArrayList<String>(allPoints.values());
+	}
+
+	public void save() {
+		System.out.println("Saving: " +getAllPoints());
+		Serializer.save(this);
+		
 	}
 
 }

@@ -6,9 +6,12 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 import WPI.CampusMap.Backend.Core.Map.ProxyMap;
 import WPI.CampusMap.Backend.Core.Map.RealMap;
+import WPI.CampusMap.Backend.Core.Point.AllPoints;
 
 /**
  * 
@@ -128,6 +131,52 @@ public class Serializer {
 			fileIn.close();
 
 			return rm;
+		} catch (FileNotFoundException f) {
+			// System.out.println("NOT LOADED");
+			// f.printStackTrace();
+		} catch (IOException i) {
+			System.out.println("NOT LOADED");
+			i.printStackTrace();
+		} catch (ClassNotFoundException c) {
+			System.out.println("NOT LOADED");
+			c.printStackTrace();
+		}
+
+		return null;
+	}
+
+	public static void save(AllPoints toSave) {
+		try{
+			FileOutputStream fileOut = new FileOutputStream(
+					Serializer.folder + "allPoints" + Serializer.fileType);
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+	
+			out.writeObject(AllPoints.getInstance().getAllPointsFull());
+	
+			out.close();
+			fileOut.close();
+		} catch (FileNotFoundException f) {
+			System.out.println("NOT SAVED");
+			f.printStackTrace();
+		} catch (IOException i) {
+			System.out.println("NOT SAVED");
+			i.printStackTrace();
+		}
+		
+	}
+
+	public static ArrayList<String> allPointsLoad() {
+		try {
+			ArrayList<String> allPoints;
+			FileInputStream fileIn = new FileInputStream(Serializer.folder + "allPoints" + Serializer.fileType);
+			ObjectInputStream in = new ObjectInputStream(fileIn);
+
+			allPoints = (ArrayList<String>) in.readObject();
+			System.out.println(allPoints);
+			in.close();
+			fileIn.close();
+
+			return allPoints;
 		} catch (FileNotFoundException f) {
 			// System.out.println("NOT LOADED");
 			// f.printStackTrace();
