@@ -134,12 +134,12 @@ public class ProxyMap implements IMap, Serializable {
 				if (!point.getId().contains("-")) {
 					// System.out.println("Named Point");
 					tempNamedPoints.add(point.toString());
+					AllPoints.getInstance().addPoint(point.toString());
 				}
 				for (String connectedMap : point.getNeighborPointsOnOtherMaps().keySet()) {
 					// System.out.println("Connecting map: " + connectedMap);
 					tempConnectedMaps.add(connectedMap);
 				}
-				AllPoints.getInstance().addPoint(point.toString());
 				
 			}
 			namedPoints = tempNamedPoints.toArray(new String[tempNamedPoints.size()]);
