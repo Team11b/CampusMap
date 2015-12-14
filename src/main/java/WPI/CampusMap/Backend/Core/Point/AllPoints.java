@@ -23,7 +23,7 @@ public class AllPoints {
 			synchronized (AllPoints.class) {
 				if (instance == null) {
 					instance = new AllPoints();
-					LinkedList<String> temp = Serializer.allPointsLoad(); 
+					ArrayList<String> temp = Serializer.allPointsLoad(); 
 					if(temp != null){
 						for(String point: temp){
 							allPoints.put(point.split("/")[1], point);

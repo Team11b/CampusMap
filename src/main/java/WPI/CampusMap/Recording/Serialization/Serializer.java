@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import javax.swing.JOptionPane;
@@ -185,13 +186,13 @@ public class Serializer {
 		return null;
 	}
 
-	public static LinkedList<String> allPointsLoad() {
+	public static ArrayList<String> allPointsLoad() {
 		try {
-			LinkedList<String> rm;
+			ArrayList<String> rm;
 			FileInputStream fileIn = new FileInputStream(Serializer.folder + "allPoints" + Serializer.fileType);
 			ObjectInputStream in = new ObjectInputStream(fileIn);
 
-			rm = (LinkedList<String>) in.readObject();
+			rm = (ArrayList<String>) in.readObject();
 
 			in.close();
 			fileIn.close();
