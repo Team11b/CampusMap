@@ -191,6 +191,11 @@ public class AppUserModeControl extends JComponent {
 		scrollPane.clearPointElements();
 	}
 
+	/**
+	 * 
+	 * Calls the RouteMe method. Calculates the route from the selected nodes.
+	 *
+	 */
 	private static class RouteMeActionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -210,6 +215,11 @@ public class AppUserModeControl extends JComponent {
 
 	}
 
+	/**
+	 * Collapses all of the rows in the Directions tree.
+	 * @author Will
+	 *
+	 */
 	private class CollapseAllButtonListener implements ActionListener{
 
 		@Override
@@ -220,7 +230,11 @@ public class AppUserModeControl extends JComponent {
 		
 	}
 	
-	
+	/**
+	 * Expands all of the rows in the Directions tree.
+	 * @author Will
+	 *
+	 */
 	private class ExpandAllButtonListener implements ActionListener{
 
 		@Override
@@ -361,12 +375,22 @@ public class AppUserModeControl extends JComponent {
 
 	}
 	
+	/**
+	 * Expands all of the rows in the Directions tree.
+	 * @author Will
+	 *
+	 */
 	private void expandTree(){
 		for (int i = 0; i < tree.getRowCount(); i++) {
 	         tree.expandRow(i);
 		}	
 	}
 	
+	/**
+	 * Collapses all of the rows in the Directions tree.
+	 * @author Will
+	 *
+	 */
 	private void collapseTree(){
 		for (int i = 0; i < tree.getRowCount(); i++) {
 	         tree.collapseRow(i);

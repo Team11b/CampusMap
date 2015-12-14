@@ -14,9 +14,18 @@ import org.hamcrest.core.IsInstanceOf;
 
 import WPI.CampusMap.Frontend.UI.AppUserModeControl.PathSectionTreeNode;
 
+/**
+ * This is a custom JTree Cell renderer. Each cell gets a custom renderer based on what type of "Direction" it represents.
+ * @author Will
+ *
+ */
 class CustomCellRenderer implements TreeCellRenderer{
 	private JLabel icon;
 	
+	/**
+	 * Returns the correct type of tree cell based on the contents of the direction string.
+	 * Different types of instructions are given different icons.
+	 */
 	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
 		Object o = ((DefaultMutableTreeNode) value).getUserObject();
 		ImageIcon icon = null;
@@ -43,7 +52,9 @@ class CustomCellRenderer implements TreeCellRenderer{
 		return label;
 	}
 
-
+	/**
+	 * Basic class constructor. Initializes the icon JLabel.
+	 */
 	CustomCellRenderer() {
 		icon = new JLabel();
 	}

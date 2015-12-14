@@ -193,6 +193,11 @@ public class UserMode extends UIMode {
 		System.out.println("PDF");
 	}
 
+	/**
+	 * @author Will Spurgeon
+	 * Prompts the user to enter a file name and a file location.
+	 * Writes the user's directions to the specified location.
+	 */
 	public void onTxt() {
 		JFileChooser chooser = new JFileChooser();
 		chooser.showSaveDialog(chooser);
@@ -216,6 +221,10 @@ public class UserMode extends UIMode {
 		System.out.println("TXT");
 	}
 
+	/**
+	 * Displays a pop up prompting the user to enter an email address.
+	 * @return The user's email address.
+	 */
 	public String popUp() {
 		final JFrame parent = new JFrame();
 		// parent.add(button);
@@ -228,6 +237,10 @@ public class UserMode extends UIMode {
 
 	}
 
+	/**
+	 * @author Will Spurgeon
+	 * Prompts the user for an email address. An email with the user's directions are then sent.
+	 */
 	public void onEmail() {
 		Email email = new SimpleEmail();
 		email.setDebug(true);
@@ -325,6 +338,9 @@ public class UserMode extends UIMode {
 		graphicalMap.spawnMap();
 	}
 
+	/**
+	 * Builds and displays a pop up window containing all of the About information for the app.
+	 */
 	public void onAbout() {
 		JOptionPane aboutWindow = new JOptionPane();
 		JFrame aboutFrame = new JFrame("About Campus Mapper");
@@ -355,9 +371,11 @@ public class UserMode extends UIMode {
 		aboutWindow.createDialog(aboutFrame, "About Campus Mapper");
 		aboutFrame.setVisible(true);
 		aboutWindow.setVisible(true);
-
 	}
 
+	/**
+	 * Builds and displays the application User Guide in a pop up window.
+	 */
 	public void onGuide() {
 		// TODO Auto-generated method stub
 		JOptionPane aboutWindow = new JOptionPane();
