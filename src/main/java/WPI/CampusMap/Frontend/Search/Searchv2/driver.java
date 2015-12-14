@@ -27,7 +27,7 @@ public class driver {
 		mainTextField.setFocusTraversalKeysEnabled(false);
 		ArrayList<String> keywords;
 		// Our words to complete
-		keywords = AllPoints.getInstance().getAllPoints();
+		keywords = AllPoints.getInstance().getAllPointsShortName();
 		Autocomplete autoComplete = new Autocomplete(mainTextField, keywords);
 		mainTextField.getDocument().addDocumentListener(autoComplete);
 

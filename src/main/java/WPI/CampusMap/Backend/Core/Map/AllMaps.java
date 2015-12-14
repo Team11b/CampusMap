@@ -93,7 +93,6 @@ public class AllMaps {
 		HashSet<String> whitelist = new HashSet<String>();
 		whitelist.add(startMap);
 		String[] connectedToCampus = ((ProxyMap) getMap(CampusMap)).getConnectedMaps();
-
 		// If same map
 		if (startMap.equals(destinationMap)) {
 			if(startMap.equals(CampusMap)){
@@ -102,6 +101,9 @@ public class AllMaps {
 				}
 			}
 			// System.out.println("Same map");
+			for (String map : connectedToCampus) {
+				whitelist.add(map);
+			}
 			return whitelist;
 		}
 
@@ -158,7 +160,7 @@ public class AllMaps {
 
 		visited.add(current);
 		if (current.equals(dest)) {
-			 System.out.println("Found path:"+ current);
+//			 System.out.println("Found path:"+ current);
 			whiteList.add(current);
 			return true;
 		}
@@ -171,7 +173,7 @@ public class AllMaps {
 			if (!visited.contains(neighbor) && neighborBuilding.equals(currentBuilding)) {
 				if (buildingDepthFirstSearch(neighbor, dest, visited, whiteList)) {
 					whiteList.add(current);
-					System.out.println(current);
+//					System.out.println(current);
 					return true;
 				}
 			}

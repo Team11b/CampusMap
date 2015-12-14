@@ -11,7 +11,7 @@ import WPI.CampusMap.Backend.Core.Map.IMap;
 public class ProxyPoint implements IPoint {
 
 	private static final long serialVersionUID = 4456203165550908105L;
-	String pointId, mapName;
+	String pointId, mapName, displayName, displayId;
 	RealPoint realPoint;
 
 	public ProxyPoint(String fullName) {
@@ -167,5 +167,22 @@ public class ProxyPoint implements IPoint {
 	@Override
 	public String getBuilding() {
 		return this.getMap().split("-")[0];
+	}
+
+	@Override
+	public String getMapDisplayName() {	
+		if (displayName == null)
+			load();
+		if (realPoint != null)
+			displayName = realPoint.getMapDisplayName();
+		return displayName;		
+				
+	}
+
+	@Override
+	public String getDisplayName() {		
+		if (realPoint != null)
+			displayId = realPoint.getDisplayName();
+		return displayId;
 	}
 }

@@ -357,7 +357,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 					}
 				}
 				// add the floor to the top dropdown and setup for other				
-				JMenuItem mntmFloor = new JMenuItem(aMap.getName().replace('_', ' '));
+				JMenuItem mntmFloor = new JMenuItem(aMap.getDisplayName());
 				if (mnEx != null) {
 					mnEx.add(mntmFloor);
 					makeALMenuItem(mntmFloor, aMap.getName(), mnEx);
@@ -410,13 +410,13 @@ public class AppMainWindow extends JFrame implements Runnable {
 				}
 			});
 			for (IMap map : otherMapsInBuilding) {				
-				mapDropdown.add(map.getName().replace('_', ' '));
+				mapDropdown.add(map.getDisplayName());
 			}
 			
 		} else {
 			// load all the base
 			for (int i = 0; i < mnMaps.getItemCount(); i++) {
-				mapDropdown.add(mnMaps.getItem(i).getText().replace('_', ' '));
+				mapDropdown.add(mnMaps.getItem(i).getText().replace('_', ' ')); //add under displayName
 			}
 			
 		}
@@ -427,7 +427,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 		}
 
 		// show the current map when selecting from the other dropdown
-		mapDropdown.select(mapName.replace('_', ' '));
+		mapDropdown.select(currentMap.getDisplayName());
 
 		// add the listener
 		mapDropdown.addItemListener(new mapDropDownItemListener(mapName));
@@ -443,7 +443,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 		@Override
 		public void itemStateChanged(ItemEvent e) {
 			//for when a map is selected in the dropdown
-			String selectedMap = e.getItem().toString().replace(' ', '_');
+			String selectedMap = e.getItem().toString().replace(' ', '_'); //get realName from displayName
 			System.out.println("item selected " + selectedMap);
             System.out.println("mapname is "+mapName );			
 			

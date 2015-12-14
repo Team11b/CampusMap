@@ -103,7 +103,7 @@ public class PointList extends Panel
 		{
 			handler.pointDescriptorAdded(element);
 		}
-		
+
 		revalidate();
 		
 		return true;

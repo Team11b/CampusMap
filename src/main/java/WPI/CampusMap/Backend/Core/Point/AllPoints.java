@@ -3,6 +3,7 @@ package WPI.CampusMap.Backend.Core.Point;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Recording.Serialization.Serializer;
@@ -26,14 +27,11 @@ public class AllPoints implements Serializable{
 			synchronized (AllPoints.class) {
 				if (instance == null) {
 					instance = new AllPoints();
-					for(String name : Serializer.allPointsLoad()){
-						if(name.contains("/")){
-							AllPoints.allPoints.put(name.split("/")[1], name);
+					LinkedList<String> temp = Serializer.allPointsLoad(); 
+					if(temp != null){
+						for(String point: temp){
+							allPoints.put(point.split("/")[1], point);
 						}
-					}
-					if(allPoints == null){
-						allPoints = new HashMap<String, String>();
-						System.out.println("Still Null");
 					}
 				}
 			}
@@ -147,9 +145,16 @@ public class AllPoints implements Serializable{
 		return new ArrayList<String>(allPoints.values());
 	}
 
+
 	public void save() {
-//		System.out.println("Saving: " +getAllPoints());
-		Serializer.save(this);
+		for(String point : allPoints.keySet()){
+			if(!getPoint(allPoints.get(point)).exists()){
+				System.out.println("Point " + point + "does not exist, removing from allPoints.");
+				allPoints.remove(point);
+			}
+		}
+		
+		Serializer.save(new LinkedList<String>(allPoints.values()));
 		
 	}
 

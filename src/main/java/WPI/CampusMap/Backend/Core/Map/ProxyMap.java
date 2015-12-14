@@ -144,7 +144,7 @@ public class ProxyMap implements IMap, Serializable {
 			}
 			namedPoints = tempNamedPoints.toArray(new String[tempNamedPoints.size()]);
 			connectedMaps = tempConnectedMaps.toArray(new String[tempConnectedMaps.size()]);
-
+			AllPoints.getInstance().save();
 			// System.out.println(Arrays.toString(connectedMaps));
 			// System.out.println(Arrays.toString(namedPoints));
 			AllPoints.getInstance().save();
@@ -206,6 +206,23 @@ public class ProxyMap implements IMap, Serializable {
 	public ArrayList<IPoint> pointsConnectedToOtherMaps() {
 		load();
 		return realMap.pointsConnectedToOtherMaps();
+	}
+
+	@Override
+	public boolean unsavedChanged() {
+		load();
+		return realMap.unsavedChanged();
+	}
+
+	@Override
+	public void changed() {
+		load();
+		realMap.changed();
+	}
+		
+	public String getDisplayName() {
+		// TODO Auto-generated method stub
+		return getName().replace('_', ' ');
 	}
 
 }

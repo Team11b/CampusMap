@@ -31,7 +31,6 @@ public class RedoSerialization {
 	        		point.addNeighbor(new ProxyPoint(fullName));
 	        	}
 	        }
-
         	map.save();
 	      } 
 	    }
