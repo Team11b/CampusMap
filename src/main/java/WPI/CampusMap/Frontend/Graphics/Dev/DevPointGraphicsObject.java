@@ -3,9 +3,7 @@ package WPI.CampusMap.Frontend.Graphics.Dev;
 import java.awt.Color;
 import java.util.ArrayList;
 
-import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
-import WPI.CampusMap.Backend.Core.Point.RealPoint;
 import WPI.CampusMap.Frontend.Dev.EditorToolMode;
 import WPI.CampusMap.Frontend.Graphics.PointGraphicsObject;
 import WPI.CampusMap.Frontend.Graphics.RealMouseEvent;

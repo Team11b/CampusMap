@@ -1,7 +1,5 @@
 package WPI.CampusMap.Backend.PathPlanning;
 
-import WPI.CampusMap.Backend.Core.Map.AllMaps;
-
 public class DistanceProcessor extends NodeProcessor {
 	
 	public DistanceProcessor() {}

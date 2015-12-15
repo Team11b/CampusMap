@@ -5,7 +5,6 @@ import java.awt.Graphics2D;
 
 import javax.swing.ImageIcon;
 
-import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.Core.Point.RealPoint;
 import WPI.CampusMap.Frontend.Graphics.PointGraphicsObject;
 import WPI.CampusMap.Frontend.Graphics.RealMouseEvent;

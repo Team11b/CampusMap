@@ -2,7 +2,6 @@ package WPI.CampusMap.Frontend.UI;
 
 import java.awt.Choice;
 import java.awt.Label;
-import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.FocusEvent;
@@ -13,23 +12,18 @@ import java.util.ArrayList;
 import java.util.HashMap;
 
 import javax.swing.JComponent;
+import javax.swing.JLabel;
 import javax.swing.JSeparator;
+import javax.swing.JSpinner;
+import javax.swing.JTextField;
+import javax.swing.SpinnerNumberModel;
 import javax.swing.SpringLayout;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
-import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.Core.Point.RealPoint;
 import WPI.CampusMap.Frontend.Graphics.Dev.DevPointGraphicsObject;
-
-import javax.swing.JPanel;
-import java.awt.GridLayout;
-import javax.swing.JToggleButton;
-import javax.swing.SpinnerNumberModel;
-import javax.swing.JLabel;
-import javax.swing.JTextField;
-import javax.swing.JSpinner;
 
 public class AppDevModePointEditorControl extends JComponent {
 	private DevPointGraphicsObject point;

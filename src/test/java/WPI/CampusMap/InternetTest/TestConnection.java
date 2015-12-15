@@ -2,6 +2,10 @@ package WPI.CampusMap.InternetTest;
 
 import static org.junit.Assert.assertTrue;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -14,12 +18,6 @@ import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
-
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.UnknownHostException;
-import java.util.List;
 
 public class TestConnection {
 	@Rule

@@ -2,7 +2,6 @@ package WPI.CampusMap.Backend.PathPlanning;
 
 import java.util.Arrays;
 import java.util.Comparator;
-import java.util.List;
 
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Map.ProxyMap;

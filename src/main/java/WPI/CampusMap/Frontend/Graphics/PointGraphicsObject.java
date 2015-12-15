@@ -6,7 +6,6 @@ import java.awt.geom.Ellipse2D;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
-import WPI.CampusMap.Backend.Core.Point.RealPoint;
 
 public abstract class PointGraphicsObject<M extends GraphicalMap> extends GraphicsObject<IPoint, M>
 {
