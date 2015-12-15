@@ -12,36 +12,44 @@ import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
 
 public class AllTweets {
-	private LinkedList<Tweet> validtweets;
+	private static AllTweets instance;
+	private LinkedList<Tweet> tweets;
 	private LinkedList<Tweet> newtweets;
-	
-	
+
 	static String consumerKeyStr;
 	static String consumerSecretStr;
 	static String accessTokenStr;
 	static String accessTokenSecretStr;
-	
-	
-	public AllTweets() {
-		validtweets = new LinkedList<Tweet>();
+
+	private AllTweets() {
+		tweets = new LinkedList<Tweet>();
 		newtweets = new LinkedList<Tweet>();
 	}
-	
-	public LinkedList<Tweet> getValidTweets() {
-		update();
-		return this.validtweets;
+
+	public AllTweets getInstance() {
+		if (AllTweets.instance == null) {
+			synchronized (AllTweets.class) {
+				if (AllTweets.instance == null) {
+					instance = new AllTweets();
+				}
+			}
+		}
+		return AllTweets.instance;
 	}
-	
+
+	public LinkedList<Tweet> getAllTweets() {
+		update();
+		return this.tweets;
+	}
+
 	public LinkedList<Tweet> getNewTweets() {
 		update();
-		LinkedList<Tweet> copy = (LinkedList<Tweet>) this.newtweets.clone();
-		this.newtweets = new LinkedList<Tweet>();
-		return copy;
+		return this.newtweets;
 	}
 
 	private void update() {
 		consumerKeyStr = TwitterInformation.getPublicKey();
-		
+
 		try {
 			consumerSecretStr = TwitterInformation.getPrivateKey();
 			accessTokenStr = TwitterInformation.getPublicAccessToken();
@@ -49,7 +57,7 @@ public class AllTweets {
 		} catch (MissingKeyException e) {
 			e.printStackTrace();
 		}
-		
+
 		try {
 			Twitter twitter = new TwitterFactory().getInstance();
 
@@ -60,14 +68,14 @@ public class AllTweets {
 
 			List<Status> statuses = twitter.getMentionsTimeline();
 			Tweet newTweet = new Tweet();
-			
+
 			for (Status status : statuses) {
 				newTweet = new Tweet(status);
-				
+
 				if (newTweet.getValid()) {
-					if (!(validtweets.contains(newTweet))) {
+					if (!(tweets.contains(newTweet))) {
 						newtweets.add(newTweet);
-						validtweets.add(newTweet);
+						tweets.add(newTweet);
 					}
 				}
 			}
@@ -75,9 +83,7 @@ public class AllTweets {
 		} catch (TwitterException te) {
 			te.printStackTrace();
 		}
-		
+
 	}
-	
-	
 
 }

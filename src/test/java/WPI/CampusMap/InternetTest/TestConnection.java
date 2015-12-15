@@ -2,6 +2,10 @@ package WPI.CampusMap.InternetTest;
 
 import static org.junit.Assert.assertTrue;
 
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.List;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -9,17 +13,12 @@ import org.junit.rules.ExpectedException;
 
 import WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Twitter.Information.TwitterInformation;
 import WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Weather.Wunderground;
+import WPI.CampusMap.Backend.Exceptions.MissingKeyException;
 import twitter4j.Status;
 import twitter4j.Twitter;
 import twitter4j.TwitterException;
 import twitter4j.TwitterFactory;
 import twitter4j.auth.AccessToken;
-
-import java.io.IOException;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.UnknownHostException;
-import java.util.List;
 
 public class TestConnection {
 	@Rule
@@ -65,9 +64,27 @@ public class TestConnection {
 		exception.expect(UnsupportedOperationException.class);
 		//needs private twitter information
 		String consumerKeyStr = TwitterInformation.getPublicKey();
-		String consumerSecretStr = TwitterInformation.getPrivateKey();
-		String accessTokenStr = TwitterInformation.getPublicAccessToken();
-		String accessTokenSecretStr = TwitterInformation.getPrivateAccessToken();
+		String consumerSecretStr = null;
+		try {
+			consumerSecretStr = TwitterInformation.getPrivateKey();
+		} catch (MissingKeyException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		String accessTokenStr = null;
+		try {
+			accessTokenStr = TwitterInformation.getPublicAccessToken();
+		} catch (MissingKeyException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		String accessTokenSecretStr = null;
+		try {
+			accessTokenSecretStr = TwitterInformation.getPrivateAccessToken();
+		} catch (MissingKeyException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
 		
 		Twitter twitter = new TwitterFactory().getInstance();
 		twitter.setOAuthConsumer(consumerKeyStr, consumerSecretStr);
