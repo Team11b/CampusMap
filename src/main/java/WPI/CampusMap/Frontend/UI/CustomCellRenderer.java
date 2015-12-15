@@ -16,7 +16,7 @@ import WPI.CampusMap.Frontend.UI.AppUserModeControl.PathSectionTreeNode;
 
 /**
  * This is a custom JTree Cell renderer. Each cell gets a custom renderer based on what type of "Direction" it represents.
- * @author Will
+ * @author Will Spurgeon
  *
  */
 class CustomCellRenderer implements TreeCellRenderer{
