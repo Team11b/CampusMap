@@ -1,5 +1,7 @@
 package WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Twitter.Information;
 
+import java.util.LinkedList;
+
 import WPI.CampusMap.Backend.Exceptions.MissingKeyException;
 
 public class TwitterInformation {
@@ -8,6 +10,32 @@ public class TwitterInformation {
 	private static final String publicAccessToken = null;
 	private static final String privateAccessToken = null;
 	private static final String username = "team11b";
+	private static final String buildingHashtagsPath = "src/main/java/WPI/CampusMap/Backend/AdditionalFeatures/InternetFeatures/Twitter/Information/LocationNames.txt";
+	private static final String noBuildingFound = "nobuilding";
+	private static LinkedList<String> buildingHashtags; // lines starts at index
+														// 1 to ease copy over
+														// from the txt file
+
+	// Buildings
+	public static final String CC = "CC";
+	public static final String FL = "FL";
+	public static final String AK = "AK";
+	public static final String PG = "PG";
+	public static final String BH = "BH";
+	public static final String GL = "GL";
+	public static final String HH = "HH";
+	public static final String PC = "PC";
+	public static final String SH = "SH";
+	public static final String SDCC = "SDCC";
+	public static final String AH = "AH";
+	public static final String AG = "AG";
+	public static final String BC = "BC";
+	public static final String HA = "HA";
+	public static final String SL = "SL";
+	public static final String WS = "WS";
+	public static final String SR = "SR";
+	public static final String GP = "GP";
+	public static final String p85 = "85P";
 
 	private TwitterInformation() {
 	}
@@ -42,6 +70,18 @@ public class TwitterInformation {
 
 	public static String getUsername() {
 		return TwitterInformation.username;
+	}
+
+	public static String getBuilding(String hashtag) {
+		throw new UnsupportedOperationException("getBuilding not yet implemented.");
+	}
+
+	private static void loadBuildingHashtags() {
+		throw new UnsupportedOperationException("loadBuildingHashtags not yet implemented.");
+	}
+
+	private static String fixHashtag(String hashtag) {
+		throw new UnsupportedOperationException("fixHashtag not yet implemented.");
 	}
 
 }

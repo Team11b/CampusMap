@@ -8,16 +8,15 @@ import org.junit.Ignore;
 import org.junit.Test;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
-import WPI.CampusMap.Backend.Core.Point.Point;
-import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.Path.Path;
-import WPI.CampusMap.Backend.TravelPaths_DEPRECATED.PathFinding.Node.Node;
+import WPI.CampusMap.Backend.Core.Map.RealMap;
+import WPI.CampusMap.Backend.Core.Point.RealPoint;
+import WPI.CampusMap.Backend.PathPlanning.Node;
 
-@Ignore
 public class NodePathTest {
 	static Coord cOne, cTwo, cThree, cFour;
-	static Point one, two, three;
+	static RealPoint one, two, three;
+	static RealMap temp;
 	static Node nOne, nTwo, nThree;
-	static Path aPath;
 
 	@BeforeClass
 	public static void beforeClass() {
@@ -26,35 +25,22 @@ public class NodePathTest {
 		cThree = new Coord(2, 1);
 		cFour = new Coord(1, 2);
 
-		one = new Point(cOne, Point.OUT_DOOR, "alpha", "");
-		two = new Point(cTwo, Point.ELEVATOR, "beta", "");
-		three = new Point(cThree, Point.STAIRS, "gamma", "");
-		three = new Point(cThree, Point.STAIRS, "gamma", "");
+		one = new RealPoint(cOne, RealPoint.OUT_DOOR, "alpha", "temp");
+		two = new RealPoint(cTwo, RealPoint.ELEVATOR, "beta", "temp");
+		three = new RealPoint(cThree, RealPoint.STAIRS, "gamma", "temp");
+		three = new RealPoint(cThree, RealPoint.STAIRS, "gamma", "temp");
 
-		nOne = new Node(one, null,one);
-		nTwo = new Node(two, nOne, one);
-		nThree = new Node(three, nTwo, one);
-
-		aPath = new Path(1);
-		aPath.addNode(nThree);
-		aPath.addNode(nTwo);
-		aPath.addNode(nOne);
+		nOne = new Node(one, null, 0);
+		nTwo = new Node(two, nOne, 0);
+		nThree = new Node(three, nTwo, 0);
 	}
 
+	@Ignore
 	@Test
 	public void testCoordDist() {
 		assertTrue(cOne.distance(cTwo) == 0);
 		assertTrue(cOne.distance(cThree) == 1);
 		assertTrue(cOne.distance(cFour) == 1);
-	}
-
-	@Test
-	public void testPathReverse() {
-		aPath.reverse();
-
-		System.out.println(aPath.getPath());
-		assertTrue(nOne.getPoint().equals(aPath.getPath().get(0).getPoint()));
-
 	}
 
 	@Test

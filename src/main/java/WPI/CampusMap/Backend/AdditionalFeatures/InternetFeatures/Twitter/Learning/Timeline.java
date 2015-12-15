@@ -2,6 +2,8 @@ package WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Twitter.Learni
 
 import java.util.List;
 
+import javax.swing.JOptionPane;
+
 import WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Twitter.Information.TwitterInformation;
 import WPI.CampusMap.Backend.Exceptions.MissingKeyException;
 import twitter4j.Status;
@@ -21,7 +23,7 @@ public class Timeline {
 		consumerSecretStr = TwitterInformation.getPrivateKey();
 		accessTokenStr = TwitterInformation.getPublicAccessToken();
 		accessTokenSecretStr = TwitterInformation.getPrivateAccessToken();
-		
+
 		try {
 			Twitter twitter = new TwitterFactory().getInstance();
 
@@ -36,6 +38,7 @@ public class Timeline {
 			}
 
 		} catch (TwitterException te) {
+			JOptionPane.showMessageDialog(null, te.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 			te.printStackTrace();
 		}
 	}
