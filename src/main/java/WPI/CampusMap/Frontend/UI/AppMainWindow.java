@@ -335,7 +335,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 			mnMaps.removeAll();
 		}
 
-		String currentBuilding, currentFloor;
+		String currentBuilding;
 		ArrayList<String> ddBuildings = new ArrayList<String>();
 		for (int j = 0; j < listOfFiles.length; j++) {
 			if (mapStrings.get(j) != null) {
@@ -375,11 +375,8 @@ public class AppMainWindow extends JFrame implements Runnable {
 
 	private class topMapActionListener implements ActionListener {
 		private String mapName;
-		private JMenu building;
-
 		public topMapActionListener(String mapName, JMenu building) {
 			this.mapName = mapName;
-			this.building = building;
 		}
 
 		@Override

@@ -145,12 +145,11 @@ public class AppUserModeControl extends JComponent {
 		DefaultMutableTreeNode root = new DefaultMutableTreeNode("Directions");
 
 		String currentMap = null;
-		String displayName = null;
 		DefaultMutableTreeNode mapRoot = null;
 		for (Section section : path) {
 			if (currentMap == null || !section.getMap().equals(currentMap)) {
 				currentMap = section.getMap();
-				displayName = section.getDisplayName();
+				section.getDisplayName();
 				mapRoot = new MapSectionTreeNode(currentMap, section);
 				mapRoot.getUserObject();
 				root.add(mapRoot);
@@ -377,7 +376,7 @@ public class AppUserModeControl extends JComponent {
 	
 	/**
 	 * Expands all of the rows in the Directions tree.
-	 * @author Will
+	 * @author Will Spurgeon
 	 *
 	 */
 	private void expandTree(){
@@ -388,7 +387,7 @@ public class AppUserModeControl extends JComponent {
 	
 	/**
 	 * Collapses all of the rows in the Directions tree.
-	 * @author Will
+	 * @author Will Spurgeon
 	 *
 	 */
 	private void collapseTree(){
