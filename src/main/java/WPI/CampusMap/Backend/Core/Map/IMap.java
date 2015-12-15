@@ -30,4 +30,5 @@ public interface IMap {
 	public void save();
 	public boolean unsavedChanged();
 	public void changed();
+	String getFloorName();
 }

@@ -13,6 +13,8 @@ import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JOptionPane;
 
+import org.apache.commons.lang3.text.WordUtils;
+
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.Core.Point.RealPoint;
@@ -326,9 +328,31 @@ public class RealMap implements IMap, java.io.Serializable {
 		unsavedChanges = true;
 	}
 	
+	@Override
 	public String getDisplayName() {
-		// TODO Auto-generated method stub
-		return getName().replace('_', ' ');
+		
+		String building = getBuilding().replace("_", " ");
+		if(getName().equals("Campus_Map")){
+			return "Campus Map";
+		}
+		return building +" "+ getFloorName();
+	}
+	
+	@Override
+	public String getFloorName(){
+        String floorName = getName();
+		if(!getName().equals(AllMaps.getInstance().CampusMap)){
+			floorName = floorName.split("-")[1].trim();
+		}
+		
+		try{
+			floorName = "Floor " + Integer.parseInt(floorName);
+		}catch(NumberFormatException e){
+			floorName = WordUtils.capitalizeFully(floorName.replace("_", "  ")).replace("  ", "-");
+		}
+		
+		return floorName;
+		
 	}
 
 }
