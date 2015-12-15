@@ -1,18 +1,11 @@
 package WPI.CampusMap.Frontend.UI;
 
 import java.awt.Component;
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTree;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeCellRenderer;
-
-import org.hamcrest.core.IsInstanceOf;
-
-import WPI.CampusMap.Frontend.UI.AppUserModeControl.PathSectionTreeNode;
 
 /**
  * This is a custom JTree Cell renderer. Each cell gets a custom renderer based on what type of "Direction" it represents.
