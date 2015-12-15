@@ -17,7 +17,7 @@ public class TwitterInformation {
 														// from the txt file
 
 	// Buildings
-	public static final String CC = "CC";
+	public static final String CC = "Campus_Center";
 	public static final String FL = "FL";
 	public static final String AK = "AK";
 	public static final String PG = "PG";
