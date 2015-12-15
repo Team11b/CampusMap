@@ -1,5 +1,6 @@
 package WPI.CampusMap.Frontend.UI;
 
+import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
@@ -14,6 +15,9 @@ import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JTextArea;
+import javax.swing.JTextPane;
+import javax.swing.UIManager;
 
 import org.apache.commons.mail.DefaultAuthenticator;
 import org.apache.commons.mail.Email;
@@ -52,12 +56,6 @@ public class UserMode extends UIMode {
 
 	public UserMode(AppMainWindow window) {
 		super(window);
-	}
-
-	@Override
-	public void onModeEntered() {
-		// Execute changes to UI
-
 	}
 
 	@Override
@@ -402,7 +400,7 @@ public class UserMode extends UIMode {
 						+ "<p style=\"text-align: center;\">&nbsp;</p>\n"
 						+ "<p style=\"text-align: center;\">&nbsp;</p></html>");
 		guideFrame.add(textLabel);
-		guideFrame.setSize(500, 500);
+		guideFrame.setBounds(100, 100, 850, 750);
 		guideFrame.setVisible(true);
 		guideFrame.setLayout(new FlowLayout());
 

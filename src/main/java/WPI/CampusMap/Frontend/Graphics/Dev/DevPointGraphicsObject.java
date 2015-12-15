@@ -3,27 +3,17 @@ package WPI.CampusMap.Frontend.Graphics.Dev;
 import java.awt.Color;
 import java.util.ArrayList;
 
+import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.Core.Point.RealPoint;
 import WPI.CampusMap.Frontend.Dev.EditorToolMode;
 import WPI.CampusMap.Frontend.Graphics.PointGraphicsObject;
 import WPI.CampusMap.Frontend.Graphics.RealMouseEvent;
+import WPI.CampusMap.Frontend.UI.DevMode;
 
 public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
-{
-	private static DevPointGraphicsObject selected;
-	
-	public static DevPointGraphicsObject getSelected()
-	{
-		return selected;
-	}
-	
-	public static void clearSelection()
-	{
-		selected = null;
-	}
-	
-	public DevPointGraphicsObject(RealPoint backend, DevGraphicalMap owner)
+{	
+	public DevPointGraphicsObject(IPoint backend, DevGraphicalMap owner)
 	{
 		super(backend, owner);
 		
@@ -36,82 +26,14 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 		}
 	}
 	
-	/*public void convertToConnectionPoint(String type)
-	{
-		RealPoint point = getRepresentedObject();
-		if(point instanceof ConnectionPoint)
-		{
-			point.setType(type);
-			return;
-		}
-		
-		Coord copyCoord = new Coord(point.getCoord().getX(), point.getCoord().getY());
-		
-		ConnectionPoint connectionPoint = new ConnectionPoint(copyCoord, type, point.getId(), point.getMap());
-		
-		@SuppressWarnings("unchecked")
-		ArrayList<RealPoint> neighbors = (ArrayList<RealPoint>) point.getNeighborsP().clone();
-		
-		removeEdges();
-		getOwner().getMap().removePoint(point);
-		getOwner().getMap().addPoint(connectionPoint);
-		
-		setRepresentedObject(connectionPoint);
-		
-		for(RealPoint p : neighbors)
-		{
-			connectionPoint.addNeighbor(p);
-			createGraphicsEdge((RealPoint) getOwner().getObject(p).getRepresentedObject());
-		}
-		
-		AppUIObject.getInstance().onPointSelected(getRepresentedObject());
-	}*/
-	
-	/*public void convertToNormalPoint(String type)
-	{
-		RealPoint point = getRepresentedObject();
-		if(!(point instanceof ConnectionPoint))
-		{
-			point.setType(type);
-			return;
-		}
-		
-		ConnectionPoint connectionPoint = (ConnectionPoint)point;
-		
-		Coord copyCoord = new Coord(point.getCoord().getX(), point.getCoord().getY());
-		
-		Point normalPoint = new Point(copyCoord, type, point.getId(), point.getMap());
-		
-		@SuppressWarnings("unchecked")
-		ArrayList<Point> neighbors = (ArrayList<Point>) connectionPoint.getNeighborsP().clone();
-		
-		removeEdges();
-		getOwner().getMap().removePoint(connectionPoint);
-		getOwner().getMap().addPoint(normalPoint);
-		
-		setRepresentedObject(normalPoint);
-		
-		for(RealPoint p : neighbors)
-		{
-			normalPoint.addNeighbor(p);
-			createGraphicsEdge((RealPoint) getOwner().getObject(p).getRepresentedObject());
-		}
-		
-		AppUIObject.getInstance().onPointSelected(getRepresentedObject());
-	}*/
-	
-	public void select()
-	{
-		selected = this;
-	}
-	
 	@Override
 	public Color getColor() 
 	{
-		EditorToolMode mode = getOwner().getToolMode();
+		EditorToolMode mode = getOwnerMode(DevMode.class).getCurrentToolMode();
+		boolean isSelected = getOwnerMode(DevMode.class).isPointSelected(this);
 		if(mode == EditorToolMode.Point || mode == EditorToolMode.Edge || mode == EditorToolMode.DeletePoint || mode == EditorToolMode.None)
 		{
-			if(selected == this)
+			if(isSelected)
 			{
 				return Color.yellow;
 			}
@@ -123,10 +45,20 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 		
 		return super.getColor();
 	}
+	
+	public String getPointId()
+	{
+		return getRepresentedObject().getId();
+	}
+	
+	public String getPointType()
+	{
+		return getRepresentedObject().getType();
+	}
 
 	/**
 	 * Adds an edge between this node and another.
-	 * @param other The other graphical node to add an edge betwee.
+	 * @param other The other graphical node to add an edge between.
 	 */
 	public void addEdgeTo(DevPointGraphicsObject other)
 	{
@@ -140,18 +72,18 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 	public void onDeleted() 
 	{
 		removeEdges();
-		RealPoint ourPoint = getRepresentedObject();
+		IPoint ourPoint = getRepresentedObject();
 		getOwner().getMap().removePoint(ourPoint);
 	}
 	
 	public void removeEdges()
 	{
-		RealPoint ourPoint = getRepresentedObject();
+		IPoint ourPoint = getRepresentedObject();
 		ArrayList<IPoint> connections = ourPoint.getNeighborsP();
 		
 		for(IPoint other : connections)
 		{
-			DevEdgeGraphicsObject edge = DevEdgeGraphicsObject.getGraphicsEdge(ourPoint, other, getOwner());
+			DevEdgeGraphicsObject edge = getOwner().getGraphicalEdge(ourPoint, other);
 			if(ourPoint.getMap().equals(other.getMap())){
 				edge.delete();
 			}
@@ -161,31 +93,22 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 	@Override
 	public void onMouseClick(RealMouseEvent e) 
 	{
-		EditorToolMode mode = getOwner().getToolMode();
+		EditorToolMode mode = getOwnerMode(DevMode.class).getCurrentToolMode();
 		switch(mode)
 		{
 		case DeletePoint:
-			selected = null;
 			delete();
 			break;
 		case None:
 		case Point:
-			selected = this;
-			onSelected();
+			if(!e.isShiftDown())
+				getOwnerMode(DevMode.class).setSelectedPoint(this);
+			else
+				getOwnerMode(DevMode.class).addSelectedPoint(this);
 			break;
 		case Edge:
-			if(selected == null)
-			{
-				selected = this;
-			}
-			else
-			{
-				addEdgeTo(selected);
-				if(!e.isShiftDown())
-					selected = null;
-				else
-					selected = this;
-			}
+			getOwnerMode(DevMode.class).addSelectedPoint(this);
+			getOwner().makeEdgeBetweenSelected();
 			break;
 			default:
 				break;
@@ -195,7 +118,7 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 	@Override
 	public boolean isMouseOver(RealMouseEvent e)
 	{
-		if(getOwner().getToolMode() == EditorToolMode.DeleteEdge)
+		if(getOwnerMode(DevMode.class).getCurrentToolMode() == EditorToolMode.DeleteEdge)
 			return false;
 		
 		return super.isMouseOver(e);
@@ -204,9 +127,8 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 	/**
 	 * Called when this point has been selected
 	 */
-	private void onSelected()
+	public void onSelected()
 	{
-		selected = this;
 	}
 	
 	private void createGraphicsEdge(IPoint other)
@@ -214,8 +136,24 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 		DevEdgeGraphicsObject.createGraphicsEdge(getRepresentedObject(), other, getOwner());
 	}
 
-	public void setType(String type) {
-		RealPoint point = getRepresentedObject();
+	/**
+	 * Changes the underlying type of the point.
+	 * @param type The new type of the point.
+	 */
+	public void setType(String type)
+	{
+		IPoint point = getRepresentedObject();
 		point.setType(type);
+	}
+	
+	/**
+	 * Changes the id of the point.
+	 * @param newId The new id for the point to go by.
+	 * @return Returns if successful.
+	 */
+	public boolean setId(String newId)
+	{
+		IPoint point = getRepresentedObject();
+		return point.setId(newId);
 	}
 }

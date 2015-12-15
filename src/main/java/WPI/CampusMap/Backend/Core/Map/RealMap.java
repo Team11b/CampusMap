@@ -6,6 +6,7 @@ import java.io.File;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.UUID;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
@@ -168,6 +169,15 @@ public class RealMap implements IMap, java.io.Serializable {
 
 		return true;
 	}
+	
+	@Override
+	public IPoint createPoint(Coord location)
+	{
+		RealPoint point = new RealPoint(location, RealPoint.HALLWAY, UUID.randomUUID().toString(), getName());
+		addPoint(point);
+		
+		return point;
+	}
 
 	/**
 	 * Adds a point to the map. Does NOT connect the point to any other points.
@@ -238,10 +248,10 @@ public class RealMap implements IMap, java.io.Serializable {
 	 * Removes the given point and adds it back under the newName
 	 */
 	@Override
-	public void renamePoint(RealPoint p, String newName) {
+	public void renamePoint(RealPoint p, String newName)
+	{
 		allPoints.remove(p.getId());
 		allPoints.put(newName, p);
-		System.out.println("Renamed point to" + this.getPoint(newName));
 	}
 
 	/**

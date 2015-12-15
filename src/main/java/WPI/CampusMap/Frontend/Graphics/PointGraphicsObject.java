@@ -5,15 +5,16 @@ import java.awt.Graphics2D;
 import java.awt.geom.Ellipse2D;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
+import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.Core.Point.RealPoint;
 
-public abstract class PointGraphicsObject<M extends GraphicalMap> extends GraphicsObject<RealPoint, M>
+public abstract class PointGraphicsObject<M extends GraphicalMap> extends GraphicsObject<IPoint, M>
 {
-	private RealPoint backendPoint;
+	private IPoint backendPoint;
 	
 	private boolean isOver;
 	
-	public PointGraphicsObject(RealPoint backend, M owner)
+	public PointGraphicsObject(IPoint backend, M owner)
 	{
 		super(backend, owner);
 		this.backendPoint = backend;

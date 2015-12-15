@@ -79,10 +79,10 @@ public class ProxyPoint implements IPoint {
 	}
 
 	@Override
-	public void setId(String id) {
+	public boolean setId(String id) {
 		load();
 		pointId = id;
-		realPoint.setId(id);
+		return realPoint.setId(id);
 	}
 
 	@Override

@@ -196,16 +196,15 @@ public class AppMainWindow extends JFrame implements Runnable {
 		JMenu mnSettings = new JMenu("Settings");
 		menuBar.add(mnSettings);
 
-		// JCheckBoxMenuItem chckbxmntmDevMode = new JCheckBoxMenuItem("Dev
-		// Mode");
-		// chckbxmntmDevMode.setAction(devModeAction);
-		// mnSettings.add(chckbxmntmDevMode);
-
 		JMenu mnUnit = new JMenu("Units");
 		mnSettings.add(mnUnit);
 		JCheckBoxMenuItem chckbxUnit = new JCheckBoxMenuItem("Metric");
 		chckbxUnit.setAction(unitAction);
 		mnUnit.add(chckbxUnit);
+
+		JCheckBoxMenuItem chckbxmntmDevMode = new JCheckBoxMenuItem("Dev Mode");
+		chckbxmntmDevMode.setAction(devModeAction);
+		mnSettings.add(chckbxmntmDevMode);
 
 		renderThread = new Thread(this, "Render Thread");
 		renderThread.start();
@@ -223,7 +222,8 @@ public class AppMainWindow extends JFrame implements Runnable {
 	 * 
 	 * @return The current UI mode.
 	 */
-	public UIMode getUIMode() {
+	public UIMode getUIMode()
+	{
 		return currentMode;
 	}
 
@@ -232,7 +232,8 @@ public class AppMainWindow extends JFrame implements Runnable {
 	 * 
 	 * @return The current UI mode as a DevMode, null if not in dev mode.
 	 */
-	public DevMode getDevMode() {
+	public DevMode getDevMode()
+	{
 		if (currentMode instanceof DevMode)
 			return (DevMode) currentMode;
 		return null;
@@ -477,7 +478,8 @@ public class AppMainWindow extends JFrame implements Runnable {
 	 * @param point
 	 *            The point that represents the destination.
 	 */
-	public void addDestination(UserPointGraphicsObject point) {
+	public void addDestination(UserPointGraphicsObject point) 
+	{
 		userPanel.addDestination(point);
 	}
 
@@ -494,15 +496,9 @@ public class AppMainWindow extends JFrame implements Runnable {
 	 * @param path
 	 *            The new route.
 	 */
-	public void setRoute(Path path) {
+	public void setRoute(Path path)
+	{
 		userPanel.setRoute(path);
-	}
-
-	/**
-	 * Removes the current route in the GUI without loading in another one.
-	 */
-	public void clearRoute() {
-		throw new UnsupportedOperationException("not implemented");
 	}
 
 	/**
@@ -511,15 +507,17 @@ public class AppMainWindow extends JFrame implements Runnable {
 	 * @param selectedPoint
 	 *            The graphical point that has been selected.
 	 */
-	public void devPointSelected(DevPointGraphicsObject selectedPoint) {
-		throw new UnsupportedOperationException("not implemented");
+	public void devPointSelected(DevPointGraphicsObject selectedPoint)
+	{
+		devPanel.editPoint(selectedPoint);
 	}
 
 	/**
 	 * Clears the selection from the UI.
 	 */
-	public void devClearPointSelection() {
-		throw new UnsupportedOperationException("not implemented");
+	public void devClearAllSelection()
+	{
+		devPanel.clearSelection();
 	}
 
 	/**
@@ -528,8 +526,14 @@ public class AppMainWindow extends JFrame implements Runnable {
 	 * @param selectedEdge
 	 *            The selected edge.
 	 */
-	public void devEdgeSelected(DevEdgeGraphicsObject selectedEdge) {
+	public void devEdgeSelected(DevEdgeGraphicsObject selectedEdge)
+	{
 		throw new UnsupportedOperationException("not implemented");
+	}
+	
+	public void devLoadMap(IMap newMap)
+	{
+		devPanel.changeMapInfo(newMap);
 	}
 
 	@Override
@@ -568,9 +572,9 @@ public class AppMainWindow extends JFrame implements Runnable {
 	@SuppressWarnings("serial")
 	private class UnitAction extends AbstractAction {
 		public UnitAction() {
-			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_MASK));
-			putValue(NAME, "Unit");
-			putValue(SHORT_DESCRIPTION, "Switch metric and customary units.");
+			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_U, InputEvent.CTRL_MASK));
+			putValue(NAME, "Metric");
+			putValue(SHORT_DESCRIPTION, "Switch between metric and customary units.");
 		}
 
 		public void actionPerformed(ActionEvent e) {

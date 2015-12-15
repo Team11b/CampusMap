@@ -7,6 +7,7 @@ import java.util.HashSet;
 
 import javax.swing.ImageIcon;
 
+import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Point.AllPoints;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.Core.Point.RealPoint;
@@ -90,6 +91,12 @@ public class ProxyMap implements IMap, Serializable {
 	}
 
 	@Override
+	public IPoint createPoint(Coord location) {
+		load();
+		return realMap.createPoint(location);
+	}
+	
+	@Override
 	public boolean addPoint(RealPoint point) {
 		load();
 		return realMap.addPoint(point);
@@ -121,7 +128,8 @@ public class ProxyMap implements IMap, Serializable {
 
 			ArrayList<String> tempNamedPoints = new ArrayList<String>(8);
 			HashSet<String> tempConnectedMaps = new HashSet<String>(6);
-
+			
+			
 			for (RealPoint point : realMap.getAllPoints()) {
 				if (!point.getId().contains("-")) {
 					// System.out.println("Named Point");
@@ -132,12 +140,14 @@ public class ProxyMap implements IMap, Serializable {
 					// System.out.println("Connecting map: " + connectedMap);
 					tempConnectedMaps.add(connectedMap);
 				}
+				
 			}
 			namedPoints = tempNamedPoints.toArray(new String[tempNamedPoints.size()]);
 			connectedMaps = tempConnectedMaps.toArray(new String[tempConnectedMaps.size()]);
 			AllPoints.getInstance().save();
 			// System.out.println(Arrays.toString(connectedMaps));
 			// System.out.println(Arrays.toString(namedPoints));
+			AllPoints.getInstance().save();
 			Serializer.save(this);
 		}
 

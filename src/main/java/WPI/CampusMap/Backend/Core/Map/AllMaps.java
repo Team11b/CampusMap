@@ -93,9 +93,13 @@ public class AllMaps {
 		HashSet<String> whitelist = new HashSet<String>();
 		whitelist.add(startMap);
 		String[] connectedToCampus = ((ProxyMap) getMap(CampusMap)).getConnectedMaps();
-		
 		// If same map
 		if (startMap.equals(destinationMap)) {
+			if(startMap.equals(CampusMap)){
+				for (String map : connectedToCampus) {
+					whitelist.add(map);
+				}
+			}
 			// System.out.println("Same map");
 			for (String map : connectedToCampus) {
 				whitelist.add(map);

@@ -2,205 +2,228 @@ package WPI.CampusMap.Frontend.UI;
 
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
+import java.util.HashSet;
+import java.util.LinkedList;
 
-import WPI.CampusMap.Backend.Core.Map.AllMaps;
-import WPI.CampusMap.Backend.Core.Map.IMap;
+import WPI.CampusMap.Backend.Core.Point.AllPoints;
+import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Frontend.Dev.EditorToolMode;
 import WPI.CampusMap.Frontend.Graphics.Dev.DevGraphicalMap;
+import WPI.CampusMap.Frontend.Graphics.Dev.DevPointGraphicsObject;
 
-public class DevMode extends UIMode {
+
+public class DevMode extends UIMode 
+{	
 	private DevGraphicalMap graphicsMap;
-	protected IMap currentMap;
-
-	public static DevMode getInstance() {
-		return null;
-	}
-
-	private String pointID;
-	private String pointType;
-
-	public DevMode(AppMainWindow window) {
+	
+	private EditorToolMode currentToolMode;
+	
+	private HashSet<DevPointGraphicsObject> selectedPoints = new HashSet<>();
+	private LinkedList<DevPointGraphicsObject> selectedPointsList = new LinkedList<>();
+	
+	public DevMode(AppMainWindow window)
+	{
 		super(window);
 		setSelect();
 	}
-
+	
 	@Override
-	public void onModeEntered() {
-
-		// UIMode.setWindowText("Dev Mode");
-		// Switch label to textbox for scale
-		// Show and hide UI elements
-		// if(currentMap != null)
-		// graphicsMap = new DevGraphicalMap(currentMap, this);
-		graphicsMap.setToolMode(EditorToolMode.None);
-		// throw new NotImplementedException("getMap?");
+	public void gotoPoint(String name) 
+	{
+	}
+	
+	public void setSelect()
+	{		
+		currentToolMode = EditorToolMode.None;
 	}
 
-	@Override
-	public void gotoPoint(String name) {
+	public void setPlace()
+	{	
+		currentToolMode = EditorToolMode.Point;					
 	}
-
-	public void setSelect() {
-		System.out.println("Select Mode");
-		graphicsMap.setToolMode(EditorToolMode.None);
+	
+	public void setRemove()
+	{
+		currentToolMode = EditorToolMode.DeletePoint;		
 	}
-
-	public void setPlace() {
-		System.out.println("Place/create");
-		clearNodeInfo();
-
-		graphicsMap.setToolMode(EditorToolMode.Point);
+	
+	public void setEdge()
+	{				
+		currentToolMode = EditorToolMode.Edge;			
 	}
-
-	public void setRemove() {
-		System.out.println("Delete/remove");
-		clearNodeInfo();
-
-		graphicsMap.setToolMode(EditorToolMode.DeletePoint);
+	
+	public void setRemoveEdge()
+	{
+		currentToolMode = EditorToolMode.DeleteEdge;	
 	}
-
-	public void setEdge() {
-		System.out.println("Edge");
-		clearNodeInfo();
-
-		graphicsMap.setToolMode(EditorToolMode.Edge);
+	
+	public EditorToolMode getCurrentToolMode()
+	{
+		return currentToolMode;
 	}
-
-	public void setRemoveEdge() {
-		System.out.println("Delete Edge");
-		clearNodeInfo();
-
-		graphicsMap.setToolMode(EditorToolMode.DeleteEdge);
+	
+	public void clearSelectedPoints()
+	{
+		selectedPoints.clear();
+		selectedPointsList.clear();
+		
+		getWindow().devClearAllSelection();
 	}
-
-	public void save() {
-		System.out.println("Save");
-		graphicsMap.setToolMode(EditorToolMode.None);
-
-		clearNodeInfo();
-
-		currentMap.save();
-		// lblScale.setText("Scale: " + currentMap.getScale() + " inches per
-		// ft");
+	
+	public DevPointGraphicsObject[] getSelectedPoints()
+	{
+		DevPointGraphicsObject[] array = new DevPointGraphicsObject[selectedPoints.size()];
+		return selectedPoints.toArray(array);
 	}
-
-	public void setType(String Type) {
-		pointType = Type;
-		// set the typeselector
+	
+	/**
+	 * Clears the selection and sets the current selected point.
+	 * @param point The current selected point.
+	 */
+	public void setSelectedPoint(DevPointGraphicsObject point)
+	{
+		selectedPoints.clear();
+		selectedPointsList.clear();
+		addSelectedPoint(point);
 	}
-
-	public void setID(String Id) {
-		pointID = Id;
-		// set the textbox
-
+	
+	/**
+	 * Adds a new point to the selected points list.
+	 * @param point The point to add to the selection.
+	 */
+	public void addSelectedPoint(DevPointGraphicsObject point)
+	{
+		selectedPoints.add(point);
+		selectedPointsList.add(point);
+		
+		if(getSelectedPointCount() > 1)
+		{
+			
+		}
+		else if(getSelectedPointCount() == 1)
+		{
+			getWindow().devPointSelected(point);
+		}
+		else
+		{
+			getWindow().devClearAllSelection();
+		}
+		
+		point.onSelected();
 	}
-
-	public EditorToolMode getcurrentEditMode() {
-		return graphicsMap.getToolMode();
+	
+	/**
+	 * Checks to see if a point is marked as being selected.
+	 * @param point The point to check.
+	 * @return True if the point is marked as being selected.
+	 */
+	public boolean isPointSelected(DevPointGraphicsObject point)
+	{
+		return selectedPoints.contains(point);
 	}
-
-	public String getType() {
-		// pull from typeselector
-		return pointType;
+	
+	/**
+	 * Gets the number of points that have been marked as selected.
+	 * @return Number of Points that have been marked.
+	 */
+	public int getSelectedPointCount()
+	{
+		return selectedPoints.size();
 	}
-
-	public String getID() {
-		// pull from idtextbox
-		return pointID;
-	}
-
-	public void updateTypeID() {
-		// for saving and switching points after change
-	}
-
-	public void addConnect() {
-
-	}
-
-	private void clearNodeInfo() {
-		// typeSelector.setSelectedIndex(0);
-		// nodeTextField.setText("");
-	}
-
-	@Override
-	public final void onDraw(Graphics2D graphics) {
-		System.out.println("On Draw");
-		if (graphicsMap != null)
-			graphicsMap.onDraw(graphics);
-		/*
-		 * graphics.clearRect(0, 0, panel.getWidth(), panel.getWidth());
-		 * 
-		 * graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING,
-		 * RenderingHints.VALUE_ANTIALIAS_ON);
-		 * 
-		 * graphics.setTransform(transform);
-		 * 
-		 * if (map == null) return;
-		 * 
-		 * synchronized (this) { graphics.setColor(Color.white);
-		 * graphics.drawImage(map.getLoadedImage().getImage(), 0, 0,
-		 * panel.getWidth(), panel.getHeight(), null);
-		 * 
-		 * batchList.sort(new GraphicsBatchComparator()); for(int i = 0; i <
-		 * batchList.size(); i++) { GraphicsObject<?, ?> go = batchList.get(i);
-		 * if(go.isDelelted()) { batchList.remove(i);
-		 * 
-		 * i--; } else {
-		 * graphics.setComposite(AlphaComposite.getInstance(AlphaComposite.
-		 * SRC_OVER, go.getAlpha())); graphics.setColor(go.getColor());
-		 * go.onDraw(graphics); } } }
-		 */
+	
+	public void save()
+	{
+		graphicsMap.getMap().save();
 	}
 
 	@Override
-	public void onMouseClickMap(MouseEvent e) {
-		if (graphicsMap != null)
+	public final void onDraw(Graphics2D graphics)
+	{
+		if(graphicsMap != null)
+			graphicsMap.onDraw(graphics);	
+	}
+
+	@Override
+	public void onMouseClickMap(MouseEvent e)
+	{
+		if(graphicsMap != null)
 			graphicsMap.mouseClick(e);
-
 	}
 
 	@Override
-	public void onMouseEnterMap(MouseEvent e) {
-		// TODO Auto-generated method stub
-		if (graphicsMap != null)
+	public void onMouseEnterMap(MouseEvent e) 
+	{
+		if(graphicsMap != null)
 			graphicsMap.mouseEnter(e);
 	}
 
 	@Override
-	public void onMouseLeaveMap(MouseEvent e) {
-
-		if (graphicsMap != null)
-			graphicsMap.mouseExit(e);
-
+	public void onMouseLeaveMap(MouseEvent e) 
+	{
+		if(graphicsMap != null)
+			graphicsMap.mouseExit(e);		
 	}
 
 	@Override
 	public void onMouseMoveOverMap(MouseEvent e) {
-		if (graphicsMap != null)
+		if(graphicsMap != null)
 			graphicsMap.mouseMove(e);
 	}
 
 	@Override
 	public void onMouseDraggedOverMap(MouseEvent e) {
-		if (graphicsMap != null)
-			graphicsMap.mouseDrag(e);
-
+		if(graphicsMap != null)		
+			graphicsMap.mouseDrag(e);		
 	}
 
 	@Override
-	public void loadMap(String mapName) {
-		System.out.println("UI: " + mapName);
+	public void loadMap(String mapName)
+	{
+		clearSelectedPoints();
+		graphicsMap = new DevGraphicalMap(mapName, this);
+		graphicsMap.spawnMap();
+		getWindow().devLoadMap(graphicsMap.getMap());
+	}
+	
+	protected void pointDescriptorAdded(PointListElement element)
+	{
+		IPoint point = AllPoints.getInstance().getPoint(element.getCurrentName());
+		if(point == null)
+			return;
+		
+		selectedPointsList.getFirst().getRepresentedObject().addNeighbor(point);
+	}
+	
+	protected boolean pointDescriptorNameCheck(PointListElement element, String newName) 
+	{
+		IPoint point = AllPoints.getInstance().getPoint(newName);
+		return point != null;
+	}
+	
+	protected void pointDescriptorRenamed(PointListElement element, String oldName)
+	{
+		IPoint point = selectedPointsList.getFirst().getRepresentedObject();
+		point.removeNeighbor(oldName);
+		
+		IPoint neighbor = AllPoints.getInstance().getPoint(element.getCurrentName());
+		point.addNeighbor(neighbor);
+	}
+	
+	protected void pointDescriptorShown(PointListElement element)
+	{
+		IPoint neighbor = AllPoints.getInstance().getPoint(element.getCurrentName());
+		loadMap(neighbor.getMap());
+		setSelectedPoint((DevPointGraphicsObject) graphicsMap.getObject(neighbor));
+	}
+	
+	protected void pointDescriptorRemoved(PointListElement element)
+	{
+		IPoint point = selectedPointsList.getFirst().getRepresentedObject();
+		point.removeNeighbor(element.getCurrentName());
+	}
 
-		synchronized (this) {
-			System.out.println(mapName);
-
-			currentMap = AllMaps.getInstance().getMap(mapName);
-
-			if (graphicsMap != null)
-				graphicsMap.unload();
-			graphicsMap = new DevGraphicalMap(mapName, this);
-			graphicsMap.spawnMap();
-
-		}
+	protected void onMapScaleChanged(float newScale) 
+	{
+		graphicsMap.getMap().setScale(newScale);
 	}
 }
