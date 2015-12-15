@@ -13,6 +13,10 @@ import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.SpringLayout;
 
+import org.apache.commons.lang3.text.WordUtils;
+
+import WPI.CampusMap.Backend.Core.Map.AllMaps;
+
 public class PointListElement extends JPanel
 {
 	private String currentName;
@@ -25,6 +29,17 @@ public class PointListElement extends JPanel
 		this.list = list;
 		this.index = index;
 		this.currentName = name;
+		
+		String floorName = currentName.split("/")[0].replace("_", " ");
+		if(!currentName.equals(AllMaps.getInstance().CampusMap)){
+			floorName = floorName.split("-")[0].trim().replace("_", "-");
+		}
+		
+		try{
+			floorName = "Floor " + Integer.parseInt(floorName);
+		}catch(NumberFormatException e){
+			floorName = WordUtils.capitalizeFully(floorName);
+		}
 		
 		SpringLayout springLayout = new SpringLayout();
 		setLayout(springLayout);

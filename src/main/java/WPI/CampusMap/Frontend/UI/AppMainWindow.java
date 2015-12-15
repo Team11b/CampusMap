@@ -35,6 +35,8 @@ import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
 import javax.swing.SpringLayout;
 
+import org.apache.commons.lang3.text.WordUtils;
+
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Map.IMap;
 import WPI.CampusMap.Backend.PathPlanning.LocationPref;
@@ -339,7 +341,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 			if (mapStrings.get(j) != null) {
 				String fileName = mapStrings.get(j);
 				IMap aMap = AllMaps.getInstance().getMap(fileName);
-				currentBuilding = aMap.getBuilding();
+				currentBuilding = aMap.getBuilding().replace("_", " ");
 				JMenu mnEx = null;
 				
 				if (!ddBuildings.contains(currentBuilding)) {
@@ -353,8 +355,19 @@ public class AppMainWindow extends JFrame implements Runnable {
 							mnEx = (JMenu) mnMaps.getItem(i);
 					}
 				}
-				// add the floor to the top dropdown and setup for other				
-				JMenuItem mntmFloor = new JMenuItem(aMap.getDisplayName());
+				// add the floor to the top dropdown and setup for other	
+				String floorName = aMap.getName();
+				if(!aMap.getName().equals(AllMaps.getInstance().CampusMap)){
+				floorName = floorName.split("-")[1].trim().replace("_", "-");
+				}
+				
+				try{
+					floorName = "Floor " + Integer.parseInt(floorName);
+				}catch(NumberFormatException e){
+					floorName = WordUtils.capitalizeFully(floorName);
+				}
+				
+				JMenuItem mntmFloor = new JMenuItem(floorName);
 				if (mnEx != null) {
 					mnEx.add(mntmFloor);
 					makeALMenuItem(mntmFloor, aMap.getName(), mnEx);
@@ -395,7 +408,8 @@ public class AppMainWindow extends JFrame implements Runnable {
 		if (!mapName.equals("Campus_Map")) {
 			// Add the buildings
 			mapDropdown.add("Back to Campus Map");
-
+			
+			
 			ArrayList<IMap> otherMapsInBuilding = AllMaps.getInstance().getMapsInBuilding(currentMap.getBuilding());
 			otherMapsInBuilding.sort(new Comparator<IMap>() {
 				@Override
@@ -410,7 +424,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 		} else {
 			// load all the base
 			for (int i = 0; i < mnMaps.getItemCount(); i++) {
-				mapDropdown.add(mnMaps.getItem(i).getText().replace('_', ' ')); //add under displayName
+				mapDropdown.add(mnMaps.getItem(i).getText()); //add under displayName
 			}
 			
 		}
@@ -446,7 +460,7 @@ public class AppMainWindow extends JFrame implements Runnable {
             	if(!selectedMap.equals("Campus_Map")){
             		if(selectedMap.equals("Back_to_Campus_Map"))
             			selectedMap = "Campus_Map";                	
-            		else if(!selectedMap.equals("Project_Center"))
+            		else if(!selectedMap.equals("Project_Center")&&!selectedMap.equals("Harrington_Auditorium"))
 	           		    selectedMap = selectedMap + "-0";
 	           		else
 	           		    selectedMap = selectedMap + "-1";
