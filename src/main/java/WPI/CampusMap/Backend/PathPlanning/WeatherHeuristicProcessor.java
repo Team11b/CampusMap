@@ -28,8 +28,8 @@ public class WeatherHeuristicProcessor extends NodeProcessor {
 		
 		if (pref == LocationPref.WEATHER) {
 			if (node.getPoint().getMap().equals(WeatherHeuristicProcessor.campus)) {
-//				node.modifyHeuristicCost(score);
-//				node.setAccumulatedDistance(previousDist+ segment *(scoreDivisor + score)/scoreDivisor);
+				node.modifyHeuristicCost(score);
+				node.setAccumulatedDistance(previousDist+ segment *(scoreDivisor + score)/scoreDivisor);
 			} else {
 //				node.modifyHeuristicCost((-1) * score);
 //				node.setAccumulatedDistance(previousDist + segment *(scoreDivisor - score)/scoreDivisor);
