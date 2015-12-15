@@ -181,6 +181,10 @@ public class AppMainWindow extends JFrame implements Runnable {
 		JRadioButtonMenuItem rdbtnmntmUseWeather = new JRadioButtonMenuItem("Use Weather");
 		mnIndooroutdoor.add(rdbtnmntmUseWeather);
 		makeRoutingMenuItem(rdbtnmntmUseWeather,LocationPref.WEATHER,mnIndooroutdoor);
+		
+		JRadioButtonMenuItem rdbtnmntmNoPreference = new JRadioButtonMenuItem("No Preference");
+		mnIndooroutdoor.add(rdbtnmntmNoPreference);
+		makeRoutingMenuItem(rdbtnmntmNoPreference,LocationPref.NOPREF,mnIndooroutdoor);
 
 		menuBar.add(mnMaps);		
 		getMaps();
