@@ -64,6 +64,7 @@ public class AppDevModePointEditorControl extends JComponent {
 		typeSelector.add(RealPoint.ELEVATOR);
 		typeSelector.add(RealPoint.HALLWAY);
 		typeSelector.add(RealPoint.STAIRS);
+		typeSelector.add(RealPoint.OUT_DOOR);
 		typeSelector.addItemListener(new PointTypeChangedAction());
 		typeSelector.select(point.getPointType());
 		springLayout.putConstraint(SpringLayout.NORTH, typeSelector, 10, SpringLayout.SOUTH, nameField);
