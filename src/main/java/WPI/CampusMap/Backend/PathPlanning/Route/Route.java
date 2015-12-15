@@ -146,29 +146,28 @@ public class Route {
 		float distance = 0;
 		IPoint previous = null;
 		for(Section section: mp){
-			for(IPoint point:section){
-				if(point.getType().equals(RealPoint.STAIRS) && previous != null && previous.getType().equals(RealPoint.STAIRS)){
-					distance += 20;
-					continue;
-				}
-				if(point.getType().equals(RealPoint.ELEVATOR) && previous != null && previous.getType().equals(RealPoint.ELEVATOR)){
-					distance += 50;
-					continue;
-				}
-				if(point.getType().equals(RealPoint.OUT_DOOR) && previous != null && previous.getType().equals(RealPoint.OUT_DOOR)){
-					distance += 0;
-					continue;
-				}
-				if(previous != null){
+			for(IPoint point : section){
+				if(previous != null && !point.getMap().equals(previous.getMap())){
+					if(point.getType().equals(RealPoint.STAIRS) && previous.getType().equals(RealPoint.STAIRS)){
+						distance += 20;
+					}
+					if(point.getType().equals(RealPoint.ELEVATOR) && previous.getType().equals(RealPoint.ELEVATOR)){
+						//average time for elevator = 1 min
+						distance += 180;
+					}
+					if(point.getType().equals(RealPoint.OUT_DOOR) && previous.getType().equals(RealPoint.OUT_DOOR)){
+						distance += 0;
+					}
+				}else if(previous != null){
 					distance += point.distance(previous);
 				}
+				
 				previous = point;
+				System.out.println("At Point: "+point+" Total dist: "+ distance);
 			}
 		}
-
 		// http://www.bellaonline.com/articles/art20257.asp
 		float walkingSpeed = (float) 2.93; // feet per sec
-		// float walkingSpeed = (float) 4.11; //feet per sec
 		
 		return new Instruction(distance/walkingSpeed,previous);
 	}
