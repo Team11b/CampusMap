@@ -40,7 +40,7 @@ public class SMSClient {
 		params.add(new BasicNameValuePair("To", "+1" + number));
 		params.add(new BasicNameValuePair("From", "+16264145940"));
 
-		MessageFactory messageFactory = (MessageFactory) client.getAccount().getSmsFactory();
+		MessageFactory messageFactory = client.getAccount().getMessageFactory();
 		Message message = messageFactory.create(params);
 		System.out.println(message.getSid());
 	}
