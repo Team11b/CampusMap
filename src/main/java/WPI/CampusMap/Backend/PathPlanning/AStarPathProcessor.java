@@ -75,9 +75,9 @@ public class AStarPathProcessor extends PathProcessor {
 			// else if ((!(p1.connectToCampus())) && (p2.connectToCampus())) {
 			// return 1;
 			// }
-			System.out.println("Neither, P1: "+ p1+", P2: "+p2);
-			System.out.println("P1: " + (p1.connectToCampus()|| p1.getMap().equals(campusMap)));
-			System.out.println("P2: " + (p2.connectToCampus()|| p2.getMap().equals(campusMap)));
+//			System.out.println("Neither, P1: "+ p1+", P2: "+p2);
+//			System.out.println("P1: " + (p1.connectToCampus()|| p1.getMap().equals(campusMap)));
+//			System.out.println("P2: " + (p2.connectToCampus()|| p2.getMap().equals(campusMap)));
 			return Float.compare(n1.getTotalCost(), n2.getTotalCost());
 
 		}

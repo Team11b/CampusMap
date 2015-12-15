@@ -163,7 +163,6 @@ public class Route {
 				}
 				
 				previous = point;
-				System.out.println("At Point: "+point+" Total dist: "+ distance);
 			}
 		}
 		// http://www.bellaonline.com/articles/art20257.asp

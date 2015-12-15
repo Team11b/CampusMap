@@ -5,7 +5,6 @@ import WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Weather.Weather
 public class WeatherHeuristicProcessor extends NodeProcessor {
 	private LocationPref pref;
 
-	// TODO check that this is right
 	private static final String campus = "Campus_Map";
 
 	private static final float modifier = (float) 50.0;

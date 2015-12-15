@@ -148,7 +148,7 @@ public class AllMaps {
 		return new HashSet<String>();
 	}
 
-	private boolean buildingDepthFirstSearch(String current, String dest, ArrayList<String> visited,
+	private boolean buildingDepthFirstSearch(String current, String dest, ArrayList<String> stack,
 			HashSet<String> whiteList) {
 
 		String currentBuilding = current.split("-")[0];
@@ -159,7 +159,8 @@ public class AllMaps {
 			return false;
 		}
 
-		visited.add(current);
+		stack = new ArrayList<String>(stack);
+		stack.add(current);
 		if (current.equals(dest)) {
 //			 System.out.println("Found path:"+ current);
 			whiteList.add(current);
@@ -171,8 +172,8 @@ public class AllMaps {
 		for (String neighbor : ((ProxyMap) getMap(current)).getConnectedMaps()) {
 			String neighborBuilding = neighbor.split("-")[0];
 
-			if (!visited.contains(neighbor) && neighborBuilding.equals(currentBuilding)) {
-				if (buildingDepthFirstSearch(neighbor, dest, visited, whiteList)) {
+			if (!stack.contains(neighbor) && neighborBuilding.equals(currentBuilding)) {
+				if (buildingDepthFirstSearch(neighbor, dest, stack, whiteList)) {
 					whiteList.add(current);
 //					System.out.println(current);
 					return true;
