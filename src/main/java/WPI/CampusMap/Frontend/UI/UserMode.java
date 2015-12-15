@@ -45,7 +45,8 @@ import WPI.CampusMap.Backend.PathPlanning.Route.Route;
 import WPI.CampusMap.Frontend.Graphics.User.UserGraphicalMap;
 import WPI.CampusMap.Frontend.Graphics.User.UserPointGraphicsObject;
 
-public class UserMode extends UIMode {
+public class UserMode extends UIMode
+{
 	private UserGraphicalMap graphicalMap;
 
 	private LinkedList<IPoint> destinations = new LinkedList<>();
@@ -328,6 +329,20 @@ public class UserMode extends UIMode {
 	public void onMouseClickMap(MouseEvent e) {
 		if (graphicalMap != null)
 			graphicalMap.mouseClick(e);
+	}
+	
+	@Override
+	public void onMousePressedMap(MouseEvent e) 
+	{
+		if (graphicalMap != null)
+			graphicalMap.mouseDown(e);
+	}
+
+	@Override
+	public void onMouseReleaseMap(MouseEvent e)
+	{
+		if (graphicalMap != null)
+			graphicalMap.mouseUp(e);
 	}
 
 	@Override

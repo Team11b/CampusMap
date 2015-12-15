@@ -38,6 +38,10 @@ public abstract class UIMode {
 	
 	public abstract void onMouseClickMap(MouseEvent e);
 	
+	public abstract void onMousePressedMap(MouseEvent e);
+	
+	public abstract void onMouseReleaseMap(MouseEvent e);
+	
 	public abstract void onMouseEnterMap(MouseEvent e);
 	
 	public abstract void onMouseLeaveMap(MouseEvent e);

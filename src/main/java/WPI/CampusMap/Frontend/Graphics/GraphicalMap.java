@@ -46,6 +46,10 @@ public abstract class GraphicalMap {
 	private UIMode mode;
 	
 	private float linearZoomLevel;
+	
+	private boolean isDraggin;
+	
+	private Coord lastDragImageLocation;
 
 	/**
 	 * Creates a new graphical map from a backend map.
@@ -380,12 +384,14 @@ public abstract class GraphicalMap {
 	 *            The mouse event to cause the event.
 	 * @return True to block the call continuing to the hover object.
 	 */
-	public boolean onMouseExit(RealMouseEvent e) {
+	public boolean onMouseExit(RealMouseEvent e) 
+	{
 		return false;
 	}
 
 	public final void mouseClick(MouseEvent e) {
-		synchronized (this) {
+		synchronized (this)
+		{
 			RealMouseEvent re = transformMouseEvent(e);
 			if (onMouseClick(re))
 				return;
@@ -403,10 +409,55 @@ public abstract class GraphicalMap {
 	 *            The mouse event to cause the event.
 	 * @return True to block the call continuing to the hover object.
 	 */
-	public boolean onMouseClick(RealMouseEvent e) {
+	public boolean onMouseClick(RealMouseEvent e)
+	{
 		return false;
 	}
+	
+	public final void mouseDown(MouseEvent e)
+	{
+		synchronized (this)
+		{
+			RealMouseEvent re = transformMouseEvent(e);
+			if (onMouseDown(re))
+				return;
+		}
+	}
+	
+	/**
+	 * Called when the mouse presses down on the graphical map.
+	 * @param e The mouse event to cause the event.
+	 * @return True to block the call from continuing to the hover object.
+	 */
+	public boolean onMouseDown(RealMouseEvent e)
+	{
+		lastDragImageLocation = e.getImageCoord();
+		
+		return true;
+	}
+	
+	public final void mouseUp(MouseEvent e)
+	{
+		synchronized (this)
+		{
+			RealMouseEvent re = transformMouseEvent(e);
+			if (onMouseUp(re))
+				return;
+		}
+	}
 
+	/**
+	 * Called when the mouse is released over the graphical map.
+	 * @param e
+	 * @return
+	 */
+	public boolean onMouseUp(RealMouseEvent e)
+	{
+		
+		
+		return false;
+	}
+	
 	public final void mouseDrag(MouseEvent e) {
 		synchronized (this) {
 			RealMouseEvent re = transformMouseEvent(e);
@@ -426,19 +477,34 @@ public abstract class GraphicalMap {
 	 *            The mouse event to cause the event.
 	 * @return True to block the call continuing to the hover object.
 	 */
-	public boolean onMouseDrag(RealMouseEvent e) {
-		return false;
+	public boolean onMouseDrag(RealMouseEvent e)
+	{
+		float deltaX = e.getImageCoord().getX() - lastDragImageLocation.getX();
+		float deltaY = e.getImageCoord().getY() - lastDragImageLocation.getY();
+		
+		float newCameraX = cameraPosition.getX() - deltaX;
+		float newCameraY = cameraPosition.getY() - deltaY;
+		
+		cameraPosition.setX(newCameraX);
+		cameraPosition.setY(newCameraY);
+		
+		//With the camera shifting, the image location of the mouse will be wrong because the cursor does not move with the camera.
+		//So we can re-calculate its location from the screen coordinates.
+		lastDragImageLocation = getRenderFromScreen(e.getScreenCoord());
+		
+		
+		return true;
 	}
 	
 	public void mouseScrolled(int unitsToScroll)
 	{
-		float scrollAmount = (float)-unitsToScroll * 0.1f;
+		float scrollAmount = (float)-unitsToScroll * 0.01f;
 		linearZoomLevel += scrollAmount;
 		
-		if(linearZoomLevel < 0)
-			linearZoomLevel = 0;
-		else if(linearZoomLevel > 2)
-			linearZoomLevel = 2;
+		if(linearZoomLevel < 0.5f)
+			linearZoomLevel = 0.5f;
+		else if(linearZoomLevel > 2.5f)
+			linearZoomLevel = 2.5f;
 	}
 
 	public final IMap getMap() {

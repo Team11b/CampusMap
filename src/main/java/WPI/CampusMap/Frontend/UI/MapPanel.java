@@ -76,15 +76,21 @@ public class MapPanel extends JPanel
 		@Override
 		public void mousePressed(MouseEvent e)
 		{
-			// TODO Auto-generated method stub
+			AppMainWindow window = (AppMainWindow) SwingUtilities.getWindowAncestor(e.getComponent());
 			
+			UIMode mode = window.getUIMode();
+			if(mode != null)
+				window.getUIMode().onMousePressedMap(e);
 		}
 
 		@Override
 		public void mouseReleased(MouseEvent e)
 		{
-			// TODO Auto-generated method stub
+			AppMainWindow window = (AppMainWindow) SwingUtilities.getWindowAncestor(e.getComponent());
 			
+			UIMode mode = window.getUIMode();
+			if(mode != null)
+				window.getUIMode().onMouseReleaseMap(e);
 		}
 
 		@Override
