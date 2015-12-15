@@ -9,7 +9,7 @@ public class WeatherHeuristicProcessor extends NodeProcessor {
 	private static final String campus = "Campus_Map";
 
 	private static final float modifier = (float) 100.0;
-	private static final float scoreDivisor = 80;
+	private static final float scoreDivisor = 4000;
 
 	public WeatherHeuristicProcessor() {
 	}
@@ -30,21 +30,21 @@ public class WeatherHeuristicProcessor extends NodeProcessor {
 				node.modifyHeuristicCost(score);
 				node.setAccumulatedDistance(previousDist+ segment *(scoreDivisor + score)/scoreDivisor);
 			} else {
-				node.modifyHeuristicCost((-1) * score);
-				node.setAccumulatedDistance(previousDist + segment *(scoreDivisor - score)/scoreDivisor);
+//				node.modifyHeuristicCost((-1) * score);
+//				node.setAccumulatedDistance(previousDist + segment *(scoreDivisor - score)/scoreDivisor);
 			}
 		} else if (pref == LocationPref.INSIDE) {
 			if (node.getPoint().getMap().equals(WeatherHeuristicProcessor.campus)) {
 				node.modifyHeuristicCost(WeatherHeuristicProcessor.modifier);
 				node.setAccumulatedDistance(previousDist + segment *(scoreDivisor + modifier)/scoreDivisor);
 			} else {
-				node.modifyHeuristicCost((-1) * WeatherHeuristicProcessor.modifier);
-				node.setAccumulatedDistance(previousDist + segment *(scoreDivisor - modifier)/scoreDivisor);
+//				node.modifyHeuristicCost((-1) * WeatherHeuristicProcessor.modifier);
+//				node.setAccumulatedDistance(previousDist + segment *(scoreDivisor - modifier)/scoreDivisor);
 			}
 		} else if (pref == LocationPref.OUTSIDE) {
 			if (node.getPoint().getMap().equals(WeatherHeuristicProcessor.campus)) {
-				node.modifyHeuristicCost((-1) * WeatherHeuristicProcessor.modifier);
-				node.setAccumulatedDistance(previousDist + segment *(scoreDivisor - modifier)/scoreDivisor);
+//				node.modifyHeuristicCost((-1) * WeatherHeuristicProcessor.modifier);
+//				node.setAccumulatedDistance(previousDist + segment *(scoreDivisor - modifier)/scoreDivisor);
 			} else {
 				node.modifyHeuristicCost(WeatherHeuristicProcessor.modifier);
 				node.setAccumulatedDistance(previousDist + segment *(scoreDivisor + modifier)/scoreDivisor);
