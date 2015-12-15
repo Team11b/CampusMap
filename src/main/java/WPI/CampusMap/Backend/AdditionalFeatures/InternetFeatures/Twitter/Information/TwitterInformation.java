@@ -17,22 +17,22 @@ public class TwitterInformation {
 														// from the txt file
 
 	// Buildings
-	public static final String CC = "CC";
-	public static final String FL = "FL";
-	public static final String AK = "AK";
+	public static final String CC = "Campus_Center";
+	public static final String FL = "Fuller_Labs";
+	public static final String AK = "Atwater_Kent";
 	public static final String PG = "PG";
-	public static final String BH = "BH";
-	public static final String GL = "GL";
-	public static final String HH = "HH";
-	public static final String PC = "PC";
-	public static final String SH = "SH";
+	public static final String BH = "Boyton_Hall";
+	public static final String GL = "Gordon_Library";
+	public static final String HH = "Higgins_House";
+	public static final String PC = "Project_Center";
+	public static final String SH = "Stratton_Hall";
 	public static final String SDCC = "SDCC";
-	public static final String AH = "AH";
+	public static final String AH = "Alden_Hall";
 	public static final String AG = "AG";
 	public static final String BC = "BC";
-	public static final String HA = "HA";
-	public static final String SL = "SL";
-	public static final String WS = "WS";
+	public static final String HA = "Harrington_Auditorium";
+	public static final String SL = "Salisbury_Labs";
+	public static final String WS = "Washburn_Shops";
 	public static final String SR = "SR";
 	public static final String GP = "GP";
 	public static final String p85 = "85P";
