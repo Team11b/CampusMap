@@ -31,21 +31,21 @@ public class AStarPathProcessor extends PathProcessor {
 			IPoint p2 = n2.getPoint();
 			IPoint pGoal = goal.getPoint();
 			String campusMap = AllMaps.getInstance().CampusMap;
-			List<String> connectedToCampus = Arrays.asList(((ProxyMap) AllMaps.getInstance().getMap(campusMap)).getConnectedMaps());
 
-//			if(p1.connectToCampus()|| p1.getMap().equals(campusMap)
-//				&& (p2.connectToCampus()|| p1.getMap().equals(campusMap))){
-//				return Float.compare(n1.getTotalCost(), n2.getTotalCost());
-//			}
-//			
-//			// on map with goal
-//			if ((p1.getMap().equals(pGoal.getMap()) && (!(p2.getMap().equals(pGoal.getMap()))))) {
-//				return -1;
-//			} else if ((!(p1.getMap().equals(pGoal.getMap())) && ((p2.getMap().equals(pGoal.getMap()))))) {
-//				return 1;
-//			} else if ((p1.getMap().equals(pGoal.getMap()) && (p2.getMap().equals(pGoal.getMap())))) {
-//				return Float.compare(n1.getTotalCost(), n2.getTotalCost());
-//			}
+			if(p1.connectToCampus()|| p1.getMap().equals(campusMap)
+				&& (p2.connectToCampus()|| p1.getMap().equals(campusMap))){
+//				System.out.println("Connected to campus");
+				return Float.compare(n1.getTotalCost(), n2.getTotalCost());
+			}
+			
+			// on map with goal
+			if ((p1.getMap().equals(pGoal.getMap()) && (!(p2.getMap().equals(pGoal.getMap()))))) {
+				return -1;
+			} else if ((!(p1.getMap().equals(pGoal.getMap())) && ((p2.getMap().equals(pGoal.getMap()))))) {
+				return 1;
+			} else if ((p1.getMap().equals(pGoal.getMap()) && (p2.getMap().equals(pGoal.getMap())))) {
+				return Float.compare(n1.getTotalCost(), n2.getTotalCost());
+			}
 //
 //			// on building with goal
 //			if ((p1.getBuilding().equals(pGoal.getBuilding())) && (!(p2.getBuilding().equals(pGoal.getBuilding())))) {
@@ -75,7 +75,9 @@ public class AStarPathProcessor extends PathProcessor {
 			// else if ((!(p1.connectToCampus())) && (p2.connectToCampus())) {
 			// return 1;
 			// }
-
+			System.out.println("Neither, P1: "+ p1+", P2: "+p2);
+			System.out.println("P1: " + (p1.connectToCampus()|| p1.getMap().equals(campusMap)));
+			System.out.println("P2: " + (p2.connectToCampus()|| p2.getMap().equals(campusMap)));
 			return Float.compare(n1.getTotalCost(), n2.getTotalCost());
 
 		}

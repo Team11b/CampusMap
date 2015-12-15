@@ -8,8 +8,9 @@ public class WeatherHeuristicProcessor extends NodeProcessor {
 	// TODO check that this is right
 	private static final String campus = "Campus_Map";
 
-	private static final float modifier = (float) 100.0;
-	private static final float scoreDivisor = 4000;
+	private static final float modifier = (float) 50.0;
+	private static final float scoreDivisor = 100;
+	private float score;
 
 	public WeatherHeuristicProcessor() {
 	}
@@ -17,6 +18,7 @@ public class WeatherHeuristicProcessor extends NodeProcessor {
 	public WeatherHeuristicProcessor(NodeProcessor child, LocationPref pref) {
 		super(child);
 		this.pref = pref;
+		if(pref == LocationPref.WEATHER) this.score = (float) WeatherAnalysis.getWeatherScore();;
 	}
 
 	@Override
@@ -25,10 +27,9 @@ public class WeatherHeuristicProcessor extends NodeProcessor {
 		float previousDist = node.getLast().getAccumulatedDistance();
 		
 		if (pref == LocationPref.WEATHER) {
-			float score = (float) WeatherAnalysis.getWeatherScore();
 			if (node.getPoint().getMap().equals(WeatherHeuristicProcessor.campus)) {
-				node.modifyHeuristicCost(score);
-				node.setAccumulatedDistance(previousDist+ segment *(scoreDivisor + score)/scoreDivisor);
+//				node.modifyHeuristicCost(score);
+//				node.setAccumulatedDistance(previousDist+ segment *(scoreDivisor + score)/scoreDivisor);
 			} else {
 //				node.modifyHeuristicCost((-1) * score);
 //				node.setAccumulatedDistance(previousDist + segment *(scoreDivisor - score)/scoreDivisor);

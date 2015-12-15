@@ -19,17 +19,24 @@ public class BetweenMapsProcessor extends NodeProcessor {
 
 	@Override
 	protected void onProcessNode(Node node, Node goal) {
+		
+		float segment = node.getAccumulatedDistance()-node.getLast().getAccumulatedDistance();
+		float previousDist = node.getLast().getAccumulatedDistance();
+		
 		if (node.getPoint().getMap().equals(node.getLast().getPoint().getMap())) {
 			node.modifyHeuristicCost(BetweenMapsProcessor.NO_COST);
 		}
 		else if (node.getPoint().getType().equals(RealPoint.OUT_DOOR)) {
 			node.modifyHeuristicCost(BetweenMapsProcessor.DOOR_COST);
+//			node.setAccumulatedDistance(previousDist + BetweenMapsProcessor.DOOR_COST);
 		}
 		else if (node.getPoint().getType().equals(RealPoint.ELEVATOR)) {
 			node.modifyHeuristicCost(BetweenMapsProcessor.ELV_COST);
+//			node.setAccumulatedDistance(previousDist + BetweenMapsProcessor.ELV_COST);
 		}
 		else {
 			node.modifyHeuristicCost(BetweenMapsProcessor.STAIR_COST);
+//			node.setAccumulatedDistance(previousDist + BetweenMapsProcessor.STAIR_COST);
 		}
 
 	}

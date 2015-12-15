@@ -281,8 +281,9 @@ public class RealMap implements IMap, java.io.Serializable {
 
 	@Override
 	public boolean connectedToCampus() {
-		if(getName() == "CampusMap") return true;
-		return Arrays.asList(((ProxyMap) AllMaps.getInstance().getMap("CampusMap")).getConnectedMaps()).contains(getName());
+		String campusMap = AllMaps.getInstance().CampusMap;
+		if(getName() == campusMap) return true;
+		return Arrays.asList(((ProxyMap) AllMaps.getInstance().getMap(campusMap)).getConnectedMaps()).contains(getName());
 	}
 
 	@Override

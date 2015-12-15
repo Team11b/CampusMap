@@ -178,8 +178,8 @@ public class ProxyMap implements IMap, Serializable {
 
 	@Override
 	public boolean connectedToCampus() {
-		// TODO Auto-generated method stub
-		return false;
+		load();
+		return realMap.connectedToCampus();
 	}
 
 	@Override
