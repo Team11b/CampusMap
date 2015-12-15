@@ -175,6 +175,13 @@ public class DevMode extends UIMode
 		if(graphicsMap != null)		
 			graphicsMap.mouseDrag(e);		
 	}
+	
+	@Override
+	public void onMouseScrollOnMap(int unitsToScroll)
+	{
+		if(graphicsMap != null)
+			graphicsMap.mouseScrolled(unitsToScroll);
+	}
 
 	@Override
 	public void loadMap(String mapName)
@@ -226,4 +233,6 @@ public class DevMode extends UIMode
 	{
 		graphicsMap.getMap().setScale(newScale);
 	}
+
+	
 }

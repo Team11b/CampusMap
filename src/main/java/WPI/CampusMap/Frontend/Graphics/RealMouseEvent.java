@@ -4,14 +4,15 @@ import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 
 public class RealMouseEvent
 {
-	private Coord worldCoords, imageCoords;
+	private Coord worldCoords, imageCoords, screenCoords;
 	private boolean isAlt, isCtrl, isShift;
 	private int button;
 	
-	public RealMouseEvent(Coord worldCoords, Coord imageCoords, int button, boolean isAlt, boolean isCtrl, boolean isShift)
+	public RealMouseEvent(Coord worldCoords, Coord imageCoords, Coord screenCoords, int button, boolean isAlt, boolean isCtrl, boolean isShift)
 	{
 		this.worldCoords = worldCoords;
 		this.imageCoords = imageCoords;
+		this.screenCoords = screenCoords;
 		this.button = button;
 		this.isAlt = isAlt;
 		this.isCtrl = isCtrl;
@@ -26,6 +27,11 @@ public class RealMouseEvent
 	public Coord getImageCoord()
 	{
 		return imageCoords;
+	}
+	
+	public Coord getScreenCoord()
+	{
+		return screenCoords;
 	}
 	
 	public boolean isAltDown()

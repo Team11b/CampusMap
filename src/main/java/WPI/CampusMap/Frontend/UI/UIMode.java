@@ -45,4 +45,6 @@ public abstract class UIMode {
 	public abstract void onMouseMoveOverMap(MouseEvent e);
 	
 	public abstract void onMouseDraggedOverMap(MouseEvent e);
+
+	public abstract void onMouseScrollOnMap(int unitsToScroll);
 }

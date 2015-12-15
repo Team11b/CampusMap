@@ -3,6 +3,9 @@ package WPI.CampusMap.Frontend.UI;
 import java.awt.Graphics;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseWheelEvent;
+import java.awt.event.MouseWheelListener;
+
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 import javax.swing.event.MouseInputListener;
@@ -14,6 +17,7 @@ public class MapPanel extends JPanel
 		MouseEvents events = new MouseEvents();
 		addMouseListener(events);
 		addMouseMotionListener(events);
+		addMouseWheelListener(events);
 	}
 	
 	/**
@@ -36,7 +40,7 @@ public class MapPanel extends JPanel
 	}
 	
 	
-	private class MouseEvents implements MouseInputListener
+	private class MouseEvents implements MouseInputListener, MouseWheelListener
 	{
 
 		@Override
@@ -99,6 +103,16 @@ public class MapPanel extends JPanel
 			UIMode mode = window.getUIMode();
 			if(mode != null)
 				window.getUIMode().onMouseMoveOverMap(e);
+		}
+
+		@Override
+		public void mouseWheelMoved(MouseWheelEvent e)
+		{
+			AppMainWindow window = (AppMainWindow) SwingUtilities.getWindowAncestor(e.getComponent());
+			
+			UIMode mode = window.getUIMode();
+			if(mode != null)
+				window.getUIMode().onMouseScrollOnMap(e.getUnitsToScroll());
 		}
 		
 	}

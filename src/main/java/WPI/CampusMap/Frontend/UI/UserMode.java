@@ -353,6 +353,13 @@ public class UserMode extends UIMode {
 		if (graphicalMap != null)
 			graphicalMap.mouseDrag(e);
 	}
+	
+	@Override
+	public void onMouseScrollOnMap(int unitsToScroll)
+	{
+		if(graphicalMap != null)
+			graphicalMap.mouseScrolled(unitsToScroll);
+	}
 
 	@Override
 	public void loadMap(String mapName) {

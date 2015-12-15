@@ -44,6 +44,8 @@ public abstract class GraphicalMap {
 	private Coord cameraPosition = new Coord(0, 0);
 
 	private UIMode mode;
+	
+	private float linearZoomLevel;
 
 	/**
 	 * Creates a new graphical map from a backend map.
@@ -54,6 +56,7 @@ public abstract class GraphicalMap {
 	 *            The ui mode that is the owner of this.
 	 */
 	public GraphicalMap(String map, UIMode mode) {
+		this.linearZoomLevel = 1.0f;
 		this.mode = mode;
 		this.map = AllMaps.getInstance().getMap(map);
 
@@ -118,11 +121,15 @@ public abstract class GraphicalMap {
 	public AffineTransform getCameraTransform() {
 		Rectangle viewRect = lastClip;
 
-		float halfWidth = viewRect.width * 0.5f;
-		float halfHeight = viewRect.height * 0.5f;
+		float zoom = (float) Math.pow(linearZoomLevel, 2.0f);
+		float invZoom = 1.0f / zoom;
+		
+		float xOffset = viewRect.width * 0.5f * invZoom;
+		float yOffset = viewRect.height * 0.5f * invZoom;
 
-		AffineTransform transform = AffineTransform.getTranslateInstance(halfWidth, halfHeight);
+		AffineTransform transform = AffineTransform.getScaleInstance(zoom, zoom);
 		transform.concatenate(AffineTransform.getTranslateInstance(-cameraPosition.getX(), -cameraPosition.getY()));
+		transform.concatenate(AffineTransform.getTranslateInstance(xOffset, yOffset));
 
 		return transform;
 	}
@@ -218,8 +225,8 @@ public abstract class GraphicalMap {
 
 		graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-		AffineTransform transform = getCameraTransform();
-		transform.concatenate(AffineTransform.getTranslateInstance(0, 22));
+		AffineTransform transform = AffineTransform.getTranslateInstance(0, 22);
+		transform.concatenate(getCameraTransform());
 
 		graphics.setTransform(transform);
 
@@ -423,6 +430,17 @@ public abstract class GraphicalMap {
 	public boolean onMouseDrag(RealMouseEvent e) {
 		return false;
 	}
+	
+	public void mouseScrolled(int unitsToScroll)
+	{
+		float scrollAmount = (float)-unitsToScroll * 0.1f;
+		linearZoomLevel += scrollAmount;
+		
+		if(linearZoomLevel < 0)
+			linearZoomLevel = 0;
+		else if(linearZoomLevel > 2)
+			linearZoomLevel = 2;
+	}
 
 	public final IMap getMap() {
 		return map;
@@ -503,7 +521,7 @@ public abstract class GraphicalMap {
 		Coord imageCoords = getRenderFromScreen(screenCoords);
 		Coord worldCoords = getWorldFromRender(imageCoords);
 
-		return new RealMouseEvent(worldCoords, imageCoords, e.getButton(), e.isAltDown(), e.isControlDown(),
+		return new RealMouseEvent(worldCoords, imageCoords, screenCoords, e.getButton(), e.isAltDown(), e.isControlDown(),
 				e.isShiftDown());
 	}
 
