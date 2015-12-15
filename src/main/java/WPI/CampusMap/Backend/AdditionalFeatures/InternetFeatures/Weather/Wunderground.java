@@ -26,7 +26,6 @@ public class Wunderground extends WundergroundAbstract {
 		Response results = null;
 
 		try {
-			System.out.println("here");
 			results = targetService.request().get();
 		} catch (ProcessingException e) {
 			hasWeather = false;
