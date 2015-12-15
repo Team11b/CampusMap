@@ -125,7 +125,7 @@ public class WeatherAnalysis {
 	 * @return modifier score
 	 */
 	public static double getWeatherScore() {
-		if (!useWeather) {
+		if ((!useWeather) || (!(WeatherAnalysis.getWeather().hasWeather()))) {
 			return 0.0;
 		}
 
@@ -195,7 +195,8 @@ public class WeatherAnalysis {
 	}
 
 	private static double fTemp(double tempF) {
-		if ((tempF >= WeatherAnalysis.fAvg[WeatherAnalysis.LOW]) && (tempF <= WeatherAnalysis.fAvg[WeatherAnalysis.HIGH])) {
+		if ((tempF >= WeatherAnalysis.fAvg[WeatherAnalysis.LOW])
+				&& (tempF <= WeatherAnalysis.fAvg[WeatherAnalysis.HIGH])) {
 			return 0;
 		} else if (tempF < WeatherAnalysis.fAvg[WeatherAnalysis.LOW]) {
 			return Math.abs(WeatherAnalysis.fAvg[WeatherAnalysis.LOW] - tempF) * WeatherAnalysis.rfPosDegCost;
@@ -205,7 +206,8 @@ public class WeatherAnalysis {
 	}
 
 	private static double sTemp(double tempF) {
-		if ((tempF >= WeatherAnalysis.sAvg[WeatherAnalysis.LOW]) && (tempF <= WeatherAnalysis.sAvg[WeatherAnalysis.HIGH])) {
+		if ((tempF >= WeatherAnalysis.sAvg[WeatherAnalysis.LOW])
+				&& (tempF <= WeatherAnalysis.sAvg[WeatherAnalysis.HIGH])) {
 			return 0;
 		} else if (tempF < WeatherAnalysis.sAvg[WeatherAnalysis.LOW]) {
 			return Math.abs(WeatherAnalysis.sAvg[WeatherAnalysis.LOW] - tempF) * WeatherAnalysis.sPosDegCost;
@@ -215,7 +217,8 @@ public class WeatherAnalysis {
 	}
 
 	private static double rTemp(double tempF) {
-		if ((tempF >= WeatherAnalysis.rAvg[WeatherAnalysis.LOW]) && (tempF <= WeatherAnalysis.rAvg[WeatherAnalysis.HIGH])) {
+		if ((tempF >= WeatherAnalysis.rAvg[WeatherAnalysis.LOW])
+				&& (tempF <= WeatherAnalysis.rAvg[WeatherAnalysis.HIGH])) {
 			return 0;
 		} else if (tempF < WeatherAnalysis.rAvg[WeatherAnalysis.LOW]) {
 			return Math.abs(WeatherAnalysis.rAvg[WeatherAnalysis.LOW] - tempF) * WeatherAnalysis.rfPosDegCost;
@@ -225,7 +228,8 @@ public class WeatherAnalysis {
 	}
 
 	private static double wTemp(double tempF) {
-		if ((tempF >= WeatherAnalysis.wAvg[WeatherAnalysis.LOW]) && (tempF <= WeatherAnalysis.wAvg[WeatherAnalysis.HIGH])) {
+		if ((tempF >= WeatherAnalysis.wAvg[WeatherAnalysis.LOW])
+				&& (tempF <= WeatherAnalysis.wAvg[WeatherAnalysis.HIGH])) {
 			return 0;
 		} else if (tempF < WeatherAnalysis.wAvg[WeatherAnalysis.LOW]) {
 			return Math.abs(WeatherAnalysis.wAvg[WeatherAnalysis.LOW] - tempF) * WeatherAnalysis.wNegDegCost;
