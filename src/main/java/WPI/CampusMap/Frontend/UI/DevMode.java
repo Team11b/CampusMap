@@ -150,6 +150,20 @@ public class DevMode extends UIMode
 		if(graphicsMap != null)
 			graphicsMap.mouseClick(e);
 	}
+	
+	@Override
+	public void onMousePressedMap(MouseEvent e) 
+	{
+		if(graphicsMap != null)
+			graphicsMap.mouseDown(e);
+	}
+
+	@Override
+	public void onMouseReleaseMap(MouseEvent e) 
+	{
+		if(graphicsMap != null)
+			graphicsMap.mouseUp(e);
+	}
 
 	@Override
 	public void onMouseEnterMap(MouseEvent e) 
@@ -175,6 +189,13 @@ public class DevMode extends UIMode
 	public void onMouseDraggedOverMap(MouseEvent e) {
 		if(graphicsMap != null)		
 			graphicsMap.mouseDrag(e);		
+	}
+	
+	@Override
+	public void onMouseScrollOnMap(int unitsToScroll)
+	{
+		if(graphicsMap != null)
+			graphicsMap.mouseScrolled(unitsToScroll);
 	}
 
 	@Override
@@ -226,5 +247,5 @@ public class DevMode extends UIMode
 	protected void onMapScaleChanged(float newScale) 
 	{
 		graphicsMap.getMap().setScale(newScale);
-	}
+	}	
 }

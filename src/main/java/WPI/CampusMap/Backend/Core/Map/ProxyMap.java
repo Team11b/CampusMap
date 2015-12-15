@@ -143,11 +143,11 @@ public class ProxyMap implements IMap, Serializable {
 			}
 			namedPoints = tempNamedPoints.toArray(new String[tempNamedPoints.size()]);
 			connectedMaps = tempConnectedMaps.toArray(new String[tempConnectedMaps.size()]);
-			AllPoints.getInstance().save();
 			// System.out.println(Arrays.toString(connectedMaps));
 			// System.out.println(Arrays.toString(namedPoints));
 			AllPoints.getInstance().save();
 			Serializer.save(this);
+			AllPoints.getInstance().save();
 		}
 
 	}

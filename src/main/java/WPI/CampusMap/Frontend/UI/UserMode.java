@@ -45,11 +45,12 @@ import WPI.CampusMap.Backend.PathPlanning.Route.Route;
 import WPI.CampusMap.Frontend.Graphics.User.UserGraphicalMap;
 import WPI.CampusMap.Frontend.Graphics.User.UserPointGraphicsObject;
 
-public class UserMode extends UIMode {
+public class UserMode extends UIMode
+{
 	private UserGraphicalMap graphicalMap;
 
-	private LinkedList<IPoint> route = new LinkedList<>();
-	private HashSet<IPoint> routeSet = new HashSet<>();
+	private LinkedList<IPoint> destinations = new LinkedList<>();
+	private HashSet<IPoint> destinationsSet = new HashSet<>();
 
 	private Path routedPath;
 	private LocationPref pref;
@@ -79,8 +80,8 @@ public class UserMode extends UIMode {
 		NodeProcessor nP = new DistanceProcessor(new BetweenMapsProcessor(new WeatherHeuristicProcessor(null, pref)));
 		AStarPathProcessor processor = new AStarPathProcessor(nP);
 
-		IPoint[] points = new IPoint[route.size()];
-		route.toArray(points);
+		IPoint[] points = new IPoint[destinations.size()];
+		destinations.toArray(points);
 
 		try {
 			routedPath = PathFinder.getPath(points, processor);
@@ -96,7 +97,7 @@ public class UserMode extends UIMode {
 		}
 
 		getWindow().clearDestinations();
-		clearRoute();
+		clearDestinations();
 	}
 
 	public void selectRouteSection(Section section) {
@@ -105,77 +106,110 @@ public class UserMode extends UIMode {
 
 	public void onClearButton() {
 		// destinations.resetLastPoint();
-		clearRoute();
+		clearDestinations();
 		// UserPathGraphicsObject.deleteAll();
 	}
 
-	public void onAddDest(String destName) {
-		System.out.println("AddDest");
-	}
+	public void addPointToDestinations(UserPointGraphicsObject newPoint) {
+		addPointToDestinations(newPoint.getRepresentedObject());
 
-	public void onPointAddedToRoute(UserPointGraphicsObject newPoint) {
-		onPointAddedToRoute(newPoint.getRepresentedObject());
-
-		if (newPoint != null && routeSet.contains(newPoint.getRepresentedObject()))
+		if (newPoint != null && destinationsSet.contains(newPoint.getRepresentedObject()))
 			getWindow().addDestination(newPoint);
 	}
 
-	public void onPointAddedToRoute(IPoint newPoint) {
+	public void addPointToDestinations(IPoint newPoint) {
 		if (newPoint == null)
 			return;
 
 		if (routedPath != null) {
-			clearRoute();
+			clearDestinations();
 			routedPath = null;
 			graphicalMap.setPathSections(getRoutedPath());
 		}
 
-		if (!routeSet.contains(newPoint)) {
+		if (!destinationsSet.contains(newPoint)) {
 			System.out.println("Added " + newPoint + " to route");
-			routeSet.add(newPoint);
-			route.add(newPoint);
+			destinationsSet.add(newPoint);
+			destinations.add(newPoint);
 		}
 	}
 
-	public void clearRoute() {
-		routeSet.clear();
-		route.clear();
+	public void onPointDescriptorAddedToDestinations(String pointDescriptor, int index) {
+		if (routedPath != null) {
+			clearDestinations();
+			routedPath = null;
+			graphicalMap.setPathSections(getRoutedPath());
+		}
 
-		getWindow().clearDestinations();
-
-		// TODO: Call UI code
-	}
-
-	public void onPointRemovedFromRoute(UserPointGraphicsObject point) {
-		onPointRemovedFromRoute(point.getRepresentedObject());
-	}
-
-	public void onPointRemovedFromRoute(IPoint point) {
+		IPoint point = AllPoints.getInstance().getPoint(pointDescriptor);
 		if (point == null)
 			return;
 
-		if (routedPath != null) {
-			clearRoute();
-			routedPath = null;
-			graphicalMap.setPathSections(null);
+		if (!destinations.contains(point)) {
+			destinations.add(index, point);
+			destinationsSet.add(point);
+		}
+	}
+
+	public void onPointDescriptorRenamedDestination(String oldName, String newName, int index) {
+		IPoint oldPoint = AllPoints.getInstance().getPoint(oldName);
+		if (oldPoint == null) {
+			onPointDescriptorAddedToDestinations(newName, index);
+			return;
 		}
 
-		if (routeSet.contains(point)) {
-			routeSet.remove(point);
-			route.remove(point);
+		IPoint newPoint = AllPoints.getInstance().getPoint(newName);
+		if (destinationsSet.contains(oldPoint)) {
+			destinationsSet.remove(oldPoint);
+			destinations.remove(oldPoint);
+
+			destinations.add(index, newPoint);
+			destinationsSet.add(newPoint);
 		}
+	}
+
+	public void onPointDescriptorShown(String pointName) {
+		IPoint point = AllPoints.getInstance().getPoint(pointName);
+		if (point == null)
+			return;
+
+		loadMap(point.getMap());
+	}
+
+	public void clearDestinations() {
+		destinationsSet.clear();
+		destinations.clear();
+
+		getWindow().clearDestinations();
+	}
+
+	public void onPointRemovedFromDestinations(String pointDescriptor) {
+		IPoint point = AllPoints.getInstance().getPoint(pointDescriptor);
+
+		if (point == null)
+			return;
+
+		if (destinationsSet.contains(point)) {
+			destinationsSet.remove(point);
+			destinations.remove(point);
+		}
+	}
+
+	public boolean onCheckPointName(String name) {
+		IPoint point = AllPoints.getInstance().getPoint(name);
+		return point != null;
 	}
 
 	public boolean containsInRoute(UserPointGraphicsObject point) {
-		return routeSet.contains(point.getRepresentedObject());
+		return destinationsSet.contains(point.getRepresentedObject());
 	}
 
 	public boolean isRouteStart(UserPointGraphicsObject point) {
-		return route.getFirst().equals(point.getRepresentedObject());
+		return destinations.getFirst().equals(point.getRepresentedObject());
 	}
 
 	public boolean isRouteEnd(UserPointGraphicsObject point) {
-		return route.getLast().equals(point.getRepresentedObject());
+		return destinations.getLast().equals(point.getRepresentedObject());
 	}
 
 	public void onWeatherChosen(LocationPref option) {
@@ -192,9 +226,8 @@ public class UserMode extends UIMode {
 	}
 
 	/**
-	 * @author Will Spurgeon
-	 * Prompts the user to enter a file name and a file location.
-	 * Writes the user's directions to the specified location.
+	 * @author Will Spurgeon Prompts the user to enter a file name and a file
+	 *         location. Writes the user's directions to the specified location.
 	 */
 	public void onTxt() {
 		JFileChooser chooser = new JFileChooser();
@@ -221,6 +254,7 @@ public class UserMode extends UIMode {
 
 	/**
 	 * Displays a pop up prompting the user to enter an email address.
+	 * 
 	 * @return The user's email address.
 	 */
 	public String popUp() {
@@ -236,8 +270,8 @@ public class UserMode extends UIMode {
 	}
 
 	/**
-	 * @author Will Spurgeon
-	 * Prompts the user for an email address. An email with the user's directions are then sent.
+	 * @author Will Spurgeon Prompts the user for an email address. An email
+	 *         with the user's directions are then sent.
 	 */
 	public void onEmail() {
 		Email email = new SimpleEmail();
@@ -296,6 +330,20 @@ public class UserMode extends UIMode {
 		if (graphicalMap != null)
 			graphicalMap.mouseClick(e);
 	}
+	
+	@Override
+	public void onMousePressedMap(MouseEvent e) 
+	{
+		if (graphicalMap != null)
+			graphicalMap.mouseDown(e);
+	}
+
+	@Override
+	public void onMouseReleaseMap(MouseEvent e)
+	{
+		if (graphicalMap != null)
+			graphicalMap.mouseUp(e);
+	}
 
 	@Override
 	public void onMouseEnterMap(MouseEvent e) {
@@ -320,6 +368,13 @@ public class UserMode extends UIMode {
 		if (graphicalMap != null)
 			graphicalMap.mouseDrag(e);
 	}
+	
+	@Override
+	public void onMouseScrollOnMap(int unitsToScroll)
+	{
+		if(graphicalMap != null)
+			graphicalMap.mouseScrolled(unitsToScroll);
+	}
 
 	@Override
 	public void loadMap(String mapName) {
@@ -337,7 +392,8 @@ public class UserMode extends UIMode {
 	}
 
 	/**
-	 * Builds and displays a pop up window containing all of the About information for the app.
+	 * Builds and displays a pop up window containing all of the About
+	 * information for the app.
 	 */
 	public void onAbout() {
 		JOptionPane aboutWindow = new JOptionPane();
@@ -345,26 +401,25 @@ public class UserMode extends UIMode {
 		aboutFrame.setBounds(300, 300, 700, 300);
 		aboutFrame.setLayout(new FlowLayout());
 		JLabel textLabel = new JLabel();
-		textLabel.setText("<html><p style=\"text-align: center;\">"+
-				"<p style=\"text-align: center;\"><span style=\"font-size: medium;\"><strong>CS 3733: Software Engineering B-Term 2015</strong></span></p>\n"+
-				"<p style=\"text-align: center;\"><span style=\"font-size: medium;\">Prof. Wilson Wong</span></p>\n"+
-				"<p style=\"text-align: center;\"><span style=\"font-size: medium;\">Worcester Polytechnic Institute</span></p>\n"+
-				"<p style=\"text-align: center;\">&nbsp;</p>\n"+
-				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><b>Team 0011b:</b></span></p>\n"+
-				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><b>Lukas Hunter: Team Coach</b></span></p>\n"+
-				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\">Chris Cormier: Testing Engineer (Iteration 1 and 2)</span></p>\n"+
-				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><span style=\"font-size: medium;\">Will Craft: Lead Software Engineer (Iteration 3 and 4)</span></span></p>\n"+
-				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\">Gavin Hayes: Test Engineer (Iteration 3 and 4)</span></p>\n"+
-				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\">Michael LoTurco: Product Owner (Iteration 1 and 2)</span></p>\n"+
-				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><span style=\"font-size: medium;\">Benny Peake: Product Manager (Iteration 1 and 2), UI Lead (3 and 4)</span></span></p>\n"+
-				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><span style=\"font-size: medium;\">Will Spurgeon: UI Lead (Iteration 1 and 2)</span></span></p>\n"+
-				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\">Max Stenke: Product Owner (Iteration 3 and 4)</span></p>\n"+
-				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><span>Jake Zizmor: Lead Software Engineer (Iteration 1 and 2), Prodcut Manager (Iteration 3 and 4)</span></span></p>\n"+
-				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\">&nbsp;</span></p>\n"+
-				"<p style=\"text-align: left;\">&nbsp;</p>\n"+
-				"<p style=\"text-align: center;\">&nbsp;</p>\n"+
-				"<p style=\"text-align: center;\">&nbsp;</p>\n"+
-				"<p style=\"text-align: center;\">&nbsp;</p></html>");
+		textLabel.setText("<html><p style=\"text-align: center;\">"
+				+ "<p style=\"text-align: center;\"><span style=\"font-size: medium;\"><strong>CS 3733: Software Engineering B-Term 2015</strong></span></p>\n"
+				+ "<p style=\"text-align: center;\"><span style=\"font-size: medium;\">Prof. Wilson Wong</span></p>\n"
+				+ "<p style=\"text-align: center;\"><span style=\"font-size: medium;\">Worcester Polytechnic Institute</span></p>\n"
+				+ "<p style=\"text-align: center;\">&nbsp;</p>\n"
+				+ "<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><b>Team 0011b:</b></span></p>\n"
+				+ "<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><b>Lukas Hunter: Team Coach</b></span></p>\n"
+				+ "<p style=\"text-align: left;\"><span style=\"font-size: medium;\">Chris Cormier: Testing Engineer (Iteration 1 and 2)</span></p>\n"
+				+ "<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><span style=\"font-size: medium;\">Will Craft: Lead Software Engineer (Iteration 3 and 4)</span></span></p>\n"
+				+ "<p style=\"text-align: left;\"><span style=\"font-size: medium;\">Gavin Hayes: Test Engineer (Iteration 3 and 4)</span></p>\n"
+				+ "<p style=\"text-align: left;\"><span style=\"font-size: medium;\">Michael LoTurco: Product Owner (Iteration 1 and 2)</span></p>\n"
+				+ "<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><span style=\"font-size: medium;\">Benny Peake: Product Manager (Iteration 1 and 2), UI Lead (3 and 4)</span></span></p>\n"
+				+ "<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><span style=\"font-size: medium;\">Will Spurgeon: UI Lead (Iteration 1 and 2)</span></span></p>\n"
+				+ "<p style=\"text-align: left;\"><span style=\"font-size: medium;\">Max Stenke: Product Owner (Iteration 3 and 4)</span></p>\n"
+				+ "<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><span>Jake Zizmor: Lead Software Engineer (Iteration 1 and 2), Prodcut Manager (Iteration 3 and 4)</span></span></p>\n"
+				+ "<p style=\"text-align: left;\"><span style=\"font-size: medium;\">&nbsp;</span></p>\n"
+				+ "<p style=\"text-align: left;\">&nbsp;</p>\n" + "<p style=\"text-align: center;\">&nbsp;</p>\n"
+				+ "<p style=\"text-align: center;\">&nbsp;</p>\n"
+				+ "<p style=\"text-align: center;\">&nbsp;</p></html>");
 		aboutFrame.add(textLabel);
 		aboutWindow.createDialog(aboutFrame, "About Campus Mapper");
 		aboutFrame.setVisible(true);

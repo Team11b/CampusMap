@@ -181,14 +181,15 @@ public class AppUserModeControl extends JComponent {
 	 */
 	public void addDestination(UserPointGraphicsObject point)
 	{
-		//scrollPane.addPointElement(point.getRepresentedObject().toString());
+		scrollPane.addPoint(point.getRepresentedObject());
 	}
 
 	/**
 	 * Clears the destination.
 	 */
-	public void clearDestinations() {
-		//scrollPane.clearPointElements();
+	public void clearDestinations()
+	{
+		scrollPane.clearPointDescriptors();
 	}
 
 	/**
@@ -279,27 +280,27 @@ public class AppUserModeControl extends JComponent {
 	{
 
 		@Override
-		public void pointDescriptorAdded(PointListElement element) {
-			// TODO Auto-generated method stub
-			
+		public void pointDescriptorAdded(PointListElement element)
+		{
+			window.getUserMode().onPointDescriptorAddedToDestinations(element.getCurrentName(), element.getIndex());
 		}
 
 		@Override
-		public void pointDescriptorRemoved(PointListElement element) {
-			// TODO Auto-generated method stub
-			
+		public void pointDescriptorRemoved(PointListElement element) 
+		{
+			window.getUserMode().onPointRemovedFromDestinations(element.getCurrentName());
 		}
 
 		@Override
-		public boolean pointDescriptorNameCheck(PointListElement element, String newName) {
-			// TODO Auto-generated method stub
-			return false;
+		public boolean pointDescriptorNameCheck(PointListElement element, String newName)
+		{
+			return window.getUserMode().onCheckPointName(newName);
 		}
 
 		@Override
-		public void pointDescriptorRenamed(PointListElement element, String oldName) {
-			// TODO Auto-generated method stub
-			
+		public void pointDescriptorRenamed(PointListElement element, String oldName) 
+		{
+			window.getUserMode().onPointDescriptorRenamedDestination(oldName, element.getCurrentName(), element.getIndex());
 		}
 
 		@Override

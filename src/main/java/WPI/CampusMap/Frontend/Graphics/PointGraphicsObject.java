@@ -78,8 +78,8 @@ public abstract class PointGraphicsObject<M extends GraphicalMap> extends Graphi
 	@Override
 	public boolean isMouseOver(RealMouseEvent e) {
 		// TODO Auto-generated method stub
-		Coord mouseCoord = e.getImageCoord();
-		Coord screenPosition = getOwner().getRenderFromWorld(backendPoint.getCoord());
+		Coord mouseCoord = e.getScreenCoord();
+		Coord screenPosition = getOwner().getScreenFromWorld(backendPoint.getCoord());
 		float distance = mouseCoord.distance(screenPosition);
 		
 		return distance <= 5;

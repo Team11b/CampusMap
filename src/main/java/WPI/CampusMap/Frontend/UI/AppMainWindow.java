@@ -483,7 +483,8 @@ public class AppMainWindow extends JFrame implements Runnable {
 	/**
 	 * Clears the destination list.
 	 */
-	public void clearDestinations() {
+	public void clearDestinations()
+	{
 		userPanel.clearDestinations();
 	}
 

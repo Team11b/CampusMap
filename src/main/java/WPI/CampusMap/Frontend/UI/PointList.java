@@ -85,6 +85,24 @@ public class PointList extends Panel
 		
 		return true;
 	}
+	
+	public void clearPointDescriptors()
+	{
+		//create an array because we cannot modify a collection while iterating through it.
+		String[] names = new String[elements.size()];
+		
+		int i = 0;
+		for(String name : elements.keySet())
+		{
+			names[i] = name;
+			i++;
+		}
+		
+		for(String name : names)
+		{
+			removePointDescriptor(name);
+		}
+	}
 
 	/**
 	 * Adds an element to the list.
