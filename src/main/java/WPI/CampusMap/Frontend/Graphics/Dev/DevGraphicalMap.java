@@ -44,8 +44,8 @@ public class DevGraphicalMap extends GraphicalMap
 	
 	@Override
 	public boolean onMouseMove(RealMouseEvent e) {
-		System.out.println("Image: " + e.getImageCoord());
-		System.out.println("World: " + e.getWorldCoords());
+//		System.out.println("Image: " + e.getImageCoord());
+//		System.out.println("World: " + e.getWorldCoords());
 		return super.onMouseMove(e);
 	}
 	

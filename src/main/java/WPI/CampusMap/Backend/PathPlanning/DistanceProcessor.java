@@ -23,12 +23,12 @@ public class DistanceProcessor extends NodeProcessor {
 		}
 		
 		String campusMap = AllMaps.getInstance().CampusMap;
-		if(node.getPoint().getBuilding().equals(campusMap)){
-			IPoint buildingPoint = AllMaps.getInstance().getMap(campusMap).getPoint(goal.getPoint().getBuilding());
-			if(buildingPoint != null){
-				node.modifyHeuristicCost(node.getDistance(buildingPoint));
-			}
-		}
+//		if(node.getPoint().getMap().equals(campusMap)){
+//			IPoint buildingPoint = AllMaps.getInstance().getMap(campusMap).getPoint(goal.getPoint().getBuilding());
+//			if(buildingPoint != null){
+//				node.modifyHeuristicCost(node.getDistance(buildingPoint));
+//			}
+//		}
 	}
 
 }

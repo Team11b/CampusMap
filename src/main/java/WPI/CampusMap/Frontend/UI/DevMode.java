@@ -133,6 +133,7 @@ public class DevMode extends UIMode
 	
 	public void save()
 	{
+		
 		graphicsMap.getMap().save();
 	}
 
