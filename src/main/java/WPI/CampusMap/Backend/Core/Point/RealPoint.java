@@ -9,6 +9,14 @@ import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Map.IMap;
 
+/**
+ * @author g4vi
+ *
+ */
+/**
+ * @author g4vi
+ *
+ */
 public class RealPoint implements IPoint,java.io.Serializable {
 
 	private static final long serialVersionUID = 1262614340821579118L;
@@ -328,9 +336,9 @@ public class RealPoint implements IPoint,java.io.Serializable {
 		return getMap().replace('_', ' ');
 	}
 
+	
 	@Override
-	public String getDisplayName() {
-		// TODO Auto-generated method stub		
+	public String getDisplayName() {			
 		return getId().replace('_', ' ');
 	}
 }

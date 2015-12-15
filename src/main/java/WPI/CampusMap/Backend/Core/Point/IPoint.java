@@ -8,6 +8,11 @@ import java.util.HashSet;
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 
 public interface IPoint extends Serializable {
+	/**
+	 * 
+	 * @param other
+	 * @return
+	 */
 	public double distance(IPoint other);
 	public Coord getCoord();
 	public void setCoord(Coord coord);
