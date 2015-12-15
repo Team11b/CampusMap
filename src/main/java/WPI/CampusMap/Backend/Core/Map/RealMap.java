@@ -7,9 +7,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.UUID;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
@@ -24,6 +26,7 @@ public class RealMap implements IMap, java.io.Serializable {
 	private String name;
 	private HashMap<String, RealPoint> allPoints;
 	private transient ImageIcon loadedImage;
+	private transient boolean unsavedChanges;
 
 	/**
 	 * Creates a map with the given name and default values
@@ -113,6 +116,7 @@ public class RealMap implements IMap, java.io.Serializable {
 			BufferedImage buffer = ImageIO.read(new File(pngLocation + this.getName() + ".png"));
 			loadedImage = new ImageIcon(buffer.getScaledInstance(1000, 660, Image.SCALE_SMOOTH));
 		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
 	}
@@ -158,12 +162,22 @@ public class RealMap implements IMap, java.io.Serializable {
 		// System.out.println("Remove: " + point.getId());
 		ArrayList<IPoint> neighbors = point.getNeighborsP();
 		for (IPoint pointN : neighbors) {
-			if (!pointN.removeNeighbor(point))	return false;
+			if (!pointN.removeNeighbor(point))
+				return false;
 		}
 		point.removeAllNeighbors();
 		allPoints.remove(point.getId());
 
 		return true;
+	}
+	
+	@Override
+	public IPoint createPoint(Coord location)
+	{
+		RealPoint point = new RealPoint(location, RealPoint.HALLWAY, UUID.randomUUID().toString(), getName());
+		addPoint(point);
+		
+		return point;
 	}
 
 	/**
@@ -235,10 +249,10 @@ public class RealMap implements IMap, java.io.Serializable {
 	 * Removes the given point and adds it back under the newName
 	 */
 	@Override
-	public void renamePoint(RealPoint p, String newName) {
+	public void renamePoint(RealPoint p, String newName)
+	{
 		allPoints.remove(p.getId());
 		allPoints.put(newName, p);
-		System.out.println("Renamed point to" + this.getPoint(newName));
 	}
 
 	/**
@@ -261,7 +275,7 @@ public class RealMap implements IMap, java.io.Serializable {
 	}
 
 	@Override
-	public Collection<RealPoint>getAllPoints() {
+	public Collection<RealPoint> getAllPoints() {
 		return allPoints.values();
 	}
 
@@ -274,8 +288,8 @@ public class RealMap implements IMap, java.io.Serializable {
 	@Override
 	public String getBuilding() {
 		return getName().split("-")[0];
-	}	
-	
+	}
+
 	@Override
 	public boolean equals(Object other) {
 		if (other instanceof IMap) {
@@ -289,13 +303,31 @@ public class RealMap implements IMap, java.io.Serializable {
 	@Override
 	public ArrayList<IPoint> pointsConnectedToOtherMaps() {
 		ArrayList<IPoint> points = new ArrayList<IPoint>();
-		for(IPoint point: getAllPoints()){
-			if(!point.getNeighborPointsOnOtherMaps().isEmpty()){
+		for (IPoint point : getAllPoints()) {
+			if (!point.getNeighborPointsOnOtherMaps().isEmpty()) {
 				points.add(point);
 			}
 		}
-		
+
 		return points;
+	}
+
+	@Override
+	public boolean unsavedChanged() {
+		if(unsavedChanges){
+			unsavedChanges = false;
+			return true;
+		}
+		return false;
+	}
+	
+	public void changed(){
+		unsavedChanges = true;
+	}
+	
+	public String getDisplayName() {
+		// TODO Auto-generated method stub
+		return getName().replace('_', ' ');
 	}
 
 }

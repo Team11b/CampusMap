@@ -10,6 +10,14 @@ import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Map.IMap;
 import WPI.CampusMap.Backend.Core.Map.ProxyMap;
 
+/**
+ * @author g4vi
+ *
+ */
+/**
+ * @author g4vi
+ *
+ */
 public class RealPoint implements IPoint,java.io.Serializable {
 
 	private static final long serialVersionUID = 1262614340821579118L;
@@ -42,6 +50,13 @@ public class RealPoint implements IPoint,java.io.Serializable {
 		this.id = id;
 		this.map = map;
 		this.neighbors = new HashMap<String, IPoint>();
+	}
+	
+	/**
+	 * Marks the containing map as changed.
+	 */
+	private void changed(){
+		AllMaps.getInstance().getMap(map).changed();
 	}
 	
 	/**
@@ -157,19 +172,28 @@ public class RealPoint implements IPoint,java.io.Serializable {
 	 * @param newId the new id
 	 */
 	@Override
-	public void setId(String newId) {
+	public boolean setId(String newId) {
 		// TODO Add check to see if id already exists?
 		if((!newId.equals(getId())) && !newId.equals("")){
 			for(IPoint n : getNeighborsP()){
 				System.out.println("Removed neighbor: "+n.removeNeighbor(this));	
 			}
 
-			this.id = newId;
 			IMap map = AllMaps.getInstance().getMap(getMap());
 			if(map != null)
 			{
+				if(map.getPoint(newId) != null)
+					return false;
+				
 				map.renamePoint(this, newId);
 			}
+			else
+			{
+				return false;
+			}
+			
+			this.id = newId;
+			
 			for(IPoint n : getNeighborsP())
 			{
 				n.addNeighbor(this);
@@ -177,6 +201,8 @@ public class RealPoint implements IPoint,java.io.Serializable {
 				System.out.println("Replaced self in "+n+"'s neighbor list");
 			}
 		}
+		
+		return true;
 	}
 	
 	/**
@@ -214,6 +240,7 @@ public class RealPoint implements IPoint,java.io.Serializable {
 
 	@Override
 	public boolean removeNeighbor(IPoint point) {
+		changed();
 		boolean firstSuccess = (this.neighbors.remove(point.getId()) != null) || (this.neighbors.remove(point.toString()) != null);
 		boolean secondSuccess = this.neighborList.remove(point.toString()) || this.neighborList.remove(point.getId());
 		System.out.println("First Success: "+firstSuccess+" Second Success: "+secondSuccess);
@@ -227,11 +254,13 @@ public class RealPoint implements IPoint,java.io.Serializable {
 	
 	@Override
 	public boolean removeNeighbor(String pointId) {
+		changed();
 		return this.neighbors.remove(pointId) != null;
 	}
 
 	@Override
 	public boolean addNeighbor(IPoint point) {
+		changed();
 		if (this.neighbors.containsValue(point))
 			return false;
 		
@@ -273,6 +302,7 @@ public class RealPoint implements IPoint,java.io.Serializable {
 
 	@Override
 	public void removeAllNeighbors() {
+		changed();
 		this.neighbors.clear();
 		this.neighborList = new ArrayList<String>();
 	}
@@ -313,4 +343,14 @@ public class RealPoint implements IPoint,java.io.Serializable {
 
 	}
 
+	@Override
+	public String getMapDisplayName() {		
+		return getMap().replace('_', ' ');
+	}
+
+	
+	@Override
+	public String getDisplayName() {			
+		return getId().replace('_', ' ');
+	}
 }

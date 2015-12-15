@@ -6,7 +6,7 @@ public class WeatherHeuristicProcessor extends NodeProcessor {
 	private LocationPref pref;
 
 	// TODO check that this is right
-	private static final String campus = "CampusMap";
+	private static final String campus = "Campus_Map";
 
 	private static final float modifier = (float) 100.0;
 	private static final float scoreDivisor = 80;

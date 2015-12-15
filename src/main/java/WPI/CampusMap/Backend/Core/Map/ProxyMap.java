@@ -2,12 +2,12 @@ package WPI.CampusMap.Backend.Core.Map;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashSet;
 
 import javax.swing.ImageIcon;
 
+import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Point.AllPoints;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.Core.Point.RealPoint;
@@ -23,23 +23,24 @@ public class ProxyMap implements IMap, Serializable {
 	private transient RealMap realMap;
 	private String[] namedPoints;
 	private String[] connectedMaps;
-	
-	public ProxyMap(String name){
+
+	public ProxyMap(String name) {
 		this.mapName = name;
-        namedPoints = new String[0];
-        connectedMaps = new String[0]; 
-//        System.out.println("Made new " + name);
+		namedPoints = new String[0];
+		connectedMaps = new String[0];
+		// System.out.println("Made new " + name);
 
 	}
-	
-	private void load(){
-		if(realMap == null){
-//			System.out.println("Connected Map:" + Arrays.toString(connectedMaps));
+
+	private void load() {
+		if (realMap == null) {
+			// System.out.println("Connected Map:" +
+			// Arrays.toString(connectedMaps));
 			realMap = Serializer.realLoad(mapName);
-			
-			//incase the map has not been created, create a new one
-			if(realMap == null){
-				//System.out.printf("Real Map (%s) not found, making a new one.\n",mapName);
+			// incase the map has not been created, create a new one
+			if (realMap == null) {
+				// System.out.printf("Real Map (%s) not found, making a new
+				// one.\n",mapName);
 				realMap = new RealMap(mapName);
 			}
 			realMap.validatePoints();
@@ -60,7 +61,8 @@ public class ProxyMap implements IMap, Serializable {
 
 	@Override
 	public String getName() {
-		if(realMap != null) return realMap.getName();
+		if (realMap != null)
+			return realMap.getName();
 		return mapName;
 	}
 
@@ -89,6 +91,12 @@ public class ProxyMap implements IMap, Serializable {
 	}
 
 	@Override
+	public IPoint createPoint(Coord location) {
+		load();
+		return realMap.createPoint(location);
+	}
+	
+	@Override
 	public boolean addPoint(RealPoint point) {
 		load();
 		return realMap.addPoint(point);
@@ -114,36 +122,39 @@ public class ProxyMap implements IMap, Serializable {
 
 	@Override
 	public void save() {
-		if(realMap != null){
-//			System.out.println(this.getName());
+		if (realMap != null) {
+			// System.out.println(this.getName());
 			realMap.save();
-			
+
 			ArrayList<String> tempNamedPoints = new ArrayList<String>(8);
 			HashSet<String> tempConnectedMaps = new HashSet<String>(6);
 			
-			for(RealPoint point: realMap.getAllPoints()){
-				String type = point.getType();
-				if(!point.getId().contains("-")){
-//					System.out.println("Named Point");
+			
+			for (RealPoint point : realMap.getAllPoints()) {
+				if (!point.getId().contains("-")) {
+					// System.out.println("Named Point");
 					tempNamedPoints.add(point.toString());
+					AllPoints.getInstance().addPoint(point.toString());
 				}
-				for(String connectedMap: point.getNeighborPointsOnOtherMaps().keySet()){
-//					System.out.println("Connecting map: " + connectedMap);
+				for (String connectedMap : point.getNeighborPointsOnOtherMaps().keySet()) {
+					// System.out.println("Connecting map: " + connectedMap);
 					tempConnectedMaps.add(connectedMap);
 				}
+				
 			}
 			namedPoints = tempNamedPoints.toArray(new String[tempNamedPoints.size()]);
 			connectedMaps = tempConnectedMaps.toArray(new String[tempConnectedMaps.size()]);
-
-//			System.out.println(Arrays.toString(connectedMaps));
-//			System.out.println(Arrays.toString(namedPoints));
+			AllPoints.getInstance().save();
+			// System.out.println(Arrays.toString(connectedMaps));
+			// System.out.println(Arrays.toString(namedPoints));
+			AllPoints.getInstance().save();
 			Serializer.save(this);
 		}
 
 	}
-	
+
 	@Override
-	public int hashCode(){
+	public int hashCode() {
 		return getName().hashCode();
 	}
 
@@ -152,27 +163,27 @@ public class ProxyMap implements IMap, Serializable {
 		load();
 		return realMap.getAllPoints();
 	}
-	
+
 	public String[] getConnectedMaps() {
 		return connectedMaps;
 	}
-	
+
 	public String[] getNamedPoints() {
 		return namedPoints;
 	}
-	
-	public void onLoad(){
-//        AllPoints.getInstance().addAllPoints(namedPoints);
-    }
+
+	public void onLoad() {
+		// AllPoints.getInstance().addAllPoints(namedPoints);
+	}
 
 	@Override
 	public boolean connectedToCampus() {
 		// TODO Auto-generated method stub
 		return false;
 	}
-	
+
 	@Override
-	public String toString(){
+	public String toString() {
 		return mapName;
 	}
 
@@ -180,8 +191,7 @@ public class ProxyMap implements IMap, Serializable {
 	public String getBuilding() {
 		return getName().split("-")[0];
 	}
-	
-	
+
 	@Override
 	public boolean equals(Object other) {
 		if (other instanceof IMap) {
@@ -196,6 +206,23 @@ public class ProxyMap implements IMap, Serializable {
 	public ArrayList<IPoint> pointsConnectedToOtherMaps() {
 		load();
 		return realMap.pointsConnectedToOtherMaps();
+	}
+
+	@Override
+	public boolean unsavedChanged() {
+		load();
+		return realMap.unsavedChanged();
+	}
+
+	@Override
+	public void changed() {
+		load();
+		realMap.changed();
+	}
+		
+	public String getDisplayName() {
+		// TODO Auto-generated method stub
+		return getName().replace('_', ' ');
 	}
 
 }

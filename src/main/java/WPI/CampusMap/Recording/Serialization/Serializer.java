@@ -6,11 +6,23 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
 
-import WPI.CampusMap.Backend.Core.Map.AllMaps;
+import java.util.HashMap;
+
+import java.util.LinkedList;
+
+import javax.swing.JOptionPane;
+
 import WPI.CampusMap.Backend.Core.Map.ProxyMap;
 import WPI.CampusMap.Backend.Core.Map.RealMap;
+import WPI.CampusMap.Backend.Core.Point.AllPoints;
 
+/**
+ * 
+ * @author Jacob Zizmor
+ *
+ */
 public class Serializer {
 
 	private static final String folder = "serialized/";
@@ -20,7 +32,9 @@ public class Serializer {
 
 	/**
 	 * Saves the ProxyMap to a serial file
-	 * @param tosave ProxyMap to save
+	 * 
+	 * @param tosave
+	 *            ProxyMap to save
 	 */
 	public static void save(ProxyMap tosave) {
 		try {
@@ -35,19 +49,23 @@ public class Serializer {
 			fileOut.close();
 		} catch (FileNotFoundException f) {
 			System.out.println("NOT SAVED");
+			JOptionPane.showMessageDialog(null, f.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 			f.printStackTrace();
 		} catch (IOException i) {
 			System.out.println("NOT SAVED");
+			JOptionPane.showMessageDialog(null, i.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 			i.printStackTrace();
 		}
 	}
-	
+
 	/**
 	 * Saves the RealMap to a serial file
 	 * 
-	 * @param tosave RealMap to save
+	 * @param tosave
+	 *            RealMap to save
 	 */
 	public static void save(RealMap tosave) {
+		
 		try {
 			FileOutputStream fileOut = new FileOutputStream(
 					Serializer.folderReal + tosave.getName() + Serializer.fileType);
@@ -59,13 +77,42 @@ public class Serializer {
 			fileOut.close();
 		} catch (FileNotFoundException f) {
 			System.out.println("NOT SAVED");
+			JOptionPane.showMessageDialog(null, f.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 			f.printStackTrace();
 		} catch (IOException i) {
 			System.out.println("NOT SAVED");
+			JOptionPane.showMessageDialog(null, i.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 			i.printStackTrace();
 		}
 	}
 
+	/**
+	 * Saves the totalListOffPoints to a serial file
+	 * 
+	 * @param tosave
+	 *            List of strings to save
+	 */
+	public static void save(LinkedList<String> tosave) {
+		try {
+			FileOutputStream fileOut = new FileOutputStream(
+					Serializer.folder + "allPoints" + Serializer.fileType);
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+
+			out.writeObject(tosave);
+
+			out.close();
+			fileOut.close();
+		} catch (FileNotFoundException f) {
+			System.out.println("NOT SAVED");
+			JOptionPane.showMessageDialog(null, f.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+			f.printStackTrace();
+		} catch (IOException i) {
+			System.out.println("NOT SAVED");
+			JOptionPane.showMessageDialog(null, i.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+			i.printStackTrace();
+		}
+	}
+	
 	/**
 	 * Loads a ProxyMap from a serial file Adds the ProxyMap to the HashMap in
 	 * AllMaps
@@ -76,26 +123,30 @@ public class Serializer {
 	 */
 	public static ProxyMap proxyLoad(String mapName) {
 		try {
+			mapName = mapName.replace(' ', '_'); //if proxyLoad is passed a displayName
 			ProxyMap pm;
 			FileInputStream fileIn = new FileInputStream(Serializer.folderProxy + mapName + Serializer.fileType);
 			ObjectInputStream in = new ObjectInputStream(fileIn);
 
 			pm = (ProxyMap) in.readObject();
-            pm.onLoad();
+			pm.onLoad();
 
 			in.close();
 			fileIn.close();
 
-//			AllMaps.getInstance().clearAllMaps();
+			// AllMaps.getInstance().clearAllMaps();
 			return pm;
 		} catch (FileNotFoundException f) {
-//			System.out.println("NOT LOADED");
-//			f.printStackTrace();
+			// System.out.println("NOT LOADED");
+			// f.printStackTrace();
+			JOptionPane.showMessageDialog(null, f.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 		} catch (IOException i) {
 			System.out.println("NOT LOADED");
+			JOptionPane.showMessageDialog(null, i.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 			i.printStackTrace();
 		} catch (ClassNotFoundException c) {
 			System.out.println("NOT LOADED");
+			JOptionPane.showMessageDialog(null, c.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 			c.printStackTrace();
 		}
 
@@ -111,6 +162,7 @@ public class Serializer {
 	 */
 	public static RealMap realLoad(String mapName) {
 		try {
+			mapName = mapName.replace(' ', '_'); //if realLoad is passed a displayName
 			RealMap rm;
 			FileInputStream fileIn = new FileInputStream(Serializer.folderReal + mapName + Serializer.fileType);
 			ObjectInputStream in = new ObjectInputStream(fileIn);
@@ -122,17 +174,68 @@ public class Serializer {
 
 			return rm;
 		} catch (FileNotFoundException f) {
-//			System.out.println("NOT LOADED");
-//			f.printStackTrace();
+			// System.out.println("NOT LOADED");
+			// f.printStackTrace();
+			JOptionPane.showMessageDialog(null, f.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 		} catch (IOException i) {
 			System.out.println("NOT LOADED");
 			i.printStackTrace();
+			JOptionPane.showMessageDialog(null, i.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 		} catch (ClassNotFoundException c) {
 			System.out.println("NOT LOADED");
 			c.printStackTrace();
+			JOptionPane.showMessageDialog(null, c.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 		}
 
 		return null;
 	}
 
+	public static void save(AllPoints toSave) {
+		try{
+			FileOutputStream fileOut = new FileOutputStream(
+					Serializer.folder + "allPoints" + Serializer.fileType);
+			ObjectOutputStream out = new ObjectOutputStream(fileOut);
+	
+			out.writeObject(AllPoints.getInstance().getAllPointsFull());
+	
+			out.close();
+			fileOut.close();
+		} catch (FileNotFoundException f) {
+			System.out.println("NOT SAVED");
+			f.printStackTrace();
+		} catch (IOException i) {
+			System.out.println("NOT SAVED");
+			i.printStackTrace();
+		}
+		
+	}
+	
+	public static ArrayList<String> allPointsLoad() {
+		try {
+			ArrayList<String> rm;
+			FileInputStream fileIn = new FileInputStream(Serializer.folder + "allPoints" + Serializer.fileType);
+			ObjectInputStream in = new ObjectInputStream(fileIn);
+
+			rm = (ArrayList<String>) in.readObject();
+
+			in.close();
+			fileIn.close();
+
+			return rm;
+		} catch (FileNotFoundException f) {
+			// System.out.println("NOT LOADED");
+			// f.printStackTrace();
+			JOptionPane.showMessageDialog(null, f.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+		} catch (IOException i) {
+			System.out.println("NOT LOADED");
+			i.printStackTrace();
+			JOptionPane.showMessageDialog(null, i.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+		} catch (ClassNotFoundException c) {
+			System.out.println("NOT LOADED");
+			c.printStackTrace();
+			JOptionPane.showMessageDialog(null, c.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
+		}
+
+		return null;
+	}
 }

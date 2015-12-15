@@ -14,7 +14,8 @@ public interface IPoint extends Serializable {
 	public String getType();
 	public void setType(String type);
 	public String getId();
-	public void setId(String id);
+	public boolean setId(String id);
+	public String getDisplayName();
 	public ArrayList<IPoint> getNeighborsP();
 	public ArrayList<IPoint> getValidNeighbors(HashSet<String> whitelist);
 	public boolean removeNeighbor(IPoint point);
@@ -22,6 +23,7 @@ public interface IPoint extends Serializable {
 	public void removeAllNeighbors();
 	public boolean addNeighbor(IPoint point);
 	public String getMap();
+	public String getMapDisplayName();
 	public String toString();
 	public boolean exists();
 	public HashMap<String, ArrayList<String>> getNeighborPointsOnOtherMaps();
