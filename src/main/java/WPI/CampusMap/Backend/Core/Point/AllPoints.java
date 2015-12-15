@@ -66,13 +66,17 @@ public class AllPoints implements Serializable{
 		else
 			fullName = allPoints.get(pointKey);
 		
-		if(fullName == null)
+		if(fullName == null){
+			System.out.println("Null Name");
 			return null;
+		}
 		
 		String[] splitName = fullName.split("/");
-		if(splitName.length != 2)
+		if(splitName.length != 2){
+			System.out.println("Full Name improperly formated");
 			return null;
-		
+		}
+		System.out.println(fullName);
 		return AllMaps.getInstance().getMap(splitName[0]).getPoint(splitName[1]);
 	}
 
@@ -147,10 +151,10 @@ public class AllPoints implements Serializable{
 
 
 	public void save() {
-		for(String point : allPoints.keySet()){
-			if(!getPoint(allPoints.get(point)).exists()){
+		for(String point : allPoints.values()){
+			if(getPoint(point)== null ||!getPoint(point).exists()){
 				System.out.println("Point " + point + "does not exist, removing from allPoints.");
-				allPoints.remove(point);
+				allPoints.remove(point.split("/")[0]);
 			}
 		}
 		
