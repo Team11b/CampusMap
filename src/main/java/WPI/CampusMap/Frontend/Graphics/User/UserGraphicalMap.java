@@ -62,13 +62,33 @@ public class UserGraphicalMap extends GraphicalMap
 		}
 		
 		for(IPoint key : allPointsInMap.keySet()){
-				allPointsInMap.get(key).setSelected(false);
+				allPointsInMap.get(key).setUnselected();
 		}
 		
 		for(IPoint toShow : section){
-			allPointsInMap.get(toShow).setSelected(true);
+			allPointsInMap.get(toShow).setSelected();
 		}
-		
+	}
+	
+	public Section getShownSection(){
+		for(UserPathGraphicsObject graphicalSection : getObjectsOfType(UserPathGraphicsObject.class))
+		{
+			if(graphicalSection.getIsSelected()){
+				return graphicalSection.getRepresentedObject();
+			}
+		}
+		return null;
+	}
+	
+	public void setShownNode(IPoint point){
+		System.out.println(point);
+		allPointsInMap.get(point).setCurrent();
+	}
+	
+	public void clearRoute(){
+		for(IPoint key : allPointsInMap.keySet()){
+			allPointsInMap.get(key).setUnselected();
+		}
 	}
 	
 	/**

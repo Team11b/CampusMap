@@ -8,7 +8,13 @@ import WPI.CampusMap.Frontend.UI.UserMode;
 
 public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMap>
 {
-	private boolean selected;
+	
+	private boolean twitter;
+	public enum selectionState{
+		UNSELECTED,SELECTED,CURRENT
+	};
+	
+	private selectionState state = selectionState.UNSELECTED;
 	
 	public UserPointGraphicsObject(RealPoint backend, UserGraphicalMap owner) 
 	{
@@ -22,20 +28,30 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 	{
 		if(getOwnerMode(UserMode.class).containsInDest(this))
 		{
+//			System.out.println("this node has been hit "+ this);
 			if(getOwnerMode(UserMode.class).isRouteStart(this))
-				return Color.green;
+				return new Color(150,255,150);
 			else if(getOwnerMode(UserMode.class).isRouteEnd(this))
-				return Color.blue;
-			else if(getOwnerMode(UserMode.class).isSectionStart(this))
-				return Color.magenta;
-			else if(getOwnerMode(UserMode.class).isSectionEnd(this))
-				return Color.pink;
+				return new Color(150,150,255);
 			//else if(getOwnerMode(UserMode.class).isCurrentDirectionNode(this))
 			//	return Color.cyan;
+//			else if(getOwnerMode(UserMode.class).isSectionEnd(this))
+//				return Color.blue;
+//			else if(getOwnerMode(UserMode.class).isSectionStart(this))
+//				return Color.green;
 			else
 				return Color.yellow;
 		}
-		else if(selected == true){
+		else if(state == selectionState.CURRENT){
+			return Color.pink;
+		}
+		
+		else if(getOwnerMode(UserMode.class).isUltimateFirst(this)){
+			return Color.CYAN;
+		}else if(getOwnerMode(UserMode.class).isUltimateLast(this)){
+			return Color.MAGENTA;
+		}
+		else if(state == selectionState.SELECTED){
 //			if(getOwnerMode(UserMode.class).isRouteStart(this))
 //				return Color.green;
 //			else if(getOwnerMode(UserMode.class).isRouteEnd(this))
@@ -45,7 +61,10 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 				return Color.blue;
 			else if(getOwnerMode(UserMode.class).isSectionStart(this))
 				return Color.green;
-			
+		}else if(getOwnerMode(UserMode.class).isSectionEndDestination(this)||
+				getOwnerMode(UserMode.class).isSectionStartDestination(this)){
+			return Color.yellow;
+		
 		}
 		
 		
@@ -68,11 +87,19 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 	 * 
 	 * @return
 	 */
-	public boolean getSelected(){
-		return selected;
+	public selectionState getState(){
+		return state;
 	}
 	
-	public void setSelected(boolean isSelected){
-		selected = isSelected;
+	public void setSelected(){
+		state = selectionState.SELECTED;
+	}
+
+	public void setCurrent(){
+		state = selectionState.CURRENT;
+	}
+	
+	public void setUnselected(){
+		state = selectionState.UNSELECTED;
 	}
 }

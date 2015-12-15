@@ -267,6 +267,8 @@ public class AppUserModeControl extends JComponent {
 		public void onSelected() {
 			window.forceMapSwitch(section.getMap());
 			window.getUserMode().selectRouteSection(section);
+			if(source.getStart() == null) return;
+			window.getUserMode().selectCurrentNode(source.getStart());
 		}
 	}
 
