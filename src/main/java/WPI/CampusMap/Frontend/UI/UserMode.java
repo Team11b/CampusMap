@@ -48,8 +48,8 @@ import WPI.CampusMap.Frontend.Graphics.User.UserPointGraphicsObject;
 public class UserMode extends UIMode {
 	private UserGraphicalMap graphicalMap;
 
-	private LinkedList<IPoint> route = new LinkedList<>();
-	private HashSet<IPoint> routeSet = new HashSet<>();
+	private LinkedList<IPoint> destinations = new LinkedList<>();
+	private HashSet<IPoint> destinationsSet = new HashSet<>();
 
 	private Path routedPath;
 	private LocationPref pref;
@@ -79,8 +79,8 @@ public class UserMode extends UIMode {
 		NodeProcessor nP = new DistanceProcessor(new BetweenMapsProcessor(new WeatherHeuristicProcessor(null, pref)));
 		AStarPathProcessor processor = new AStarPathProcessor(nP);
 
-		IPoint[] points = new IPoint[route.size()];
-		route.toArray(points);
+		IPoint[] points = new IPoint[destinations.size()];
+		destinations.toArray(points);
 
 		try {
 			routedPath = PathFinder.getPath(points, processor);
@@ -96,7 +96,7 @@ public class UserMode extends UIMode {
 		}
 
 		getWindow().clearDestinations();
-		clearRoute();
+		clearDestinations();
 	}
 
 	public void selectRouteSection(Section section) {
@@ -105,77 +105,115 @@ public class UserMode extends UIMode {
 
 	public void onClearButton() {
 		// destinations.resetLastPoint();
-		clearRoute();
+		clearDestinations();
 		// UserPathGraphicsObject.deleteAll();
 	}
 
-	public void onAddDest(String destName) {
-		System.out.println("AddDest");
-	}
+	public void addPointToDestinations(UserPointGraphicsObject newPoint)
+	{
+		addPointToDestinations(newPoint.getRepresentedObject());
 
-	public void onPointAddedToRoute(UserPointGraphicsObject newPoint) {
-		onPointAddedToRoute(newPoint.getRepresentedObject());
-
-		if (newPoint != null && routeSet.contains(newPoint.getRepresentedObject()))
+		if (newPoint != null && destinationsSet.contains(newPoint.getRepresentedObject()))
 			getWindow().addDestination(newPoint);
 	}
 
-	public void onPointAddedToRoute(IPoint newPoint) {
+	public void addPointToDestinations(IPoint newPoint) {
 		if (newPoint == null)
 			return;
 
-		if (routedPath != null) {
-			clearRoute();
+		if (routedPath != null)
+		{
+			clearDestinations();
 			routedPath = null;
 			graphicalMap.setPathSections(getRoutedPath());
 		}
 
-		if (!routeSet.contains(newPoint)) {
+		if (!destinationsSet.contains(newPoint)) 
+		{
 			System.out.println("Added " + newPoint + " to route");
-			routeSet.add(newPoint);
-			route.add(newPoint);
+			destinationsSet.add(newPoint);
+			destinations.add(newPoint);
+		}
+	}
+	
+	public void onPointDescriptorAddedToDestinations(String pointDescriptor, int index)
+	{
+		if (routedPath != null)
+		{
+			clearDestinations();
+			routedPath = null;
+			graphicalMap.setPathSections(getRoutedPath());
+		}
+		
+		IPoint point = AllPoints.getInstance().getPoint(pointDescriptor);
+		if(point == null)
+			return;
+		
+		if(!destinations.contains(point))
+		{
+			destinations.add(index, point);
+			destinationsSet.add(point);
+		}
+	}
+	
+	public void onPointDescriptorRenamedDestination(String oldName, String newName, int index)
+	{
+		IPoint oldPoint = AllPoints.getInstance().getPoint(oldName);
+		if(oldPoint == null)
+		{
+			onPointDescriptorAddedToDestinations(newName, index);
+			return;
+		}
+		
+		IPoint newPoint = AllPoints.getInstance().getPoint(newName);
+		if(destinationsSet.contains(oldPoint))
+		{
+			destinationsSet.remove(oldPoint);
+			destinations.remove(oldPoint);
+			
+			destinations.add(index, newPoint);
+			destinationsSet.add(newPoint);
 		}
 	}
 
-	public void clearRoute() {
-		routeSet.clear();
-		route.clear();
+	public void clearDestinations() 
+	{
+		destinationsSet.clear();
+		destinations.clear();
 
 		getWindow().clearDestinations();
-
-		// TODO: Call UI code
 	}
-
-	public void onPointRemovedFromRoute(UserPointGraphicsObject point) {
-		onPointRemovedFromRoute(point.getRepresentedObject());
-	}
-
-	public void onPointRemovedFromRoute(IPoint point) {
+	
+	public void onPointRemovedFromDestinations(String pointDescriptor)
+	{
+		IPoint point = AllPoints.getInstance().getPoint(pointDescriptor);
+		
 		if (point == null)
 			return;
 
-		if (routedPath != null) {
-			clearRoute();
-			routedPath = null;
-			graphicalMap.setPathSections(null);
+		if(destinationsSet.contains(point))
+		{
+			destinationsSet.remove(point);
+			destinations.remove(point);
 		}
-
-		if (routeSet.contains(point)) {
-			routeSet.remove(point);
-			route.remove(point);
-		}
+	}
+	
+	public boolean onCheckPointName(String name)
+	{
+		IPoint point = AllPoints.getInstance().getPoint(name);
+		return point != null;
 	}
 
 	public boolean containsInRoute(UserPointGraphicsObject point) {
-		return routeSet.contains(point.getRepresentedObject());
+		return destinationsSet.contains(point.getRepresentedObject());
 	}
 
 	public boolean isRouteStart(UserPointGraphicsObject point) {
-		return route.getFirst().equals(point.getRepresentedObject());
+		return destinations.getFirst().equals(point.getRepresentedObject());
 	}
 
 	public boolean isRouteEnd(UserPointGraphicsObject point) {
-		return route.getLast().equals(point.getRepresentedObject());
+		return destinations.getLast().equals(point.getRepresentedObject());
 	}
 
 	public void onWeatherChosen(LocationPref option) {

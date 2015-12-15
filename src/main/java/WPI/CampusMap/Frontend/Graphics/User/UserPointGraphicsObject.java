@@ -40,6 +40,6 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 	@Override
 	public void onMouseClick(RealMouseEvent e)
 	{
-		getOwnerMode(UserMode.class).onPointAddedToRoute(this);
+		getOwnerMode(UserMode.class).addPointToDestinations(this);
 	}
 }
