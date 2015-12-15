@@ -247,11 +247,10 @@ public abstract class GraphicalMap {
 					i--;
 				} else if (go.isVisible()) {
 					Coord position = go.getWorldPosition();
-					position = getScreenFromWorld(position);
-					AffineTransform objectTransform = AffineTransform.getTranslateInstance(position.getX(),
-							position.getY());
-					// objectTransform.concatenate(getWorldToScreenTransform());
-					objectTransform.concatenate(AffineTransform.getTranslateInstance(0, 22));
+					position = getRenderFromWorld(position);
+					AffineTransform objectTransform = AffineTransform.getTranslateInstance(0, 22);
+					objectTransform.concatenate(getCameraTransform());
+					objectTransform.concatenate(AffineTransform.getTranslateInstance(position.getX(), position.getY()));
 
 					graphics.setTransform(objectTransform);
 
