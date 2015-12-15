@@ -109,8 +109,7 @@ public class UserMode extends UIMode {
 		// UserPathGraphicsObject.deleteAll();
 	}
 
-	public void addPointToDestinations(UserPointGraphicsObject newPoint)
-	{
+	public void addPointToDestinations(UserPointGraphicsObject newPoint) {
 		addPointToDestinations(newPoint.getRepresentedObject());
 
 		if (newPoint != null && destinationsSet.contains(newPoint.getRepresentedObject()))
@@ -121,85 +120,81 @@ public class UserMode extends UIMode {
 		if (newPoint == null)
 			return;
 
-		if (routedPath != null)
-		{
+		if (routedPath != null) {
 			clearDestinations();
 			routedPath = null;
 			graphicalMap.setPathSections(getRoutedPath());
 		}
 
-		if (!destinationsSet.contains(newPoint)) 
-		{
+		if (!destinationsSet.contains(newPoint)) {
 			System.out.println("Added " + newPoint + " to route");
 			destinationsSet.add(newPoint);
 			destinations.add(newPoint);
 		}
 	}
-	
-	public void onPointDescriptorAddedToDestinations(String pointDescriptor, int index)
-	{
-		if (routedPath != null)
-		{
+
+	public void onPointDescriptorAddedToDestinations(String pointDescriptor, int index) {
+		if (routedPath != null) {
 			clearDestinations();
 			routedPath = null;
 			graphicalMap.setPathSections(getRoutedPath());
 		}
-		
+
 		IPoint point = AllPoints.getInstance().getPoint(pointDescriptor);
-		if(point == null)
+		if (point == null)
 			return;
-		
-		if(!destinations.contains(point))
-		{
+
+		if (!destinations.contains(point)) {
 			destinations.add(index, point);
 			destinationsSet.add(point);
 		}
 	}
-	
-	public void onPointDescriptorRenamedDestination(String oldName, String newName, int index)
-	{
+
+	public void onPointDescriptorRenamedDestination(String oldName, String newName, int index) {
 		IPoint oldPoint = AllPoints.getInstance().getPoint(oldName);
-		if(oldPoint == null)
-		{
+		if (oldPoint == null) {
 			onPointDescriptorAddedToDestinations(newName, index);
 			return;
 		}
-		
+
 		IPoint newPoint = AllPoints.getInstance().getPoint(newName);
-		if(destinationsSet.contains(oldPoint))
-		{
+		if (destinationsSet.contains(oldPoint)) {
 			destinationsSet.remove(oldPoint);
 			destinations.remove(oldPoint);
-			
+
 			destinations.add(index, newPoint);
 			destinationsSet.add(newPoint);
 		}
 	}
 
-	public void clearDestinations() 
-	{
+	public void onPointDescriptorShown(String pointName) {
+		IPoint point = AllPoints.getInstance().getPoint(pointName);
+		if (point == null)
+			return;
+
+		loadMap(point.getMap());
+	}
+
+	public void clearDestinations() {
 		destinationsSet.clear();
 		destinations.clear();
 
 		getWindow().clearDestinations();
 	}
-	
-	public void onPointRemovedFromDestinations(String pointDescriptor)
-	{
+
+	public void onPointRemovedFromDestinations(String pointDescriptor) {
 		IPoint point = AllPoints.getInstance().getPoint(pointDescriptor);
-		
+
 		if (point == null)
 			return;
 
-		if(destinationsSet.contains(point))
-		{
+		if (destinationsSet.contains(point)) {
 			destinationsSet.remove(point);
 			destinations.remove(point);
 		}
 	}
-	
-	public boolean onCheckPointName(String name)
-	{
+
+	public boolean onCheckPointName(String name) {
 		IPoint point = AllPoints.getInstance().getPoint(name);
 		return point != null;
 	}
@@ -230,9 +225,8 @@ public class UserMode extends UIMode {
 	}
 
 	/**
-	 * @author Will Spurgeon
-	 * Prompts the user to enter a file name and a file location.
-	 * Writes the user's directions to the specified location.
+	 * @author Will Spurgeon Prompts the user to enter a file name and a file
+	 *         location. Writes the user's directions to the specified location.
 	 */
 	public void onTxt() {
 		JFileChooser chooser = new JFileChooser();
@@ -259,6 +253,7 @@ public class UserMode extends UIMode {
 
 	/**
 	 * Displays a pop up prompting the user to enter an email address.
+	 * 
 	 * @return The user's email address.
 	 */
 	public String popUp() {
@@ -274,8 +269,8 @@ public class UserMode extends UIMode {
 	}
 
 	/**
-	 * @author Will Spurgeon
-	 * Prompts the user for an email address. An email with the user's directions are then sent.
+	 * @author Will Spurgeon Prompts the user for an email address. An email
+	 *         with the user's directions are then sent.
 	 */
 	public void onEmail() {
 		Email email = new SimpleEmail();
@@ -375,7 +370,8 @@ public class UserMode extends UIMode {
 	}
 
 	/**
-	 * Builds and displays a pop up window containing all of the About information for the app.
+	 * Builds and displays a pop up window containing all of the About
+	 * information for the app.
 	 */
 	public void onAbout() {
 		JOptionPane aboutWindow = new JOptionPane();
@@ -383,26 +379,25 @@ public class UserMode extends UIMode {
 		aboutFrame.setBounds(300, 300, 700, 300);
 		aboutFrame.setLayout(new FlowLayout());
 		JLabel textLabel = new JLabel();
-		textLabel.setText("<html><p style=\"text-align: center;\">"+
-				"<p style=\"text-align: center;\"><span style=\"font-size: medium;\"><strong>CS 3733: Software Engineering B-Term 2015</strong></span></p>\n"+
-				"<p style=\"text-align: center;\"><span style=\"font-size: medium;\">Prof. Wilson Wong</span></p>\n"+
-				"<p style=\"text-align: center;\"><span style=\"font-size: medium;\">Worcester Polytechnic Institute</span></p>\n"+
-				"<p style=\"text-align: center;\">&nbsp;</p>\n"+
-				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><b>Team 0011b:</b></span></p>\n"+
-				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><b>Lukas Hunter: Team Coach</b></span></p>\n"+
-				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\">Chris Cormier: Testing Engineer (Iteration 1 and 2)</span></p>\n"+
-				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><span style=\"font-size: medium;\">Will Craft: Lead Software Engineer (Iteration 3 and 4)</span></span></p>\n"+
-				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\">Gavin Hayes: Test Engineer (Iteration 3 and 4)</span></p>\n"+
-				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\">Michael LoTurco: Product Owner (Iteration 1 and 2)</span></p>\n"+
-				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><span style=\"font-size: medium;\">Benny Peake: Product Manager (Iteration 1 and 2), UI Lead (3 and 4)</span></span></p>\n"+
-				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><span style=\"font-size: medium;\">Will Spurgeon: UI Lead (Iteration 1 and 2)</span></span></p>\n"+
-				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\">Max Stenke: Product Owner (Iteration 3 and 4)</span></p>\n"+
-				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><span>Jake Zizmor: Lead Software Engineer (Iteration 1 and 2), Prodcut Manager (Iteration 3 and 4)</span></span></p>\n"+
-				"<p style=\"text-align: left;\"><span style=\"font-size: medium;\">&nbsp;</span></p>\n"+
-				"<p style=\"text-align: left;\">&nbsp;</p>\n"+
-				"<p style=\"text-align: center;\">&nbsp;</p>\n"+
-				"<p style=\"text-align: center;\">&nbsp;</p>\n"+
-				"<p style=\"text-align: center;\">&nbsp;</p></html>");
+		textLabel.setText("<html><p style=\"text-align: center;\">"
+				+ "<p style=\"text-align: center;\"><span style=\"font-size: medium;\"><strong>CS 3733: Software Engineering B-Term 2015</strong></span></p>\n"
+				+ "<p style=\"text-align: center;\"><span style=\"font-size: medium;\">Prof. Wilson Wong</span></p>\n"
+				+ "<p style=\"text-align: center;\"><span style=\"font-size: medium;\">Worcester Polytechnic Institute</span></p>\n"
+				+ "<p style=\"text-align: center;\">&nbsp;</p>\n"
+				+ "<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><b>Team 0011b:</b></span></p>\n"
+				+ "<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><b>Lukas Hunter: Team Coach</b></span></p>\n"
+				+ "<p style=\"text-align: left;\"><span style=\"font-size: medium;\">Chris Cormier: Testing Engineer (Iteration 1 and 2)</span></p>\n"
+				+ "<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><span style=\"font-size: medium;\">Will Craft: Lead Software Engineer (Iteration 3 and 4)</span></span></p>\n"
+				+ "<p style=\"text-align: left;\"><span style=\"font-size: medium;\">Gavin Hayes: Test Engineer (Iteration 3 and 4)</span></p>\n"
+				+ "<p style=\"text-align: left;\"><span style=\"font-size: medium;\">Michael LoTurco: Product Owner (Iteration 1 and 2)</span></p>\n"
+				+ "<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><span style=\"font-size: medium;\">Benny Peake: Product Manager (Iteration 1 and 2), UI Lead (3 and 4)</span></span></p>\n"
+				+ "<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><span style=\"font-size: medium;\">Will Spurgeon: UI Lead (Iteration 1 and 2)</span></span></p>\n"
+				+ "<p style=\"text-align: left;\"><span style=\"font-size: medium;\">Max Stenke: Product Owner (Iteration 3 and 4)</span></p>\n"
+				+ "<p style=\"text-align: left;\"><span style=\"font-size: medium;\"><span>Jake Zizmor: Lead Software Engineer (Iteration 1 and 2), Prodcut Manager (Iteration 3 and 4)</span></span></p>\n"
+				+ "<p style=\"text-align: left;\"><span style=\"font-size: medium;\">&nbsp;</span></p>\n"
+				+ "<p style=\"text-align: left;\">&nbsp;</p>\n" + "<p style=\"text-align: center;\">&nbsp;</p>\n"
+				+ "<p style=\"text-align: center;\">&nbsp;</p>\n"
+				+ "<p style=\"text-align: center;\">&nbsp;</p></html>");
 		aboutFrame.add(textLabel);
 		aboutWindow.createDialog(aboutFrame, "About Campus Mapper");
 		aboutFrame.setVisible(true);

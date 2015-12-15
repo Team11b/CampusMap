@@ -319,7 +319,7 @@ public abstract class GraphicalMap {
 
 			for (int i = batchList.size() - 1; i >= 0; i--) {
 				GraphicsObject<?, ?> go = batchList.get(i);
-				if (go.isMouseOver(re)) {
+				if (go.isVisible() && go.isMouseOver(re)) {
 					over = go;
 					if (lastOver == over) {
 						over.onMouseMove(re);
