@@ -21,8 +21,6 @@ public class Wunderground extends WundergroundAbstract {
 		String responseAsString = results.readEntity(String.class);
 		Gson gson = new Gson();
 		resp = gson.fromJson(responseAsString, ResponseContainer.class);
-
-		// System.out.println(responseAsString);
 	}
 
 	public double getTempC() {
