@@ -186,6 +186,7 @@ public class Serializer {
 		return null;
 	}
 
+	@SuppressWarnings("unchecked")
 	public static ArrayList<String> allPointsLoad() {
 		try {
 			ArrayList<String> rm;
