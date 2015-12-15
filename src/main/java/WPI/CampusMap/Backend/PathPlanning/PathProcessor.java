@@ -123,7 +123,9 @@ public abstract class PathProcessor {
 		ArrayList<IPoint> neighbors = node.getNeighbors(whiteList);
 		for (IPoint point : neighbors) {
 			if (point.exists()) {
-				Node newNode = new Node(point, node, node.getDistance(point));
+				float dist = node.getDistance(point);
+				if(dist < 0) dist = 0;
+				Node newNode = new Node(point, node, dist);
 				processNode(newNode);
 				if (!alreadyExplored(newNode)) {
 					pushToFrontier(newNode);
