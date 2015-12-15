@@ -18,8 +18,8 @@ public class TwitterInformation {
 
 	// Buildings
 	public static final String CC = "Campus_Center";
-	public static final String FL = "Fuller_Labs";
-	public static final String AK = "Atwater_Kent";
+	public static final String FL = "FL";
+	public static final String AK = "AK";
 	public static final String PG = "PG";
 	public static final String BH = "Boyton_Hall";
 	public static final String GL = "Gordon_Library";
