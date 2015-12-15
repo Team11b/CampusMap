@@ -21,6 +21,7 @@ import WPI.CampusMap.Backend.PathPlanning.Path.Section;
 import WPI.CampusMap.Backend.PathPlanning.PathFinder;
 import WPI.CampusMap.Backend.PathPlanning.PathNotFoundException;
 
+@Ignore
 public class AStarTest {
 	static ProxyMap testMap, testMap2, testMap5, testMap6;
 
