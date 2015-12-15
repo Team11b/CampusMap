@@ -27,7 +27,7 @@ public class AllPoints implements Serializable{
 			synchronized (AllPoints.class) {
 				if (instance == null) {
 					instance = new AllPoints();
-					ArrayList<String> temp = Serializer.allPointsLoad(); 
+					LinkedList<String> temp = Serializer.allPointsLoad(); 
 					if(temp != null){
 						for(String point: temp){
 							allPoints.put(point.split("/")[1], point);
@@ -76,7 +76,7 @@ public class AllPoints implements Serializable{
 			System.out.println("Full Name improperly formated");
 			return null;
 		}
-		System.out.println(fullName);
+//		System.out.println(fullName);
 		return AllMaps.getInstance().getMap(splitName[0]).getPoint(splitName[1]);
 	}
 

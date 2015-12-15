@@ -210,13 +210,13 @@ public class Serializer {
 		
 	}
 	
-	public static ArrayList<String> allPointsLoad() {
+	public static LinkedList<String> allPointsLoad() {
 		try {
-			ArrayList<String> rm;
+			LinkedList<String> rm;
 			FileInputStream fileIn = new FileInputStream(Serializer.folder + "allPoints" + Serializer.fileType);
 			ObjectInputStream in = new ObjectInputStream(fileIn);
 
-			rm = (ArrayList<String>) in.readObject();
+			rm = (LinkedList<String>) in.readObject();
 
 			in.close();
 			fileIn.close();
