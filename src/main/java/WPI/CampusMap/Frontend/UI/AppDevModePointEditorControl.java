@@ -56,8 +56,9 @@ public class AppDevModePointEditorControl extends JComponent {
 
 		Choice typeSelector = new Choice();
 		typeSelector.add(RealPoint.ELEVATOR);
-		typeSelector.add(RealPoint.HALLWAY);
 		typeSelector.add(RealPoint.STAIRS);
+		typeSelector.add(RealPoint.HALLWAY);
+		typeSelector.add(RealPoint.ROOM);
 		typeSelector.add(RealPoint.OUT_DOOR);
 		typeSelector.addItemListener(new PointTypeChangedAction());
 		typeSelector.select(point.getPointType());

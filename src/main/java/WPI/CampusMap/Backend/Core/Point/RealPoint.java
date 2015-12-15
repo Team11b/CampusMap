@@ -36,6 +36,8 @@ public class RealPoint implements IPoint,java.io.Serializable {
 	/** Standard type of hallway */
 	public static final String ELEVATOR = "elevator";
 	/** Standard type of elevator */
+	public static final String ROOM = "room";
+	/** Standard type of elevator */
 	
 	/**
 	 * Point constructor
