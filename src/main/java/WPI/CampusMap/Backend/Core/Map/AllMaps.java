@@ -98,9 +98,7 @@ public class AllMaps {
 		//If same map
 		if(startMap.equals(destinationMap)) {
 			if(startMap.equals(CampusMap)){
-				for(String map: connectedToCampus){
-					whitelist.add(map);
-				}
+				addConnectedToCampus(whitelist,connectedToCampus);
 			}
 			if(Arrays.asList(connectedToCampus).contains(startMap)){
 				whitelist.add(CampusMap);
@@ -119,9 +117,7 @@ public class AllMaps {
 			return whitelist;
 		}
 		whitelist.add(CampusMap);
-		for (String map : connectedToCampus) {
-			whitelist.add(map);
-		}
+		addConnectedToCampus(whitelist,connectedToCampus);
 
 		boolean startW = startMap.equals(CampusMap), destW = destinationMap.equals(CampusMap);
 		for (String map : connectedToCampus) {
@@ -146,6 +142,19 @@ public class AllMaps {
 		}
 		// no path found return empty list
 		return new HashSet<String>();
+	}
+	
+	private void addConnectedToCampus(HashSet<String> whitelist, String[] connectedToCampus){
+		HashMap<String,String> addedMaps= new HashMap<String,String>();
+		for(String map: connectedToCampus){
+			String other = addedMaps.get(map);
+			if(other == null){
+				addedMaps.put(map.split("-")[0], map);
+				whitelist.add(map);
+			}else{
+				buildingDepthFirstSearch(map, other, new ArrayList<String>(), whitelist);
+			}
+		}
 	}
 
 	private boolean buildingDepthFirstSearch(String current, String dest, ArrayList<String> stack,

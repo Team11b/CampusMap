@@ -140,7 +140,6 @@ public class ProxyMap implements IMap, Serializable {
 					// System.out.println("Connecting map: " + connectedMap);
 					tempConnectedMaps.add(connectedMap);
 				}
-				
 			}
 			namedPoints = tempNamedPoints.toArray(new String[tempNamedPoints.size()]);
 			connectedMaps = tempConnectedMaps.toArray(new String[tempConnectedMaps.size()]);

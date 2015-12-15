@@ -2,6 +2,7 @@ package WPI.CampusMap.Backend.PathPlanning;
 
 import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.PriorityQueue;
 
@@ -59,7 +60,8 @@ public abstract class PathProcessor {
 		for (int i = 1; i < keyPoints.length; i++) {
 			explored = new HashSet<Node>();
 			frontier = new PriorityQueue<Node>(getNodeCompartor());
-
+			
+			
 			HashSet<String> whiteList = AllMaps.getInstance().generateWhitelist(keyPoints[i - 1].getMap(),
 					keyPoints[i].getMap());
 			System.out.println("WhiteList:" + whiteList);
