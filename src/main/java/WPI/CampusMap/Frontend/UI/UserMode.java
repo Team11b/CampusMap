@@ -147,8 +147,6 @@ public class UserMode extends UIMode
 //			routedPath = null;
 //			graphicalMap.setPathSections(getRoutedPath());
 //		}
-		
-		
 		if (!destinationsSet.contains(newPoint)) {
 			System.out.println("Added " + newPoint + " to route");
 			destinationsSet.add(newPoint);
