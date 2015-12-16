@@ -106,7 +106,7 @@ public class UserMode extends UIMode {
 		}
 
 		getWindow().clearDestinations();
-		clearDestinations();
+		onClearDestinations();
 	}
 
 	/**
@@ -132,7 +132,7 @@ public class UserMode extends UIMode {
 	 */
 	public void onClearButton() {
 		// destinations.resetLastPoint();
-		clearDestinations();
+		onClearDestinations();
 		// UserPathGraphicsObject.deleteAll();
 	}
 
@@ -183,7 +183,7 @@ public class UserMode extends UIMode {
 
 	public void onPointDescriptorAddedToDestinations(String pointDescriptor, int index) {
 		if (routedPath != null) {
-			clearDestinations();
+			onClearDestinations();
 			routedPath = null;
 			graphicalMap.setPathSections(getRoutedPath());
 		}
@@ -235,11 +235,9 @@ public class UserMode extends UIMode {
 	/**
 	 * Clears the destinations in the Destinations view.
 	 */
-	public void clearDestinations() {
+	public void onClearDestinations() {
 		destinationsSet.clear();
 		destinations.clear();
-
-		getWindow().clearDestinations();
 	}
 
 	public void onPointRemovedFromDestinations(String pointDescriptor) {
