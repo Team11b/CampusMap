@@ -76,6 +76,11 @@ public class UserMode extends UIMode
 		return routedPath.getSections(graphicalMap.getMap());
 	}
 
+	/**
+	 * This method is called when the "Route Me" button is pressed.
+	 * Generates a route based on the currently selected points.
+	 * This method also takes the current weather conditions into consideration when created the path.
+	 */
 	public void onRouteButton() {
 		NodeProcessor nP = new DistanceProcessor(new BetweenMapsProcessor(new WeatherHeuristicProcessor(null, pref)));
 		AStarPathProcessor processor = new AStarPathProcessor(nP);
@@ -334,8 +339,9 @@ public class UserMode extends UIMode
 	}
 
 	/**
-	 * @author Will Spurgeon Prompts the user to enter a file name and a file
-	 *         location. Writes the user's directions to the specified location.
+	 * @author Will Spurgeon 
+	 * Prompts the user to enter a file name and a file
+	 * location. Writes the user's directions to the specified location.
 	 */
 	public void onTxt() {
 		JFileChooser chooser = new JFileChooser();
@@ -378,8 +384,9 @@ public class UserMode extends UIMode
 	}
 
 	/**
-	 * @author Will Spurgeon Prompts the user for an email address. An email
-	 *         with the user's directions are then sent.
+	 * @author Will Spurgeon 
+	 * Prompts the user for an email address. An email
+	 * with the user's directions are then sent.
 	 */
 	public void onEmail() {
 		Email email = new SimpleEmail();
@@ -411,11 +418,15 @@ public class UserMode extends UIMode
 		}
 	}
 
+	/**
+	 * @author Will Spurgeon
+	 * Calls the sendText method on SMSClient.
+	 */
 	public void onSMS() {
 		System.out.println("SMS");
 		try {
 			Route sendingRoute = new Route(routedPath);
-			SMSClient.SendText("+18184411799", sendingRoute.toString());
+			SMSClient.sendText("+18184411799", sendingRoute.toString());
 		} catch (TwilioRestException e) {
 			// TODO Auto-generated catch block
 			JOptionPane.showMessageDialog(null, e.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -500,6 +511,7 @@ public class UserMode extends UIMode
 	}
 
 	/**
+	 * @author Will Spurgeon
 	 * Builds and displays a pop up window containing all of the About
 	 * information for the app.
 	 */
@@ -535,6 +547,7 @@ public class UserMode extends UIMode
 	}
 
 	/**
+	 * @author Will Spurgeon
 	 * Builds and displays the application User Guide in a pop up window.
 	 */
 	public void onGuide() {
@@ -584,9 +597,5 @@ public class UserMode extends UIMode
 		guideFrame.setBounds(100, 100, 850, 750);
 		guideFrame.setVisible(true);
 		guideFrame.setLayout(new FlowLayout());
-	
-
 	}
-
-	
 }
