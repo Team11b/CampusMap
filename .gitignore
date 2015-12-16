@@ -26,3 +26,4 @@ hs_err_pid*
 !miglayout15-swing.jar
 !jgoodies-forms-1.8.0.jar
 !jgoodies-forms-1.8.0-sources.jar
+/log.txt
