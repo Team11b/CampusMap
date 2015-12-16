@@ -59,6 +59,11 @@ public abstract class GraphicsObject<R, M extends GraphicalMap>
 		this.visible = visible;
 	}
 	
+	public float getScale()
+	{
+		return 1.0f;
+	}
+	
 	/**
 	 * Checks to see if this object is deleted.
 	 * @return True if deleted, false otherwise.
