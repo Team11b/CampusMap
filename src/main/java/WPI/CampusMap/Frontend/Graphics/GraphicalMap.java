@@ -236,6 +236,7 @@ public abstract class GraphicalMap {
 		graphics.clearRect(0, 0, view.width, view.height);
 
 		graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		graphics.setRenderingHint(RenderingHints.KEY_INTERPOLATION,RenderingHints.VALUE_INTERPOLATION_BILINEAR);
 
 		AffineTransform originalTransform = graphics.getTransform();
 		

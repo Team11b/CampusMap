@@ -59,6 +59,12 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 	}
 	
 	@Override
+	public float getScale()
+	{
+		return super.getScale() * (getOwnerMode(UserModeClass.class).getHighVisibility() ? 1.5f : 1.0f);
+	}
+	
+	@Override
 	public void onDraw(Graphics2D graphics)
 	{
 		ImageIcon renderImage = getRenderImage();

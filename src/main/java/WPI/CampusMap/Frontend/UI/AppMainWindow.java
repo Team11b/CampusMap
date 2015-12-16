@@ -61,6 +61,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 	private final ArrayList<String> mapStrings = new ArrayList<String>();
 	private final Action devModeAction = new DevModeAction();
 	private final Action showAllAction = new ShowAllAction();
+	private final Action highVisibilityAction = new HighVisibilityAction();
 	private final Action unitAction = new UnitAction();
 	private final Action printAction = new PrintAction();
 
@@ -201,6 +202,10 @@ public class AppMainWindow extends JFrame implements Runnable {
 		JCheckBoxMenuItem toggleShowAll = new JCheckBoxMenuItem("Show All Points");
 		toggleShowAll.setAction(showAllAction);
 		mnSettings.add(toggleShowAll);
+		
+		JCheckBoxMenuItem highVisibility = new JCheckBoxMenuItem("High Visibiltiy");
+		highVisibility.setAction(highVisibilityAction);
+		mnSettings.add(highVisibility);
 
 		JCheckBoxMenuItem chckbxmntmDevMode = new JCheckBoxMenuItem("Dev Mode");
 		chckbxmntmDevMode.setAction(devModeAction);
@@ -590,6 +595,20 @@ public class AppMainWindow extends JFrame implements Runnable {
 		public void actionPerformed(ActionEvent e) {
 			JCheckBoxMenuItem item = (JCheckBoxMenuItem) e.getSource();
 			getUserMode().setShowAllPoints(item.isSelected());
+		}
+	}
+	
+	@SuppressWarnings("serial")
+	private class HighVisibilityAction extends AbstractAction {
+		public HighVisibilityAction() 
+		{
+			putValue(NAME, "High Visibility");
+			putValue(SHORT_DESCRIPTION, "Increase the size of indicators on the screen.");
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			JCheckBoxMenuItem item = (JCheckBoxMenuItem) e.getSource();
+			getUserMode().setHighVisibility(item.isSelected());
 		}
 	}
 

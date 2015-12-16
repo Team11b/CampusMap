@@ -57,6 +57,7 @@ public class UserModeClass extends UIMode {
 	private LocationPref pref;
 	
 	private boolean showAllPoints;
+	private boolean highVisibilityMode;
 
 	public UserModeClass(AppMainWindow window) {
 		super(window);
@@ -660,5 +661,15 @@ public class UserModeClass extends UIMode {
 	public boolean getShowAllPoints()
 	{
 		return showAllPoints;
+	}
+	
+	public void setHighVisibility(boolean value)
+	{
+		highVisibilityMode = value;
+	}
+	
+	public boolean getHighVisibility()
+	{
+		return highVisibilityMode;
 	}
 }
