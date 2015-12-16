@@ -58,6 +58,8 @@ public class UserMode extends UIMode {
 
 	private Path routedPath;
 	private LocationPref pref;
+	
+	private boolean showAllPoints;
 
 	public UserMode(AppMainWindow window) {
 		super(window);
@@ -656,5 +658,15 @@ public class UserMode extends UIMode {
 		guideFrame.setBounds(100, 100, 850, 750);
 		guideFrame.setVisible(true);
 		guideFrame.setLayout(new FlowLayout());
+	}
+	
+	public void setShowAllPoints(boolean value)
+	{
+		showAllPoints = value;
+	}
+	
+	public boolean getShowAllPoints()
+	{
+		return showAllPoints;
 	}
 }
