@@ -40,10 +40,19 @@ public class Route {
 		return routeTable.get(section);
 	}
 
+	/**
+	 * Sets this to the given route.
+	 * @param route
+	 */
 	public void setRoute(LinkedList<Instruction> route) {
 		this.route = route;
 	}
 
+	/**
+	 * Appends new instructions and sections to the route.
+	 * @param newPart
+	 * @param section
+	 */
 	public void append(LinkedList<Instruction> newPart, Section section) {
 		LinkedList<Instruction> sectionList = new LinkedList<>();
 		for (int i = 0; i < newPart.size(); i++) {
@@ -54,6 +63,10 @@ public class Route {
 		routeTable.put(section, sectionList);
 	}
 
+	/**
+	 * Parses a path and generates a route.
+	 * @param mp
+	 */
 	public void parse(Path mp) {
 		Section last = null;
 		Iterator<Section> iterator = mp.iterator();
@@ -80,6 +93,11 @@ public class Route {
 		}
 	}
 
+	/**
+	 * Parses a section and returns a List of Instructions.
+	 * @param current
+	 * @return
+	 */
 	private static LinkedList<Instruction> parse(Section current) {
 		ArrayList<IPoint> p = GetTurns.getTurns(current);
 		LinkedList<Instruction> list = new LinkedList<Instruction>();
@@ -142,6 +160,11 @@ public class Route {
 		return list;
 	}
 	
+	/**
+	 * Generates an ETA Instruction for the given path.
+	 * @param mp
+	 * @return
+	 */
 	private static Instruction eta(Path mp){
 		float distance = 0;
 		IPoint previous = null;
@@ -171,6 +194,9 @@ public class Route {
 		return new Instruction(distance/walkingSpeed,previous);
 	}
 
+	/**
+	 * Converts the route to a String.
+	 */
 	public String toString() {
 		String answer = "";
 

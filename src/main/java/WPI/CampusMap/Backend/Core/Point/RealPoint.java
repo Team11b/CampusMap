@@ -101,13 +101,7 @@ public class RealPoint implements IPoint,java.io.Serializable {
 		}
 	}
 
-	/**
-	 * Gets the distance between two points.
-	 * 
-	 * @param other
-	 *            The other point to get the distance too.
-	 * @return The distance to the other point or -1 if on different maps.
-	 */
+	
 	@Override
 	public double distance(IPoint other) {
 		if(other.getMap().equals(this.getMap())){
@@ -117,62 +111,33 @@ public class RealPoint implements IPoint,java.io.Serializable {
 		}
 	}
 
-	/**
-	 * Gets the coordinate of this point
-	 * 
-	 * @return The current coordinate of this point
-	 */
+	
 	@Override
 	public Coord getCoord() {
 		return coord;
 	}
-
-	/**
-	 * Sets the coordinates location of this point
-	 * 
-	 * @param coord The new coordinate of this point
-	 */
+	
 	@Override
 	public void setCoord(Coord coord) {
 		this.coord = coord;
 	}
 
-	/**
-	 * Gets the type of this point
-	 * 
-	 * @return The type of the point
-	 */
 	@Override
 	public String getType() {
 		return type;
 	}
-
-	/**
-	 * Sets the type of this point
-	 * 
-	 * @param type The type to set this point to
-	 */
+	
 	@Override
 	public void setType(String type) {
 		this.type = type;
 
 	}
-
-	/**
-	 * Returns the id of the point
-	 * 
-	 * @return The id of the point
-	 */
+	
 	@Override
 	public String getId() {
 		return id;
 	}
-
-	/**|
-	 * Sets the id of the point
-	 * 
-	 * @param newId the new id
-	 */
+	
 	@Override
 	public boolean setId(String newId) {
 		// TODO Add check to see if id already exists?
@@ -205,26 +170,14 @@ public class RealPoint implements IPoint,java.io.Serializable {
 		}
 		
 		return true;
-	}
+	}	
 	
-	/**
-	 * Returns the list of neighboring points
-	 * 
-	 * @return the list of neighboring points
-	 */
 	@Override
 	public ArrayList<IPoint> getNeighborsP() {
 		ArrayList<IPoint> tempAL = new ArrayList<IPoint>(neighbors.values());
 		return tempAL;
 	}
-
-	/**
-	 * Returns all the valid nieghbors of the point
-	 * 
-	 * @param whitelist whitelist of valid floors
-	 * 
-	 * @return The list of only neighbors that exists on the specifies maps
-	 */
+	
 	@Override
 	public ArrayList<IPoint> getValidNeighbors(HashSet<String> whitelist) {
 		ArrayList<IPoint> neigh = new ArrayList<IPoint>();

@@ -42,6 +42,9 @@ public class RealMap implements IMap, java.io.Serializable {
 		this.allPoints = new HashMap<String, RealPoint>();
 	}
 
+	/**
+	 * Makes sure that none of the points in the given map are null.
+	 */
 	public void validatePoints() {
 		for (String key : allPoints.keySet()) {
 			RealPoint point = allPoints.get(key);
