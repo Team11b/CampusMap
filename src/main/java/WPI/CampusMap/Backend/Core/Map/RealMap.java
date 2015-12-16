@@ -56,22 +56,11 @@ public class RealMap implements IMap, java.io.Serializable {
 		}
 	}
 
-	/**
-	 * Get the scale from inches to feet.
-	 * 
-	 * @return The scale from inches to feet.
-	 */
 	@Override
 	public float getScale() {
 		return this.scale;
 	}
 
-	/**
-	 * Set the scale from inches to feet.
-	 * 
-	 * @param scale
-	 *            the inches to feet scale.
-	 */
 	@Override
 	public void setScale(float scale) {
 		float oldScale = this.scale;
@@ -90,21 +79,11 @@ public class RealMap implements IMap, java.io.Serializable {
 
 	}
 
-	/**
-	 * Gets the name of this map.
-	 * 
-	 * @return The name of this map.
-	 */
 	@Override
 	public String getName() {
 		return this.name;
 	}
 
-	/**
-	 * Gets the loaded image of the map png to display.
-	 * 
-	 * @return The loaded image to display for this map.
-	 */
 	@Override
 	public ImageIcon getLoadedImage() {
 		if (loadedImage == null) {
@@ -126,27 +105,11 @@ public class RealMap implements IMap, java.io.Serializable {
 		}
 	}
 
-	/**
-	 * Gets a point from the map.
-	 * 
-	 * @param id
-	 *            The id of the point to get.
-	 * @return The point with the id.
-	 */
 	@Override
 	public RealPoint getPoint(String id) {
 		return this.allPoints.get(id);
 	}
 
-	/**
-	 * Removes the point with the given ID from the map array, and from the
-	 * neighbor arrays of all points on the map
-	 * 
-	 * @param id
-	 *            The ID of the point to be removed
-	 * @return True if point is successfully removed, False if specified point
-	 *         does note exist
-	 */
 	@Override
 	public boolean removePoint(String id) {
 		IPoint point = allPoints.get(id);
@@ -185,14 +148,6 @@ public class RealMap implements IMap, java.io.Serializable {
 		return point;
 	}
 
-	/**
-	 * Adds a point to the map. Does NOT connect the point to any other points.
-	 * 
-	 * @param point
-	 *            a new Point to add
-	 * @return true if the point was added, false if there already exists a
-	 *         point with the same ID
-	 */
 	@Override
 	public boolean addPoint(RealPoint point) {
 		if (this.allPoints.containsKey(point.getId()))
@@ -200,20 +155,8 @@ public class RealMap implements IMap, java.io.Serializable {
 
 		this.allPoints.put(point.getId(), point);
 		return true;
-	}
-
-	// TODO maybe move this to a static method?
-	/**
-	 * Adds an edge between two Points
-	 * 
-	 * @param point
-	 *            the first Point
-	 * @param other
-	 *            the second Point
-	 * @return true if the edge was added, false if one Points doesn't exist or
-	 *         if the edge already exists
-	 */
-	// TODO maybe move this to a static method?
+	}	
+	
 	@Override
 	public boolean addEdge(IPoint point, IPoint other) {
 		if (point.equals(other)) {
@@ -227,16 +170,6 @@ public class RealMap implements IMap, java.io.Serializable {
 		return true;
 	}
 
-	/**
-	 * Removes an edge between two Points
-	 * 
-	 * @param point
-	 *            the first Point
-	 * @param other
-	 *            the second Point
-	 * @return true if the edge was removed, false if one Points doesn't exist
-	 *         or if the edge does not exist
-	 */
 	@Override
 	public boolean removeEdge(IPoint point, IPoint other) {
 		if (this.allPoints.containsKey(point.getId()) && (this.allPoints.containsKey(other.getId()))) {
@@ -250,9 +183,6 @@ public class RealMap implements IMap, java.io.Serializable {
 		return false;
 	}
 
-	/**
-	 * Removes the given point and adds it back under the newName
-	 */
 	@Override
 	public void renamePoint(RealPoint p, String newName)
 	{
@@ -260,9 +190,6 @@ public class RealMap implements IMap, java.io.Serializable {
 		allPoints.put(newName, p);
 	}
 
-	/**
-	 * Uses the serializer to save the map data.
-	 */
 	@Override
 	public void save() {
 		for (RealPoint point : allPoints.values()) {

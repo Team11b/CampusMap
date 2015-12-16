@@ -275,7 +275,7 @@ public class UserMode extends UIMode {
 	 * Returns true if the given point is the start of a route.
 	 * 
 	 * @param point
-	 * @return
+	 * @return true if the given point is the start of a route.
 	 */
 	public boolean isRouteStart(UserPointGraphicsObject point) {
 		if (destinations.isEmpty())
@@ -287,7 +287,7 @@ public class UserMode extends UIMode {
 	 * Returns true if the given point is the end of a route.
 	 * 
 	 * @param point
-	 * @return
+	 * @return true if the given point is the end of a route.
 	 */
 	public boolean isRouteEnd(UserPointGraphicsObject point) {
 		if (destinations.isEmpty())
