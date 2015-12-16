@@ -50,7 +50,7 @@ public class Coord implements java.io.Serializable {
 
 	/**
 	 * Returns the value of x.
-	 * @return
+	 * @return float of x
 	 */
 	public float getX() {
 		return (float)x;
@@ -66,7 +66,7 @@ public class Coord implements java.io.Serializable {
 
 	/**
 	 * Returns the value of y.
-	 * @return
+	 * @return float, y
 	 */
 	public float getY() {
 		return (float)y;

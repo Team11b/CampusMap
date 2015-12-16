@@ -126,7 +126,7 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 	
 	/** getter for selected
 	 * 
-	 * @return
+	 * @return the selection state
 	 */
 	public selectionState getState(){
 		return state;

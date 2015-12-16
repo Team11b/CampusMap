@@ -50,7 +50,8 @@ public interface IPoint extends Serializable {
 	/**|
 	 * Sets the id of the point
 	 * 
-	 * @param newId the new id
+	 * @param id the new id
+	 * @return true if it is set
 	 */
 	public boolean setId(String id);
 	/**
@@ -121,7 +122,7 @@ public interface IPoint extends Serializable {
 	public HashMap<String, ArrayList<String>> getNeighborPointsOnOtherMaps();
 	/**
 	 * Determines whether the point is on a map that connects with Campus Map
-	 * @return
+	 * @return true if it is on a map that connects with campus map
 	 */
 	public boolean connectToCampus();
 	/**
