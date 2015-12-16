@@ -23,6 +23,7 @@ public class App {
 			PrintStream printStream = new PrintStream(fs);
 			
 			System.setOut(printStream);
+			System.setErr(printStream);
 		} 
 		catch (Exception e1)
 		{
