@@ -145,9 +145,6 @@ public class AppMainWindow extends JFrame implements Runnable {
 		mntmGuide.addActionListener(guideAction);
 		mnFile.add(mntmGuide);
 
-		JMenuItem mntmSaveAsPdf = new JMenuItem("Save As PDF");
-		mnFile.add(mntmSaveAsPdf);
-
 		JMenuItem mntmSaveAsTxt = new JMenuItem("Save As TXT");
 		mntmSaveAsTxt.addActionListener(txtExporterAction);
 		mnFile.add(mntmSaveAsTxt);

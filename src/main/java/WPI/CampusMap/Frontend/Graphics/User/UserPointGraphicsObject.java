@@ -12,6 +12,19 @@ import WPI.CampusMap.Frontend.UI.UserMode;
 
 public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMap>
 {
+	private static final ImageIcon redIcon = new ImageIcon("icon-red.png");
+	private static final ImageIcon blueIcon = new ImageIcon("icon-blue.png");	
+	private static final ImageIcon greenIcon = new ImageIcon("icon-green.png");	
+	private static final ImageIcon yellowIcon = new ImageIcon("icon-yellow.png");	
+	private static final ImageIcon purpleIcon = new ImageIcon("icon-purple.png");	
+	private static final ImageIcon lightRedIcon = new ImageIcon("icon-lightred.png");
+	private static final ImageIcon lightGreenIcon = new ImageIcon("icon-lightgreen.png");
+	private static final ImageIcon pinkIcon = new ImageIcon("icon-pink.png");
+	private static final ImageIcon normalIcon = new ImageIcon("icon.png");
+	
+	private static final ImageIcon doorIcon = new ImageIcon("door.png");
+	private static final ImageIcon stairIcon = new ImageIcon("stairs.png");
+	private static final ImageIcon elevatorIcon = new ImageIcon("elevator.png");
 	
 	private boolean twitter;
 	public enum selectionState{
@@ -24,68 +37,12 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 	
 	public UserPointGraphicsObject(RealPoint backend, UserGraphicalMap owner) 
 	{
-		super(backend, owner);		
-		
-		switch(getRepresentedObject().getType())
-		{
-		case RealPoint.OUT_DOOR:
-			normalImage = new ImageIcon("door.png");
-			break;
-		case RealPoint.ELEVATOR:
-			normalImage = new ImageIcon("elevator.png");
-			break;
-		case RealPoint.STAIRS:
-			normalImage = new ImageIcon("stairs.png");
-		}
-		
-		hoverImage = new ImageIcon("icon.png");
+		super(backend, owner);
 	}
 	
 	@Override
 	public Color getColor() 
 	{
-		if(getOwnerMode(UserMode.class).containsInDest(this))
-		{
-//			System.out.println("this node has been hit "+ this);
-			if(getOwnerMode(UserMode.class).isRouteStart(this))
-				return new Color(150,255,150);
-			else if(getOwnerMode(UserMode.class).isRouteEnd(this))
-				return new Color(150,150,255);
-			//else if(getOwnerMode(UserMode.class).isCurrentDirectionNode(this))
-			//	return Color.cyan;
-//			else if(getOwnerMode(UserMode.class).isSectionEnd(this))
-//				return Color.blue;
-//			else if(getOwnerMode(UserMode.class).isSectionStart(this))
-//				return Color.green;
-			else
-				return Color.yellow;
-		}
-		else if(state == selectionState.CURRENT){
-			return Color.pink;
-		}
-		
-		else if(getOwnerMode(UserMode.class).isUltimateFirst(this)){
-			return Color.CYAN;
-		}else if(getOwnerMode(UserMode.class).isUltimateLast(this)){
-			return Color.MAGENTA;
-		}
-		else if(state == selectionState.SELECTED){
-//			if(getOwnerMode(UserMode.class).isRouteStart(this))
-//				return Color.green;
-//			else if(getOwnerMode(UserMode.class).isRouteEnd(this))
-//				return Color.blue;
-			
-			if(getOwnerMode(UserMode.class).isSectionEnd(this))
-				return Color.blue;
-			else if(getOwnerMode(UserMode.class).isSectionStart(this))
-				return Color.green;
-		}else if(getOwnerMode(UserMode.class).isSectionEndDestination(this)||
-				getOwnerMode(UserMode.class).isSectionStartDestination(this)){
-			return Color.yellow;
-		
-		}
-		
-		
 		return super.getColor();
 	}
 	
@@ -98,15 +55,7 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 	@Override
 	public void onDraw(Graphics2D graphics)
 	{
-		ImageIcon renderImage;
-		boolean isRouteStart = getOwnerMode(UserMode.class).isRouteStart(this);
-		boolean isRouteEnd = getOwnerMode(UserMode.class).isRouteEnd(this);
-		boolean isInRoute = getOwnerMode(UserMode.class).containsInDest(this);
-		
-		if(!isRouteStart && !isRouteEnd && !isInRoute && getOwner().getHoverObject() != this)
-			renderImage = normalImage;
-		else
-			renderImage = hoverImage;
+		ImageIcon renderImage = getRenderImage();
 		
 		if(renderImage != null)
 			graphics.drawImage(renderImage.getImage(), -renderImage.getIconWidth() / 2, -renderImage.getIconHeight(), renderImage.getIconWidth(), renderImage.getIconHeight(), renderImage.getImageObserver());
@@ -142,5 +91,56 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 	
 	public void setUnselected(){
 		state = selectionState.UNSELECTED;
+	}
+	
+	private ImageIcon getRenderImage()
+	{
+		if(getOwnerMode(UserMode.class).containsInDest(this))
+		{
+			if(getOwnerMode(UserMode.class).isRouteStart(this))
+				return lightGreenIcon;
+			else if(getOwnerMode(UserMode.class).isRouteEnd(this))
+				return lightRedIcon;
+			else
+				return yellowIcon;
+		}
+		else if(state == selectionState.CURRENT)
+		{
+			return pinkIcon;
+		}
+		else if(getOwnerMode(UserMode.class).isUltimateFirst(this))
+		{
+			return lightGreenIcon;
+		}
+		else if(getOwnerMode(UserMode.class).isUltimateLast(this))
+		{
+			return lightRedIcon;
+		}
+		else if(state == selectionState.SELECTED){
+			
+			if(getOwnerMode(UserMode.class).isSectionEnd(this))
+				return blueIcon;
+			else if(getOwnerMode(UserMode.class).isSectionStart(this))
+				return greenIcon;
+		}else if(getOwnerMode(UserMode.class).isSectionEndDestination(this)||
+				getOwnerMode(UserMode.class).isSectionStartDestination(this)){
+			return yellowIcon;
+		
+		}
+		
+		if(getOwner().getHoverObject() == this)
+			return normalIcon;
+		
+		switch(getRepresentedObject().getType())
+		{
+		case RealPoint.OUT_DOOR:
+			return doorIcon;
+		case RealPoint.ELEVATOR:
+			return elevatorIcon;
+		case RealPoint.STAIRS:
+			return stairIcon;
+		}
+		
+		return null;
 	}
 }

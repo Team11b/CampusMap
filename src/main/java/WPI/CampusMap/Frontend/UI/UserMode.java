@@ -50,8 +50,7 @@ import WPI.CampusMap.Frontend.Graphics.User.UserGraphicalMap;
 import WPI.CampusMap.Frontend.Graphics.User.UserPathGraphicsObject;
 import WPI.CampusMap.Frontend.Graphics.User.UserPointGraphicsObject;
 
-public class UserMode extends UIMode
-{
+public class UserMode extends UIMode {
 	private UserGraphicalMap graphicalMap;
 
 	private LinkedList<IPoint> destinations = new LinkedList<>();
@@ -82,9 +81,9 @@ public class UserMode extends UIMode
 	}
 
 	/**
-	 * This method is called when the "Route Me" button is pressed.
-	 * Generates a route based on the currently selected points.
-	 * This method also takes the current weather conditions into consideration when created the path.
+	 * This method is called when the "Route Me" button is pressed. Generates a
+	 * route based on the currently selected points. This method also takes the
+	 * current weather conditions into consideration when created the path.
 	 */
 	public void onRouteButton() {
 		NodeProcessor nP = new DistanceProcessor(new BetweenMapsProcessor(new WeatherHeuristicProcessor(null, pref)));
@@ -112,17 +111,19 @@ public class UserMode extends UIMode
 
 	/**
 	 * Highlights the given section on map.
+	 * 
 	 * @param section
 	 */
 	public void selectRouteSection(Section section) {
 		graphicalMap.setShownSection(section);
 	}
-	
+
 	/**
 	 * Selects the given point on map.
+	 * 
 	 * @param point
 	 */
-	public void selectCurrentNode(IPoint point){
+	public void selectCurrentNode(IPoint point) {
 		graphicalMap.setShownNode(point);
 	}
 
@@ -137,17 +138,19 @@ public class UserMode extends UIMode
 
 	/**
 	 * Adds the given point to the list of destinations.
+	 * 
 	 * @param newPoint
 	 */
 	public void addPointToDestinations(UserPointGraphicsObject newPoint) {
 		addPointToDestinations(newPoint.getRepresentedObject());
-		
-		if(newPoint != null && destinationsSet.contains(newPoint.getRepresentedObject()))
+
+		if (newPoint != null && destinationsSet.contains(newPoint.getRepresentedObject()))
 			getWindow().addDestination(newPoint);
 	}
 
 	/**
 	 * Adds the given point to the route.
+	 * 
 	 * @param newPoint
 	 */
 	public void onPointAddedToRoute(UserPointGraphicsObject newPoint) {
@@ -159,17 +162,18 @@ public class UserMode extends UIMode
 
 	/**
 	 * Adds the given point to the list of destinations.
+	 * 
 	 * @param newPoint
 	 */
 	public void addPointToDestinations(IPoint newPoint) {
 		if (newPoint == null)
 			return;
 
-//		if (routedPath != null) {
-//			clearDestinations();
-//			routedPath = null;
-//			graphicalMap.setPathSections(getRoutedPath());
-//		}
+		// if (routedPath != null) {
+		// clearDestinations();
+		// routedPath = null;
+		// graphicalMap.setPathSections(getRoutedPath());
+		// }
 		if (!destinationsSet.contains(newPoint)) {
 			System.out.println("Added " + newPoint + " to route");
 			destinationsSet.add(newPoint);
@@ -177,19 +181,19 @@ public class UserMode extends UIMode
 		}
 	}
 
-	public void onPointDescriptorAddedToDestinations(String pointDescriptor, int index){
-		if(routedPath != null){
+	public void onPointDescriptorAddedToDestinations(String pointDescriptor, int index) {
+		if (routedPath != null) {
 			clearDestinations();
 			routedPath = null;
 			graphicalMap.setPathSections(getRoutedPath());
 		}
-		
+
 		IPoint point = AllPoints.getInstance().getPoint(pointDescriptor);
-		if(point == null){
+		if (point == null) {
 			return;
 		}
-		
-		if(!destinations.contains(point)){
+
+		if (!destinations.contains(point)) {
 			destinations.add(index, point);
 			destinationsSet.add(point);
 		}
@@ -202,7 +206,7 @@ public class UserMode extends UIMode
 		destinationsSet.clear();
 		destinations.clear();
 	}
-		
+
 	public void onPointDescriptorRenamedDestination(String oldName, String newName, int index) {
 		IPoint oldPoint = AllPoints.getInstance().getPoint(oldName);
 		if (oldPoint == null) {
@@ -244,146 +248,151 @@ public class UserMode extends UIMode
 		if (point == null)
 			return;
 
-//		if (routedPath != null) {
-//			clearRoute();
-//			routedPath = null;
-//			graphicalMap.setPathSections(null);
-//		}
+		// if (routedPath != null) {
+		// clearRoute();
+		// routedPath = null;
+		// graphicalMap.setPathSections(null);
+		// }
 		if (destinationsSet.contains(point)) {
 			destinationsSet.remove(point);
 			destinations.remove(point);
 		}
 	}
+
 	public boolean onCheckPointName(String name) {
 		IPoint point = AllPoints.getInstance().getPoint(name);
 		return point != null;
 	}
-//	public boolean containsInRoute(UserPointGraphicsObject point){
-//		return false;
-//	}
-	
+	// public boolean containsInRoute(UserPointGraphicsObject point){
+	// return false;
+	// }
+
 	public boolean containsInDest(UserPointGraphicsObject point) {
 		return destinationsSet.contains(point.getRepresentedObject());
 	}
-	
+
 	/**
 	 * Returns true if the given point is the start of a route.
+	 * 
 	 * @param point
 	 * @return true if the given point is the start of a route.
 	 */
-	public boolean isRouteStart(UserPointGraphicsObject point)
-	{
-		if(destinations.isEmpty())
+	public boolean isRouteStart(UserPointGraphicsObject point) {
+		if (destinations.isEmpty())
 			return false;
 		return destinations.getFirst().equals(point.getRepresentedObject());
 	}
 
 	/**
 	 * Returns true if the given point is the end of a route.
+	 * 
 	 * @param point
 	 * @return true if the given point is the end of a route.
 	 */
-	public boolean isRouteEnd(UserPointGraphicsObject point) 
-	{
-		if(destinations.isEmpty())
+	public boolean isRouteEnd(UserPointGraphicsObject point) {
+		if (destinations.isEmpty())
 			return false;
 		return destinations.getLast().equals(point.getRepresentedObject());
 	}
-	
-	public boolean isSectionStart(UserPointGraphicsObject point) {
-		//System.out.println(point.getRepresentedObject().getMap());
-		Section sectionToCheck = graphicalMap.getShownSection();
-		if(sectionToCheck == null) return false;
-		
-		if(sectionToCheck.getPoints().getFirst().equals(point.getRepresentedObject())){
-			return true;
-		}
-	return false;
-	}
 
-	public boolean isSectionEnd(UserPointGraphicsObject point) {
-//		System.out.println(point.getRepresentedObject().getMap());
+	public boolean isSectionStart(UserPointGraphicsObject point) {
+		// System.out.println(point.getRepresentedObject().getMap());
 		Section sectionToCheck = graphicalMap.getShownSection();
-		
-		if(sectionToCheck == null) return false;
-		
-		if(sectionToCheck.getPoints().getLast().equals(point.getRepresentedObject())){
+		if (sectionToCheck == null)
+			return false;
+
+		if (sectionToCheck.getPoints().getFirst().equals(point.getRepresentedObject())) {
 			return true;
 		}
 		return false;
 	}
-	
+
+	public boolean isSectionEnd(UserPointGraphicsObject point) {
+		// System.out.println(point.getRepresentedObject().getMap());
+		Section sectionToCheck = graphicalMap.getShownSection();
+
+		if (sectionToCheck == null)
+			return false;
+
+		if (sectionToCheck.getPoints().getLast().equals(point.getRepresentedObject())) {
+			return true;
+		}
+		return false;
+	}
+
 	public boolean isSectionEndDestination(UserPointGraphicsObject graphicsObjectToCheck) {
 		// TODO Auto-generated method stub
 		IPoint pointToCheck = graphicsObjectToCheck.getRepresentedObject();
 		IMap mapToCheck = AllMaps.getInstance().getMap(pointToCheck.getMap());
-		if(routedPath == null) return false;
+		if (routedPath == null)
+			return false;
 		LinkedList<Section> allPaths = routedPath.getSections(mapToCheck);
-		for(Section sectionToCheck : allPaths){
+		for (Section sectionToCheck : allPaths) {
 			LinkedList<IPoint> listOfPoints = sectionToCheck.getPoints();
-			if(listOfPoints.getFirst().equals(pointToCheck)){
+			if (listOfPoints.getFirst().equals(pointToCheck)) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
 	public boolean isSectionStartDestination(UserPointGraphicsObject graphicsObjectToCheck) {
 		// TODO Auto-generated method stub
 		IPoint pointToCheck = graphicsObjectToCheck.getRepresentedObject();
 		IMap mapToCheck = AllMaps.getInstance().getMap(pointToCheck.getMap());
-		if(routedPath == null) return false;
+		if (routedPath == null)
+			return false;
 		LinkedList<Section> allPaths = routedPath.getSections(mapToCheck);
-		for(Section sectionToCheck : allPaths){
+		for (Section sectionToCheck : allPaths) {
 			LinkedList<IPoint> listOfPoints = sectionToCheck.getPoints();
-			if(listOfPoints.getFirst().equals(pointToCheck)){
+			if (listOfPoints.getFirst().equals(pointToCheck)) {
 				return true;
 			}
 		}
 		return false;
 	}
-	
+
 	public boolean isUltimateFirst(UserPointGraphicsObject graphicsObjectToCheck) {
 		// TODO Auto-generated method stub
 		IPoint pointToCheck = graphicsObjectToCheck.getRepresentedObject();
 		IMap mapToCheck = AllMaps.getInstance().getMap(pointToCheck.getMap());
-		if(routedPath == null) return false;
+		if (routedPath == null)
+			return false;
 		LinkedList<Section> allPaths = routedPath.getSections(mapToCheck);
-		if(allPaths == null) return false;
+		if ((allPaths == null) || (allPaths.size() == 0))
+			return false;
 		LinkedList<IPoint> listOfPoints = allPaths.getFirst().getPoints();
-		if(listOfPoints.getFirst().equals(pointToCheck)){
+		if (listOfPoints.getFirst().equals(pointToCheck)) {
 			return true;
 		}
 		return false;
 	}
-	
+
 	public boolean isUltimateLast(UserPointGraphicsObject graphicsObjectToCheck) {
 		IPoint pointToCheck = graphicsObjectToCheck.getRepresentedObject();
 		IMap mapToCheck = AllMaps.getInstance().getMap(pointToCheck.getMap());
-		if(routedPath == null) return false;
+		if (routedPath == null)
+			return false;
 		LinkedList<Section> allPaths = routedPath.getSections(mapToCheck);
-		if(allPaths == null) return false;
+		if ((allPaths == null) || (allPaths.size() == 0))
+			return false;
 		LinkedList<IPoint> listOfPoints = allPaths.getLast().getPoints();
-		if(listOfPoints.getLast().equals(pointToCheck)){
+		if (listOfPoints.getLast().equals(pointToCheck)) {
 			return true;
 		}
 		return false;
 	}
-	
-	
 
 	public void onWeatherChosen(LocationPref option) {
 		System.out.println("Weather chosen is " + option);
 		this.pref = option;
 	}
 
-	public void onPrint()
-	{
+	public void onPrint() {
 		PrinterJob job = PrinterJob.getPrinterJob();
 		job.setPrintable(new PrintJob(routedPath));
-		
-		if(job.printDialog())
-		{
+
+		if (job.printDialog()) {
 			try {
 				job.print();
 			} catch (PrinterException e) {
@@ -398,9 +407,8 @@ public class UserMode extends UIMode
 	}
 
 	/**
-	 * @author Will Spurgeon 
-	 * Prompts the user to enter a file name and a file
-	 * location. Writes the user's directions to the specified location.
+	 * @author Will Spurgeon Prompts the user to enter a file name and a file
+	 *         location. Writes the user's directions to the specified location.
 	 */
 	public void onTxt() {
 		JFileChooser chooser = new JFileChooser();
@@ -443,9 +451,8 @@ public class UserMode extends UIMode
 	}
 
 	/**
-	 * @author Will Spurgeon 
-	 * Prompts the user for an email address. An email
-	 * with the user's directions are then sent.
+	 * @author Will Spurgeon Prompts the user for an email address. An email
+	 *         with the user's directions are then sent.
 	 */
 	public void onEmail() {
 		Email email = new SimpleEmail();
@@ -478,8 +485,7 @@ public class UserMode extends UIMode
 	}
 
 	/**
-	 * @author Will Spurgeon
-	 * Calls the sendText method on SMSClient.
+	 * @author Will Spurgeon Calls the sendText method on SMSClient.
 	 */
 	public void onSMS() {
 		System.out.println("SMS");
@@ -508,17 +514,15 @@ public class UserMode extends UIMode
 		if (graphicalMap != null)
 			graphicalMap.mouseClick(e);
 	}
-	
+
 	@Override
-	public void onMousePressedMap(MouseEvent e) 
-	{
+	public void onMousePressedMap(MouseEvent e) {
 		if (graphicalMap != null)
 			graphicalMap.mouseDown(e);
 	}
 
 	@Override
-	public void onMouseReleaseMap(MouseEvent e)
-	{
+	public void onMouseReleaseMap(MouseEvent e) {
 		if (graphicalMap != null)
 			graphicalMap.mouseUp(e);
 	}
@@ -546,11 +550,10 @@ public class UserMode extends UIMode
 		if (graphicalMap != null)
 			graphicalMap.mouseDrag(e);
 	}
-	
+
 	@Override
-	public void onMouseScrollOnMap(int unitsToScroll)
-	{
-		if(graphicalMap != null)
+	public void onMouseScrollOnMap(int unitsToScroll) {
+		if (graphicalMap != null)
 			graphicalMap.mouseScrolled(unitsToScroll);
 	}
 
@@ -570,9 +573,8 @@ public class UserMode extends UIMode
 	}
 
 	/**
-	 * @author Will Spurgeon
-	 * Builds and displays a pop up window containing all of the About
-	 * information for the app.
+	 * @author Will Spurgeon Builds and displays a pop up window containing all
+	 *         of the About information for the app.
 	 */
 	public void onAbout() {
 		JOptionPane aboutWindow = new JOptionPane();
@@ -606,52 +608,52 @@ public class UserMode extends UIMode
 	}
 
 	/**
-	 * @author Will Spurgeon
-	 * Builds and displays the application User Guide in a pop up window.
+	 * @author Will Spurgeon Builds and displays the application User Guide in a
+	 *         pop up window.
 	 */
 	public void onGuide() {
 		JOptionPane aboutWindow = new JOptionPane();
 		JFrame guideFrame = new JFrame("User Guide");
 		JTextPane textLabel = new JTextPane();
 		textLabel.setContentType("text/html");
-		//textLabel.setWrapStyleWord(true);
-		//textLabel.setLineWrap(true);
+		// textLabel.setWrapStyleWord(true);
+		// textLabel.setLineWrap(true);
 		textLabel.setOpaque(false);
 		textLabel.setEditable(false);
 		textLabel.setFocusable(false);
 		textLabel.setBackground(UIManager.getColor("Label.background"));
-	    textLabel.setFont(UIManager.getFont("Label.font"));
-	    textLabel.setBorder(UIManager.getBorder("Label.border"));
-		textLabel.setText("<html><h1><span style=\"font-family: 'arial black', 'avant garde'; font-size: large;\">Campus Mapper <span style=\"font-family: 'arial black', 'avant garde';\">User</span> Guide</span></strong></p>"+
-"<p><span style=\"font-family: 'arial black', 'avant garde';\"><strong>Find a route:</strong></span></p>"+
-"<ol>"+
-"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Navigate to the map with the desired starting point. </span><span style=\"font-family: arial, helvetica, sans-serif;\"><br>Maps can be selected by going to the \"Maps\" menu and selecting the desired building and floor.</span></li>"+
-"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">The red dots on the maps represent potential starting or ending positions. Click on one of the red dots.</span></li>"+
-"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Select another point on a map. You may navigate to a different floor or building if you wish to.</span></li>"+
-"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Additional points may be selected on any of the maps before a route is found.</span></li>"+
-"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">When you have selected all of the points you would like to visit, press the \"Route Me!\" button.<br>A route will be drawn between all of your points on the map and textual instructions will appear in the \"Directions\" box.</span></li>"+
-"</ol>"+
-"<p><span style=\"font-family: 'arial black', 'avant garde';\"><strong><strong><strong><strong><strong><strong>Navigate through a route:</strong></strong></strong></strong></strong></strong></span></p>"+
-"<ol>"+
-"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Once a route has been created, you may step through it by selecting an instruction <br>in the \"Directions\" box and pressing the \"Next\" and \"Previous\" buttons.</span></li>"+
-"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Stepping between buildings will cause the map view to change to the correct building. <br>Likewise, selecting a specific route will highlight that path within the map view.</span></li>"+
-"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">You may expand or hide the instructions within each route in the \"Directions\" box.</span></li>"+
-"</ol>"+
-"<p><span style=\"font-family: 'arial black', 'avant garde';\"><strong><strong><strong><strong>Editing a route:</strong></strong></strong></strong></span></p>"+
-"<ol>"+
-"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Routes may be edited by removing points listed in the \"Destinations\" box. <br>Once two or points have been selected, click on the button with an \"X\" on it to remove that point from your route. </span></li>"+
-"</ol>"+
-"<p><span style=\"font-family: 'arial black', 'avant garde';\"><strong><strong><strong><strong>Building a map in Dev Mode:</strong></strong></strong></strong></span></p>"+
-"<ol>"+
-"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Enter Dev Mode by selecting Settings->Dev Mode. <br>You may exit Dev Mode at any time by deselecting Settings->Dev Mode.</span></li>"+
-"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Select a the map you would like to work on from the \"Map\" dropdown.</span></li>"+
-"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Create nodes by clicking on the \"Create\" button. You may now click anywhere on the map to add a node.</span></li>"+
-"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Create edges by clicking on the \"Edge\" button. Select the two nodes you would like to connect. <br>Once the second node is selected, an edge will be created between the two nodes.</span></li>"+
-"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Delete nodes by clicking on the \"Delete\" button. If you click on an existing node, it will be deleted.</span></li>"+
-"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Delete edges by clicking on the \"Delete Edge\" button. Click on the two nodes you would like to dissconnect. </span></li>"+
-"    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Once you have made all of your changes to the map, click on the \"Save\" button to save the changes to disk.</span></li>"+
-"</ol>"+
-"<p> </p></html>");
+		textLabel.setFont(UIManager.getFont("Label.font"));
+		textLabel.setBorder(UIManager.getBorder("Label.border"));
+		textLabel.setText(
+				"<html><h1><span style=\"font-family: 'arial black', 'avant garde'; font-size: large;\">Campus Mapper <span style=\"font-family: 'arial black', 'avant garde';\">User</span> Guide</span></strong></p>"
+						+ "<p><span style=\"font-family: 'arial black', 'avant garde';\"><strong>Find a route:</strong></span></p>"
+						+ "<ol>"
+						+ "    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Navigate to the map with the desired starting point. </span><span style=\"font-family: arial, helvetica, sans-serif;\"><br>Maps can be selected by going to the \"Maps\" menu and selecting the desired building and floor.</span></li>"
+						+ "    <li><span style=\"font-family: arial, helvetica, sans-serif;\">The red dots on the maps represent potential starting or ending positions. Click on one of the red dots.</span></li>"
+						+ "    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Select another point on a map. You may navigate to a different floor or building if you wish to.</span></li>"
+						+ "    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Additional points may be selected on any of the maps before a route is found.</span></li>"
+						+ "    <li><span style=\"font-family: arial, helvetica, sans-serif;\">When you have selected all of the points you would like to visit, press the \"Route Me!\" button.<br>A route will be drawn between all of your points on the map and textual instructions will appear in the \"Directions\" box.</span></li>"
+						+ "</ol>"
+						+ "<p><span style=\"font-family: 'arial black', 'avant garde';\"><strong><strong><strong><strong><strong><strong>Navigate through a route:</strong></strong></strong></strong></strong></strong></span></p>"
+						+ "<ol>"
+						+ "    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Once a route has been created, you may step through it by selecting an instruction <br>in the \"Directions\" box and pressing the \"Next\" and \"Previous\" buttons.</span></li>"
+						+ "    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Stepping between buildings will cause the map view to change to the correct building. <br>Likewise, selecting a specific route will highlight that path within the map view.</span></li>"
+						+ "    <li><span style=\"font-family: arial, helvetica, sans-serif;\">You may expand or hide the instructions within each route in the \"Directions\" box.</span></li>"
+						+ "</ol>"
+						+ "<p><span style=\"font-family: 'arial black', 'avant garde';\"><strong><strong><strong><strong>Editing a route:</strong></strong></strong></strong></span></p>"
+						+ "<ol>"
+						+ "    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Routes may be edited by removing points listed in the \"Destinations\" box. <br>Once two or points have been selected, click on the button with an \"X\" on it to remove that point from your route. </span></li>"
+						+ "</ol>"
+						+ "<p><span style=\"font-family: 'arial black', 'avant garde';\"><strong><strong><strong><strong>Building a map in Dev Mode:</strong></strong></strong></strong></span></p>"
+						+ "<ol>"
+						+ "    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Enter Dev Mode by selecting Settings->Dev Mode. <br>You may exit Dev Mode at any time by deselecting Settings->Dev Mode.</span></li>"
+						+ "    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Select a the map you would like to work on from the \"Map\" dropdown.</span></li>"
+						+ "    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Create nodes by clicking on the \"Create\" button. You may now click anywhere on the map to add a node.</span></li>"
+						+ "    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Create edges by clicking on the \"Edge\" button. Select the two nodes you would like to connect. <br>Once the second node is selected, an edge will be created between the two nodes.</span></li>"
+						+ "    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Delete nodes by clicking on the \"Delete\" button. If you click on an existing node, it will be deleted.</span></li>"
+						+ "    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Delete edges by clicking on the \"Delete Edge\" button. Click on the two nodes you would like to dissconnect. </span></li>"
+						+ "    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Once you have made all of your changes to the map, click on the \"Save\" button to save the changes to disk.</span></li>"
+						+ "</ol>" + "</html>");
 		guideFrame.add(textLabel);
 		guideFrame.setBounds(100, 100, 850, 750);
 		guideFrame.setVisible(true);
