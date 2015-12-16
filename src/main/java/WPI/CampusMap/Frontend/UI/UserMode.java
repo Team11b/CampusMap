@@ -114,7 +114,7 @@ public class UserMode extends UIMode {
 	/**
 	 * Highlights the given section on map.
 	 * 
-	 * @param section
+	 * @param section map section
 	 */
 	public void selectRouteSection(Section section) {
 		graphicalMap.setShownSection(section);
@@ -123,7 +123,7 @@ public class UserMode extends UIMode {
 	/**
 	 * Selects the given point on map.
 	 * 
-	 * @param point
+	 * @param point to select
 	 */
 	public void selectCurrentNode(IPoint point) {
 		graphicalMap.setShownNode(point);
@@ -141,7 +141,7 @@ public class UserMode extends UIMode {
 	/**
 	 * Adds the given point to the list of destinations.
 	 * 
-	 * @param newPoint
+	 * @param newPoint a new destination
 	 */
 	public void addPointToDestinations(UserPointGraphicsObject newPoint) {
 		addPointToDestinations(newPoint.getRepresentedObject());
@@ -153,7 +153,7 @@ public class UserMode extends UIMode {
 	/**
 	 * Adds the given point to the route.
 	 * 
-	 * @param newPoint
+	 * @param newPoint added to the route
 	 */
 	public void onPointAddedToRoute(UserPointGraphicsObject newPoint) {
 		addPointToDestinations(newPoint.getRepresentedObject());
@@ -165,7 +165,7 @@ public class UserMode extends UIMode {
 	/**
 	 * Adds the given point to the list of destinations.
 	 * 
-	 * @param newPoint
+	 * @param newPoint to destinations list
 	 */
 	public void addPointToDestinations(IPoint newPoint) {
 		if (newPoint == null)
@@ -274,7 +274,7 @@ public class UserMode extends UIMode {
 	/**
 	 * Returns true if the given point is the start of a route.
 	 * 
-	 * @param point
+	 * @param point of start
 	 * @return true if the given point is the start of a route.
 	 */
 	public boolean isRouteStart(UserPointGraphicsObject point) {
@@ -286,7 +286,7 @@ public class UserMode extends UIMode {
 	/**
 	 * Returns true if the given point is the end of a route.
 	 * 
-	 * @param point
+	 * @param point of route end
 	 * @return true if the given point is the end of a route.
 	 */
 	public boolean isRouteEnd(UserPointGraphicsObject point) {

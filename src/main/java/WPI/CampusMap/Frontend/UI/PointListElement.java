@@ -124,7 +124,7 @@ public class PointListElement extends JPanel
 	
 	/**
 	 * Validates the current text in the name field.
-	 * @return
+	 * @return true if valid
 	 */
 	protected boolean validateName()
 	{
