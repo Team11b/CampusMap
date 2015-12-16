@@ -21,7 +21,7 @@ public class DevMode extends UIMode {
 
 	/**
 	 * Constructs a new DevMode object with the given window.
-	 * @param window
+	 * @param window AppMainWindow
 	 */
 	public DevMode(AppMainWindow window) {
 		super(window);

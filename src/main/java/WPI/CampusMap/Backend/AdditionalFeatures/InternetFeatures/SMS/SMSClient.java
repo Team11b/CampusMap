@@ -38,7 +38,7 @@ public class SMSClient {
 	 * @author Will Spurgeon
 	 * @param to The phone number of the recipient.
 	 * @param textMessage The body of the text message.
-	 * @throws TwilioRestException
+	 * @throws TwilioRestException text message service
 	 */
 	public static void sendText(String to, String textMessage) throws TwilioRestException{
 		// Build a filter for the MessageList
