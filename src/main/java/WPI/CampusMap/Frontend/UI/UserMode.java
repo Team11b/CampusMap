@@ -110,20 +110,35 @@ public class UserMode extends UIMode
 		clearDestinations();
 	}
 
+	/**
+	 * Highlights the given section on map.
+	 * @param section
+	 */
 	public void selectRouteSection(Section section) {
 		graphicalMap.setShownSection(section);
 	}
 	
+	/**
+	 * Selects the given point on map.
+	 * @param point
+	 */
 	public void selectCurrentNode(IPoint point){
 		graphicalMap.setShownNode(point);
 	}
 
+	/**
+	 * Method called when the "clear" button is pressed.
+	 */
 	public void onClearButton() {
 		// destinations.resetLastPoint();
 		clearDestinations();
 		// UserPathGraphicsObject.deleteAll();
 	}
 
+	/**
+	 * Adds the given point to the list of destinations.
+	 * @param newPoint
+	 */
 	public void addPointToDestinations(UserPointGraphicsObject newPoint) {
 		addPointToDestinations(newPoint.getRepresentedObject());
 		
@@ -131,6 +146,10 @@ public class UserMode extends UIMode
 			getWindow().addDestination(newPoint);
 	}
 
+	/**
+	 * Adds the given point to the route.
+	 * @param newPoint
+	 */
 	public void onPointAddedToRoute(UserPointGraphicsObject newPoint) {
 		addPointToDestinations(newPoint.getRepresentedObject());
 
@@ -138,6 +157,10 @@ public class UserMode extends UIMode
 			getWindow().addDestination(newPoint);
 	}
 
+	/**
+	 * Adds the given point to the list of destinations.
+	 * @param newPoint
+	 */
 	public void addPointToDestinations(IPoint newPoint) {
 		if (newPoint == null)
 			return;
@@ -172,6 +195,9 @@ public class UserMode extends UIMode
 		}
 	}
 
+	/**
+	 * Clears the current route.
+	 */
 	public void clearRoute() {
 		destinationsSet.clear();
 		destinations.clear();
@@ -202,6 +228,9 @@ public class UserMode extends UIMode
 		loadMap(point.getMap());
 	}
 
+	/**
+	 * Clears the destinations in the Destinations view.
+	 */
 	public void clearDestinations() {
 		destinationsSet.clear();
 		destinations.clear();
@@ -237,7 +266,11 @@ public class UserMode extends UIMode
 		return destinationsSet.contains(point.getRepresentedObject());
 	}
 	
-
+	/**
+	 * Returns true if the given point is the start of a route.
+	 * @param point
+	 * @return
+	 */
 	public boolean isRouteStart(UserPointGraphicsObject point)
 	{
 		if(destinations.isEmpty())
@@ -245,6 +278,11 @@ public class UserMode extends UIMode
 		return destinations.getFirst().equals(point.getRepresentedObject());
 	}
 
+	/**
+	 * Returns true if the given point is the end of a route.
+	 * @param point
+	 * @return
+	 */
 	public boolean isRouteEnd(UserPointGraphicsObject point) 
 	{
 		if(destinations.isEmpty())

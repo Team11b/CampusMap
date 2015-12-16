@@ -12,9 +12,6 @@ public class AllMaps {
 	private static volatile AllMaps instance;
 	private static HashMap<String, IMap> allMaps = new HashMap<String, IMap>();
 
-	private AllMaps() {
-	}
-
 	/** Gets the instance of the singleton
 	 * @return The instance of the singleton
 	 */
@@ -171,7 +168,7 @@ public class AllMaps {
 		stack = new ArrayList<String>(stack);
 		stack.add(current);
 		if (current.equals(dest)) {
-//			 System.out.println("Found path:"+ current);
+			//System.out.println("Found path:"+ current);
 			whiteList.add(current);
 			return true;
 		}

@@ -14,6 +14,10 @@ public class ProxyPoint implements IPoint {
 	String pointId, mapName, displayName, displayId;
 	RealPoint realPoint;
 
+	/**
+	 * Constructs a new ProxyPoint with the given name.
+	 * @param fullName
+	 */
 	public ProxyPoint(String fullName) {
 		String[] splitName = fullName.split("/");
 		if (splitName.length == 1) {
