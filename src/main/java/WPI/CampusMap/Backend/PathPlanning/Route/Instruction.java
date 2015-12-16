@@ -23,8 +23,8 @@ public class Instruction {
 
 	/**
 	 * Constructs a new Instruction with the given point.
-	 * @param point
-	 * @param start
+	 * @param point given point
+	 * @param start bool
 	 */
 	public Instruction(IPoint point, boolean start) {
 		if (start) {
@@ -53,8 +53,8 @@ public class Instruction {
 	
 	/**
 	 * Constructs a new Instruction with the given String turn.
-	 * @param turn
-	 * @param start
+	 * @param turn a direction
+	 * @param start the start of the point
 	 */
 	public Instruction(String turn, IPoint start) {
 		this.instruction = "Turn " + turn + ".\n";
@@ -65,9 +65,9 @@ public class Instruction {
 
 	/**
 	 * Constructs a new Instruction with the given start and end points and a distance.
-	 * @param distance
-	 * @param start
-	 * @param end
+	 * @param distance of how far
+	 * @param start staring point
+	 * @param end  ending point
 	 */
 	public Instruction(double distance, IPoint start, IPoint end) {
 		if (Instruction.metric) {
@@ -151,8 +151,7 @@ public class Instruction {
 	}
 
 	/**
-	 * @param metric
-	 *            the metric to set
+	 * @param metric     the metric to set
 	 */
 	public static void setMetric(boolean metric) {
 		Instruction.metric = metric;
