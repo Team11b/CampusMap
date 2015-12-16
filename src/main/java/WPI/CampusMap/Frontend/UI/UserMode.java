@@ -653,7 +653,7 @@ public class UserMode extends UIMode {
 						+ "    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Delete nodes by clicking on the \"Delete\" button. If you click on an existing node, it will be deleted.</span></li>"
 						+ "    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Delete edges by clicking on the \"Delete Edge\" button. Click on the two nodes you would like to dissconnect. </span></li>"
 						+ "    <li><span style=\"font-family: arial, helvetica, sans-serif;\">Once you have made all of your changes to the map, click on the \"Save\" button to save the changes to disk.</span></li>"
-						+ "</ol>" + "<p> </p></html>");
+						+ "</ol>" + "</html>");
 		guideFrame.add(textLabel);
 		guideFrame.setBounds(100, 100, 850, 750);
 		guideFrame.setVisible(true);
