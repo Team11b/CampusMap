@@ -102,15 +102,17 @@ public class AppUserModeControl extends JComponent {
 		add(label_1);
 
 		JButton expandAllBtn = new JButton("Expand All");
+		springLayout.putConstraint(SpringLayout.NORTH, expandAllBtn, 0, SpringLayout.NORTH, label_1);
+		springLayout.putConstraint(SpringLayout.SOUTH, expandAllBtn, -1, SpringLayout.SOUTH, label_1);
 		expandAllBtn.addActionListener(new ExpandAllButtonListener());
 		JButton collapseAllBtn = new JButton("Collapse All");
+		springLayout.putConstraint(SpringLayout.NORTH, collapseAllBtn, 0, SpringLayout.NORTH, expandAllBtn);
+		springLayout.putConstraint(SpringLayout.SOUTH, collapseAllBtn, 0, SpringLayout.SOUTH, expandAllBtn);
 		collapseAllBtn.addActionListener(new CollapseAllButtonListener());
 		
 		springLayout.putConstraint(SpringLayout.WEST, collapseAllBtn, 180, SpringLayout.WEST, this);
-		springLayout.putConstraint(SpringLayout.SOUTH, collapseAllBtn, 3, SpringLayout.NORTH, scrollPane_1);
 		
 		springLayout.putConstraint(SpringLayout.WEST, expandAllBtn, 80, SpringLayout.WEST, this);
-		springLayout.putConstraint(SpringLayout.SOUTH, expandAllBtn, 3, SpringLayout.NORTH, scrollPane_1);
 		//springLayout.putConstraint(SpringLayout.EAST, label_1, 10, SpringLayout.WEST, expandAllBtn);
 		
 		add(expandAllBtn);
