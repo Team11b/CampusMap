@@ -29,7 +29,7 @@ public class UserPathGraphicsObject extends GraphicsObject<Section, UserGraphica
 
 	@Override
 	public int getDrawBatch() {
-		return -1;
+		return selected ? -1 : -2;
 	}
 
 	@Override
