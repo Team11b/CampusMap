@@ -25,6 +25,7 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 	private static final ImageIcon doorIcon = new ImageIcon("door.png");
 	private static final ImageIcon stairIcon = new ImageIcon("stairs-icon.gif");
 	private static final ImageIcon elevatorIcon = new ImageIcon("elevator-icon.jpg");
+	private static final ImageIcon roomIcon = new ImageIcon("room.gif");
 	
 	private boolean twitter;
 	public enum selectionState{
@@ -141,6 +142,8 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 			return elevatorIcon;
 		case RealPoint.STAIRS:
 			return stairIcon;
+		case RealPoint.ROOM:
+			return roomIcon;
 		}
 		
 		return null;
