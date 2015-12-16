@@ -1,4 +1,4 @@
-package WPI.CampusMap.Frontend.Graphics.User;
+package WPI.CampusMap.Frontend.Graphics.Print;
 
 import java.awt.BasicStroke;
 import java.awt.Color;
@@ -11,16 +11,18 @@ import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.PathPlanning.Path.Section;
 import WPI.CampusMap.Frontend.Graphics.GraphicsObject;
 import WPI.CampusMap.Frontend.Graphics.RealMouseEvent;
+import WPI.CampusMap.Frontend.Graphics.User.UserGraphicalMap;
 
-public class UserPathGraphicsObject extends GraphicsObject<Section, UserGraphicalMap>
+public class PrintPathGraphicsObject extends GraphicsObject<Section, PrintGraphicalMap>
 {
-	private float phase;
 	private boolean backgroundLine = false;
 
 	private boolean selected;
 
-	public UserPathGraphicsObject(Section path, UserGraphicalMap owner) {
+	public PrintPathGraphicsObject(Section path, PrintGraphicalMap owner)
+	{
 		super(path, owner);
+		selected = true;
 	}
 
 	@Override
@@ -34,8 +36,6 @@ public class UserPathGraphicsObject extends GraphicsObject<Section, UserGraphica
 
 	@Override
 	public void onDraw(Graphics2D graphics) {
-		phase += 0.33f;
-
 		LinkedList<IPoint> points = getRepresentedObject().getPoints();
 
 		for (int i = 1; i < points.size(); i++) {
@@ -56,7 +56,7 @@ public class UserPathGraphicsObject extends GraphicsObject<Section, UserGraphica
 			
 
 			graphics.setStroke(new BasicStroke(3.0f, BasicStroke.CAP_BUTT, BasicStroke.JOIN_ROUND, 10.0f,
-					new float[] { 10.0f }, phase));
+					new float[] { 10.0f }, 0));
 			
 			graphics.setColor(getColor());
 			Line2D.Float line = new Line2D.Float(currentRenderCoord.getX(), currentRenderCoord.getY(),

@@ -19,7 +19,11 @@ public class SMSClient {
 	public static final String AUTH_TOKEN = "f1b36697734210d80f9225cc5a404a3a"; 
 	private static TwilioRestClient client = new TwilioRestClient(ACCOUNT_SID, AUTH_TOKEN);
 
-
+	/**
+	 * @author Will Spurgeon
+	 * Presents a pop up to the user asking for their phone number.
+	 * @return The phone number that the user entered into the pop up.
+	 */
 	private static String popUp() {
 		final JFrame parent = new JFrame();
 		parent.pack();
@@ -30,8 +34,13 @@ public class SMSClient {
 		return number;
 	}
 
-
-	public static void SendText(String to, String textMessage) throws TwilioRestException{
+	/**
+	 * @author Will Spurgeon
+	 * @param to The phone number of the recipient.
+	 * @param textMessage The body of the text message.
+	 * @throws TwilioRestException
+	 */
+	public static void sendText(String to, String textMessage) throws TwilioRestException{
 		// Build a filter for the MessageList
 		List<NameValuePair> params = new ArrayList<NameValuePair>();
 		String number = popUp();

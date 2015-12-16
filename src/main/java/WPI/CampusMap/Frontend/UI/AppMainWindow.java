@@ -118,11 +118,11 @@ public class AppMainWindow extends JFrame implements Runnable {
 		splitPane.setLeftComponent(mapPanel);
 
 		Panel bottomPane = new Panel();
-		getContentPane().add(bottomPane, BorderLayout.SOUTH);
+		//getContentPane().add(bottomPane, BorderLayout.SOUTH);
 		bottomPane.setLayout(new BorderLayout(0, 0));
 
 		progressBar = new JProgressBar();
-		bottomPane.add(progressBar, BorderLayout.EAST);
+		//bottomPane.add(progressBar, BorderLayout.EAST);
 
 		taskName = new JLabel("");
 		bottomPane.add(taskName, BorderLayout.WEST);
@@ -604,7 +604,9 @@ public class AppMainWindow extends JFrame implements Runnable {
 			putValue(SHORT_DESCRIPTION, "Prints the route to a printer.");
 		}
 
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent e) 
+		{
+			getUserMode().onPrint();
 		}
 	}
 

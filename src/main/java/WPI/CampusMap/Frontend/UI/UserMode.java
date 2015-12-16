@@ -3,6 +3,8 @@ package WPI.CampusMap.Frontend.UI;
 import java.awt.FlowLayout;
 import java.awt.Graphics2D;
 import java.awt.event.MouseEvent;
+import java.awt.print.PrinterException;
+import java.awt.print.PrinterJob;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -10,6 +12,7 @@ import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.LinkedList;
 
+import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -41,6 +44,8 @@ import WPI.CampusMap.Backend.PathPlanning.PathFinder;
 import WPI.CampusMap.Backend.PathPlanning.PathNotFoundException;
 import WPI.CampusMap.Backend.PathPlanning.WeatherHeuristicProcessor;
 import WPI.CampusMap.Backend.PathPlanning.Route.Route;
+import WPI.CampusMap.Frontend.Graphics.RouteImageCreator;
+import WPI.CampusMap.Frontend.Graphics.Print.PrintJob;
 import WPI.CampusMap.Frontend.Graphics.User.UserGraphicalMap;
 import WPI.CampusMap.Frontend.Graphics.User.UserPathGraphicsObject;
 import WPI.CampusMap.Frontend.Graphics.User.UserPointGraphicsObject;
@@ -76,6 +81,11 @@ public class UserMode extends UIMode
 		return routedPath.getSections(graphicalMap.getMap());
 	}
 
+	/**
+	 * This method is called when the "Route Me" button is pressed.
+	 * Generates a route based on the currently selected points.
+	 * This method also takes the current weather conditions into consideration when created the path.
+	 */
 	public void onRouteButton() {
 		NodeProcessor nP = new DistanceProcessor(new BetweenMapsProcessor(new WeatherHeuristicProcessor(null, pref)));
 		AStarPathProcessor processor = new AStarPathProcessor(nP);
@@ -230,11 +240,17 @@ public class UserMode extends UIMode
 	}
 	
 
-	public boolean isRouteStart(UserPointGraphicsObject point) {
+	public boolean isRouteStart(UserPointGraphicsObject point)
+	{
+		if(destinations.isEmpty())
+			return false;
 		return destinations.getFirst().equals(point.getRepresentedObject());
 	}
 
-	public boolean isRouteEnd(UserPointGraphicsObject point) {
+	public boolean isRouteEnd(UserPointGraphicsObject point) 
+	{
+		if(destinations.isEmpty())
+			return false;
 		return destinations.getLast().equals(point.getRepresentedObject());
 	}
 	
@@ -325,8 +341,20 @@ public class UserMode extends UIMode
 		this.pref = option;
 	}
 
-	public void onPrint() {
-		System.out.println("Print");
+	public void onPrint()
+	{
+		PrinterJob job = PrinterJob.getPrinterJob();
+		job.setPrintable(new PrintJob(routedPath));
+		
+		if(job.printDialog())
+		{
+			try {
+				job.print();
+			} catch (PrinterException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+		}
 	}
 
 	public void onPdf() {
@@ -334,8 +362,9 @@ public class UserMode extends UIMode
 	}
 
 	/**
-	 * @author Will Spurgeon Prompts the user to enter a file name and a file
-	 *         location. Writes the user's directions to the specified location.
+	 * @author Will Spurgeon 
+	 * Prompts the user to enter a file name and a file
+	 * location. Writes the user's directions to the specified location.
 	 */
 	public void onTxt() {
 		JFileChooser chooser = new JFileChooser();
@@ -378,8 +407,9 @@ public class UserMode extends UIMode
 	}
 
 	/**
-	 * @author Will Spurgeon Prompts the user for an email address. An email
-	 *         with the user's directions are then sent.
+	 * @author Will Spurgeon 
+	 * Prompts the user for an email address. An email
+	 * with the user's directions are then sent.
 	 */
 	public void onEmail() {
 		Email email = new SimpleEmail();
@@ -411,11 +441,15 @@ public class UserMode extends UIMode
 		}
 	}
 
+	/**
+	 * @author Will Spurgeon
+	 * Calls the sendText method on SMSClient.
+	 */
 	public void onSMS() {
 		System.out.println("SMS");
 		try {
 			Route sendingRoute = new Route(routedPath);
-			SMSClient.SendText("+18184411799", sendingRoute.toString());
+			SMSClient.sendText("+18184411799", sendingRoute.toString());
 		} catch (TwilioRestException e) {
 			// TODO Auto-generated catch block
 			JOptionPane.showMessageDialog(null, e.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
@@ -500,6 +534,7 @@ public class UserMode extends UIMode
 	}
 
 	/**
+	 * @author Will Spurgeon
 	 * Builds and displays a pop up window containing all of the About
 	 * information for the app.
 	 */
@@ -535,6 +570,7 @@ public class UserMode extends UIMode
 	}
 
 	/**
+	 * @author Will Spurgeon
 	 * Builds and displays the application User Guide in a pop up window.
 	 */
 	public void onGuide() {
@@ -584,9 +620,5 @@ public class UserMode extends UIMode
 		guideFrame.setBounds(100, 100, 850, 750);
 		guideFrame.setVisible(true);
 		guideFrame.setLayout(new FlowLayout());
-	
-
 	}
-
-	
 }

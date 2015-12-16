@@ -38,7 +38,7 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 			normalImage = new ImageIcon("stairs.png");
 		}
 		
-		hoverImage = new ImageIcon("icon-red.png");
+		hoverImage = new ImageIcon("icon.png");
 	}
 	
 	@Override
@@ -99,7 +99,11 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 	public void onDraw(Graphics2D graphics)
 	{
 		ImageIcon renderImage;
-		if(getOwner().getHoverObject() != this)
+		boolean isRouteStart = getOwnerMode(UserMode.class).isRouteStart(this);
+		boolean isRouteEnd = getOwnerMode(UserMode.class).isRouteEnd(this);
+		boolean isInRoute = getOwnerMode(UserMode.class).containsInDest(this);
+		
+		if(!isRouteStart && !isRouteEnd && !isInRoute && getOwner().getHoverObject() != this)
 			renderImage = normalImage;
 		else
 			renderImage = hoverImage;

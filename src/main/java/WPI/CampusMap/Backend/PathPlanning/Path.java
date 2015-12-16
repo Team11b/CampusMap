@@ -134,6 +134,16 @@ public class Path implements Iterable<Path.Section>
 	}
 	
 	/**
+	 * Gets a path section of a specific index.
+	 * @param index The index of the section to get.
+	 * @return The path section at the specific index.
+	 */
+	public Section getSection(int index)
+	{
+		return sections.get(index);
+	}
+	
+	/**
 	 * Gets a list of path sections for the specified map.
 	 * @param map The map to get the path sections for.
 	 * @return A linked list of path sections.
