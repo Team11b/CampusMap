@@ -4,7 +4,7 @@
 
 	<groupId>WPI</groupId>
 	<artifactId>CampusMap</artifactId>
-	<version>0.0.1</version>
+	<version>1.0.0</version>
 	<packaging>jar</packaging>
 
 	<name>CampusMap</name>
@@ -97,6 +97,58 @@
 						<target>1.8</target>
 					</configuration>
 				</plugin>
+				<plugin>
+					<groupId>org.apache.maven.plugins</groupId>
+					<artifactId>maven-jar-plugin</artifactId>
+					<configuration>
+						<archive>
+							<manifest>
+								<mainClass>WPI.CampusMap.App</mainClass>
+							</manifest>
+						</archive>
+					</configuration>
+				</plugin>
+				<plugin>
+		            <groupId>com.akathist.maven.plugins.launch4j</groupId>
+		            <artifactId>launch4j-maven-plugin</artifactId>
+		            <version>1.5.1</version>
+		            <executions>
+		                <execution>
+		                    <id>l4j-clui</id>
+		                    <phase>package</phase>
+		                    <goals>
+		                        <goal>launch4j</goal>
+		                    </goals>
+		                    <configuration>
+		                        <headerType>gui</headerType>
+		                        <jar>${project.build.directory}/${artifactId}-${version}-shaded.jar</jar>
+		                        <outfile>${project.build.directory}/${artifactId}.exe</outfile>
+		                        <downloadUrl>http://java.com/download</downloadUrl>
+		                        <classPath>
+		                            <mainClass>WPI.CampusMap.App</mainClass>
+		                            <preCp>anything</preCp>
+		                        </classPath>
+		                        <icon>application.ico</icon>
+		                        <jre>
+		                            <minVersion>1.6.0</minVersion>
+		                            <jdkPreference>preferJre</jdkPreference>
+		                        </jre>
+		                        <versionInfo>
+		                            <fileVersion>1.0.0.0</fileVersion>
+		                            <txtFileVersion>${project.version}</txtFileVersion>
+		                            <fileDescription>${project.name}</fileDescription>
+		                            <copyright>2015 Team11b</copyright>
+		                            <productVersion>1.0.0.0</productVersion>
+		                            <txtProductVersion>1.0.0.0</txtProductVersion>
+		                            <productName>${project.name}</productName>
+		                            <companyName>Team11b</companyName>
+		                            <internalName>Team11b</internalName>
+		                            <originalFilename>RouteMe.exe</originalFilename>
+		                        </versionInfo>
+		                    </configuration>
+		                </execution>
+		            </executions>
+		        </plugin>
 			</plugins>
 		</pluginManagement>
 	</build>
