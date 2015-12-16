@@ -55,7 +55,7 @@ public class PrintJob implements Printable
 	    int count = 0;
 	    for(Instruction instruction : route.getRoute(path.getSection(pageIndex)))
 	    {
-	    	String line = String.format("%d) %s", count, instruction.getInstruction());
+	    	String line = String.format("%d) %s", count + 1, instruction.getInstruction());
 	    	graphics.drawString(line, (int)xPos, (int)yPos);
 	    	count++;
 	    	yPos += 20;
