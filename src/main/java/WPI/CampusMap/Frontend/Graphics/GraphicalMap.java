@@ -121,11 +121,16 @@ public abstract class GraphicalMap {
 			return (T) mode;
 		return null;
 	}
+	
+	public final float getZoomScale()
+	{
+		return (float) Math.pow(linearZoomLevel, 2.0f);
+	}
 
 	public AffineTransform getCameraTransform() {
 		Rectangle viewRect = lastClip;
 
-		float zoom = (float) Math.pow(linearZoomLevel, 2.0f);
+		float zoom = getZoomScale();
 		float invZoom = 1.0f / zoom;
 		
 		float xOffset = viewRect.width * 0.5f * invZoom;
@@ -253,11 +258,13 @@ public abstract class GraphicalMap {
 
 					i--;
 				} else if (go.isVisible()) {
+					float scale = go.getScale();
 					Coord position = go.getWorldPosition();
 					position = getRenderFromWorld(position);
 					AffineTransform objectTransform = (AffineTransform) originalTransform.clone();
 					objectTransform.concatenate(getCameraTransform());
 					objectTransform.concatenate(AffineTransform.getTranslateInstance(position.getX(), position.getY()));
+					objectTransform.concatenate(AffineTransform.getScaleInstance(scale, scale));
 
 					graphics.setTransform(objectTransform);
 

@@ -20,6 +20,12 @@ public abstract class PointGraphicsObject<M extends GraphicalMap> extends Graphi
 	}
 	
 	@Override
+	public float getScale() 
+	{
+		return 1.0f / getOwner().getZoomScale();
+	}
+	
+	@Override
 	public int getDrawBatch() {
 		// TODO Auto-generated method stub
 		return 0;
