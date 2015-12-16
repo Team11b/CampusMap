@@ -59,12 +59,14 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 		
 		if(renderImage != null)
 			graphics.drawImage(renderImage.getImage(), -renderImage.getIconWidth() / 2, -renderImage.getIconHeight(), renderImage.getIconWidth(), renderImage.getIconHeight(), renderImage.getImageObserver());
+		else
+			super.onDraw(graphics);
 	}
 	
 	@Override
 	public boolean isVisible()
 	{
-		return !getRepresentedObject().getType().equals(RealPoint.HALLWAY);
+		return getOwnerMode(UserMode.class).getShowAllPoints() || !getRepresentedObject().getType().equals(RealPoint.HALLWAY);
 	}
 	
 	@Override
