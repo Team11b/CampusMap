@@ -4,20 +4,13 @@ import static org.junit.Assert.assertTrue;
 
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.List;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Twitter.Information.TwitterInformation;
 import WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Weather.Wunderground;
-import twitter4j.Status;
-import twitter4j.Twitter;
-import twitter4j.TwitterException;
-import twitter4j.TwitterFactory;
-import twitter4j.auth.AccessToken;
 
 public class TestConnection {
 	@Rule
@@ -58,32 +51,6 @@ public class TestConnection {
 			assertTrue(false);
 		}
 	}
-	
-	@SuppressWarnings("unused")
-	@Test
-	public void testPullTwitter(){
-		exception.expect(UnsupportedOperationException.class);
-		//needs private twitter information
-		String consumerKeyStr = TwitterInformation.getPublicKey();
-		String consumerSecretStr = TwitterInformation.getPrivateKey();
-		String accessTokenStr = TwitterInformation.getPublicAccessToken();
-		String accessTokenSecretStr = TwitterInformation.getPrivateAccessToken();
-		
-		Twitter twitter = new TwitterFactory().getInstance();
-		twitter.setOAuthConsumer(consumerKeyStr, consumerSecretStr);
-		AccessToken accessToken = new AccessToken(accessTokenStr, accessTokenSecretStr);
-
-		twitter.setOAuthAccessToken(accessToken);
-		try {
-			List<Status> statuses = twitter.getMentionsTimeline();
-			assertTrue(true);
-		} catch (TwitterException e) {			
-			e.printStackTrace();
-			assertTrue(false);
-		}		
-		
-	}
-	
 
 }
 

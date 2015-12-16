@@ -1,4 +1,4 @@
-package WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.SMS;
+package WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Communication.SMS;
 
 import java.util.ArrayList;
 import java.util.List;
