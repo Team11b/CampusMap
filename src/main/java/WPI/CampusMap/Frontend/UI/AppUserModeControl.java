@@ -216,34 +216,31 @@ public class AppUserModeControl extends JComponent {
 
 	/**
 	 * Collapses all of the rows in the Directions tree.
-	 * @author Will
+	 * @author Will Spurgeon
 	 *
 	 */
 	private class CollapseAllButtonListener implements ActionListener{
-
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			collapseTree();
-			
 		}
-		
 	}
 	
 	/**
 	 * Expands all of the rows in the Directions tree.
-	 * @author Will
+	 * @author Will Spurgeon
 	 *
 	 */
 	private class ExpandAllButtonListener implements ActionListener{
-
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			expandTree();
-			
 		}
-		
 	}
 	
+	/**
+	 * Selects the next direction in the Directions tree.
+	 */
 	private class NextButtonSelectionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -259,6 +256,9 @@ public class AppUserModeControl extends JComponent {
 		}
 	}
 
+	/**
+	 * Selects the previous direction in the Directions tree.
+	 */
 	private class PrevButtonSelectionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -274,49 +274,45 @@ public class AppUserModeControl extends JComponent {
 		}
 	}
 
-	private class DestinationListListener implements PointListEventHandler
-	{
+	private class DestinationListListener implements PointListEventHandler {
 
 		@Override
-		public void pointDescriptorAdded(PointListElement element)
-		{
+		public void pointDescriptorAdded(PointListElement element) {
 			window.getUserMode().onPointDescriptorAddedToDestinations(element.getCurrentName(), element.getIndex());
 		}
 
 		@Override
-		public void pointDescriptorRemoved(PointListElement element) 
-		{
+		public void pointDescriptorRemoved(PointListElement element) {
 			window.getUserMode().onPointRemovedFromDestinations(element.getCurrentName());
 		}
 
 		@Override
-		public boolean pointDescriptorNameCheck(PointListElement element, String newName)
-		{
+		public boolean pointDescriptorNameCheck(PointListElement element, String newName) {
 			return window.getUserMode().onCheckPointName(newName);
 		}
 
 		@Override
-		public void pointDescriptorRenamed(PointListElement element, String oldName) 
-		{
-			window.getUserMode().onPointDescriptorRenamedDestination(oldName, element.getCurrentName(), element.getIndex());
+		public void pointDescriptorRenamed(PointListElement element, String oldName) {
+			window.getUserMode().onPointDescriptorRenamedDestination(oldName, element.getCurrentName(),
+					element.getIndex());
 		}
 
 		@Override
 		public void pointDescriptorNameCheckFailed(PointListElement element, String failedName) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void pointDescriptorShow(PointListElement element) {
 			// TODO Auto-generated method stub
-			
+
 		}
 
 		@Override
 		public void pointDescriptorMoved(PointListElement element) {
 			// TODO Auto-generated method stub
-			
+
 		}
 	}
 
@@ -325,6 +321,7 @@ public class AppUserModeControl extends JComponent {
 		 * 
 		 */
 		private static final long serialVersionUID = 123464203285703937L;
+
 		public DirectionsBaseTreeNode(Object userObject, boolean allowChildren) {
 			super(userObject, allowChildren);
 		}
@@ -339,6 +336,7 @@ public class AppUserModeControl extends JComponent {
 		private static final long serialVersionUID = 9130117587484385937L;
 		private Instruction source;
 		private Section section;
+
 		public InstructionTreeNode(Instruction source, Section section) {
 			super(source.getInstruction(), false);
 			this.source = source;
@@ -349,7 +347,8 @@ public class AppUserModeControl extends JComponent {
 		public void onSelected() {
 			window.forceMapSwitch(section.getMap());
 			window.getUserMode().selectRouteSection(section);
-			if(source.getStart() == null) return;
+			if (source.getStart() == null)
+				return;
 			window.getUserMode().selectCurrentNode(source.getStart());
 		}
 	}
@@ -363,7 +362,7 @@ public class AppUserModeControl extends JComponent {
 
 		public PathSectionTreeNode(Section section, int sectionCount) {
 			super(String.format("%s [Route %s]", section.getDisplayName(), sectionCount), true);
-			this.section = section;			
+			this.section = section;
 		}
 
 		@Override
@@ -392,33 +391,31 @@ public class AppUserModeControl extends JComponent {
 			window.forceMapSwitch(mapName);
 			window.getUserMode().selectRouteSection(firstSection);
 		}
-
 	}
-	
+
 	/**
 	 * Expands all of the rows in the Directions tree.
+	 * 
 	 * @author Will Spurgeon
 	 *
 	 */
-	private void expandTree(){
+	private void expandTree() {
 		for (int i = 0; i < tree.getRowCount(); i++) {
-	         tree.expandRow(i);
-		}	
-	}
-	
-	/**
-	 * Collapses all of the rows in the Directions tree.
-	 * @author Will Spurgeon
-	 *
-	 */
-	private void collapseTree(){
-		for (int i = 0; i < tree.getRowCount(); i++) {
-	         tree.collapseRow(i);
+			tree.expandRow(i);
 		}
 	}
 
 	/**
+	 * Collapses all of the rows in the Directions tree.
 	 * 
+	 * @author Will Spurgeon
+	 *
 	 */
+	private void collapseTree() {
+		for (int i = 0; i < tree.getRowCount(); i++) {
+			tree.collapseRow(i);
+		}
+	}
+
 	private static final long serialVersionUID = 768017196182798774L;
 }
