@@ -117,11 +117,11 @@ public class UserMode extends UIMode
 		if (newPoint == null)
 			return;
 
-		if (routedPath != null) {
-			clearDestinations();
-			routedPath = null;
-			graphicalMap.setPathSections(getRoutedPath());
-		}
+//		if (routedPath != null) {
+//			clearDestinations();
+//			routedPath = null;
+//			graphicalMap.setPathSections(getRoutedPath());
+//		}
 
 		if (!destinationsSet.contains(newPoint)) {
 			System.out.println("Added " + newPoint + " to route");

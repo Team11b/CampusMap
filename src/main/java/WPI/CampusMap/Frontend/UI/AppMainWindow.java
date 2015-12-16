@@ -441,18 +441,19 @@ public class AppMainWindow extends JFrame implements Runnable {
 		public void itemStateChanged(ItemEvent e) {
 			//for when a map is selected in the dropdown
 			
-			String selectedMap = e.getItem().toString().replaceFirst(" ", "_").replace("-", "_");
-			selectedMap = selectedMap.replace(" ", "-").replace(" Floor ", "-"); //get realName from displayName
+			String selectedMap = e.getItem().toString().replace(" ", "_").replace("_Sub-Basement", "-sub_basement").replace("_Basement", "-basement");
+			selectedMap = selectedMap.replace("_Floor_", "-"); //get realName from displayName
 			
 			System.out.println("item selected " + selectedMap);
             System.out.println("mapname is "+mapName );			
 			
+            if(selectedMap.equals("Back_to_Campus_Map"))
+    			selectedMap = "Campus_Map"; 
+            
             //get the proper map name
-        	if(!selectedMap.equals("Campus_Map")){
-        		if(selectedMap.equals("Back_to-Campus-Map"))
-        			selectedMap = "Campus_Map";                	
-        		else {
-        			ArrayList<IMap> otherMapsInBuilding = AllMaps.getInstance().getMapsInBuilding(selectedMap.split("-")[0]);
+            if(mapName.equals("Campus_Map")){
+            	if(!selectedMap.equals("Campus_Map")){          
+        			ArrayList<IMap> otherMapsInBuilding = AllMaps.getInstance().getMapsInBuilding(selectedMap);
         			otherMapsInBuilding.sort(new Comparator<IMap>() {
         				@Override
         				public int compare(IMap o1, IMap o2) {
@@ -460,8 +461,8 @@ public class AppMainWindow extends JFrame implements Runnable {
         				}
         			});
         			selectedMap = otherMapsInBuilding.get(0).getName();
-        		}
-           	}
+	           	}
+            }
             //finally load it 
             forceMapSwitch(selectedMap);            
 		}
