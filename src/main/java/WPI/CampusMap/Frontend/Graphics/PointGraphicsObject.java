@@ -81,6 +81,11 @@ public abstract class PointGraphicsObject<M extends GraphicalMap> extends Graphi
 		Coord screenPosition = getOwner().getScreenFromWorld(backendPoint.getCoord());
 		float distance = mouseCoord.distance(screenPosition);
 		
-		return distance <= 5;
+		return distance <= getMouseHoverDistance();
+	}
+	
+	protected float getMouseHoverDistance()
+	{
+		return 7.0f;
 	}
 }
