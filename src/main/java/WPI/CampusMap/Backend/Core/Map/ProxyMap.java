@@ -17,15 +17,17 @@ import WPI.CampusMap.Recording.Serialization.Serializer;
 
 public class ProxyMap implements IMap, Serializable {
 
-	/**
-	 * 
-	 */
 	private static final long serialVersionUID = 8163839906797395312L;
 	private String mapName;
 	private transient RealMap realMap;
 	private String[] namedPoints;
 	private String[] connectedMaps;
 
+	/**
+	 * Constructor
+	 * Creates a new ProxyMap with the given name.
+	 * @param name
+	 */
 	public ProxyMap(String name) {
 		this.mapName = name;
 		namedPoints = new String[0];
