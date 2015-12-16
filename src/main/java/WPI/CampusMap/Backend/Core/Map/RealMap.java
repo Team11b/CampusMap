@@ -4,11 +4,16 @@ import java.awt.Image;
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.UUID;
 
 import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
+
+import org.apache.commons.lang3.text.WordUtils;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
@@ -23,6 +28,7 @@ public class RealMap implements IMap, java.io.Serializable {
 	private String name;
 	private HashMap<String, RealPoint> allPoints;
 	private transient ImageIcon loadedImage;
+	private transient boolean unsavedChanges;
 
 	/**
 	 * Creates a map with the given name and default values
@@ -36,6 +42,9 @@ public class RealMap implements IMap, java.io.Serializable {
 		this.allPoints = new HashMap<String, RealPoint>();
 	}
 
+	/**
+	 * Makes sure that none of the points in the given map are null.
+	 */
 	public void validatePoints() {
 		for (String key : allPoints.keySet()) {
 			RealPoint point = allPoints.get(key);
@@ -47,22 +56,11 @@ public class RealMap implements IMap, java.io.Serializable {
 		}
 	}
 
-	/**
-	 * Get the scale from inches to feet.
-	 * 
-	 * @return The scale from inches to feet.
-	 */
 	@Override
 	public float getScale() {
 		return this.scale;
 	}
 
-	/**
-	 * Set the scale from inches to feet.
-	 * 
-	 * @param scale
-	 *            the inches to feet scale.
-	 */
 	@Override
 	public void setScale(float scale) {
 		float oldScale = this.scale;
@@ -81,21 +79,11 @@ public class RealMap implements IMap, java.io.Serializable {
 
 	}
 
-	/**
-	 * Gets the name of this map.
-	 * 
-	 * @return The name of this map.
-	 */
 	@Override
 	public String getName() {
 		return this.name;
 	}
 
-	/**
-	 * Gets the loaded image of the map png to display.
-	 * 
-	 * @return The loaded image to display for this map.
-	 */
 	@Override
 	public ImageIcon getLoadedImage() {
 		if (loadedImage == null) {
@@ -112,31 +100,16 @@ public class RealMap implements IMap, java.io.Serializable {
 			BufferedImage buffer = ImageIO.read(new File(pngLocation + this.getName() + ".png"));
 			loadedImage = new ImageIcon(buffer.getScaledInstance(1000, 660, Image.SCALE_SMOOTH));
 		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, e.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
 	}
 
-	/**
-	 * Gets a point from the map.
-	 * 
-	 * @param id
-	 *            The id of the point to get.
-	 * @return The point with the id.
-	 */
 	@Override
 	public RealPoint getPoint(String id) {
 		return this.allPoints.get(id);
 	}
 
-	/**
-	 * Removes the point with the given ID from the map array, and from the
-	 * neighbor arrays of all points on the map
-	 * 
-	 * @param id
-	 *            The ID of the point to be removed
-	 * @return True if point is successfully removed, False if specified point
-	 *         does note exist
-	 */
 	@Override
 	public boolean removePoint(String id) {
 		IPoint point = allPoints.get(id);
@@ -157,22 +130,24 @@ public class RealMap implements IMap, java.io.Serializable {
 		// System.out.println("Remove: " + point.getId());
 		ArrayList<IPoint> neighbors = point.getNeighborsP();
 		for (IPoint pointN : neighbors) {
-			if (!pointN.removeNeighbor(point))	return false;
+			if (!pointN.removeNeighbor(point))
+				return false;
 		}
 		point.removeAllNeighbors();
 		allPoints.remove(point.getId());
 
 		return true;
 	}
+	
+	@Override
+	public IPoint createPoint(Coord location)
+	{
+		RealPoint point = new RealPoint(location, RealPoint.HALLWAY, UUID.randomUUID().toString(), getName());
+		addPoint(point);
+		
+		return point;
+	}
 
-	/**
-	 * Adds a point to the map. Does NOT connect the point to any other points.
-	 * 
-	 * @param point
-	 *            a new Point to add
-	 * @return true if the point was added, false if there already exists a
-	 *         point with the same ID
-	 */
 	@Override
 	public boolean addPoint(RealPoint point) {
 		if (this.allPoints.containsKey(point.getId()))
@@ -180,20 +155,8 @@ public class RealMap implements IMap, java.io.Serializable {
 
 		this.allPoints.put(point.getId(), point);
 		return true;
-	}
-
-	// TODO maybe move this to a static method?
-	/**
-	 * Adds an edge between two Points
-	 * 
-	 * @param point
-	 *            the first Point
-	 * @param other
-	 *            the second Point
-	 * @return true if the edge was added, false if one Points doesn't exist or
-	 *         if the edge already exists
-	 */
-	// TODO maybe move this to a static method?
+	}	
+	
 	@Override
 	public boolean addEdge(IPoint point, IPoint other) {
 		if (point.equals(other)) {
@@ -207,16 +170,6 @@ public class RealMap implements IMap, java.io.Serializable {
 		return true;
 	}
 
-	/**
-	 * Removes an edge between two Points
-	 * 
-	 * @param point
-	 *            the first Point
-	 * @param other
-	 *            the second Point
-	 * @return true if the edge was removed, false if one Points doesn't exist
-	 *         or if the edge does not exist
-	 */
 	@Override
 	public boolean removeEdge(IPoint point, IPoint other) {
 		if (this.allPoints.containsKey(point.getId()) && (this.allPoints.containsKey(other.getId()))) {
@@ -230,19 +183,13 @@ public class RealMap implements IMap, java.io.Serializable {
 		return false;
 	}
 
-	/**
-	 * Removes the given point and adds it back under the newName
-	 */
 	@Override
-	public void renamePoint(RealPoint p, String newName) {
+	public void renamePoint(RealPoint p, String newName)
+	{
 		allPoints.remove(p.getId());
 		allPoints.put(newName, p);
-		System.out.println("Renamed point to" + this.getPoint(newName));
 	}
 
-	/**
-	 * Uses the serializer to save the map data.
-	 */
 	@Override
 	public void save() {
 		for (RealPoint point : allPoints.values()) {
@@ -260,21 +207,22 @@ public class RealMap implements IMap, java.io.Serializable {
 	}
 
 	@Override
-	public Collection<RealPoint>getAllPoints() {
+	public Collection<RealPoint> getAllPoints() {
 		return allPoints.values();
 	}
 
 	@Override
 	public boolean connectedToCampus() {
-		// TODO Auto-generated method stub
-		return false;
+		String campusMap = AllMaps.getInstance().CampusMap;
+		if(getName() == campusMap) return true;
+		return Arrays.asList(((ProxyMap) AllMaps.getInstance().getMap(campusMap)).getConnectedMaps()).contains(getName());
 	}
 
 	@Override
 	public String getBuilding() {
 		return getName().split("-")[0];
-	}	
-	
+	}
+
 	@Override
 	public boolean equals(Object other) {
 		if (other instanceof IMap) {
@@ -288,13 +236,53 @@ public class RealMap implements IMap, java.io.Serializable {
 	@Override
 	public ArrayList<IPoint> pointsConnectedToOtherMaps() {
 		ArrayList<IPoint> points = new ArrayList<IPoint>();
-		for(IPoint point: getAllPoints()){
-			if(!point.getNeighborPointsOnOtherMaps().isEmpty()){
+		for (IPoint point : getAllPoints()) {
+			if (!point.getNeighborPointsOnOtherMaps().isEmpty()) {
 				points.add(point);
 			}
 		}
-		
+
 		return points;
+	}
+
+	@Override
+	public boolean unsavedChanged() {
+		if(unsavedChanges){
+			unsavedChanges = false;
+			return true;
+		}
+		return false;
+	}
+	
+	public void changed(){
+		unsavedChanges = true;
+	}
+	
+	@Override
+	public String getDisplayName() {
+		
+		String building = getBuilding().replace("_", " ");
+		if(getName().equals("Campus_Map")){
+			return "Campus Map";
+		}
+		return building +" "+ getFloorName();
+	}
+	
+	@Override
+	public String getFloorName(){
+        String floorName = getName();
+		if(!getName().equals(AllMaps.getInstance().CampusMap)){
+			floorName = floorName.split("-")[1].trim();
+		}
+		
+		try{
+			floorName = "Floor " + Integer.parseInt(floorName);
+		}catch(NumberFormatException e){
+			floorName = WordUtils.capitalizeFully(floorName.replace("_", "  ")).replace("  ", "-");
+		}
+		
+		return floorName;
+		
 	}
 
 }

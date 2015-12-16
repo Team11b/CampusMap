@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
@@ -13,6 +14,7 @@ import WPI.CampusMap.Backend.Core.Point.RealPoint;
 
 public class MapPointManipulationTest {
 
+	@Ignore
 	@Test
 	public void test() {
 		ProxyMap testMap = new ProxyMap("testMap");
@@ -60,6 +62,7 @@ public class MapPointManipulationTest {
 		assertTrue(testMap.removePoint(oneP));
 	}
 
+	@Ignore
 	@Test
 	public void test2() {
 		RealMap testMap = new RealMap("testMap");

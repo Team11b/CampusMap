@@ -4,14 +4,13 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.BeforeClass;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
-import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Map.RealMap;
 import WPI.CampusMap.Backend.Core.Point.RealPoint;
 import WPI.CampusMap.Backend.PathPlanning.Node;
-import WPI.CampusMap.Backend.PathPlanning.Path;
 
 public class NodePathTest {
 	static Coord cOne, cTwo, cThree, cFour;
@@ -31,11 +30,12 @@ public class NodePathTest {
 		three = new RealPoint(cThree, RealPoint.STAIRS, "gamma", "temp");
 		three = new RealPoint(cThree, RealPoint.STAIRS, "gamma", "temp");
 
-		nOne = new Node(one,null,0);
-		nTwo = new Node(two,nOne,0);
-		nThree = new Node(three,nTwo,0);
+		nOne = new Node(one, null, 0);
+		nTwo = new Node(two, nOne, 0);
+		nThree = new Node(three, nTwo, 0);
 	}
 
+	@Ignore
 	@Test
 	public void testCoordDist() {
 		assertTrue(cOne.distance(cTwo) == 0);

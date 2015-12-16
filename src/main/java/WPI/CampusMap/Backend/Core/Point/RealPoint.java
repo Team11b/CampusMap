@@ -8,7 +8,16 @@ import java.util.UUID;
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Map.IMap;
+import WPI.CampusMap.Backend.Core.Map.ProxyMap;
 
+/**
+ * @author g4vi
+ *
+ */
+/**
+ * @author g4vi
+ *
+ */
 public class RealPoint implements IPoint,java.io.Serializable {
 
 	private static final long serialVersionUID = 1262614340821579118L;
@@ -27,6 +36,8 @@ public class RealPoint implements IPoint,java.io.Serializable {
 	/** Standard type of hallway */
 	public static final String ELEVATOR = "elevator";
 	/** Standard type of elevator */
+	public static final String ROOM = "room";
+	/** Standard type of elevator */
 	
 	/**
 	 * Point constructor
@@ -41,6 +52,13 @@ public class RealPoint implements IPoint,java.io.Serializable {
 		this.id = id;
 		this.map = map;
 		this.neighbors = new HashMap<String, IPoint>();
+	}
+	
+	/**
+	 * Marks the containing map as changed.
+	 */
+	private void changed(){
+		AllMaps.getInstance().getMap(map).changed();
 	}
 	
 	/**
@@ -83,13 +101,7 @@ public class RealPoint implements IPoint,java.io.Serializable {
 		}
 	}
 
-	/**
-	 * Gets the distance between two points.
-	 * 
-	 * @param other
-	 *            The other point to get the distance too.
-	 * @return The distance to the other point or -1 if on different maps.
-	 */
+	
 	@Override
 	public double distance(IPoint other) {
 		if(other.getMap().equals(this.getMap())){
@@ -99,76 +111,56 @@ public class RealPoint implements IPoint,java.io.Serializable {
 		}
 	}
 
-	/**
-	 * Gets the coordinate of this point
-	 * 
-	 * @return The current coordinate of this point
-	 */
+	
 	@Override
 	public Coord getCoord() {
 		return coord;
 	}
-
-	/**
-	 * Sets the coordinates location of this point
-	 * 
-	 * @param coord The new coordinate of this point
-	 */
+	
 	@Override
 	public void setCoord(Coord coord) {
 		this.coord = coord;
 	}
 
-	/**
-	 * Gets the type of this point
-	 * 
-	 * @return The type of the point
-	 */
 	@Override
 	public String getType() {
 		return type;
 	}
-
-	/**
-	 * Sets the type of this point
-	 * 
-	 * @param type The type to set this point to
-	 */
+	
 	@Override
 	public void setType(String type) {
 		this.type = type;
 
 	}
-
-	/**
-	 * Returns the id of the point
-	 * 
-	 * @return The id of the point
-	 */
+	
 	@Override
 	public String getId() {
 		return id;
 	}
-
-	/**|
-	 * Sets the id of the point
-	 * 
-	 * @param newId the new id
-	 */
+	
 	@Override
-	public void setId(String newId) {
+	public boolean setId(String newId) {
 		// TODO Add check to see if id already exists?
 		if((!newId.equals(getId())) && !newId.equals("")){
 			for(IPoint n : getNeighborsP()){
 				System.out.println("Removed neighbor: "+n.removeNeighbor(this));	
 			}
 
-			this.id = newId;
 			IMap map = AllMaps.getInstance().getMap(getMap());
 			if(map != null)
 			{
+				if(map.getPoint(newId) != null)
+					return false;
+				
 				map.renamePoint(this, newId);
 			}
+			else
+			{
+				return false;
+			}
+			
+			this.id = newId;
+			
 			for(IPoint n : getNeighborsP())
 			{
 				n.addNeighbor(this);
@@ -176,26 +168,16 @@ public class RealPoint implements IPoint,java.io.Serializable {
 				System.out.println("Replaced self in "+n+"'s neighbor list");
 			}
 		}
-	}
+		
+		return true;
+	}	
 	
-	/**
-	 * Returns the list of neighboring points
-	 * 
-	 * @return the list of neighboring points
-	 */
 	@Override
 	public ArrayList<IPoint> getNeighborsP() {
 		ArrayList<IPoint> tempAL = new ArrayList<IPoint>(neighbors.values());
 		return tempAL;
 	}
-
-	/**
-	 * Returns all the valid nieghbors of the point
-	 * 
-	 * @param whitelist whitelist of valid floors
-	 * 
-	 * @return The list of only neighbors that exists on the specifies maps
-	 */
+	
 	@Override
 	public ArrayList<IPoint> getValidNeighbors(HashSet<String> whitelist) {
 		ArrayList<IPoint> neigh = new ArrayList<IPoint>();
@@ -213,6 +195,7 @@ public class RealPoint implements IPoint,java.io.Serializable {
 
 	@Override
 	public boolean removeNeighbor(IPoint point) {
+		changed();
 		boolean firstSuccess = (this.neighbors.remove(point.getId()) != null) || (this.neighbors.remove(point.toString()) != null);
 		boolean secondSuccess = this.neighborList.remove(point.toString()) || this.neighborList.remove(point.getId());
 		System.out.println("First Success: "+firstSuccess+" Second Success: "+secondSuccess);
@@ -226,11 +209,13 @@ public class RealPoint implements IPoint,java.io.Serializable {
 	
 	@Override
 	public boolean removeNeighbor(String pointId) {
+		changed();
 		return this.neighbors.remove(pointId) != null;
 	}
 
 	@Override
 	public boolean addNeighbor(IPoint point) {
+		changed();
 		if (this.neighbors.containsValue(point))
 			return false;
 		
@@ -272,6 +257,7 @@ public class RealPoint implements IPoint,java.io.Serializable {
 
 	@Override
 	public void removeAllNeighbors() {
+		changed();
 		this.neighbors.clear();
 		this.neighborList = new ArrayList<String>();
 	}
@@ -303,7 +289,7 @@ public class RealPoint implements IPoint,java.io.Serializable {
 
 	@Override
 	public boolean connectToCampus() {
-		throw new UnsupportedOperationException("connectToCampus not yet implemented.");
+		return ((ProxyMap) AllMaps.getInstance().getMap(getMap())).connectedToCampus();
 	}
 	
 	@Override
@@ -312,4 +298,14 @@ public class RealPoint implements IPoint,java.io.Serializable {
 
 	}
 
+	@Override
+	public String getMapDisplayName() {		
+		return getMap().replace('_', ' ');
+	}
+
+	
+	@Override
+	public String getDisplayName() {			
+		return getId().replace('_', ' ');
+	}
 }

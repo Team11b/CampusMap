@@ -62,6 +62,15 @@ public class Path implements Iterable<Path.Section>
 		public String getMap() {
 			return map.getName();
 		}
+		
+		public String getDisplayName(){
+			return map.getDisplayName();
+		}
+		
+		@Override
+		public String toString(){
+			return points.toString();
+		}
 	}
 	
 	/**
@@ -122,6 +131,16 @@ public class Path implements Iterable<Path.Section>
 	public Iterator<Section> iterator() 
 	{
 		return sections.iterator();
+	}
+	
+	/**
+	 * Gets a path section of a specific index.
+	 * @param index The index of the section to get.
+	 * @return The path section at the specific index.
+	 */
+	public Section getSection(int index)
+	{
+		return sections.get(index);
 	}
 	
 	/**

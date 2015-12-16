@@ -23,6 +23,13 @@ public class Coord implements java.io.Serializable {
 		this.y = e;
 	}
 
+	/**
+	 * Constructor
+	 * @param d
+	 *            X-Coordinate
+	 * @param e
+	 *            Y-Coordinate
+	 */
 	public Coord(double d, double e) 
 	{
 		this.x = (float)d;
@@ -41,18 +48,34 @@ public class Coord implements java.io.Serializable {
 				.abs(Math.sqrt(Math.pow((other.getX() - this.getX()), 2) + Math.pow((other.getY() - this.getY()), 2))));
 	}
 
+	/**
+	 * Returns the value of x.
+	 * @return float of x
+	 */
 	public float getX() {
 		return (float)x;
 	}
 
+	/**
+	 * Sets the value of x.
+	 * @param x
+	 */
 	public void setX(float x) {
 		this.x = x;
 	}
 
+	/**
+	 * Returns the value of y.
+	 * @return float, y
+	 */
 	public float getY() {
 		return (float)y;
 	}
 
+	/**
+	 * Sets the value of y.
+	 * @param y
+	 */
 	public void setY(float y) {
 		this.y = y;
 	}
