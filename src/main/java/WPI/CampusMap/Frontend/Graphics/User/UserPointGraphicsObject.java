@@ -78,7 +78,7 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 	@Override
 	public boolean isVisible()
 	{
-		return getOwnerMode(UserModeClass.class).getShowAllPoints() || !getRepresentedObject().getType().equals(RealPoint.HALLWAY);
+		return state == selectionState.CURRENT || getOwnerMode(UserModeClass.class).getShowAllPoints() || !getRepresentedObject().getType().equals(RealPoint.HALLWAY);
 	}
 	
 	@Override

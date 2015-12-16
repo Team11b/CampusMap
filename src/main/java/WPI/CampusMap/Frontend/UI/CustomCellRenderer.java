@@ -1,5 +1,6 @@
 package WPI.CampusMap.Frontend.UI;
 
+import java.awt.Color;
 import java.awt.Component;
 import java.awt.Image;
 import java.io.File;
@@ -17,7 +18,8 @@ import javax.swing.tree.TreeCellRenderer;
  * @author Will Spurgeon
  *
  */
-class CustomCellRenderer implements TreeCellRenderer{
+class CustomCellRenderer implements TreeCellRenderer
+{
 	@SuppressWarnings("unused")
 	private JLabel icon;
 	
@@ -25,7 +27,8 @@ class CustomCellRenderer implements TreeCellRenderer{
 	 * Returns the correct type of tree cell based on the contents of the direction string.
 	 * Different types of instructions are given different icons.
 	 */
-	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
+	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus)
+	{
 		Object o = ((DefaultMutableTreeNode) value).getUserObject();
 		ImageIcon icon = null;
 		Image img = null;
@@ -57,9 +60,19 @@ class CustomCellRenderer implements TreeCellRenderer{
 			img = img.getScaledInstance(16, 16, Image.SCALE_SMOOTH);
 			icon = new ImageIcon(img);
 			
+			if(selected)
+			{
+				label.setOpaque(true);
+				label.setBackground(new Color(200, 200, 255));
+				label.setForeground(Color.white);
+			}
+			
 			label.setIcon(icon);
 			label.setText(text);
 		}
+		
+		
+		
 		return label;
 	}
 
