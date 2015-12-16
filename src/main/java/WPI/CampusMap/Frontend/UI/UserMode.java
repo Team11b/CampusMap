@@ -114,6 +114,9 @@ public class UserMode extends UIMode
 
 	public void addPointToDestinations(UserPointGraphicsObject newPoint) {
 		addPointToDestinations(newPoint.getRepresentedObject());
+		
+		if(newPoint != null && destinationsSet.contains(newPoint.getRepresentedObject()))
+			getWindow().addDestination(newPoint);
 	}
 
 	public void onPointAddedToRoute(UserPointGraphicsObject newPoint) {
@@ -128,7 +131,7 @@ public class UserMode extends UIMode
 			return;
 
 //		if (routedPath != null) {
-//			clearRoute();
+//			clearDestinations();
 //			routedPath = null;
 //			graphicalMap.setPathSections(getRoutedPath());
 //		}
