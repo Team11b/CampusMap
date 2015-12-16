@@ -61,6 +61,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 	private AppDevModeControl devPanel;
 	private final ArrayList<String> mapStrings = new ArrayList<String>();
 	private final Action devModeAction = new DevModeAction();
+	private final Action showAllAction = new ShowAllAction();
 	private final Action unitAction = new UnitAction();
 	private final Action printAction = new PrintAction();
 
@@ -197,6 +198,10 @@ public class AppMainWindow extends JFrame implements Runnable {
 		JCheckBoxMenuItem chckbxUnit = new JCheckBoxMenuItem("Metric");
 		chckbxUnit.setAction(unitAction);
 		mnUnit.add(chckbxUnit);
+		
+		JCheckBoxMenuItem toggleShowAll = new JCheckBoxMenuItem("Show All Points");
+		toggleShowAll.setAction(showAllAction);
+		mnSettings.add(toggleShowAll);
 
 		JCheckBoxMenuItem chckbxmntmDevMode = new JCheckBoxMenuItem("Dev Mode");
 		chckbxmntmDevMode.setAction(devModeAction);
@@ -572,6 +577,20 @@ public class AppMainWindow extends JFrame implements Runnable {
 			} else {
 				changeToUserMode();
 			}
+		}
+	}
+	
+	@SuppressWarnings("serial")
+	private class ShowAllAction extends AbstractAction {
+		public ShowAllAction() 
+		{
+			putValue(NAME, "Show All Points");
+			putValue(SHORT_DESCRIPTION, "Show all points on the map, not just key ones.");
+		}
+
+		public void actionPerformed(ActionEvent e) {
+			JCheckBoxMenuItem item = (JCheckBoxMenuItem) e.getSource();
+			getUserMode().setShowAllPoints(item.isSelected());
 		}
 	}
 
