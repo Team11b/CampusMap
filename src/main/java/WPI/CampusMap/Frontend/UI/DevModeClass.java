@@ -11,7 +11,7 @@ import WPI.CampusMap.Frontend.Dev.EditorToolMode;
 import WPI.CampusMap.Frontend.Graphics.Dev.DevGraphicalMap;
 import WPI.CampusMap.Frontend.Graphics.Dev.DevPointGraphicsObject;
 
-public class DevMode extends UIMode {
+public class DevModeClass extends UIMode {
 	private DevGraphicalMap graphicsMap;
 
 	private EditorToolMode currentToolMode;
@@ -23,7 +23,7 @@ public class DevMode extends UIMode {
 	 * Constructs a new DevMode object with the given window.
 	 * @param window AppMainWindow
 	 */
-	public DevMode(AppMainWindow window) {
+	public DevModeClass(AppMainWindow window) {
 		super(window);
 		setSelect();
 	}

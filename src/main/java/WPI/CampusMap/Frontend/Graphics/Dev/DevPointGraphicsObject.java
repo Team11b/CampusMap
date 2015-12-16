@@ -7,7 +7,7 @@ import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Frontend.Dev.EditorToolMode;
 import WPI.CampusMap.Frontend.Graphics.PointGraphicsObject;
 import WPI.CampusMap.Frontend.Graphics.RealMouseEvent;
-import WPI.CampusMap.Frontend.UI.DevMode;
+import WPI.CampusMap.Frontend.UI.DevModeClass;
 
 public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 {	
@@ -27,8 +27,8 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 	@Override
 	public Color getColor() 
 	{
-		EditorToolMode mode = getOwnerMode(DevMode.class).getCurrentToolMode();
-		boolean isSelected = getOwnerMode(DevMode.class).isPointSelected(this);
+		EditorToolMode mode = getOwnerMode(DevModeClass.class).getCurrentToolMode();
+		boolean isSelected = getOwnerMode(DevModeClass.class).isPointSelected(this);
 		if(mode == EditorToolMode.Point || mode == EditorToolMode.Edge || mode == EditorToolMode.DeletePoint || mode == EditorToolMode.None)
 		{
 			if(isSelected)
@@ -91,7 +91,7 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 	@Override
 	public void onMouseClick(RealMouseEvent e) 
 	{
-		EditorToolMode mode = getOwnerMode(DevMode.class).getCurrentToolMode();
+		EditorToolMode mode = getOwnerMode(DevModeClass.class).getCurrentToolMode();
 		switch(mode)
 		{
 		case DeletePoint:
@@ -100,12 +100,12 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 		case None:
 		case Point:
 			if(!e.isShiftDown())
-				getOwnerMode(DevMode.class).setSelectedPoint(this);
+				getOwnerMode(DevModeClass.class).setSelectedPoint(this);
 			else
-				getOwnerMode(DevMode.class).addSelectedPoint(this);
+				getOwnerMode(DevModeClass.class).addSelectedPoint(this);
 			break;
 		case Edge:
-			getOwnerMode(DevMode.class).addSelectedPoint(this);
+			getOwnerMode(DevModeClass.class).addSelectedPoint(this);
 			getOwner().makeEdgeBetweenSelected();
 			break;
 			default:
@@ -116,7 +116,7 @@ public class DevPointGraphicsObject extends PointGraphicsObject<DevGraphicalMap>
 	@Override
 	public boolean isMouseOver(RealMouseEvent e)
 	{
-		if(getOwnerMode(DevMode.class).getCurrentToolMode() == EditorToolMode.DeleteEdge)
+		if(getOwnerMode(DevModeClass.class).getCurrentToolMode() == EditorToolMode.DeleteEdge)
 			return false;
 		
 		return super.isMouseOver(e);

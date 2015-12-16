@@ -47,6 +47,7 @@ public class TestConnection {
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	@Test
 	public void testPullWeatherAPI(){
 		try{
@@ -58,6 +59,7 @@ public class TestConnection {
 		}
 	}
 	
+	@SuppressWarnings("unused")
 	@Test
 	public void testPullTwitter(){
 		exception.expect(UnsupportedOperationException.class);

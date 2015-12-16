@@ -39,6 +39,7 @@ public abstract class GraphicalMap {
 
 	private GraphicsObject<?, ?> over;
 
+	@SuppressWarnings("unused")
 	private AffineTransform transform;
 
 	private Coord cameraPosition = new Coord(0, 0);
@@ -47,6 +48,7 @@ public abstract class GraphicalMap {
 	
 	private float linearZoomLevel;
 	
+	@SuppressWarnings("unused")
 	private boolean isDraggin;
 	
 	private Coord lastDragImageLocation;

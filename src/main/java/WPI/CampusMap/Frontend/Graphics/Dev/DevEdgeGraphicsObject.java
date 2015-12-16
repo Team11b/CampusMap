@@ -11,7 +11,7 @@ import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Frontend.Dev.EditorToolMode;
 import WPI.CampusMap.Frontend.Graphics.GraphicsObject;
 import WPI.CampusMap.Frontend.Graphics.RealMouseEvent;
-import WPI.CampusMap.Frontend.UI.DevMode;
+import WPI.CampusMap.Frontend.UI.DevModeClass;
 
 /**
  * A visual representation of an edge between two s.
@@ -92,7 +92,7 @@ public class DevEdgeGraphicsObject extends GraphicsObject<UnorderedPair<IPoint, 
 	@Override
 	public void onMouseClick(RealMouseEvent e) 
 	{
-		if(getOwnerMode(DevMode.class).getCurrentToolMode() != EditorToolMode.DeleteEdge)
+		if(getOwnerMode(DevModeClass.class).getCurrentToolMode() != EditorToolMode.DeleteEdge)
 			return;
 		
 		delete();
@@ -107,7 +107,7 @@ public class DevEdgeGraphicsObject extends GraphicsObject<UnorderedPair<IPoint, 
 	@Override
 	public boolean isMouseOver(RealMouseEvent e)
 	{
-		if(getOwnerMode(DevMode.class).getCurrentToolMode() != EditorToolMode.DeleteEdge)
+		if(getOwnerMode(DevModeClass.class).getCurrentToolMode() != EditorToolMode.DeleteEdge)
 			return false;
 		
 		Coord screenCoord1 = getOwner().getRenderFromWorld(edge.getA().getCoord());

@@ -206,6 +206,7 @@ public class Serializer {
 		
 	}
 	
+	@SuppressWarnings("unchecked")
 	public static LinkedList<String> allPointsLoad() {
 		try {
 			LinkedList<String> rm;

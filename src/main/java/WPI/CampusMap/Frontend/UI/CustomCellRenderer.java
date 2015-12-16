@@ -18,6 +18,7 @@ import javax.swing.tree.TreeCellRenderer;
  *
  */
 class CustomCellRenderer implements TreeCellRenderer{
+	@SuppressWarnings("unused")
 	private JLabel icon;
 	
 	/**

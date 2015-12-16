@@ -9,14 +9,13 @@ public class BetweenMapsProcessor extends NodeProcessor {
 	private static final int STAIR_COST = 30;
 
 	public BetweenMapsProcessor() {
-		// TODO Auto-generated constructor stub
 	}
 
 	public BetweenMapsProcessor(NodeProcessor child) {
 		super(child);
-		// TODO Auto-generated constructor stub
 	}
 
+	@SuppressWarnings("unused")
 	@Override
 	protected void onProcessNode(Node node, Node goal) {
 		

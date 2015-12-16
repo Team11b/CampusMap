@@ -1,12 +1,9 @@
 package WPI.CampusMap.Frontend.Graphics.Print;
 
 import WPI.CampusMap.Backend.Core.Point.IPoint;
-import WPI.CampusMap.Backend.Core.Point.RealPoint;
 import WPI.CampusMap.Backend.PathPlanning.Path;
 import WPI.CampusMap.Frontend.Graphics.GraphicalMap;
 import WPI.CampusMap.Frontend.Graphics.Print.PrintPointGraphicsObject.PrintFlags;
-import WPI.CampusMap.Frontend.Graphics.User.UserPointGraphicsObject;
-import WPI.CampusMap.Frontend.UI.UserMode;
 
 public class PrintGraphicalMap extends GraphicalMap
 {

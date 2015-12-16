@@ -12,7 +12,6 @@ import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.LinkedList;
 
-import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -44,13 +43,11 @@ import WPI.CampusMap.Backend.PathPlanning.PathFinder;
 import WPI.CampusMap.Backend.PathPlanning.PathNotFoundException;
 import WPI.CampusMap.Backend.PathPlanning.WeatherHeuristicProcessor;
 import WPI.CampusMap.Backend.PathPlanning.Route.Route;
-import WPI.CampusMap.Frontend.Graphics.RouteImageCreator;
 import WPI.CampusMap.Frontend.Graphics.Print.PrintJob;
 import WPI.CampusMap.Frontend.Graphics.User.UserGraphicalMap;
-import WPI.CampusMap.Frontend.Graphics.User.UserPathGraphicsObject;
 import WPI.CampusMap.Frontend.Graphics.User.UserPointGraphicsObject;
 
-public class UserMode extends UIMode {
+public class UserModeClass extends UIMode {
 	private UserGraphicalMap graphicalMap;
 
 	private LinkedList<IPoint> destinations = new LinkedList<>();
@@ -61,7 +58,7 @@ public class UserMode extends UIMode {
 	
 	private boolean showAllPoints;
 
-	public UserMode(AppMainWindow window) {
+	public UserModeClass(AppMainWindow window) {
 		super(window);
 	}
 
@@ -321,7 +318,6 @@ public class UserMode extends UIMode {
 	}
 
 	public boolean isSectionEndDestination(UserPointGraphicsObject graphicsObjectToCheck) {
-		// TODO Auto-generated method stub
 		IPoint pointToCheck = graphicsObjectToCheck.getRepresentedObject();
 		IMap mapToCheck = AllMaps.getInstance().getMap(pointToCheck.getMap());
 		if (routedPath == null)
@@ -337,7 +333,6 @@ public class UserMode extends UIMode {
 	}
 
 	public boolean isSectionStartDestination(UserPointGraphicsObject graphicsObjectToCheck) {
-		// TODO Auto-generated method stub
 		IPoint pointToCheck = graphicsObjectToCheck.getRepresentedObject();
 		IMap mapToCheck = AllMaps.getInstance().getMap(pointToCheck.getMap());
 		if (routedPath == null)
@@ -353,7 +348,6 @@ public class UserMode extends UIMode {
 	}
 
 	public boolean isUltimateFirst(UserPointGraphicsObject graphicsObjectToCheck) {
-		// TODO Auto-generated method stub
 		IPoint pointToCheck = graphicsObjectToCheck.getRepresentedObject();
 		IMap mapToCheck = AllMaps.getInstance().getMap(pointToCheck.getMap());
 		if (routedPath == null)
@@ -396,7 +390,6 @@ public class UserMode extends UIMode {
 			try {
 				job.print();
 			} catch (PrinterException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		}
@@ -426,7 +419,6 @@ public class UserMode extends UIMode {
 			printLine.print(directions);
 			printLine.close();
 		} catch (IOException e) {
-			// TODO Auto-generated catch block
 			JOptionPane.showMessageDialog(null, e.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
@@ -493,7 +485,6 @@ public class UserMode extends UIMode {
 			Route sendingRoute = new Route(routedPath);
 			SMSClient.sendText("+18184411799", sendingRoute.toString());
 		} catch (TwilioRestException e) {
-			// TODO Auto-generated catch block
 			JOptionPane.showMessageDialog(null, e.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 			e.printStackTrace();
 		}
@@ -612,6 +603,7 @@ public class UserMode extends UIMode {
 	 *         pop up window.
 	 */
 	public void onGuide() {
+		@SuppressWarnings("unused")
 		JOptionPane aboutWindow = new JOptionPane();
 		JFrame guideFrame = new JFrame("User Guide");
 		JTextPane textLabel = new JTextPane();

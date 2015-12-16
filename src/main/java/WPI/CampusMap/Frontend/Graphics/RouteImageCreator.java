@@ -1,10 +1,7 @@
 package WPI.CampusMap.Frontend.Graphics;
 
 import java.awt.Graphics2D;
-import java.awt.Image;
-import java.awt.event.MouseEvent;
 import java.awt.image.BufferedImage;
-import java.awt.image.RenderedImage;
 import java.util.LinkedList;
 
 import javax.swing.ImageIcon;
@@ -13,8 +10,6 @@ import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Map.IMap;
 import WPI.CampusMap.Backend.PathPlanning.Path;
 import WPI.CampusMap.Frontend.Graphics.Print.PrintGraphicalMap;
-import WPI.CampusMap.Frontend.Graphics.User.UserGraphicalMap;
-import WPI.CampusMap.Frontend.UI.UIMode;
 
 public class RouteImageCreator
 {

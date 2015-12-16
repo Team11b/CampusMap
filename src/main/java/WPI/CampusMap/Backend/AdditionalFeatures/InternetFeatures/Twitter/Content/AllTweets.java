@@ -3,7 +3,9 @@ package WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.Twitter.Conten
 import java.util.LinkedList;
 
 public class AllTweets {
+	@SuppressWarnings("unused")
 	private LinkedList<Tweet> alltweets;
+	@SuppressWarnings("unused")
 	private LinkedList<Tweet> validtweets;
 	
 	public AllTweets() {

@@ -8,8 +8,11 @@ public class TwitterInformation {
 	private static final String publicAccessToken = null;
 	private static final String privateAccessToken = null;
 	private static final String username = "team11b";
+	@SuppressWarnings("unused")
 	private static final String buildingHashtagsPath = "src/main/java/WPI/CampusMap/Backend/AdditionalFeatures/InternetFeatures/Twitter/Information/LocationNames.txt";
+	@SuppressWarnings("unused")
 	private static final String noBuildingFound = "nobuilding";
+	@SuppressWarnings("unused")
 	private static LinkedList<String> buildingHashtags; // lines starts at index
 														// 1 to ease copy over
 														// from the txt file
@@ -74,10 +77,12 @@ public class TwitterInformation {
 		throw new UnsupportedOperationException("getBuilding not yet implemented.");
 	}
 
+	@SuppressWarnings("unused")
 	private static void loadBuildingHashtags() {
 		throw new UnsupportedOperationException("loadBuildingHashtags not yet implemented.");
 	}
 
+	@SuppressWarnings("unused")
 	private static String fixHashtag(String hashtag) {
 		throw new UnsupportedOperationException("fixHashtag not yet implemented.");
 	}

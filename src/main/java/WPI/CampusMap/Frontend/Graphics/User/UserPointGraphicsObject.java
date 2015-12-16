@@ -8,14 +8,16 @@ import javax.swing.ImageIcon;
 import WPI.CampusMap.Backend.Core.Point.RealPoint;
 import WPI.CampusMap.Frontend.Graphics.PointGraphicsObject;
 import WPI.CampusMap.Frontend.Graphics.RealMouseEvent;
-import WPI.CampusMap.Frontend.UI.UserMode;
+import WPI.CampusMap.Frontend.UI.UserModeClass;
 
 public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMap>
 {
+	@SuppressWarnings("unused")
 	private static final ImageIcon redIcon = new ImageIcon("icon-red.png");
 	private static final ImageIcon blueIcon = new ImageIcon("icon-blue.png");	
 	private static final ImageIcon greenIcon = new ImageIcon("icon-green.png");	
 	private static final ImageIcon yellowIcon = new ImageIcon("icon-yellow.png");	
+	@SuppressWarnings("unused")
 	private static final ImageIcon purpleIcon = new ImageIcon("icon-purple.png");	
 	private static final ImageIcon lightRedIcon = new ImageIcon("icon-lightred.png");
 	private static final ImageIcon lightGreenIcon = new ImageIcon("icon-lightgreen.png");
@@ -27,13 +29,16 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 	private static final ImageIcon elevatorIcon = new ImageIcon("elevator-icon.jpg");
 	private static final ImageIcon roomIcon = new ImageIcon("room.gif");
 	
+	@SuppressWarnings("unused")
 	private boolean twitter;
 	public enum selectionState{
 		UNSELECTED,SELECTED,CURRENT
 	};
 	
 	private selectionState state = selectionState.UNSELECTED;
+	@SuppressWarnings("unused")
 	private ImageIcon normalImage;
+	@SuppressWarnings("unused")
 	private ImageIcon hoverImage;
 	
 	public UserPointGraphicsObject(RealPoint backend, UserGraphicalMap owner) 
@@ -67,13 +72,13 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 	@Override
 	public boolean isVisible()
 	{
-		return getOwnerMode(UserMode.class).getShowAllPoints() || !getRepresentedObject().getType().equals(RealPoint.HALLWAY);
+		return getOwnerMode(UserModeClass.class).getShowAllPoints() || !getRepresentedObject().getType().equals(RealPoint.HALLWAY);
 	}
 	
 	@Override
 	public void onMouseClick(RealMouseEvent e)
 	{
-		getOwnerMode(UserMode.class).addPointToDestinations(this);
+		getOwnerMode(UserModeClass.class).addPointToDestinations(this);
 	}
 	
 	/** getter for selected
@@ -98,11 +103,11 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 	
 	private ImageIcon getRenderImage()
 	{
-		if(getOwnerMode(UserMode.class).containsInDest(this))
+		if(getOwnerMode(UserModeClass.class).containsInDest(this))
 		{
-			if(getOwnerMode(UserMode.class).isRouteStart(this))
+			if(getOwnerMode(UserModeClass.class).isRouteStart(this))
 				return lightGreenIcon;
-			else if(getOwnerMode(UserMode.class).isRouteEnd(this))
+			else if(getOwnerMode(UserModeClass.class).isRouteEnd(this))
 				return lightRedIcon;
 			else
 				return yellowIcon;
@@ -111,22 +116,22 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 		{
 			return pinkIcon;
 		}
-		else if(getOwnerMode(UserMode.class).isUltimateFirst(this))
+		else if(getOwnerMode(UserModeClass.class).isUltimateFirst(this))
 		{
 			return lightGreenIcon;
 		}
-		else if(getOwnerMode(UserMode.class).isUltimateLast(this))
+		else if(getOwnerMode(UserModeClass.class).isUltimateLast(this))
 		{
 			return lightRedIcon;
 		}
 		else if(state == selectionState.SELECTED){
 			
-			if(getOwnerMode(UserMode.class).isSectionEnd(this))
+			if(getOwnerMode(UserModeClass.class).isSectionEnd(this))
 				return blueIcon;
-			else if(getOwnerMode(UserMode.class).isSectionStart(this))
+			else if(getOwnerMode(UserModeClass.class).isSectionStart(this))
 				return greenIcon;
-		}else if(getOwnerMode(UserMode.class).isSectionEndDestination(this)||
-				getOwnerMode(UserMode.class).isSectionStartDestination(this)){
+		}else if(getOwnerMode(UserModeClass.class).isSectionEndDestination(this)||
+				getOwnerMode(UserModeClass.class).isSectionStartDestination(this)){
 			return yellowIcon;
 		
 		}

@@ -201,6 +201,7 @@ public class PointListElement extends JPanel
 
 	private class PointNameChanged implements FocusListener, ActionListener 
 	{
+		@SuppressWarnings("unused")
 		private PointListElement element;
 
 		public PointNameChanged(PointListElement element)

@@ -8,13 +8,13 @@ import WPI.CampusMap.Backend.Core.Point.RealPoint;
 import WPI.CampusMap.Frontend.Dev.EditorToolMode;
 import WPI.CampusMap.Frontend.Graphics.GraphicalMap;
 import WPI.CampusMap.Frontend.Graphics.RealMouseEvent;
-import WPI.CampusMap.Frontend.UI.DevMode;
+import WPI.CampusMap.Frontend.UI.DevModeClass;
 
 public class DevGraphicalMap extends GraphicalMap
 {
 	private HashMap<UnorderedPair<IPoint, IPoint>, DevEdgeGraphicsObject> edges = new HashMap<>();
 
-	public DevGraphicalMap(String map, DevMode mode)
+	public DevGraphicalMap(String map, DevModeClass mode)
 	{		
 		super(map, mode);
 	}
@@ -31,7 +31,7 @@ public class DevGraphicalMap extends GraphicalMap
 	@Override
 	public boolean onMouseClick(RealMouseEvent e) 
 	{
-		if(getMode(DevMode.class).getCurrentToolMode() != EditorToolMode.Point)
+		if(getMode(DevModeClass.class).getCurrentToolMode() != EditorToolMode.Point)
 			return false;
 		
 		if(getHoverObject() instanceof DevPointGraphicsObject)
@@ -51,9 +51,9 @@ public class DevGraphicalMap extends GraphicalMap
 	
 	public void makeEdgeBetweenSelected()
 	{
-		if(getMode(DevMode.class).getSelectedPointCount() >= 2)
+		if(getMode(DevModeClass.class).getSelectedPointCount() >= 2)
 		{
-			DevPointGraphicsObject[] selectedPoints = getMode(DevMode.class).getSelectedPoints();
+			DevPointGraphicsObject[] selectedPoints = getMode(DevModeClass.class).getSelectedPoints();
 			for(int i = 1; i < selectedPoints.length; i++)
 			{
 				DevPointGraphicsObject current = selectedPoints[i];
@@ -62,7 +62,7 @@ public class DevGraphicalMap extends GraphicalMap
 				current.addEdgeTo(last);
 			}
 			
-			getMode(DevMode.class).clearSelectedPoints();
+			getMode(DevModeClass.class).clearSelectedPoints();
 		}
 	}
 	

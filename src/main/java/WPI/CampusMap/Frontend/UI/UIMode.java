@@ -8,6 +8,7 @@ public abstract class UIMode {
 	//other members of class go here	
 	public static final String DEV_MODE = "devmode";
 	public static final String USER_MODE = "usermode";
+	@SuppressWarnings("unused")
 	private static String currentGUIMode =  USER_MODE;
 	
 	private static final String DEFAULT_MAP = "Campus_Map";

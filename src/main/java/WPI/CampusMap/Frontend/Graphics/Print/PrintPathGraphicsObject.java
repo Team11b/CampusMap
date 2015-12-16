@@ -11,7 +11,6 @@ import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.PathPlanning.Path.Section;
 import WPI.CampusMap.Frontend.Graphics.GraphicsObject;
 import WPI.CampusMap.Frontend.Graphics.RealMouseEvent;
-import WPI.CampusMap.Frontend.Graphics.User.UserGraphicalMap;
 
 public class PrintPathGraphicsObject extends GraphicsObject<Section, PrintGraphicalMap>
 {

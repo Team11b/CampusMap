@@ -8,13 +8,13 @@ import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.Core.Point.RealPoint;
 import WPI.CampusMap.Backend.PathPlanning.Path.Section;
 import WPI.CampusMap.Frontend.Graphics.GraphicalMap;
-import WPI.CampusMap.Frontend.UI.UserMode;
+import WPI.CampusMap.Frontend.UI.UserModeClass;
 
 public class UserGraphicalMap extends GraphicalMap
 {
 	HashMap<IPoint, UserPointGraphicsObject> allPointsInMap = new HashMap<IPoint,UserPointGraphicsObject>();
 
-	public UserGraphicalMap(String map, UserMode mode)
+	public UserGraphicalMap(String map, UserModeClass mode)
 	{
 		super(map, mode);
 	}
@@ -29,7 +29,7 @@ public class UserGraphicalMap extends GraphicalMap
 			allPointsInMap.put(p,toAdd);
 		}
 		
-		setPathSections(getMode(UserMode.class).getRoutedPath());
+		setPathSections(getMode(UserModeClass.class).getRoutedPath());
 	}
 	
 	/**

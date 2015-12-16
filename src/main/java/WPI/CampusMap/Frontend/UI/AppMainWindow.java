@@ -35,8 +35,6 @@ import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
 import javax.swing.SpringLayout;
 
-import org.apache.commons.lang3.text.WordUtils;
-
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Map.IMap;
 import WPI.CampusMap.Backend.PathPlanning.LocationPref;
@@ -53,6 +51,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 	private static final long serialVersionUID = 7669431755757020202L;
 
 	private JLabel taskName;
+	@SuppressWarnings("unused")
 	private JProgressBar progressBar;
 	private Thread renderThread;
 
@@ -233,10 +232,10 @@ public class AppMainWindow extends JFrame implements Runnable {
 	 * 
 	 * @return The current UI mode as a DevMode, null if not in dev mode.
 	 */
-	public DevMode getDevMode()
+	public DevModeClass getDevMode()
 	{
-		if (currentMode instanceof DevMode)
-			return (DevMode) currentMode;
+		if (currentMode instanceof DevModeClass)
+			return (DevModeClass) currentMode;
 		return null;
 	}
 
@@ -245,9 +244,9 @@ public class AppMainWindow extends JFrame implements Runnable {
 	 * 
 	 * @return The current UI mode as a UserMode, null if not in user mode.
 	 */
-	public UserMode getUserMode() {
-		if (currentMode instanceof UserMode)
-			return (UserMode) currentMode;
+	public UserModeClass getUserMode() {
+		if (currentMode instanceof UserModeClass)
+			return (UserModeClass) currentMode;
 		return null;
 	}
 
@@ -262,7 +261,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 		parent.repaint();
 
 		this.setTitle("Dev Mode");
-		currentMode = new DevMode(this);
+		currentMode = new DevModeClass(this);
 		currentMode.onModeEntered();
 	}
 
@@ -277,7 +276,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 		parent.repaint();
 
 		this.setTitle("Path Finder");
-		currentMode = new UserMode(this);
+		currentMode = new UserModeClass(this);
 		currentMode.onModeEntered();
 	}
 

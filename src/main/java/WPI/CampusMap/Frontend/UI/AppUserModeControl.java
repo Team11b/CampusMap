@@ -39,6 +39,7 @@ public class AppUserModeControl extends JComponent {
 	/** Creates a new User Mode Control in the given window.
 	 * @param window Window to create the User Mode Control
 	 */
+	@SuppressWarnings("static-access")
 	public AppUserModeControl(AppMainWindow window) {
 		this.window = window;
 

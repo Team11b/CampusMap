@@ -112,6 +112,7 @@ public class GetTurns {
 	 *            Point after the current point
 	 * @return Returns true if it's diagonal aligned otherwise false
 	 */
+	@SuppressWarnings("unused")
 	private boolean checkDiagonal(IPoint before, IPoint current, IPoint after) {
 
 		Coord slope = new Coord(Math.abs(current.getCoord().getX() - before.getCoord().getX()),

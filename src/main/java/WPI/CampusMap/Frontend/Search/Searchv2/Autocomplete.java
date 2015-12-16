@@ -49,6 +49,7 @@ public class Autocomplete implements DocumentListener {
 	public void removeUpdate(DocumentEvent ev) {
 	}
 
+	@SuppressWarnings("unused")
 	@Override
 	public void insertUpdate(DocumentEvent ev) {
 		if (ev.getLength() != 1)
