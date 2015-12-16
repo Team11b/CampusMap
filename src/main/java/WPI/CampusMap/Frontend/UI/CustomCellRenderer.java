@@ -1,6 +1,11 @@
 package WPI.CampusMap.Frontend.UI;
 
 import java.awt.Component;
+import java.awt.Image;
+import java.io.File;
+import java.io.IOException;
+
+import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JTree;
@@ -22,23 +27,35 @@ class CustomCellRenderer implements TreeCellRenderer{
 	public Component getTreeCellRendererComponent(JTree tree, Object value, boolean selected, boolean expanded, boolean leaf, int row, boolean hasFocus) {
 		Object o = ((DefaultMutableTreeNode) value).getUserObject();
 		ImageIcon icon = null;
+		Image img = null;
 		JLabel label = new JLabel();
+		
 		if (o instanceof String) {
 			String text = (String) o;
+			String file = "";
 
 			if(text.contains("left")){
-				icon = new ImageIcon("left-turn.png");
+				file = "left-turn.png";
 			}else if(text.contains("right")){
-				icon = new ImageIcon("right-turn.png");
+				file = "right-turn.png";
 			}else if(text.contains("Walk")){
-				icon = new ImageIcon("straight.png");
+				file = "straight.png";
 			}else if(text.contains("elevator")){
-				icon = new ImageIcon("elevator.png");
+				file = "elevator.png";
 			}else if(text.contains("stair")){
-				icon = new ImageIcon("stairs.png");
+				file = "stairs.png";
 			}else{
-				icon = new ImageIcon("icon.png");
+				file = "icon.png";
 			}
+			
+			try {
+				img = ImageIO.read(new File(file));
+			} catch (IOException e) {
+			}
+			
+			img = img.getScaledInstance(16, 16, Image.SCALE_SMOOTH);
+			icon = new ImageIcon(img);
+			
 			label.setIcon(icon);
 			label.setText(text);
 		}

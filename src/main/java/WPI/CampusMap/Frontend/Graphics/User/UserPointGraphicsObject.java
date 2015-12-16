@@ -23,8 +23,8 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 	private static final ImageIcon normalIcon = new ImageIcon("icon.png");
 	
 	private static final ImageIcon doorIcon = new ImageIcon("door.png");
-	private static final ImageIcon stairIcon = new ImageIcon("stairs.png");
-	private static final ImageIcon elevatorIcon = new ImageIcon("elevator.png");
+	private static final ImageIcon stairIcon = new ImageIcon("stairs-icon.gif");
+	private static final ImageIcon elevatorIcon = new ImageIcon("elevator-icon.jpg");
 	
 	private boolean twitter;
 	public enum selectionState{
