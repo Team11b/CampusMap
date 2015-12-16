@@ -221,7 +221,8 @@ public abstract class GraphicalMap {
 	 * @param graphics
 	 *            The graphics to use to draw.
 	 */
-	public final void onDraw(Graphics2D graphics) {
+	public final void onDraw(Graphics2D graphics)
+	{
 		Rectangle view = graphics.getClipBounds();
 		lastClip = view;
 
@@ -229,7 +230,9 @@ public abstract class GraphicalMap {
 
 		graphics.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-		AffineTransform transform = AffineTransform.getTranslateInstance(0, 22);
+		AffineTransform originalTransform = graphics.getTransform();
+		
+		AffineTransform transform = (AffineTransform) originalTransform.clone();
 		transform.concatenate(getCameraTransform());
 
 		graphics.setTransform(transform);
@@ -252,7 +255,7 @@ public abstract class GraphicalMap {
 				} else if (go.isVisible()) {
 					Coord position = go.getWorldPosition();
 					position = getRenderFromWorld(position);
-					AffineTransform objectTransform = AffineTransform.getTranslateInstance(0, 22);
+					AffineTransform objectTransform = (AffineTransform) originalTransform.clone();
 					objectTransform.concatenate(getCameraTransform());
 					objectTransform.concatenate(AffineTransform.getTranslateInstance(position.getX(), position.getY()));
 
