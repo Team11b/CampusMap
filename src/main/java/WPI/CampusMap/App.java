@@ -38,6 +38,7 @@ public class App {
 			AppMainWindow uiInstance = new AppMainWindow();
 		} catch (Exception e)
 		{
+			System.out.println("Fatal Error Occured...");
 			e.printStackTrace();
 			JOptionPane.showMessageDialog(null, e.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 		}
