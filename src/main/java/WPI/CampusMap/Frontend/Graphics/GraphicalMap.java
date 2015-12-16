@@ -448,6 +448,7 @@ public abstract class GraphicalMap {
 		return true;
 	}
 	
+	
 	public final void mouseUp(MouseEvent e)
 	{
 		synchronized (this)
