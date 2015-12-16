@@ -12,7 +12,6 @@ import java.io.PrintWriter;
 import java.util.HashSet;
 import java.util.LinkedList;
 
-import javax.imageio.ImageIO;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -44,10 +43,8 @@ import WPI.CampusMap.Backend.PathPlanning.PathFinder;
 import WPI.CampusMap.Backend.PathPlanning.PathNotFoundException;
 import WPI.CampusMap.Backend.PathPlanning.WeatherHeuristicProcessor;
 import WPI.CampusMap.Backend.PathPlanning.Route.Route;
-import WPI.CampusMap.Frontend.Graphics.RouteImageCreator;
 import WPI.CampusMap.Frontend.Graphics.Print.PrintJob;
 import WPI.CampusMap.Frontend.Graphics.User.UserGraphicalMap;
-import WPI.CampusMap.Frontend.Graphics.User.UserPathGraphicsObject;
 import WPI.CampusMap.Frontend.Graphics.User.UserPointGraphicsObject;
 
 public class UserMode extends UIMode {

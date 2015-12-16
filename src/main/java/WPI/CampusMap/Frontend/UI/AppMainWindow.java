@@ -35,8 +35,6 @@ import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
 import javax.swing.SpringLayout;
 
-import org.apache.commons.lang3.text.WordUtils;
-
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Map.IMap;
 import WPI.CampusMap.Backend.PathPlanning.LocationPref;
