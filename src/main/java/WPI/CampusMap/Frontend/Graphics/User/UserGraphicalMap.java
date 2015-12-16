@@ -1,5 +1,6 @@
 package WPI.CampusMap.Frontend.Graphics.User;
 
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 
@@ -11,18 +12,22 @@ import WPI.CampusMap.Frontend.UI.UserMode;
 
 public class UserGraphicalMap extends GraphicalMap
 {
+	HashMap<IPoint, UserPointGraphicsObject> allPointsInMap = new HashMap<IPoint,UserPointGraphicsObject>();
+
 	public UserGraphicalMap(String map, UserMode mode)
 	{
 		super(map, mode);		
 		// TODO Auto-generated constructor stub
 	}
-
+	
 	@Override
 	public void spawnMap()
 	{
 		for(IPoint p : getMap().getAllPoints())
 		{
-			new UserPointGraphicsObject((RealPoint) p, this);
+			
+			UserPointGraphicsObject toAdd = new UserPointGraphicsObject((RealPoint) p, this);
+			allPointsInMap.put(p,toAdd);
 		}
 		
 		setPathSections(getMode(UserMode.class).getRoutedPath());
@@ -54,6 +59,35 @@ public class UserGraphicalMap extends GraphicalMap
 		for(UserPathGraphicsObject graphicalSection : getObjectsOfType(UserPathGraphicsObject.class))
 		{
 			graphicalSection.setSelected(graphicalSection.getRepresentedObject() == section);
+		}
+		
+		for(IPoint key : allPointsInMap.keySet()){
+				allPointsInMap.get(key).setUnselected();
+		}
+		
+		for(IPoint toShow : section){
+			allPointsInMap.get(toShow).setSelected();
+		}
+	}
+	
+	public Section getShownSection(){
+		for(UserPathGraphicsObject graphicalSection : getObjectsOfType(UserPathGraphicsObject.class))
+		{
+			if(graphicalSection.getIsSelected()){
+				return graphicalSection.getRepresentedObject();
+			}
+		}
+		return null;
+	}
+	
+	public void setShownNode(IPoint point){
+		System.out.println(point);
+		allPointsInMap.get(point).setCurrent();
+	}
+	
+	public void clearRoute(){
+		for(IPoint key : allPointsInMap.keySet()){
+			allPointsInMap.get(key).setUnselected();
 		}
 	}
 	

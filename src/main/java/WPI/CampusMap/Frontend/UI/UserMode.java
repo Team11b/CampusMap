@@ -26,6 +26,7 @@ import com.twilio.sdk.TwilioRestException;
 
 import WPI.CampusMap.Backend.AdditionalFeatures.InternetFeatures.SMS.SMSClient;
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
+import WPI.CampusMap.Backend.Core.Map.IMap;
 import WPI.CampusMap.Backend.Core.Point.AllPoints;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.PathPlanning.AStarPathProcessor;
@@ -41,6 +42,7 @@ import WPI.CampusMap.Backend.PathPlanning.PathNotFoundException;
 import WPI.CampusMap.Backend.PathPlanning.WeatherHeuristicProcessor;
 import WPI.CampusMap.Backend.PathPlanning.Route.Route;
 import WPI.CampusMap.Frontend.Graphics.User.UserGraphicalMap;
+import WPI.CampusMap.Frontend.Graphics.User.UserPathGraphicsObject;
 import WPI.CampusMap.Frontend.Graphics.User.UserPointGraphicsObject;
 
 public class UserMode extends UIMode
@@ -101,6 +103,10 @@ public class UserMode extends UIMode
 	public void selectRouteSection(Section section) {
 		graphicalMap.setShownSection(section);
 	}
+	
+	public void selectCurrentNode(IPoint point){
+		graphicalMap.setShownNode(point);
+	}
 
 	public void onClearButton() {
 		// destinations.resetLastPoint();
@@ -109,6 +115,13 @@ public class UserMode extends UIMode
 	}
 
 	public void addPointToDestinations(UserPointGraphicsObject newPoint) {
+		addPointToDestinations(newPoint.getRepresentedObject());
+		
+		if(newPoint != null && destinationsSet.contains(newPoint.getRepresentedObject()))
+			getWindow().addDestination(newPoint);
+	}
+
+	public void onPointAddedToRoute(UserPointGraphicsObject newPoint) {
 		addPointToDestinations(newPoint.getRepresentedObject());
 
 		if (newPoint != null && destinationsSet.contains(newPoint.getRepresentedObject()))
@@ -119,12 +132,13 @@ public class UserMode extends UIMode
 		if (newPoint == null)
 			return;
 
-		if (routedPath != null) {
-			clearDestinations();
-			routedPath = null;
-			graphicalMap.setPathSections(getRoutedPath());
-		}
-
+//		if (routedPath != null) {
+//			clearDestinations();
+//			routedPath = null;
+//			graphicalMap.setPathSections(getRoutedPath());
+//		}
+		
+		
 		if (!destinationsSet.contains(newPoint)) {
 			System.out.println("Added " + newPoint + " to route");
 			destinationsSet.add(newPoint);
@@ -132,23 +146,29 @@ public class UserMode extends UIMode
 		}
 	}
 
-	public void onPointDescriptorAddedToDestinations(String pointDescriptor, int index) {
-		if (routedPath != null) {
+	public void onPointDescriptorAddedToDestinations(String pointDescriptor, int index){
+		if(routedPath != null){
 			clearDestinations();
 			routedPath = null;
 			graphicalMap.setPathSections(getRoutedPath());
 		}
-
+		
 		IPoint point = AllPoints.getInstance().getPoint(pointDescriptor);
-		if (point == null)
+		if(point == null){
 			return;
-
-		if (!destinations.contains(point)) {
+		}
+		
+		if(!destinations.contains(point)){
 			destinations.add(index, point);
 			destinationsSet.add(point);
 		}
 	}
 
+	public void clearRoute() {
+		destinationsSet.clear();
+		destinations.clear();
+	}
+		
 	public void onPointDescriptorRenamedDestination(String oldName, String newName, int index) {
 		IPoint oldPoint = AllPoints.getInstance().getPoint(oldName);
 		if (oldPoint == null) {
@@ -187,20 +207,28 @@ public class UserMode extends UIMode
 		if (point == null)
 			return;
 
+//		if (routedPath != null) {
+//			clearRoute();
+//			routedPath = null;
+//			graphicalMap.setPathSections(null);
+//		}
 		if (destinationsSet.contains(point)) {
 			destinationsSet.remove(point);
 			destinations.remove(point);
 		}
 	}
-
 	public boolean onCheckPointName(String name) {
 		IPoint point = AllPoints.getInstance().getPoint(name);
 		return point != null;
 	}
-
-	public boolean containsInRoute(UserPointGraphicsObject point) {
+//	public boolean containsInRoute(UserPointGraphicsObject point){
+//		return false;
+//	}
+	
+	public boolean containsInDest(UserPointGraphicsObject point) {
 		return destinationsSet.contains(point.getRepresentedObject());
 	}
+	
 
 	public boolean isRouteStart(UserPointGraphicsObject point) {
 		return destinations.getFirst().equals(point.getRepresentedObject());
@@ -209,6 +237,88 @@ public class UserMode extends UIMode
 	public boolean isRouteEnd(UserPointGraphicsObject point) {
 		return destinations.getLast().equals(point.getRepresentedObject());
 	}
+	
+	public boolean isSectionStart(UserPointGraphicsObject point) {
+		//System.out.println(point.getRepresentedObject().getMap());
+		Section sectionToCheck = graphicalMap.getShownSection();
+		if(sectionToCheck == null) return false;
+		
+		if(sectionToCheck.getPoints().getFirst().equals(point.getRepresentedObject())){
+			return true;
+		}
+	return false;
+	}
+
+	public boolean isSectionEnd(UserPointGraphicsObject point) {
+//		System.out.println(point.getRepresentedObject().getMap());
+		Section sectionToCheck = graphicalMap.getShownSection();
+		
+		if(sectionToCheck == null) return false;
+		
+		if(sectionToCheck.getPoints().getLast().equals(point.getRepresentedObject())){
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean isSectionEndDestination(UserPointGraphicsObject graphicsObjectToCheck) {
+		// TODO Auto-generated method stub
+		IPoint pointToCheck = graphicsObjectToCheck.getRepresentedObject();
+		IMap mapToCheck = AllMaps.getInstance().getMap(pointToCheck.getMap());
+		if(routedPath == null) return false;
+		LinkedList<Section> allPaths = routedPath.getSections(mapToCheck);
+		for(Section sectionToCheck : allPaths){
+			LinkedList<IPoint> listOfPoints = sectionToCheck.getPoints();
+			if(listOfPoints.getFirst().equals(pointToCheck)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean isSectionStartDestination(UserPointGraphicsObject graphicsObjectToCheck) {
+		// TODO Auto-generated method stub
+		IPoint pointToCheck = graphicsObjectToCheck.getRepresentedObject();
+		IMap mapToCheck = AllMaps.getInstance().getMap(pointToCheck.getMap());
+		if(routedPath == null) return false;
+		LinkedList<Section> allPaths = routedPath.getSections(mapToCheck);
+		for(Section sectionToCheck : allPaths){
+			LinkedList<IPoint> listOfPoints = sectionToCheck.getPoints();
+			if(listOfPoints.getFirst().equals(pointToCheck)){
+				return true;
+			}
+		}
+		return false;
+	}
+	
+	public boolean isUltimateFirst(UserPointGraphicsObject graphicsObjectToCheck) {
+		// TODO Auto-generated method stub
+		IPoint pointToCheck = graphicsObjectToCheck.getRepresentedObject();
+		IMap mapToCheck = AllMaps.getInstance().getMap(pointToCheck.getMap());
+		if(routedPath == null) return false;
+		LinkedList<Section> allPaths = routedPath.getSections(mapToCheck);
+		if(allPaths == null) return false;
+		LinkedList<IPoint> listOfPoints = allPaths.getFirst().getPoints();
+		if(listOfPoints.getFirst().equals(pointToCheck)){
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean isUltimateLast(UserPointGraphicsObject graphicsObjectToCheck) {
+		IPoint pointToCheck = graphicsObjectToCheck.getRepresentedObject();
+		IMap mapToCheck = AllMaps.getInstance().getMap(pointToCheck.getMap());
+		if(routedPath == null) return false;
+		LinkedList<Section> allPaths = routedPath.getSections(mapToCheck);
+		if(allPaths == null) return false;
+		LinkedList<IPoint> listOfPoints = allPaths.getLast().getPoints();
+		if(listOfPoints.getLast().equals(pointToCheck)){
+			return true;
+		}
+		return false;
+	}
+	
+	
 
 	public void onWeatherChosen(LocationPref option) {
 		System.out.println("Weather chosen is " + option);
@@ -477,4 +587,6 @@ public class UserMode extends UIMode
 	
 
 	}
+
+	
 }
