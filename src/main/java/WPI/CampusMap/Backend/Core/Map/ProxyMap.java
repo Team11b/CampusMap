@@ -7,6 +7,10 @@ import java.util.HashSet;
 
 import javax.swing.ImageIcon;
 
+import org.apache.commons.lang3.text.WordUtils;
+
+import WPI.CampusMap.Backend.Core.Coordinate.Coord;
+import WPI.CampusMap.Backend.Core.Point.AllPoints;
 import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.Core.Point.RealPoint;
 import WPI.CampusMap.Recording.Serialization.Serializer;
@@ -89,6 +93,12 @@ public class ProxyMap implements IMap, Serializable {
 	}
 
 	@Override
+	public IPoint createPoint(Coord location) {
+		load();
+		return realMap.createPoint(location);
+	}
+	
+	@Override
 	public boolean addPoint(RealPoint point) {
 		load();
 		return realMap.addPoint(point);
@@ -120,11 +130,13 @@ public class ProxyMap implements IMap, Serializable {
 
 			ArrayList<String> tempNamedPoints = new ArrayList<String>(8);
 			HashSet<String> tempConnectedMaps = new HashSet<String>(6);
-
+			
+			
 			for (RealPoint point : realMap.getAllPoints()) {
 				if (!point.getId().contains("-")) {
 					// System.out.println("Named Point");
 					tempNamedPoints.add(point.toString());
+					AllPoints.getInstance().addPoint(point.toString());
 				}
 				for (String connectedMap : point.getNeighborPointsOnOtherMaps().keySet()) {
 					// System.out.println("Connecting map: " + connectedMap);
@@ -133,10 +145,11 @@ public class ProxyMap implements IMap, Serializable {
 			}
 			namedPoints = tempNamedPoints.toArray(new String[tempNamedPoints.size()]);
 			connectedMaps = tempConnectedMaps.toArray(new String[tempConnectedMaps.size()]);
-
 			// System.out.println(Arrays.toString(connectedMaps));
 			// System.out.println(Arrays.toString(namedPoints));
+			AllPoints.getInstance().save();
 			Serializer.save(this);
+			AllPoints.getInstance().save();
 		}
 
 	}
@@ -166,8 +179,8 @@ public class ProxyMap implements IMap, Serializable {
 
 	@Override
 	public boolean connectedToCampus() {
-		// TODO Auto-generated method stub
-		return false;
+		load();
+		return realMap.connectedToCampus();
 	}
 
 	@Override
@@ -194,6 +207,48 @@ public class ProxyMap implements IMap, Serializable {
 	public ArrayList<IPoint> pointsConnectedToOtherMaps() {
 		load();
 		return realMap.pointsConnectedToOtherMaps();
+	}
+
+	@Override
+	public boolean unsavedChanged() {
+		load();
+		return realMap.unsavedChanged();
+	}
+
+	@Override
+	public void changed() {
+		load();
+		realMap.changed();
+	}
+		
+	@Override
+	public String getDisplayName() {
+		
+		String building = getBuilding().replace("_", " ");
+		if(getName().equals("Campus_Map")){
+			return "Campus Map";
+		}
+		return building +" "+ getFloorName();
+	}
+	
+	@Override
+	public String getFloorName(){
+        String floorName = getName();
+		if(!getName().equals(AllMaps.getInstance().CampusMap)){
+			floorName = floorName.split("-")[1].trim();
+			
+			try{
+				floorName = "Floor " + Integer.parseInt(floorName);
+			}catch(NumberFormatException e){
+				floorName = WordUtils.capitalizeFully(floorName.replace("_", "  ")).replace("  ", "-");
+			}
+		}else{
+			floorName = "";
+		}
+		
+		
+		return floorName;
+		
 	}
 
 }

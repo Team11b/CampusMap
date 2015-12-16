@@ -1,4 +1,4 @@
-package WPI.CampusMap.PathPlanningTest;
+package WPI.CampusMap.InternetTest;
 
 import static org.junit.Assert.assertEquals;
 
@@ -23,14 +23,13 @@ public class WeatherHeuristicTest {
 	public static void setUpBeforeClass() throws Exception {
 		weather = new Wunderground();
 		nodeProcessor = new DistanceProcessor(new WeatherHeuristicProcessor());
-		System.out.println(weather);
 	}
 
 	// When testing Weather based heuristic, run the following test once.
 	// Calculate what the heuristic
 	// should be. Replace that value in the tests. Remove the @Ignore. Add the
 	// @Ignore back after you are done.
-	@Ignore
+//	@Ignore
 	@Test
 	public void weatherScore() {
 		System.out.println(weather);

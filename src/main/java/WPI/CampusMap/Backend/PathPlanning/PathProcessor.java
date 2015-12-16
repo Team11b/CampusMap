@@ -59,7 +59,8 @@ public abstract class PathProcessor {
 		for (int i = 1; i < keyPoints.length; i++) {
 			explored = new HashSet<Node>();
 			frontier = new PriorityQueue<Node>(getNodeCompartor());
-
+			
+			
 			HashSet<String> whiteList = AllMaps.getInstance().generateWhitelist(keyPoints[i - 1].getMap(),
 					keyPoints[i].getMap());
 			System.out.println("WhiteList:" + whiteList);
@@ -122,11 +123,10 @@ public abstract class PathProcessor {
 	private void expandNode(Node node, HashSet<String> whiteList) {
 		ArrayList<IPoint> neighbors = node.getNeighbors(whiteList);
 		for (IPoint point : neighbors) {
-			if (point.getId().equals("SL2BDST")) {
-				System.out.println("SL2BDST's neighbor:" + node.getPoint());
-			}
 			if (point.exists()) {
-				Node newNode = new Node(point, node, node.getDistance(point));
+				float dist = node.getDistance(point);
+				if(dist < 0) dist = 0;
+				Node newNode = new Node(point, node, dist);
 				processNode(newNode);
 				if (!alreadyExplored(newNode)) {
 					pushToFrontier(newNode);
@@ -161,19 +161,24 @@ public abstract class PathProcessor {
 	 * @return True if the node could be pushed onto the frontier, otherwise
 	 *         false.
 	 */
-	protected final boolean pushToFrontier(Node node) {
-		for (Node fNode : frontier.toArray(new Node[0])) {
-			if (fNode.equals(node)) {
-				// System.out.println("Frontier already contains " + node.point
-				// + ", replacing with shorter value");
+	protected final boolean pushToFrontier(Node node)
+	{
+		if(explored.contains(node)){
+			System.out.println("Found node in explored");
+		}
+		for(Node fNode: frontier.toArray(new Node[0])){
+			if(fNode.equals(node)){
+//				System.out.println("Frontier already contains " + node.getPoint() + ", replacing with shorter value");
+//				System.out.println("Current: "+ fNode.getAccumulatedDistance() +" New: " + node.getAccumulatedDistance() );
 				frontier.remove(fNode);
-				if (node.getAccumulatedDistance() < fNode.getAccumulatedDistance()) {
+				if(fNode.getAccumulatedDistance() < node.getAccumulatedDistance()){
 					node = fNode;
 				}
+//				System.out.println("Adding node with value: "+ node.getAccumulatedDistance());
+//				System.out.println();
 				break;
 			}
 		}
-
 		return frontier.add(node);
 	}
 

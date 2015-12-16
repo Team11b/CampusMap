@@ -185,4 +185,16 @@ public abstract class GraphicsObject<R, M extends GraphicalMap>
 	{
 		
 	}
+	
+	@Override
+	public boolean equals(Object obj)
+	{
+		if(obj instanceof GraphicsObject<?, ?>)
+		{
+			GraphicsObject<?, ?> go = (GraphicsObject<?, ?>)obj;
+			return getRepresentedObject().equals(go.getRepresentedObject());
+		}
+		
+		return super.equals(obj);
+	}
 }

@@ -17,11 +17,13 @@ public abstract class UIMode {
 	public UIMode(AppMainWindow window)
 	{		
 		this.window = window;
-		loadMap(DEFAULT_MAP);
 		window.makeOtherDropDown(DEFAULT_MAP);
 	}
 
-	protected abstract void onModeEntered();
+	protected void onModeEntered()
+	{
+		loadMap(DEFAULT_MAP);
+	}
 	
 	protected AppMainWindow getWindow()
 	{
@@ -36,6 +38,10 @@ public abstract class UIMode {
 	
 	public abstract void onMouseClickMap(MouseEvent e);
 	
+	public abstract void onMousePressedMap(MouseEvent e);
+	
+	public abstract void onMouseReleaseMap(MouseEvent e);
+	
 	public abstract void onMouseEnterMap(MouseEvent e);
 	
 	public abstract void onMouseLeaveMap(MouseEvent e);
@@ -43,4 +49,6 @@ public abstract class UIMode {
 	public abstract void onMouseMoveOverMap(MouseEvent e);
 	
 	public abstract void onMouseDraggedOverMap(MouseEvent e);
+
+	public abstract void onMouseScrollOnMap(int unitsToScroll);
 }

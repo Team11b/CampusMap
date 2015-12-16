@@ -24,7 +24,8 @@ public class Instruction {
 	public Instruction(IPoint point, boolean start) {
 		if (start) {
 			if (point.getId().length() > 15) {
-				this.instruction = "Start at " + point.getMap() + ".\n";
+				this.instruction = "Start at " + point.getMapDisplayName() + ".\n";
+				System.out.println("here");
 			} else {
 				this.instruction = "Start at " + point.getId() + ".\n";
 			}
@@ -36,7 +37,7 @@ public class Instruction {
 			if (point.getId().length() > 15) {
 				this.instruction = "You have arrived at your destination" + ".\n";
 			} else {
-				this.instruction = "You have arrived at " + point.getId() + ".\n";
+				this.instruction = "You have arrived at " + point.getDisplayName() + ".\n";
 			}
 			this.end = point;
 			this.type = InstructionType.end;
@@ -71,17 +72,17 @@ public class Instruction {
 		System.out.println(type);
 		switch(type){
 		case RealPoint.ELEVATOR:
-			this.instruction = "Take the elevator to floor " + end.getMap().split("-")[1];
+			this.instruction = "Take the elevator to floor " + end.getMapDisplayName().split("-")[1];
 			break;
 		case RealPoint.OUT_DOOR:
 			if(end.getMap() == "Campus_Map"){
 				this.instruction = "Go outside";
 			}else{
-				this.instruction = "Go into" + end.getMap().split("/")[0].replace("_", " ");
+				this.instruction = "Go into " + end.getMapDisplayName().split("/")[0].replace("_", " ");
 			}
 			break;
 		case RealPoint.STAIRS:
-			this.instruction = "Take the stairs to floor "+ end.getMap().split("-")[1];
+			this.instruction = "Take the stairs to floor "+ end.getMapDisplayName().split("-")[1];
 			break;
 		default:
 			this.instruction = "";

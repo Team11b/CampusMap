@@ -24,8 +24,6 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
-import WPI.CampusMap.Backend.Core.Point.AllPoints;
-import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Backend.PathPlanning.Path;
 import WPI.CampusMap.Backend.PathPlanning.Path.Section;
 import WPI.CampusMap.Backend.PathPlanning.Route.Instruction;
@@ -38,6 +36,9 @@ public class AppUserModeControl extends JComponent {
 
 	PointList scrollPane = new PointList();
 
+	/** Creates a new User Mode Control in the given window.
+	 * @param window Window to create the User Mode Control
+	 */
 	public AppUserModeControl(AppMainWindow window) {
 		this.window = window;
 
@@ -96,9 +97,25 @@ public class AppUserModeControl extends JComponent {
 		tree.setRootVisible(false);
 		tree.setModel(null);
 		tree.addTreeSelectionListener(new DirectionsSelectionListener());
+		tree.setCellRenderer(new CustomCellRenderer());
 		scrollPane_1.setViewportView(tree);
 		add(label_1);
 
+		JButton expandAllBtn = new JButton("Expand All");
+		expandAllBtn.addActionListener(new ExpandAllButtonListener());
+		JButton collapseAllBtn = new JButton("Collapse All");
+		collapseAllBtn.addActionListener(new CollapseAllButtonListener());
+		
+		springLayout.putConstraint(SpringLayout.WEST, collapseAllBtn, 180, SpringLayout.WEST, this);
+		springLayout.putConstraint(SpringLayout.SOUTH, collapseAllBtn, 3, SpringLayout.NORTH, scrollPane_1);
+		
+		springLayout.putConstraint(SpringLayout.WEST, expandAllBtn, 80, SpringLayout.WEST, this);
+		springLayout.putConstraint(SpringLayout.SOUTH, expandAllBtn, 3, SpringLayout.NORTH, scrollPane_1);
+		//springLayout.putConstraint(SpringLayout.EAST, label_1, 10, SpringLayout.WEST, expandAllBtn);
+		
+		add(expandAllBtn);
+		add(collapseAllBtn);
+		
 		Panel panel = new Panel();
 		springLayout.putConstraint(SpringLayout.SOUTH, panel, -10, SpringLayout.SOUTH, this);
 		springLayout.putConstraint(SpringLayout.SOUTH, scrollPane_1, -10, SpringLayout.NORTH, panel);
@@ -117,6 +134,9 @@ public class AppUserModeControl extends JComponent {
 		panel.add(btnNext);
 	}
 
+	/** Sets the directions for the given path.
+	 * @param path The directions for the given path.
+	 */
 	public void setRoute(Path path) {
 		Route directions = new Route(path);
 
@@ -127,7 +147,9 @@ public class AppUserModeControl extends JComponent {
 		for (Section section : path) {
 			if (currentMap == null || !section.getMap().equals(currentMap)) {
 				currentMap = section.getMap();
+				section.getDisplayName();
 				mapRoot = new MapSectionTreeNode(currentMap, section);
+				mapRoot.getUserObject();
 				root.add(mapRoot);
 			}
 
@@ -152,14 +174,27 @@ public class AppUserModeControl extends JComponent {
 		}
 	}
 
-	public void addDestination(UserPointGraphicsObject point) {
-		scrollPane.addPointElement(point.getRepresentedObject().toString());
+	/** Adds a destination
+	 * @param point Point to add as destionation.
+	 */
+	public void addDestination(UserPointGraphicsObject point)
+	{
+		scrollPane.addPoint(point.getRepresentedObject());
 	}
 
-	public void clearDestinations() {
-		scrollPane.clearPointElements();
+	/**
+	 * Clears the destination.
+	 */
+	public void clearDestinations()
+	{
+		scrollPane.clearPointDescriptors();
 	}
 
+	/**
+	 * 
+	 * Calls the RouteMe method. Calculates the route from the selected nodes.
+	 *
+	 */
 	private static class RouteMeActionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -179,6 +214,36 @@ public class AppUserModeControl extends JComponent {
 
 	}
 
+	/**
+	 * Collapses all of the rows in the Directions tree.
+	 * @author Will
+	 *
+	 */
+	private class CollapseAllButtonListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			collapseTree();
+			
+		}
+		
+	}
+	
+	/**
+	 * Expands all of the rows in the Directions tree.
+	 * @author Will
+	 *
+	 */
+	private class ExpandAllButtonListener implements ActionListener{
+
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			expandTree();
+			
+		}
+		
+	}
+	
 	private class NextButtonSelectionListener implements ActionListener {
 		@Override
 		public void actionPerformed(ActionEvent e) {
@@ -209,31 +274,50 @@ public class AppUserModeControl extends JComponent {
 		}
 	}
 
-	private class DestinationListListener implements PointListEventHandler {
+	private class DestinationListListener implements PointListEventHandler
+	{
+
 		@Override
-		public void pointDescriptorAdded(PointListElement element) {
-			IPoint point = AllPoints.getInstance().getPoint(element.getName());
-			window.getUserMode().onPointAddedToRoute(point);
+		public void pointDescriptorAdded(PointListElement element)
+		{
+			window.getUserMode().onPointDescriptorAddedToDestinations(element.getCurrentName(), element.getIndex());
 		}
 
 		@Override
-		public void pointDescriptorRemoved(PointListElement element) {
-			IPoint point = AllPoints.getInstance().getPoint(element.getName());
-			window.getUserMode().onPointRemovedFromRoute(point);
+		public void pointDescriptorRemoved(PointListElement element) 
+		{
+			window.getUserMode().onPointRemovedFromDestinations(element.getCurrentName());
 		}
 
 		@Override
-		public void pointDescriptorRenamed(PointListElement element, String oldName) {
+		public boolean pointDescriptorNameCheck(PointListElement element, String newName)
+		{
+			return window.getUserMode().onCheckPointName(newName);
+		}
+
+		@Override
+		public void pointDescriptorRenamed(PointListElement element, String oldName) 
+		{
+			window.getUserMode().onPointDescriptorRenamedDestination(oldName, element.getCurrentName(), element.getIndex());
+		}
+
+		@Override
+		public void pointDescriptorNameCheckFailed(PointListElement element, String failedName) {
+			// TODO Auto-generated method stub
+			
 		}
 
 		@Override
 		public void pointDescriptorShow(PointListElement element) {
+			// TODO Auto-generated method stub
+			
 		}
 
 		@Override
 		public void pointDescriptorMoved(PointListElement element) {
+			// TODO Auto-generated method stub
+			
 		}
-
 	}
 
 	private abstract class DirectionsBaseTreeNode extends DefaultMutableTreeNode {
@@ -241,7 +325,6 @@ public class AppUserModeControl extends JComponent {
 		 * 
 		 */
 		private static final long serialVersionUID = 123464203285703937L;
-
 		public DirectionsBaseTreeNode(Object userObject, boolean allowChildren) {
 			super(userObject, allowChildren);
 		}
@@ -256,7 +339,6 @@ public class AppUserModeControl extends JComponent {
 		private static final long serialVersionUID = 9130117587484385937L;
 		private Instruction source;
 		private Section section;
-
 		public InstructionTreeNode(Instruction source, Section section) {
 			super(source.getInstruction(), false);
 			this.source = source;
@@ -280,8 +362,8 @@ public class AppUserModeControl extends JComponent {
 		private Section section;
 
 		public PathSectionTreeNode(Section section, int sectionCount) {
-			super(String.format("%s [Route %s]", section.getMap(), sectionCount), true);
-			this.section = section;
+			super(String.format("%s [Route %s]", section.getDisplayName(), sectionCount), true);
+			this.section = section;			
 		}
 
 		@Override
@@ -300,7 +382,7 @@ public class AppUserModeControl extends JComponent {
 		private Section firstSection;
 
 		public MapSectionTreeNode(String mapName, Section firstSection) {
-			super(mapName, true);
+			super(firstSection.getDisplayName(), true);
 			this.mapName = mapName;
 			this.firstSection = firstSection;
 		}
@@ -311,6 +393,28 @@ public class AppUserModeControl extends JComponent {
 			window.getUserMode().selectRouteSection(firstSection);
 		}
 
+	}
+	
+	/**
+	 * Expands all of the rows in the Directions tree.
+	 * @author Will Spurgeon
+	 *
+	 */
+	private void expandTree(){
+		for (int i = 0; i < tree.getRowCount(); i++) {
+	         tree.expandRow(i);
+		}	
+	}
+	
+	/**
+	 * Collapses all of the rows in the Directions tree.
+	 * @author Will Spurgeon
+	 *
+	 */
+	private void collapseTree(){
+		for (int i = 0; i < tree.getRowCount(); i++) {
+	         tree.collapseRow(i);
+		}
 	}
 
 	/**

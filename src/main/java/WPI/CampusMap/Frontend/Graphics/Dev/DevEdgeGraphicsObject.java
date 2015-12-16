@@ -4,7 +4,6 @@ import java.awt.BasicStroke;
 import java.awt.Color;
 import java.awt.Graphics2D;
 import java.awt.geom.Line2D;
-import java.util.Hashtable;
 
 import WPI.CampusMap.Backend.Core.Coordinate.Coord;
 import WPI.CampusMap.Backend.Core.Pair.UnorderedPair;
@@ -12,6 +11,7 @@ import WPI.CampusMap.Backend.Core.Point.IPoint;
 import WPI.CampusMap.Frontend.Dev.EditorToolMode;
 import WPI.CampusMap.Frontend.Graphics.GraphicsObject;
 import WPI.CampusMap.Frontend.Graphics.RealMouseEvent;
+import WPI.CampusMap.Frontend.UI.DevMode;
 
 /**
  * A visual representation of an edge between two s.
@@ -20,13 +20,6 @@ import WPI.CampusMap.Frontend.Graphics.RealMouseEvent;
  */
 public class DevEdgeGraphicsObject extends GraphicsObject<UnorderedPair<IPoint, IPoint>, DevGraphicalMap>
 {
-	private static Hashtable<UnorderedPair<IPoint, IPoint>, DevEdgeGraphicsObject> edgeLookupTable = new Hashtable<>();
-	
-	public static void cleanupEdges()
-	{
-		edgeLookupTable.clear();
-	}
-	
 	/**
 	 * Creates a unique edge on the current map.
 	 * @param p1 The first  to create an edge between.
@@ -36,38 +29,17 @@ public class DevEdgeGraphicsObject extends GraphicsObject<UnorderedPair<IPoint, 
 	 */
 	public static DevEdgeGraphicsObject createGraphicsEdge(IPoint p1, IPoint p2, DevGraphicalMap owner)
 	{
-		UnorderedPair<IPoint, IPoint> pair = new UnorderedPair<IPoint, IPoint>(p1, p2);
-		DevEdgeGraphicsObject go = edgeLookupTable.get(pair);
-		
-		if(go != null)
-			return go;
-		
-		go = new DevEdgeGraphicsObject(p1, p2, owner);
-		
-		return go;
-	}
-	
-	public static DevEdgeGraphicsObject getGraphicsEdge(IPoint p1, IPoint p2, DevGraphicalMap owner)
-	{
-		UnorderedPair<IPoint, IPoint> pair = new UnorderedPair<IPoint, IPoint>(p1, p2);
-		DevEdgeGraphicsObject go = edgeLookupTable.get(pair);
-		
-		if(go != null)
-			return go;
-		
-		return null;
+		return owner.getGraphicalEdge(p1, p2);
 	}
 	
 	private UnorderedPair<IPoint, IPoint> edge;
 	
 	private boolean isOver;
 	
-	private DevEdgeGraphicsObject(IPoint p1, IPoint p2, DevGraphicalMap owner) 
+	protected DevEdgeGraphicsObject(IPoint p1, IPoint p2, DevGraphicalMap owner) 
 	{
 		super(new UnorderedPair<IPoint, IPoint>(p1, p2), owner);
-		// TODO Auto-generated constructor stub
 		edge = getRepresentedObject();
-		edgeLookupTable.put(edge, this);
 	}
 
 	@Override
@@ -90,14 +62,13 @@ public class DevEdgeGraphicsObject extends GraphicsObject<UnorderedPair<IPoint, 
 	@Override
 	public void onDeleted()
 	{
-		getOwner().getMap().removeEdge(edge.getA(), edge.getB());
-		edgeLookupTable.remove(edge);
+		getOwner().unregisterGraphicalEdge(this);
 	}
 	
 	@Override
 	public Color getColor()
 	{
-		return isOver ? Color.yellow : Color.gray;
+		return isOver ? Color.yellow : Color.CYAN;
 	}
 
 	@Override
@@ -121,7 +92,7 @@ public class DevEdgeGraphicsObject extends GraphicsObject<UnorderedPair<IPoint, 
 	@Override
 	public void onMouseClick(RealMouseEvent e) 
 	{
-		if(getOwner().getToolMode() != EditorToolMode.DeleteEdge)
+		if(getOwnerMode(DevMode.class).getCurrentToolMode() != EditorToolMode.DeleteEdge)
 			return;
 		
 		delete();
@@ -136,7 +107,7 @@ public class DevEdgeGraphicsObject extends GraphicsObject<UnorderedPair<IPoint, 
 	@Override
 	public boolean isMouseOver(RealMouseEvent e)
 	{
-		if(getOwner().getToolMode() != EditorToolMode.DeleteEdge)
+		if(getOwnerMode(DevMode.class).getCurrentToolMode() != EditorToolMode.DeleteEdge)
 			return false;
 		
 		Coord screenCoord1 = getOwner().getRenderFromWorld(edge.getA().getCoord());
@@ -144,12 +115,12 @@ public class DevEdgeGraphicsObject extends GraphicsObject<UnorderedPair<IPoint, 
 		
 		Line2D.Float line = new Line2D.Float(screenCoord1.getX(), screenCoord1.getY(), screenCoord2.getX(), screenCoord2.getY());
 		
-		return true;//line.ptSegDist(e.getX(), e.getY()) <= 5.0f;
+		return line.ptSegDist(e.getImageCoord().getX(), e.getImageCoord().getY()) <= 5.0f;
 	}
 
 	@Override
-	public Coord getWorldPosition() {
-		// TODO Auto-generated method stub
-		return null;
+	public Coord getWorldPosition() 
+	{
+		return new Coord(0, 0);
 	}
 }

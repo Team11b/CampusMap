@@ -62,6 +62,15 @@ public class Path implements Iterable<Path.Section>
 		public String getMap() {
 			return map.getName();
 		}
+		
+		public String getDisplayName(){
+			return map.getDisplayName();
+		}
+		
+		@Override
+		public String toString(){
+			return points.toString();
+		}
 	}
 	
 	/**

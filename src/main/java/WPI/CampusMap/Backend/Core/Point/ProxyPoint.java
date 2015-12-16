@@ -11,10 +11,10 @@ import WPI.CampusMap.Backend.Core.Map.IMap;
 public class ProxyPoint implements IPoint {
 
 	private static final long serialVersionUID = 4456203165550908105L;
-	String pointId, mapName;
+	String pointId, mapName, displayName, displayId;
 	RealPoint realPoint;
 
-	protected ProxyPoint(String fullName) {
+	public ProxyPoint(String fullName) {
 		String[] splitName = fullName.split("/");
 		if (splitName.length == 1) {
 			this.pointId = splitName[0];
@@ -79,10 +79,10 @@ public class ProxyPoint implements IPoint {
 	}
 
 	@Override
-	public void setId(String id) {
+	public boolean setId(String id) {
 		load();
 		pointId = id;
-		realPoint.setId(id);
+		return realPoint.setId(id);
 	}
 
 	@Override
@@ -144,6 +144,7 @@ public class ProxyPoint implements IPoint {
 	@Override
 	public boolean equals(Object other) {
 		load();
+		if(realPoint == null) return false;
 		return realPoint.equals(other);
 	}
 
@@ -160,11 +161,29 @@ public class ProxyPoint implements IPoint {
 
 	@Override
 	public boolean connectToCampus() {
-		throw new UnsupportedOperationException("connectToCampus not yet implemented.");
+		load();
+		return realPoint.connectToCampus();
 	}
 
 	@Override
 	public String getBuilding() {
 		return this.getMap().split("-")[0];
+	}
+
+	@Override
+	public String getMapDisplayName() {	
+		if (displayName == null)
+			load();
+		if (realPoint != null)
+			displayName = realPoint.getMapDisplayName();
+		return displayName;		
+				
+	}
+
+	@Override
+	public String getDisplayName() {		
+		if (realPoint != null)
+			displayId = realPoint.getDisplayName();
+		return displayId;
 	}
 }

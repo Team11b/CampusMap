@@ -101,6 +101,15 @@ public final class Node
 	}
 	
 	/**
+	 * Sets the accumulated distance traveled to get to this node.
+	 * @param newDistance The new distance to replace the current one.
+	 */
+	public void setAccumulatedDistance(float newDistance)
+	{
+		this.accumulatedDistance = newDistance;
+	}
+	
+	/**
 	 * The heuristic cost of this node.
 	 * @return The heuristic cost of this node.
 	 */

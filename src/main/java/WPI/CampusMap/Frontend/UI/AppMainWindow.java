@@ -28,10 +28,14 @@ import javax.swing.JLabel;
 import javax.swing.JMenu;
 import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
+import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
+import javax.swing.JRadioButtonMenuItem;
 import javax.swing.JSplitPane;
 import javax.swing.KeyStroke;
 import javax.swing.SpringLayout;
+
+import org.apache.commons.lang3.text.WordUtils;
 
 import WPI.CampusMap.Backend.Core.Map.AllMaps;
 import WPI.CampusMap.Backend.Core.Map.IMap;
@@ -141,8 +145,8 @@ public class AppMainWindow extends JFrame implements Runnable {
 		mntmGuide.addActionListener(guideAction);
 		mnFile.add(mntmGuide);
 
-		// JMenuItem mntmSaveAsPdf = new JMenuItem("Save As PDF");
-		// mnFile.add(mntmSaveAsPdf);
+		JMenuItem mntmSaveAsPdf = new JMenuItem("Save As PDF");
+		mnFile.add(mntmSaveAsPdf);
 
 		JMenuItem mntmSaveAsTxt = new JMenuItem("Save As TXT");
 		mntmSaveAsTxt.addActionListener(txtExporterAction);
@@ -162,43 +166,34 @@ public class AppMainWindow extends JFrame implements Runnable {
 		JMenuItem mntmPrint = new JMenuItem("Print");
 		mntmPrint.setAction(printAction);
 		mnFile.add(mntmPrint);
+		JMenu mnRouting = new JMenu("Routing");
+		menuBar.add(mnRouting);
 
-		// JMenu mnRouting = new JMenu("Routing");
-		// menuBar.add(mnRouting);
+		JMenu mnIndooroutdoor = new JMenu("Indoor/Outdoor");
+		mnRouting.add(mnIndooroutdoor);
 
-		/*
-		 * JMenu mnIndooroutdoor = new JMenu("Indoor/Outdoor");
-		 * mnRouting.add(mnIndooroutdoor);
-		 * 
-		 * JRadioButtonMenuItem rdbtnmntmPreferIndoor = new
-		 * JRadioButtonMenuItem("Prefer Indoor");
-		 * mnIndooroutdoor.add(rdbtnmntmPreferIndoor);
-		 * makeRoutingMenuItem(rdbtnmntmPreferIndoor,LocationPref.INSIDE,
-		 * mnIndooroutdoor);
-		 * 
-		 * JRadioButtonMenuItem rdbtnmntmPreferOutdoor = new
-		 * JRadioButtonMenuItem("Prefer Outdoor");
-		 * mnIndooroutdoor.add(rdbtnmntmPreferOutdoor);
-		 * makeRoutingMenuItem(rdbtnmntmPreferOutdoor,LocationPref.OUTSIDE,
-		 * mnIndooroutdoor);
-		 * 
-		 * JRadioButtonMenuItem rdbtnmntmUseWeather = new JRadioButtonMenuItem(
-		 * "Use Weather"); mnIndooroutdoor.add(rdbtnmntmUseWeather);
-		 * makeRoutingMenuItem(rdbtnmntmUseWeather,LocationPref.WEATHER,
-		 * mnIndooroutdoor);
-		 */
+		JRadioButtonMenuItem rdbtnmntmPreferIndoor = new JRadioButtonMenuItem("Prefer Indoor");
+		mnIndooroutdoor.add(rdbtnmntmPreferIndoor);
+		makeRoutingMenuItem(rdbtnmntmPreferIndoor,LocationPref.INSIDE,mnIndooroutdoor);
 
-		menuBar.add(mnMaps);
+		JRadioButtonMenuItem rdbtnmntmPreferOutdoor = new JRadioButtonMenuItem("Prefer Outdoor");
+		mnIndooroutdoor.add(rdbtnmntmPreferOutdoor);
+		makeRoutingMenuItem(rdbtnmntmPreferOutdoor,LocationPref.OUTSIDE,mnIndooroutdoor);
+
+		JRadioButtonMenuItem rdbtnmntmUseWeather = new JRadioButtonMenuItem("Use Weather");
+		mnIndooroutdoor.add(rdbtnmntmUseWeather);
+		makeRoutingMenuItem(rdbtnmntmUseWeather,LocationPref.WEATHER,mnIndooroutdoor);
+		
+		JRadioButtonMenuItem rdbtnmntmNoPreference = new JRadioButtonMenuItem("No Preference");
+		mnIndooroutdoor.add(rdbtnmntmNoPreference);
+		makeRoutingMenuItem(rdbtnmntmNoPreference,LocationPref.NOPREF,mnIndooroutdoor);
+
+		menuBar.add(mnMaps);		
 		getMaps();
-		// mnMaps.addActionListener(topMapAction);
+//		mnMaps.addActionListener(topMapAction);
 
 		JMenu mnSettings = new JMenu("Settings");
 		menuBar.add(mnSettings);
-
-		// JCheckBoxMenuItem chckbxmntmDevMode = new JCheckBoxMenuItem("Dev
-		// Mode");
-		// chckbxmntmDevMode.setAction(devModeAction);
-		// mnSettings.add(chckbxmntmDevMode);
 
 		JMenu mnUnit = new JMenu("Units");
 		mnSettings.add(mnUnit);
@@ -206,13 +201,17 @@ public class AppMainWindow extends JFrame implements Runnable {
 		chckbxUnit.setAction(unitAction);
 		mnUnit.add(chckbxUnit);
 
+		JCheckBoxMenuItem chckbxmntmDevMode = new JCheckBoxMenuItem("Dev Mode");
+		chckbxmntmDevMode.setAction(devModeAction);
+		mnSettings.add(chckbxmntmDevMode);
+
 		renderThread = new Thread(this, "Render Thread");
 		renderThread.start();
 
 		changeToUserMode();
 
-		// getUserMode().onWeatherChosen(LocationPref.WEATHER);
-		// rdbtnmntmUseWeather.setSelected(true);
+		getUserMode().onWeatherChosen(LocationPref.WEATHER);
+		rdbtnmntmUseWeather.setSelected(true);
 
 		setVisible(true);
 	}
@@ -222,7 +221,8 @@ public class AppMainWindow extends JFrame implements Runnable {
 	 * 
 	 * @return The current UI mode.
 	 */
-	public UIMode getUIMode() {
+	public UIMode getUIMode()
+	{
 		return currentMode;
 	}
 
@@ -231,7 +231,8 @@ public class AppMainWindow extends JFrame implements Runnable {
 	 * 
 	 * @return The current UI mode as a DevMode, null if not in dev mode.
 	 */
-	public DevMode getDevMode() {
+	public DevMode getDevMode()
+	{
 		if (currentMode instanceof DevMode)
 			return (DevMode) currentMode;
 		return null;
@@ -248,6 +249,9 @@ public class AppMainWindow extends JFrame implements Runnable {
 		return null;
 	}
 
+	/**
+	 * Changes the mode to dev mode.
+	 */
 	public void changeToDevMode() {
 		Container parent = infoArea;
 		parent.remove(userPanel);
@@ -260,6 +264,9 @@ public class AppMainWindow extends JFrame implements Runnable {
 		currentMode.onModeEntered();
 	}
 
+	/**
+	 * Change to User Mode
+	 */
 	public void changeToUserMode() {
 		Container parent = infoArea;
 		parent.remove(devPanel);
@@ -272,10 +279,16 @@ public class AppMainWindow extends JFrame implements Runnable {
 		currentMode.onModeEntered();
 	}
 
+	/**
+	 * Changes the user scaling to metric.
+	 */
 	public void changeToMetric() {
 		Instruction.setMetric(true);
 	}
 
+	/**
+	 * Changes the user sccaling to US Customary Units.
+	 */
 	public void changeToCustomary() {
 		Instruction.setMetric(false);
 	}
@@ -322,34 +335,32 @@ public class AppMainWindow extends JFrame implements Runnable {
 			mnMaps.removeAll();
 		}
 
-		String currentBuilding, currentFloor;
+		String currentBuilding;
 		ArrayList<String> ddBuildings = new ArrayList<String>();
 		for (int j = 0; j < listOfFiles.length; j++) {
 			if (mapStrings.get(j) != null) {
 				String fileName = mapStrings.get(j);
 				IMap aMap = AllMaps.getInstance().getMap(fileName);
-				currentBuilding = aMap.getBuilding();
+				currentBuilding = aMap.getBuilding().replace("_", " ");
 				JMenu mnEx = null;
-				// System.out.println("currentBuilding is "+ currentBuilding);
+				
 				if (!ddBuildings.contains(currentBuilding)) {
 					ddBuildings.add(currentBuilding);
 					mnEx = new JMenu(currentBuilding);
 					mnMaps.add(mnEx);
 				} else {
-					// System.out.println("Building found!");
+					
 					for (int i = 0; i < mnMaps.getItemCount(); i++) {
 						if (mnMaps.getItem(i).getText().equals(currentBuilding))
 							mnEx = (JMenu) mnMaps.getItem(i);
 					}
 				}
 				// add the floor to the top dropdown and setup for other
-				// dropdown
-				JMenuItem mntmFloor = new JMenuItem(aMap.getName().replace('_', ' '));
+				JMenuItem mntmFloor = new JMenuItem(aMap.getDisplayName());
 				if (mnEx != null) {
 					mnEx.add(mntmFloor);
 					makeALMenuItem(mntmFloor, aMap.getName(), mnEx);
 				}
-
 			}
 		}
 	}
@@ -363,17 +374,13 @@ public class AppMainWindow extends JFrame implements Runnable {
 
 	private class topMapActionListener implements ActionListener {
 		private String mapName;
-		private JMenu building;
-
 		public topMapActionListener(String mapName, JMenu building) {
 			this.mapName = mapName;
-			this.building = building;
 		}
 
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			currentMode.loadMap(mapName);
-			makeOtherDropDown(mapName);
+			forceMapSwitch(mapName);			
 
 		}
 	}
@@ -388,8 +395,9 @@ public class AppMainWindow extends JFrame implements Runnable {
 		// if its a normal map
 		if (!mapName.equals("Campus_Map")) {
 			// Add the buildings
-			mapDropdown.add("Campus Map");
-
+			mapDropdown.add("Back to Campus Map");
+			
+			
 			ArrayList<IMap> otherMapsInBuilding = AllMaps.getInstance().getMapsInBuilding(currentMap.getBuilding());
 			otherMapsInBuilding.sort(new Comparator<IMap>() {
 				@Override
@@ -397,14 +405,16 @@ public class AppMainWindow extends JFrame implements Runnable {
 					return o1.getName().compareTo(o2.getName());
 				}
 			});
-			for (IMap map : otherMapsInBuilding) {
-				mapDropdown.add(map.getName().replace('_', ' '));
+			for (IMap map : otherMapsInBuilding) {				
+				mapDropdown.add(map.getDisplayName());
 			}
+			
 		} else {
 			// load all the base
 			for (int i = 0; i < mnMaps.getItemCount(); i++) {
-				mapDropdown.add(mnMaps.getItem(i).getText().replace('_', ' '));
+				mapDropdown.add(mnMaps.getItem(i).getText()); //add under displayName
 			}
+			
 		}
 
 		// Clear all item listeners in the dropdown.
@@ -413,7 +423,8 @@ public class AppMainWindow extends JFrame implements Runnable {
 		}
 
 		// show the current map when selecting from the other dropdown
-		mapDropdown.select(mapName.replace('_', ' '));
+		if(currentMap.getName().equals("Campus_Map")) System.out.println("Campus_Map: " + currentMap.getDisplayName());
+		mapDropdown.select(currentMap.getDisplayName());
 
 		// add the listener
 		mapDropdown.addItemListener(new mapDropDownItemListener(mapName));
@@ -428,25 +439,31 @@ public class AppMainWindow extends JFrame implements Runnable {
 
 		@Override
 		public void itemStateChanged(ItemEvent e) {
-			String selectedMap = e.getItem().toString().replace(' ', '_');
-			System.out.println("item selected " + selectedMap);
-            System.out.println("mapname is "+mapName );
-			// load zero floor in case of CampusMap
+			//for when a map is selected in the dropdown
 			
-            if (selectedMap.equals("Campus_Map")){
-				//selectedMap = "Campus_Map" + "-0";
-				//selectedMap = selectedMap + "-0";
-				//System.out.println("");
-            	makeOtherDropDown("Campus_Map");
-			}
-            else  	if(selectedMap.indexOf("-") == -1){
-            		if(!selectedMap.equals("Project_Center"))
-            		selectedMap = selectedMap + "-0";
-            		else
-            			selectedMap = selectedMap + "-1";
-            }
-            
-			currentMode.loadMap(selectedMap);
+			String selectedMap = e.getItem().toString().replaceFirst(" ", "_").replace("-", "_");
+			selectedMap = selectedMap.replace(" ", "-").replace(" Floor ", "-"); //get realName from displayName
+			
+			System.out.println("item selected " + selectedMap);
+            System.out.println("mapname is "+mapName );			
+			
+            //get the proper map name
+        	if(!selectedMap.equals("Campus_Map")){
+        		if(selectedMap.equals("Back_to-Campus-Map"))
+        			selectedMap = "Campus_Map";                	
+        		else {
+        			ArrayList<IMap> otherMapsInBuilding = AllMaps.getInstance().getMapsInBuilding(selectedMap.split("-")[0]);
+        			otherMapsInBuilding.sort(new Comparator<IMap>() {
+        				@Override
+        				public int compare(IMap o1, IMap o2) {
+        					return o1.getName().compareTo(o2.getName());
+        				}
+        			});
+        			selectedMap = otherMapsInBuilding.get(0).getName();
+        		}
+           	}
+            //finally load it 
+            forceMapSwitch(selectedMap);            
 		}
 	}
 
@@ -468,14 +485,16 @@ public class AppMainWindow extends JFrame implements Runnable {
 	 * @param point
 	 *            The point that represents the destination.
 	 */
-	public void addDestination(UserPointGraphicsObject point) {
+	public void addDestination(UserPointGraphicsObject point) 
+	{
 		userPanel.addDestination(point);
 	}
 
 	/**
 	 * Clears the destination list.
 	 */
-	public void clearDestinations() {
+	public void clearDestinations()
+	{
 		userPanel.clearDestinations();
 	}
 
@@ -485,15 +504,9 @@ public class AppMainWindow extends JFrame implements Runnable {
 	 * @param path
 	 *            The new route.
 	 */
-	public void setRoute(Path path) {
+	public void setRoute(Path path)
+	{
 		userPanel.setRoute(path);
-	}
-
-	/**
-	 * Removes the current route in the GUI without loading in another one.
-	 */
-	public void clearRoute() {
-		throw new UnsupportedOperationException("not implemented");
 	}
 
 	/**
@@ -502,15 +515,17 @@ public class AppMainWindow extends JFrame implements Runnable {
 	 * @param selectedPoint
 	 *            The graphical point that has been selected.
 	 */
-	public void devPointSelected(DevPointGraphicsObject selectedPoint) {
-		throw new UnsupportedOperationException("not implemented");
+	public void devPointSelected(DevPointGraphicsObject selectedPoint)
+	{
+		devPanel.editPoint(selectedPoint);
 	}
 
 	/**
 	 * Clears the selection from the UI.
 	 */
-	public void devClearPointSelection() {
-		throw new UnsupportedOperationException("not implemented");
+	public void devClearAllSelection()
+	{
+		devPanel.clearSelection();
 	}
 
 	/**
@@ -519,8 +534,14 @@ public class AppMainWindow extends JFrame implements Runnable {
 	 * @param selectedEdge
 	 *            The selected edge.
 	 */
-	public void devEdgeSelected(DevEdgeGraphicsObject selectedEdge) {
+	public void devEdgeSelected(DevEdgeGraphicsObject selectedEdge)
+	{
 		throw new UnsupportedOperationException("not implemented");
+	}
+	
+	public void devLoadMap(IMap newMap)
+	{
+		devPanel.changeMapInfo(newMap);
 	}
 
 	@Override
@@ -529,6 +550,7 @@ public class AppMainWindow extends JFrame implements Runnable {
 			try {
 				Thread.sleep(33);
 			} catch (InterruptedException e) {
+				JOptionPane.showMessageDialog(null, e.getLocalizedMessage(), "ERROR", JOptionPane.ERROR_MESSAGE);
 				return;
 			}
 
@@ -558,9 +580,9 @@ public class AppMainWindow extends JFrame implements Runnable {
 	@SuppressWarnings("serial")
 	private class UnitAction extends AbstractAction {
 		public UnitAction() {
-			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_D, InputEvent.CTRL_MASK));
-			putValue(NAME, "Unit");
-			putValue(SHORT_DESCRIPTION, "Switch metric and customary units.");
+			putValue(ACCELERATOR_KEY, KeyStroke.getKeyStroke(KeyEvent.VK_U, InputEvent.CTRL_MASK));
+			putValue(NAME, "Metric");
+			putValue(SHORT_DESCRIPTION, "Switch between metric and customary units.");
 		}
 
 		public void actionPerformed(ActionEvent e) {
@@ -586,30 +608,47 @@ public class AppMainWindow extends JFrame implements Runnable {
 		}
 	}
 
+	/**
+	 * Displays the User Guide pop up.
+	 */
 	protected ActionListener guideAction = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			getUserMode().onGuide();
 		}
 	};
 	
+	/**
+	 * Displays the About pop up.
+	 */
 	protected ActionListener aboutAction = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			getUserMode().onAbout();
 		}
 	};
 
+	/**
+	 * This calls the onEmail() method. The onEmail() method displays a pop up prompting the user to enter an email address.
+	 * It then sends an email with the directions included.
+	 */
 	protected ActionListener emailAction = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			getUserMode().onEmail();
 		}
 	};
 
+	/**
+	 * This calls the onSMS() method. The onSMS() method displays a pop up prompting the user to enter a phone number.
+	 * It then sends an SMS message with the directions included.
+	 */
 	protected ActionListener SMSAction = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			getUserMode().onSMS();
 		}
 	};
 
+	/**
+	 * Calls the onTxt() method. This displays a pop up asking where to save the text file.
+	 */
 	protected ActionListener txtExporterAction = new ActionListener() {
 		public void actionPerformed(ActionEvent e) {
 			getUserMode().onTxt();
