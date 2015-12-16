@@ -114,7 +114,7 @@ public interface IPoint extends Serializable {
 	/**
 	 * adds a point as a neighbor
 	 * 
-	 * @param point
+	 * @param point a neighbor to add
 	 * @return true if success, false if already a neighbor
 	 */
 	public boolean addNeighbor(IPoint point);
@@ -150,7 +150,7 @@ public interface IPoint extends Serializable {
 	/**
 	 * Gets a collection of neighbor points on other maps
 	 * 
-	 * @return HashMap<String, ArrayList<String>>
+	 * @return HashMap&lt;String, ArrayList&lt;String&gt;&gt;
 	 */
 	public HashMap<String, ArrayList<String>> getNeighborPointsOnOtherMaps();
 
