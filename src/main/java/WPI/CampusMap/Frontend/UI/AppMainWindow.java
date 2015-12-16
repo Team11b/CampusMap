@@ -604,7 +604,9 @@ public class AppMainWindow extends JFrame implements Runnable {
 			putValue(SHORT_DESCRIPTION, "Prints the route to a printer.");
 		}
 
-		public void actionPerformed(ActionEvent e) {
+		public void actionPerformed(ActionEvent e) 
+		{
+			getUserMode().onPrint();
 		}
 	}
 

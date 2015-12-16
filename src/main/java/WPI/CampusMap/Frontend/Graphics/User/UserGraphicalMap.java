@@ -16,8 +16,7 @@ public class UserGraphicalMap extends GraphicalMap
 
 	public UserGraphicalMap(String map, UserMode mode)
 	{
-		super(map, mode);		
-		// TODO Auto-generated constructor stub
+		super(map, mode);
 	}
 	
 	@Override

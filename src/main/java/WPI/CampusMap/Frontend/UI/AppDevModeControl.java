@@ -18,6 +18,7 @@ import javax.swing.event.ChangeListener;
 
 import WPI.CampusMap.Backend.Core.Map.IMap;
 import WPI.CampusMap.Frontend.Graphics.Dev.DevPointGraphicsObject;
+
 import javax.swing.JSpinner;
 import javax.swing.JLabel;
 
