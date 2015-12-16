@@ -59,7 +59,7 @@ public class UserPointGraphicsObject extends PointGraphicsObject<UserGraphicalMa
 		ImageIcon renderImage = getRenderImage();
 		
 		if(renderImage != null)
-			graphics.drawImage(renderImage.getImage(), -renderImage.getIconWidth() / 2, -renderImage.getIconHeight(), renderImage.getIconWidth(), renderImage.getIconHeight(), renderImage.getImageObserver());
+			graphics.drawImage(renderImage.getImage(), -10, -10, 20, 20, renderImage.getImageObserver());
 		else
 			super.onDraw(graphics);
 	}
