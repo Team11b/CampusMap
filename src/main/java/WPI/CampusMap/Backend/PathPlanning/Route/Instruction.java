@@ -21,6 +21,11 @@ public class Instruction {
 	private static boolean metric = false;
 	private static double ftToM = 0.3048;
 
+	/**
+	 * Constructs a new Instruction with the given point.
+	 * @param point
+	 * @param start
+	 */
 	public Instruction(IPoint point, boolean start) {
 		if (start) {
 			if (point.getId().length() > 15) {
@@ -45,7 +50,12 @@ public class Instruction {
 
 		}
 	}
-
+	
+	/**
+	 * Constructs a new Instruction with the given String turn.
+	 * @param turn
+	 * @param start
+	 */
 	public Instruction(String turn, IPoint start) {
 		this.instruction = "Turn " + turn + ".\n";
 		this.start = start;
@@ -53,6 +63,12 @@ public class Instruction {
 		this.map = this.start.getMap();
 	}
 
+	/**
+	 * Constructs a new Instruction with the given start and end points and a distance.
+	 * @param distance
+	 * @param start
+	 * @param end
+	 */
 	public Instruction(double distance, IPoint start, IPoint end) {
 		if (Instruction.metric) {
 			this.instruction = "Walk " + new DecimalFormat("#").format((distance * Instruction.ftToM))

@@ -175,7 +175,7 @@ public class AppUserModeControl extends JComponent {
 	}
 
 	/** Adds a destination
-	 * @param point Point to add as destionation.
+	 * @param point Point to add as destination.
 	 */
 	public void addDestination(UserPointGraphicsObject point)
 	{
@@ -191,9 +191,7 @@ public class AppUserModeControl extends JComponent {
 	}
 
 	/**
-	 * 
 	 * Calls the RouteMe method. Calculates the route from the selected nodes.
-	 *
 	 */
 	private static class RouteMeActionListener implements ActionListener {
 		@Override
@@ -316,6 +314,9 @@ public class AppUserModeControl extends JComponent {
 		}
 	}
 
+	/**
+	 * Specialized class for the Directions node tree.
+	 */
 	private abstract class DirectionsBaseTreeNode extends DefaultMutableTreeNode {
 		/**
 		 * 
@@ -331,7 +332,7 @@ public class AppUserModeControl extends JComponent {
 
 	private class InstructionTreeNode extends DirectionsBaseTreeNode {
 		/**
-		 * 
+		 * Implementation of a Direction tree node.
 		 */
 		private static final long serialVersionUID = 9130117587484385937L;
 		private Instruction source;
@@ -355,7 +356,7 @@ public class AppUserModeControl extends JComponent {
 
 	public class PathSectionTreeNode extends DirectionsBaseTreeNode {
 		/**
-		 * 
+		 * Implementation of a tree node for displaying a path.
 		 */
 		private static final long serialVersionUID = 8463985454935131567L;
 		private Section section;
@@ -374,7 +375,7 @@ public class AppUserModeControl extends JComponent {
 
 	public class MapSectionTreeNode extends DirectionsBaseTreeNode {
 		/**
-		 * 
+		 * Implementation of a tree node for displaying a map section.
 		 */
 		private static final long serialVersionUID = 2289516290900523443L;
 		private String mapName;
